@@ -162,7 +162,6 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
     <button data-screen="clients">Clientes & seguimiento</button>
     <div class="sep">Catálogo</div>
     <button data-screen="products">Productos & variantes</button>
-    <button data-screen="nusaj">Nusajim</button>
     <button data-screen="assets">Assets</button>
     <div class="sep">Costos</div>
     <button data-screen="costs">Proveedores & costos</button>
@@ -242,7 +241,7 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
   </div>
 </section>
 
-<section class="screen" id="nusaj">
+<section class="screen jd-hidden" id="nusaj" aria-hidden="true">
   <div class="topbar"><div><div class="eyebrow">Configuración</div><h1>Nusajim & combinaciones</h1></div><button class="btn primary" onclick="openModal('nusajModal')">+ Nueva variante de nusaj</button></div>
   <table class="table"><thead><tr><th>Variante</th><th>Orden</th><th>Estado editorial</th><th>Referencia</th></tr></thead><tbody id="nusajTable"></tbody></table>
 </section>
@@ -1785,13 +1784,15 @@ function openVariants(i){
  const p=catalog[i],isLibrito=p.name==='Birkón · Librito';
  const head=isLibrito
   ?'<tr><th>Modelo/formato</th><th>Textos</th><th>Nusajim disponibles</th><th>Páginas</th><th></th></tr>'
-  :'<tr><th>Modelo/formato</th><th>Textos</th><th>Nusajim disponibles</th><th></th></tr>';
+  :'<tr><th>Modelo/formato</th><th>Textos</th><th>Nusajim disponibles</th><th>Medida</th><th>Papel / terminación</th><th></th></tr>';
  const rows=(p.variants||[]).map((v,j)=>{
    const ns=jdVariantNusajOptions(v,p);
    const nsText=ns.length?ns.join(' · '):'—';
+   const tech=jdEffectiveTechnical(p,v);
+   const paper=[tech.paper,tech.weightGsm?tech.weightGsm+' g':'',tech.lamination].filter(Boolean).join(' · ');
    return isLibrito
     ?'<tr><td>'+E(v.model||'—')+'</td><td>'+E(v.texts||'—')+'</td><td>'+E(nsText)+'</td><td>'+E(v.pages||'—')+'</td><td><button class="btn sm" data-ve="'+j+'">Editar</button></td></tr>'
-    :'<tr><td>'+E(v.model||'—')+'</td><td>'+E(v.texts||'—')+'</td><td>'+E(nsText)+'</td><td><button class="btn sm" data-ve="'+j+'">Editar</button></td></tr>';
+    :'<tr><td>'+E(v.model||'—')+'</td><td>'+E(v.texts||'—')+'</td><td>'+E(nsText)+'</td><td>'+E(jdEffectiveSize(p,v)||'—')+'</td><td>'+E(paper||'—')+'</td><td><button class="btn sm" data-ve="'+j+'">Editar</button></td></tr>';
  }).join('');
  const note=isLibrito
    ?'<div class="jd-note" style="margin-bottom:12px"><b>Variantes editoriales:</b> Modelo + Textos + nusajim disponibles determinan la variante y, en librito, la cantidad de páginas. Tamaño y encuadernación se eligen al presupuestar.</div>'
@@ -2664,6 +2665,237 @@ h1{font-size:clamp(30px,3vw,42px)}
  if(!changed)return;
  localStorage.setItem(KEY,JSON.stringify(cat));
  fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:PUB,Authorization:'Bearer '+PUB,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:KEY,value:cat,updated_at:new Date().toISOString()})}).catch(console.error);
+})();
+</script>
+
+
+<style id="jd-crm-v2-css">
+#clients .jd-crm-toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+#clients .jd-crm-table td{vertical-align:middle}
+#clients .jd-crm-status{min-width:210px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;font:inherit}
+#clients .jd-crm-next{min-width:170px}
+.jd-crm-actions{display:flex;gap:6px;flex-wrap:wrap}
+.jd-crm-modal{position:fixed;inset:0;z-index:12000;background:#0007;display:grid;place-items:center;padding:18px}
+.jd-crm-card{width:min(1120px,96vw);max-height:92vh;overflow:auto;background:#fffdf9;border:1px solid #d9c69c;border-radius:18px;box-shadow:0 18px 70px #0004}
+.jd-crm-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:20px 22px 14px;border-bottom:1px solid var(--line)}
+.jd-crm-head h2{margin:2px 0 0;color:#0f5b5d}
+.jd-crm-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.8fr);gap:18px;padding:20px 22px 24px}
+.jd-crm-panel{border:1px solid var(--line);border-radius:14px;padding:15px;background:#fff}
+.jd-crm-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.jd-crm-field label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#7b7164;margin-bottom:5px}
+.jd-crm-field input,.jd-crm-field select,.jd-crm-field textarea{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}
+.jd-crm-field textarea{min-height:90px;resize:vertical}
+.jd-crm-span2{grid-column:1/-1}
+.jd-crm-timeline{display:grid;gap:10px;margin-top:12px}
+.jd-crm-event{display:grid;grid-template-columns:16px 1fr;gap:10px}
+.jd-crm-event-dot{width:10px;height:10px;border-radius:50%;background:#b88a3d;margin-top:5px;box-shadow:0 0 0 4px #f5ebd8}
+.jd-crm-event b{display:block;font-size:12px;color:#2f2a24}.jd-crm-event small{display:block;color:#85796d;margin-top:2px}.jd-crm-event p{margin:3px 0 0;font-size:13px}
+.jd-crm-empty{padding:14px;border:1px dashed var(--line);border-radius:10px;color:#80776b}
+.jd-crm-footer{display:flex;justify-content:flex-end;gap:8px;padding:0 22px 20px}
+.jd-crm-badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;background:#f4ead8;color:#8a642c}
+.jd-crm-badge.ok{background:#e4f0ea;color:#376d58}.jd-crm-badge.danger{background:#f8e5e1;color:#9b554d}
+@media(max-width:850px){.jd-crm-body{grid-template-columns:1fr}.jd-crm-form{grid-template-columns:1fr}.jd-crm-span2{grid-column:auto}#clients .jd-crm-status{min-width:160px}}
+</style>
+<script id="jd-crm-v2-script">
+(function(){
+ const SB_URL='https://athiruoimehofqzrplnl.supabase.co';
+ const SB_KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+ const CLIENT_KEY='jd_clients';
+ const statuses=[
+  'Consulta recibida',
+  'Definiendo pedido',
+  'Presupuesto en preparación',
+  'Presupuesto listo para enviar',
+  'Presupuesto enviado',
+  'Esperando respuesta',
+  'Presupuesto aprobado · esperando pago',
+  'Pago realizado · iniciar diseño',
+  'Diseño en curso',
+  'Borrador / Calaméo / mockup enviado',
+  'Correcciones del cliente',
+  'Aprobado por cliente · revisión interna / master',
+  'Listo para imprenta',
+  'En imprenta',
+  'Retirado de imprenta · listo para entregar',
+  'Entregado',
+  'Cerrado · no avanzó'
+ ];
+ const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const get=()=>{try{const x=JSON.parse(localStorage.getItem(CLIENT_KEY)||'[]');return Array.isArray(x)?x:[]}catch(e){return[]}};
+ const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const nowIso=()=>new Date().toISOString();
+ const fmt=d=>{if(!d)return '—';const x=new Date(d);return isNaN(x)?String(d):x.toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'})};
+ const phoneDigits=raw=>{
+   let d=String(raw||'').replace(/\D/g,''); if(!d)return '';
+   if(d.startsWith('00'))d=d.slice(2);
+   if(d.length===10&&d.startsWith('11'))return '549'+d;
+   if(d.startsWith('54')&&!d.startsWith('549'))return '549'+d.slice(2);
+   return d;
+ };
+ function statusOptions(value){
+   const vals=statuses.includes(value)?statuses:[value,...statuses].filter(Boolean);
+   return [...new Set(vals)].map(s=>'<option '+(s===value?'selected':'')+'>'+esc(s)+'</option>').join('');
+ }
+ function historyOf(c){
+   const h=Array.isArray(c.history)?c.history.slice():[];
+   if(!h.length){
+     const created=c.created||c.date||c.firstContact;
+     if(created)h.push({at:created,type:'Contacto',text:'Primer registro del cliente.'});
+     if(c.status)h.push({at:c.updatedAt||created||nowIso(),type:'Estado',text:'Estado: '+c.status});
+   }
+   return h.sort((a,b)=>new Date(b.at||0)-new Date(a.at||0));
+ }
+ function addHistory(c,type,text,at){
+   c.history=Array.isArray(c.history)?c.history:[];
+   c.history.push({id:'h-'+Date.now()+Math.random().toString(36).slice(2,6),at:at||nowIso(),type:type||'Nota',text:String(text||'').trim()});
+   c.updatedAt=nowIso();
+ }
+ function migrate(c){
+   const x={...c};
+   if(x.status==='Aceptado'||x.status==='Pago pendiente')x.status='Presupuesto aprobado · esperando pago';
+   if(x.status==='Presupuesto listo')x.status='Presupuesto listo para enviar';
+   if(!x.status)x.status='Consulta recibida';
+   if(x.paid===true&&!x.paymentStatus)x.paymentStatus='Pagado';
+   if(!x.paymentStatus)x.paymentStatus=x.paid?'Pagado':'Pendiente';
+   if(!x.name)x.name=[x.firstName,x.lastName].filter(Boolean).join(' ').trim();
+   const parts=String(x.name||'').trim().split(/\s+/);
+   if(!x.firstName)x.firstName=parts.shift()||'';
+   if(!x.lastName)x.lastName=parts.join(' ');
+   if(!Array.isArray(x.history))x.history=[];
+   return x;
+ }
+ async function saveAll(arr,quiet){
+   arr=arr.map(migrate);
+   localStorage.setItem(CLIENT_KEY,JSON.stringify(arr));
+   try{
+     const r=await fetch(SB_URL+'/rest/v1/app_state',{
+       method:'POST',
+       headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
+       body:JSON.stringify({key:CLIENT_KEY,value:arr,updated_at:nowIso()})
+     });
+     if(!r.ok)throw new Error('Supabase '+r.status);
+   }catch(e){
+     console.error('CRM sync',e);
+     if(!quiet)alert('El cambio quedó guardado en este navegador, pero no se pudo sincronizar todavía.');
+   }
+   render();
+   if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();
+ }
+ function paymentBadge(c){
+   const s=c.paymentStatus||(c.paid?'Pagado':'Pendiente');
+   return '<span class="jd-crm-badge '+(s==='Pagado'?'ok':s==='Pendiente'?'danger':'')+'">'+esc(s)+'</span>';
+ }
+ function lastEvent(c){
+   const h=historyOf(c);return h[0]||null;
+ }
+ function render(){
+   const sec=document.getElementById('clients');if(!sec)return;
+   const arr=get().map(migrate);
+   sec.innerHTML=
+    '<div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><div class="jd-crm-toolbar"><button class="btn primary" id="jdNewClient">+ Nueva consulta</button></div></div>'+
+    '<div class="notice"><b>Seguimiento operativo:</b> cada cambio de estado, contacto, presupuesto, pago, diseño, imprenta o entrega queda registrado en la historia del cliente.</div>'+
+    '<div class="jd-panel"><table class="table jd-crm-table"><thead><tr><th>Cliente</th><th>Pedido / consulta</th><th>Estado</th><th>Último movimiento</th><th>Próxima acción</th><th>Pago</th><th></th></tr></thead><tbody>'+
+    (arr.length?arr.map((c,i)=>{
+      const ev=lastEvent(c),ph=phoneDigits(c.phone);
+      const next=[c.nextDate?new Date(c.nextDate+'T12:00:00').toLocaleDateString('es-AR'):'',c.next||''].filter(Boolean).join(' · ')||'—';
+      return '<tr data-ci="'+i+'">'+
+       '<td><b>'+esc(c.name||'Sin nombre')+'</b>'+(c.org?'<div class="small muted">'+esc(c.org)+'</div>':'')+'</td>'+
+       '<td>'+esc(c.ask||'—')+'</td>'+
+       '<td><select class="jd-crm-status" data-status="'+i+'">'+statusOptions(c.status)+'</select></td>'+
+       '<td>'+(ev?'<b>'+esc(ev.type||'Movimiento')+'</b><div class="small muted">'+fmt(ev.at)+'</div>':'—')+'</td>'+
+       '<td class="jd-crm-next">'+esc(next)+'</td>'+
+       '<td>'+paymentBadge(c)+'</td>'+
+       '<td><div class="jd-crm-actions"><button class="btn sm" data-open="'+i+'">Abrir ficha</button>'+(ph?'<a class="btn sm jd-wa" target="_blank" rel="noopener" href="https://wa.me/'+ph+'">WhatsApp</a>':'')+'</div></td>'+
+      '</tr>';
+    }).join(''):'<tr><td colspan="7" class="muted">Todavía no hay clientes registrados.</td></tr>')+
+    '</tbody></table></div>';
+   sec.querySelector('#jdNewClient').onclick=()=>openClient(-1);
+   sec.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openClient(+b.dataset.open));
+   sec.querySelectorAll('[data-status]').forEach(sel=>sel.onchange=async()=>{
+      const a=get().map(migrate),i=+sel.dataset.status,c=a[i];if(!c)return;
+      if(c.status!==sel.value){const prev=c.status;c.status=sel.value;addHistory(c,'Estado',(prev?prev+' → ':'')+sel.value);}
+      await saveAll(a,true);
+   });
+ }
+ function modalShell(title,body){
+   const w=document.createElement('div');w.className='jd-crm-modal';
+   w.innerHTML='<div class="jd-crm-card"><div class="jd-crm-head"><div><div class="eyebrow">CLIENTE / SEGUIMIENTO</div><h2>'+esc(title)+'</h2></div><button class="btn" data-close>×</button></div>'+body+'</div>';
+   document.body.appendChild(w);w.querySelector('[data-close]').onclick=()=>w.remove();return w;
+ }
+ function openClient(index){
+   const arr=get().map(migrate);
+   const isNew=index<0;
+   const c=isNew?{name:'',firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()}:arr[index];
+   const events=historyOf(c);
+   const timeline=events.length?events.map(e=>'<div class="jd-crm-event"><span class="jd-crm-event-dot"></span><div><b>'+esc(e.type||'Movimiento')+'</b><small>'+fmt(e.at)+'</small><p>'+esc(e.text||'')+'</p></div></div>').join(''):'<div class="jd-crm-empty">Todavía no hay movimientos registrados.</div>';
+   const body=
+    '<div class="jd-crm-body">'+
+     '<div class="jd-crm-panel"><div class="jd-crm-form">'+
+      '<div class="jd-crm-field"><label>Nombre</label><input id="crmFirst" value="'+esc(c.firstName||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Apellido</label><input id="crmLast" value="'+esc(c.lastName||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Institución</label><input id="crmOrg" value="'+esc(c.org||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>WhatsApp</label><input id="crmPhone" value="'+esc(c.phone||'')+'"></div>'+
+      '<div class="jd-crm-field jd-crm-span2"><label>Pedido / consulta</label><input id="crmAsk" value="'+esc(c.ask||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Estado</label><select id="crmStatus">'+statusOptions(c.status)+'</select></div>'+
+      '<div class="jd-crm-field"><label>Pago</label><select id="crmPay"><option '+(c.paymentStatus==='Pendiente'?'selected':'')+'>Pendiente</option><option '+(c.paymentStatus==='Seña'?'selected':'')+'>Seña</option><option '+(c.paymentStatus==='Pagado'?'selected':'')+'>Pagado</option><option '+(c.paymentStatus==='No corresponde'?'selected':'')+'>No corresponde</option></select></div>'+
+      '<div class="jd-crm-field"><label>Próxima acción</label><input id="crmNext" value="'+esc(c.next||'')+'" placeholder="Ej. preguntar si vio el presupuesto"></div>'+
+      '<div class="jd-crm-field"><label>Fecha próxima acción</label><input id="crmNextDate" type="date" value="'+esc(c.nextDate||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Tipo de movimiento</label><select id="crmHistType"><option>Contacto</option><option>Pedido</option><option>Presupuesto</option><option>Pago</option><option>Diseño</option><option>Corrección</option><option>Master</option><option>Imprenta</option><option>Entrega</option><option>Nota</option></select></div>'+
+      '<div class="jd-crm-field"><label>Fecha / hora</label><input id="crmHistAt" type="datetime-local"></div>'+
+      '<div class="jd-crm-field jd-crm-span2"><label>Agregar movimiento a la historia</label><textarea id="crmHistText" placeholder="Ej. Se contactó por WhatsApp. Pidió cotización por 100 unidades..."></textarea></div>'+
+     '</div></div>'+
+     '<div class="jd-crm-panel"><div class="eyebrow">HISTORIA</div><div class="jd-crm-timeline">'+timeline+'</div></div>'+
+    '</div>'+
+    '<div class="jd-crm-footer"><button class="btn" data-cancel>Cancelar</button><button class="btn primary" data-save>'+ (isNew?'Crear cliente':'Guardar cambios') +'</button></div>';
+   const w=modalShell(isNew?'Nueva consulta':(c.name||'Cliente'),body);
+   w.querySelector('[data-cancel]').onclick=()=>w.remove();
+   w.querySelector('[data-save]').onclick=async()=>{
+     const first=w.querySelector('#crmFirst').value.trim(),last=w.querySelector('#crmLast').value.trim();
+     if(!first&&!last){alert('Indicá nombre o apellido.');return}
+     const oldStatus=c.status,oldPay=c.paymentStatus;
+     c.firstName=first;c.lastName=last;c.name=[first,last].filter(Boolean).join(' ').trim();
+     c.org=w.querySelector('#crmOrg').value.trim();
+     c.phone=w.querySelector('#crmPhone').value.trim();
+     c.ask=w.querySelector('#crmAsk').value.trim();
+     c.status=w.querySelector('#crmStatus').value;
+     c.paymentStatus=w.querySelector('#crmPay').value;c.paid=c.paymentStatus==='Pagado';
+     c.next=w.querySelector('#crmNext').value.trim();
+     c.nextDate=w.querySelector('#crmNextDate').value;
+     if(isNew)addHistory(c,'Contacto','Se creó la consulta / ficha del cliente.',c.created);
+     if(!isNew&&oldStatus!==c.status)addHistory(c,'Estado',oldStatus+' → '+c.status);
+     if(!isNew&&oldPay!==c.paymentStatus)addHistory(c,'Pago','Estado de pago: '+oldPay+' → '+c.paymentStatus);
+     const ht=w.querySelector('#crmHistText').value.trim();
+     if(ht){
+       const raw=w.querySelector('#crmHistAt').value;
+       addHistory(c,w.querySelector('#crmHistType').value,ht,raw?new Date(raw).toISOString():nowIso());
+     }
+     if(c.paymentStatus==='Pagado'&&c.status==='Presupuesto aprobado · esperando pago'){
+       c.status='Pago realizado · iniciar diseño';
+       addHistory(c,'Estado','Pago confirmado. Inicia etapa de diseño.');
+     }
+     if(isNew)arr.unshift(c);else arr[index]=c;
+     w.remove();await saveAll(arr);
+   };
+ }
+ // Quote-driven client upsert: quote and WhatsApp actions also become timeline events.
+ window.jdUpsertClientFromQuote=function(q,sent){
+   const arr=get().map(migrate);
+   let i=arr.findIndex(c=>norm(c.name)===norm(q.client));
+   let c=i>=0?arr[i]:{name:q.client,firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()};
+   if(!c.firstName){const pp=String(q.client||'').trim().split(/\s+/);c.firstName=pp.shift()||'';c.lastName=pp.join(' ')}
+   c.ask=[q.product,q.model,q.nusaj].filter(Boolean).join(' · ');
+   const target=sent?'Presupuesto enviado':'Presupuesto listo para enviar';
+   if(c.status!==target){const prev=c.status;c.status=target;addHistory(c,'Presupuesto',(sent?'Presupuesto enviado':'Presupuesto guardado y listo para enviar')+(prev?' · estado anterior: '+prev:''));}
+   c.next=sent?'preguntar si pudo verlo':'enviar presupuesto';
+   if(sent){const d=new Date();d.setDate(d.getDate()+2);while(d.getDay()===0||d.getDay()===6)d.setDate(d.getDate()+1);c.nextDate=d.toISOString().slice(0,10)}
+   c.quoteIds=Array.from(new Set([...(c.quoteIds||[]),q.id].filter(Boolean)));
+   if(i>=0)arr[i]=c;else arr.unshift(c);
+   saveAll(arr,true);
+   return c;
+ };
+ window.jdRenderClients=render;
+ document.addEventListener('DOMContentLoaded',()=>setTimeout(render,350));
+ window.addEventListener('jd-shared-ready',()=>setTimeout(render,350));
 })();
 </script>
 
