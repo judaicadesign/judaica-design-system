@@ -152,7 +152,7 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 </script>
 <div class="app">
 <aside class="sidebar">
-  <div class="brand jd-brand"><img src="assets/jd-logo-white.svg" alt="Judaica Design®"><small>SISTEMA INTERNO · PROTOTIPO</small></div>
+  <div class="brand jd-brand"><img src="assets/jd-logo-white.svg?v=4" alt="Judaica Design®"><small>SISTEMA INTERNO · PROTOTIPO</small></div>
   <nav class="nav" id="nav">
     <button class="active" data-screen="dashboard">Dashboard</button>
     <div class="sep">Comercial</div>
@@ -1847,3 +1847,50 @@ h1{font-size:clamp(30px,3vw,42px)}
   }
 }
 </style></body></html>
+<style id="jd-sidebar-logo-fix-v4">
+.jd-brand{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  margin:0 0 24px!important;
+  padding:0!important;
+}
+.jd-brand img{
+  display:block!important;
+  width:176px!important;
+  max-width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  margin:0 auto!important;
+}
+.jd-brand small{
+  display:block!important;
+  width:100%!important;
+  text-align:center!important;
+  margin-top:8px!important;
+}
+@media (max-width:700px){
+  .jd-brand{
+    flex-direction:row!important;
+    justify-content:flex-start!important;
+    align-items:center!important;
+    gap:10px!important;
+    margin:0 0 8px!important;
+  }
+  .jd-brand img{
+    width:120px!important;
+    max-width:44vw!important;
+    margin:0!important;
+  }
+  .jd-brand small{
+    width:auto!important;
+    text-align:left!important;
+    margin:0!important;
+    font-size:8px!important;
+  }
+}
+</style>
