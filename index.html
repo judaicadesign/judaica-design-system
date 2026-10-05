@@ -1688,16 +1688,52 @@ function jdLibritoModelContent(p,model){
  if(sibling)return sibling.content.map(jdStripNusajMarker);
  return jdBaseLibritoContent(model);
 }
-function jdQuoteContent(p,v){
- if(p.name!=='Birkón · Librito')return Array.isArray(v?.content)?v.content:[];
+function jdSelectedNusajim(){
+ const raw=String(qNusaj?.value||'').trim();
+ if(!raw)return [];
+ if(/^Solo\s+/i.test(raw))return [raw.replace(/^Solo\s+/i,'').trim()];
+ return raw.split('+').map(x=>x.trim()).filter(Boolean);
+}
+function jdIsNusajSpecificTitle(s){
+ return /^(Birkat Hamazón|Birkat Me[’']en Shalosh|Havdalá)$/i.test(jdStripNusajMarker(s));
+}
+function jdResolvedContentBlocks(p,v){
+ if(p.name!=='Birkón · Librito'){
+   return (Array.isArray(v?.content)?v.content:[]).map(title=>({title:jdStripNusajMarker(title),nusaj:null}));
+ }
  const model=qModel?.value||v?.model||'';
- const base=jdLibritoModelContent(p,model);
- const two=nusajCount()===2;
- const duplicated=/^(Birkat Hamazón|Birkat Me[’']en Shalosh|Havdalá)$/i;
- return base.map(item=>{
-   const clean=jdStripNusajMarker(item);
-   return two&&duplicated.test(clean)?clean+' (2 nusajim)':clean;
- });
+ const base=jdLibritoModelContent(p,model).map(jdStripNusajMarker);
+ const selected=jdSelectedNusajim();
+ const out=[];
+ for(const title of base){
+   if(jdIsNusajSpecificTitle(title)){
+     if(selected.length){
+       selected.forEach(nusaj=>out.push({title,nusaj}));
+     }else{
+       out.push({title,nusaj:null});
+     }
+   }else{
+     out.push({title,nusaj:null});
+   }
+ }
+ return out;
+}
+function jdQuoteContent(p,v){
+ const blocks=jdResolvedContentBlocks(p,v);
+ if(p.name!=='Birkón · Librito')return blocks.map(x=>x.title);
+ const selected=jdSelectedNusajim();
+ const out=[];
+ const seenSpecific=new Set();
+ for(const b of blocks){
+   if(!b.nusaj){
+     out.push(b.title);
+     continue;
+   }
+   if(seenSpecific.has(b.title))continue;
+   seenSpecific.add(b.title);
+   out.push(selected.length>1?b.title+' ('+selected.length+' nusajim)':b.title);
+ }
+ return out;
 }
 
 function openVariants(i){
@@ -1722,8 +1758,8 @@ function editVariant(pi,vi){
  const sizeOpts=(p.sizes.length?p.sizes:['']).map(x=>'<option '+(x===v.size?'selected':'')+'>'+E(x)+'</option>').join('');
  const showSize=p.sizes.length && !isLibrito;
  const sharedContent=isLibrito?jdLibritoModelContent(p,v.model):(v.content||[]);
- const info=isLibrito?'<div class="span2"><div class="jd-linked"><b>Esta variante define la paginación.</b><br>El contenido pertenece al modelo (Essential / Classic / Deluxe), no al idioma ni al tamaño. Si editás el contenido aquí, se actualiza para todas las variantes del mismo modelo.</div></div>':'';
- const contentLabel=isLibrito?'Contenido del modelo · compartido por todas sus variantes':'Contenido · una línea por ítem';
+ const info=isLibrito?'<div class="span2"><div class="jd-linked"><b>Esta variante define la paginación.</b><br>El contenido base pertenece al modelo (Essential / Classic / Deluxe). Los bloques que dependen del nusaj —Birkat Hamazón, Birkat Me’en Shalosh y Havdalá— se resuelven después según el/los nusajim elegidos. Si editás el contenido base aquí, se actualiza para todas las variantes del mismo modelo.</div></div>':'';
+ const contentLabel=isLibrito?'Contenido base del modelo · los bloques de nusaj se resuelven automáticamente':'Contenido · una línea por ítem';
  const w=popup((vi>=0?'Editar':'Nueva')+' variante · '+p.name,'<div class="jd-formgrid">'+info+'<div class="'+(p.models.length?'':'jd-hidden')+'"><label>Modelo / formato</label><select id="vm6">'+modelOptions+'</select></div><div class="'+(p.texts.length?'':'jd-hidden')+'"><label>Textos</label><select id="vt6">'+textOpts+'</select></div><div class="'+(p.nusaj?'':'jd-hidden')+'"><label>Cantidad de nusajim</label><select id="vn6"><option>1</option><option>2</option></select></div><div class="'+(showSize?'':'jd-hidden')+'"><label>Tamaño</label><select id="vs6">'+sizeOpts+'</select></div><div><label>Páginas</label><input id="vp6" type="number" min="1" value="'+Number(v.pages||0)+'"></div><div class="span2"><label>'+contentLabel+'</label><textarea id="vc6" style="min-height:220px">'+E(sharedContent.join('\n'))+'</textarea></div><div class="span2"><div id="variantSaveStatus6" class="small muted"></div></div></div>','',()=>{});
  const btn=w.querySelector('.s6');
  btn.textContent='Guardar variante';
@@ -1967,7 +2003,7 @@ function render6(){
 }
 async function save6(){
  const arr=GET('jd_saved_quotes_v6',[]),p=activeProduct(),v=selectedVariant(p);
- const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar'};
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar',content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
  if(!quote.client){alert('Falta el nombre y apellido del cliente.');return null}
  if(p.name==='Birkón · Librito' && !quote.pages){alert('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');return null}
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
