@@ -1900,7 +1900,6 @@ function editVariant(pi,vi){
    }
  };
 }
-drawProducts();
 drawProducts();try{buildQuote()}catch(e){}},300);
    }catch(err){
      console.error('Variant save V12',err);
@@ -1952,7 +1951,6 @@ function selectedVariant(p){
  ) || null;
 }
 function jdModelOptions(p){
-function jdModelOptions(p){
  const fromVariants=jdUnique((p.variants||[]).map(v=>v.model));
  return fromVariants.length?fromVariants:(p.models||[]);
 }
@@ -1966,7 +1964,6 @@ function jdTextOptionsFor(p,model){
  const fromVariants=jdUnique(vs.map(v=>v.texts).filter(Boolean));
  return fromVariants.length?fromVariants:(p.texts||[]);
 }
-function jdSetOptions(select,values,preferred){
 function jdSetOptions(select,values,preferred){
  const vals=jdUnique(values);
  select.innerHTML=vals.map(x=>'<option>'+E(x)+'</option>').join('');
@@ -2059,7 +2056,6 @@ function syncVariant6(){
  drawQty6();
  render6();
 }
-function drawQty6(){
 function drawQty6(){
  const el=document.getElementById('qty6');if(!el)return;const opts=[50,60,80,100,150,200];
  el.innerHTML=window.qs6.map((q,i)=>'<div class="jd-qty-row"><select data-qi="'+i+'">'+opts.map(x=>'<option '+(x===q?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="jd-qty-price" id="qpr6-'+i+'">—</div><button class="btn sm" data-qr="'+i+'">Quitar</button></div>').join('');
