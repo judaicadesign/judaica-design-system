@@ -966,4 +966,199 @@ setupQuoteUI();
 </script>
 <!-- JD COMMERCIAL ENGINE V4 END -->
 
+
+<!-- JD QUOTE QTY CONTENT V5 START -->
+<style>
+.jd-qty-list{display:flex;flex-direction:column;gap:10px}
+.jd-qty-row{display:grid;grid-template-columns:180px 1fr auto;gap:10px;align-items:end}
+.jd-qty-row select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.jd-qty-price{background:#f7f1e5;border:1px solid #d9c69c;border-radius:10px;padding:10px 12px;min-height:44px}
+.jd-age-warn{margin-top:5px;font-size:11px;color:#94651d}
+.jd-age-bad{margin-top:5px;font-size:11px;color:#9a4b45}
+.jd-content-editor textarea{min-height:280px}
+</style>
+<script>
+(function(){
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const GET=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
+const SET=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const M=n=>'$ '+Math.round(Number(n||0)).toLocaleString('es-AR');
+const daysOld=date=>{
+ if(!date)return null;
+ const a=new Date(date+'T00:00:00'),b=new Date();return Math.floor((b-a)/(1000*60*60*24));
+};
+
+// ---------- Editable model contents ----------
+const defaultContents={
+ 'Essential':[
+  'Encendido de velas de Shabat + Yom Tov',
+  'Bendición de los hijos',
+  'Shalom Alejem',
+  'Eshet Jail',
+  'Kidush de la noche de Shabat',
+  'Kidush de la noche de Yom Tov',
+  'Birkat Hamazón',
+  'Birkat Me’en Shalosh',
+  'Kidush del día · Shabat y fiestas',
+  'Havdalá'
+ ],
+ 'Classic':[
+  'Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur',
+  'Bendición de los hijos',
+  'Shalom Alejem',
+  'Eshet Jail',
+  'Kidush de la noche de Shabat',
+  'Kidush de la noche de Yom Tov',
+  'Birkat Hamazón',
+  'Sheva Berajot',
+  'Birkat Me’en Shalosh',
+  'Kidush del día · Shabat y fiestas',
+  'Havdalá',
+  'Plegaria de agradecimiento'
+ ],
+ 'Deluxe':[
+  'Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur',
+  'Bendición de los hijos',
+  'Shalom Alejem',
+  'Eshet Jail',
+  'Kidush de la noche de Shabat',
+  'Kidush de la noche de Yom Tov',
+  'Birkat Hamazón',
+  'Sheva Berajot',
+  'Birkat Me’en Shalosh',
+  'Kidush del día · Shabat y fiestas',
+  'Havdalá',
+  'Hasta 16 páginas para contenido adicional a elección'
+ ],
+ 'Deluxe Plus':[
+  'Base Deluxe',
+  '88 páginas fijas',
+  'Interior redistribuible a pedido del cliente'
+ ]
+};
+let contents=GET('jd_model_contents_v5',defaultContents);
+for(const k of Object.keys(defaultContents))if(!contents[k])contents[k]=defaultContents[k];
+SET('jd_model_contents_v5',contents);
+
+const prodSec=document.getElementById('products');
+if(prodSec){
+ const oldHtml=prodSec.innerHTML;
+ const box=document.createElement('div');
+ box.className='section';
+ box.innerHTML='<div class="section-head"><h2>Contenido de variantes · Birkón Librito</h2></div>'+
+ '<div class="grid cards">'+Object.keys(contents).map(model=>'<div class="card"><div class="eyebrow">MODELO</div><h3>'+E(model)+'</h3><p class="small muted">'+contents[model].length+' bloques de contenido</p><button class="btn sm" data-edit-content="'+E(model)+'">Editar contenido</button></div>').join('')+'</div>';
+ prodSec.appendChild(box);
+ box.querySelectorAll('[data-edit-content]').forEach(b=>b.onclick=()=>editContent(b.dataset.editContent));
+}
+function editContent(model){
+ const w=document.createElement('div');w.className='modal open';
+ w.innerHTML='<div class="modal-box jd-content-editor"><div class="modal-head"><h2 style="margin:0">Contenido · '+E(model)+'</h2><button class="btn xx">×</button></div>'+
+ '<p class="small muted">Una línea = un ítem del índice/contenido. Acá podés corregir Essential, Classic, Deluxe, etc.</p>'+
+ '<div class="field"><label>Contenido</label><textarea id="mcBody">'+E((contents[model]||[]).join('\n'))+'</textarea></div>'+
+ '<div style="text-align:right;margin-top:14px"><button class="btn primary ss">Guardar contenido</button></div></div>';
+ document.body.appendChild(w);w.querySelector('.xx').onclick=()=>w.remove();
+ w.querySelector('.ss').onclick=()=>{contents[model]=w.querySelector('#mcBody').value.split(/\n+/).map(x=>x.trim()).filter(Boolean);SET('jd_model_contents_v5',contents);w.remove();location.reload()};
+}
+
+// ---------- Multi quantity selector ----------
+function availableQtysForCurrent(){
+ try{
+   const p=currentProduct();
+   const costs=GET('jd_cost_quotes',[]);
+   const model=p.models?.length?qModel.value:'',size=p.size?.length?qSize.value:'',bind=p.binding?.length?qBind.value:'',pg=p.pages?Number(qPages.value):0;
+   const qs=costs.filter(c=>c.product===p.name &&
+     (!p.models?.length||!c.variant||c.variant===model) &&
+     (!p.size?.length||!c.size||c.size===size) &&
+     (!p.binding?.length||!c.binding||c.binding===bind) &&
+     (!p.pages||!c.pages||Number(c.pages)===pg)
+   ).map(c=>Number(c.qty)).filter(Boolean);
+   return [...new Set([50,60,80,100,150,...qs])].sort((a,b)=>a-b);
+ }catch(e){return [50,60,80,100,150]}
+}
+function ageLabel(res){
+ if(!res?.ok||!res.base?.date)return '';
+ const d=daysOld(res.base.date);
+ if(d==null)return '';
+ if(d<=14)return '<div class="small" style="color:#41745d">Cotización reciente · '+d+' días</div>';
+ if(d<=30)return '<div class="jd-age-warn">⚠ Cotización de hace '+d+' días. Conviene chequear vigencia.</div>';
+ return '<div class="jd-age-bad">⚠ Precio de imprenta antiguo: '+d+' días. Revisar antes de enviar.</div>';
+}
+function setupQtySelector(){
+ const q1=document.getElementById('qQty1');
+ if(!q1||document.getElementById('jdQtySelector'))return;
+ const card=q1.closest('.card');
+ const fields=[document.getElementById('qQty1')?.closest('.field'),document.getElementById('qQty2')?.closest('.field'),document.getElementById('qAuto1')?.closest('.field'),document.getElementById('qAuto2')?.closest('.field')].filter(Boolean);
+ fields.forEach(x=>x.classList.add('jd-hidden'));
+ const holder=document.createElement('div');holder.className='field span2';holder.id='jdQtySelector';
+ holder.innerHTML='<label>Cantidades solicitadas</label><div class="jd-qty-list" id="jdQtyList"></div><button type="button" class="btn sm" id="jdAddQty" style="margin-top:8px">+ Agregar otra cantidad</button><div class="jd-field-note">Elegí las tiradas que pidió el cliente. Todas salen en el mismo presupuesto.</div>';
+ const anchor=document.getElementById('qEvent')?.closest('.field')||card.querySelector('.form-grid').lastElementChild;
+ card.querySelector('.form-grid').insertBefore(holder,anchor);
+ window.jdQuoteQtys=GET('jd_quote_qtys_v5',[60,100]);
+ drawQtyRows();
+ document.getElementById('jdAddQty').onclick=()=>{const opts=availableQtysForCurrent();const next=opts.find(x=>!window.jdQuoteQtys.includes(x))||opts[opts.length-1];window.jdQuoteQtys.push(next);SET('jd_quote_qtys_v5',window.jdQuoteQtys);drawQtyRows();renderQuoteV5()};
+}
+function drawQtyRows(){
+ const list=document.getElementById('jdQtyList');if(!list)return;
+ const opts=availableQtysForCurrent();
+ list.innerHTML=window.jdQuoteQtys.map((q,i)=>'<div class="jd-qty-row"><div><select data-qidx="'+i+'">'+opts.map(v=>'<option value="'+v+'" '+(v===q?'selected':'')+'>'+v+' unidades</option>').join('')+'</select></div><div class="jd-qty-price" id="jdqp'+i+'">—</div><button type="button" class="btn sm" data-rq="'+i+'">Quitar</button></div>').join('');
+ list.querySelectorAll('[data-qidx]').forEach(s=>s.onchange=()=>{window.jdQuoteQtys[+s.dataset.qidx]=Number(s.value);SET('jd_quote_qtys_v5',window.jdQuoteQtys);renderQuoteV5()});
+ list.querySelectorAll('[data-rq]').forEach(b=>b.onclick=()=>{if(window.jdQuoteQtys.length<=1)return;window.jdQuoteQtys.splice(+b.dataset.rq,1);SET('jd_quote_qtys_v5',window.jdQuoteQtys);drawQtyRows();renderQuoteV5()});
+}
+
+const oldSync=window.syncQuoteFields;
+if(oldSync)window.syncQuoteFields=function(){oldSync();drawQtyRows();renderQuoteV5()};
+
+function priceForQtyV5(qty){
+ try{return priceForQty(qty)}catch(e){return {ok:false,reason:'No se pudo calcular.'}}
+}
+function renderQuoteV5(){
+ if(!document.getElementById('qProduct'))return;
+ // run v4 first so specs and legal stay current
+ try{renderQuoteV4()}catch(e){}
+ if(!window.jdQuoteQtys)return;
+ window.jdQuoteQtys.forEach((q,i)=>{
+  const r=priceForQtyV5(q),el=document.getElementById('jdqp'+i);
+  if(el)el.innerHTML=r.ok?'<b>'+M(Math.max(0,r.price-Number(qDiscount.value||0)))+'</b>'+ageLabel(r):'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
+ });
+ // replace preview price cards with all requested quantities
+ const preview=document.getElementById('quotePreview');if(!preview)return;
+ const old=preview.querySelector('.quote-prices');
+ if(old){
+   old.innerHTML=window.jdQuoteQtys.map(q=>{const r=priceForQtyV5(q);return '<div class="quote-price"><span class="small muted">'+q+' unidades</span><strong>'+(r.ok?M(Math.max(0,r.price-Number(qDiscount.value||0))):'A cotizar')+'</strong>'+(r.ok?ageLabel(r):'')+'</div>'}).join('');
+   old.style.gridTemplateColumns='repeat('+Math.min(window.jdQuoteQtys.length,3)+',1fr)';
+ }
+ // replace contents for librito
+ try{
+  if(currentProduct().name==='Birkón · Librito'){
+    const ib=preview.querySelector('.index-box');
+    if(ib){
+      const model=qModel.value;
+      ib.innerHTML='<h4>Contenido '+E(model)+'</h4><div class="index-list">'+(contents[model]||[]).map(x=>E(x)).join('<br>')+'</div>';
+    }
+  }
+ }catch(e){}
+}
+window.renderQuote=renderQuoteV5;
+setupQtySelector();
+renderQuoteV5();
+
+// refresh qty choices when configuration changes
+['qProduct','qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>{
+ const el=document.getElementById(id);if(el)el.addEventListener('change',()=>{drawQtyRows();renderQuoteV5()});
+});
+
+// explicit phonetics access note
+const ph=document.getElementById('phonetics');
+if(ph){
+ const top=ph.querySelector('.topbar');
+ if(top && !document.getElementById('phoneticsStandaloneNote')){
+   const note=document.createElement('div');note.id='phoneticsStandaloneNote';note.className='jd-note';note.style.marginBottom='14px';
+   note.innerHTML='El generador está integrado dentro del panel y también puede abrirse aparte desde el botón <b>Abrir aparte</b>.';
+   top.insertAdjacentElement('afterend',note);
+ }
+}
+})();
+</script>
+<!-- JD QUOTE QTY CONTENT V5 END -->
+
 </body></html>
