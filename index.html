@@ -1288,6 +1288,19 @@ SET('jd_catalog_v6',catalog);
   SET('jd_pricing_rules_v4',rs);
 })();
 
+(function migrateZlotoMatrix(){
+  const rows=[["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",48,60,605779],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",48,100,896770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",72,60,740770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",72,100,1150770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",64,60,690770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",64,100,1050770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",88,60,820770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",88,100,1250770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",48,60,330770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",48,100,440770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",72,60,395770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",72,100,560770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",64,60,370770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",64,100,520770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",88,60,450770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",88,100,650770]];
+  let arr=GET('jd_cost_quotes_v2',[]);
+  if(!Array.isArray(arr)) arr=[];
+  const key=x=>[x.supplier,x.product,x.size||'',x.binding||'',Number(x.pages||0),Number(x.qty||0),x.date||''].join('|');
+  const m=new Map(arr.map(x=>[key(x),x]));
+  rows.forEach(r=>{
+    const x={supplier:'Zloto',product:'Birkón · Librito',variant:r[0],size:r[1],binding:r[2],pages:r[3],qty:r[4],cost:r[5],date:'2026-08-25'};
+    m.set(key(x),x);
+  });
+  SET('jd_cost_quotes_v2',[...m.values()]);
+})();
+
 
 function popup(title,body,onSave){
  const w=document.createElement('div');w.className='modal open';
