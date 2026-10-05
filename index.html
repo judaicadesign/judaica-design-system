@@ -985,7 +985,7 @@ function setupQuoteUI(){
  if(!quoteSec)return;
  quoteSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="saveQ4">Guardar presupuesto</button> <button class="btn" id="clearQ4">Limpiar</button> <button class="btn primary" onclick="window.print()">Vista para PDF</button></div></div>'+
  '<div class="quote-layout"><div class="card"><div class="form-grid">'+
- '<div class="field"><label>Cliente</label><input id="qClient" value="Cliente demo"></div>'+
+ '<div class="field"><label>Cliente</label><input id="qClient" value="Erik Laham"></div>'+
  '<div class="field"><label>Producto</label><select id="qProduct">'+products.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div>'+
  '<div class="field" id="qModelWrap"><label id="qModelLabel">Modelo</label><select id="qModel"></select></div>'+
  '<div class="field" id="qNusajWrap"><label>Nusaj</label><select id="qNusaj"><option>Sefaradí + Ashkenazí</option><option>Ashkenazí + Sefaradí</option><option>Jabad + Sefaradí</option><option>Sefaradí + Jabad</option><option>Solo Ashkenazí</option><option>Solo Jabad</option><option>Solo Sefaradí</option></select></div>'+
@@ -1289,6 +1289,51 @@ const GET=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(
 const SET=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const uid=()=>String(Date.now())+Math.random().toString(36).slice(2,8);
 const textOptions=['Hebreo + español','Hebreo + fonética','Hebreo sólo','Hebreo + español + fonética','Español + fonética'];
+const JD_LOGO="data:image/png;base64,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";
+let jdDeadlineManual=false;
+function parseLocalDate(v){if(!v)return null;const [y,m,d]=v.split('-').map(Number);return new Date(y,m-1,d,12,0,0)}
+function isoLocal(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function prevBusinessDay(date){
+ const d=new Date(date);d.setDate(d.getDate()-1);
+ while(d.getDay()===0||d.getDay()===6)d.setDate(d.getDate()-1);
+ return d;
+}
+function businessDaysBetween(start,end){
+ if(!start||!end||end<start)return 0;
+ let n=0,d=new Date(start);d.setHours(12,0,0,0);
+ while(d<end){d.setDate(d.getDate()+1);if(d.getDay()!==0&&d.getDay()!==6&&d<=end)n++}
+ return n;
+}
+function productionBusinessDays(p){
+ if(p?.name==='Birkón · Librito')return 14;
+ if(p?.name==='Birkón · Folleto')return 4;
+ const txt=String(p?.production||'');
+ if(/48\s*h/i.test(txt))return 2;
+ const m=txt.match(/(\d+)\s*d[ií]as?/i);return m?Number(m[1]):0;
+}
+function designBusinessDays(p){
+ const model=p?.models?.length?qModel.value:'';
+ return /deluxe/i.test(model)?5:3;
+}
+function urgencyInfo(){
+ const box=document.getElementById('urgency6'); if(!box)return;
+ const p=activeProduct(), deadline=parseLocalDate(qDeadline.value);
+ if(!deadline){box.innerHTML='';box.className='jd-urgency jd-hidden';return}
+ const today=new Date();today.setHours(12,0,0,0);
+ const available=businessDaysBetween(today,deadline);
+ const design=designBusinessDays(p),production=productionBusinessDays(p),needed=design+production;
+ if(!needed){box.innerHTML='';box.className='jd-urgency jd-hidden';return}
+ if(available<needed){
+   box.className='jd-urgency danger';
+   box.innerHTML='<b>⚠ Pedido urgente</b><span>Quedan '+available+' días hábiles hasta la entrega y este producto requiere aprox. '+needed+' ('+design+' de diseño + '+production+' de producción). <strong>Corresponde aplicar/revisar el fee de urgencia del 30%.</strong></span>';
+ }else if(available===needed || available-needed<=2){
+   box.className='jd-urgency warn';
+   box.innerHTML='<b>⚠ Plazo muy justo</b><span>Quedan '+available+' días hábiles y el plazo estimado es '+needed+'. Hay solo '+Math.max(0,available-needed)+' día(s) hábil(es) de margen.</span>';
+ }else{
+   box.className='jd-urgency ok';
+   box.innerHTML='<b>Plazo viable</b><span>'+available+' días hábiles disponibles · estimado requerido: '+needed+'.</span>';
+ }
+}
 
 const seedCatalog=[
  {
@@ -1472,17 +1517,25 @@ function buildQuote(){
  if(!qs)return;
  const prevProd=document.getElementById('qProduct')?.value||catalog[0].name;
  qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn primary" onclick="window.print()">Vista para PDF</button></div></div>'+
- '<div class="quote-layout"><div class="card"><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" value="Cliente demo"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
+ '<div class="quote-layout"><div class="card"><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" value="Cliente demo"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
  qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
  window.qs6=GET('jd_quote_qtys_v6',[60,100]);
  qProduct.onchange=syncFields6;['qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>document.getElementById(id).addEventListener('change',syncVariant6));
- ['qClient','qEvent','qDeadline','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',render6));
+ ['qClient','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',render6));
+ qEvent.addEventListener('change',()=>{
+   const ev=parseLocalDate(qEvent.value);
+   if(ev && !jdDeadlineManual) qDeadline.value=isoLocal(prevBusinessDay(ev));
+   render6();
+ });
+ qDeadline.addEventListener('change',()=>{jdDeadlineManual=true;render6()});
  document.getElementById('aq6').onclick=()=>{const common=[50,60,80,100,150,200];const n=common.find(x=>!window.qs6.includes(x))||window.qs6[window.qs6.length-1]+50;window.qs6.push(n);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()};
  document.getElementById('sq6').onclick=save6;
  syncFields6();
 }
 function syncFields6(){
  const p=activeProduct();
+ jdDeadlineManual=false;
+ if(qEvent?.value){const ev=parseLocalDate(qEvent.value);if(ev)qDeadline.value=isoLocal(prevBusinessDay(ev));}
  qModel.innerHTML=(p.models.length?p.models:['']).map(x=>'<option>'+E(x)+'</option>').join('');
  qLang.innerHTML=(p.texts.length?p.texts:['']).map(x=>'<option>'+E(x)+'</option>').join('');
  qSize.innerHTML=(p.sizes.length?p.sizes:['']).map(x=>'<option>'+E(x)+'</option>').join('');
@@ -1507,6 +1560,7 @@ function ageInfo(base){
 }
 function render6(){
  const p=activeProduct(),v=selectedVariant(p),disc=Number(qDiscount.value||0);
+ urgencyInfo();
  const round5=n=>Math.round(Number(n||0)/5000)*5000;
  window.qs6.forEach((q,i)=>{
    const r=calcQty(q),el=document.getElementById('qpr6-'+i);
@@ -1532,7 +1586,7 @@ function render6(){
  const prices=window.qs6.map(q=>{const r=calcQty(q);return '<div class="jd-client-price"><span>'+q+' unidades</span><b>'+(r.ok?'$ '+round5(r.price-disc).toLocaleString('es-AR')+'.-':'A cotizar')+'</b></div>'}).join('');
  quotePreview.innerHTML=
  '<div class="jd-pdf-sheet">'+
- '<div class="jd-pdf-header"><img src="'+BLACK+'" class="jd-pdf-logo"><div class="jd-header-copy"><div class="jd-overline">PRESUPUESTO</div><div class="jd-doc-title">'+E(p.name)+'</div></div><div class="jd-client-meta"><div><small>CLIENTE</small><b>'+E(qClient.value||'—')+'</b></div><div><small>FECHA</small><b>'+today+'</b></div></div></div>'+
+ '<div class="jd-pdf-header"><img src="'+JD_LOGO+'" class="jd-pdf-logo"><div class="jd-header-copy"><div class="jd-overline">PRESUPUESTO</div><div class="jd-doc-title">'+E(p.name)+'</div></div><div class="jd-client-meta"><div><small>CLIENTE</small><b>'+E(qClient.value||'—')+'</b></div><div><small>FECHA</small><b>'+today+'</b></div></div></div>'+
  '<div class="jd-pdf-divider"></div>'+
  '<div class="jd-pdf-bodytop"><div class="jd-pdf-mock">'+hero+'</div><div class="jd-compact-specs">'+specs.map(s=>'<div class="jd-spec-icon-row"><span class="jd-spec-icon">'+s[0]+'</span><div><small>'+s[1]+'</small><strong>'+s[2]+'</strong></div></div>').join('')+technical+'<div class="jd-client-prices">'+prices+'</div>'+(disc?'<div class="jd-discount-note">Ajuste aplicado: -$ '+Math.round(disc).toLocaleString('es-AR')+(qDiscountWhy.value?' · '+E(qDiscountWhy.value):'')+'</div>':'')+'</div></div>'+
  (v?.content?.length?'<div class="jd-content-box"><h4>Contenido'+(p.models.length?' '+E(qModel.value):'')+'</h4><div class="index-list">'+v.content.map(x=>'• '+E(x)).join('<br>')+'</div></div>':'')+
@@ -1723,5 +1777,13 @@ h1{font-size:clamp(30px,3vw,42px)}
   .table{min-width:720px}
   .screen{overflow-x:hidden}
 }
+</style>
+
+<style id="jd-urgency-v1">
+.jd-urgency{border-radius:10px;padding:10px 12px;display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.35}
+.jd-urgency b{white-space:nowrap}.jd-urgency span{display:block}
+.jd-urgency.ok{background:#e8f1eb;border:1px solid #c9ddcf;color:#35624d}
+.jd-urgency.warn{background:#fff2dd;border:1px solid #e8c98f;color:#875f22}
+.jd-urgency.danger{background:#fbe8e5;border:1px solid #e2b2ab;color:#8b3f38}
 </style>
 </body></html>
