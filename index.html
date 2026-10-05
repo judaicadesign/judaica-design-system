@@ -1143,6 +1143,12 @@ function syncPages(){
  const map={'Essential|2|Hebreo + español + fonética':48,'Classic|1|Hebreo + español + fonética':48,'Classic|2|Hebreo + español + fonética':72,'Deluxe|1|Hebreo + español + fonética':64,'Deluxe|2|Hebreo + español + fonética':88,'Deluxe Plus|2|Hebreo + español + fonética':88};
  qPages.value=map[model+'|'+count+'|'+lang]||48;
 }
+function shippingForSupplier(p){
+ const s=String(p?.supplier||'').toLowerCase();
+ if(s.includes('zloto')) return 20000;
+ if(s.includes('b612')) return 10000;
+ return 0;
+}
 function findRule(p){
  const v=p.models.length?qModel.value:'';
  return priceRules.find(r=>r.product===p.name&&r.variant===v)||priceRules.find(r=>r.product===p.name&&r.variant==='*')||null;
@@ -1707,7 +1713,8 @@ function calcQty(q){
    if(!(margin>=0&&margin<1))return {ok:false,reason:'La regla de precio no es válida.'};
    divisor=1-margin;
  }
- return {ok:true,base,cost,price:cost/divisor+Number(r.shipping||0)+Number(r.extra||0),estimated,rule:{...r,divisor},marginPct:r.marginPct!=null?Number(r.marginPct):Math.round((1-divisor)*10000)/100};
+ const shipping=shippingForSupplier(p);
+ return {ok:true,base,cost,price:cost/divisor+shipping+Number(r.extra||0),estimated,shipping,rule:{...r,divisor},marginPct:r.marginPct!=null?Number(r.marginPct):Math.round((1-divisor)*10000)/100};
 }
 function buildQuote(){
  if(!qs)return;
@@ -1775,20 +1782,27 @@ function render6(){
  const today=new Date().toLocaleDateString('es-AR');
  const assetList=GET('jd_assets',[]);
  const selectedBinding=(p.bindings.length?qBind.value:'').toLowerCase();
- const selectedSize=(p.sizes.length?qSize.value:'').toLowerCase();
- const selectedModel=(p.models.length?qModel.value:'').toLowerCase();
- const selectedNusaj=(p.nusaj?qNusaj.value:'').toLowerCase();
- const assetCandidates=assetList.filter(a=>a.product===p.name&&a.role==='Mockup principal').filter(a=>{
-   const s=String(a.variant||'').toLowerCase();
-   if(!s)return true;
-   if(selectedBinding.includes('abrochado')&&/(binder|cosido)/.test(s))return false;
-   if((selectedBinding.includes('binder')||selectedBinding.includes('cosido'))&&/(abrochado|stapled)/.test(s))return false;
-   if(selectedSize.includes('normal')&&/grande/.test(s))return false;
-   if(selectedSize.includes('grande')&&/normal/.test(s))return false;
-   return true;
- });
- const assetScore=a=>{const s=String(a.variant||'').toLowerCase();let n=0;if(!s)return 0;if(selectedModel&&s.includes(selectedModel))n+=5;if(selectedNusaj&&s.includes(selectedNusaj))n+=4;if(selectedBinding&&((selectedBinding.includes('abrochado')&&s.includes('abrochado'))||((selectedBinding.includes('binder')||selectedBinding.includes('cosido'))&&(s.includes('binder')||s.includes('cosido')))))n+=12;if(selectedSize&&((selectedSize.includes('normal')&&s.includes('normal'))||(selectedSize.includes('grande')&&s.includes('grande'))))n+=8;return n};
- const asset=assetCandidates.sort((a,b)=>assetScore(b)-assetScore(a))[0]||null;
+ let assetCandidates=assetList.filter(a=>a.product===p.name&&a.role==='Mockup principal');
+ if(p.name==='Birkón · Librito'){
+   assetCandidates=assetCandidates.filter(a=>{
+     const v=String(a.variant||'').toLowerCase();
+     if(!v)return true;
+     if(selectedBinding.includes('abrochado')) return !/(binder|cosido)/.test(v);
+     if(selectedBinding.includes('binder')||selectedBinding.includes('cosido')) return !/(abrochado|stapled)/.test(v);
+     return true;
+   });
+   assetCandidates.sort((a,b)=>{
+     const av=String(a.variant||'').toLowerCase(),bv=String(b.variant||'').toLowerCase();
+     const score=v=>{
+       if(!v)return 0;
+       if(selectedBinding.includes('abrochado')&&v.includes('abrochado'))return 10;
+       if((selectedBinding.includes('binder')||selectedBinding.includes('cosido'))&&(v.includes('binder')||v.includes('cosido')))return 10;
+       return 0;
+     };
+     return score(bv)-score(av);
+   });
+ }
+ const asset=assetCandidates[0]||null;
  const hero=asset?.data?'<img src="'+asset.data+'" class="jd-pdf-product-img">':'<div class="jd-mock-placeholder"><div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div><span>MOCKUP PRINCIPAL</span></div>';
  const technical=p.name==='Birkón · Librito'?'<div class="jd-tech"><span><strong>Tapa:</strong> papel ilustración 300 grs. · laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs.</span></div>':'';
  const legal=GET('jd_legal_librito_v4',[]);
