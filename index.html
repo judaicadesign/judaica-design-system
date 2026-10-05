@@ -630,4 +630,83 @@ drawMasters3();
 // Development catalog dashboard should route to Masters.
 document.querySelectorAll('#dashboard .section').forEach(sec=>{if(sec.textContent.includes('Desarrollo del catálogo')){sec.querySelectorAll('.card').forEach(c=>{c.classList.add('jd-click');c.onclick=()=>go('masters')})}});
 })();
+</script>
+<style>
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid #b88a3b!important;outline-offset:1px!important;border-color:#b88a3b!important;box-shadow:0 0 0 3px rgba(184,138,59,.12)!important}
+.jd-rule-card{background:var(--panel);border:1px solid #d9c69c;border-radius:14px;padding:14px}.jd-kpi{font-size:28px;font-weight:700;color:#0f5b5d}
+</style>
+<script>
+(function(){
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const L=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
+const S=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const M=(title,body,saveLabel,onSave)=>{const w=document.createElement('div');w.className='modal open';w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+E(title)+'</h2><button class="btn jx">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button class="btn primary js">'+E(saveLabel||'Guardar')+'</button></div></div>';document.body.appendChild(w);w.querySelector('.jx').onclick=()=>w.remove();w.querySelector('.js').onclick=()=>onSave(w);return w};
+
+let pricingRules=L('jd_structured_rules',[
+{id:'rule-birkon-librito',name:'Birkón · Librito',costShare:64.5,shipping:20000,extra:0,notes:'Costo imprenta / 0,645 + envío'},
+{id:'rule-deluxe-plus',name:'Deluxe Plus',costShare:64.5,shipping:20000,extra:100000,notes:'Base librito + $100.000'},
+{id:'rule-iman-horario',name:'Imán horario encendido',costShare:30.7692308,shipping:10000,extra:0,notes:'Ejemplo: $48.000 imprenta → $166.000 final con $10.000 de envío'}
+]);
+let catalog=L('jd_catalog_products',[
+{id:'birkon-librito',name:'Birkón · Librito',family:'Birkón',supplier:'Zloto',size:'Normal / Grande',production:'2 semanas',ruleId:'rule-birkon-librito',status:'Activo'},
+{id:'birkon-folleto',name:'Birkón · Folleto',family:'Birkón',supplier:'Gráfica B612',size:'Díptico / Tríptico / Cuadríptico',production:'48 h aprox.',ruleId:'',status:'Activo'},
+{id:'iman-horario',name:'Imán · horario encendido de velas',family:'Imanes',supplier:'Gráfica B612',size:'14 × 10 cm',production:'48 h aprox.',ruleId:'rule-iman-horario',status:'Activo'}
+]);
+function calcRule(rule,cost){return cost/(Number(rule.costShare)/100)+Number(rule.shipping||0)+Number(rule.extra||0)}
+function grossProfit(rule,cost){return calcRule(rule,cost)-Number(rule.shipping||0)-Number(cost)}
+function fmt(n){return '$ '+Math.round(Number(n||0)).toLocaleString('es-AR')}
+
+const rs=document.getElementById('rules');
+function drawRules(){
+ if(!rs)return;
+ rs.innerHTML='<div class="topbar"><div><div class="eyebrow">Motor comercial</div><h1>Reglas de precio</h1></div><button class="btn primary" id="addRuleV4">+ Nueva regla</button></div>'+
+ '<div class="jd-note">Las reglas son estructuradas y se vinculan a productos. Se define qué porcentaje del precio representa el costo, el envío y extras fijos.</div>'+
+ '<div class="grid" style="margin-top:16px">'+pricingRules.map((r,i)=>{const linked=catalog.filter(p=>p.ruleId===r.id).map(p=>p.name).join(', ')||'Sin productos vinculados';return '<div class="jd-rule-card"><div class="eyebrow">REGLA</div><h3>'+E(r.name)+'</h3><p><b>Costo = '+Number(r.costShare).toFixed(2).replace('.',',')+'%</b> del precio antes de envío/extras.</p><p class="small">Envío: '+fmt(r.shipping)+' · Extra fijo: '+fmt(r.extra)+'</p><p class="small muted">Productos: '+E(linked)+'</p><div class="jd-toolbar"><button class="btn sm" data-erule="'+i+'">Editar</button></div></div>'}).join('')+'</div>';
+ document.getElementById('addRuleV4').onclick=()=>editRule(-1);
+ rs.querySelectorAll('[data-erule]').forEach(b=>b.onclick=()=>editRule(+b.dataset.erule));
+}
+function editRule(i){
+ const r=i>=0?pricingRules[i]:{id:'rule-'+Date.now(),name:'',costShare:64.5,shipping:0,extra:0,notes:''};
+ const w=M(i>=0?'Editar regla':'Nueva regla','<div class="jd-grid"><div class="jd-field"><label>Nombre</label><input id="prName" value="'+E(r.name)+'"></div><div class="jd-field"><label>El costo representa (%)</label><input id="prShare" type="number" step="0.01" value="'+r.costShare+'"></div><div class="jd-field"><label>Envío fijo</label><input id="prShip" type="number" value="'+r.shipping+'"></div><div class="jd-field"><label>Extra fijo</label><input id="prExtra" type="number" value="'+r.extra+'"></div><div class="jd-field" style="grid-column:1/-1"><label>Notas</label><input id="prNotes" value="'+E(r.notes)+'"></div><div class="jd-panel" style="grid-column:1/-1"><b>Prueba rápida</b><div class="jd-toolbar" style="margin-top:8px"><input id="prCostTest" type="number" value="48000" style="max-width:180px"><button type="button" class="btn" id="prCalc">Calcular</button><span id="prResult"></span></div></div></div>','Guardar regla',x=>{
+  const obj={id:r.id,name:x.querySelector('#prName').value.trim(),costShare:Number(x.querySelector('#prShare').value),shipping:Number(x.querySelector('#prShip').value),extra:Number(x.querySelector('#prExtra').value),notes:x.querySelector('#prNotes').value};if(!obj.name||!obj.costShare)return alert('Falta nombre o porcentaje');if(i>=0)pricingRules[i]=obj;else pricingRules.push(obj);S('jd_structured_rules',pricingRules);x.remove();drawRules();drawCatalog();
+ });
+ w.querySelector('#prCalc').onclick=()=>{const temp={costShare:Number(w.querySelector('#prShare').value),shipping:Number(w.querySelector('#prShip').value),extra:Number(w.querySelector('#prExtra').value)};const cost=Number(w.querySelector('#prCostTest').value);w.querySelector('#prResult').innerHTML='<b>'+fmt(calcRule(temp,cost))+'</b> · ganancia bruta: '+fmt(grossProfit(temp,cost))};
+}
+drawRules();
+
+const ps=document.getElementById('products');
+function drawCatalog(){
+ if(!ps)return;
+ ps.innerHTML='<div class="topbar"><div><div class="eyebrow">Catálogo interno</div><h1>Productos & variantes</h1></div><button class="btn primary" id="addProductV4">+ Nuevo producto</button></div>'+
+ '<div class="product-grid">'+catalog.map((p,i)=>{const r=pricingRules.find(x=>x.id===p.ruleId);return '<div class="product-card"><div class="product-visual"><div class="book">'+E(p.family.toUpperCase())+'</div></div><div class="product-body"><h3>'+E(p.name)+'</h3><div class="chips"><span class="tag ok">'+E(p.status)+'</span><span class="tag">'+E(p.supplier)+'</span></div><p class="small"><b>Tamaño:</b> '+E(p.size)+'</p><p class="small"><b>Producción:</b> '+E(p.production)+'</p><p class="small"><b>Regla:</b> '+E(r?r.name:'Sin regla')+'</p><button class="btn sm" data-eprod="'+i+'">Editar producto</button></div></div>'}).join('')+'</div>';
+ document.getElementById('addProductV4').onclick=()=>editProduct(-1);
+ ps.querySelectorAll('[data-eprod]').forEach(b=>b.onclick=()=>editProduct(+b.dataset.eprod));
+}
+function editProduct(i){
+ const p=i>=0?catalog[i]:{id:'product-'+Date.now(),name:'',family:'',supplier:'Gráfica B612',size:'',production:'48 h aprox.',ruleId:'',status:'Activo'};
+ const ruleOptions='<option value="">Sin regla todavía</option>'+pricingRules.map(r=>'<option value="'+E(r.id)+'" '+(r.id===p.ruleId?'selected':'')+'>'+E(r.name)+'</option>').join('');
+ const w=M(i>=0?'Editar producto':'Nuevo producto','<div class="jd-grid"><div class="jd-field"><label>Nombre</label><input id="ppName" value="'+E(p.name)+'" placeholder="Ej. Imán · horario encendido de velas"></div><div class="jd-field"><label>Familia</label><input id="ppFamily" value="'+E(p.family)+'" placeholder="Imanes"></div><div class="jd-field"><label>Tamaño / formato</label><input id="ppSize" value="'+E(p.size)+'" placeholder="14 × 10 cm"></div><div class="jd-field"><label>Proveedor</label><select id="ppSupplier"><option>Zloto</option><option>Gráfica B612</option></select></div><div class="jd-field"><label>Producción</label><input id="ppProduction" value="'+E(p.production)+'"></div><div class="jd-field"><label>Regla de precio</label><select id="ppRule">'+ruleOptions+'</select></div><div class="jd-panel" style="grid-column:1/-1"><b>Simulador comercial</b><div class="jd-grid" style="margin-top:8px"><div class="jd-field"><label>Costo imprenta</label><input id="ppCost" type="number" value="48000"></div><div class="jd-field"><label>Precio cliente</label><div id="ppPreview" class="jd-kpi">—</div></div></div></div></div>','Guardar producto',x=>{
+   const obj={id:p.id,name:x.querySelector('#ppName').value.trim(),family:x.querySelector('#ppFamily').value.trim(),supplier:x.querySelector('#ppSupplier').value,size:x.querySelector('#ppSize').value,production:x.querySelector('#ppProduction').value,ruleId:x.querySelector('#ppRule').value,status:'Activo'};if(!obj.name)return alert('Falta nombre');if(i>=0)catalog[i]=obj;else catalog.push(obj);S('jd_catalog_products',catalog);x.remove();drawCatalog();drawRules();syncQuoteProducts();
+ });
+ w.querySelector('#ppSupplier').value=p.supplier;
+ const refresh=()=>{const rule=pricingRules.find(r=>r.id===w.querySelector('#ppRule').value);const cost=Number(w.querySelector('#ppCost').value);w.querySelector('#ppPreview').textContent=rule?fmt(calcRule(rule,cost)):'Sin regla vinculada'};
+ w.querySelector('#ppRule').onchange=refresh;w.querySelector('#ppCost').oninput=refresh;refresh();
+}
+drawCatalog();
+
+function syncQuoteProducts(){
+ const q=document.getElementById('qProduct');if(!q)return;const current=q.value;q.innerHTML=catalog.map(p=>'<option>'+E(p.name)+'</option>').join('');if([...q.options].some(o=>o.value===current))q.value=current;
+}
+syncQuoteProducts();
+
+const qprice1=document.getElementById('qPrice1');
+if(qprice1 && !document.getElementById('qInternalCost')){
+ const parent=qprice1.closest('.field').parentNode;
+ const costField=document.createElement('div');costField.className='field';costField.innerHTML='<label>Costo imprenta de referencia</label><input id="qInternalCost" type="number" placeholder="Ej. 48000">';
+ const sugField=document.createElement('div');sugField.className='field';sugField.innerHTML='<label>Precio sugerido por regla</label><input id="qSuggestedPrice" readonly placeholder="—">';
+ parent.insertBefore(costField,qprice1.closest('.field'));parent.insertBefore(sugField,qprice1.closest('.field').nextSibling);
+ const refreshSuggested=()=>{const prod=catalog.find(x=>x.name===qProduct.value);const rule=prod&&pricingRules.find(x=>x.id===prod.ruleId);const cost=Number(document.getElementById('qInternalCost').value);document.getElementById('qSuggestedPrice').value=rule&&cost?Math.round(calcRule(rule,cost)):''};
+ document.getElementById('qInternalCost').oninput=refreshSuggested;qProduct.addEventListener('change',refreshSuggested);
+}
+})();
 </script></body></html>
