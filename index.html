@@ -1631,43 +1631,43 @@ function drawProducts(){
  ps.querySelectorAll('[data-pvars]').forEach(b=>b.onclick=()=>openVariants(+b.dataset.pvars));
 }
 function editProduct(i){
- const p=i>=0?catalog[i]:{id:'p-'+uid(),name:'',status:'Desarrollo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[]};
- const checks=textOptions.map(t=>'<label style="display:block;margin:6px 0"><input type="checkbox" class="ptxt" value="'+E(t)+'" '+((p.texts||[]).includes(t)?'checked':'')+'> '+E(t)+'</label>').join('');
- const w=popup(i>=0?'Editar producto':'Nuevo producto','<div class="jd-formgrid"><input type="hidden" id="pid6" value="'+E(p.id)+'"><div><label>Nombre</label><input id="pn6" value="'+E(p.name)+'"></div><div><label>Estado</label><select id="pst6"><option>Activo</option><option>Desarrollo</option><option>No publicado</option></select></div><div><label>Proveedor</label><select id="psup6"><option value="">Sin proveedor fijo</option><option>Zloto</option><option>Gráfica B612</option></select></div><div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div><div class="span2"><label>Modelos / formatos, separados por coma</label><input id="pmod6" value="'+E((p.models||[]).join(', '))+'" placeholder="Ej. Essential, Classic, Deluxe"></div><div class="span2"><label>Tamaños, separados por coma</label><input id="psz6" value="'+E((p.sizes||[]).join(', '))+'"></div><div class="span2"><label>Encuadernaciones, separadas por coma</label><input id="pbd6" value="'+E((p.bindings||[]).join(', '))+'"></div><div class="span2"><label>Textos disponibles</label>'+checks+'</div><div id="productSaveStatus6" class="span2 small muted"></div></div>','',async x=>{
-   const btn=x.querySelector('.s6');
-   const obj={...p,name:x.querySelector('#pn6').value.trim(),status:x.querySelector('#pst6').value,supplier:x.querySelector('#psup6').value,nusaj:x.querySelector('#pnus6').value==='yes',models:x.querySelector('#pmod6').value.split(',').map(v=>v.trim()).filter(Boolean),sizes:x.querySelector('#psz6').value.split(',').map(v=>v.trim()).filter(Boolean),bindings:x.querySelector('#pbd6').value.split(',').map(v=>v.trim()).filter(Boolean),texts:[...x.querySelectorAll('.ptxt:checked')].map(c=>c.value),variants:Array.isArray(p.variants)?p.variants:[]};
-   if(!obj.name)return alert('Falta nombre');
-   btn.disabled=true;btn.textContent='Guardando…';
-   const next=[...catalog];
-   if(i>=0)next[i]=obj;else next.push(obj);
-   try{
-     const URL='https://athiruoimehofqzrplnl.supabase.co';
-     const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
-     const resp=await fetch(URL+'/rest/v1/app_state',{
-       method:'POST',
-       headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
-       body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})
-     });
-     if(!resp.ok){let t='';try{t=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+' '+t)}
-     catalog=next;
-     SET('jd_catalog_v6',catalog);
-     x.remove();
-     drawProducts();
-     try{buildQuote()}catch(e){console.warn('Quote rebuild after product save',e)}
-     alert('Producto guardado y sincronizado. El equipo verá esta versión.');
-   }catch(err){
-     console.error(err);
-     btn.disabled=false;btn.textContent=i>=0?'Guardar producto':'Crear producto';
-     const st=x.querySelector('#productSaveStatus6');if(st)st.innerHTML='<span style="color:#9a4b45">No se pudo guardar: '+E(err.message||err)+'</span>';
-     alert('No se pudo guardar el producto. '+(err.message||''));
-   }
- });
- w.querySelector('.s6').textContent=i>=0?'Guardar producto':'Crear producto';w.querySelector('#pst6').value=p.status;w.querySelector('#psup6').value=p.supplier;w.querySelector('#pnus6').value=p.nusaj?'yes':'no';
+ const p=i>=0?catalog[i]:{id:'p-'+uid(),name:'',status:'Desarrollo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[],technical:{}};
+ const t=p.technical||{};
+ const checks=textOptions.map(x=>'<label class="jd-checkline"><input type="checkbox" class="ptxt" value="'+E(x)+'" '+((p.texts||[]).includes(x)?'checked':'')+'> <span>'+E(x)+'</span></label>').join('');
+ const body=
+ '<div class="jd-formgrid">'+
+ '<input type="hidden" id="pid6" value="'+E(p.id)+'">'+
+ '<div><label>Nombre</label><input id="pn6" value="'+E(p.name)+'"></div>'+
+ '<div><label>Estado</label><select id="pst6"><option>Activo</option><option>Desarrollo</option><option>No publicado</option></select></div>'+
+ '<div><label>Proveedor</label><select id="psup6"><option value="">Sin proveedor fijo</option><option>Zloto</option><option>Gráfica B612</option></select></div>'+
+ '<div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div>'+
+ '<div class="span2"><label>Modelos / formatos <span class="small muted">(solo si este producto tiene más de uno)</span></label><input id="pmod6" value="'+E((p.models||[]).join(', '))+'" placeholder="Ej. Tríptico, Cuadríptico"></div>'+
+ '<div class="span2"><label>Opciones de tamaño <span class="small muted">(solo si el cliente puede elegir entre varios)</span></label><input id="psz6" value="'+E((p.sizes||[]).join(', '))+'" placeholder="Ej. Normal · 11,6 × 15,5 cm, Grande · 14 × 18,5 cm"></div>'+
+ '<div class="span2"><label>Encuadernaciones <span class="small muted">(solo si corresponde)</span></label><input id="pbd6" value="'+E((p.bindings||[]).join(', '))+'" placeholder="Ej. Abrochado, Binder"></div>'+
+ '<div class="span2"><label>Textos disponibles</label><div class="jd-nusaj-checks">'+checks+'</div></div>'+
+ '<div class="span2"><div class="jd-linked"><b>Ficha técnica predeterminada</b><br>Si un formato tiene otra medida, podés sobreescribirla dentro de esa variante. Esta ficha es la que usa el presupuesto y la cotización.</div></div>'+
+ '<div><label>Ancho abierto (mm)</label><input id="ptow6" type="number" step="0.1" value="'+E(t.openWidthMm??'')+'"></div>'+
+ '<div><label>Alto abierto (mm)</label><input id="ptoh6" type="number" step="0.1" value="'+E(t.openHeightMm??'')+'"></div>'+
+ '<div><label>Ancho cerrado (mm)</label><input id="ptcw6" type="number" step="0.1" value="'+E(t.closedWidthMm??'')+'"></div>'+
+ '<div><label>Alto cerrado (mm)</label><input id="ptch6" type="number" step="0.1" value="'+E(t.closedHeightMm??'')+'"></div>'+
+ '<div><label>Papel</label><input id="ptpaper6" value="'+E(t.paper||'')+'" placeholder="Ej. Papel ilustración"></div>'+
+ '<div><label>Gramaje (g)</label><input id="ptgsm6" type="number" step="1" value="'+E(t.weightGsm??'')+'" placeholder="300"></div>'+
+ '<div><label>Laminado / terminación</label><input id="ptlam6" value="'+E(t.lamination||'')+'" placeholder="Ej. Laminado mate"></div>'+
+ '<div><label>Impresión</label><input id="ptprint6" value="'+E(t.print||'')+'" placeholder="Ej. Full color"></div>'+
+ '<div><label>Caras</label><input id="ptsides6" value="'+E(t.sides||'')+'" placeholder="Ej. Doble faz"></div>'+
+ '<div><label>Acabado</label><input id="ptfinish6" value="'+E(t.finish||'')+'" placeholder="Ej. Doblez"></div>'+
+ '<div id="productSaveStatus6" class="span2 small muted"></div>'+
+ '</div>';
+ const w=popup(i>=0?'Editar producto':'Nuevo producto',body,'',()=>{});
+ w.querySelector('.s6').textContent=i>=0?'Guardar producto':'Crear producto';
+ w.querySelector('#pst6').value=p.status||'Desarrollo';
+ w.querySelector('#psup6').value=p.supplier||'';
+ w.querySelector('#pnus6').value=p.nusaj?'yes':'no';
 
- // Product save V8: direct button handler, independent of older prototype popup handlers.
  w.querySelector('.s6').onclick=async function(ev){
    ev.preventDefault();ev.stopPropagation();
    const btn=this;
+   const num=id=>{const raw=w.querySelector(id)?.value;return raw===''||raw==null?null:Number(raw)};
    const obj={...p,
      id:p.id||('p-'+uid()),
      name:w.querySelector('#pn6').value.trim(),
@@ -1677,7 +1677,17 @@ function editProduct(i){
      models:w.querySelector('#pmod6').value.split(',').map(v=>v.trim()).filter(Boolean),
      sizes:w.querySelector('#psz6').value.split(',').map(v=>v.trim()).filter(Boolean),
      bindings:w.querySelector('#pbd6').value.split(',').map(v=>v.trim()).filter(Boolean),
-     texts:[...w.querySelectorAll('.ptxt:checked')].map(c=>c.value),
+     texts:[...w.querySelectorAll('.ptxt:checked')].map(x=>x.value),
+     technical:{
+       openWidthMm:num('#ptow6'),openHeightMm:num('#ptoh6'),
+       closedWidthMm:num('#ptcw6'),closedHeightMm:num('#ptch6'),
+       paper:w.querySelector('#ptpaper6').value.trim(),
+       weightGsm:num('#ptgsm6'),
+       lamination:w.querySelector('#ptlam6').value.trim(),
+       print:w.querySelector('#ptprint6').value.trim(),
+       sides:w.querySelector('#ptsides6').value.trim(),
+       finish:w.querySelector('#ptfinish6').value.trim()
+     },
      variants:Array.isArray(p.variants)?p.variants:[]
    };
    if(!obj.name){alert('Falta nombre');return;}
@@ -1692,22 +1702,19 @@ function editProduct(i){
        headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
        body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})
      });
-     if(!resp.ok){let t='';try{t=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(t?' · '+t:''));}
+     if(!resp.ok){let tx='';try{tx=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(tx?' · '+tx:''));}
      catalog=next;
-     try{localStorage.setItem('jd_catalog_v6',JSON.stringify(catalog));}catch(e){}
+     SET('jd_catalog_v6',catalog);
      btn.textContent='Guardado ✓';
      setTimeout(()=>{w.remove();drawProducts();try{buildQuote()}catch(e){}},250);
-     alert('Producto guardado y sincronizado.');
    }catch(err){
-     console.error('Product save V8',err);
+     console.error('Product save V13',err);
      btn.disabled=false;btn.textContent=i>=0?'Guardar producto':'Crear producto';
-     const st=w.querySelector('#productSaveStatus6');
-     if(st)st.innerHTML='<span style="color:#9a4b45">Error: '+E(err.message||err)+'</span>';
+     const st=w.querySelector('#productSaveStatus6');if(st)st.innerHTML='<span style="color:#9a4b45">Error: '+E(err.message||err)+'</span>';
      alert('No se pudo guardar: '+(err.message||err));
    }
  };
 }
-
 function jdBaseLibritoContent(model){
  const fallback={
   Essential:['Encendido de velas de Shabat + Yom Tov','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Birkat Me’en Shalosh','Kidush del día · Shabat y fiestas','Havdalá'],
@@ -1794,82 +1801,107 @@ function openVariants(i){
  w.querySelector('#addV6').onclick=()=>{w.remove();editVariant(i,-1)};
  w.querySelectorAll('[data-ve]').forEach(b=>b.onclick=()=>{w.remove();editVariant(i,+b.dataset.ve)});
 }
+function jdTechnicalSizeLabel(technical){
+ const t=technical||{};
+ const n=v=>Number(v||0);
+ if(n(t.openWidthMm)&&n(t.openHeightMm)&&n(t.closedWidthMm)&&n(t.closedHeightMm)){
+   return 'Abierto '+n(t.openWidthMm)+' × '+n(t.openHeightMm)+' mm · Cerrado '+n(t.closedWidthMm)+' × '+n(t.closedHeightMm)+' mm';
+ }
+ if(n(t.closedWidthMm)&&n(t.closedHeightMm)) return n(t.closedWidthMm)+' × '+n(t.closedHeightMm)+' mm';
+ return '';
+}
+function jdEffectiveTechnical(p,v){return {...(p?.technical||{}),...(v?.technical||{})};}
+function jdEffectiveSize(p,v){
+ if(v?.size)return v.size;
+ const lab=jdTechnicalSizeLabel(jdEffectiveTechnical(p,v));
+ if(lab)return lab;
+ return (p?.sizes||[])[0]||'';
+}
 function editVariant(pi,vi){
  const p=catalog[pi],isLibrito=p.name==='Birkón · Librito';
- const v=vi>=0?p.variants[vi]:{id:'v-'+uid(),model:p.models[0]||'',texts:p.texts[0]||'',nusajCount:p.nusaj?1:0,nusajOptions:[],size:'',pages:0,content:[]};
+ const v=vi>=0?p.variants[vi]:{id:'v-'+uid(),model:p.models[0]||'',texts:p.texts[0]||'',nusajCount:p.nusaj?1:0,nusajOptions:[],size:'',pages:0,content:[],technical:{}};
  const modelOptions=(p.models.length?p.models:['']).map(x=>'<option '+(x===v.model?'selected':'')+'>'+E(x)+'</option>').join('');
  const textOpts=(p.texts.length?p.texts:['']).map(x=>'<option '+(x===v.texts?'selected':'')+'>'+E(x)+'</option>').join('');
  const currentNusaj=jdVariantNusajOptions(v,p);
  const allNusaj=[...JD_SINGLE_NUSAJ,...JD_DOUBLE_NUSAJ];
  const nusajChecks=allNusaj.map(n=>'<label class="jd-checkline"><input type="checkbox" class="vn6" value="'+E(n)+'" '+(currentNusaj.includes(n)?'checked':'')+'> <span>'+E(n)+'</span></label>').join('');
  const sharedContent=isLibrito?jdLibritoModelContent(p,v.model):(v.content||[]);
- const info=isLibrito?'<div class="span2"><div class="jd-linked"><b>Esta variante define la paginación.</b><br>El contenido base pertenece al modelo. Los bloques que dependen del nusaj se resuelven según las opciones marcadas acá.</div></div>':'';
  const contentLabel=isLibrito?'Contenido base del modelo · una línea por ítem':'Contenido · una línea por ítem';
+ const vt=v.technical||{};
+ const techFields=!isLibrito?(
+   '<div class="span2"><div class="jd-linked"><b>Medida y terminación de esta variante</b><br>Esto permite cotizar el formato correcto. Si queda vacío, hereda la ficha técnica del producto.</div></div>'+
+   '<div><label>Ancho abierto (mm)</label><input id="vtow6" type="number" step="0.1" value="'+E(vt.openWidthMm??'')+'"></div>'+
+   '<div><label>Alto abierto (mm)</label><input id="vtoh6" type="number" step="0.1" value="'+E(vt.openHeightMm??'')+'"></div>'+
+   '<div><label>Ancho cerrado (mm)</label><input id="vtcw6" type="number" step="0.1" value="'+E(vt.closedWidthMm??'')+'"></div>'+
+   '<div><label>Alto cerrado (mm)</label><input id="vtch6" type="number" step="0.1" value="'+E(vt.closedHeightMm??'')+'"></div>'+
+   '<div><label>Papel</label><input id="vtpaper6" value="'+E(vt.paper||'')+'"></div>'+
+   '<div><label>Gramaje (g)</label><input id="vtgsm6" type="number" value="'+E(vt.weightGsm??'')+'"></div>'+
+   '<div><label>Laminado / terminación</label><input id="vtlam6" value="'+E(vt.lamination||'')+'"></div>'+
+   '<div><label>Impresión</label><input id="vtprint6" value="'+E(vt.print||'')+'"></div>'+
+   '<div><label>Caras</label><input id="vtsides6" value="'+E(vt.sides||'')+'"></div>'+
+   '<div><label>Acabado</label><input id="vtfinish6" value="'+E(vt.finish||'')+'"></div>'
+ ):'';
+ const info=isLibrito?'<div class="span2"><div class="jd-linked"><b>Esta variante define la paginación.</b><br>El tamaño y la encuadernación NO forman parte de esta variante: se eligen al presupuestar.</div></div>':'';
  const pagesField=isLibrito?'<div><label>Páginas</label><input id="vp6" type="number" min="1" value="'+Number(v.pages||0)+'"></div>':'';
  const w=popup((vi>=0?'Editar':'Nueva')+' variante · '+p.name,
    '<div class="jd-formgrid">'+info+
    '<div class="'+(p.models.length?'':'jd-hidden')+'"><label>Modelo / formato</label><select id="vm6">'+modelOptions+'</select></div>'+
    '<div class="'+(p.texts.length?'':'jd-hidden')+'"><label>Textos</label><select id="vt6">'+textOpts+'</select></div>'+
-   '<div class="'+(p.nusaj?'span2':'jd-hidden')+'"><label>Nusajim disponibles</label><div class="jd-nusaj-checks">'+nusajChecks+'</div><div class="small muted" style="margin-top:6px">Marcá exactamente las opciones que existen. No se define “cantidad de nusajim” por separado.</div></div>'+
-   pagesField+
-   '<div class="span2"><label>'+contentLabel+'</label><textarea id="vc6" style="min-height:220px">'+E(sharedContent.join('\n'))+'</textarea></div>'+
+   '<div class="'+(p.nusaj?'span2':'jd-hidden')+'"><label>Nusajim que existen para esta variante</label><div class="jd-nusaj-checks">'+nusajChecks+'</div><div class="small muted" style="margin-top:6px">Marcá únicamente los nusajim reales. El presupuesto nunca ofrecerá combinaciones no marcadas.</div></div>'+
+   pagesField+techFields+
+   '<div class="span2"><label>'+contentLabel+'</label><textarea id="vc6" style="min-height:180px">'+E(sharedContent.join('\n'))+'</textarea></div>'+
    '<div class="span2"><div id="variantSaveStatus6" class="small muted"></div></div></div>','',()=>{});
- const btn=w.querySelector('.s6');
- btn.textContent='Guardar variante';
- if(isLibrito&&w.querySelector('#vm6')){
-   w.querySelector('#vm6').addEventListener('change',e=>{
-     w.querySelector('#vc6').value=jdLibritoModelContent(p,e.target.value).join('\n');
-   });
- }
+ const btn=w.querySelector('.s6'); btn.textContent='Guardar variante';
+ if(isLibrito&&w.querySelector('#vm6'))w.querySelector('#vm6').addEventListener('change',e=>{w.querySelector('#vc6').value=jdLibritoModelContent(p,e.target.value).join('\n')});
 
  btn.onclick=async function(ev){
    ev.preventDefault();ev.stopPropagation();
-   const pages=isLibrito?Number(w.querySelector('#vp6').value||0):0;
-   if(isLibrito && !(pages>0)){alert('Indicá la cantidad de páginas de esta variante.');return;}
    const model=p.models.length?w.querySelector('#vm6').value:'';
    const selectedNusaj=p.nusaj?[...w.querySelectorAll('.vn6:checked')].map(x=>x.value):[];
-   if(p.nusaj && !selectedNusaj.length){alert('Marcá al menos un nusaj disponible para esta variante.');return;}
-   const arities=[...new Set(selectedNusaj.map(n=>n.includes('+')?2:1))];
-   if(arities.length>1){alert('Separá las opciones de 1 nusaj y 2 nusajim en variantes distintas, porque pueden tener distinta cantidad de páginas.');return;}
+   if(p.nusaj && !selectedNusaj.length){alert('Marcá al menos un nusaj que exista para esta variante.');return;}
+   const arities=[...new Set(selectedNusaj.map(n=>/^Solo\s+/i.test(n)?1:2))];
+   if(arities.length>1){alert('Separá las opciones de 1 nusaj y 2 nusajim en variantes distintas, porque pueden tener distinta paginación o contenido.');return;}
+   const pages=isLibrito?Number(w.querySelector('#vp6').value||0):0;
+   if(isLibrito && !(pages>0)){alert('Indicá la cantidad de páginas de esta variante.');return;}
    const contentBase=w.querySelector('#vc6').value.split(/\n+/).map(z=>z.trim()).filter(Boolean).map(jdStripNusajMarker);
-   const nv={...v,
-     model,
-     texts:p.texts.length?w.querySelector('#vt6').value:'',
-     nusajOptions:selectedNusaj,
-     nusajCount:p.nusaj?(arities[0]||0):0,
-     size:'',
-     pages,
-     content:isLibrito?[]:contentBase
+   const num=id=>{const raw=w.querySelector(id)?.value;return raw===''||raw==null?null:Number(raw)};
+   const technical=isLibrito?{}:{
+     openWidthMm:num('#vtow6'),openHeightMm:num('#vtoh6'),
+     closedWidthMm:num('#vtcw6'),closedHeightMm:num('#vtch6'),
+     paper:w.querySelector('#vtpaper6')?.value.trim()||'',
+     weightGsm:num('#vtgsm6'),
+     lamination:w.querySelector('#vtlam6')?.value.trim()||'',
+     print:w.querySelector('#vtprint6')?.value.trim()||'',
+     sides:w.querySelector('#vtsides6')?.value.trim()||'',
+     finish:w.querySelector('#vtfinish6')?.value.trim()||''
    };
-   const next=JSON.parse(JSON.stringify(catalog));
-   const target=next[pi];
+   const nv={...v,model,texts:p.texts.length?w.querySelector('#vt6').value:'',nusajOptions:selectedNusaj,nusajCount:p.nusaj?(arities[0]||0):0,pages,content:isLibrito?[]:contentBase,technical};
+   nv.size=isLibrito?'':jdTechnicalSizeLabel(jdEffectiveTechnical(p,nv));
+   const next=JSON.parse(JSON.stringify(catalog)),target=next[pi];
    if(!Array.isArray(target.variants))target.variants=[];
-   if(isLibrito) target.modelContent={...(target.modelContent||{}),[model]:contentBase};
-
-   const dup=target.variants.findIndex((x,j)=>j!==vi &&
-      String(x.model||'')===String(nv.model||'') &&
-      String(x.texts||'')===String(nv.texts||'') &&
-      Number(x.nusajCount||0)===Number(nv.nusajCount||0));
-   if(dup>=0){alert('Ya existe una variante con ese modelo, textos y tipo de nusaj. Editá la existente y marcá ahí los nusajim disponibles.');return;}
+   if(isLibrito)target.modelContent={...(target.modelContent||{}),[model]:contentBase};
+   const sig=x=>[String(x.model||''),String(x.texts||''),[...(x.nusajOptions||[])].sort().join('|')].join('::');
+   const dup=target.variants.findIndex((x,j)=>j!==vi&&sig(x)===sig(nv));
+   if(dup>=0){alert('Ya existe una variante con ese modelo, textos y nusajim. Editá la existente.');return;}
    if(vi>=0)target.variants[vi]=nv;else target.variants.push(nv);
-
    btn.disabled=true;btn.textContent='Guardando…';
-   const status=w.querySelector('#variantSaveStatus6');
-   if(status)status.textContent='Guardando y sincronizando…';
+   const status=w.querySelector('#variantSaveStatus6');if(status)status.textContent='Guardando y sincronizando…';
    try{
-     const URL='https://athiruoimehofqzrplnl.supabase.co';
-     const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
-     const resp=await fetch(URL+'/rest/v1/app_state',{
-       method:'POST',
-       headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
-       body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})
-     });
-     if(!resp.ok){let t='';try{t=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(t?' · '+t:''));}
-     catalog=next;
-     Storage.prototype.setItem.call(localStorage,'jd_catalog_v6',JSON.stringify(catalog));
+     const URL='https://athiruoimehofqzrplnl.supabase.co',KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+     const resp=await fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})});
+     if(!resp.ok){let tx='';try{tx=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(tx?' · '+tx:''));}
+     catalog=next;SET('jd_catalog_v6',catalog);
      if(status){status.textContent='Guardado y sincronizado.';status.style.color='#315d50';}
-     btn.textContent='Guardado ✓';
-     setTimeout(()=>{w.remove();drawProducts();try{buildQuote()}catch(e){}},300);
+     btn.textContent='Guardado ✓';setTimeout(()=>{w.remove();drawProducts();try{buildQuote()}catch(e){}},250);
+   }catch(err){
+     console.error('Variant save V13',err);btn.disabled=false;btn.textContent='Guardar variante';
+     if(status){status.textContent='Error: '+(err.message||err);status.style.color='#9a4b45';}
+     alert('No se pudo guardar la variante. '+(err.message||err));
+   }
+ };
+}
+drawProducts();
+drawProducts();try{buildQuote()}catch(e){}},300);
    }catch(err){
      console.error('Variant save V12',err);
      btn.disabled=false;btn.textContent='Guardar variante';
@@ -1916,26 +1948,25 @@ function selectedVariant(p){
  return (p.variants||[]).find(v=>
    (!model||v.model===model) &&
    (!txt||v.texts===txt) &&
-   (!p.nusaj||jdVariantNusajOptions(v,p).includes(nus))
+   (!p.nusaj||!nus||jdVariantNusajOptions(v,p).includes(nus))
  ) || null;
 }
+function jdModelOptions(p){
 function jdModelOptions(p){
  const fromVariants=jdUnique((p.variants||[]).map(v=>v.model));
  return fromVariants.length?fromVariants:(p.models||[]);
 }
-function jdNusajOptionsFor(p,model){
+function jdNusajOptionsFor(p,model,text){
  if(!p.nusaj)return [];
- const vs=(p.variants||[]).filter(v=>!model||v.model===model);
+ const vs=(p.variants||[]).filter(v=>(!model||v.model===model)&&(!text||v.texts===text));
  return jdUnique(vs.flatMap(v=>jdVariantNusajOptions(v,p)));
 }
-function jdTextOptionsFor(p,model,nus){
- const vs=(p.variants||[]).filter(v=>
-   (!model||v.model===model) &&
-   (!p.nusaj||!nus||jdVariantNusajOptions(v,p).includes(nus))
- );
- const fromVariants=jdUnique(vs.map(v=>v.texts));
+function jdTextOptionsFor(p,model){
+ const vs=(p.variants||[]).filter(v=>!model||v.model===model);
+ const fromVariants=jdUnique(vs.map(v=>v.texts).filter(Boolean));
  return fromVariants.length?fromVariants:(p.texts||[]);
 }
+function jdSetOptions(select,values,preferred){
 function jdSetOptions(select,values,preferred){
  const vals=jdUnique(values);
  select.innerHTML=vals.map(x=>'<option>'+E(x)+'</option>').join('');
@@ -2005,29 +2036,30 @@ function syncFields6(){
  const p=activeProduct();
  jdDeadlineManual=false;
  if(qEvent?.value){const ev=parseLocalDate(qEvent.value);if(ev)qDeadline.value=isoLocal(prevBusinessDay(ev));}
- const prevModel=qModel.value,prevSize=qSize.value,prevBind=qBind.value;
+ const prevModel=qModel.value,prevBind=qBind.value;
  const models=jdSetOptions(qModel,jdModelOptions(p),prevModel);
- const sizes=jdSetOptions(qSize,p.sizes||[],prevSize);
  const binds=jdSetOptions(qBind,p.bindings||[],prevBind);
  qmw6.classList.toggle('jd-hidden',models.length<=1);
- qsw6.classList.toggle('jd-hidden',sizes.length<=1);
  qbw6.classList.toggle('jd-hidden',binds.length<=1);
  syncVariant6();
 }
 function syncVariant6(){
- const p=activeProduct();
- const prevN=qNusaj.value,prevT=qLang.value;
- const model=qModel.value||'';
- const nusVals=jdSetOptions(qNusaj,jdNusajOptionsFor(p,model),prevN);
- const textVals=jdSetOptions(qLang,jdTextOptionsFor(p,model,qNusaj.value||''),prevT);
- qnw6.classList.toggle('jd-hidden',!p.nusaj||nusVals.length<=1);
+ const p=activeProduct(),model=qModel.value||'';
+ const prevT=qLang.value,prevN=qNusaj.value;
+ const textVals=jdSetOptions(qLang,jdTextOptionsFor(p,model),prevT);
+ const nusVals=jdSetOptions(qNusaj,jdNusajOptionsFor(p,model,qLang.value||''),prevN);
  qtw6.classList.toggle('jd-hidden',textVals.length<=1);
+ qnw6.classList.toggle('jd-hidden',!p.nusaj||nusVals.length<=1);
  const v=selectedVariant(p);
+ const sizeVals=p.name==='Birkón · Librito'?(p.sizes||[]):jdUnique([jdEffectiveSize(p,v)].filter(Boolean));
+ jdSetOptions(qSize,sizeVals,qSize.value);
+ qsw6.classList.toggle('jd-hidden',sizeVals.length<=1);
  qPages.value=v?.pages||'';
  qpw6.classList.toggle('jd-hidden',!v?.pages);
  drawQty6();
  render6();
 }
+function drawQty6(){
 function drawQty6(){
  const el=document.getElementById('qty6');if(!el)return;const opts=[50,60,80,100,150,200];
  el.innerHTML=window.qs6.map((q,i)=>'<div class="jd-qty-row"><select data-qi="'+i+'">'+opts.map(x=>'<option '+(x===q?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="jd-qty-price" id="qpr6-'+i+'">—</div><button class="btn sm" data-qr="'+i+'">Quitar</button></div>').join('');
@@ -2052,7 +2084,7 @@ function render6(){
    p.models.length?['▣','Modelo / formato',E(qModel.value)]:null,
    p.nusaj?['◉','Nusaj',E(qNusaj.value)]:null,
    p.texts.length?['Aa','Textos',E(qLang.value)]:null,
-   p.sizes.length?['↔','Tamaño',E(qSize.value)]:null,
+   jdEffectiveSize(p,v)?['↔','Tamaño',E(jdEffectiveSize(p,v))]:null,
    p.bindings.length?['≡','Encuadernación',E(qBind.value)]:null,
    v?.pages?['#','Páginas','<b>'+v.pages+'</b>']:null
  ].filter(Boolean);
@@ -2081,7 +2113,10 @@ function render6(){
  }
  const asset=assetCandidates[0]||null;
  const hero=asset?.data?'<img src="'+asset.data+'" class="jd-pdf-product-img">':'<div class="jd-mock-placeholder"><div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div><span>MOCKUP PRINCIPAL</span></div>';
- const technical=p.name==='Birkón · Librito'?'<div class="jd-tech"><span><strong>Tapa:</strong> papel ilustración 300 grs. · laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs.</span></div>':'';
+ const et=jdEffectiveTechnical(p,v);
+ const technical=p.name==='Birkón · Librito'
+   ?'<div class="jd-tech"><span><strong>Tapa:</strong> papel ilustración 300 grs. · laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs.</span></div>'
+   :((et.paper||et.weightGsm||et.lamination||et.print||et.sides||et.finish)?'<div class="jd-tech"><b>DETALLES TÉCNICOS</b>'+(et.paper||et.weightGsm?'<span><strong>Papel:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' g':''].filter(Boolean).join(' · '))+'</span>':'')+(et.lamination?'<span><strong>Terminación:</strong> '+E(et.lamination)+'</span>':'')+((et.print||et.sides)?'<span><strong>Impresión:</strong> '+E([et.print,et.sides].filter(Boolean).join(' · '))+'</span>':'')+(et.finish?'<span><strong>Acabado:</strong> '+E(et.finish)+'</span>':'')+'</div>':'');
  const legal=GET('jd_legal_librito_v4',[]);
  const legalBlock=p.name==='Birkón · Librito'&&legal.length?'<div class="jd-full-legal"><div class="jd-legal-title">ACLARACIONES</div>'+legal.map(x=>'<p><b>'+E(x[0])+'.</b> '+E(x[1])+'</p>').join('')+'</div>':'';
  const prices=window.qs6.map(q=>{const r=calcQty(q);return '<div class="jd-client-price"><span>'+q+' unidades</span><b>'+(r.ok?'$ '+round5(r.price-disc).toLocaleString('es-AR')+'.-':'A cotizar')+'</b></div>'}).join('');
@@ -2096,7 +2131,7 @@ function render6(){
 }
 async function save6(){
  const arr=GET('jd_saved_quotes_v6',[]),p=activeProduct(),v=selectedVariant(p);
- const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar',content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:jdEffectiveSize(p,v),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar',content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
  if(!quote.client){alert('Falta el nombre y apellido del cliente.');return null}
  if(p.name==='Birkón · Librito' && !quote.pages){alert('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');return null}
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
@@ -2560,6 +2595,18 @@ h1{font-size:clamp(30px,3vw,42px)}
       sizes:(modal.querySelector('#psz6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
       bindings:(modal.querySelector('#pbd6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
       texts:[...modal.querySelectorAll('.ptxt:checked')].map(x=>x.value),
+      technical:{
+        openWidthMm:modal.querySelector('#ptow6')?.value?Number(modal.querySelector('#ptow6').value):null,
+        openHeightMm:modal.querySelector('#ptoh6')?.value?Number(modal.querySelector('#ptoh6').value):null,
+        closedWidthMm:modal.querySelector('#ptcw6')?.value?Number(modal.querySelector('#ptcw6').value):null,
+        closedHeightMm:modal.querySelector('#ptch6')?.value?Number(modal.querySelector('#ptch6').value):null,
+        paper:modal.querySelector('#ptpaper6')?.value.trim()||'',
+        weightGsm:modal.querySelector('#ptgsm6')?.value?Number(modal.querySelector('#ptgsm6').value):null,
+        lamination:modal.querySelector('#ptlam6')?.value.trim()||'',
+        print:modal.querySelector('#ptprint6')?.value.trim()||'',
+        sides:modal.querySelector('#ptsides6')?.value.trim()||'',
+        finish:modal.querySelector('#ptfinish6')?.value.trim()||''
+      },
       variants:Array.isArray(old.variants)?old.variants:[]
     };
     const idx=catalog.findIndex(p=>p.id===id);
@@ -2594,6 +2641,37 @@ h1{font-size:clamp(30px,3vw,42px)}
   },true);
 })();
 </script>
+
+<script id="jd-folleto-specs-v13">
+(function(){
+ const KEY='jd_catalog_v6',URL='https://athiruoimehofqzrplnl.supabase.co',PUB='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+ let cat=[];try{cat=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+ if(!Array.isArray(cat))return;
+ const pi=cat.findIndex(p=>p.name==='Birkón · Folleto');if(pi<0)return;
+ const p=cat[pi]; let changed=false;
+ const baseTech={paper:'Papel ilustración',weightGsm:300,lamination:'Laminado mate',print:'Full color',sides:'Doble faz',finish:'Doblez'};
+ if(JSON.stringify(p.technical||{})!==JSON.stringify(baseTech)){p.technical={...(p.technical||{}),...baseTech};changed=true}
+ (p.variants||[]).forEach(v=>{
+   let dims=null;
+   if(v.model==='Tríptico')dims={openWidthMm:290,openHeightMm:140,closedWidthMm:100,closedHeightMm:140};
+   if(v.model==='Cuadríptico')dims={openWidthMm:391,openHeightMm:190,closedWidthMm:100,closedHeightMm:190};
+   if(dims){
+     const nt={...baseTech,...(v.technical||{}),...dims};
+     if(JSON.stringify(v.technical||{})!==JSON.stringify(nt)){v.technical=nt;changed=true}
+     const sl='Abierto '+dims.openWidthMm+' × '+dims.openHeightMm+' mm · Cerrado '+dims.closedWidthMm+' × '+dims.closedHeightMm+' mm';
+     if(v.size!==sl){v.size=sl;changed=true}
+   }
+   if(v.model==='Tríptico' && v.texts==='Hebreo sólo'){
+     const only=['Solo Ashkenazí','Solo Jabad','Solo Sefaradí'];
+     if(JSON.stringify(v.nusajOptions||[])!==JSON.stringify(only)){v.nusajOptions=only;v.nusajCount=1;changed=true}
+   }
+ });
+ if(!changed)return;
+ localStorage.setItem(KEY,JSON.stringify(cat));
+ fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:PUB,Authorization:'Bearer '+PUB,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:KEY,value:cat,updated_at:new Date().toISOString()})}).catch(console.error);
+})();
+</script>
+
 </body></html>
 <style id="jd-sidebar-logo-fix-v4">
 .jd-brand{
