@@ -1532,6 +1532,44 @@ for(const sp of seedCatalog){if(!catalog.some(p=>p.id===sp.id||p.name===sp.name)
 
 SET('jd_catalog_v6',catalog);
 
+const JD_SINGLE_NUSAJ=['Solo Ashkenazí','Solo Jabad','Solo Sefaradí'];
+const JD_DOUBLE_NUSAJ=['Sefaradí + Ashkenazí','Ashkenazí + Sefaradí','Jabad + Sefaradí','Sefaradí + Jabad'];
+function jdVariantNusajOptions(v,p){
+  if(Array.isArray(v?.nusajOptions) && v.nusajOptions.length) return v.nusajOptions.slice();
+  if(!p?.nusaj) return [];
+  if(p.id==='birkot-hashajar') return ['Solo Sefaradí'];
+  const n=Number(v?.nusajCount||0);
+  if(n===2) return JD_DOUBLE_NUSAJ.slice();
+  if(n===1) return JD_SINGLE_NUSAJ.slice();
+  return [];
+}
+(function migrateNusajOptionsV12(){
+  let changed=false;
+  catalog=catalog.map(p=>({
+    ...p,
+    variants:(p.variants||[]).map(v=>{
+      if(Array.isArray(v.nusajOptions)&&v.nusajOptions.length)return v;
+      const opts=jdVariantNusajOptions(v,p);
+      if(!opts.length)return v;
+      changed=true;
+      return {...v,nusajOptions:opts};
+    })
+  }));
+  if(changed){
+    SET('jd_catalog_v6',catalog);
+    fetch('https://athiruoimehofqzrplnl.supabase.co/rest/v1/app_state',{
+      method:'POST',
+      headers:{
+        apikey:'sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP',
+        Authorization:'Bearer sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP',
+        'Content-Type':'application/json',
+        Prefer:'resolution=merge-duplicates,return=minimal'
+      },
+      body:JSON.stringify({key:'jd_catalog_v6',value:catalog,updated_at:new Date().toISOString()})
+    }).catch(()=>{});
+  }
+})();
+
 // Ensure core commercial rules always exist, even if this browser has stale localStorage from earlier betas.
 (function migrateCoreRules(){
   const defaults=[
@@ -1739,31 +1777,45 @@ function jdQuoteContent(p,v){
 function openVariants(i){
  const p=catalog[i],isLibrito=p.name==='Birkón · Librito';
  const head=isLibrito
-  ?'<tr><th>Modelo/formato</th><th>Textos</th><th>Nusajim</th><th>Páginas</th><th></th></tr>'
-  :'<tr><th>Modelo/formato</th><th>Textos</th><th>Nusajim</th><th>Tamaño</th><th>Páginas</th><th></th></tr>';
- const rows=(p.variants||[]).map((v,j)=>isLibrito
-  ?'<tr><td>'+E(v.model||'—')+'</td><td>'+E(v.texts||'—')+'</td><td>'+E(v.nusajCount||'—')+'</td><td>'+E(v.pages||'—')+'</td><td><button class="btn sm" data-ve="'+j+'">Editar</button></td></tr>'
-  :'<tr><td>'+E(v.model||'—')+'</td><td>'+E(v.texts||'—')+'</td><td>'+E(v.nusajCount||'—')+'</td><td>'+E(v.size||'—')+'</td><td>'+E(v.pages||'—')+'</td><td><button class="btn sm" data-ve="'+j+'">Editar</button></td></tr>'
- ).join('');
- const note=isLibrito?'<div class="jd-note" style="margin-bottom:12px"><b>Variantes editoriales:</b> Modelo + Textos + cantidad de nusajim determinan las páginas. Tamaño y encuadernación se eligen al presupuestar y no duplican variantes.</div>':'';
+  ?'<tr><th>Modelo/formato</th><th>Textos</th><th>Nusajim disponibles</th><th>Páginas</th><th></th></tr>'
+  :'<tr><th>Modelo/formato</th><th>Textos</th><th>Nusajim disponibles</th><th></th></tr>';
+ const rows=(p.variants||[]).map((v,j)=>{
+   const ns=jdVariantNusajOptions(v,p);
+   const nsText=ns.length?ns.join(' · '):'—';
+   return isLibrito
+    ?'<tr><td>'+E(v.model||'—')+'</td><td>'+E(v.texts||'—')+'</td><td>'+E(nsText)+'</td><td>'+E(v.pages||'—')+'</td><td><button class="btn sm" data-ve="'+j+'">Editar</button></td></tr>'
+    :'<tr><td>'+E(v.model||'—')+'</td><td>'+E(v.texts||'—')+'</td><td>'+E(nsText)+'</td><td><button class="btn sm" data-ve="'+j+'">Editar</button></td></tr>';
+ }).join('');
+ const note=isLibrito
+   ?'<div class="jd-note" style="margin-bottom:12px"><b>Variantes editoriales:</b> Modelo + Textos + nusajim disponibles determinan la variante y, en librito, la cantidad de páginas. Tamaño y encuadernación se eligen al presupuestar.</div>'
+   :'<div class="jd-note" style="margin-bottom:12px"><b>Importante:</b> marcá solamente los nusajim que realmente existen para esa combinación de formato + textos. En el presupuesto sólo aparecerán esas opciones.</div>';
  const w=popup('Variantes · '+p.name,note+'<div class="jd-toolbar" style="margin-bottom:12px"><button class="btn" id="addV6">+ Nueva variante</button></div><table class="jd-variant-table"><thead>'+head+'</thead><tbody>'+rows+'</tbody></table>','',x=>x.remove());
- w.querySelector('.s6').textContent='Cerrar';w.querySelector('#addV6').onclick=()=>{w.remove();editVariant(i,-1)};
+ w.querySelector('.s6').textContent='Cerrar';
+ w.querySelector('#addV6').onclick=()=>{w.remove();editVariant(i,-1)};
  w.querySelectorAll('[data-ve]').forEach(b=>b.onclick=()=>{w.remove();editVariant(i,+b.dataset.ve)});
 }
 function editVariant(pi,vi){
  const p=catalog[pi],isLibrito=p.name==='Birkón · Librito';
- const v=vi>=0?p.variants[vi]:{id:'v-'+uid(),model:p.models[0]||'',texts:p.texts[0]||'',nusajCount:p.nusaj?1:0,size:'',pages:0,content:[]};
+ const v=vi>=0?p.variants[vi]:{id:'v-'+uid(),model:p.models[0]||'',texts:p.texts[0]||'',nusajCount:p.nusaj?1:0,nusajOptions:[],size:'',pages:0,content:[]};
  const modelOptions=(p.models.length?p.models:['']).map(x=>'<option '+(x===v.model?'selected':'')+'>'+E(x)+'</option>').join('');
  const textOpts=(p.texts.length?p.texts:['']).map(x=>'<option '+(x===v.texts?'selected':'')+'>'+E(x)+'</option>').join('');
- const sizeOpts=(p.sizes.length?p.sizes:['']).map(x=>'<option '+(x===v.size?'selected':'')+'>'+E(x)+'</option>').join('');
- const showSize=p.sizes.length && !isLibrito;
+ const currentNusaj=jdVariantNusajOptions(v,p);
+ const allNusaj=[...JD_SINGLE_NUSAJ,...JD_DOUBLE_NUSAJ];
+ const nusajChecks=allNusaj.map(n=>'<label class="jd-checkline"><input type="checkbox" class="vn6" value="'+E(n)+'" '+(currentNusaj.includes(n)?'checked':'')+'> <span>'+E(n)+'</span></label>').join('');
  const sharedContent=isLibrito?jdLibritoModelContent(p,v.model):(v.content||[]);
- const info=isLibrito?'<div class="span2"><div class="jd-linked"><b>Esta variante define la paginación.</b><br>El contenido base pertenece al modelo (Essential / Classic / Deluxe). Los bloques que dependen del nusaj —Birkat Hamazón, Birkat Me’en Shalosh y Havdalá— se resuelven después según el/los nusajim elegidos. Si editás el contenido base aquí, se actualiza para todas las variantes del mismo modelo.</div></div>':'';
- const contentLabel=isLibrito?'Contenido base del modelo · los bloques de nusaj se resuelven automáticamente':'Contenido · una línea por ítem';
- const w=popup((vi>=0?'Editar':'Nueva')+' variante · '+p.name,'<div class="jd-formgrid">'+info+'<div class="'+(p.models.length?'':'jd-hidden')+'"><label>Modelo / formato</label><select id="vm6">'+modelOptions+'</select></div><div class="'+(p.texts.length?'':'jd-hidden')+'"><label>Textos</label><select id="vt6">'+textOpts+'</select></div><div class="'+(p.nusaj?'':'jd-hidden')+'"><label>Cantidad de nusajim</label><select id="vn6"><option>1</option><option>2</option></select></div><div class="'+(showSize?'':'jd-hidden')+'"><label>Tamaño</label><select id="vs6">'+sizeOpts+'</select></div><div><label>Páginas</label><input id="vp6" type="number" min="1" value="'+Number(v.pages||0)+'"></div><div class="span2"><label>'+contentLabel+'</label><textarea id="vc6" style="min-height:220px">'+E(sharedContent.join('\n'))+'</textarea></div><div class="span2"><div id="variantSaveStatus6" class="small muted"></div></div></div>','',()=>{});
+ const info=isLibrito?'<div class="span2"><div class="jd-linked"><b>Esta variante define la paginación.</b><br>El contenido base pertenece al modelo. Los bloques que dependen del nusaj se resuelven según las opciones marcadas acá.</div></div>':'';
+ const contentLabel=isLibrito?'Contenido base del modelo · una línea por ítem':'Contenido · una línea por ítem';
+ const pagesField=isLibrito?'<div><label>Páginas</label><input id="vp6" type="number" min="1" value="'+Number(v.pages||0)+'"></div>':'';
+ const w=popup((vi>=0?'Editar':'Nueva')+' variante · '+p.name,
+   '<div class="jd-formgrid">'+info+
+   '<div class="'+(p.models.length?'':'jd-hidden')+'"><label>Modelo / formato</label><select id="vm6">'+modelOptions+'</select></div>'+
+   '<div class="'+(p.texts.length?'':'jd-hidden')+'"><label>Textos</label><select id="vt6">'+textOpts+'</select></div>'+
+   '<div class="'+(p.nusaj?'span2':'jd-hidden')+'"><label>Nusajim disponibles</label><div class="jd-nusaj-checks">'+nusajChecks+'</div><div class="small muted" style="margin-top:6px">Marcá exactamente las opciones que existen. No se define “cantidad de nusajim” por separado.</div></div>'+
+   pagesField+
+   '<div class="span2"><label>'+contentLabel+'</label><textarea id="vc6" style="min-height:220px">'+E(sharedContent.join('\n'))+'</textarea></div>'+
+   '<div class="span2"><div id="variantSaveStatus6" class="small muted"></div></div></div>','',()=>{});
  const btn=w.querySelector('.s6');
  btn.textContent='Guardar variante';
- if(p.nusaj)w.querySelector('#vn6').value=String(v.nusajCount||1);
  if(isLibrito&&w.querySelector('#vm6')){
    w.querySelector('#vm6').addEventListener('change',e=>{
      w.querySelector('#vc6').value=jdLibritoModelContent(p,e.target.value).join('\n');
@@ -1772,30 +1824,33 @@ function editVariant(pi,vi){
 
  btn.onclick=async function(ev){
    ev.preventDefault();ev.stopPropagation();
-   const pages=Number(w.querySelector('#vp6').value||0);
-   if(!(pages>0)){alert('Indicá la cantidad de páginas de esta variante.');return;}
+   const pages=isLibrito?Number(w.querySelector('#vp6').value||0):0;
+   if(isLibrito && !(pages>0)){alert('Indicá la cantidad de páginas de esta variante.');return;}
    const model=p.models.length?w.querySelector('#vm6').value:'';
+   const selectedNusaj=p.nusaj?[...w.querySelectorAll('.vn6:checked')].map(x=>x.value):[];
+   if(p.nusaj && !selectedNusaj.length){alert('Marcá al menos un nusaj disponible para esta variante.');return;}
+   const arities=[...new Set(selectedNusaj.map(n=>n.includes('+')?2:1))];
+   if(arities.length>1){alert('Separá las opciones de 1 nusaj y 2 nusajim en variantes distintas, porque pueden tener distinta cantidad de páginas.');return;}
    const contentBase=w.querySelector('#vc6').value.split(/\n+/).map(z=>z.trim()).filter(Boolean).map(jdStripNusajMarker);
    const nv={...v,
      model,
      texts:p.texts.length?w.querySelector('#vt6').value:'',
-     nusajCount:p.nusaj?Number(w.querySelector('#vn6').value):0,
-     size:showSize?w.querySelector('#vs6').value:'',
+     nusajOptions:selectedNusaj,
+     nusajCount:p.nusaj?(arities[0]||0):0,
+     size:'',
      pages,
      content:isLibrito?[]:contentBase
    };
    const next=JSON.parse(JSON.stringify(catalog));
    const target=next[pi];
    if(!Array.isArray(target.variants))target.variants=[];
-   if(isLibrito){
-     target.modelContent={...(target.modelContent||{}),[model]:contentBase};
-   }
+   if(isLibrito) target.modelContent={...(target.modelContent||{}),[model]:contentBase};
+
    const dup=target.variants.findIndex((x,j)=>j!==vi &&
       String(x.model||'')===String(nv.model||'') &&
       String(x.texts||'')===String(nv.texts||'') &&
-      Number(x.nusajCount||0)===Number(nv.nusajCount||0) &&
-      (!showSize || String(x.size||'')===String(nv.size||'')));
-   if(dup>=0){alert('Ya existe una variante con esa combinación. Editá la existente en lugar de duplicarla.');return;}
+      Number(x.nusajCount||0)===Number(nv.nusajCount||0));
+   if(dup>=0){alert('Ya existe una variante con ese modelo, textos y tipo de nusaj. Editá la existente y marcá ahí los nusajim disponibles.');return;}
    if(vi>=0)target.variants[vi]=nv;else target.variants.push(nv);
 
    btn.disabled=true;btn.textContent='Guardando…';
@@ -1816,7 +1871,7 @@ function editVariant(pi,vi){
      btn.textContent='Guardado ✓';
      setTimeout(()=>{w.remove();drawProducts();try{buildQuote()}catch(e){}},300);
    }catch(err){
-     console.error('Variant save V10',err);
+     console.error('Variant save V12',err);
      btn.disabled=false;btn.textContent='Guardar variante';
      if(status){status.textContent='Error: '+(err.message||err);status.style.color='#9a4b45';}
      alert('No se pudo guardar la variante. '+(err.message||err));
@@ -1851,17 +1906,42 @@ ensureClassicHebrewOnly24();
 
 // Quote UI driven only by catalog
 const qs=document.getElementById('quotes');
-const nusajOptions=['Sefaradí + Ashkenazí','Ashkenazí + Sefaradí','Jabad + Sefaradí','Sefaradí + Jabad','Solo Ashkenazí','Solo Jabad','Solo Sefaradí'];
+const nusajOptions=[...JD_DOUBLE_NUSAJ,...JD_SINGLE_NUSAJ];
+const jdUnique=arr=>[...new Set((arr||[]).filter(Boolean))];
 function activeProduct(){return catalog.find(p=>p.name===document.getElementById('qProduct')?.value)||catalog[0]}
-function nusajCount(){return (qNusaj?.value||'').includes('+')?2:1}
 function selectedVariant(p){
- const model=p.models.length?qModel.value:'',txt=p.texts.length?qLang.value:'',cnt=p.nusaj?nusajCount():0,size=p.sizes.length?qSize.value:'';
+ const model=p.models.length?qModel.value:'';
+ const txt=qLang?.value||'';
+ const nus=qNusaj?.value||'';
  return (p.variants||[]).find(v=>
-   (!p.models.length||v.model===model) &&
-   (!p.texts.length||v.texts===txt) &&
-   (!p.nusaj||Number(v.nusajCount)===cnt) &&
-   (p.name==='Birkón · Librito' || !v.size || v.size===size)
+   (!model||v.model===model) &&
+   (!txt||v.texts===txt) &&
+   (!p.nusaj||jdVariantNusajOptions(v,p).includes(nus))
  ) || null;
+}
+function jdModelOptions(p){
+ const fromVariants=jdUnique((p.variants||[]).map(v=>v.model));
+ return fromVariants.length?fromVariants:(p.models||[]);
+}
+function jdNusajOptionsFor(p,model){
+ if(!p.nusaj)return [];
+ const vs=(p.variants||[]).filter(v=>!model||v.model===model);
+ return jdUnique(vs.flatMap(v=>jdVariantNusajOptions(v,p)));
+}
+function jdTextOptionsFor(p,model,nus){
+ const vs=(p.variants||[]).filter(v=>
+   (!model||v.model===model) &&
+   (!p.nusaj||!nus||jdVariantNusajOptions(v,p).includes(nus))
+ );
+ const fromVariants=jdUnique(vs.map(v=>v.texts));
+ return fromVariants.length?fromVariants:(p.texts||[]);
+}
+function jdSetOptions(select,values,preferred){
+ const vals=jdUnique(values);
+ select.innerHTML=vals.map(x=>'<option>'+E(x)+'</option>').join('');
+ if(preferred&&vals.includes(preferred))select.value=preferred;
+ else if(vals.length)select.value=vals[0];
+ return vals;
 }
 function currentCostRecords(p,v){
  const arr=GET('jd_cost_quotes_v2',GET('jd_cost_quotes',[]));
@@ -1925,15 +2005,28 @@ function syncFields6(){
  const p=activeProduct();
  jdDeadlineManual=false;
  if(qEvent?.value){const ev=parseLocalDate(qEvent.value);if(ev)qDeadline.value=isoLocal(prevBusinessDay(ev));}
- qModel.innerHTML=(p.models.length?p.models:['']).map(x=>'<option>'+E(x)+'</option>').join('');
- qLang.innerHTML=(p.texts.length?p.texts:['']).map(x=>'<option>'+E(x)+'</option>').join('');
- qSize.innerHTML=(p.sizes.length?p.sizes:['']).map(x=>'<option>'+E(x)+'</option>').join('');
- qBind.innerHTML=(p.bindings.length?p.bindings:['']).map(x=>'<option>'+E(x)+'</option>').join('');
- qmw6.classList.toggle('jd-hidden',!p.models.length);qnw6.classList.toggle('jd-hidden',!p.nusaj);qtw6.classList.toggle('jd-hidden',!p.texts.length);qsw6.classList.toggle('jd-hidden',!p.sizes.length);qbw6.classList.toggle('jd-hidden',!p.bindings.length);
+ const prevModel=qModel.value,prevSize=qSize.value,prevBind=qBind.value;
+ const models=jdSetOptions(qModel,jdModelOptions(p),prevModel);
+ const sizes=jdSetOptions(qSize,p.sizes||[],prevSize);
+ const binds=jdSetOptions(qBind,p.bindings||[],prevBind);
+ qmw6.classList.toggle('jd-hidden',models.length<=1);
+ qsw6.classList.toggle('jd-hidden',sizes.length<=1);
+ qbw6.classList.toggle('jd-hidden',binds.length<=1);
  syncVariant6();
 }
 function syncVariant6(){
- const p=activeProduct(),v=selectedVariant(p);qPages.value=v?.pages||'';qpw6.classList.toggle('jd-hidden',!v?.pages);drawQty6();render6();
+ const p=activeProduct();
+ const prevN=qNusaj.value,prevT=qLang.value;
+ const model=qModel.value||'';
+ const nusVals=jdSetOptions(qNusaj,jdNusajOptionsFor(p,model),prevN);
+ const textVals=jdSetOptions(qLang,jdTextOptionsFor(p,model,qNusaj.value||''),prevT);
+ qnw6.classList.toggle('jd-hidden',!p.nusaj||nusVals.length<=1);
+ qtw6.classList.toggle('jd-hidden',textVals.length<=1);
+ const v=selectedVariant(p);
+ qPages.value=v?.pages||'';
+ qpw6.classList.toggle('jd-hidden',!v?.pages);
+ drawQty6();
+ render6();
 }
 function drawQty6(){
  const el=document.getElementById('qty6');if(!el)return;const opts=[50,60,80,100,150,200];
@@ -2696,3 +2789,9 @@ h1{font-size:clamp(30px,3vw,42px)}
   const nav=document.getElementById('nav'); if(nav)obs.observe(nav,{subtree:true,attributes:true,attributeFilter:['class']});
 })();
 </script>
+<style id="jd-nusaj-v12-css">
+.jd-nusaj-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.jd-checkline{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer}
+.jd-checkline input{width:auto!important;margin:0}
+@media(max-width:700px){.jd-nusaj-checks{grid-template-columns:1fr}}
+</style>
