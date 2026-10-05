@@ -441,24 +441,55 @@ drawRules();
 
 // CLIENTS / FOLLOW-UP
 let clients=LS('jd_clients',[
- {name:'Lorena',org:'Har Moria',phone:'',ask:'Imanes con horarios de encendido',status:'Presupuesto enviado',next:'08/10 · preguntar si lo vio',paid:false},
- {name:'Cliente demo',org:'',phone:'',ask:'Birkón Classic · 2 nusajim',status:'Aceptado',next:'Solicitar pago',paid:false}
+ {name:'Lorena',org:'Har Moria',phone:'',ask:'Imanes con horarios de encendido',status:'Presupuesto enviado',next:'preguntar si lo vio',nextDate:'2026-10-08',paid:false},
+ {name:'Cliente demo',org:'',phone:'',ask:'Birkón Classic · 2 nusajim',status:'Aceptado',next:'Solicitar pago',nextDate:'',paid:false}
 ]);
 const clientsSec=document.getElementById('clients');
+function jdClientAlert(c){
+ const today=new Date(); today.setHours(0,0,0,0);
+ let d=null;
+ if(c.nextDate){ const x=new Date(c.nextDate+'T00:00:00'); if(!isNaN(x)) d=x; }
+ if(!d){
+   const m=String(c.next||'').match(/\\b(\\d{1,2})\\/(\\d{1,2})(?:\\/(\\d{2,4}))?/);
+   if(m){ let y=m[3]?Number(m[3]):today.getFullYear(); if(y<100)y+=2000; d=new Date(y,Number(m[2])-1,Number(m[1])); }
+ }
+ if(!d) return {label:'Sin fecha',cls:'',sort:999999};
+ d.setHours(0,0,0,0);
+ const diff=Math.round((d-today)/86400000);
+ if(diff<0) return {label:'⚠ Atrasado '+Math.abs(diff)+' día'+(Math.abs(diff)===1?'':'s'),cls:'danger',sort:diff};
+ if(diff===0) return {label:'● Hoy',cls:'warn',sort:0};
+ if(diff===1) return {label:'Mañana',cls:'warn',sort:1};
+ if(diff<=3) return {label:'En '+diff+' días',cls:'warn',sort:diff};
+ return {label:d.toLocaleDateString('es-AR'),cls:'ok',sort:diff};
+}
+function jdClientWaText(c){
+ const n=(c.name||'').trim();
+ const ask=(c.ask||'tu consulta').trim();
+ if(c.status==='Presupuesto enviado') return 'Hola '+n+', ¿cómo estás? Quería saber si pudiste ver el presupuesto que te enviamos por '+ask+'. Si querés, te ayudo con cualquier duda.';
+ if(c.status==='Esperando respuesta') return 'Hola '+n+', ¿cómo estás? Te escribo para retomar '+ask+'. ¿Pudiste verlo?';
+ if(c.status==='Aceptado'||c.status==='Pago pendiente') return 'Hola '+n+', ¿cómo estás? Te escribo para avanzar con '+ask+'. Quedamos atentos al pago para poder comenzar.';
+ return 'Hola '+n+', ¿cómo estás? Te escribo por '+ask+'.';
+}
 function drawClients(){
  if(!clientsSec)return;
- clientsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><button class="btn primary" id="jdAddClient">+ Nuevo cliente / consulta</button></div><table class="table"><thead><tr><th>Cliente</th><th>Consulta</th><th>Estado</th><th>Próxima acción</th><th>Pago</th><th>Contacto</th><th></th></tr></thead><tbody>'+
- clients.map((c,i)=>{const d=(c.phone||'').replace(/\D/g,'');const wa=d?'<a class="btn sm wa-link" target="_blank" href="https://wa.me/'+d+'?text='+encodeURIComponent('Hola '+c.name+', ¿cómo estás? Quería hacer seguimiento de tu consulta por '+c.ask+'.')+'">WhatsApp</a>':'<span class="muted small">sin número</span>';return '<tr><td><b>'+esc(c.name)+'</b>'+(c.org?' · '+esc(c.org):'')+'</td><td>'+esc(c.ask)+'</td><td><span class="tag warn">'+esc(c.status)+'</span></td><td>'+esc(c.next)+'</td><td>'+(c.paid?'<span class="tag ok">Pagado</span>':'<span class="tag danger">Pendiente</span>')+'</td><td>'+wa+'</td><td><div class="jd-toolbar"><button class="btn sm" data-edit-client="'+i+'">Editar</button><button class="btn sm" data-pay-client="'+i+'">'+(c.paid?'Marcar pendiente':'Marcar pagado')+'</button></div></td></tr>'}).join('')+
+ const sorted=clients.map((c,i)=>({c,i,a:jdClientAlert(c)})).sort((x,y)=>x.a.sort-y.a.sort);
+ clientsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><button class="btn primary" id="jdAddClient">+ Nuevo cliente / consulta</button></div>'+
+ '<div class="notice"><b>Seguimiento activo:</b> los avisos se calculan según la fecha de próxima acción. Cargá el WhatsApp para usar el mensaje automático.</div>'+
+ '<table class="table"><thead><tr><th>Cliente</th><th>Consulta</th><th>Estado</th><th>Próxima acción</th><th>Aviso</th><th>Pago</th><th>Contacto</th><th></th></tr></thead><tbody>'+
+ sorted.map(({c,i,a})=>{const d=(c.phone||'').replace(/\\D/g,'');const wa=d?'<a class="btn sm wa-link jd-wa" target="_blank" rel="noopener" href="https://wa.me/'+d+'?text='+encodeURIComponent(jdClientWaText(c))+'">WhatsApp</a>':'<button class="btn sm" data-edit-client="'+i+'">Agregar WhatsApp</button>';const nextDate=c.nextDate?new Date(c.nextDate+'T00:00:00').toLocaleDateString('es-AR'):'';return '<tr><td><b>'+esc(c.name)+'</b>'+(c.org?' · '+esc(c.org):'')+'</td><td>'+esc(c.ask)+'</td><td><span class="tag warn">'+esc(c.status)+'</span></td><td>'+esc(c.next||'—')+(nextDate?'<div class="small muted">'+nextDate+'</div>':'')+'</td><td><span class="tag '+a.cls+'">'+a.label+'</span></td><td>'+(c.paid?'<span class="tag ok">Pagado</span>':'<span class="tag danger">Pendiente</span>')+'</td><td>'+wa+'</td><td><div class="jd-toolbar"><button class="btn sm" data-edit-client="'+i+'">Editar</button><button class="btn sm" data-pay-client="'+i+'">'+(c.paid?'Marcar pendiente':'Marcar pagado')+'</button></div></td></tr>'}).join('')+
  '</tbody></table>';
  document.getElementById('jdAddClient').onclick=()=>editClient(-1);
  clientsSec.querySelectorAll('[data-edit-client]').forEach(b=>b.onclick=()=>editClient(+b.dataset.editClient));
- clientsSec.querySelectorAll('[data-pay-client]').forEach(b=>b.onclick=()=>{clients[+b.dataset.payClient].paid=!clients[+b.dataset.payClient].paid;SAVE('jd_clients',clients);drawClients()});
+ clientsSec.querySelectorAll('[data-pay-client]').forEach(b=>b.onclick=()=>{clients[+b.dataset.payClient].paid=!clients[+b.dataset.payClient].paid;SAVE('jd_clients',clients);drawClients(); if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();});
 }
 function editClient(i){
- const c=i>=0?clients[i]:{name:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',paid:false};
- modal(i>=0?'Editar seguimiento':'Nuevo cliente / consulta','<div class="jd-formgrid"><div><label>Cliente</label><input id="jcName" value="'+esc(c.name)+'"></div><div><label>Institución</label><input id="jcOrg" value="'+esc(c.org)+'"></div><div><label>WhatsApp</label><input id="jcPhone" value="'+esc(c.phone)+'" placeholder="54911..."></div><div><label>Consulta</label><input id="jcAsk" value="'+esc(c.ask)+'"></div><div><label>Estado</label><select id="jcStatus">'+['Consulta recibida','Presupuesto enviado','Esperando respuesta','Aceptado','Rechazado','Pago pendiente','Pagado'].map(s=>'<option '+(s===c.status?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div><label>Próxima acción</label><input id="jcNext" value="'+esc(c.next)+'"></div></div>','Guardar',w=>{
-  const obj={name:w.querySelector('#jcName').value,org:w.querySelector('#jcOrg').value,phone:w.querySelector('#jcPhone').value,ask:w.querySelector('#jcAsk').value,status:w.querySelector('#jcStatus').value,next:w.querySelector('#jcNext').value,paid:c.paid};
-  if(!obj.name.trim())return alert('Falta el nombre'); if(i>=0)clients[i]=obj;else clients.push(obj); SAVE('jd_clients',clients);w.remove();drawClients();
+ const c=i>=0?clients[i]:{name:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paid:false};
+ modal(i>=0?'Editar seguimiento':'Nuevo cliente / consulta','<div class="jd-formgrid"><div><label>Cliente</label><input id="jcName" value="'+esc(c.name)+'"></div><div><label>Institución</label><input id="jcOrg" value="'+esc(c.org)+'"></div><div><label>WhatsApp</label><input id="jcPhone" value="'+esc(c.phone)+'" placeholder="54911..."></div><div><label>Consulta</label><input id="jcAsk" value="'+esc(c.ask)+'"></div><div><label>Estado</label><select id="jcStatus">'+['Consulta recibida','Presupuesto enviado','Esperando respuesta','Aceptado','Rechazado','Pago pendiente','Pagado'].map(s=>'<option '+(s===c.status?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div><label>Próxima acción</label><input id="jcNext" value="'+esc(c.next)+'" placeholder="Ej. preguntar si vio el presupuesto"></div><div><label>Fecha de próxima acción</label><input id="jcNextDate" type="date" value="'+esc(c.nextDate||'')+'"></div></div>','Guardar',w=>{
+  const obj={name:w.querySelector('#jcName').value,org:w.querySelector('#jcOrg').value,phone:w.querySelector('#jcPhone').value,ask:w.querySelector('#jcAsk').value,status:w.querySelector('#jcStatus').value,next:w.querySelector('#jcNext').value,nextDate:w.querySelector('#jcNextDate').value,paid:c.paid};
+  if(!obj.name.trim())return alert('Falta el nombre'); if(i>=0)clients[i]=obj;else clients.push(obj); SAVE('jd_clients',clients);w.remove();drawClients(); if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();
+ });
+}
+drawClients();
  });
 }
 drawClients();
