@@ -486,10 +486,12 @@ function drawClients(){
  clientsSec.querySelectorAll('[data-pay-client]').forEach(b=>b.onclick=()=>{clients[+b.dataset.payClient].paid=!clients[+b.dataset.payClient].paid;SAVE('jd_clients',clients);drawClients(); if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();});
 }
 function editClient(i){
- const c=i>=0?clients[i]:{name:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paid:false};
- modal(i>=0?'Editar seguimiento':'Nuevo cliente / consulta','<div class="jd-formgrid"><div><label>Cliente</label><input id="jcName" value="'+esc(c.name)+'"></div><div><label>Institución</label><input id="jcOrg" value="'+esc(c.org)+'"></div><div><label>WhatsApp</label><input id="jcPhone" value="'+esc(c.phone)+'" placeholder="54911..."></div><div><label>Consulta</label><input id="jcAsk" value="'+esc(c.ask)+'"></div><div><label>Estado</label><select id="jcStatus">'+['Consulta recibida','Presupuesto enviado','Esperando respuesta','Aceptado','Rechazado','Pago pendiente','Pagado'].map(s=>'<option '+(s===c.status?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div><label>Próxima acción</label><input id="jcNext" value="'+esc(c.next)+'" placeholder="Ej. preguntar si vio el presupuesto"></div><div><label>Fecha de próxima acción</label><input id="jcNextDate" type="date" value="'+esc(c.nextDate||'')+'"></div></div>','Guardar',w=>{
-  const obj={name:w.querySelector('#jcName').value,org:w.querySelector('#jcOrg').value,phone:w.querySelector('#jcPhone').value,ask:w.querySelector('#jcAsk').value,status:w.querySelector('#jcStatus').value,next:w.querySelector('#jcNext').value,nextDate:w.querySelector('#jcNextDate').value,paid:c.paid};
-  if(!obj.name.trim())return alert('Falta el nombre'); if(i>=0)clients[i]=obj;else clients.push(obj); SAVE('jd_clients',clients);w.remove();drawClients(); if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();
+ const base=i>=0?clients[i]:{name:'',firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paid:false};
+ const oldParts=String(base.name||'').trim().split(/\s+/),first=base.firstName||oldParts.shift()||'',last=base.lastName||oldParts.join(' ');
+ modal(i>=0?'Editar seguimiento':'Nuevo cliente / consulta','<div class="jd-formgrid"><div><label>Nombre</label><input id="jcFirstName" value="'+esc(first)+'"></div><div><label>Apellido</label><input id="jcLastName" value="'+esc(last)+'"></div><div><label>Institución</label><input id="jcOrg" value="'+esc(base.org||'')+'"></div><div><label>WhatsApp</label><input id="jcPhone" value="'+esc(base.phone||'')+'" placeholder="54911..."></div><div><label>Consulta</label><input id="jcAsk" value="'+esc(base.ask||'')+'"></div><div><label>Estado</label><select id="jcStatus">'+['Consulta recibida','Presupuesto listo','Presupuesto enviado','Esperando respuesta','Aceptado','Rechazado','Pago pendiente','Pagado'].map(s=>'<option '+(s===base.status?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div><label>Próxima acción</label><input id="jcNext" value="'+esc(base.next||'')+'" placeholder="Ej. preguntar si vio el presupuesto"></div><div><label>Fecha de próxima acción</label><input id="jcNextDate" type="date" value="'+esc(base.nextDate||'')+'"></div></div>','Guardar',w=>{
+  const firstName=w.querySelector('#jcFirstName').value.trim(),lastName=w.querySelector('#jcLastName').value.trim();
+  const obj={...base,firstName,lastName,name:[firstName,lastName].filter(Boolean).join(' '),org:w.querySelector('#jcOrg').value,phone:w.querySelector('#jcPhone').value,ask:w.querySelector('#jcAsk').value,status:w.querySelector('#jcStatus').value,next:w.querySelector('#jcNext').value,nextDate:w.querySelector('#jcNextDate').value,paid:base.paid};
+  if(!firstName)return alert('Falta el nombre'); if(i>=0)clients[i]=obj;else clients.push(obj); SAVE('jd_clients',clients);w.remove();drawClients(); if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();
  });
 }
 drawClients();
@@ -729,9 +731,31 @@ function editAsset(i){
 }
 function findAsset(role){
  if(!window.qProduct)return null;
- const product=qProduct.value,model=qModel.value,nusaj=qNusaj.value;
+ const product=qProduct.value;
+ const model=(window.qModel?.value||'').toLowerCase();
+ const nusaj=(window.qNusaj?.value||'').toLowerCase();
+ const binding=(window.qBind?.value||'').toLowerCase();
+ const size=(window.qSize?.value||'').toLowerCase();
  const cand=assets.filter(a=>a.product===product&&a.role===role);
- return cand.find(a=>a.variant&&a.variant.includes(model)&&a.variant.includes(nusaj))||cand.find(a=>a.variant&&a.variant.includes(model))||cand.find(a=>!a.variant)||cand[0]||null;
+ const compatible=cand.filter(a=>{
+   const v=String(a.variant||'').toLowerCase();
+   if(!v) return true;
+   if(binding.includes('abrochado') && /(binder|cosido)/.test(v)) return false;
+   if((binding.includes('binder')||binding.includes('cosido')) && /(abrochado|stapled)/.test(v)) return false;
+   if(size.includes('normal') && /grande/.test(v)) return false;
+   if(size.includes('grande') && /normal/.test(v)) return false;
+   return true;
+ });
+ const score=a=>{
+   const v=String(a.variant||'').toLowerCase(); let s=0;
+   if(!v)return 0;
+   if(model && v.includes(model))s+=5;
+   if(nusaj && v.includes(nusaj))s+=4;
+   if(binding && (v.includes(binding)|| (binding.includes('abrochado')&&v.includes('abrochado')) || ((binding.includes('binder')||binding.includes('cosido'))&&(v.includes('binder')||v.includes('cosido')))))s+=12;
+   if(size && ((size.includes('normal')&&v.includes('normal'))||(size.includes('grande')&&v.includes('grande'))))s+=8;
+   return s;
+ };
+ return compatible.sort((a,b)=>score(b)-score(a))[0]||null;
 }
 function applyQuoteAsset(){
  const m=findAsset('Mockup principal');const box=document.querySelector('#quotePreview .mock');if(box&&m?.data)box.innerHTML='<img src="'+m.data+'" style="width:100%;height:100%;object-fit:contain;border-radius:12px">';
@@ -953,7 +977,7 @@ priceRules=priceRules.map(r=>{
 if(jdRulesMigrated||!localStorage.getItem('jd_pricing_rules_v4'))SET('jd_pricing_rules_v4',priceRules)
 
 let costs=GET('jd_cost_quotes_v2',[
- {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:48,qty:60,cost:605779,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:48,qty:60,cost:605770,date:'2026-08-25'},
  {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:48,qty:100,cost:896770,date:'2026-08-25'},
  {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:72,qty:60,cost:740770,date:'2026-08-25'},
  {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:72,qty:100,cost:1150770,date:'2026-08-25'},
@@ -1495,21 +1519,21 @@ SET('jd_catalog_v6',catalog);
   }));
   for(const d of defaults){
     const idx=rs.findIndex(r=>r.id===d.id || (r.product===d.product && r.variant===d.variant));
-    if(idx>=0) rs[idx]={...rs[idx],...d};
+    if(idx>=0) rs[idx]={...d,...rs[idx]};
     else rs.push(d);
   }
   SET('jd_pricing_rules_v4',rs);
 })();
 
 (function migrateZlotoMatrix(){
-  const rows=[["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",48,60,605779],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",48,100,896770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",72,60,740770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",72,100,1150770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",64,60,690770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",64,100,1050770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",88,60,820770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",88,100,1250770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",48,60,330770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",48,100,440770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",72,60,395770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",72,100,560770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",64,60,370770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",64,100,520770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",88,60,450770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",88,100,650770]];
+  const rows=[["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",48,60,605770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",48,100,896770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",72,60,740770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",72,100,1150770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",64,60,690770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",64,100,1050770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",88,60,820770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",88,100,1250770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",48,60,330770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",48,100,440770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",72,60,395770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",72,100,560770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",64,60,370770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",64,100,520770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",88,60,450770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",88,100,650770]];
   let arr=GET('jd_cost_quotes_v2',[]);
   if(!Array.isArray(arr)) arr=[];
   const key=x=>[x.supplier,x.product,x.size||'',x.binding||'',Number(x.pages||0),Number(x.qty||0),x.date||''].join('|');
   const m=new Map(arr.map(x=>[key(x),x]));
   rows.forEach(r=>{
     const x={supplier:'Zloto',product:'Birkón · Librito',variant:r[0],size:r[1],binding:r[2],pages:r[3],qty:r[4],cost:r[5],date:'2026-08-25'};
-    m.set(key(x),x);
+    if(!m.has(key(x))) m.set(key(x),x);
   });
   SET('jd_cost_quotes_v2',[...m.values()]);
 })();
@@ -1642,19 +1666,23 @@ function activeProduct(){return catalog.find(p=>p.name===document.getElementById
 function nusajCount(){return (qNusaj?.value||'').includes('+')?2:1}
 function selectedVariant(p){
  const model=p.models.length?qModel.value:'',txt=p.texts.length?qLang.value:'',cnt=p.nusaj?nusajCount():0,size=p.sizes.length?qSize.value:'';
- return (p.variants||[]).find(v=>(!p.models.length||v.model===model)&&(!p.texts.length||v.texts===txt)&&(!p.nusaj||Number(v.nusajCount)===cnt)&&(!v.size||v.size===size))
- ||(p.variants||[]).find(v=>(!p.models.length||v.model===model)&&(!p.nusaj||Number(v.nusajCount)===cnt))
- ||null;
+ return (p.variants||[]).find(v=>
+   (!p.models.length||v.model===model) &&
+   (!p.texts.length||v.texts===txt) &&
+   (!p.nusaj||Number(v.nusajCount)===cnt) &&
+   (!v.size||v.size===size)
+ ) || null;
 }
 function currentCostRecords(p,v){
  const arr=GET('jd_cost_quotes_v2',GET('jd_cost_quotes',[]));
- const model=p.name==='Birkón · Librito'?'':(p.models.length?qModel.value:''); // librito cost keyed by pages, not commercial model
+ const model=p.name==='Birkón · Librito'?'':(p.models.length?qModel.value:'');
  const size=p.sizes.length?qSize.value:'',bind=p.bindings.length?qBind.value:'',pages=Number(v?.pages||0);
+ if(p.name==='Birkón · Librito' && !pages) return [];
  return arr.filter(c=>c.product===p.name &&
    (!model||!c.variant||c.variant===model) &&
    (!size||!c.size||c.size===size) &&
    (!bind||!c.binding||c.binding===bind) &&
-   (!pages||Number(c.pages||0)===pages)
+   (p.name==='Birkón · Librito' ? Number(c.pages||0)===pages : (!pages||Number(c.pages||0)===pages))
  );
 }
 function findRule(p){
@@ -1663,16 +1691,23 @@ function findRule(p){
  return rules.find(r=>r.product===p.name&&(r.variant===model||r.variant==='*'))||null;
 }
 function calcQty(q){
- const p=activeProduct(),v=selectedVariant(p),rules=GET('jd_pricing_rules_v4',[]),r=findRule(p),costs=currentCostRecords(p,v).sort((a,b)=>a.qty-b.qty);
+ const p=activeProduct(),v=selectedVariant(p),r=findRule(p);
  if(!r)return {ok:false,reason:'Falta regla de precio vinculada.'};
+ if(p.name==='Birkón · Librito' && (!v || !Number(v.pages||0))){
+   return {ok:false,reason:'Esta combinación todavía no tiene cantidad de páginas definida. No se puede usar un costo de imprenta hasta cargar esa variante.'};
+ }
+ const costs=currentCostRecords(p,v).sort((a,b)=>a.qty-b.qty);
  let base=costs.find(c=>Number(c.qty)===Number(q)),estimated=false;
  if(!base){const lower=costs.filter(c=>Number(c.qty)<Number(q));base=lower[lower.length-1];estimated=!!base}
- if(!base)return {ok:false,reason:'Falta costo exacto o una tirada menor para estimar.'};
+ if(!base)return {ok:false,reason:'Falta costo exacto o una tirada menor compatible para estimar.'};
  const cost=estimated?Number(base.cost)*Number(q)/Number(base.qty):Number(base.cost);
- const margin=Number(r.marginPct||0)/100;
- if(!(margin>=0&&margin<1))return {ok:false,reason:'La regla de ganancia no es válida.'};
- const divisor=1-margin;
- return {ok:true,base,cost,price:cost/divisor+Number(r.shipping||0),estimated,rule:{...r,divisor},marginPct:Number(r.marginPct||0)};
+ let divisor=Number(r.divisor||0);
+ if(!(divisor>0&&divisor<=1)){
+   const margin=Number(r.marginPct||0)/100;
+   if(!(margin>=0&&margin<1))return {ok:false,reason:'La regla de precio no es válida.'};
+   divisor=1-margin;
+ }
+ return {ok:true,base,cost,price:cost/divisor+Number(r.shipping||0)+Number(r.extra||0),estimated,rule:{...r,divisor},marginPct:r.marginPct!=null?Number(r.marginPct):Math.round((1-divisor)*10000)/100};
 }
 function buildQuote(){
  if(!qs)return;
@@ -1738,10 +1773,7 @@ function render6(){
    v?.pages?['#','Páginas','<b>'+v.pages+'</b>']:null
  ].filter(Boolean);
  const today=new Date().toLocaleDateString('es-AR');
- const assets=GET('jd_assets',[]);
- const model=p.models.length?qModel.value:'',nus=p.nusaj?qNusaj.value:'';
- const cand=assets.filter(a=>a.product===p.name&&a.role==='Mockup principal');
- const asset=cand.find(a=>a.variant&&a.variant.includes(model)&&a.variant.includes(nus))||cand.find(a=>a.variant&&a.variant.includes(model))||cand.find(a=>!a.variant)||cand[0];
+ const asset=(typeof findAsset==='function')?findAsset('Mockup principal'):null;
  const hero=asset?.data?'<img src="'+asset.data+'" class="jd-pdf-product-img">':'<div class="jd-mock-placeholder"><div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div><span>MOCKUP PRINCIPAL</span></div>';
  const technical=p.name==='Birkón · Librito'?'<div class="jd-tech"><span><strong>Tapa:</strong> papel ilustración 300 grs. · laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs.</span></div>':'';
  const legal=GET('jd_legal_librito_v4',[]);
@@ -1756,14 +1788,40 @@ function render6(){
  legalBlock+
  '</div>';
 }
-function save6(){
+async function save6(){
  const arr=GET('jd_saved_quotes_v6',[]),p=activeProduct(),v=selectedVariant(p);
  const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar'};
- if(!quote.client){alert('Falta el nombre del cliente.');return null}
- arr.unshift(quote);SET('jd_saved_quotes_v6',arr);
- if(window.jdUpsertClientFromQuote) window.jdUpsertClientFromQuote(quote,false);
- alert('Presupuesto guardado. '+quote.client+' ya quedó vinculado en Clientes & seguimiento.');
- return quote;
+ if(!quote.client){alert('Falta el nombre y apellido del cliente.');return null}
+ if(p.name==='Birkón · Librito' && !quote.pages){alert('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');return null}
+ const btn=document.getElementById('sq6'); if(btn){btn.disabled=true;btn.textContent='Guardando…'}
+ try{
+   arr.unshift(quote);
+   const clients=GET('jd_clients',[]);
+   const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+   const parts=quote.client.trim().split(/\s+/);
+   const firstName=parts.shift()||quote.client.trim(),lastName=parts.join(' ');
+   let ci=clients.findIndex(x=>norm([x.firstName,x.lastName].filter(Boolean).join(' ')||x.name)===norm(quote.client));
+   const clientObj=ci>=0?{...clients[ci]}:{name:quote.client,firstName,lastName,org:'',phone:'',paid:false,quoteIds:[]};
+   clientObj.name=quote.client;clientObj.firstName=clientObj.firstName||firstName;clientObj.lastName=clientObj.lastName||lastName;
+   clientObj.ask=[quote.product,quote.model,quote.nusaj].filter(Boolean).join(' · ');
+   clientObj.status='Presupuesto listo';clientObj.next='enviar presupuesto';
+   clientObj.quoteIds=Array.from(new Set([...(clientObj.quoteIds||[]),quote.id]));
+   if(ci>=0)clients[ci]=clientObj;else clients.push(clientObj);
+
+   const URL='https://athiruoimehofqzrplnl.supabase.co',KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+   const headers={apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'};
+   for(const [key,value] of [['jd_saved_quotes_v6',arr],['jd_clients',clients]]){
+     const resp=await fetch(URL+'/rest/v1/app_state',{method:'POST',headers,body:JSON.stringify({key,value,updated_at:new Date().toISOString()})});
+     if(!resp.ok){let t='';try{t=await resp.text()}catch(e){}throw new Error('No se pudo sincronizar '+key+' ('+resp.status+'). '+t)}
+     localStorage.setItem(key,JSON.stringify(value));
+   }
+   if(btn){btn.disabled=false;btn.textContent='Guardado ✓'}
+   alert('Presupuesto guardado y cliente creado/actualizado en seguimiento.');
+   return quote;
+ }catch(err){
+   console.error(err);if(btn){btn.disabled=false;btn.textContent='Guardar presupuesto'}
+   alert('No se pudo guardar el presupuesto: '+(err.message||err));return null;
+ }
 }
 buildQuote();
 window.renderQuote=render6;
@@ -2036,7 +2094,7 @@ h1{font-size:clamp(30px,3vw,42px)}
    const next=businessPlus(new Date(),2);
    const nextDate=next.toISOString().slice(0,10);
    if(i<0){
-     arr.push({name:q.client,org:'',phone:'',ask:quoteAsk(q),status:sent?'Presupuesto enviado':'Presupuesto listo',next:sent?'preguntar si pudo verlo':'enviar presupuesto',nextDate:sent?nextDate:'',paid:false,quoteIds:[q.id]});
+     { const pp=q.client.trim().split(/\s+/), firstName=pp.shift()||q.client, lastName=pp.join(' '); arr.push({name:q.client,firstName,lastName,org:'',phone:'',ask:quoteAsk(q),status:sent?'Presupuesto enviado':'Presupuesto listo',next:sent?'preguntar si pudo verlo':'enviar presupuesto',nextDate:sent?nextDate:'',paid:false,quoteIds:[q.id]}); }
    }else{
      arr[i].ask=quoteAsk(q);
      arr[i].status=sent?'Presupuesto enviado':'Presupuesto listo';
