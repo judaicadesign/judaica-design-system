@@ -70,6 +70,8 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 .quote-preview .quote-price{border:1px solid #d8c59d;border-radius:12px;padding:14px 16px;background:#fff}
 .quote-preview .quote-price strong{display:block;font-size:25px;color:#0f5b5d;margin-top:4px}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
 <script>
@@ -152,7 +154,7 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 </script>
 <div class="app">
 <aside class="sidebar">
-  <div class="brand jd-brand"><img src="assets/jd-logo-white.svg?v=6" alt="Judaica Design®"><small>SISTEMA INTERNO · PROTOTIPO</small></div>
+  <div class="brand jd-brand"><img src="assets/jd-logo-white.svg?v=6" alt="Judaica Design®"><small>SISTEMA INTERNO</small></div>
   <nav class="nav" id="nav">
     <button class="active" data-screen="dashboard">Dashboard</button>
     <div class="sep">Comercial</div>
@@ -175,7 +177,7 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 <main class="main">
 <section class="screen active" id="dashboard">
   <div class="topbar"><div><div class="eyebrow">Panel general</div><h1>Buen día. ¿Qué necesita atención?</h1></div><button class="btn primary" onclick="go('quotes')">+ Nuevo presupuesto</button></div>
-  <div class="notice"><b>Beta operativa:</b> usala para trabajar y detectar fallas. Los datos cargados en esta etapa quedan guardados en este navegador.</div>
+  <div class="notice"><b>Sistema operativo:</b> los datos comerciales se sincronizan para que el equipo trabaje sobre la misma información.</div>
   <div class="grid cards">
     <div class="card"><div class="muted small">Presupuestos a seguir</div><div class="metric">5</div><span class="tag warn">2 vencen hoy</span></div>
     <div class="card"><div class="muted small">Precios de imprenta</div><div class="metric">3</div><span class="tag danger">requieren actualización</span></div>
@@ -472,6 +474,7 @@ function jdClientWaText(c){
 }
 function drawClients(){
  if(!clientsSec)return;
+ clients=LS('jd_clients',clients);
  const sorted=clients.map((c,i)=>({c,i,a:jdClientAlert(c)})).sort((x,y)=>x.a.sort-y.a.sort);
  clientsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><button class="btn primary" id="jdAddClient">+ Nuevo cliente / consulta</button></div>'+
  '<div class="notice"><b>Seguimiento activo:</b> los avisos se calculan según la fecha de próxima acción. Cargá el WhatsApp para usar el mensaje automático.</div>'+
@@ -1560,7 +1563,7 @@ function calcQty(q){
 function buildQuote(){
  if(!qs)return;
  const prevProd=document.getElementById('qProduct')?.value||catalog[0].name;
- qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn primary" onclick="window.print()">Vista para PDF</button></div></div>'+
+ qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn" id="previewPdf6">Vista previa PDF</button> <button class="btn primary" id="sendWa6">Enviar por WhatsApp</button></div></div>'+
  '<div class="quote-layout"><div class="card"><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" value="Cliente demo"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
  qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
  window.qs6=GET('jd_quote_qtys_v6',[60,100]);
@@ -1574,6 +1577,8 @@ function buildQuote(){
  qDeadline.addEventListener('change',()=>{jdDeadlineManual=true;render6()});
  document.getElementById('aq6').onclick=()=>{const common=[50,60,80,100,150,200];const n=common.find(x=>!window.qs6.includes(x))||window.qs6[window.qs6.length-1]+50;window.qs6.push(n);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()};
  document.getElementById('sq6').onclick=save6;
+ document.getElementById('previewPdf6').onclick=()=>window.jdPreviewCurrentPDF?.();
+ document.getElementById('sendWa6').onclick=()=>window.jdSendCurrentQuoteWhatsApp?.();
  syncFields6();
 }
 function syncFields6(){
@@ -1639,8 +1644,12 @@ function render6(){
 }
 function save6(){
  const arr=GET('jd_saved_quotes_v6',[]),p=activeProduct(),v=selectedVariant(p);
- arr.unshift({id:'q-'+uid(),client:qClient.value,productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString()});
- SET('jd_saved_quotes_v6',arr);alert('Presupuesto guardado y sincronizado.');
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar'};
+ if(!quote.client){alert('Falta el nombre del cliente.');return null}
+ arr.unshift(quote);SET('jd_saved_quotes_v6',arr);
+ if(window.jdUpsertClientFromQuote) window.jdUpsertClientFromQuote(quote,false);
+ alert('Presupuesto guardado. '+quote.client+' ya quedó vinculado en Clientes & seguimiento.');
+ return quote;
 }
 buildQuote();
 window.renderQuote=render6;
@@ -1877,7 +1886,157 @@ h1{font-size:clamp(30px,3vw,42px)}
     font-size:8px!important;
   }
 }
-</style></body></html>
+</style>
+<style id="jd-quote-send-v1">
+.jd-send-state{font-size:11px;color:#6e675e}
+.jd-wa-send{background:#0f5b5d!important;color:#fff!important;border-color:#0f5b5d!important}
+.jd-pdf-modal{position:fixed;inset:0;background:#0009;z-index:99999;display:flex;align-items:flex-start;justify-content:center;padding:24px;overflow:auto}
+.jd-pdf-modal-card{background:#f7f2e8;width:min(900px,96vw);border-radius:14px;box-shadow:0 20px 60px #0005;padding:18px}
+.jd-pdf-modal-bar{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}
+.jd-pdf-modal-actions{display:flex;gap:8px;flex-wrap:wrap}
+.jd-pdf-modal-preview{background:#fff;padding:10px}
+@media(max-width:700px){.jd-pdf-modal{padding:8px}.jd-pdf-modal-card{padding:10px}}
+</style>
+<script id="jd-quote-send-v1-script">
+(function(){
+ const SB_URL='https://athiruoimehofqzrplnl.supabase.co';
+ const SB_KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+ const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
+ const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+ const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const slug=s=>norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,55);
+ const businessPlus=(date,n)=>{let d=new Date(date); while(n>0){d.setDate(d.getDate()+1);if(d.getDay()!==0&&d.getDay()!==6)n--}return d};
+ function quoteAsk(q){return [q.product,q.model,q.nusaj].filter(Boolean).join(' · ')}
+ function normalizePhone(raw){
+   let d=String(raw||'').replace(/\D/g,'');
+   if(!d)return '';
+   if(d.startsWith('00'))d=d.slice(2);
+   if(d.length===10 && d.startsWith('11')) return '549'+d;
+   if(d.startsWith('54')&&!d.startsWith('549')) return '549'+d.slice(2);
+   return d;
+ }
+ window.jdUpsertClientFromQuote=function(q,sent){
+   let arr=get('jd_clients',[]);
+   let i=arr.findIndex(c=>norm(c.name)===norm(q.client));
+   const next=businessPlus(new Date(),2);
+   const nextDate=next.toISOString().slice(0,10);
+   if(i<0){
+     arr.push({name:q.client,org:'',phone:'',ask:quoteAsk(q),status:sent?'Presupuesto enviado':'Presupuesto listo',next:sent?'preguntar si pudo verlo':'enviar presupuesto',nextDate:sent?nextDate:'',paid:false,quoteIds:[q.id]});
+   }else{
+     arr[i].ask=quoteAsk(q);
+     arr[i].status=sent?'Presupuesto enviado':'Presupuesto listo';
+     arr[i].next=sent?'preguntar si pudo verlo':'enviar presupuesto';
+     arr[i].nextDate=sent?nextDate:(arr[i].nextDate||'');
+     arr[i].quoteIds=Array.from(new Set([...(arr[i].quoteIds||[]),q.id]));
+   }
+   set('jd_clients',arr);
+   window.dispatchEvent(new CustomEvent('jd-client-upserted'));
+   return arr.find(c=>norm(c.name)===norm(q.client));
+ }
+ function currentQuoteFromForm(){
+   const product=document.getElementById('qProduct')?.value||'';
+   const model=document.getElementById('qModel')?.value||'';
+   const nusaj=document.getElementById('qNusaj')?.value||'';
+   const texts=document.getElementById('qLang')?.value||'';
+   const size=document.getElementById('qSize')?.value||'';
+   const binding=document.getElementById('qBind')?.value||'';
+   const pages=Number(document.getElementById('qPages')?.value||0);
+   const qtyRows=[...document.querySelectorAll('#qty6 [data-qi]')];
+   const quantities=qtyRows.map((el,i)=>{
+     const qty=Number(el.value);
+     const t=document.getElementById('qpr6-'+i)?.innerText||'';
+     const m=t.match(/\$\s*([\d\.]+)/);
+     return {qty,price:m?Number(m[1].replace(/\./g,'')):null};
+   });
+   return {id:'q-'+Date.now(),client:(document.getElementById('qClient')?.value||'').trim(),product,model,nusaj,texts,size,binding,pages,quantities,event:document.getElementById('qEvent')?.value||'',deadline:document.getElementById('qDeadline')?.value||'',created:new Date().toISOString()};
+ }
+ async function pdfBlob(){
+   const el=document.getElementById('quotePreview');
+   if(!el)throw new Error('No se encontró la vista del presupuesto.');
+   if(!window.html2canvas||!window.jspdf?.jsPDF)throw new Error('No se pudo cargar el generador PDF. Recargá la página.');
+   await document.fonts?.ready;
+   const canvas=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#f7f2e8',logging:false});
+   const img=canvas.toDataURL('image/jpeg',0.96);
+   const {jsPDF}=window.jspdf;
+   const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
+   const pw=210,ph=297,iw=pw;
+   const ih=canvas.height*iw/canvas.width;
+   if(ih<=ph){pdf.addImage(img,'JPEG',0,0,iw,ih,'FAST')}
+   else{
+     let y=0,page=0;
+     while(y<ih){
+       if(page>0)pdf.addPage();
+       pdf.addImage(img,'JPEG',0,-y,iw,ih,'FAST');
+       y+=ph;page++;
+     }
+   }
+   return pdf.output('blob');
+ }
+ function fileName(q){
+   const d=new Date().toLocaleDateString('en-CA').replace(/-/g,'');
+   return 'Judaica Design - '+q.client+' - '+q.product.replace(/·/g,'-')+' - '+d+'.pdf';
+ }
+ async function uploadPdf(blob,q){
+   const path=(q.id||('q-'+Date.now()))+'-'+slug(q.client)+'-'+slug(q.product)+'.pdf';
+   const r=await fetch(SB_URL+'/storage/v1/object/jd-quotes/'+encodeURIComponent(path),{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/pdf','x-upsert':'true'},body:blob});
+   if(!r.ok)throw new Error('No se pudo guardar el PDF en la nube.');
+   return SB_URL+'/storage/v1/object/public/jd-quotes/'+encodeURIComponent(path);
+ }
+ function getOrAskPhone(q){
+   let arr=get('jd_clients',[]);
+   let i=arr.findIndex(c=>norm(c.name)===norm(q.client));
+   if(i<0){window.jdUpsertClientFromQuote(q,false);arr=get('jd_clients',[]);i=arr.findIndex(c=>norm(c.name)===norm(q.client))}
+   let phone=normalizePhone(arr[i]?.phone||'');
+   if(!phone){
+     const raw=prompt('No tenemos el WhatsApp de '+q.client+'. Escribilo para guardarlo y enviar el presupuesto:','');
+     phone=normalizePhone(raw);
+     if(!phone)return '';
+     arr[i].phone=raw.trim();set('jd_clients',arr);
+   }
+   return phone;
+ }
+ window.jdPreviewCurrentPDF=async function(){
+   try{
+     const blob=await pdfBlob(),url=URL.createObjectURL(blob),q=currentQuoteFromForm();
+     const w=document.createElement('div');w.className='jd-pdf-modal';
+     w.innerHTML='<div class="jd-pdf-modal-card"><div class="jd-pdf-modal-bar"><div><b>Vista previa · '+esc(q.client)+'</b><div class="jd-send-state">Este es el PDF que recibirá el cliente.</div></div><div class="jd-pdf-modal-actions"><a class="btn" href="'+url+'" download="'+esc(fileName(q))+'">Descargar PDF</a><button class="btn primary" id="jdModalSend">Enviar por WhatsApp</button><button class="btn" id="jdModalClose">Cerrar</button></div></div><iframe src="'+url+'" style="width:100%;height:75vh;border:0;background:#fff"></iframe></div>';
+     document.body.appendChild(w);
+     w.querySelector('#jdModalClose').onclick=()=>{URL.revokeObjectURL(url);w.remove()};
+     w.querySelector('#jdModalSend').onclick=()=>window.jdSendCurrentQuoteWhatsApp?.();
+   }catch(e){alert(e.message||e)}
+ }
+ window.jdSendCurrentQuoteWhatsApp=async function(){
+   const q=currentQuoteFromForm();
+   if(!q.client){alert('Falta el nombre del cliente.');return}
+   const phone=getOrAskPhone(q); if(!phone)return;
+   // Open synchronously to avoid popup blockers while the PDF is generated.
+   const wa=window.open('about:blank','_blank');
+   try{
+     const blob=await pdfBlob();
+     const url=await uploadPdf(blob,q);
+     // Save quote if it is not already present with same client/product in the last minute.
+     let arr=get('jd_saved_quotes_v6',[]);
+     const found=arr.find(x=>norm(x.client)===norm(q.client)&&x.product===q.product&&Date.now()-new Date(x.created).getTime()<60000);
+     if(!found){arr.unshift({...q,status:'Presupuesto enviado',pdfUrl:url});set('jd_saved_quotes_v6',arr)}
+     else{found.status='Presupuesto enviado';found.pdfUrl=url;set('jd_saved_quotes_v6',arr)}
+     window.jdUpsertClientFromQuote(found||q,true);
+     const first=q.client.split(/\s+/)[0]||q.client;
+     const msg='Hola '+first+', ¿cómo estás? Te envío el presupuesto de '+q.product+'.\n\n'+url+'\n\nCualquier duda, escribime.';
+     wa.location='https://wa.me/'+phone+'?text='+encodeURIComponent(msg);
+   }catch(e){
+     if(wa)wa.close();
+     alert(e.message||e);
+   }
+ }
+ window.addEventListener('jd-client-upserted',()=>{
+   if(document.getElementById('clients')?.classList.contains('active')) location.hash=''; // harmless redraw trigger below
+   if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();
+ });
+})();
+</script>
+
+</body></html>
 <style id="jd-sidebar-logo-fix-v4">
 .jd-brand{
   display:flex!important;
