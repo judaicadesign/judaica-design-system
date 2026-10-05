@@ -1539,10 +1539,35 @@ function drawProducts(){
 }
 function editProduct(i){
  const p=i>=0?catalog[i]:{id:'p-'+uid(),name:'',status:'Desarrollo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[]};
- const checks=textOptions.map(t=>'<label style="display:block;margin:6px 0"><input type="checkbox" class="ptxt" value="'+E(t)+'" '+(p.texts.includes(t)?'checked':'')+'> '+E(t)+'</label>').join('');
- const w=popup(i>=0?'Editar producto':'Nuevo producto','<div class="jd-formgrid"><div><label>Nombre</label><input id="pn6" value="'+E(p.name)+'"></div><div><label>Estado</label><select id="pst6"><option>Activo</option><option>Desarrollo</option><option>No publicado</option></select></div><div><label>Proveedor</label><select id="psup6"><option value="">Sin proveedor fijo</option><option>Zloto</option><option>Gráfica B612</option></select></div><div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div><div class="span2"><label>Modelos / formatos, separados por coma</label><input id="pmod6" value="'+E(p.models.join(', '))+'" placeholder="Ej. Essential, Classic, Deluxe"></div><div class="span2"><label>Tamaños, separados por coma</label><input id="psz6" value="'+E(p.sizes.join(', '))+'"></div><div class="span2"><label>Encuadernaciones, separadas por coma</label><input id="pbd6" value="'+E(p.bindings.join(', '))+'"></div><div class="span2"><label>Textos disponibles</label>'+checks+'</div></div>','',x=>{
-   const obj={...p,name:x.querySelector('#pn6').value.trim(),status:x.querySelector('#pst6').value,supplier:x.querySelector('#psup6').value,nusaj:x.querySelector('#pnus6').value==='yes',models:x.querySelector('#pmod6').value.split(',').map(v=>v.trim()).filter(Boolean),sizes:x.querySelector('#psz6').value.split(',').map(v=>v.trim()).filter(Boolean),bindings:x.querySelector('#pbd6').value.split(',').map(v=>v.trim()).filter(Boolean),texts:[...x.querySelectorAll('.ptxt:checked')].map(c=>c.value)};
-   if(!obj.name)return alert('Falta nombre');if(i>=0)catalog[i]=obj;else catalog.push(obj);SET('jd_catalog_v6',catalog);x.remove();drawProducts();buildQuote();
+ const checks=textOptions.map(t=>'<label style="display:block;margin:6px 0"><input type="checkbox" class="ptxt" value="'+E(t)+'" '+((p.texts||[]).includes(t)?'checked':'')+'> '+E(t)+'</label>').join('');
+ const w=popup(i>=0?'Editar producto':'Nuevo producto','<div class="jd-formgrid"><div><label>Nombre</label><input id="pn6" value="'+E(p.name)+'"></div><div><label>Estado</label><select id="pst6"><option>Activo</option><option>Desarrollo</option><option>No publicado</option></select></div><div><label>Proveedor</label><select id="psup6"><option value="">Sin proveedor fijo</option><option>Zloto</option><option>Gráfica B612</option></select></div><div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div><div class="span2"><label>Modelos / formatos, separados por coma</label><input id="pmod6" value="'+E((p.models||[]).join(', '))+'" placeholder="Ej. Essential, Classic, Deluxe"></div><div class="span2"><label>Tamaños, separados por coma</label><input id="psz6" value="'+E((p.sizes||[]).join(', '))+'"></div><div class="span2"><label>Encuadernaciones, separadas por coma</label><input id="pbd6" value="'+E((p.bindings||[]).join(', '))+'"></div><div class="span2"><label>Textos disponibles</label>'+checks+'</div><div id="productSaveStatus6" class="span2 small muted"></div></div>','',async x=>{
+   const btn=x.querySelector('.s6');
+   const obj={...p,name:x.querySelector('#pn6').value.trim(),status:x.querySelector('#pst6').value,supplier:x.querySelector('#psup6').value,nusaj:x.querySelector('#pnus6').value==='yes',models:x.querySelector('#pmod6').value.split(',').map(v=>v.trim()).filter(Boolean),sizes:x.querySelector('#psz6').value.split(',').map(v=>v.trim()).filter(Boolean),bindings:x.querySelector('#pbd6').value.split(',').map(v=>v.trim()).filter(Boolean),texts:[...x.querySelectorAll('.ptxt:checked')].map(c=>c.value),variants:Array.isArray(p.variants)?p.variants:[]};
+   if(!obj.name)return alert('Falta nombre');
+   btn.disabled=true;btn.textContent='Guardando…';
+   const next=[...catalog];
+   if(i>=0)next[i]=obj;else next.push(obj);
+   try{
+     const URL='https://athiruoimehofqzrplnl.supabase.co';
+     const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+     const resp=await fetch(URL+'/rest/v1/app_state',{
+       method:'POST',
+       headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
+       body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})
+     });
+     if(!resp.ok){let t='';try{t=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+' '+t)}
+     catalog=next;
+     SET('jd_catalog_v6',catalog);
+     x.remove();
+     drawProducts();
+     try{buildQuote()}catch(e){console.warn('Quote rebuild after product save',e)}
+     alert('Producto guardado y sincronizado. El equipo verá esta versión.');
+   }catch(err){
+     console.error(err);
+     btn.disabled=false;btn.textContent=i>=0?'Guardar producto':'Crear producto';
+     const st=x.querySelector('#productSaveStatus6');if(st)st.innerHTML='<span style="color:#9a4b45">No se pudo guardar: '+E(err.message||err)+'</span>';
+     alert('No se pudo guardar el producto. '+(err.message||''));
+   }
  });
  w.querySelector('.s6').textContent=i>=0?'Guardar producto':'Crear producto';w.querySelector('#pst6').value=p.status;w.querySelector('#psup6').value=p.supplier;w.querySelector('#pnus6').value=p.nusaj?'yes':'no';
 }
