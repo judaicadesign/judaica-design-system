@@ -562,7 +562,7 @@ drawAssets();
 const oldRQ=window.renderQuote;window.renderQuote=function(){oldRQ();applyQuoteAsset()};
 
 // ---------------- COSTOS ZLOTO / B612 ----------------
-let costs=LS3('jd_cost_quotes',[
+let costs=LS3('jd_cost_quotes_v2',[
 {supplier:'Zloto',product:'Birkón · Librito',size:'Normal',binding:'Abrochado',pages:72,qty:60,cost:395770,date:'2026-08-25'},
 {supplier:'Zloto',product:'Birkón · Librito',size:'Normal',binding:'Abrochado',pages:88,qty:100,cost:650770,date:'2026-08-25'}
 ]);
@@ -582,7 +582,7 @@ function editCost(i){
  const c=i>=0?costs[i]:{supplier:'Zloto',product:'Birkón · Librito',size:'Normal',binding:'Abrochado',pages:72,qty:50,cost:'',date:new Date().toISOString().slice(0,10)};
  const w=modal3(i>=0?'Editar / actualizar cotización':'Cargar cotización','<div class="jd-grid"><div class="jd-field"><label>Proveedor</label><select id="jcSup"><option>Zloto</option><option>Gráfica B612</option></select></div><div class="jd-field"><label>Producto</label><select id="jcProd"><option>Birkón · Librito</option><option>Birkón · Folleto</option></select></div><div class="jd-field"><label>Tamaño</label><select id="jcSize"><option>Normal</option><option>Grande</option></select></div><div class="jd-field"><label>Encuadernación</label><select id="jcBind"><option>Abrochado</option><option>Cosido con hilo / Binder</option></select></div><div class="jd-field"><label>Páginas</label><input id="jcPg" type="number" value="'+c.pages+'"></div><div class="jd-field"><label>Cantidad</label><input id="jcQty" type="number" value="'+c.qty+'"></div><div class="jd-field"><label>Costo imprenta</label><input id="jcCost" type="number" value="'+c.cost+'"></div><div class="jd-field"><label>Fecha</label><input id="jcDate" type="date" value="'+c.date+'"></div></div>','Guardar',x=>{
   const obj={supplier:x.querySelector('#jcSup').value,product:x.querySelector('#jcProd').value,size:x.querySelector('#jcSize').value,binding:x.querySelector('#jcBind').value,pages:Number(x.querySelector('#jcPg').value),qty:Number(x.querySelector('#jcQty').value),cost:Number(x.querySelector('#jcCost').value),date:x.querySelector('#jcDate').value};
-  if(i>=0)costs[i]=obj;else costs.push(obj);SAVE3('jd_cost_quotes',costs);x.remove();drawCosts();
+  if(i>=0)costs[i]=obj;else costs.push(obj);SAVE3('jd_cost_quotes_v2',costs);x.remove();drawCosts();
  });
  w.querySelector('#jcSup').value=c.supplier;w.querySelector('#jcProd').value=c.product;w.querySelector('#jcSize').value=c.size;w.querySelector('#jcBind').value=c.binding;
 }
@@ -765,14 +765,28 @@ const rulesDefault=[
 let priceRules=GET('jd_pricing_rules_v4',rulesDefault);
 if(!Array.isArray(priceRules)||!priceRules.length){priceRules=rulesDefault;SET('jd_pricing_rules_v4',priceRules)}
 
-let costs=GET('jd_cost_quotes',[
+let costs=GET('jd_cost_quotes_v2',[
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:48,qty:60,cost:605779,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:48,qty:100,cost:896770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:72,qty:60,cost:740770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:72,qty:100,cost:1150770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:64,qty:60,cost:690770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:64,qty:100,cost:1050770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:88,qty:60,cost:820770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Grande · 14 × 18,5 cm',binding:'Cosido con hilo / Binder',pages:88,qty:100,cost:1250770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:48,qty:60,cost:330770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:48,qty:100,cost:440770,date:'2026-08-25'},
  {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:60,cost:395770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:100,cost:560770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:64,qty:60,cost:370770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:64,qty:100,cost:520770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:88,qty:60,cost:450770,date:'2026-08-25'},
  {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:88,qty:100,cost:650770,date:'2026-08-25'},
  {supplier:'Gráfica B612',product:'Imán · encendido',variant:'',size:'14 × 10 cm',binding:'',pages:0,qty:50,cost:48000,date:'2026-10-05'}
 ]);
 // migrate old size values
 costs=costs.map(c=>({...c,size:c.size==='Normal'?'Normal · 11,6 × 15,5 cm':c.size==='Grande'?'Grande · 14 × 18,5 cm':c.size,variant:c.variant||''}));
-SET('jd_cost_quotes',costs);
+SET('jd_cost_quotes_v2',costs);
 
 function popup(title,body,onSave){
  const w=document.createElement('div');w.className='modal open';
@@ -848,7 +862,7 @@ function editCostV4(i){
  '<div><label>Fecha</label><input id="cd" type="date" value="'+E(c.date||'')+'"></div></div>',x=>{
    const p=products.find(z=>z.name===x.querySelector('#cp').value);
    const obj={supplier:x.querySelector('#cs').value,product:p.name,variant:p.models.length?x.querySelector('#cv').value:'',size:p.size.length?x.querySelector('#cz').value:'',binding:p.binding.length?x.querySelector('#cb').value:'',pages:p.pages?Number(x.querySelector('#cg').value):0,qty:Number(x.querySelector('#cq').value),cost:Number(x.querySelector('#cc').value),date:x.querySelector('#cd').value};
-   if(!obj.qty||!obj.cost)return alert('Falta cantidad o costo');if(i>=0)costs[i]=obj;else costs.push(obj);SET('jd_cost_quotes',costs);x.remove();drawCostsV4();renderQuoteV4();
+   if(!obj.qty||!obj.cost)return alert('Falta cantidad o costo');if(i>=0)costs[i]=obj;else costs.push(obj);SET('jd_cost_quotes_v2',costs);x.remove();drawCostsV4();renderQuoteV4();
  });
  const cp=w.querySelector('#cp');
  function syncCostFields(){
@@ -1064,7 +1078,7 @@ function editContent(model){
 function availableQtysForCurrent(){
  try{
    const p=currentProduct();
-   const costs=GET('jd_cost_quotes',[]);
+   const costs=GET('jd_cost_quotes_v2',[]);
    const model=p.models?.length?qModel.value:'',size=p.size?.length?qSize.value:'',bind=p.binding?.length?qBind.value:'',pg=p.pages?Number(qPages.value):0;
    const qs=costs.filter(c=>c.product===p.name &&
      (!p.models?.length||!c.variant||c.variant===model) &&
