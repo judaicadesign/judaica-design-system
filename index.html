@@ -718,4 +718,252 @@ if(qprice1 && !document.getElementById('qInternalCost')){
  document.getElementById('qInternalCost').oninput=refreshSuggested;qProduct.addEventListener('change',refreshSuggested);
 }
 })();
-</script></body></html>
+</script>
+<!-- JD COMMERCIAL ENGINE V4 START -->
+<style>
+.jd-clause{border:1px solid #d9c69c;border-radius:14px;padding:14px 16px;background:var(--panel);margin-bottom:10px}
+.jd-clause-title{font-weight:800;color:var(--accent);margin-bottom:5px}
+.jd-clause p{margin:0;line-height:1.55}
+.jd-quote-auto{background:#f7f1e5;border:1px solid #d9c69c;border-radius:12px;padding:12px 14px}
+.jd-quote-auto strong{font-size:20px}
+.jd-hidden{display:none!important}
+.jd-field-note{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.35}
+.jd-source{font-size:12px;color:#6d604d;margin-top:7px}
+.jd-internal-math{margin-top:12px;padding:10px 12px;border-left:3px solid var(--accent2);background:#fbf7ef;font-size:12px;line-height:1.5}
+.jd-legal-preview{font-size:9px;line-height:1.42;color:#5f5951;columns:2;column-gap:22px;border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
+.jd-legal-preview .lc{break-inside:avoid;margin:0 0 7px}
+.jd-legal-preview b{color:#40382f}
+.jd-price-missing{border:1px solid #e0b5ae;background:#fbebe8;color:#87423d;border-radius:10px;padding:10px 12px}
+.jd-linked{font-size:12px;background:#edf5f2;border:1px solid #c9ddd6;padding:8px 10px;border-radius:9px;color:#315d50}
+</style>
+<script>
+/* JD commercial engine v4 */
+(function(){
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const GET=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
+const SET=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const M=n=>'$ '+Math.round(Number(n||0)).toLocaleString('es-AR');
+const defaultLegal=[["Fotografías","No están estipuladas en el presupuesto sesiones de fotos ni compras en bancos de imágenes."],["Tipografías","No está estipulada en el presupuesto la compra de tipografías."],["Logotipo","No está estipulado en el presupuesto el diseño, creación o edición del logotipo del evento."],["Confidencialidad","El presente presupuesto tiene carácter confidencial y es propiedad exclusiva del cliente solicitante. Queda prohibida su reproducción, publicación y/o reenvío, total o parcial, a terceras personas."],["Redes sociales","El diseñador conserva el derecho no exclusivo, perpetuo y global de mostrar, reproducir y distribuir los diseños en redes sociales y el sitio web del diseñador, y en publicaciones comerciales, premios o exhibiciones de terceros, con el único fin de promover o ejemplificar el trabajo del diseñador, y el derecho de ser acreditado con la propiedad de los derechos de autor y la autoría de los diseños en relación con dicho uso."],["Archivos editables","No está estipulada la entrega de archivos editables, son propiedad exclusiva del diseñador."],["Archivos PDF","No está estipulada la entrega del archivo PDF, son propiedad exclusiva del diseñador."],["Impresión","Será llevada a cabo por el diseñador. No está autorizada la copia o impresión de más ejemplares a los solicitados. El incumplimiento del presente inciso es violatorio tanto de la ley civil como halájica y habilita al diseñador a iniciar las acciones legales correspondientes."],["Plazo de diseño","El plazo de diseño es de 3 días hábiles para los modelos estándar y de 5 días hábiles para los modelos DELUXE. Este plazo comienza a contarse únicamente una vez que el cliente ha abonado el pedido y enviado toda la información necesaria, incluyendo: tarjeta de invitación o save the date, especificaciones estéticas, nombres y fechas, dedicatorias o leilui nishmat y, en el caso de los modelos DELUXE, las canciones que deberán incorporarse al interior. Este plazo contempla la elaboración del diseño y una instancia de revisión básica. En caso de recibir información incompleta o modificaciones posteriores, los plazos podrán ajustarse en consecuencia."],["Plazo de impresión","En los productos tipo folleto (tríptico, cuadríptico, etc.) el plazo de impresión es de 4 días hábiles. En los productos tipo librito, el plazo de impresión es de 14 días hábiles. Estos plazos corresponden exclusivamente a los tiempos de imprenta y no pueden reducirse ni garantizarse su ejecución antes del plazo indicado, ya que dependen de procesos externos."],["Prioridad de agenda","Pedidos con fechas cercanas al evento que requieran prioridad en la agenda de diseño estarán sujetos a un cargo adicional equivalente al 30 % del valor normal, aplicable cuando el plazo disponible para desarrollar y cerrar el diseño sea menor al mencionado en Plazo de diseño."],["Revisión de textos","El cliente es responsable de revisar cuidadosamente nombres, fechas, dedicatorias, canciones y cualquier otro texto incluido en el diseño. Una vez aprobado el diseño final para impresión, no será posible realizar modificaciones ni será asumida responsabilidad por parte del diseñador por errores que hayan pasado inadvertidos en la revisión."],["Canciones (Modelo DELUXE)","Las canciones deben enviarse en formato texto o imagen con la letra de la canción requerida. No se incluye transcripción desde audios u otros formatos. Las canciones deben enviarse junto con el resto de la información necesaria para el diseño. La cantidad de canciones incluidas estará sujeta al espacio disponible en las páginas destinadas a tal fin (págs. 70 a 86). En caso de exceder el espacio disponible, se solicitará al cliente definir qué canciones desea incluir. Del mismo modo, si quedara espacio disponible, el cliente podrá optar por agregar canciones adicionales dentro del plazo de diseño."],["Forma y lugar de pago","La ejecución del presente contrato comenzará al abonarse el 100% del monto total. Los pagos se efectuarán del modo y en el lugar indicados por el oferente. Se aceptan pagos en efectivo, transferencia bancaria, USDT (al valor Venta P2P de Binance en el momento del pago), Zelle o USD (al valor precio del dólar en Brubank al momento del pago)."],["Vigencia del precio","La tarifa propuesta tiene por el plazo de 7 días corridos. Vencido el plazo de vigencia del precio sin haberse abonado el presupuesto, el monto será plausible de ajuste o actualización. Una vez abonado el presupuesto, se dará inmediato comienzo al trabajo con el objetivo de terminar la etapa de diseño, para luego proceder a imprenta con la mayor celeridad posible."]];
+let legalLibrito=GET('jd_legal_librito_v4',defaultLegal);
+if(!Array.isArray(legalLibrito)||!legalLibrito.length){legalLibrito=defaultLegal;SET('jd_legal_librito_v4',legalLibrito)}
+
+const products=[
+ {id:'librito',name:'Birkón · Librito',models:['Essential','Classic','Deluxe','Deluxe Plus'],modelLabel:'Modelo',nusaj:true,texts:true,size:['Normal · 11,6 × 15,5 cm','Grande · 14 × 18,5 cm'],binding:['Abrochado','Cosido con hilo / Binder'],pages:true,supplier:'Zloto'},
+ {id:'folleto',name:'Birkón · Folleto',models:['Tríptico','Cuadríptico'],modelLabel:'Formato',nusaj:true,texts:true,size:[],binding:[],pages:false,supplier:'Gráfica B612'},
+ {id:'luaj',name:'Luaj',models:[],nusaj:false,texts:false,size:[],binding:[],pages:false,supplier:''},
+ {id:'birkot',name:'Birkot Hashajar',models:[],nusaj:true,texts:true,size:[],binding:[],pages:false,supplier:''},
+ {id:'hagada',name:'Hagadá de Pesaj',models:[],nusaj:true,texts:true,size:[],binding:[],pages:false,supplier:''},
+ {id:'iman',name:'Imán · encendido',models:[],nusaj:false,texts:false,size:['14 × 10 cm'],binding:[],pages:false,supplier:'Gráfica B612'},
+ {id:'hadlakat',name:'Hadlakat Nerot',models:[],nusaj:true,texts:true,size:[],binding:[],pages:false,supplier:''}
+];
+const rulesDefault=[
+ {id:'r-librito',product:'Birkón · Librito',variant:'*',divisor:0.645,shipping:20000,label:'Librito',note:'Precio = costo / 0,645 + envío.'},
+ {id:'r-triptico',product:'Birkón · Folleto',variant:'Tríptico',divisor:0.5,shipping:10000,label:'Tríptico',note:'Precio = costo / 0,50 + $10.000 de envío.'},
+ {id:'r-cuadri',product:'Birkón · Folleto',variant:'Cuadríptico',divisor:0.6,shipping:10000,label:'Cuadríptico',note:'Precio = costo / 0,60 + $10.000 de envío.'},
+ {id:'r-iman',product:'Imán · encendido',variant:'*',divisor:0.31,shipping:10000,label:'Imán encendido',note:'Regla provisional basada en el ejemplo $48.000 de costo → aprox. $165.000 final.'}
+];
+let priceRules=GET('jd_pricing_rules_v4',rulesDefault);
+if(!Array.isArray(priceRules)||!priceRules.length){priceRules=rulesDefault;SET('jd_pricing_rules_v4',priceRules)}
+
+let costs=GET('jd_cost_quotes',[
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:60,cost:395770,date:'2026-08-25'},
+ {supplier:'Zloto',product:'Birkón · Librito',variant:'Deluxe',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:88,qty:100,cost:650770,date:'2026-08-25'},
+ {supplier:'Gráfica B612',product:'Imán · encendido',variant:'',size:'14 × 10 cm',binding:'',pages:0,qty:50,cost:48000,date:'2026-10-05'}
+]);
+// migrate old size values
+costs=costs.map(c=>({...c,size:c.size==='Normal'?'Normal · 11,6 × 15,5 cm':c.size==='Grande'?'Grande · 14 × 18,5 cm':c.size,variant:c.variant||''}));
+SET('jd_cost_quotes',costs);
+
+function popup(title,body,onSave){
+ const w=document.createElement('div');w.className='modal open';
+ w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+E(title)+'</h2><button class="btn xx">×</button></div>'+body+'<div style="text-align:right;margin-top:15px"><button class="btn primary ss">Guardar</button></div></div>';
+ document.body.appendChild(w);w.querySelector('.xx').onclick=()=>w.remove();w.addEventListener('click',ev=>{if(ev.target===w)w.remove()});w.querySelector('.ss').onclick=()=>onSave(w);return w;
+}
+
+// LEGAL
+const legalSec=document.getElementById('legal');
+function drawLegal(){
+ if(!legalSec)return;
+ legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Plantillas</div><h1>Legales & aclaraciones</h1></div></div>'+
+ '<div class="jd-note" style="margin-bottom:16px"><b>Birkón · Librito</b> · este es el texto que sale en el presupuesto/PDF. Cada cláusula se guarda por separado para poder encontrarla y editarla rápido.</div>'+
+ '<div id="jdLegalList">'+legalLibrito.map((c,i)=>'<div class="jd-clause"><div class="jd-clause-title">'+E(c[0])+'</div><p class="small">'+E(c[1])+'</p><div style="margin-top:9px"><button class="btn sm" data-le="'+i+'">Editar cláusula</button></div></div>').join('')+'</div>';
+ legalSec.querySelectorAll('[data-le]').forEach(b=>b.onclick=()=>editClause(+b.dataset.le));
+}
+function editClause(i){
+ const c=legalLibrito[i];
+ popup('Editar · '+c[0],'<div class="field"><label>Subtítulo</label><input id="lt" value="'+E(c[0])+'"></div><div class="field" style="margin-top:12px"><label>Texto</label><textarea id="lb" style="min-height:220px">'+E(c[1])+'</textarea></div>',w=>{
+   legalLibrito[i]=[w.querySelector('#lt').value.trim(),w.querySelector('#lb').value.trim()];SET('jd_legal_librito_v4',legalLibrito);w.remove();drawLegal();renderQuoteV4();
+ });
+}
+drawLegal();
+
+// RULES linked to products/variants
+const rulesSec=document.getElementById('rules');
+function drawRulesV4(){
+ if(!rulesSec)return;
+ rulesSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Motor comercial</div><h1>Reglas de precio</h1></div><button class="btn primary" id="nr4">+ Nueva regla</button></div>'+
+ '<div class="jd-note" style="margin-bottom:14px">Las reglas están <b>vinculadas</b> al producto y, cuando corresponde, a una variante. No son texto libre: el presupuesto las aplica automáticamente.</div>'+
+ '<table class="table"><thead><tr><th>Producto</th><th>Variante</th><th>Cálculo</th><th>Envío</th><th></th></tr></thead><tbody>'+
+ priceRules.map((r,i)=>'<tr><td><b>'+E(r.product)+'</b></td><td>'+E(r.variant==='*'?'Todas':r.variant)+'</td><td>Costo ÷ <b>'+String(r.divisor).replace('.',',')+'</b></td><td>'+M(r.shipping)+'</td><td><button class="btn sm" data-pr="'+i+'">Editar</button></td></tr>').join('')+'</tbody></table>';
+ document.getElementById('nr4').onclick=()=>editRule(-1);
+ rulesSec.querySelectorAll('[data-pr]').forEach(b=>b.onclick=()=>editRule(+b.dataset.pr));
+}
+function editRule(i){
+ const r=i>=0?priceRules[i]:{product:'Birkón · Folleto',variant:'Tríptico',divisor:0.5,shipping:10000,note:''};
+ const prodOpts=products.map(p=>'<option '+(p.name===r.product?'selected':'')+'>'+E(p.name)+'</option>').join('');
+ const w=popup(i>=0?'Editar regla':'Nueva regla','<div class="jd-formgrid"><div><label>Producto</label><select id="rp">'+prodOpts+'</select></div><div><label>Variante</label><select id="rv"></select></div><div><label>Divisor</label><input id="rd" type="number" step="0.001" value="'+r.divisor+'"></div><div><label>Envío</label><input id="rs" type="number" value="'+r.shipping+'"></div><div class="span2"><div class="jd-linked">Ejemplo: precio final = costo de imprenta ÷ divisor + envío.</div></div></div>',x=>{
+   const obj={id:r.id||('r'+Date.now()),product:x.querySelector('#rp').value,variant:x.querySelector('#rv').value,divisor:Number(x.querySelector('#rd').value),shipping:Number(x.querySelector('#rs').value)};
+   if(!obj.divisor)return alert('Falta divisor'); if(i>=0)priceRules[i]=obj;else priceRules.push(obj);SET('jd_pricing_rules_v4',priceRules);x.remove();drawRulesV4();renderQuoteV4();
+ });
+ const rp=w.querySelector('#rp'),rv=w.querySelector('#rv');
+ const fill=()=>{const p=products.find(x=>x.name===rp.value);const vals=['*',...(p?.models||[])];rv.innerHTML=vals.map(v=>'<option value="'+E(v)+'">'+(v==='*'?'Todas las variantes':E(v))+'</option>').join('');rv.value=vals.includes(r.variant)?r.variant:'*'};
+ rp.onchange=fill;fill();
+}
+drawRulesV4();
+
+// COSTS
+const costsSec=document.getElementById('costs');
+function costSpec(c){
+ const bits=[c.variant,c.size,c.binding,c.pages?c.pages+' págs':'',c.qty+' u.'].filter(Boolean);return bits.join(' · ');
+}
+function drawCostsV4(){
+ if(!costsSec)return;
+ costsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Costos</div><h1>Proveedores & cotizaciones</h1></div><button class="btn primary" id="ac4">+ Cargar cotización</button></div>'+
+ '<div class="grid cards"><div class="card"><b>Zloto</b><p class="small muted">Birkonim librito · producción: 2 semanas.</p></div><div class="card"><b>Gráfica B612</b><p class="small muted">Folletos · producción: 48 h.</p></div></div>'+
+ '<div class="section"><table class="table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Costo</th><th>Fecha</th><th></th></tr></thead><tbody>'+costs.map((c,i)=>'<tr><td><b>'+E(c.supplier)+'</b></td><td>'+E(c.product)+'</td><td>'+E(costSpec(c))+'</td><td class="price">'+M(c.cost)+'</td><td>'+E(c.date||'')+'</td><td><button class="btn sm" data-ce="'+i+'">Editar / actualizar</button></td></tr>').join('')+'</tbody></table></div>';
+ document.getElementById('ac4').onclick=()=>editCostV4(-1);
+ costsSec.querySelectorAll('[data-ce]').forEach(b=>b.onclick=()=>editCostV4(+b.dataset.ce));
+}
+function editCostV4(i){
+ const c=i>=0?costs[i]:{supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:50,cost:'',date:new Date().toISOString().slice(0,10)};
+ const w=popup(i>=0?'Editar / actualizar cotización':'Cargar cotización','<div class="jd-formgrid">'+
+ '<div><label>Proveedor</label><select id="cs"><option>Zloto</option><option>Gráfica B612</option></select></div>'+
+ '<div><label>Producto</label><select id="cp">'+products.filter(p=>p.supplier).map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div>'+
+ '<div id="cvar"><label>Modelo / formato</label><select id="cv"></select></div>'+
+ '<div id="csize"><label>Tamaño</label><select id="cz"></select></div>'+
+ '<div id="cbind"><label>Encuadernación</label><select id="cb"></select></div>'+
+ '<div id="cpg"><label>Páginas</label><input id="cg" type="number" value="'+(c.pages||0)+'"></div>'+
+ '<div><label>Cantidad</label><input id="cq" type="number" value="'+c.qty+'"></div>'+
+ '<div><label>Costo imprenta</label><input id="cc" type="number" value="'+c.cost+'"></div>'+
+ '<div><label>Fecha</label><input id="cd" type="date" value="'+E(c.date||'')+'"></div></div>',x=>{
+   const p=products.find(z=>z.name===x.querySelector('#cp').value);
+   const obj={supplier:x.querySelector('#cs').value,product:p.name,variant:p.models.length?x.querySelector('#cv').value:'',size:p.size.length?x.querySelector('#cz').value:'',binding:p.binding.length?x.querySelector('#cb').value:'',pages:p.pages?Number(x.querySelector('#cg').value):0,qty:Number(x.querySelector('#cq').value),cost:Number(x.querySelector('#cc').value),date:x.querySelector('#cd').value};
+   if(!obj.qty||!obj.cost)return alert('Falta cantidad o costo');if(i>=0)costs[i]=obj;else costs.push(obj);SET('jd_cost_quotes',costs);x.remove();drawCostsV4();renderQuoteV4();
+ });
+ const cp=w.querySelector('#cp');
+ function syncCostFields(){
+  const p=products.find(z=>z.name===cp.value);
+  const cv=w.querySelector('#cv'),cz=w.querySelector('#cz'),cb=w.querySelector('#cb');
+  cv.innerHTML=(p.models||[]).map(v=>'<option>'+E(v)+'</option>').join('');
+  cz.innerHTML=(p.size||[]).map(v=>'<option>'+E(v)+'</option>').join('');
+  cb.innerHTML=(p.binding||[]).map(v=>'<option>'+E(v)+'</option>').join('');
+  w.querySelector('#cvar').classList.toggle('jd-hidden',!p.models.length);
+  w.querySelector('#csize').classList.toggle('jd-hidden',!p.size.length);
+  w.querySelector('#cbind').classList.toggle('jd-hidden',!p.binding.length);
+  w.querySelector('#cpg').classList.toggle('jd-hidden',!p.pages);
+  if(c.product===p.name){if(c.variant)cv.value=c.variant;if(c.size)cz.value=c.size;if(c.binding)cb.value=c.binding}
+ }
+ cp.onchange=syncCostFields;w.querySelector('#cs').value=c.supplier;cp.value=c.product;syncCostFields();
+}
+drawCostsV4();
+
+// QUOTE BUILDER
+const quoteSec=document.getElementById('quotes');
+function setupQuoteUI(){
+ if(!quoteSec)return;
+ quoteSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="saveQ4">Guardar presupuesto</button> <button class="btn" id="clearQ4">Limpiar</button> <button class="btn primary" onclick="window.print()">Vista para PDF</button></div></div>'+
+ '<div class="quote-layout"><div class="card"><div class="form-grid">'+
+ '<div class="field"><label>Cliente</label><input id="qClient" value="Cliente demo"></div>'+
+ '<div class="field"><label>Producto</label><select id="qProduct">'+products.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div>'+
+ '<div class="field" id="qModelWrap"><label id="qModelLabel">Modelo</label><select id="qModel"></select></div>'+
+ '<div class="field" id="qNusajWrap"><label>Nusaj</label><select id="qNusaj"><option>Sefaradí + Ashkenazí</option><option>Ashkenazí + Sefaradí</option><option>Jabad + Sefaradí</option><option>Sefaradí + Jabad</option><option>Solo Ashkenazí</option><option>Solo Jabad</option><option>Solo Sefaradí</option></select></div>'+
+ '<div class="field" id="qLangWrap"><label>Textos</label><select id="qLang"><option>Hebreo + español + fonética</option><option>Solo hebreo</option></select></div>'+
+ '<div class="field" id="qSizeWrap"><label>Tamaño</label><select id="qSize"></select></div>'+
+ '<div class="field" id="qBindWrap"><label>Encuadernación</label><select id="qBind"></select></div>'+
+ '<div class="field" id="qPagesWrap"><label>Cantidad de páginas</label><input id="qPages" readonly></div>'+
+ '<div class="field"><label>Cantidad 1</label><input id="qQty1" type="number" value="60"></div>'+
+ '<div class="field"><label>Precio 1 · automático</label><div class="jd-quote-auto"><strong id="qAuto1">—</strong><div class="jd-source" id="qSrc1"></div></div></div>'+
+ '<div class="field"><label>Cantidad 2</label><input id="qQty2" type="number" value="100"></div>'+
+ '<div class="field"><label>Precio 2 · automático</label><div class="jd-quote-auto"><strong id="qAuto2">—</strong><div class="jd-source" id="qSrc2"></div></div></div>'+
+ '<div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div>'+
+ '<div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"></div>'+
+ '<div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div>'+
+ '<div class="field"><label>Motivo</label><input id="qDiscountWhy" placeholder="Ej. cliente aporta tapa"></div>'+
+ '<div class="field span2"><label>Nota interna</label><textarea id="qInternal" placeholder="No aparece en el PDF."></textarea></div>'+
+ '</div><div id="qCalcInfo" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
+ document.getElementById('qProduct').onchange=syncQuoteFields;
+ ['qClient','qModel','qNusaj','qLang','qSize','qBind','qQty1','qQty2','qEvent','qDeadline','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',renderQuoteV4));
+ document.getElementById('qModel').addEventListener('change',()=>{syncPages();renderQuoteV4()});
+ document.getElementById('qNusaj').addEventListener('change',()=>{syncPages();renderQuoteV4()});
+ document.getElementById('qLang').addEventListener('change',()=>{syncPages();renderQuoteV4()});
+ document.getElementById('clearQ4').onclick=()=>{setupQuoteUI();syncQuoteFields()};
+ document.getElementById('saveQ4').onclick=saveQuoteV4;
+ syncQuoteFields();
+}
+function currentProduct(){return products.find(p=>p.name===document.getElementById('qProduct')?.value)||products[0]}
+function syncQuoteFields(){
+ const p=currentProduct(),qm=qModel,qs=qSize,qb=qBind;
+ qm.innerHTML=(p.models.length?p.models:['']).map(x=>'<option>'+E(x)+'</option>').join('');
+ qs.innerHTML=(p.size.length?p.size:['']).map(x=>'<option>'+E(x)+'</option>').join('');
+ qb.innerHTML=(p.binding.length?p.binding:['']).map(x=>'<option>'+E(x)+'</option>').join('');
+ qModelWrap.classList.toggle('jd-hidden',!p.models.length);qModelLabel.textContent=p.modelLabel||'Modelo';
+ qNusajWrap.classList.toggle('jd-hidden',!p.nusaj);qLangWrap.classList.toggle('jd-hidden',!p.texts);
+ qSizeWrap.classList.toggle('jd-hidden',!p.size.length);qBindWrap.classList.toggle('jd-hidden',!p.binding.length);qPagesWrap.classList.toggle('jd-hidden',!p.pages);
+ syncPages();renderQuoteV4();
+}
+function syncPages(){
+ const p=currentProduct();if(!p.pages){qPages.value='';return}
+ const model=qModel.value,nusaj=qNusaj.value,lang=qLang.value,count=['Sefaradí + Ashkenazí','Ashkenazí + Sefaradí','Jabad + Sefaradí','Sefaradí + Jabad'].includes(nusaj)?2:1;
+ const map={'Essential|2|Hebreo + español + fonética':48,'Classic|1|Hebreo + español + fonética':48,'Classic|2|Hebreo + español + fonética':72,'Deluxe|1|Hebreo + español + fonética':64,'Deluxe|2|Hebreo + español + fonética':88,'Deluxe Plus|2|Hebreo + español + fonética':88};
+ qPages.value=map[model+'|'+count+'|'+lang]||48;
+}
+function findRule(p){
+ const v=p.models.length?qModel.value:'';
+ return priceRules.find(r=>r.product===p.name&&r.variant===v)||priceRules.find(r=>r.product===p.name&&r.variant==='*')||null;
+}
+function matchingCosts(p){
+ const v=p.models.length?qModel.value:'',s=p.size.length?qSize.value:'',b=p.binding.length?qBind.value:'',pg=p.pages?Number(qPages.value):0;
+ return costs.filter(c=>c.product===p.name && (!p.models.length||c.variant===v) && (!p.size.length||c.size===s) && (!p.binding.length||c.binding===b) && (!p.pages||Number(c.pages)===pg));
+}
+function priceForQty(qty){
+ const p=currentProduct(),rule=findRule(p),list=matchingCosts(p).sort((a,b)=>a.qty-b.qty);
+ if(!rule)return {ok:false,reason:'Falta regla de precio vinculada a este producto/variante.'};
+ const exact=list.find(c=>Number(c.qty)===Number(qty));let base=exact,estimated=false;
+ if(!base){const lower=list.filter(c=>Number(c.qty)<Number(qty));base=lower[lower.length-1];estimated=!!base}
+ if(!base)return {ok:false,reason:'No hay una cotización exacta ni una cantidad menor válida para estimar. No se calcula hacia abajo desde una tirada mayor.'};
+ const cost=exact?Number(base.cost):Number(base.cost)*Number(qty)/Number(base.qty);
+ const price=cost/rule.divisor+rule.shipping;
+ return {ok:true,cost,price,base,estimated,rule,profit:price-rule.shipping-cost,margin:(price-rule.shipping-cost)/price};
+}
+function legalHTML(){
+ return legalLibrito.map(c=>'<div class="lc"><b>'+E(c[0])+'.</b> '+E(c[1])+'</div>').join('');
+}
+function renderQuoteV4(){
+ if(!document.getElementById('qProduct'))return;
+ const p=currentProduct(),a=priceForQty(Number(qQty1.value||0)),b=priceForQty(Number(qQty2.value||0)),disc=Number(qDiscount.value||0);
+ qAuto1.textContent=a.ok?M(Math.max(0,a.price-disc)):'—';qSrc1.innerHTML=a.ok?(a.estimated?'Aprox. desde '+a.base.qty+' u. · '+M(a.base.cost):'Costo exacto · '+M(a.base.cost)):'<span style="color:#9a4b45">'+E(a.reason)+'</span>';
+ qAuto2.textContent=b.ok?M(Math.max(0,b.price-disc)):'—';qSrc2.innerHTML=b.ok?(b.estimated?'Aprox. desde '+b.base.qty+' u. · '+M(b.base.cost):'Costo exacto · '+M(b.base.cost)):'<span style="color:#9a4b45">'+E(b.reason)+'</span>';
+ const infos=[a,b].filter(x=>x.ok).map((x,i)=>'<b>Opción '+(i+1)+':</b> costo '+M(x.cost)+' → regla ÷ '+String(x.rule.divisor).replace('.',',')+' + envío '+M(x.rule.shipping)+' → precio '+M(x.price)+' · ganancia bruta luego de costo+envío '+M(x.profit)+' ('+Math.round(x.margin*100)+'% del precio final)').join('<br>');
+ qCalcInfo.innerHTML=infos||'<span class="muted">El precio aparecerá cuando exista una cotización compatible y una regla vinculada.</span>';
+ const model=p.models.length?qModel.value:'',title=model||p.name,nus=p.nusaj?qNusaj.value:'',lang=p.texts?qLang.value:'';
+ const specs=[['Cliente','<b>'+E(qClient.value||'—')+'</b>'],p.nusaj?['Nusaj',E(nus)]:null,p.texts?['Textos',E(lang)]:null,p.size.length?['Tamaño',E(qSize.value)]:null,p.binding.length?['Encuadernación',E(qBind.value)]:null,p.pages?['Páginas','<b>'+E(qPages.value)+'</b>']:null,qEvent.value?['Evento',E(qEvent.value)]:null,qDeadline.value?['Entrega máxima',E(qDeadline.value)]:null].filter(Boolean);
+ quotePreview.innerHTML='<div class="eyebrow">Judaica Design® · Presupuesto</div><h2 style="font-size:38px;margin:6px 0 2px">'+E(title)+'</h2>'+(model?'<div style="font-size:20px">'+E(p.name)+'</div>':'')+
+ '<div class="hero"><div class="mock"><div class="book">'+E(p.id==='iman'?'IMÁN':p.id==='folleto'?'FOLLETO':p.id==='luaj'?'לוח':'BIRKÓN')+'</div></div><div class="spec">'+specs.map(s=>'<div class="spec-row"><div>'+s[0]+'</div><div>'+s[1]+'</div></div>').join('')+'</div></div>'+
+ '<div class="quote-prices"><div class="quote-price"><span class="small muted">'+E(qQty1.value)+' unidades</span><strong>'+(a.ok?M(Math.max(0,a.price-disc)):'A cotizar')+'</strong></div><div class="quote-price"><span class="small muted">'+E(qQty2.value)+' unidades</span><strong>'+(b.ok?M(Math.max(0,b.price-disc)):'A cotizar')+'</strong></div></div>'+
+ (disc?'<p class="small"><b>Ajuste:</b> -'+M(disc)+(qDiscountWhy.value?' · '+E(qDiscountWhy.value):'')+'</p>':'')+
+ (p.name==='Birkón · Librito'?'<div class="jd-legal-preview"><div class="lc"><b>ACLARACIONES</b></div>'+legalHTML()+'</div>':'');
+ // existing asset system can still replace .mock after render
+ try{if(typeof applyQuoteAsset==='function')applyQuoteAsset()}catch(e){}
+}
+window.renderQuote=renderQuoteV4;
+function saveQuoteV4(){
+ let arr=GET('jd_saved_quotes',[]),p=currentProduct(),a=priceForQty(Number(qQty1.value||0)),b=priceForQty(Number(qQty2.value||0));
+ arr.unshift({client:qClient.value,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',lang:p.texts?qLang.value:'',size:p.size.length?qSize.value:'',bind:p.binding.length?qBind.value:'',pages:p.pages?qPages.value:'',qty1:qQty1.value,price1:a.ok?Math.round(a.price):'',qty2:qQty2.value,price2:b.ok?Math.round(b.price):'',discount:qDiscount.value,why:qDiscountWhy.value,event:qEvent.value,deadline:qDeadline.value,created:new Date().toLocaleDateString('es-AR')});
+ SET('jd_saved_quotes',arr);alert('Presupuesto guardado.');
+}
+setupQuoteUI();
+})();
+</script>
+<!-- JD COMMERCIAL ENGINE V4 END -->
+
+</body></html>
