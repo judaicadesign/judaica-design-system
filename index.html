@@ -1570,6 +1570,49 @@ function editProduct(i){
    }
  });
  w.querySelector('.s6').textContent=i>=0?'Guardar producto':'Crear producto';w.querySelector('#pst6').value=p.status;w.querySelector('#psup6').value=p.supplier;w.querySelector('#pnus6').value=p.nusaj?'yes':'no';
+
+ // Product save V8: direct button handler, independent of older prototype popup handlers.
+ w.querySelector('.s6').onclick=async function(ev){
+   ev.preventDefault();ev.stopPropagation();
+   const btn=this;
+   const obj={...p,
+     id:p.id||('p-'+uid()),
+     name:w.querySelector('#pn6').value.trim(),
+     status:w.querySelector('#pst6').value,
+     supplier:w.querySelector('#psup6').value,
+     nusaj:w.querySelector('#pnus6').value==='yes',
+     models:w.querySelector('#pmod6').value.split(',').map(v=>v.trim()).filter(Boolean),
+     sizes:w.querySelector('#psz6').value.split(',').map(v=>v.trim()).filter(Boolean),
+     bindings:w.querySelector('#pbd6').value.split(',').map(v=>v.trim()).filter(Boolean),
+     texts:[...w.querySelectorAll('.ptxt:checked')].map(c=>c.value),
+     variants:Array.isArray(p.variants)?p.variants:[]
+   };
+   if(!obj.name){alert('Falta nombre');return;}
+   btn.disabled=true;btn.textContent='Guardando…';
+   const next=[...catalog];
+   if(i>=0)next[i]=obj;else next.push(obj);
+   try{
+     const URL='https://athiruoimehofqzrplnl.supabase.co';
+     const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+     const resp=await fetch(URL+'/rest/v1/app_state',{
+       method:'POST',
+       headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
+       body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})
+     });
+     if(!resp.ok){let t='';try{t=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(t?' · '+t:''));}
+     catalog=next;
+     try{localStorage.setItem('jd_catalog_v6',JSON.stringify(catalog));}catch(e){}
+     btn.textContent='Guardado ✓';
+     setTimeout(()=>{w.remove();drawProducts();try{buildQuote()}catch(e){}},250);
+     alert('Producto guardado y sincronizado.');
+   }catch(err){
+     console.error('Product save V8',err);
+     btn.disabled=false;btn.textContent=i>=0?'Guardar producto':'Crear producto';
+     const st=w.querySelector('#productSaveStatus6');
+     if(st)st.innerHTML='<span style="color:#9a4b45">Error: '+E(err.message||err)+'</span>';
+     alert('No se pudo guardar: '+(err.message||err));
+   }
+ };
 }
 
 function openVariants(i){
