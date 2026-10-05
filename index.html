@@ -72,6 +72,84 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 </style>
 </head>
 <body>
+<script>
+/* JD SUPABASE SHARED STATE */
+(function(){
+  const URL='https://athiruoimehofqzrplnl.supabase.co';
+  const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+  const endpoint=URL+'/rest/v1/app_state';
+  const rawSet=Storage.prototype.setItem;
+  const rawRemove=Storage.prototype.removeItem;
+  const pending=new Map();
+  let ready=false, applyingRemote=false;
+  const shouldSync=k=>String(k).startsWith('jd_') && k!=='jd_assets' && k!=='jd_quote_qtys_v6';
+  const headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'};
+  async function push(k,v){
+    if(!shouldSync(k))return;
+    let parsed; try{parsed=JSON.parse(v)}catch(e){parsed=v}
+    try{
+      await fetch(endpoint,{method:'POST',headers,body:JSON.stringify({key:k,value:parsed,updated_at:new Date().toISOString()})});
+    }catch(e){ console.warn('JD sync pendiente',k,e); }
+  }
+  Storage.prototype.setItem=function(k,v){
+    rawSet.call(this,k,v);
+    if(this===localStorage && shouldSync(k) && !applyingRemote){
+      if(ready) push(k,v); else pending.set(k,v);
+    }
+  };
+  Storage.prototype.removeItem=function(k){
+    rawRemove.call(this,k);
+    if(this===localStorage && shouldSync(k) && ready && !applyingRemote){
+      fetch(endpoint+'?key=eq.'+encodeURIComponent(k),{method:'DELETE',headers});
+    }
+  };
+  async function bootstrap(){
+    try{
+      const r=await fetch(endpoint+'?select=key,value,updated_at',{headers});
+      if(!r.ok) throw new Error('Supabase '+r.status);
+      const rows=await r.json();
+      if(rows.length){
+        let changed=false;
+        applyingRemote=true;
+        for(const row of rows){
+          const nv=JSON.stringify(row.value);
+          if(localStorage.getItem(row.key)!==nv){ rawSet.call(localStorage,row.key,nv); changed=true; }
+        }
+        applyingRemote=false;
+        pending.clear();
+        ready=true;
+        window.__JD_SHARED_READY=true;
+        window.dispatchEvent(new CustomEvent('jd-shared-ready'));
+        if(changed && sessionStorage.getItem('jd_sync_reload')!=='1'){
+          sessionStorage.setItem('jd_sync_reload','1');
+          location.reload();
+          return;
+        }
+        sessionStorage.removeItem('jd_sync_reload');
+      }else{
+        ready=true;
+        window.__JD_SHARED_READY=true;
+        for(const [k,v] of pending) push(k,v);
+        pending.clear();
+        window.dispatchEvent(new CustomEvent('jd-shared-ready'));
+      }
+      const badge=document.createElement('div');
+      badge.id='jdCloudBadge';
+      badge.textContent='● Datos compartidos';
+      badge.style.cssText='position:fixed;right:14px;bottom:12px;z-index:9999;background:#edf5f2;color:#315d50;border:1px solid #c9ddd6;border-radius:999px;padding:7px 10px;font:12px Inter,system-ui;box-shadow:0 3px 12px #0001';
+      document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(badge),{once:true});
+    }catch(e){
+      ready=true;
+      console.error('JD Supabase sync',e);
+      const badge=document.createElement('div');
+      badge.textContent='⚠ Sin sincronización';
+      badge.style.cssText='position:fixed;right:14px;bottom:12px;z-index:9999;background:#fbebe8;color:#87423d;border:1px solid #e0b5ae;border-radius:999px;padding:7px 10px;font:12px Inter,system-ui';
+      document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(badge),{once:true});
+    }
+  }
+  bootstrap();
+})();
+</script>
 <div class="app">
 <aside class="sidebar">
   <div class="brand">JUDAICA DESIGN®<small>SISTEMA INTERNO · PROTOTIPO</small></div>
@@ -1429,14 +1507,42 @@ function ageInfo(base){
 }
 function render6(){
  const p=activeProduct(),v=selectedVariant(p),disc=Number(qDiscount.value||0);
- window.qs6.forEach((q,i)=>{const r=calcQty(q),el=document.getElementById('qpr6-'+i);if(el)el.innerHTML=r.ok?'<b>$ '+Math.round(r.price-disc).toLocaleString('es-AR')+'</b><div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base):'<span style="color:#9a4b45">'+E(r.reason)+'</span>'});
- const specs=[['Cliente','<b>'+E(qClient.value||'—')+'</b>'],p.models.length?['Modelo / formato',E(qModel.value)]:null,p.nusaj?['Nusaj',E(qNusaj.value)]:null,p.texts.length?['Textos',E(qLang.value)]:null,p.sizes.length?['Tamaño',E(qSize.value)]:null,p.bindings.length?['Encuadernación',E(qBind.value)]:null,v?.pages?['Páginas','<b>'+v.pages+'</b>']:null].filter(Boolean);
- quotePreview.innerHTML='<div class="jd-pdf-head"><div><div class="jd-pdf-meta">Judaica Design® · Presupuesto</div><h2 class="jd-pdf-title">'+E(p.name)+'</h2></div><div class="jd-pdf-meta">'+new Date().toLocaleDateString('es-AR')+'</div></div><div class="hero"><div class="mock"><div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div></div><div class="spec">'+specs.map(s=>'<div class="spec-row"><div>'+s[0]+'</div><div>'+s[1]+'</div></div>').join('')+'</div></div>'+(v?.content?.length?'<div class="index-box"><h4>Contenido</h4><div class="index-list">'+v.content.map(x=>E(x)).join('<br>')+'</div></div>':'')+'<div class="quote-prices">'+window.qs6.map(q=>{const r=calcQty(q);return '<div class="quote-price"><span class="small muted">'+q+' unidades</span><strong>'+(r.ok?'$ '+Math.round(r.price-disc).toLocaleString('es-AR'):'A cotizar')+'</strong></div>'}).join('')+'</div>';
+ const round5=n=>Math.round(Number(n||0)/5000)*5000;
+ window.qs6.forEach((q,i)=>{
+   const r=calcQty(q),el=document.getElementById('qpr6-'+i);
+   if(el)el.innerHTML=r.ok?'<b>$ '+round5(r.price-disc).toLocaleString('es-AR')+'</b><div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base):'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
+ });
+ const specs=[
+   p.models.length?['▣','Modelo / formato',E(qModel.value)]:null,
+   p.nusaj?['◉','Nusaj',E(qNusaj.value)]:null,
+   p.texts.length?['Aa','Textos',E(qLang.value)]:null,
+   p.sizes.length?['↔','Tamaño',E(qSize.value)]:null,
+   p.bindings.length?['≡','Encuadernación',E(qBind.value)]:null,
+   v?.pages?['#','Páginas','<b>'+v.pages+'</b>']:null
+ ].filter(Boolean);
+ const today=new Date().toLocaleDateString('es-AR');
+ const assets=GET('jd_assets',[]);
+ const model=p.models.length?qModel.value:'',nus=p.nusaj?qNusaj.value:'';
+ const cand=assets.filter(a=>a.product===p.name&&a.role==='Mockup principal');
+ const asset=cand.find(a=>a.variant&&a.variant.includes(model)&&a.variant.includes(nus))||cand.find(a=>a.variant&&a.variant.includes(model))||cand.find(a=>!a.variant)||cand[0];
+ const hero=asset?.data?'<img src="'+asset.data+'" class="jd-pdf-product-img">':'<div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div>';
+ const technical=p.name==='Birkón · Librito'?'<div class="jd-tech"><b>Detalles técnicos</b><span><strong>Tapa:</strong> papel ilustración 300 grs. · laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs.</span></div>':'';
+ const legal=GET('jd_legal_librito_v4',[]);
+ const legalBlock=p.name==='Birkón · Librito'&&legal.length?'<div class="jd-full-legal"><div class="jd-legal-title">ACLARACIONES</div>'+legal.map(x=>'<p><b>'+E(x[0])+'.</b> '+E(x[1])+'</p>').join('')+'</div>':'';
+ const prices=window.qs6.map(q=>{const r=calcQty(q);return '<div class="jd-client-price"><span>'+q+' unidades</span><b>'+(r.ok?'$ '+round5(r.price-disc).toLocaleString('es-AR')+'.-':'A cotizar')+'</b></div>'}).join('');
+ quotePreview.innerHTML=
+ '<div class="jd-pdf-head"><div><div class="jd-pdf-brand">JUDAICA DESIGN®</div><div class="jd-pdf-meta">PRESUPUESTO · '+E(p.name.toUpperCase())+'</div></div><div class="jd-pdf-client"><b>'+E(qClient.value||'Cliente')+'</b><span>'+today+'</span></div></div>'+
+ '<div class="jd-pdf-main-title">'+E(p.name)+'</div>'+
+ '<div class="hero"><div class="mock jd-pdf-mock">'+hero+'</div><div class="jd-spec-icons">'+specs.map(s=>'<div class="jd-spec-icon-row"><span class="jd-spec-icon">'+s[0]+'</span><div><small>'+s[1]+'</small><strong>'+s[2]+'</strong></div></div>').join('')+technical+'</div></div>'+
+ (v?.content?.length?'<div class="index-box jd-content-box"><h4>Contenido'+(p.models.length?' '+E(qModel.value):'')+'</h4><div class="index-list">'+v.content.map(x=>'• '+E(x)).join('<br>')+'</div></div>':'')+
+ '<div class="jd-client-prices">'+prices+'</div>'+
+ (disc?'<div class="jd-discount-note">Ajuste aplicado: -$ '+Math.round(disc).toLocaleString('es-AR')+(qDiscountWhy.value?' · '+E(qDiscountWhy.value):'')+'</div>':'')+
+ legalBlock;
 }
 function save6(){
  const arr=GET('jd_saved_quotes_v6',[]),p=activeProduct(),v=selectedVariant(p);
- arr.unshift({id:'q-'+uid(),client:qClient.value,productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price):null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString()});
- SET('jd_saved_quotes_v6',arr);alert('Presupuesto guardado en este navegador.');
+ arr.unshift({id:'q-'+uid(),client:qClient.value,productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString()});
+ SET('jd_saved_quotes_v6',arr);alert('Presupuesto guardado y sincronizado.');
 }
 buildQuote();
 window.renderQuote=render6;
@@ -1444,4 +1550,48 @@ window.renderQuote=render6;
 </script>
 <!-- JD CATALOG SOURCE V6 END -->
 
+
+<style>
+/* JD PDF / CLIENT VIEW */
+.jd-pdf-brand{font-weight:800;letter-spacing:.045em;font-size:17px;color:#242421}
+.jd-pdf-client{text-align:right;display:flex;flex-direction:column;gap:3px;color:#5e584f}
+.jd-pdf-client b{font-size:15px;color:#242421}.jd-pdf-client span{font-size:11px;letter-spacing:.05em}
+.jd-pdf-main-title{font-family:"Libre Caslon Condensed",Georgia,serif;color:#0f5b5d;font-size:46px;line-height:.95;margin:0 0 18px}
+.jd-pdf-mock{background:#f5f1e9!important;overflow:hidden}
+.jd-pdf-product-img{width:100%;height:100%;max-height:330px;object-fit:contain;display:block}
+.jd-spec-icons{border:1px solid #d9c69c;border-radius:14px;padding:3px 16px;background:#fffdf9}
+.jd-spec-icon-row{display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #e5dac5}
+.jd-spec-icon-row:last-of-type{border-bottom:0}
+.jd-spec-icon{width:30px;height:30px;border-radius:999px;display:grid;place-items:center;background:#edf1e8;color:#0f5b5d;font-weight:800;font-size:12px}
+.jd-spec-icon-row small{display:block;text-transform:uppercase;letter-spacing:.09em;color:#a77932;font-size:9px;margin-bottom:2px}
+.jd-spec-icon-row strong{display:block;font-size:15px;color:#292723}
+.jd-tech{border-top:1px solid #e5dac5;padding:11px 0 8px;display:grid;gap:4px;font-size:11px;color:#5d564c}
+.jd-tech>b{text-transform:uppercase;letter-spacing:.09em;color:#a77932;font-size:9px}
+.jd-content-box{margin-top:16px!important;background:#fffdf9!important}
+.jd-content-box h4{color:#0f5b5d!important}
+.jd-client-prices{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.jd-client-price{border-top:1px solid #b58a47;padding:9px 16px 7px 0;min-width:170px}
+.jd-client-price span{display:block;font-size:11px;color:#7c746a}.jd-client-price b{font-size:18px;color:#0f5b5d}
+.jd-discount-note{font-size:11px;margin-top:8px;color:#6f604b}
+.jd-full-legal{margin-top:18px;border-top:1px solid #b58a47;padding-top:10px;columns:3;column-gap:18px;font-family:"Roboto Condensed","Barlow Condensed",Arial,sans-serif;font-size:7.4px;line-height:1.25;color:#5d574f}
+.jd-full-legal .jd-legal-title{column-span:all;font-size:9px;letter-spacing:.14em;color:#a77932;font-weight:700;margin-bottom:7px}
+.jd-full-legal p{margin:0 0 5px;break-inside:avoid}.jd-full-legal b{color:#3e3933}
+@media print{
+ @page{size:A4 portrait;margin:9mm}
+ body{background:#fff!important}
+ .sidebar,#dashboard,#savedQuotes,#clients,#products,#assets,#costs,#rules,#masters,#legal,#phonetics,#quotes>.topbar,#quotes>.quote-layout>.card,#jdCloudBadge{display:none!important}
+ .app,.main{display:block!important;padding:0!important;margin:0!important;max-width:none!important;min-height:0!important}
+ #quotes{display:block!important}
+ #quotes .quote-layout{display:block!important}
+ #quotePreview{display:block!important;width:100%!important;min-height:0!important;border:0!important;box-shadow:none!important;padding:0!important;background:#fff!important}
+ #quotePreview .hero{grid-template-columns:45% 55%;gap:12px}
+ .jd-pdf-main-title{font-size:34px}
+ .jd-pdf-mock{min-height:210px!important}
+ .jd-pdf-product-img{max-height:270px}
+ .index-list{font-size:9px;line-height:1.38}
+ .jd-content-box{padding:12px!important}
+ .jd-full-legal{font-size:6.6px;line-height:1.18;column-gap:13px}
+ .jd-full-legal p{margin-bottom:3px}
+}
+</style>
 </body></html>
