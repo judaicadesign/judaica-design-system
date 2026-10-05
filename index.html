@@ -27,8 +27,30 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .modal{position:fixed;inset:0;background:rgba(20,20,20,.4);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.open{display:flex}.modal-box{background:var(--panel);border-radius:18px;max-width:780px;width:100%;max-height:90vh;overflow:auto;padding:24px;border:1px solid var(--line)}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
 @media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.nav{display:grid;grid-template-columns:repeat(3,1fr)}.nav .sep{grid-column:1/-1}.grid.cards,.product-grid{grid-template-columns:repeat(2,1fr)}.quote-layout{grid-template-columns:1fr}.main{padding:22px}}
 @media(max-width:650px){.grid.cards,.product-grid,.form-grid{grid-template-columns:1fr}.span2{grid-column:auto}.quote-preview .hero{grid-template-columns:1fr}.quote-prices{grid-template-columns:1fr}.app{font-size:14px}}
+
+/* JD polish */
+h1,h2,h3,.index-box h4{font-family:"Libre Caslon Condensed",Georgia,serif;font-weight:400}
+h1{font-size:46px!important;line-height:1.02}
+.topbar{border-bottom:1px solid var(--accent2);padding-bottom:14px}
+.sidebar{border-right:1px solid rgba(178,138,75,.7)}
+.nav button.active{box-shadow:inset 3px 0 0 var(--accent2)}
+.card,.table,.product-card,.quote-preview,.modal-box{border-color:#d9c69c!important}
+.card,.product-card,.quote-preview{box-shadow:0 8px 24px rgba(69,53,27,.045)}
+.section-head{border-bottom:1px solid #d9c69c;padding-bottom:8px}
+.btn.primary{box-shadow:inset 0 0 0 1px rgba(178,138,75,.32)}
+iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-radius:16px;background:#fff}
+.wa-link{text-decoration:none}
+.master-card{background:var(--panel);border:1px solid #d9c69c;border-radius:16px;padding:16px}
+.jd-formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.jd-formgrid .span2{grid-column:1/-1}
+.jd-formgrid label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 5px}
+.jd-formgrid input,.jd-formgrid select,.jd-formgrid textarea{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:white}
+.jd-formgrid textarea{min-height:150px}
+.jd-toolbar{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:700px){.jd-formgrid{grid-template-columns:1fr}.jd-formgrid .span2{grid-column:auto}}
+/* /JD polish */
 </style>
-</head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed&display=swap" rel="stylesheet"></head>
 <body>
 <div class="app">
 <aside class="sidebar">
@@ -272,5 +294,104 @@ function openModal(id){document.getElementById(id).classList.add('open')}functio
 function drawNusaj(){nusajTable.innerHTML=nusajRows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td><span class="tag warn">${r[2]}</span></td><td>${r[3]}</td></tr>`).join('')}
 function addNusaj(){if(!nName.value.trim())return alert('Escribí un nombre.');nusajRows.push([nName.value.trim(),nType.value,'Revisión fina',nRef.value.trim()||'Pendiente']);drawNusaj();closeModal('nusajModal');nName.value='';nRef.value=''}
 drawNusaj();renderQuote();
+</script>
+
+<script>
+/* JD interactive prototype */
+(function(){
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
+const SAVE=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const modal=(title,body,saveLabel,onSave)=>{
+ const wrap=document.createElement('div');wrap.className='modal open';
+ wrap.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+esc(title)+'</h2><button class="btn jd-close">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button class="btn primary jd-save">'+esc(saveLabel||'Guardar')+'</button></div></div>';
+ document.body.appendChild(wrap);
+ wrap.querySelector('.jd-close').onclick=()=>wrap.remove();
+ wrap.addEventListener('click',e=>{if(e.target===wrap)wrap.remove()});
+ wrap.querySelector('.jd-save').onclick=()=>onSave(wrap);
+ return wrap;
+};
+
+// Nusaj is a quote attribute, not a separate area.
+document.querySelectorAll('[data-screen="nusaj"]').forEach(x=>x.remove());
+const ns=document.getElementById('nusaj'); if(ns)ns.remove();
+
+// PHONETICS
+const ph=document.getElementById('phonetics');
+if(ph) ph.innerHTML='<div class="topbar"><div><div class="eyebrow">Herramientas</div><h1>Generador de fonética</h1></div><a class="btn primary" target="_blank" href="./fonetica/">Abrir aparte</a></div><iframe class="jd-frame" src="./fonetica/" title="Generador de fonética"></iframe>';
+
+// RULES
+let rules=LS('jd_rules',[
+ {name:'Birkón · Librito',product:'Librito',formula:'costo imprenta / 0.645 + envío',note:'Envío estimado $20.000'},
+ {name:'Deluxe Plus',product:'Birkón · Librito',formula:'+ $100.000',note:'88 páginas fijas; interior redistribuible'}
+]);
+const rulesSec=document.getElementById('rules');
+function drawRules(){
+ if(!rulesSec)return;
+ rulesSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Motor comercial</div><h1>Reglas de precio</h1></div><button class="btn primary" id="jdAddRule">+ Nueva regla</button></div><table class="table"><thead><tr><th>Regla</th><th>Producto</th><th>Fórmula / criterio</th><th>Nota</th><th></th></tr></thead><tbody>'+
+ rules.map((r,i)=>'<tr><td><b>'+esc(r.name)+'</b></td><td>'+esc(r.product)+'</td><td><code>'+esc(r.formula)+'</code></td><td>'+esc(r.note)+'</td><td><button class="btn sm" data-del-rule="'+i+'">Eliminar</button></td></tr>').join('')+
+ '</tbody></table>';
+ document.getElementById('jdAddRule').onclick=()=>{
+  modal('Nueva regla de precio','<div class="jd-formgrid"><div><label>Nombre</label><input id="jrName" placeholder="Ej. Folletos"></div><div><label>Producto / familia</label><input id="jrProduct" placeholder="Birkón · Folleto"></div><div><label>Fórmula / criterio</label><input id="jrFormula" placeholder="Ej. costo / 0.645 + envío"></div><div><label>Nota</label><input id="jrNote" placeholder="Ej. envío aparte"></div></div>','Guardar regla',w=>{
+   const name=w.querySelector('#jrName').value.trim(); if(!name)return alert('Falta el nombre');
+   rules.push({name,product:w.querySelector('#jrProduct').value,formula:w.querySelector('#jrFormula').value,note:w.querySelector('#jrNote').value});SAVE('jd_rules',rules);w.remove();drawRules();
+  });
+ };
+ rulesSec.querySelectorAll('[data-del-rule]').forEach(b=>b.onclick=()=>{rules.splice(+b.dataset.delRule,1);SAVE('jd_rules',rules);drawRules()});
+}
+drawRules();
+
+// CLIENTS / FOLLOW-UP
+let clients=LS('jd_clients',[
+ {name:'Lorena',org:'Har Moria',phone:'',ask:'Imanes con horarios de encendido',status:'Presupuesto enviado',next:'08/10 · preguntar si lo vio',paid:false},
+ {name:'Cliente demo',org:'',phone:'',ask:'Birkón Classic · 2 nusajim',status:'Aceptado',next:'Solicitar pago',paid:false}
+]);
+const clientsSec=document.getElementById('clients');
+function drawClients(){
+ if(!clientsSec)return;
+ clientsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><button class="btn primary" id="jdAddClient">+ Nuevo cliente / consulta</button></div><table class="table"><thead><tr><th>Cliente</th><th>Consulta</th><th>Estado</th><th>Próxima acción</th><th>Pago</th><th>Contacto</th><th></th></tr></thead><tbody>'+
+ clients.map((c,i)=>{const d=(c.phone||'').replace(/\D/g,'');const wa=d?'<a class="btn sm wa-link" target="_blank" href="https://wa.me/'+d+'?text='+encodeURIComponent('Hola '+c.name+', ¿cómo estás? Quería hacer seguimiento de tu consulta por '+c.ask+'.')+'">WhatsApp</a>':'<span class="muted small">sin número</span>';return '<tr><td><b>'+esc(c.name)+'</b>'+(c.org?' · '+esc(c.org):'')+'</td><td>'+esc(c.ask)+'</td><td><span class="tag warn">'+esc(c.status)+'</span></td><td>'+esc(c.next)+'</td><td>'+(c.paid?'<span class="tag ok">Pagado</span>':'<span class="tag danger">Pendiente</span>')+'</td><td>'+wa+'</td><td><div class="jd-toolbar"><button class="btn sm" data-edit-client="'+i+'">Editar</button><button class="btn sm" data-pay-client="'+i+'">'+(c.paid?'Marcar pendiente':'Marcar pagado')+'</button></div></td></tr>'}).join('')+
+ '</tbody></table>';
+ document.getElementById('jdAddClient').onclick=()=>editClient(-1);
+ clientsSec.querySelectorAll('[data-edit-client]').forEach(b=>b.onclick=()=>editClient(+b.dataset.editClient));
+ clientsSec.querySelectorAll('[data-pay-client]').forEach(b=>b.onclick=()=>{clients[+b.dataset.payClient].paid=!clients[+b.dataset.payClient].paid;SAVE('jd_clients',clients);drawClients()});
+}
+function editClient(i){
+ const c=i>=0?clients[i]:{name:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',paid:false};
+ modal(i>=0?'Editar seguimiento':'Nuevo cliente / consulta','<div class="jd-formgrid"><div><label>Cliente</label><input id="jcName" value="'+esc(c.name)+'"></div><div><label>Institución</label><input id="jcOrg" value="'+esc(c.org)+'"></div><div><label>WhatsApp</label><input id="jcPhone" value="'+esc(c.phone)+'" placeholder="54911..."></div><div><label>Consulta</label><input id="jcAsk" value="'+esc(c.ask)+'"></div><div><label>Estado</label><select id="jcStatus">'+['Consulta recibida','Presupuesto enviado','Esperando respuesta','Aceptado','Rechazado','Pago pendiente','Pagado'].map(s=>'<option '+(s===c.status?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div><label>Próxima acción</label><input id="jcNext" value="'+esc(c.next)+'"></div></div>','Guardar',w=>{
+  const obj={name:w.querySelector('#jcName').value,org:w.querySelector('#jcOrg').value,phone:w.querySelector('#jcPhone').value,ask:w.querySelector('#jcAsk').value,status:w.querySelector('#jcStatus').value,next:w.querySelector('#jcNext').value,paid:c.paid};
+  if(!obj.name.trim())return alert('Falta el nombre'); if(i>=0)clients[i]=obj;else clients.push(obj); SAVE('jd_clients',clients);w.remove();drawClients();
+ });
+}
+drawClients();
+
+// MASTERS: text x nusaj x language
+let masters=LS('jd_masters',[
+ {nusaj:'Ashkenazí',text:'Birkat Hamazón',lang:'Hebreo',status:'Revisión fina',ref:'ArtScroll impreso',body:'',note:'Revisar Ya’alé Veyavó y traducciones.'},
+ {nusaj:'Jabad',text:'Birkat Hamazón',lang:'Hebreo',status:'Revisión fina',ref:'Tehilat Hashem impreso',body:'',note:'Propagar correcciones a todas las variantes Jabad.'},
+ {nusaj:'Sefaradí',text:'Birkat Hamazón',lang:'Hebreo',status:'Revisión fina',ref:'Pendiente: Simchón 1 / Simchón 2 / Bircat Shelomo',body:'',note:'Definir base y resolver diferencias de zimún/frases.'},
+ {nusaj:'Sefaradí',text:'Birkot Hashajar',lang:'Hebreo',status:'Revisión fina',ref:'Producto existente',body:'',note:'Existe.'},
+ {nusaj:'Sefaradí',text:'Birkot Hashajar',lang:'Fonética',status:'Revisión fina',ref:'Generador + revisión manual',body:'',note:'Existe.'},
+ {nusaj:'Sefaradí',text:'Birkot Hashajar',lang:'Español',status:'Revisión fina',ref:'Pendiente chequeo traducción',body:'',note:'Existe.'},
+ {nusaj:'Ashkenazí',text:'Birkot Hashajar',lang:'Hebreo',status:'Falta crear',ref:'—',body:'',note:'No disponible actualmente.'}
+]);
+const mastersSec=document.getElementById('masters');
+function drawMasters(){
+ if(!mastersSec)return;
+ mastersSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Editorial</div><h1>Masters de textos</h1></div><button class="btn primary" id="jdAddMaster">+ Nuevo texto / variante</button></div><div class="notice"><b>Cada Master es Nusaj + texto + idioma.</b> Así puede existir Birkot Hashajar en Sefaradí y faltar todavía en Ashkenazí, o existir sólo en hebreo.</div><div class="product-grid">'+
+ masters.map((m,i)=>'<div class="master-card"><div class="eyebrow">'+esc(m.nusaj)+' · '+esc(m.lang)+'</div><h3>'+esc(m.text)+'</h3><div class="chips"><span class="tag '+(m.status==='Aprobado'?'ok':m.status==='Falta crear'?'danger':'warn')+'">'+esc(m.status)+'</span></div><p class="small"><b>Referencia:</b> '+esc(m.ref)+'</p><p class="small muted">'+esc(m.note||'')+'</p><button class="btn sm" data-edit-master="'+i+'">Abrir / editar texto</button></div>').join('')+
+ '</div>';
+ document.getElementById('jdAddMaster').onclick=()=>editMaster(-1);
+ mastersSec.querySelectorAll('[data-edit-master]').forEach(b=>b.onclick=()=>editMaster(+b.dataset.editMaster));
+}
+function editMaster(i){
+ const m=i>=0?masters[i]:{nusaj:'',text:'',lang:'Hebreo',status:'Revisión fina',ref:'',body:'',note:''};
+ modal(i>=0?'Editar Master':'Nuevo Master','<div class="jd-formgrid"><div><label>Nusaj</label><input id="jmNusaj" value="'+esc(m.nusaj)+'" placeholder="Sefaradí"></div><div><label>Texto / producto</label><input id="jmText" value="'+esc(m.text)+'" placeholder="Birkat Hamazón / Birkot Hashajar"></div><div><label>Idioma</label><select id="jmLang">'+['Hebreo','Fonética','Español'].map(s=>'<option '+(s===m.lang?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div><label>Estado</label><select id="jmStatus">'+['Revisión fina','Falta crear','Aprobado'].map(s=>'<option '+(s===m.status?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div class="span2"><label>Referencia</label><input id="jmRef" value="'+esc(m.ref)+'"></div><div class="span2"><label>Notas editoriales</label><input id="jmNote" value="'+esc(m.note)+'"></div><div class="span2"><label>Contenido Master</label><textarea id="jmBody">'+esc(m.body)+'</textarea></div></div>','Guardar Master',w=>{
+   const obj={nusaj:w.querySelector('#jmNusaj').value,text:w.querySelector('#jmText').value,lang:w.querySelector('#jmLang').value,status:w.querySelector('#jmStatus').value,ref:w.querySelector('#jmRef').value,note:w.querySelector('#jmNote').value,body:w.querySelector('#jmBody').value};
+   if(!obj.nusaj.trim()||!obj.text.trim())return alert('Falta nusaj o nombre del texto'); if(i>=0)masters[i]=obj;else masters.push(obj); SAVE('jd_masters',masters);w.remove();drawMasters();
+ });
+}
+drawMasters();
+})();
 </script>
 </body></html>
