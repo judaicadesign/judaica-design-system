@@ -1900,15 +1900,6 @@ function editVariant(pi,vi){
    }
  };
 }
-drawProducts();try{buildQuote()}catch(e){}},300);
-   }catch(err){
-     console.error('Variant save V12',err);
-     btn.disabled=false;btn.textContent='Guardar variante';
-     if(status){status.textContent='Error: '+(err.message||err);status.style.color='#9a4b45';}
-     alert('No se pudo guardar la variante. '+(err.message||err));
-   }
- };
-}
 drawProducts();
 
 async function ensureClassicHebrewOnly24(){
