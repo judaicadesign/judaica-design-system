@@ -1678,17 +1678,91 @@ function openVariants(i){
  w.querySelectorAll('[data-ve]').forEach(b=>b.onclick=()=>{w.remove();editVariant(i,+b.dataset.ve)});
 }
 function editVariant(pi,vi){
- const p=catalog[pi],v=vi>=0?p.variants[vi]:{id:'v-'+uid(),model:p.models[0]||'',texts:p.texts[0]||'',nusajCount:p.nusaj?1:0,size:p.sizes[0]||'',pages:0,content:[]};
+ const p=catalog[pi],isLibrito=p.name==='Birkón · Librito';
+ const v=vi>=0?p.variants[vi]:{id:'v-'+uid(),model:p.models[0]||'',texts:p.texts[0]||'',nusajCount:p.nusaj?1:0,size:'',pages:0,content:[]};
  const modelOptions=(p.models.length?p.models:['']).map(x=>'<option '+(x===v.model?'selected':'')+'>'+E(x)+'</option>').join('');
  const textOpts=(p.texts.length?p.texts:['']).map(x=>'<option '+(x===v.texts?'selected':'')+'>'+E(x)+'</option>').join('');
  const sizeOpts=(p.sizes.length?p.sizes:['']).map(x=>'<option '+(x===v.size?'selected':'')+'>'+E(x)+'</option>').join('');
- const w=popup((vi>=0?'Editar':'Nueva')+' variante · '+p.name,'<div class="jd-formgrid"><div class="'+(p.models.length?'':'jd-hidden')+'"><label>Modelo / formato</label><select id="vm6">'+modelOptions+'</select></div><div class="'+(p.texts.length?'':'jd-hidden')+'"><label>Textos</label><select id="vt6">'+textOpts+'</select></div><div class="'+(p.nusaj?'':'jd-hidden')+'"><label>Cantidad de nusajim</label><select id="vn6"><option>1</option><option>2</option></select></div><div class="'+(p.sizes.length?'':'jd-hidden')+'"><label>Tamaño</label><select id="vs6">'+sizeOpts+'</select></div><div><label>Páginas</label><input id="vp6" type="number" value="'+Number(v.pages||0)+'"></div><div class="span2"><label>Contenido · una línea por ítem</label><textarea id="vc6" style="min-height:220px">'+E((v.content||[]).join('\n'))+'</textarea></div></div>','',x=>{
-  const nv={...v,model:p.models.length?x.querySelector('#vm6').value:'',texts:p.texts.length?x.querySelector('#vt6').value:'',nusajCount:p.nusaj?Number(x.querySelector('#vn6').value):0,size:p.sizes.length?x.querySelector('#vs6').value:'',pages:Number(x.querySelector('#vp6').value||0),content:x.querySelector('#vc6').value.split(/\n+/).map(z=>z.trim()).filter(Boolean)};
-  if(vi>=0)p.variants[vi]=nv;else p.variants.push(nv);SET('jd_catalog_v6',catalog);x.remove();drawProducts();buildQuote();
- });
- w.querySelector('.s6').textContent='Guardar variante';if(p.nusaj)w.querySelector('#vn6').value=String(v.nusajCount||1);
+ const showSize=p.sizes.length && !isLibrito;
+ const info=isLibrito?'<div class="span2"><div class="jd-linked"><b>En Birkón · Librito la variante editorial se define por Modelo + Textos + cantidad de nusajim + páginas.</b><br>Tamaño y encuadernación son opciones físicas del producto y se eligen después al presupuestar; no crean otra variante editorial.</div></div>':'';
+ const w=popup((vi>=0?'Editar':'Nueva')+' variante · '+p.name,'<div class="jd-formgrid">'+info+'<div class="'+(p.models.length?'':'jd-hidden')+'"><label>Modelo / formato</label><select id="vm6">'+modelOptions+'</select></div><div class="'+(p.texts.length?'':'jd-hidden')+'"><label>Textos</label><select id="vt6">'+textOpts+'</select></div><div class="'+(p.nusaj?'':'jd-hidden')+'"><label>Cantidad de nusajim</label><select id="vn6"><option>1</option><option>2</option></select></div><div class="'+(showSize?'':'jd-hidden')+'"><label>Tamaño</label><select id="vs6">'+sizeOpts+'</select></div><div><label>Páginas</label><input id="vp6" type="number" min="1" value="'+Number(v.pages||0)+'"></div><div class="span2"><label>Contenido · una línea por ítem</label><textarea id="vc6" style="min-height:220px">'+E((v.content||[]).join('\n'))+'</textarea></div><div class="span2"><div id="variantSaveStatus6" class="small muted"></div></div></div>','',()=>{});
+ const btn=w.querySelector('.s6');
+ btn.textContent='Guardar variante';
+ if(p.nusaj)w.querySelector('#vn6').value=String(v.nusajCount||1);
+
+ btn.onclick=async function(ev){
+   ev.preventDefault();ev.stopPropagation();
+   const pages=Number(w.querySelector('#vp6').value||0);
+   if(!(pages>0)){alert('Indicá la cantidad de páginas de esta variante.');return;}
+   const nv={...v,
+     model:p.models.length?w.querySelector('#vm6').value:'',
+     texts:p.texts.length?w.querySelector('#vt6').value:'',
+     nusajCount:p.nusaj?Number(w.querySelector('#vn6').value):0,
+     size:showSize?w.querySelector('#vs6').value:'',
+     pages,
+     content:w.querySelector('#vc6').value.split(/\n+/).map(z=>z.trim()).filter(Boolean)
+   };
+   const next=JSON.parse(JSON.stringify(catalog));
+   const target=next[pi];
+   if(!Array.isArray(target.variants))target.variants=[];
+   const dup=target.variants.findIndex((x,j)=>j!==vi &&
+      String(x.model||'')===String(nv.model||'') &&
+      String(x.texts||'')===String(nv.texts||'') &&
+      Number(x.nusajCount||0)===Number(nv.nusajCount||0) &&
+      (!showSize || String(x.size||'')===String(nv.size||'')));
+   if(dup>=0){alert('Ya existe una variante con esa combinación. Editá la existente en lugar de duplicarla.');return;}
+   if(vi>=0)target.variants[vi]=nv;else target.variants.push(nv);
+
+   btn.disabled=true;btn.textContent='Guardando…';
+   const status=w.querySelector('#variantSaveStatus6');
+   if(status)status.textContent='Guardando y sincronizando…';
+   try{
+     const URL='https://athiruoimehofqzrplnl.supabase.co';
+     const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+     const resp=await fetch(URL+'/rest/v1/app_state',{
+       method:'POST',
+       headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
+       body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})
+     });
+     if(!resp.ok){let t='';try{t=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(t?' · '+t:''));}
+     catalog=next;
+     Storage.prototype.setItem.call(localStorage,'jd_catalog_v6',JSON.stringify(catalog));
+     if(status){status.textContent='Guardado y sincronizado.';status.style.color='#315d50';}
+     btn.textContent='Guardado ✓';
+     setTimeout(()=>{w.remove();drawProducts();try{buildQuote()}catch(e){}},300);
+   }catch(err){
+     console.error('Variant save V9',err);
+     btn.disabled=false;btn.textContent='Guardar variante';
+     if(status){status.textContent='Error: '+(err.message||err);status.style.color='#9a4b45';}
+     alert('No se pudo guardar la variante. '+(err.message||err));
+   }
+ };
 }
 drawProducts();
+
+async function ensureClassicHebrewOnly24(){
+ const pi=catalog.findIndex(p=>p.name==='Birkón · Librito');
+ if(pi<0)return;
+ const p=catalog[pi];
+ if(!Array.isArray(p.variants))p.variants=[];
+ const vi=p.variants.findIndex(v=>v.model==='Classic' && v.texts==='Hebreo sólo' && Number(v.nusajCount)===1);
+ let changed=false;
+ if(vi>=0){
+   if(Number(p.variants[vi].pages)!==24 || p.variants[vi].size){
+     p.variants[vi]={...p.variants[vi],pages:24,size:''};changed=true;
+   }
+ }else{
+   p.variants.push({id:'cl-1-heb',model:'Classic',texts:'Hebreo sólo',nusajCount:1,size:'',pages:24,content:[]});changed=true;
+ }
+ if(!changed)return;
+ try{
+   const URL='https://athiruoimehofqzrplnl.supabase.co';
+   const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+   const resp=await fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:'jd_catalog_v6',value:catalog,updated_at:new Date().toISOString()})});
+   if(resp.ok)Storage.prototype.setItem.call(localStorage,'jd_catalog_v6',JSON.stringify(catalog));
+ }catch(e){console.warn('No se pudo sincronizar Classic hebreo solo 24 páginas',e);}
+}
+ensureClassicHebrewOnly24();
 
 // Quote UI driven only by catalog
 const qs=document.getElementById('quotes');
@@ -1701,7 +1775,7 @@ function selectedVariant(p){
    (!p.models.length||v.model===model) &&
    (!p.texts.length||v.texts===txt) &&
    (!p.nusaj||Number(v.nusajCount)===cnt) &&
-   (!v.size||v.size===size)
+   (p.name==='Birkón · Librito' || !v.size || v.size===size)
  ) || null;
 }
 function currentCostRecords(p,v){
