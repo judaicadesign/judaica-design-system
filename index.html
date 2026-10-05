@@ -49,12 +49,18 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 .jd-toolbar{display:flex;gap:8px;flex-wrap:wrap}
 @media(max-width:700px){.jd-formgrid{grid-template-columns:1fr}.jd-formgrid .span2{grid-column:auto}}
 /* /JD polish */
+/* JD cost engine v2 */
 
 .urgency-box{margin-top:14px;padding:12px 14px;border-radius:11px;border:1px solid var(--line);background:#f8f4eb}
 .urgency-box.ok{background:#eaf3ed;border-color:#b7d1c0;color:#355f49}
 .urgency-box.warn{background:#fff1db;border-color:#dfbd82;color:#80561d}
 .urgency-box.danger{background:#f8e6e2;border-color:#d9aaa3;color:#8b433e}
 .legal-editor{white-space:pre-wrap;font-size:12px;line-height:1.55;max-height:320px;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px}
+
+/* JD cost engine v2 */
+h1,h2,h3,.section h2,.product-body h3,.master-card h3{color:var(--accent2)}
+.cost-estimate{padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.cost-estimate strong{font-size:22px}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed&display=swap" rel="stylesheet"></head>
 <body>
@@ -553,7 +559,66 @@ function editMaster(i){
    if(!obj.nusaj.trim()||!obj.text.trim())return alert('Falta nusaj o nombre del texto'); if(i>=0)masters[i]=obj;else masters.push(obj); SAVE('jd_masters',masters);w.remove();drawMasters();
  });
 }
+
 drawMasters();
+
+// LEGAL TEMPLATES
+const legalSec=document.getElementById('legal');
+function drawLegal(){
+ if(!legalSec)return;
+ legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Plantillas</div><h1>Legales & aclaraciones</h1></div><button class="btn primary" id="jdEditLegal2">Editar Birkón · Librito</button></div>'+
+ '<div class="grid" style="grid-template-columns:1.5fr .5fr"><div class="card"><h2>Birkón · Librito</h2><p class="small muted">Este texto sale en los presupuestos PDF de librito.</p><div id="jdLegalPreview2" class="legal-editor"></div></div>'+
+ '<div class="grid"><div class="card"><b>Birkón · Folleto</b><p class="small muted">Pendiente de definir.</p><span class="tag warn">Pendiente</span></div><div class="card"><b>Luaj</b><p class="small muted">Pendiente de definir/cargar.</p><span class="tag warn">Pendiente</span></div><div class="card"><b>General Judaica Design®</b><p class="small muted">Cláusulas compartidas.</p></div></div></div>';
+ document.getElementById('jdLegalPreview2').textContent=window.jdLegalText();
+ document.getElementById('jdEditLegal2').onclick=()=>{
+   modal('Editar legales · Birkón Librito','<div class="jd-formgrid"><div class="span2"><label>Texto completo</label><textarea id="jdLegalText2" style="min-height:480px"></textarea></div></div>','Guardar',w=>{
+     localStorage.setItem('jd_legal_librito',w.querySelector('#jdLegalText2').value);w.remove();drawLegal();renderQuote();
+   });
+   document.getElementById('jdLegalText2').value=window.jdLegalText();
+ };
+}
+drawLegal();
+
+// COSTS / PRINT QUOTES
+let printCosts=LS('jd_print_costs',[
+ {supplier:'Zloto',family:'Birkón · Librito',size:'Normal',binding:'Abrochado',pages:72,qty:60,cost:395770,date:'2026-08-25'},
+ {supplier:'Zloto',family:'Birkón · Librito',size:'Normal',binding:'Abrochado',pages:88,qty:100,cost:650770,date:'2026-08-25'}
+]);
+const costsSec=document.getElementById('costs');
+function moneyJD(n){return '$ '+Math.round(Number(n||0)).toLocaleString('es-AR')}
+function ageDays(d){if(!d)return null;return Math.floor((new Date()-new Date(d+'T12:00:00'))/86400000)}
+function matchingCosts(family,size,binding,pages){
+ return printCosts.filter(c=>(!family||c.family===family)&&(!size||c.size===size)&&(!binding||c.binding===binding)&&(!pages||Number(c.pages)===Number(pages))).sort((a,b)=>a.qty-b.qty);
+}
+function conservativeEstimate(family,size,binding,pages,qty){
+ const arr=matchingCosts(family,size,binding,pages), exact=arr.find(c=>Number(c.qty)===Number(qty));
+ if(exact)return {kind:'exact',base:exact,value:Number(exact.cost)};
+ const eligible=arr.filter(c=>Number(c.qty)<Number(qty));
+ if(!eligible.length)return null;
+ const base=eligible[eligible.length-1];
+ return {kind:'approx',base,value:Number(base.cost)*(Number(qty)/Number(base.qty))};
+}
+function drawCosts(){
+ if(!costsSec)return;
+ const rows=printCosts.map((c,i)=>{const age=ageDays(c.date);const vig=age===null?'—':age>30?'<span class="tag danger">Actualizar · '+age+' días</span>':age>21?'<span class="tag warn">'+age+' días</span>':'<span class="tag ok">Vigente · '+age+' días</span>';return '<tr><td><b>'+esc(c.supplier)+'</b></td><td>'+esc(c.family)+'</td><td>'+esc(c.size)+' · '+esc(c.binding)+' · '+esc(c.pages)+' págs · '+esc(c.qty)+' u.</td><td class="price">'+moneyJD(c.cost)+'</td><td>'+esc(c.date)+'</td><td>'+vig+'</td><td><button class="btn sm" data-del-cost="'+i+'">Eliminar</button></td></tr>'}).join('');
+ costsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Costos</div><h1>Proveedores & cotizaciones</h1></div><button class="btn primary" id="jdAddCost">+ Cargar cotización</button></div>'+
+ '<div class="grid cards"><div class="card"><b>Zloto · Libritos</b><p class="small muted">Producción interna estimada: 2 semanas.</p><span class="tag">10 días hábiles aprox.</span></div><div class="card"><b>Gráfica B612 · Folletos</b><p class="small muted">Producción interna estimada: 48 h.</p><span class="tag">2 días hábiles aprox.</span></div><div class="card"><b>Cuadrípticos</b><p class="small muted">Cotización por email.</p><span class="tag warn">Sin calculadora online</span></div></div>'+
+ '<div class="section"><div class="section-head"><h2>Estimador conservador</h2></div><div class="card"><div class="jd-formgrid"><div><label>Familia</label><select id="ceFamily"><option>Birkón · Librito</option><option>Birkón · Folleto</option></select></div><div><label>Tamaño</label><select id="ceSize"><option>Normal</option><option>Grande</option></select></div><div><label>Encuadernación</label><select id="ceBind"><option>Abrochado</option><option>Cosido con hilo / Binder</option></select></div><div><label>Páginas</label><input id="cePages" type="number" value="72"></div><div><label>Cantidad solicitada</label><input id="ceQty" type="number" value="60"></div><div style="align-self:end"><button class="btn primary" id="ceGo">Estimar costo</button></div></div><div id="ceResult" style="margin-top:14px"></div></div></div>'+
+ '<div class="section"><table class="table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Costo</th><th>Fecha</th><th>Vigencia</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+ document.getElementById('jdAddCost').onclick=()=>addCostModal();
+ document.getElementById('ceGo').onclick=()=>{const e=conservativeEstimate(ceFamily.value,ceSize.value,ceBind.value,cePages.value,ceQty.value);const r=document.getElementById('ceResult');if(!e){r.innerHTML='<div class="cost-estimate"><span class="tag danger">Sin base segura</span><p>No hay una cotización de igual o menor cantidad para estimar hacia arriba. No se usa una cotización mayor para bajar por regla de 3.</p></div>';return}const note=e.kind==='exact'?'Cotización exacta':'Aproximado conservador desde '+e.base.qty+' unidades. Regla de 3 sólo hacia arriba.';r.innerHTML='<div class="cost-estimate"><span class="tag '+(e.kind==='exact'?'ok':'warn')+'">'+note+'</span><p><strong>'+moneyJD(e.value)+'</strong></p><div class="small muted">Base: '+e.base.supplier+' · '+e.base.qty+' u. · '+moneyJD(e.base.cost)+' · '+e.base.date+'</div></div>'};
+ costsSec.querySelectorAll('[data-del-cost]').forEach(b=>b.onclick=()=>{if(confirm('¿Eliminar esta cotización?')){printCosts.splice(+b.dataset.delCost,1);SAVE('jd_print_costs',printCosts);drawCosts()}});
+}
+function addCostModal(){
+ modal('Cargar cotización de imprenta','<div class="jd-formgrid"><div><label>Proveedor</label><select id="ccSupplier"><option>Zloto</option><option>Gráfica B612</option><option>Otro</option></select></div><div><label>Producto</label><select id="ccFamily"><option>Birkón · Librito</option><option>Birkón · Folleto</option></select></div><div><label>Tamaño</label><select id="ccSize"><option>Normal</option><option>Grande</option></select></div><div><label>Encuadernación</label><select id="ccBind"><option>Abrochado</option><option>Cosido con hilo / Binder</option></select></div><div><label>Páginas</label><input id="ccPages" type="number" value="72"></div><div><label>Fecha cotización</label><input id="ccDate" type="date"></div><div><label>Cantidad 1</label><input id="ccQty1" type="number" placeholder="50"></div><div><label>Costo 1</label><input id="ccCost1" type="number"></div><div><label>Cantidad 2 (opcional)</label><input id="ccQty2" type="number" placeholder="100"></div><div><label>Costo 2 (opcional)</label><input id="ccCost2" type="number"></div></div>','Guardar cotización',w=>{
+   const base={supplier:w.querySelector('#ccSupplier').value,family:w.querySelector('#ccFamily').value,size:w.querySelector('#ccSize').value,binding:w.querySelector('#ccBind').value,pages:Number(w.querySelector('#ccPages').value),date:w.querySelector('#ccDate').value||new Date().toISOString().slice(0,10)};
+   const q1=Number(w.querySelector('#ccQty1').value),c1=Number(w.querySelector('#ccCost1').value),q2=Number(w.querySelector('#ccQty2').value),c2=Number(w.querySelector('#ccCost2').value);
+   if(!q1||!c1)return alert('Cargá al menos cantidad y costo 1');
+   printCosts.push({...base,qty:q1,cost:c1}); if(q2&&c2)printCosts.push({...base,qty:q2,cost:c2});SAVE('jd_print_costs',printCosts);w.remove();drawCosts();
+ });
+}
+drawCosts();
+
 })();
 </script>
 </body></html>
