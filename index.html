@@ -1175,4 +1175,214 @@ if(ph){
 </script>
 <!-- JD QUOTE QTY CONTENT V5 END -->
 
+
+<!-- JD CATALOG SOURCE V6 START -->
+<style>
+.jd-variant-table{width:100%;border-collapse:collapse;font-size:12px}
+.jd-variant-table th,.jd-variant-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left}
+.jd-inline-tags{display:flex;flex-wrap:wrap;gap:6px}
+.jd-option-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.jd-option-row .field{margin:0}
+</style>
+<script>
+(function(){
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const GET=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
+const SET=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const uid=()=>String(Date.now())+Math.random().toString(36).slice(2,8);
+const textOptions=['Hebreo + español','Hebreo + fonética','Hebreo sólo','Hebreo + español + fonética','Español + fonética'];
+
+const seedCatalog=[
+ {
+  id:'birkon-librito',name:'Birkón · Librito',status:'Activo',supplier:'Zloto',
+  models:['Essential','Classic','Deluxe'],
+  nusaj:true,
+  texts:['Hebreo sólo','Hebreo + español + fonética'],
+  sizes:['Normal · 11,6 × 15,5 cm','Grande · 14 × 18,5 cm'],
+  bindings:['Abrochado','Cosido con hilo / Binder'],
+  variants:[
+   {id:'ess-2-hef',model:'Essential',nusajCount:2,texts:'Hebreo + español + fonética',pages:48,content:['Encendido de velas de Shabat + Yom Tov','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón (2 nusajim)','Birkat Me’en Shalosh (2 nusajim)','Kidush del día · Shabat y fiestas','Havdalá (2 nusajim)']},
+   {id:'cl-1-hef',model:'Classic',nusajCount:1,texts:'Hebreo + español + fonética',pages:48,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Sheva Berajot','Birkat Me’en Shalosh','Kidush del día · Shabat y fiestas','Havdalá','Plegaria de agradecimiento']},
+   {id:'cl-2-hef',model:'Classic',nusajCount:2,texts:'Hebreo + español + fonética',pages:72,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón (2 nusajim)','Sheva Berajot','Birkat Me’en Shalosh (2 nusajim)','Kidush del día · Shabat y fiestas','Havdalá (2 nusajim)','Plegaria de agradecimiento']},
+   {id:'de-1-hef',model:'Deluxe',nusajCount:1,texts:'Hebreo + español + fonética',pages:64,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Sheva Berajot','Birkat Me’en Shalosh','Kidush del día · Shabat y fiestas','Havdalá','Hasta 16 páginas para contenido adicional a elección']},
+   {id:'de-2-hef',model:'Deluxe',nusajCount:2,texts:'Hebreo + español + fonética',pages:88,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón (2 nusajim)','Sheva Berajot','Birkat Me’en Shalosh (2 nusajim)','Kidush del día · Shabat y fiestas','Havdalá (2 nusajim)','Hasta 16 páginas para contenido adicional a elección']}
+  ]
+ },
+ {
+  id:'birkon-folleto',name:'Birkón · Folleto',status:'Activo',supplier:'Gráfica B612',models:['Díptico','Tríptico','Cuadríptico'],nusaj:true,
+  texts:['Hebreo sólo','Hebreo + español','Hebreo + fonética'],sizes:[],bindings:[],
+  variants:[
+   {id:'fol-dip',model:'Díptico',nusajCount:1,texts:'Hebreo sólo',pages:0,content:[]},
+   {id:'fol-tri',model:'Tríptico',nusajCount:1,texts:'Hebreo sólo',pages:0,content:[]},
+   {id:'fol-cua',model:'Cuadríptico',nusajCount:2,texts:'Hebreo sólo',pages:0,content:[]},
+   {id:'fol-cua-fon',model:'Cuadríptico',nusajCount:1,texts:'Hebreo + fonética',pages:0,content:[]},
+   {id:'fol-cua-esp',model:'Cuadríptico',nusajCount:1,texts:'Hebreo + español',pages:0,content:[]}
+  ]
+ },
+ {id:'luaj',name:'Luaj',status:'Activo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[]},
+ {
+  id:'birkot-hashajar',name:'Birkot Hashajar',status:'No publicado',supplier:'Gráfica B612',models:[],nusaj:true,
+  texts:['Hebreo sólo','Hebreo + español + fonética'],
+  sizes:['Díptico · tamaño existente','Tríptico · tamaño existente'],bindings:[],
+  variants:[
+   {id:'bh-sef-heb',model:'',nusajCount:1,texts:'Hebreo sólo',pages:0,size:'Díptico · tamaño existente',content:[]},
+   {id:'bh-sef-hef',model:'',nusajCount:1,texts:'Hebreo + español + fonética',pages:0,size:'Tríptico · tamaño existente',content:[]}
+  ]
+ },
+ {id:'hagada',name:'Hagadá de Pesaj',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo sólo','Hebreo + español + fonética'],sizes:[],bindings:[],variants:[]},
+ {id:'seder-rh',name:'Séder Rosh Hashaná',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo sólo','Hebreo + español + fonética'],sizes:[],bindings:[],variants:[]},
+ {id:'minja-arvit',name:'Minjá / Arvit',status:'No publicado',supplier:'',models:[],nusaj:true,texts:['Hebreo + fonética'],sizes:[],bindings:[],variants:[]},
+ {id:'iman-encendido',name:'Imán · horario encendido de velas',status:'Activo',supplier:'Gráfica B612',models:[],nusaj:false,texts:[],sizes:['14 × 10 cm'],bindings:[],variants:[]},
+ {id:'hadlakat-nerot',name:'Hadlakat Nerot',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo sólo'],sizes:[],bindings:[],variants:[]}
+];
+
+let catalog=GET('jd_catalog_v6',seedCatalog);
+if(!Array.isArray(catalog)||!catalog.length){catalog=seedCatalog;SET('jd_catalog_v6',catalog)}
+
+// Merge any newly seeded product names without overwriting user-edited existing products.
+for(const sp of seedCatalog){if(!catalog.some(p=>p.id===sp.id||p.name===sp.name))catalog.push(sp)}
+SET('jd_catalog_v6',catalog);
+
+function popup(title,body,onSave){
+ const w=document.createElement('div');w.className='modal open';
+ w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+E(title)+'</h2><button class="btn x6">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button class="btn primary s6">Guardar</button></div></div>';
+ document.body.appendChild(w);w.querySelector('.x6').onclick=()=>w.remove();w.querySelector('.s6').onclick=()=>onSave(w);return w;
+}
+
+function productCard(p,i){
+ const bits=[];
+ if(p.models.length)bits.push(p.models.join(' · '));
+ if(p.texts.length)bits.push(p.texts.join(' / '));
+ return '<div class="product-card"><div class="product-visual"><div class="book">'+E((p.name.split('·')[0]||p.name).trim().toUpperCase())+'</div></div><div class="product-body"><h3>'+E(p.name)+'</h3><div class="chips"><span class="tag '+(p.status==='Activo'?'ok':'warn')+'">'+E(p.status)+'</span>'+(p.supplier?'<span class="tag">'+E(p.supplier)+'</span>':'')+'</div><p class="small muted">'+E(bits.join(' · ')||'Sin variantes cargadas todavía')+'</p><div class="jd-toolbar"><button class="btn sm" data-pedit="'+i+'">Editar producto</button><button class="btn sm" data-pvars="'+i+'">Ver variantes</button></div></div></div>';
+}
+
+const ps=document.getElementById('products');
+function drawProducts(){
+ if(!ps)return;
+ ps.innerHTML='<div class="topbar"><div><div class="eyebrow">Catálogo interno</div><h1>Productos & variantes</h1></div><button class="btn primary" id="newProd6">+ Nuevo producto</button></div>'+
+ '<div class="product-grid">'+catalog.map(productCard).join('')+'</div>';
+ document.getElementById('newProd6').onclick=()=>editProduct(-1);
+ ps.querySelectorAll('[data-pedit]').forEach(b=>b.onclick=()=>editProduct(+b.dataset.pedit));
+ ps.querySelectorAll('[data-pvars]').forEach(b=>b.onclick=()=>openVariants(+b.dataset.pvars));
+}
+function editProduct(i){
+ const p=i>=0?catalog[i]:{id:'p-'+uid(),name:'',status:'Desarrollo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[]};
+ const checks=textOptions.map(t=>'<label style="display:block;margin:6px 0"><input type="checkbox" class="ptxt" value="'+E(t)+'" '+(p.texts.includes(t)?'checked':'')+'> '+E(t)+'</label>').join('');
+ const w=popup(i>=0?'Editar producto':'Nuevo producto','<div class="jd-formgrid"><div><label>Nombre</label><input id="pn6" value="'+E(p.name)+'"></div><div><label>Estado</label><select id="pst6"><option>Activo</option><option>Desarrollo</option><option>No publicado</option></select></div><div><label>Proveedor</label><select id="psup6"><option value="">Sin proveedor fijo</option><option>Zloto</option><option>Gráfica B612</option></select></div><div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div><div class="span2"><label>Modelos / formatos, separados por coma</label><input id="pmod6" value="'+E(p.models.join(', '))+'" placeholder="Ej. Essential, Classic, Deluxe"></div><div class="span2"><label>Tamaños, separados por coma</label><input id="psz6" value="'+E(p.sizes.join(', '))+'"></div><div class="span2"><label>Encuadernaciones, separadas por coma</label><input id="pbd6" value="'+E(p.bindings.join(', '))+'"></div><div class="span2"><label>Textos disponibles</label>'+checks+'</div></div>','',x=>{
+   const obj={...p,name:x.querySelector('#pn6').value.trim(),status:x.querySelector('#pst6').value,supplier:x.querySelector('#psup6').value,nusaj:x.querySelector('#pnus6').value==='yes',models:x.querySelector('#pmod6').value.split(',').map(v=>v.trim()).filter(Boolean),sizes:x.querySelector('#psz6').value.split(',').map(v=>v.trim()).filter(Boolean),bindings:x.querySelector('#pbd6').value.split(',').map(v=>v.trim()).filter(Boolean),texts:[...x.querySelectorAll('.ptxt:checked')].map(c=>c.value)};
+   if(!obj.name)return alert('Falta nombre');if(i>=0)catalog[i]=obj;else catalog.push(obj);SET('jd_catalog_v6',catalog);x.remove();drawProducts();buildQuote();
+ });
+ w.querySelector('.s6').textContent=i>=0?'Guardar producto':'Crear producto';w.querySelector('#pst6').value=p.status;w.querySelector('#psup6').value=p.supplier;w.querySelector('#pnus6').value=p.nusaj?'yes':'no';
+}
+
+function openVariants(i){
+ const p=catalog[i];
+ const rows=(p.variants||[]).map((v,j)=>'<tr><td>'+E(v.model||'—')+'</td><td>'+E(v.texts||'—')+'</td><td>'+E(v.nusajCount||'—')+'</td><td>'+E(v.size||'—')+'</td><td>'+E(v.pages||'—')+'</td><td><button class="btn sm" data-ve="'+j+'">Editar</button></td></tr>').join('');
+ const w=popup('Variantes · '+p.name,'<div class="jd-toolbar" style="margin-bottom:12px"><button class="btn" id="addV6">+ Nueva variante</button></div><table class="jd-variant-table"><thead><tr><th>Modelo/formato</th><th>Textos</th><th>Nusajim</th><th>Tamaño</th><th>Páginas</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>','',x=>x.remove());
+ w.querySelector('.s6').textContent='Cerrar';w.querySelector('#addV6').onclick=()=>{w.remove();editVariant(i,-1)};
+ w.querySelectorAll('[data-ve]').forEach(b=>b.onclick=()=>{w.remove();editVariant(i,+b.dataset.ve)});
+}
+function editVariant(pi,vi){
+ const p=catalog[pi],v=vi>=0?p.variants[vi]:{id:'v-'+uid(),model:p.models[0]||'',texts:p.texts[0]||'',nusajCount:p.nusaj?1:0,size:p.sizes[0]||'',pages:0,content:[]};
+ const modelOptions=(p.models.length?p.models:['']).map(x=>'<option '+(x===v.model?'selected':'')+'>'+E(x)+'</option>').join('');
+ const textOpts=(p.texts.length?p.texts:['']).map(x=>'<option '+(x===v.texts?'selected':'')+'>'+E(x)+'</option>').join('');
+ const sizeOpts=(p.sizes.length?p.sizes:['']).map(x=>'<option '+(x===v.size?'selected':'')+'>'+E(x)+'</option>').join('');
+ const w=popup((vi>=0?'Editar':'Nueva')+' variante · '+p.name,'<div class="jd-formgrid"><div class="'+(p.models.length?'':'jd-hidden')+'"><label>Modelo / formato</label><select id="vm6">'+modelOptions+'</select></div><div class="'+(p.texts.length?'':'jd-hidden')+'"><label>Textos</label><select id="vt6">'+textOpts+'</select></div><div class="'+(p.nusaj?'':'jd-hidden')+'"><label>Cantidad de nusajim</label><select id="vn6"><option>1</option><option>2</option></select></div><div class="'+(p.sizes.length?'':'jd-hidden')+'"><label>Tamaño</label><select id="vs6">'+sizeOpts+'</select></div><div><label>Páginas</label><input id="vp6" type="number" value="'+Number(v.pages||0)+'"></div><div class="span2"><label>Contenido · una línea por ítem</label><textarea id="vc6" style="min-height:220px">'+E((v.content||[]).join('\n'))+'</textarea></div></div>','',x=>{
+  const nv={...v,model:p.models.length?x.querySelector('#vm6').value:'',texts:p.texts.length?x.querySelector('#vt6').value:'',nusajCount:p.nusaj?Number(x.querySelector('#vn6').value):0,size:p.sizes.length?x.querySelector('#vs6').value:'',pages:Number(x.querySelector('#vp6').value||0),content:x.querySelector('#vc6').value.split(/\n+/).map(z=>z.trim()).filter(Boolean)};
+  if(vi>=0)p.variants[vi]=nv;else p.variants.push(nv);SET('jd_catalog_v6',catalog);x.remove();drawProducts();buildQuote();
+ });
+ w.querySelector('.s6').textContent='Guardar variante';if(p.nusaj)w.querySelector('#vn6').value=String(v.nusajCount||1);
+}
+drawProducts();
+
+// Quote UI driven only by catalog
+const qs=document.getElementById('quotes');
+const nusajOptions=['Sefaradí + Ashkenazí','Ashkenazí + Sefaradí','Jabad + Sefaradí','Sefaradí + Jabad','Solo Ashkenazí','Solo Jabad','Solo Sefaradí'];
+function activeProduct(){return catalog.find(p=>p.name===document.getElementById('qProduct')?.value)||catalog[0]}
+function nusajCount(){return (qNusaj?.value||'').includes('+')?2:1}
+function selectedVariant(p){
+ const model=p.models.length?qModel.value:'',txt=p.texts.length?qLang.value:'',cnt=p.nusaj?nusajCount():0,size=p.sizes.length?qSize.value:'';
+ return (p.variants||[]).find(v=>(!p.models.length||v.model===model)&&(!p.texts.length||v.texts===txt)&&(!p.nusaj||Number(v.nusajCount)===cnt)&&(!v.size||v.size===size))
+ ||(p.variants||[]).find(v=>(!p.models.length||v.model===model)&&(!p.nusaj||Number(v.nusajCount)===cnt))
+ ||null;
+}
+function currentCostRecords(p,v){
+ const arr=GET('jd_cost_quotes_v2',GET('jd_cost_quotes',[]));
+ const model=p.name==='Birkón · Librito'?'':(p.models.length?qModel.value:''); // librito cost keyed by pages, not commercial model
+ const size=p.sizes.length?qSize.value:'',bind=p.bindings.length?qBind.value:'',pages=Number(v?.pages||0);
+ return arr.filter(c=>c.product===p.name &&
+   (!model||!c.variant||c.variant===model) &&
+   (!size||!c.size||c.size===size) &&
+   (!bind||!c.binding||c.binding===bind) &&
+   (!pages||Number(c.pages||0)===pages)
+ );
+}
+function findRule(p){
+ const rules=GET('jd_pricing_rules_v4',[]);
+ const model=p.models.length?qModel.value:'';
+ return rules.find(r=>r.product===p.name&&(r.variant===model||r.variant==='*'))||null;
+}
+function calcQty(q){
+ const p=activeProduct(),v=selectedVariant(p),rules=GET('jd_pricing_rules_v4',[]),r=findRule(p),costs=currentCostRecords(p,v).sort((a,b)=>a.qty-b.qty);
+ if(!r)return {ok:false,reason:'Falta regla de precio vinculada.'};
+ let base=costs.find(c=>Number(c.qty)===Number(q)),estimated=false;
+ if(!base){const lower=costs.filter(c=>Number(c.qty)<Number(q));base=lower[lower.length-1];estimated=!!base}
+ if(!base)return {ok:false,reason:'Falta costo exacto o una tirada menor para estimar.'};
+ const cost=estimated?Number(base.cost)*Number(q)/Number(base.qty):Number(base.cost);
+ return {ok:true,base,cost,price:cost/Number(r.divisor)+Number(r.shipping||0),estimated,rule:r};
+}
+function buildQuote(){
+ if(!qs)return;
+ const prevProd=document.getElementById('qProduct')?.value||catalog[0].name;
+ qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn primary" onclick="window.print()">Vista para PDF</button></div></div>'+
+ '<div class="quote-layout"><div class="card"><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" value="Cliente demo"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
+ qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
+ window.qs6=GET('jd_quote_qtys_v6',[60,100]);
+ qProduct.onchange=syncFields6;['qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>document.getElementById(id).addEventListener('change',syncVariant6));
+ ['qClient','qEvent','qDeadline','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',render6));
+ document.getElementById('aq6').onclick=()=>{const common=[50,60,80,100,150,200];const n=common.find(x=>!window.qs6.includes(x))||window.qs6[window.qs6.length-1]+50;window.qs6.push(n);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()};
+ document.getElementById('sq6').onclick=save6;
+ syncFields6();
+}
+function syncFields6(){
+ const p=activeProduct();
+ qModel.innerHTML=(p.models.length?p.models:['']).map(x=>'<option>'+E(x)+'</option>').join('');
+ qLang.innerHTML=(p.texts.length?p.texts:['']).map(x=>'<option>'+E(x)+'</option>').join('');
+ qSize.innerHTML=(p.sizes.length?p.sizes:['']).map(x=>'<option>'+E(x)+'</option>').join('');
+ qBind.innerHTML=(p.bindings.length?p.bindings:['']).map(x=>'<option>'+E(x)+'</option>').join('');
+ qmw6.classList.toggle('jd-hidden',!p.models.length);qnw6.classList.toggle('jd-hidden',!p.nusaj);qtw6.classList.toggle('jd-hidden',!p.texts.length);qsw6.classList.toggle('jd-hidden',!p.sizes.length);qbw6.classList.toggle('jd-hidden',!p.bindings.length);
+ syncVariant6();
+}
+function syncVariant6(){
+ const p=activeProduct(),v=selectedVariant(p);qPages.value=v?.pages||'';qpw6.classList.toggle('jd-hidden',!v?.pages);drawQty6();render6();
+}
+function drawQty6(){
+ const el=document.getElementById('qty6');if(!el)return;const opts=[50,60,80,100,150,200];
+ el.innerHTML=window.qs6.map((q,i)=>'<div class="jd-qty-row"><select data-qi="'+i+'">'+opts.map(x=>'<option '+(x===q?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="jd-qty-price" id="qpr6-'+i+'">—</div><button class="btn sm" data-qr="'+i+'">Quitar</button></div>').join('');
+ el.querySelectorAll('[data-qi]').forEach(s=>s.onchange=()=>{window.qs6[+s.dataset.qi]=Number(s.value);SET('jd_quote_qtys_v6',window.qs6);render6()});
+ el.querySelectorAll('[data-qr]').forEach(b=>b.onclick=()=>{if(window.qs6.length>1){window.qs6.splice(+b.dataset.qr,1);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()}});
+}
+function ageInfo(base){
+ if(!base?.date)return '';const d=Math.floor((new Date()-new Date(base.date+'T00:00:00'))/86400000);
+ if(d<=14)return '<div class="small" style="color:#41745d">Costo cargado hace '+d+' días</div>';
+ if(d<=30)return '<div class="jd-age-warn">⚠ Costo de hace '+d+' días: chequear vigencia.</div>';
+ return '<div class="jd-age-bad">⚠ Costo antiguo: '+d+' días. Revisar antes de enviar.</div>';
+}
+function render6(){
+ const p=activeProduct(),v=selectedVariant(p),disc=Number(qDiscount.value||0);
+ window.qs6.forEach((q,i)=>{const r=calcQty(q),el=document.getElementById('qpr6-'+i);if(el)el.innerHTML=r.ok?'<b>$ '+Math.round(r.price-disc).toLocaleString('es-AR')+'</b><div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base):'<span style="color:#9a4b45">'+E(r.reason)+'</span>'});
+ const specs=[['Cliente','<b>'+E(qClient.value||'—')+'</b>'],p.models.length?['Modelo / formato',E(qModel.value)]:null,p.nusaj?['Nusaj',E(qNusaj.value)]:null,p.texts.length?['Textos',E(qLang.value)]:null,p.sizes.length?['Tamaño',E(qSize.value)]:null,p.bindings.length?['Encuadernación',E(qBind.value)]:null,v?.pages?['Páginas','<b>'+v.pages+'</b>']:null].filter(Boolean);
+ quotePreview.innerHTML='<div class="eyebrow">Judaica Design® · Presupuesto</div><h2 style="font-size:38px;margin:6px 0 2px">'+E(p.name)+'</h2><div class="hero"><div class="mock"><div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div></div><div class="spec">'+specs.map(s=>'<div class="spec-row"><div>'+s[0]+'</div><div>'+s[1]+'</div></div>').join('')+'</div></div>'+(v?.content?.length?'<div class="index-box"><h4>Contenido</h4><div class="index-list">'+v.content.map(x=>E(x)).join('<br>')+'</div></div>':'')+'<div class="quote-prices">'+window.qs6.map(q=>{const r=calcQty(q);return '<div class="quote-price"><span class="small muted">'+q+' unidades</span><strong>'+(r.ok?'$ '+Math.round(r.price-disc).toLocaleString('es-AR'):'A cotizar')+'</strong></div>'}).join('')+'</div>';
+}
+function save6(){
+ const arr=GET('jd_saved_quotes_v6',[]),p=activeProduct(),v=selectedVariant(p);
+ arr.unshift({id:'q-'+uid(),client:qClient.value,productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:p.sizes.length?qSize.value:'',binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price):null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString()});
+ SET('jd_saved_quotes_v6',arr);alert('Presupuesto guardado en este navegador.');
+}
+buildQuote();
+window.renderQuote=render6;
+})();
+</script>
+<!-- JD CATALOG SOURCE V6 END -->
+
 </body></html>
