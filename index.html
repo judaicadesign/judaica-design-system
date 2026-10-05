@@ -2014,7 +2014,7 @@ function buildQuote(){
    render6();
  });
  qDeadline.addEventListener('change',()=>{jdDeadlineManual=true;render6()});
- document.getElementById('aq6').onclick=()=>{const common=[50,60,80,100,150,200];const n=common.find(x=>!window.qs6.includes(x))||window.qs6[window.qs6.length-1]+50;window.qs6.push(n);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()};
+ document.getElementById('aq6').onclick=()=>{const common=jdQtyOptionsForProduct(activeProduct());const n=common.find(x=>!window.qs6.includes(x))||Math.max(...window.qs6,0)+50;window.qs6.push(n);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()};
  document.getElementById('sq6').onclick=save6;
  document.getElementById('previewPdf6').onclick=()=>window.jdPreviewCurrentPDF?.();
  document.getElementById('sendWa6').onclick=()=>window.jdSendCurrentQuoteWhatsApp?.();
@@ -2047,8 +2047,16 @@ function syncVariant6(){
  drawQty6();
  render6();
 }
+function jdQtyOptionsForProduct(p){
+ if(p?.name==='Birkón · Folleto')return [50,75,100,150];
+ if(p?.name==='Birkón · Librito')return [50,60,75,80,100,150,200];
+ return [50,75,100,150,200];
+}
 function drawQty6(){
- const el=document.getElementById('qty6');if(!el)return;const opts=[50,60,80,100,150,200];
+ const el=document.getElementById('qty6');if(!el)return;
+ const p=activeProduct();
+ const standard=jdQtyOptionsForProduct(p);
+ const opts=jdUnique([...standard,...window.qs6.map(Number)]).sort((a,b)=>a-b);
  el.innerHTML=window.qs6.map((q,i)=>'<div class="jd-qty-row"><select data-qi="'+i+'">'+opts.map(x=>'<option '+(x===q?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="jd-qty-price" id="qpr6-'+i+'">—</div><button class="btn sm" data-qr="'+i+'">Quitar</button></div>').join('');
  el.querySelectorAll('[data-qi]').forEach(s=>s.onchange=()=>{window.qs6[+s.dataset.qi]=Number(s.value);SET('jd_quote_qtys_v6',window.qs6);render6()});
  el.querySelectorAll('[data-qr]').forEach(b=>b.onclick=()=>{if(window.qs6.length>1){window.qs6.splice(+b.dataset.qr,1);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()}});
