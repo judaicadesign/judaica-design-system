@@ -1540,7 +1540,7 @@ function drawProducts(){
 function editProduct(i){
  const p=i>=0?catalog[i]:{id:'p-'+uid(),name:'',status:'Desarrollo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[]};
  const checks=textOptions.map(t=>'<label style="display:block;margin:6px 0"><input type="checkbox" class="ptxt" value="'+E(t)+'" '+((p.texts||[]).includes(t)?'checked':'')+'> '+E(t)+'</label>').join('');
- const w=popup(i>=0?'Editar producto':'Nuevo producto','<div class="jd-formgrid"><div><label>Nombre</label><input id="pn6" value="'+E(p.name)+'"></div><div><label>Estado</label><select id="pst6"><option>Activo</option><option>Desarrollo</option><option>No publicado</option></select></div><div><label>Proveedor</label><select id="psup6"><option value="">Sin proveedor fijo</option><option>Zloto</option><option>Gráfica B612</option></select></div><div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div><div class="span2"><label>Modelos / formatos, separados por coma</label><input id="pmod6" value="'+E((p.models||[]).join(', '))+'" placeholder="Ej. Essential, Classic, Deluxe"></div><div class="span2"><label>Tamaños, separados por coma</label><input id="psz6" value="'+E((p.sizes||[]).join(', '))+'"></div><div class="span2"><label>Encuadernaciones, separadas por coma</label><input id="pbd6" value="'+E((p.bindings||[]).join(', '))+'"></div><div class="span2"><label>Textos disponibles</label>'+checks+'</div><div id="productSaveStatus6" class="span2 small muted"></div></div>','',async x=>{
+ const w=popup(i>=0?'Editar producto':'Nuevo producto','<div class="jd-formgrid"><input type="hidden" id="pid6" value="'+E(p.id)+'"><div><label>Nombre</label><input id="pn6" value="'+E(p.name)+'"></div><div><label>Estado</label><select id="pst6"><option>Activo</option><option>Desarrollo</option><option>No publicado</option></select></div><div><label>Proveedor</label><select id="psup6"><option value="">Sin proveedor fijo</option><option>Zloto</option><option>Gráfica B612</option></select></div><div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div><div class="span2"><label>Modelos / formatos, separados por coma</label><input id="pmod6" value="'+E((p.models||[]).join(', '))+'" placeholder="Ej. Essential, Classic, Deluxe"></div><div class="span2"><label>Tamaños, separados por coma</label><input id="psz6" value="'+E((p.sizes||[]).join(', '))+'"></div><div class="span2"><label>Encuadernaciones, separadas por coma</label><input id="pbd6" value="'+E((p.bindings||[]).join(', '))+'"></div><div class="span2"><label>Textos disponibles</label>'+checks+'</div><div id="productSaveStatus6" class="span2 small muted"></div></div>','',async x=>{
    const btn=x.querySelector('.s6');
    const obj={...p,name:x.querySelector('#pn6').value.trim(),status:x.querySelector('#pst6').value,supplier:x.querySelector('#psup6').value,nusaj:x.querySelector('#pnus6').value==='yes',models:x.querySelector('#pmod6').value.split(',').map(v=>v.trim()).filter(Boolean),sizes:x.querySelector('#psz6').value.split(',').map(v=>v.trim()).filter(Boolean),bindings:x.querySelector('#pbd6').value.split(',').map(v=>v.trim()).filter(Boolean),texts:[...x.querySelectorAll('.ptxt:checked')].map(c=>c.value),variants:Array.isArray(p.variants)?p.variants:[]};
    if(!obj.name)return alert('Falta nombre');
@@ -2107,6 +2107,82 @@ h1{font-size:clamp(30px,3vw,42px)}
 })();
 </script>
 
+
+<script>
+/* JD PRODUCT SAVE HARDENING V7
+   Capture-phase handler so product saves cannot be swallowed by older prototype handlers. */
+(function(){
+  const URL='https://athiruoimehofqzrplnl.supabase.co';
+  const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  document.addEventListener('click',async function(ev){
+    const btn=ev.target.closest('.s6');
+    if(!btn) return;
+    const modal=btn.closest('.modal');
+    if(!modal || !modal.querySelector('#pn6') || !modal.querySelector('#pid6')) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    ev.stopImmediatePropagation();
+
+    const status=modal.querySelector('#productSaveStatus6');
+    const id=modal.querySelector('#pid6').value;
+    const name=modal.querySelector('#pn6').value.trim();
+    if(!name){ alert('Falta nombre'); return; }
+
+    btn.disabled=true;
+    btn.textContent='Guardando…';
+    if(status){status.textContent='Guardando y sincronizando…';status.style.color='';}
+
+    let catalog=[];
+    try{ catalog=JSON.parse(localStorage.getItem('jd_catalog_v6')||'[]'); }catch(e){}
+    if(!Array.isArray(catalog)) catalog=[];
+    const old=catalog.find(p=>p.id===id)||{id:id,variants:[]};
+
+    const obj={
+      ...old,
+      id:id,
+      name:name,
+      status:modal.querySelector('#pst6')?.value||'Activo',
+      supplier:modal.querySelector('#psup6')?.value||'',
+      nusaj:(modal.querySelector('#pnus6')?.value||'no')==='yes',
+      models:(modal.querySelector('#pmod6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
+      sizes:(modal.querySelector('#psz6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
+      bindings:(modal.querySelector('#pbd6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
+      texts:[...modal.querySelectorAll('.ptxt:checked')].map(x=>x.value),
+      variants:Array.isArray(old.variants)?old.variants:[]
+    };
+    const idx=catalog.findIndex(p=>p.id===id);
+    if(idx>=0) catalog[idx]=obj; else catalog.push(obj);
+
+    try{
+      const resp=await fetch(URL+'/rest/v1/app_state',{
+        method:'POST',
+        headers:{
+          apikey:KEY,
+          Authorization:'Bearer '+KEY,
+          'Content-Type':'application/json',
+          Prefer:'resolution=merge-duplicates,return=minimal'
+        },
+        body:JSON.stringify({key:'jd_catalog_v6',value:catalog,updated_at:new Date().toISOString()})
+      });
+      if(!resp.ok){
+        let detail=''; try{detail=await resp.text()}catch(e){}
+        throw new Error('Supabase '+resp.status+(detail?' · '+detail:''));
+      }
+      Storage.prototype.setItem.call(localStorage,'jd_catalog_v6',JSON.stringify(catalog));
+      if(status){status.textContent='Guardado y sincronizado.';status.style.color='#315d50';}
+      btn.textContent='Guardado ✓';
+      setTimeout(()=>location.reload(),450);
+    }catch(err){
+      console.error('JD product save V7',err);
+      btn.disabled=false;
+      btn.textContent='Guardar producto';
+      if(status){status.innerHTML='<span style="color:#9a4b45">Error: '+esc(err.message||err)+'</span>';}
+      alert('No se pudo guardar. '+(err.message||err));
+    }
+  },true);
+})();
+</script>
 </body></html>
 <style id="jd-sidebar-logo-fix-v4">
 .jd-brand{
