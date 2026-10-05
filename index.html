@@ -458,4 +458,176 @@ function editVariant(i){
 }
 renderQuote();
 })();
+</script>
+<style>
+/* JD modular catalog v3 */
+.jd-thumb{width:100%;height:150px;object-fit:contain;background:#f4efe5;border:1px solid var(--line);border-radius:10px}
+.jd-asset-card{background:var(--panel);border:1px solid #d9c69c;border-radius:16px;padding:14px}
+.jd-asset-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.jd-matrix{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
+.jd-matrix th,.jd-matrix td{border:1px solid var(--line);padding:7px;text-align:center}
+.jd-completion{height:8px;background:#eee5d5;border-radius:999px;overflow:hidden;margin-top:9px}
+.jd-completion>span{display:block;height:100%;background:var(--accent);border-radius:999px}
+.jd-click{cursor:pointer}
+.jd-note{padding:10px 12px;border-radius:10px;background:#f7f1e5;border:1px solid #e3d2ac;font-size:12px;color:#725d38}
+</style>
+<script>
+/* JD modular catalog v3 */
+(function(){
+const esc3=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS3=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
+const SAVE3=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const modal3=(title,body,saveLabel,onSave)=>{
+ const w=document.createElement('div');w.className='modal open';
+ w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+esc3(title)+'</h2><button class="btn jd-x">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button class="btn primary jd-s">'+esc3(saveLabel||'Guardar')+'</button></div></div>';
+ document.body.appendChild(w);w.querySelector('.jd-x').onclick=()=>w.remove();w.querySelector('.jd-s').onclick=()=>onSave(w);return w;
+};
+
+// ---------------- PRESUPUESTOS GUARDADOS ----------------
+const nav=document.getElementById('nav');
+const newQuoteBtn=nav?[...nav.querySelectorAll('button')].find(b=>b.dataset.screen==='quotes'):null;
+if(newQuoteBtn){
+ newQuoteBtn.textContent='Presupuestos';
+ newQuoteBtn.dataset.screen='savedQuotes';
+}
+let savedQuotes=LS3('jd_saved_quotes',[]);
+let sq=document.getElementById('savedQuotes');
+if(!sq){
+ sq=document.createElement('section');sq.className='screen';sq.id='savedQuotes';
+ document.querySelector('main.main').appendChild(sq);
+}
+function drawSavedQuotes(){
+ sq.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Presupuestos</h1></div><button class="btn primary" id="jdNewQuoteBtn">+ Nuevo presupuesto</button></div>'+
+ (savedQuotes.length?'<table class="table"><thead><tr><th>Cliente</th><th>Producto</th><th>Configuración</th><th>Fecha</th><th>Evento / entrega</th><th></th></tr></thead><tbody>'+
+ savedQuotes.map((q,i)=>'<tr><td><b>'+esc3(q.client)+'</b></td><td>'+esc3(q.product)+'</td><td>'+esc3(q.model+' · '+q.nusaj+' · '+q.size)+'</td><td>'+esc3(q.created)+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><button class="btn sm" data-open-q="'+i+'">Abrir</button></td></tr>').join('')+'</tbody></table>':'<div class="card"><p class="muted">Todavía no hay presupuestos guardados.</p></div>');
+ document.getElementById('jdNewQuoteBtn').onclick=()=>go('quotes');
+ sq.querySelectorAll('[data-open-q]').forEach(b=>b.onclick=()=>loadSavedQuote(+b.dataset.openQ));
+}
+drawSavedQuotes();
+document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
+const quoteTop=document.querySelector('#quotes .topbar>div:last-child');
+if(quoteTop && !document.getElementById('jdSaveQuote')){
+ const b=document.createElement('button');b.className='btn gold';b.id='jdSaveQuote';b.textContent='Guardar presupuesto';b.onclick=saveCurrentQuote;quoteTop.insertBefore(b,quoteTop.firstChild);
+}
+function saveCurrentQuote(){
+ const q={client:qClient.value,product:qProduct.value,model:qModel.value,nusaj:qNusaj.value,lang:qLang.value,size:qSize.options[qSize.selectedIndex].text,bind:qBind.value,pages:qPages.value,qty1:qQty1.value,price1:qPrice1.value,qty2:qQty2.value,price2:qPrice2.value,discount:qDiscount.value,why:qDiscountWhy.value,event:document.getElementById('qEvent')?.value||'',deadline:document.getElementById('qDeadline')?.value||'',created:new Date().toLocaleDateString('es-AR')};
+ savedQuotes.unshift(q);SAVE3('jd_saved_quotes',savedQuotes);drawSavedQuotes();alert('Presupuesto guardado.');
+}
+function loadSavedQuote(i){
+ const q=savedQuotes[i];go('quotes');qClient.value=q.client;qProduct.value=q.product;qModel.value=q.model;qNusaj.value=q.nusaj;qLang.value=q.lang;
+ [...qSize.options].forEach(o=>{if(o.text===q.size)o.selected=true});qBind.value=q.bind;qQty1.value=q.qty1;qPrice1.value=q.price1;qQty2.value=q.qty2;qPrice2.value=q.price2;qDiscount.value=q.discount;qDiscountWhy.value=q.why||'';
+ if(document.getElementById('qEvent'))qEvent.value=q.event||'';if(document.getElementById('qDeadline'))qDeadline.value=q.deadline||'';renderQuote();
+}
+
+// ---------------- ASSETS REALES + ASIGNACIÓN ----------------
+let assets=LS3('jd_assets',[]);
+const assetsSec=document.getElementById('assets');
+function drawAssets(){
+ if(!assetsSec)return;
+ assetsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Biblioteca visual</div><h1>Assets</h1></div><button class="btn primary" id="jdAddAsset">+ Subir asset</button></div>'+
+ '<div class="jd-note">Cada asset se etiqueta por <b>producto + función + variante</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
+ '<div class="product-grid" style="margin-top:16px">'+(assets.length?assets.map((a,i)=>'<div class="jd-asset-card">'+(a.data?'<img class="jd-thumb" src="'+a.data+'">':'<div class="product-visual">Sin preview</div>')+'<h3>'+esc3(a.name)+'</h3><div class="jd-asset-meta"><span class="tag">'+esc3(a.role)+'</span><span class="tag">'+esc3(a.product)+'</span>'+(a.variant?'<span class="tag">'+esc3(a.variant)+'</span>':'')+'</div><p class="small muted">'+esc3(a.notes||'')+'</p><div class="jd-toolbar"><button class="btn sm" data-ea="'+i+'">Editar</button><button class="btn sm" data-da="'+i+'">Eliminar</button></div></div>').join(''):'<div class="card"><p class="muted">Todavía no cargaste assets reales. Podés subir mockup principal, índice, interior, tamaño comparativo, canto abrochado o binder.</p></div>')+'</div>';
+ document.getElementById('jdAddAsset').onclick=()=>editAsset(-1);
+ assetsSec.querySelectorAll('[data-ea]').forEach(b=>b.onclick=()=>editAsset(+b.dataset.ea));
+ assetsSec.querySelectorAll('[data-da]').forEach(b=>b.onclick=()=>{assets.splice(+b.dataset.da,1);SAVE3('jd_assets',assets);drawAssets()});
+}
+function editAsset(i){
+ const a=i>=0?assets[i]:{name:'',product:'Birkón · Librito',role:'Mockup principal',variant:'',notes:'',data:''};
+ const w=modal3(i>=0?'Editar asset':'Subir asset','<div class="jd-grid"><div class="jd-field"><label>Nombre</label><input id="jaName" value="'+esc3(a.name)+'"></div><div class="jd-field"><label>Producto</label><select id="jaProd"><option>Birkón · Librito</option><option>Birkón · Folleto</option><option>Luaj</option><option>Otro</option></select></div><div class="jd-field"><label>Función</label><select id="jaRole">'+['Mockup principal','Índice','Interior','Tamaño comparativo','Canto abrochado','Canto binder'].map(x=>'<option '+(x===a.role?'selected':'')+'>'+x+'</option>').join('')+'</select></div><div class="jd-field"><label>Variante / criterio</label><input id="jaVar" value="'+esc3(a.variant)+'" placeholder="Ej. Classic · 2 nusajim · Ashkenazí + Sefaradí"></div><div class="jd-field"><label>Imagen</label><input id="jaFile" type="file" accept="image/*"></div><div class="jd-field"><label>Notas</label><input id="jaNotes" value="'+esc3(a.notes)+'"></div></div>','Guardar asset',async x=>{
+   const file=x.querySelector('#jaFile').files[0];let data=a.data||'';if(file)data=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file)});
+   const obj={name:x.querySelector('#jaName').value||file?.name||'Asset',product:x.querySelector('#jaProd').value,role:x.querySelector('#jaRole').value,variant:x.querySelector('#jaVar').value,notes:x.querySelector('#jaNotes').value,data};
+   if(i>=0)assets[i]=obj;else assets.push(obj);SAVE3('jd_assets',assets);x.remove();drawAssets();applyQuoteAsset();
+ });
+ w.querySelector('#jaProd').value=a.product;
+}
+function findAsset(role){
+ if(!window.qProduct)return null;
+ const product=qProduct.value,model=qModel.value,nusaj=qNusaj.value;
+ const cand=assets.filter(a=>a.product===product&&a.role===role);
+ return cand.find(a=>a.variant&&a.variant.includes(model)&&a.variant.includes(nusaj))||cand.find(a=>a.variant&&a.variant.includes(model))||cand.find(a=>!a.variant)||cand[0]||null;
+}
+function applyQuoteAsset(){
+ const m=findAsset('Mockup principal');const box=document.querySelector('#quotePreview .mock');if(box&&m?.data)box.innerHTML='<img src="'+m.data+'" style="width:100%;height:100%;object-fit:contain;border-radius:12px">';
+}
+drawAssets();
+const oldRQ=window.renderQuote;window.renderQuote=function(){oldRQ();applyQuoteAsset()};
+
+// ---------------- COSTOS ZLOTO / B612 ----------------
+let costs=LS3('jd_cost_quotes',[
+{supplier:'Zloto',product:'Birkón · Librito',size:'Normal',binding:'Abrochado',pages:72,qty:60,cost:395770,date:'2026-08-25'},
+{supplier:'Zloto',product:'Birkón · Librito',size:'Normal',binding:'Abrochado',pages:88,qty:100,cost:650770,date:'2026-08-25'}
+]);
+const costsSec=document.getElementById('costs');
+const money3=n=>'$ '+Math.round(Number(n||0)).toLocaleString('es-AR');
+function drawCosts(){
+ if(!costsSec)return;
+ costsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Costos</div><h1>Proveedores & cotizaciones</h1></div><button class="btn primary" id="jdAddCost3">+ Cargar cotización</button></div>'+
+ '<div class="grid cards"><div class="card"><b>Zloto</b><p class="small muted">Birkonim librito · producción aprox. 2 semanas.</p></div><div class="card"><b>Gráfica B612</b><p class="small muted">Folletos · producción aprox. 48 h.</p></div></div>'+
+ '<div class="section"><table class="table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Costo</th><th>Fecha</th><th></th></tr></thead><tbody>'+costs.map((c,i)=>'<tr><td><b>'+esc3(c.supplier)+'</b></td><td>'+esc3(c.product)+'</td><td>'+esc3(c.size)+' · '+esc3(c.binding)+' · '+c.pages+' págs · '+c.qty+' u.</td><td class="price">'+money3(c.cost)+'</td><td>'+esc3(c.date)+'</td><td><button class="btn sm" data-ec="'+i+'">Editar / actualizar</button></td></tr>').join('')+'</tbody></table></div>'+
+ '<div class="section"><div class="section-head"><h2>Estimador conservador</h2></div><div class="card"><div class="jd-grid"><div class="jd-field"><label>Producto</label><select id="estProd"><option>Birkón · Librito</option><option>Birkón · Folleto</option></select></div><div class="jd-field"><label>Tamaño</label><select id="estSize"><option>Normal</option><option>Grande</option></select></div><div class="jd-field"><label>Encuadernación</label><select id="estBind"><option>Abrochado</option><option>Cosido con hilo / Binder</option></select></div><div class="jd-field"><label>Páginas</label><input id="estPages" type="number" value="72"></div><div class="jd-field"><label>Cantidad solicitada</label><input id="estQty" type="number" value="60"></div><div style="align-self:end"><button class="btn primary" id="estGo">Estimar</button></div></div><div id="estOut" style="margin-top:14px"></div></div></div>';
+ document.getElementById('jdAddCost3').onclick=()=>editCost(-1);
+ costsSec.querySelectorAll('[data-ec]').forEach(b=>b.onclick=()=>editCost(+b.dataset.ec));
+ document.getElementById('estGo').onclick=estimateCost;
+}
+function editCost(i){
+ const c=i>=0?costs[i]:{supplier:'Zloto',product:'Birkón · Librito',size:'Normal',binding:'Abrochado',pages:72,qty:50,cost:'',date:new Date().toISOString().slice(0,10)};
+ const w=modal3(i>=0?'Editar / actualizar cotización':'Cargar cotización','<div class="jd-grid"><div class="jd-field"><label>Proveedor</label><select id="jcSup"><option>Zloto</option><option>Gráfica B612</option></select></div><div class="jd-field"><label>Producto</label><select id="jcProd"><option>Birkón · Librito</option><option>Birkón · Folleto</option></select></div><div class="jd-field"><label>Tamaño</label><select id="jcSize"><option>Normal</option><option>Grande</option></select></div><div class="jd-field"><label>Encuadernación</label><select id="jcBind"><option>Abrochado</option><option>Cosido con hilo / Binder</option></select></div><div class="jd-field"><label>Páginas</label><input id="jcPg" type="number" value="'+c.pages+'"></div><div class="jd-field"><label>Cantidad</label><input id="jcQty" type="number" value="'+c.qty+'"></div><div class="jd-field"><label>Costo imprenta</label><input id="jcCost" type="number" value="'+c.cost+'"></div><div class="jd-field"><label>Fecha</label><input id="jcDate" type="date" value="'+c.date+'"></div></div>','Guardar',x=>{
+  const obj={supplier:x.querySelector('#jcSup').value,product:x.querySelector('#jcProd').value,size:x.querySelector('#jcSize').value,binding:x.querySelector('#jcBind').value,pages:Number(x.querySelector('#jcPg').value),qty:Number(x.querySelector('#jcQty').value),cost:Number(x.querySelector('#jcCost').value),date:x.querySelector('#jcDate').value};
+  if(i>=0)costs[i]=obj;else costs.push(obj);SAVE3('jd_cost_quotes',costs);x.remove();drawCosts();
+ });
+ w.querySelector('#jcSup').value=c.supplier;w.querySelector('#jcProd').value=c.product;w.querySelector('#jcSize').value=c.size;w.querySelector('#jcBind').value=c.binding;
+}
+function estimateCost(){
+ const p=estProd.value,s=estSize.value,b=estBind.value,pg=Number(estPages.value),q=Number(estQty.value);
+ const list=costs.filter(c=>c.product===p&&c.size===s&&c.binding===b&&Number(c.pages)===pg).sort((a,b)=>a.qty-b.qty);
+ const exact=list.find(c=>c.qty===q);let out=document.getElementById('estOut');
+ if(exact){out.innerHTML='<div class="jd-panel"><span class="tag ok">Cotización exacta</span><h3>'+money3(exact.cost)+'</h3></div>';return}
+ const eligible=list.filter(c=>c.qty<q);
+ if(!eligible.length){out.innerHTML='<div class="jd-panel"><span class="tag danger">Sin base segura</span><p>No se usa una cotización de mayor cantidad para estimar hacia abajo.</p></div>';return}
+ const base=eligible[eligible.length-1],val=base.cost*q/base.qty;
+ out.innerHTML='<div class="jd-panel"><span class="tag warn">Aproximado conservador</span><h3>'+money3(val)+'</h3><p class="small muted">Regla de 3 desde '+base.qty+' unidades ('+money3(base.cost)+'). Nunca desde una cantidad mayor hacia abajo.</p></div>';
+}
+drawCosts();
+
+// ---------------- MASTERS POR ÍTEM DE ÍNDICE ----------------
+let contentItems=LS3('jd_content_items',[
+{name:'Birkat Hamazón',category:'Birkón',nusajim:['Ashkenazí','Jabad','Sefaradí'],langs:['Hebreo','Fonética','Español']},
+{name:'Birkot Hashajar',category:'Birkot Hashajar',nusajim:['Sefaradí'],langs:['Hebreo','Fonética','Español']},
+{name:'Hadlakat Nerot',category:'General',nusajim:['Ashkenazí','Jabad','Sefaradí'],langs:['Hebreo','Fonética','Español']}
+]);
+let masterCells=LS3('jd_master_cells',{});
+function cellKey(item,n,l){return item+'||'+n+'||'+l}
+function ensureCells(item){item.nusajim.forEach(n=>item.langs.forEach(l=>{const k=cellKey(item.name,n,l);if(!masterCells[k])masterCells[k]={status:'Falta crear',ref:'',body:''}}));SAVE3('jd_master_cells',masterCells)}
+contentItems.forEach(ensureCells);
+const mastersSec3=document.getElementById('masters');
+function drawMasters3(){
+ if(!mastersSec3)return;
+ mastersSec3.innerHTML='<div class="topbar"><div><div class="eyebrow">Editorial</div><h1>Masters & desarrollo del catálogo</h1></div><button class="btn primary" id="jdAddItem">+ Nuevo ítem de contenido</button></div>'+
+ '<div class="jd-note"><b>Master modular:</b> cada renglón del índice es un ítem independiente. Ese ítem puede tener versiones por nusaj y por idioma. Los productos comerciales se construyen combinando estos ítems; así una corrección de un Master puede propagarse a todos los productos que lo usan.</div>'+
+ '<div class="product-grid" style="margin-top:16px">'+contentItems.map((it,i)=>{let total=it.nusajim.length*it.langs.length,done=0;it.nusajim.forEach(n=>it.langs.forEach(l=>{if(masterCells[cellKey(it.name,n,l)]?.status==='Aprobado')done++}));const pct=Math.round(done*100/total);return '<div class="master-card jd-click" data-item="'+i+'"><div class="eyebrow">'+esc3(it.category)+'</div><h3>'+esc3(it.name)+'</h3><p class="small muted">'+it.nusajim.length+' nusajim · '+it.langs.length+' idiomas · '+total+' Masters posibles</p><div class="jd-completion"><span style="width:'+pct+'%"></span></div><p class="small">'+done+'/'+total+' aprobados</p><button class="btn sm">Abrir matriz</button></div>'}).join('')+'</div>';
+ document.getElementById('jdAddItem').onclick=()=>editContentItem(-1);
+ mastersSec3.querySelectorAll('[data-item]').forEach(c=>c.onclick=()=>openMatrix(+c.dataset.item));
+}
+function editContentItem(i){
+ const it=i>=0?contentItems[i]:{name:'',category:'General',nusajim:['Ashkenazí','Jabad','Sefaradí'],langs:['Hebreo','Fonética','Español']};
+ modal3(i>=0?'Editar ítem de contenido':'Nuevo ítem de contenido','<div class="jd-grid"><div class="jd-field"><label>Nombre</label><input id="ciName" value="'+esc3(it.name)+'" placeholder="Ej. Hadlakat Nerot"></div><div class="jd-field"><label>Categoría / uso</label><input id="ciCat" value="'+esc3(it.category)+'"></div><div class="jd-field"><label>Nusajim</label><input id="ciNus" value="'+esc3(it.nusajim.join(', '))+'"></div><div class="jd-field"><label>Idiomas</label><input id="ciLang" value="'+esc3(it.langs.join(', '))+'"></div></div>','Crear estructura de Masters',w=>{
+  const obj={name:w.querySelector('#ciName').value.trim(),category:w.querySelector('#ciCat').value.trim(),nusajim:w.querySelector('#ciNus').value.split(',').map(x=>x.trim()).filter(Boolean),langs:w.querySelector('#ciLang').value.split(',').map(x=>x.trim()).filter(Boolean)};
+  if(!obj.name)return alert('Falta nombre');if(i>=0)contentItems[i]=obj;else contentItems.push(obj);ensureCells(obj);SAVE3('jd_content_items',contentItems);w.remove();drawMasters3();
+ });
+}
+function openMatrix(i){
+ const it=contentItems[i];let rows='';
+ it.nusajim.forEach(n=>{rows+='<tr><th>'+esc3(n)+'</th>'+it.langs.map(l=>{const c=masterCells[cellKey(it.name,n,l)];return '<td><button class="btn sm" data-cell="'+encodeURIComponent(n)+'|'+encodeURIComponent(l)+'">'+esc3(c.status)+'</button></td>'}).join('')+'</tr>'});
+ const w=modal3(it.name,'<div class="jd-panel"><table class="jd-matrix"><thead><tr><th>Nusaj</th>'+it.langs.map(l=>'<th>'+esc3(l)+'</th>').join('')+'</tr></thead><tbody>'+rows+'</tbody></table></div>','Cerrar',x=>x.remove());
+ w.querySelectorAll('[data-cell]').forEach(b=>b.onclick=()=>{const [n,l]=b.dataset.cell.split('|').map(decodeURIComponent);w.remove();editMasterCell(it,n,l)});
+}
+function editMasterCell(it,n,l){
+ const k=cellKey(it.name,n,l),c=masterCells[k];
+ modal3(it.name+' · '+n+' · '+l,'<div class="jd-grid"><div class="jd-field"><label>Estado</label><select id="mcStatus">'+['Falta crear','Revisión fina','Aprobado'].map(x=>'<option '+(x===c.status?'selected':'')+'>'+x+'</option>').join('')+'</select></div><div class="jd-field"><label>Referencia</label><input id="mcRef" value="'+esc3(c.ref)+'" placeholder="ArtScroll / Tehilat Hashem / Simchón..."></div><div class="jd-field" style="grid-column:1/-1"><label>Texto Master</label><textarea id="mcBody" style="min-height:280px">'+esc3(c.body)+'</textarea></div></div>','Guardar Master',w=>{masterCells[k]={status:w.querySelector('#mcStatus').value,ref:w.querySelector('#mcRef').value,body:w.querySelector('#mcBody').value};SAVE3('jd_master_cells',masterCells);w.remove();drawMasters3()});
+}
+drawMasters3();
+
+// Development catalog dashboard should route to Masters.
+document.querySelectorAll('#dashboard .section').forEach(sec=>{if(sec.textContent.includes('Desarrollo del catálogo')){sec.querySelectorAll('.card').forEach(c=>{c.classList.add('jd-click');c.onclick=()=>go('masters')})}});
+})();
 </script></body></html>
