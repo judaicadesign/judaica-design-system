@@ -1036,9 +1036,9 @@ function drawRulesV4(){
 function editRule(i){
  const r=i>=0?priceRules[i]:{product:'Birkón · Folleto',variant:'Tríptico',marginPct:50,shipping:10000,note:''};
  const prodOpts=products.map(p=>'<option '+(p.name===r.product?'selected':'')+'>'+E(p.name)+'</option>').join('');
- const w=popup(i>=0?'Editar regla':'Nueva regla','<div class="jd-formgrid"><div><label>Producto</label><select id="rp">'+prodOpts+'</select></div><div><label>Variante</label><select id="rv"></select></div><div><label>Ganancia objetivo (%)</label><input id="rm" type="number" min="0" max="95" step="0.5" value="'+Number(r.marginPct||0)+'"></div><div><label>Envío</label><input id="rs" type="number" value="'+r.shipping+'"></div><div class="span2"><div class="jd-linked" id="ruleExplain">Vos indicás cuánto querés ganar sobre el precio de venta. El sistema hace internamente: <b>costo ÷ (1 − margen) + envío</b>.</div></div></div>',x=>{
+ const w=popup(i>=0?'Editar regla':'Nueva regla','<div class="jd-formgrid"><div><label>Producto</label><select id="rp">'+prodOpts+'</select></div><div><label>Variante</label><select id="rv"></select></div><div><label>Ganancia objetivo (%)</label><input id="rm" type="number" min="0" max="95" step="0.5" value="'+Number(r.marginPct||0)+'"></div><div class="span2"><div class="jd-linked" id="ruleExplain">Vos indicás cuánto querés ganar sobre el precio de venta. El sistema hace internamente: <b>costo ÷ (1 − margen)</b> y luego suma el envío general configurado en el proveedor.</div></div></div>',x=>{
    const marginPct=Number(x.querySelector('#rm').value);
-   const obj={id:r.id||('r'+Date.now()),product:x.querySelector('#rp').value,variant:x.querySelector('#rv').value,marginPct,shipping:Number(x.querySelector('#rs').value)};
+   const obj={id:r.id||('r'+Date.now()),product:x.querySelector('#rp').value,variant:x.querySelector('#rv').value,marginPct};
    if(!(marginPct>=0&&marginPct<100))return alert('La ganancia debe estar entre 0% y 99%.'); if(i>=0)priceRules[i]=obj;else priceRules.push(obj);SET('jd_pricing_rules_v4',priceRules);x.remove();drawRulesV4();renderQuoteV4();
  });
  const rp=w.querySelector('#rp'),rv=w.querySelector('#rv');
@@ -1054,11 +1054,30 @@ function costSpec(c){
 }
 function drawCostsV4(){
  if(!costsSec)return;
+ const supplierCfg=GET('jd_supplier_settings_v1',{
+   'Zloto':{shipping:20000,production:'2 semanas'},
+   'Gráfica B612':{shipping:10000,production:'48 h.'}
+ });
  costsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Costos</div><h1>Proveedores & cotizaciones</h1></div><button class="btn primary" id="ac4">+ Cargar cotización</button></div>'+
- '<div class="grid cards"><div class="card"><b>Zloto</b><p class="small muted">Birkonim librito · producción: 2 semanas.</p></div><div class="card"><b>Gráfica B612</b><p class="small muted">Folletos · producción: 48 h.</p></div></div>'+
- '<div class="section"><table class="table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Costo</th><th>Fecha</th><th></th></tr></thead><tbody>'+costs.map((c,i)=>'<tr><td><b>'+E(c.supplier)+'</b></td><td>'+E(c.product)+'</td><td>'+E(costSpec(c))+'</td><td class="price">'+M(c.cost)+'</td><td>'+E(c.date||'')+'</td><td><button class="btn sm" data-ce="'+i+'">Editar / actualizar</button></td></tr>').join('')+'</tbody></table></div>';
+ '<div class="section"><div class="section-head"><h2>Configuración general de proveedores</h2></div><div class="grid cards">'+
+ Object.entries(supplierCfg).map(([name,s])=>'<div class="card"><b>'+E(name)+'</b><p class="small muted">Producción: '+E(s.production||'—')+'</p><p style="margin:10px 0 12px"><span class="small muted">Envío general</span><br><strong style="font-size:22px;color:#0f5b5d">'+M(s.shipping||0)+'</strong></p><button class="btn sm" data-supplier-edit="'+E(name)+'">Editar proveedor</button></div>').join('')+
+ '</div></div>'+
+ '<div class="section"><div class="section-head"><h2>Cotizaciones de imprenta</h2></div><table class="table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Costo</th><th>Fecha</th><th></th></tr></thead><tbody>'+costs.map((c,i)=>'<tr><td><b>'+E(c.supplier)+'</b></td><td>'+E(c.product)+'</td><td>'+E(costSpec(c))+'</td><td class="price">'+M(c.cost)+'</td><td>'+E(c.date||'')+'</td><td><button class="btn sm" data-ce="'+i+'">Editar / actualizar</button></td></tr>').join('')+'</tbody></table></div>';
  document.getElementById('ac4').onclick=()=>editCostV4(-1);
  costsSec.querySelectorAll('[data-ce]').forEach(b=>b.onclick=()=>editCostV4(+b.dataset.ce));
+ costsSec.querySelectorAll('[data-supplier-edit]').forEach(b=>b.onclick=()=>editSupplierSettingsV4(b.dataset.supplierEdit));
+}
+function editSupplierSettingsV4(name){
+ const all=GET('jd_supplier_settings_v1',{
+   'Zloto':{shipping:20000,production:'2 semanas'},
+   'Gráfica B612':{shipping:10000,production:'48 h.'}
+ });
+ const s=all[name]||{shipping:0,production:''};
+ popup('Editar proveedor · '+E(name),'<div class="jd-formgrid"><div><label>Costo de envío general</label><input id="spShip" type="number" min="0" step="1000" value="'+Number(s.shipping||0)+'"></div><div><label>Tiempo de producción</label><input id="spProd" value="'+E(s.production||'')+'"></div><div class="span2"><div class="jd-linked">Este envío se aplica automáticamente a <b>todos los productos</b> que usen este proveedor. No se configura producto por producto.</div></div></div>',x=>{
+   all[name]={...s,shipping:Number(x.querySelector('#spShip').value||0),production:x.querySelector('#spProd').value.trim()};
+   SET('jd_supplier_settings_v1',all);
+   x.remove();drawCostsV4();
+ });
 }
 function editCostV4(i){
  const c=i>=0?costs[i]:{supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:50,cost:'',date:new Date().toISOString().slice(0,10)};
@@ -1144,9 +1163,15 @@ function syncPages(){
  qPages.value=map[model+'|'+count+'|'+lang]||48;
 }
 function shippingForSupplier(p){
- const s=String(p?.supplier||'').toLowerCase();
- if(s.includes('zloto')) return 20000;
- if(s.includes('b612')) return 10000;
+ const all=GET('jd_supplier_settings_v1',{
+   'Zloto':{shipping:20000,production:'2 semanas'},
+   'Gráfica B612':{shipping:10000,production:'48 h.'}
+ });
+ const supplier=String(p?.supplier||'').trim();
+ if(all[supplier]) return Number(all[supplier].shipping||0);
+ const s=supplier.toLowerCase();
+ if(s.includes('zloto')) return Number(all['Zloto']?.shipping||20000);
+ if(s.includes('b612')) return Number(all['Gráfica B612']?.shipping||10000);
  return 0;
 }
 function findRule(p){
