@@ -2054,9 +2054,9 @@ function calcQty(q){
    if(cached.state==='loading')return {ok:false,loading:true,reason:'Consultando precio actual en B612…'};
    if(cached.state==='error')return {ok:false,liveError:true,reason:'No se pudo consultar B612: '+cached.error};
    const data=cached.data;
-   // B612 publica el total neto y el IVA por separado. Para la regla comercial
-   // usamos el neto, igual que en las cotizaciones históricas cargadas.
-   const cost=Number(data.net||0);
+   // B612 publica el precio neto + IVA. Para Judaica Design usamos como costo
+   // lo que efectivamente se paga a imprenta: total con IVA.
+   const cost=Number(data.gross||0);
    if(!(cost>0))return {ok:false,reason:'B612 devolvió un costo inválido.'};
    const shipping=jdSupplierShipping(p);
    const base={qty:Number(q),cost,date:String(data.fetchedAt||'').slice(0,10),source:'B612 live'};
@@ -2162,7 +2162,7 @@ function render6(){
    if(el){
      if(r.ok){
        const src=r.live
-         ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo neto $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos</div>'
+         ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo final c/IVA $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Neto $ '+Math.round(r.b612.net).toLocaleString('es-AR')+' + IVA · consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos</div>'
          :'<div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base);
        el.innerHTML='<b>$ '+round5(r.price-disc).toLocaleString('es-AR')+'</b>'+src;
      }else{
