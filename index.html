@@ -1980,31 +1980,107 @@ function findRule(p){
  const model=p.models.length?qModel.value:'';
  return rules.find(r=>r.product===p.name&&(r.variant===model||r.variant==='*'))||null;
 }
+const JD_B612_QUOTE_URL='https://athiruoimehofqzrplnl.supabase.co/functions/v1/b612-quote';
+const jdB612Cache=new Map();
+
+function jdSupplierShipping(p){
+ const all=GET('jd_supplier_settings_v1',{
+   'Zloto':{shipping:20000,production:'2 semanas'},
+   'Gráfica B612':{shipping:10000,production:'48 h.'}
+ });
+ const supplier=String(p?.supplier||'').trim();
+ if(all[supplier])return Number(all[supplier].shipping||0);
+ const s=supplier.toLowerCase();
+ if(s.includes('zloto'))return Number(all['Zloto']?.shipping||20000);
+ if(s.includes('b612'))return Number(all['Gráfica B612']?.shipping||10000);
+ return 0;
+}
+function jdRuleMath(r){
+ let divisor=Number(r?.divisor||0);
+ if(!(divisor>0&&divisor<=1)){
+   const margin=Number(r?.marginPct||0)/100;
+   if(!(margin>=0&&margin<1))return null;
+   divisor=1-margin;
+ }
+ return {divisor,marginPct:r?.marginPct!=null?Number(r.marginPct):Math.round((1-divisor)*10000)/100};
+}
+function jdIsB612Live(p){
+ return p?.name==='Birkón · Folleto' && /^Tr[ií]ptico$/i.test(String(qModel?.value||''));
+}
+function jdB612Key(q,p,v){
+ const t=jdEffectiveTechnical(p,v)||{};
+ return [qModel?.value||'',Number(q),t.openWidthMm||'',t.openHeightMm||'',t.closedWidthMm||'',t.closedHeightMm||'',t.weightGsm||'',t.lamination||''].join('|');
+}
+function jdFetchB612(q,p,v){
+ const key=jdB612Key(q,p,v);
+ const prior=jdB612Cache.get(key);
+ if(prior?.state==='loading'||prior?.state==='ready')return;
+ if(prior?.state==='error' && Date.now()-(prior.at||0)<30000)return;
+ const t=jdEffectiveTechnical(p,v)||{};
+ jdB612Cache.set(key,{state:'loading',at:Date.now()});
+ const payload={
+   format:qModel.value,qty:Number(q),
+   openWidthMm:Number(t.openWidthMm||290),openHeightMm:Number(t.openHeightMm||140),
+   closedWidthMm:Number(t.closedWidthMm||100),closedHeightMm:Number(t.closedHeightMm||140)
+ };
+ fetch(JD_B612_QUOTE_URL,{
+   method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify(payload)
+ }).then(async resp=>{
+   const data=await resp.json().catch(()=>({ok:false,error:'Respuesta inválida de B612'}));
+   if(!resp.ok||!data.ok)throw new Error(data.error||('HTTP '+resp.status));
+   jdB612Cache.set(key,{state:'ready',data,at:Date.now()});
+ }).catch(err=>{
+   jdB612Cache.set(key,{state:'error',error:String(err?.message||err),at:Date.now()});
+ }).finally(()=>{try{render6()}catch(e){console.error(e)}});
+}
 function calcQty(q){
  const p=activeProduct(),v=selectedVariant(p),r=findRule(p);
  if(!r)return {ok:false,reason:'Falta regla de precio vinculada.'};
+ const math=jdRuleMath(r);
+ if(!math)return {ok:false,reason:'La regla de precio no es válida.'};
  if(p.name==='Birkón · Librito' && (!v || !Number(v.pages||0))){
    return {ok:false,reason:'Esta combinación todavía no tiene cantidad de páginas definida. No se puede usar un costo de imprenta hasta cargar esa variante.'};
  }
+
+ // Folleto Tríptico: el costo se consulta EN VIVO a B612.
+ if(jdIsB612Live(p)){
+   const key=jdB612Key(q,p,v),cached=jdB612Cache.get(key);
+   if(!cached){
+     jdFetchB612(q,p,v);
+     return {ok:false,loading:true,reason:'Consultando precio actual en B612…'};
+   }
+   if(cached.state==='loading')return {ok:false,loading:true,reason:'Consultando precio actual en B612…'};
+   if(cached.state==='error')return {ok:false,liveError:true,reason:'No se pudo consultar B612: '+cached.error};
+   const data=cached.data;
+   // B612 publica el total neto y el IVA por separado. Para la regla comercial
+   // usamos el neto, igual que en las cotizaciones históricas cargadas.
+   const cost=Number(data.net||0);
+   if(!(cost>0))return {ok:false,reason:'B612 devolvió un costo inválido.'};
+   const shipping=jdSupplierShipping(p);
+   const base={qty:Number(q),cost,date:String(data.fetchedAt||'').slice(0,10),source:'B612 live'};
+   return {
+     ok:true,base,cost,
+     price:cost/math.divisor+shipping+Number(r.extra||0),
+     estimated:false,shipping,rule:{...r,divisor:math.divisor},marginPct:math.marginPct,
+     live:true,b612:data
+   };
+ }
+
  const costs=currentCostRecords(p,v).sort((a,b)=>a.qty-b.qty);
  let base=costs.find(c=>Number(c.qty)===Number(q)),estimated=false;
  if(!base){const lower=costs.filter(c=>Number(c.qty)<Number(q));base=lower[lower.length-1];estimated=!!base}
  if(!base)return {ok:false,reason:'Falta costo exacto o una tirada menor compatible para estimar.'};
  const cost=estimated?Number(base.cost)*Number(q)/Number(base.qty):Number(base.cost);
- let divisor=Number(r.divisor||0);
- if(!(divisor>0&&divisor<=1)){
-   const margin=Number(r.marginPct||0)/100;
-   if(!(margin>=0&&margin<1))return {ok:false,reason:'La regla de precio no es válida.'};
-   divisor=1-margin;
- }
- const shipping=shippingForSupplier(p);
- return {ok:true,base,cost,price:cost/divisor+shipping+Number(r.extra||0),estimated,shipping,rule:{...r,divisor},marginPct:r.marginPct!=null?Number(r.marginPct):Math.round((1-divisor)*10000)/100};
+ const shipping=jdSupplierShipping(p);
+ return {ok:true,base,cost,price:cost/math.divisor+shipping+Number(r.extra||0),estimated,shipping,rule:{...r,divisor:math.divisor},marginPct:math.marginPct};
 }
 function buildQuote(){
  if(!qs)return;
  const prevProd=document.getElementById('qProduct')?.value||catalog[0].name;
  qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn" id="previewPdf6">Vista previa PDF</button> <button class="btn primary" id="sendWa6">Enviar por WhatsApp</button></div></div>'+
- '<div class="quote-layout"><div class="card"><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" value="Cliente demo"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
+ '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" value="Cliente demo"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
  qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
  window.qs6=GET('jd_quote_qtys_v6',[60,100]);
  qProduct.onchange=syncFields6;['qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>document.getElementById(id).addEventListener('change',syncVariant6));
@@ -2034,6 +2110,15 @@ function syncFields6(){
 }
 function syncVariant6(){
  const p=activeProduct(),model=qModel.value||'';
+ const liveBanner=document.getElementById('jdB612LiveBanner');
+ if(liveBanner){
+   if(p.name==='Birkón · Folleto' && /^Tr[ií]ptico$/i.test(model)){
+     liveBanner.className='jd-note';
+     liveBanner.innerHTML='<b>B612 en vivo:</b> al elegir una cantidad, el sistema consulta el cotizador actual de Gráfica B612 con la ficha técnica del Tríptico y recién después aplica la regla comercial de Judaica Design.';
+   }else{
+     liveBanner.className='jd-note jd-hidden';liveBanner.innerHTML='';
+   }
+ }
  const prevT=qLang.value,prevN=qNusaj.value;
  const textVals=jdSetOptions(qLang,jdTextOptionsFor(p,model),prevT);
  const nusVals=jdSetOptions(qNusaj,jdNusajOptionsFor(p,model,qLang.value||''),prevN);
@@ -2074,7 +2159,16 @@ function render6(){
  const round5=n=>Math.round(Number(n||0)/5000)*5000;
  window.qs6.forEach((q,i)=>{
    const r=calcQty(q),el=document.getElementById('qpr6-'+i);
-   if(el)el.innerHTML=r.ok?'<b>$ '+round5(r.price-disc).toLocaleString('es-AR')+'</b><div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base):'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
+   if(el){
+     if(r.ok){
+       const src=r.live
+         ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo neto $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos</div>'
+         :'<div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base);
+       el.innerHTML='<b>$ '+round5(r.price-disc).toLocaleString('es-AR')+'</b>'+src;
+     }else{
+       el.innerHTML=r.loading?'<span style="color:#0f5b5d">↻ '+E(r.reason)+'</span>':'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
+     }
+   }
  });
  const specs=[
    p.models.length?['▣','Modelo / formato',E(qModel.value)]:null,
