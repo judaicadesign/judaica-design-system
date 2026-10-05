@@ -1973,3 +1973,71 @@ h1{font-size:clamp(30px,3vw,42px)}
   .jd-client-meta{grid-column:1/-1!important;padding-left:0!important}
 }
 </style>
+<style id="jd-crm-alerts-v1">
+.jd-action-list{display:grid;gap:10px;margin-top:10px}
+.jd-action-item{display:grid;grid-template-columns:minmax(180px,1.1fr) minmax(220px,1.5fr) auto;gap:14px;align-items:center;padding:12px 14px;border:1px solid #dfcfad;border-radius:12px;background:#fffdf8}
+.jd-action-item.overdue{border-color:#d89a8e;background:#fff7f4}
+.jd-action-item.today{border-color:#d6ad5a;background:#fffaf0}
+.jd-action-main b{display:block;color:#0f5b5d}
+.jd-action-main small,.jd-action-copy small{display:block;color:#7c7467;margin-top:3px}
+.jd-alert-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;background:#c08e35}
+.jd-action-item.overdue .jd-alert-dot{background:#b85f52}
+.jd-action-item.today .jd-alert-dot{background:#c08e35}
+.jd-action-cta{display:flex;gap:7px;justify-content:flex-end;flex-wrap:wrap}
+.jd-wa{background:#0f5b5d!important;color:white!important;border-color:#0f5b5d!important}
+@media(max-width:820px){.jd-action-item{grid-template-columns:1fr}.jd-action-cta{justify-content:flex-start}}
+</style>
+<script id="jd-crm-alerts-v1-script">
+(function(){
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const getClients=()=>{try{return JSON.parse(localStorage.getItem('jd_clients')||'[]')}catch(e){return[]}};
+  const today0=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+  function parseNext(c){
+    if(c.nextDate){
+      const d=new Date(c.nextDate+'T00:00:00'); if(!isNaN(d)) return d;
+    }
+    const m=String(c.next||'').match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?/);
+    if(!m)return null;
+    let y=m[3]?Number(m[3]):new Date().getFullYear(); if(y<100)y+=2000;
+    const d=new Date(y,Number(m[2])-1,Number(m[1])); d.setHours(0,0,0,0); return d;
+  }
+  function waMessage(c){
+    const n=(c.name||'').trim();
+    const ask=(c.ask||'tu consulta').trim();
+    switch(c.status){
+      case 'Presupuesto enviado': return 'Hola '+n+', ¿cómo estás? Quería saber si pudiste ver el presupuesto que te enviamos por '+ask+'. Si querés, te ayudo con cualquier duda.';
+      case 'Esperando respuesta': return 'Hola '+n+', ¿cómo estás? Te escribo para retomar '+ask+'. ¿Pudiste verlo?';
+      case 'Aceptado':
+      case 'Pago pendiente': return 'Hola '+n+', ¿cómo estás? Te escribo para avanzar con '+ask+'. Quedamos atentos al pago para poder comenzar.';
+      default: return 'Hola '+n+', ¿cómo estás? Te escribo por '+ask+'.';
+    }
+  }
+  function renderDashboardActions(){
+    const dash=document.getElementById('dashboard'); if(!dash)return;
+    const heads=[...dash.querySelectorAll('.section-head h2')];
+    const h=heads.find(x=>x.textContent.trim()==='Seguimientos prioritarios'); if(!h)return;
+    const section=h.closest('.section'); if(!section)return;
+    const clients=getClients().filter(c=>c.status!=='Rechazado' && !c.paid);
+    const t=today0();
+    clients.sort((a,b)=>{
+      const da=parseNext(a),db=parseNext(b);
+      if(da&&db)return da-db;
+      if(da)return -1;if(db)return 1;return 0;
+    });
+    const priority=clients.slice(0,8);
+    section.innerHTML='<div class="section-head"><h2>Seguimientos prioritarios</h2><button class="btn sm" onclick="go(\'clients\')">Ver todos</button></div>'+
+      '<div class="jd-action-list">'+(priority.length?priority.map((c,i)=>{
+        const d=parseNext(c); let cls='',when='Sin fecha';
+        if(d){const diff=Math.round((d-t)/86400000);when=diff<0?'Vencido '+Math.abs(diff)+' día'+(Math.abs(diff)===1?'':'s'):diff===0?'Hoy':diff===1?'Mañana':d.toLocaleDateString('es-AR');cls=diff<0?'overdue':diff===0?'today':''}
+        const phone=String(c.phone||'').replace(/\D/g,'');
+        const wa=phone?'https://wa.me/'+phone+'?text='+encodeURIComponent(waMessage(c)):'';
+        return '<div class="jd-action-item '+cls+'"><div class="jd-action-main"><b><span class="jd-alert-dot"></span>'+esc(c.name)+(c.org?' · '+esc(c.org):'')+'</b><small>'+esc(c.status||'Seguimiento')+'</small></div><div class="jd-action-copy">'+esc(c.ask||'')+'<small>'+esc(c.next||'Próxima acción sin definir')+' · '+when+'</small></div><div class="jd-action-cta">'+(wa?'<a class="btn sm jd-wa" target="_blank" rel="noopener" href="'+wa+'">WhatsApp</a>':'<button class="btn sm" onclick="go(\'clients\')">Agregar WhatsApp</button>')+'<button class="btn sm" onclick="go(\'clients\')">Abrir ficha</button></div></div>';
+      }).join(''):'<div class="card muted">No hay seguimientos pendientes.</div>')+'</div>';
+  }
+  window.jdRenderDashboardActions=renderDashboardActions;
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(renderDashboardActions,250));
+  window.addEventListener('jd-shared-ready',()=>setTimeout(renderDashboardActions,250));
+  const obs=new MutationObserver(()=>{if(document.getElementById('dashboard')?.classList.contains('active'))renderDashboardActions()});
+  const nav=document.getElementById('nav'); if(nav)obs.observe(nav,{subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
