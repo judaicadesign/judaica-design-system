@@ -118,7 +118,7 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
   const pending=new Map();
   let ready=false, applyingRemote=false;
   const shouldSync=k=>String(k).startsWith('jd_') && k!=='jd_quote_qtys_v6';
-  const headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'};
+  const headers={'apikey':KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'};
   async function push(k,v){
     if(!shouldSync(k))return;
     let parsed; try{parsed=JSON.parse(v)}catch(e){parsed=v}
@@ -421,7 +421,7 @@ function editAsset(i){
          method:'POST',
          headers:{
            apikey:'sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP',
-           Authorization:'Bearer sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP',
+           
            'Content-Type':file.type||'application/octet-stream',
            'x-upsert':'true'
          },
@@ -964,7 +964,7 @@ function jdVariantNusajOptions(v,p){
       method:'POST',
       headers:{
         apikey:'sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP',
-        Authorization:'Bearer sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP',
+        
         'Content-Type':'application/json',
         Prefer:'resolution=merge-duplicates,return=minimal'
       },
@@ -1100,7 +1100,7 @@ function editProduct(i){
      const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
      const resp=await fetch(URL+'/rest/v1/app_state',{
        method:'POST',
-       headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
+       headers:{apikey:KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
        body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})
      });
      if(!resp.ok){let tx='';try{tx=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(tx?' · '+tx:''));}
@@ -1299,7 +1299,7 @@ function editVariant(pi,vi){
    const status=w.querySelector('#variantSaveStatus6');if(status)status.textContent='Guardando y sincronizando…';
    try{
      const URL='https://athiruoimehofqzrplnl.supabase.co',KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
-     const resp=await fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})});
+     const resp=await fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})});
      if(!resp.ok){let tx='';try{tx=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(tx?' · '+tx:''));}
      catalog=next;SET('jd_catalog_v6',catalog);
      if(status){status.textContent='Guardado y sincronizado.';status.style.color='#315d50';}
@@ -1329,7 +1329,7 @@ async function ensureClassicHebrewOnly24(){
  try{
    const URL='https://athiruoimehofqzrplnl.supabase.co';
    const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
-   const resp=await fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:'jd_catalog_v6',value:catalog,updated_at:new Date().toISOString()})});
+   const resp=await fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:'jd_catalog_v6',value:catalog,updated_at:new Date().toISOString()})});
    if(resp.ok)Storage.prototype.setItem.call(localStorage,'jd_catalog_v6',JSON.stringify(catalog));
  }catch(e){console.warn('No se pudo sincronizar Classic hebreo solo 24 páginas',e);}
 }
@@ -1662,7 +1662,7 @@ async function save6(){
    if(ci>=0)clients[ci]=clientObj;else clients.push(clientObj);
 
    const URL='https://athiruoimehofqzrplnl.supabase.co',KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
-   const headers={apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'};
+   const headers={apikey:KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'};
    for(const [key,value] of [['jd_saved_quotes_v6',arr],['jd_clients',clients]]){
      const resp=await fetch(URL+'/rest/v1/app_state',{method:'POST',headers,body:JSON.stringify({key,value,updated_at:new Date().toISOString()})});
      if(!resp.ok){let t='';try{t=await resp.text()}catch(e){}throw new Error('No se pudo sincronizar '+key+' ('+resp.status+'). '+t)}
@@ -2035,7 +2035,7 @@ h1{font-size:clamp(30px,3vw,42px)}
  }
  async function uploadPdf(blob,q){
    const path=(q.id||('q-'+Date.now()))+'-'+slug(q.client)+'-'+slug(q.product)+'.pdf';
-   const r=await fetch(SB_URL+'/storage/v1/object/jd-quotes/'+encodeURIComponent(path),{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/pdf','x-upsert':'true'},body:blob});
+   const r=await fetch(SB_URL+'/storage/v1/object/jd-quotes/'+encodeURIComponent(path),{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/pdf','x-upsert':'true'},body:blob});
    if(!r.ok)throw new Error('No se pudo guardar el PDF en la nube.');
    return SB_URL+'/storage/v1/object/public/jd-quotes/'+encodeURIComponent(path);
  }
@@ -2164,7 +2164,7 @@ h1{font-size:clamp(30px,3vw,42px)}
         method:'POST',
         headers:{
           apikey:KEY,
-          Authorization:'Bearer '+KEY,
+          
           'Content-Type':'application/json',
           Prefer:'resolution=merge-duplicates,return=minimal'
         },
@@ -2293,7 +2293,7 @@ h1{font-size:clamp(30px,3vw,42px)}
    try{
      const r=await fetch(SB_URL+'/rest/v1/app_state',{
        method:'POST',
-       headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
+       headers:{apikey:SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
        body:JSON.stringify({key:CLIENT_KEY,value:arr,updated_at:nowIso()})
      });
      if(!r.ok)throw new Error('Supabase '+r.status);
