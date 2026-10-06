@@ -1055,11 +1055,11 @@ function drawCostsV4(){
  if(!costsSec)return;
  const supplierCfg=GET('jd_supplier_settings_v1',{
    'Zloto':{shipping:20000,production:'2 semanas'},
-   'Gráfica B612':{shipping:10000,production:'48 h.'}
+   'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
  });
  costsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Costos</div><h1>Proveedores & cotizaciones</h1></div><button class="btn primary" id="ac4">+ Cargar cotización</button></div>'+
  '<div class="section"><div class="section-head"><h2>Configuración general de proveedores</h2></div><div class="grid cards">'+
- Object.entries(supplierCfg).map(([name,s])=>'<div class="card"><b>'+E(name)+'</b><p class="small muted">Producción: '+E(s.production||'—')+'</p><p style="margin:10px 0 12px"><span class="small muted">Envío general</span><br><strong style="font-size:22px;color:#0f5b5d">'+M(s.shipping||0)+'</strong></p><button class="btn sm" data-supplier-edit="'+E(name)+'">Editar proveedor</button></div>').join('')+
+ Object.entries(supplierCfg).map(([name,s])=>'<div class="card"><b>'+E(name)+'</b><p class="small muted">Producción: '+E(s.production||'—')+'</p>'+(String(name).toLowerCase().includes('b612')?'<p class="small"><b>Base de costo:</b> sin IVA</p>':'')+'<p style="margin:10px 0 12px"><span class="small muted">Envío general</span><br><strong style="font-size:22px;color:#0f5b5d">'+M(s.shipping||0)+'</strong></p><button class="btn sm" data-supplier-edit="'+E(name)+'">Editar proveedor</button></div>').join('')+
  '</div></div>'+
  '<div class="section"><div class="section-head"><h2>Cotizaciones de imprenta</h2></div><table class="table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Costo</th><th>Fecha</th><th></th></tr></thead><tbody>'+costs.map((c,i)=>'<tr><td><b>'+E(c.supplier)+'</b></td><td>'+E(c.product)+'</td><td>'+E(costSpec(c))+'</td><td class="price">'+M(c.cost)+'</td><td>'+E(c.date||'')+'</td><td><button class="btn sm" data-ce="'+i+'">Editar / actualizar</button></td></tr>').join('')+'</tbody></table></div>';
  document.getElementById('ac4').onclick=()=>editCostV4(-1);
@@ -1069,11 +1069,11 @@ function drawCostsV4(){
 function editSupplierSettingsV4(name){
  const all=GET('jd_supplier_settings_v1',{
    'Zloto':{shipping:20000,production:'2 semanas'},
-   'Gráfica B612':{shipping:10000,production:'48 h.'}
+   'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
  });
  const s=all[name]||{shipping:0,production:''};
  popup('Editar proveedor · '+E(name),'<div class="jd-formgrid"><div><label>Costo de envío general</label><input id="spShip" type="number" min="0" step="1000" value="'+Number(s.shipping||0)+'"></div><div><label>Tiempo de producción</label><input id="spProd" value="'+E(s.production||'')+'"></div><div class="span2"><div class="jd-linked">Este envío se aplica automáticamente a <b>todos los productos</b> que usen este proveedor. No se configura producto por producto.</div></div></div>',x=>{
-   all[name]={...s,shipping:Number(x.querySelector('#spShip').value||0),production:x.querySelector('#spProd').value.trim()};
+   all[name]={...s,shipping:Number(x.querySelector('#spShip').value||0),production:x.querySelector('#spProd').value.trim(),...(String(name).toLowerCase().includes('b612')?{costBasis:'net_without_vat',vatRate:21}:{})};
    SET('jd_supplier_settings_v1',all);
    x.remove();drawCostsV4();
  });
@@ -1161,10 +1161,17 @@ function syncPages(){
  const map={'Essential|2|Hebreo + español + fonética':48,'Classic|1|Hebreo + español + fonética':48,'Classic|2|Hebreo + español + fonética':72,'Deluxe|1|Hebreo + español + fonética':64,'Deluxe|2|Hebreo + español + fonética':88,'Deluxe Plus|2|Hebreo + español + fonética':88};
  qPages.value=map[model+'|'+count+'|'+lang]||48;
 }
+function normalizeSupplierCost(amount,supplier,sourceIncludesVat){
+ const n=Number(amount||0);
+ if(!n)return 0;
+ const s=String(supplier||'').toLowerCase();
+ if(s.includes('b612') && sourceIncludesVat===true) return n/1.21;
+ return n;
+}
 function shippingForSupplier(p){
  const all=GET('jd_supplier_settings_v1',{
    'Zloto':{shipping:20000,production:'2 semanas'},
-   'Gráfica B612':{shipping:10000,production:'48 h.'}
+   'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
  });
  const supplier=String(p?.supplier||'').trim();
  if(all[supplier]) return Number(all[supplier].shipping||0);
@@ -1986,7 +1993,7 @@ const jdB612Cache=new Map();
 function jdSupplierShipping(p){
  const all=GET('jd_supplier_settings_v1',{
    'Zloto':{shipping:20000,production:'2 semanas'},
-   'Gráfica B612':{shipping:10000,production:'48 h.'}
+   'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
  });
  const supplier=String(p?.supplier||'').trim();
  if(all[supplier])return Number(all[supplier].shipping||0);
