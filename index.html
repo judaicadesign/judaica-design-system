@@ -1465,6 +1465,8 @@ if(ph){
 const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const GET=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
 const SET=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const legalSets=GET('jd_legal_sets_v1',[]);
+const jdLegalSet=id=>legalSets.find(x=>x.id===id);
 const uid=()=>String(Date.now())+Math.random().toString(36).slice(2,8);
 const textOptions=['Hebreo + español','Hebreo + fonética','Hebreo solo','Hebreo + español + fonética','Español + fonética'];
 const JD_LOGO="assets/jd-logo-black.svg?v=1";
