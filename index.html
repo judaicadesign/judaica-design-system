@@ -356,210 +356,20 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 
 <div class="modal" id="productModal"><div class="modal-box"><div class="modal-head"><h2 style="margin:0">Nuevo producto</h2><button class="btn" onclick="closeModal('productModal')">×</button></div><p class="muted">En la siguiente versión esta pantalla permitirá crear familia, formato, atributos, páginas, proveedor, reglas de precio y assets heredables.</p><button class="btn primary" onclick="closeModal('productModal')">Entendido</button></div></div>
 
-<script>
-const pagesMap={
- 'Essential|2|Hebreo + español + fonética':48,
- 'Classic|1|Hebreo + español + fonética':48,
- 'Classic|2|Hebreo + español + fonética':72,
- 'Deluxe|1|Hebreo + español + fonética':64,
- 'Deluxe|2|Hebreo + español + fonética':88,
- 'Deluxe Plus|2|Hebreo + español + fonética':88
-};
-const dualNusaj=new Set(['Sefaradí + Ashkenazí','Ashkenazí + Sefaradí','Jabad + Sefaradí','Sefaradí + Jabad']);
-let nusajRows=[
- ['Solo Ashkenazí','1 nusaj','Revisión fina','ArtScroll impreso'],
- ['Solo Jabad','1 nusaj','Revisión fina','Tehilat Hashem impreso'],
- ['Solo Sefaradí','1 nusaj','Revisión fina','Pendiente: Simchón 1/2 + Bircat Shelomo'],
- ['Ashkenazí + Sefaradí','2 nusajim','Revisión fina','Masters correspondientes'],
- ['Sefaradí + Ashkenazí','2 nusajim','Revisión fina','Orden y aclaraciones propios'],
- ['Jabad + Sefaradí','2 nusajim','Revisión fina','Masters correspondientes'],
- ['Sefaradí + Jabad','2 nusajim','Revisión fina','Orden propio'],
- ['Jabad/Ashkenazí combinado + Sefaradí','Combinado','Revisión fina','Producto existente · no explotado']
-];
-function go(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));window.scrollTo(0,0)}
+<script id="jd-core-navigation-v1">
+function go(id){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  const target=document.getElementById(id);if(target)target.classList.add('active');
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
+  window.scrollTo(0,0);
+}
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
-function money(n){return '$ '+Math.round(Number(n||0)).toLocaleString('es-AR')}
-function renderQuote(){
- const model=qModel.value,nusaj=qNusaj.value,lang=qLang.value;
- const count=dualNusaj.has(nusaj)?2:1;
- const key=model+'|'+count+'|'+lang;
- const p=pagesMap[key]||'Pendiente';
- qPages.value=p;
- const disc=Number(qDiscount.value||0),p1=Math.max(0,Number(qPrice1.value||0)-disc),p2=Math.max(0,Number(qPrice2.value||0)-disc);
- const size=qSize.value==='large'?'Grande · 14 × 18,5 cm':'Normal · 11,6 × 15,5 cm';
- quotePreview.innerHTML=`
-  <div class="eyebrow">Judaica Design® · Presupuesto</div>
-  <h2 style="font-size:38px;margin:6px 0 2px">${model}</h2>
-  <div style="font-size:21px">${nusaj}</div>
-  <div class="hero">
-    <div class="mock"><div class="book ${qSize.value==='large'?'big':''}">BIRKÓN</div></div>
-    <div class="spec">
-      <div class="spec-row"><div>Cliente</div><div><b>${qClient.value||'—'}</b></div></div>
-      <div class="spec-row"><div>Textos</div><div>${lang}</div></div>
-      <div class="spec-row"><div>Páginas</div><div><b>${p}</b></div></div>
-      <div class="spec-row"><div>Tamaño</div><div>${size}</div></div>
-      <div class="spec-row"><div>Encuadernación</div><div>${qBind.value}</div></div>
-    </div>
-  </div>
-  <div class="index-box"><h4>Contenido ${model}</h4><div class="index-list">
-   Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur<br>
-   Bendición de los hijos · Shalom Alejem · Eshet Jail<br>
-   Kidush de la noche de Shabat<br>
-   Kidush de la noche de Yom Tov<br>
-   Birkat Hamazón${count===2?' (2 nusajim)':''}<br>
-   Sheva Berajot<br>
-   Birkat Me'en Shalosh${count===2?' (2 nusajim)':''}<br>
-   Kidush del día · Shabat y fiestas<br>
-   Havdalá${count===2?' (2 nusajim)':''}<br>
-   ${model.includes('Deluxe')?'Contenido adicional / canciones dentro del paginado previsto':'Plegaria de agradecimiento'}
-  </div></div>
-  <div class="quote-prices">
-   <div class="quote-price"><span class="small muted">${qQty1.value} unidades</span>${disc?'<div class="small muted" style="text-decoration:line-through">'+money(qPrice1.value)+'</div>':''}<strong>${money(p1)}</strong></div>
-   <div class="quote-price"><span class="small muted">${qQty2.value} unidades</span>${disc?'<div class="small muted" style="text-decoration:line-through">'+money(qPrice2.value)+'</div>':''}<strong>${money(p2)}</strong></div>
-  </div>
-  ${disc?'<p class="small"><b>Precio especial:</b> -'+money(disc).replace('$ ','$')+(qDiscountWhy.value?' · '+qDiscountWhy.value:'')+'</p>':''}
-  <div class="legal"><b>LEGALES / ACLARACIONES.</b> El presupuesto incluye diseño y personalización según alcance indicado. El cliente es responsable de revisar cuidadosamente nombres, fechas, dedicatorias, canciones y demás textos; una vez aprobado el diseño final para impresión no podrán realizarse modificaciones ni se asumirá responsabilidad por errores no detectados en la revisión. No se incluyen archivos editables ni PDF salvo acuerdo expreso. La impresión será gestionada por Judaica Design®. Los plazos de diseño e impresión comienzan una vez recibido el pago y toda la información necesaria. Pedidos con prioridad de agenda podrán llevar recargo. Precio vigente por 10 días corridos. Las condiciones completas aplicables a Birkón Librito forman parte del presupuesto.</div>
- `;
-}
-function resetQuote(){qClient.value='Cliente demo';qModel.value='Classic';qNusaj.value='Sefaradí + Ashkenazí';qLang.value='Hebreo + español + fonética';qSize.value='normal';qBind.value='Abrochado';qQty1.value=60;qPrice1.value=635000;qQty2.value=100;qPrice2.value=890000;qDiscount.value=0;qDiscountWhy.value='';renderQuote()}
-function openModal(id){document.getElementById(id).classList.add('open')}function closeModal(id){document.getElementById(id).classList.remove('open')}
-function drawNusaj(){nusajTable.innerHTML=nusajRows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td><span class="tag warn">${r[2]}</span></td><td>${r[3]}</td></tr>`).join('')}
-function addNusaj(){if(!nName.value.trim())return alert('Escribí un nombre.');nusajRows.push([nName.value.trim(),nType.value,'Revisión fina',nRef.value.trim()||'Pendiente']);drawNusaj();closeModal('nusajModal');nName.value='';nRef.value=''}
-drawNusaj();renderQuote();
+function openModal(id){document.getElementById(id)?.classList.add('open')}
+function closeModal(id){document.getElementById(id)?.classList.remove('open')}
+function resetQuote(){go('quotes')}
 </script>
 
-<script>
-/* JD interactive prototype */
-(function(){
-const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
-const SAVE=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const modal=(title,body,saveLabel,onSave)=>{
- const wrap=document.createElement('div');wrap.className='modal open';
- wrap.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+esc(title)+'</h2><button class="btn jd-close">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button class="btn primary jd-save">'+esc(saveLabel||'Guardar')+'</button></div></div>';
- document.body.appendChild(wrap);
- wrap.querySelector('.jd-close').onclick=()=>wrap.remove();
- wrap.addEventListener('click',e=>{if(e.target===wrap)wrap.remove()});
- wrap.querySelector('.jd-save').onclick=()=>onSave(wrap);
- return wrap;
-};
 
-// Nusaj is a quote attribute, not a separate area.
-document.querySelectorAll('[data-screen="nusaj"]').forEach(x=>x.remove());
-const ns=document.getElementById('nusaj'); if(ns)ns.remove();
-
-// PHONETICS
-const ph=document.getElementById('phonetics');
-if(ph) ph.innerHTML='<div class="topbar"><div><div class="eyebrow">Herramientas</div><h1>Generador de fonética</h1></div><a class="btn primary" target="_blank" href="./fonetica/">Abrir aparte</a></div><iframe class="jd-frame" src="./fonetica/" title="Generador de fonética"></iframe>';
-
-// RULES
-let rules=LS('jd_rules',[
- {name:'Birkón · Librito',product:'Librito',formula:'costo imprenta / 0.645 + envío',note:'Envío estimado $20.000'},
- {name:'Deluxe Plus',product:'Birkón · Librito',formula:'+ $100.000',note:'88 páginas fijas; interior redistribuible'}
-]);
-const rulesSec=document.getElementById('rules');
-function drawRules(){
- if(!rulesSec)return;
- rulesSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Motor comercial</div><h1>Reglas de precio</h1></div><button class="btn primary" id="jdAddRule">+ Nueva regla</button></div><table class="table"><thead><tr><th>Regla</th><th>Producto</th><th>Fórmula / criterio</th><th>Nota</th><th></th></tr></thead><tbody>'+
- rules.map((r,i)=>'<tr><td><b>'+esc(r.name)+'</b></td><td>'+esc(r.product)+'</td><td><code>'+esc(r.formula)+'</code></td><td>'+esc(r.note)+'</td><td><button class="btn sm" data-del-rule="'+i+'">Eliminar</button></td></tr>').join('')+
- '</tbody></table>';
- document.getElementById('jdAddRule').onclick=()=>{
-  modal('Nueva regla de precio','<div class="jd-formgrid"><div><label>Nombre</label><input id="jrName" placeholder="Ej. Folletos"></div><div><label>Producto / familia</label><input id="jrProduct" placeholder="Birkón · Folleto"></div><div><label>Fórmula / criterio</label><input id="jrFormula" placeholder="Ej. costo / 0.645 + envío"></div><div><label>Nota</label><input id="jrNote" placeholder="Ej. envío aparte"></div></div>','Guardar regla',w=>{
-   const name=w.querySelector('#jrName').value.trim(); if(!name)return alert('Falta el nombre');
-   rules.push({name,product:w.querySelector('#jrProduct').value,formula:w.querySelector('#jrFormula').value,note:w.querySelector('#jrNote').value});SAVE('jd_rules',rules);w.remove();drawRules();
-  });
- };
- rulesSec.querySelectorAll('[data-del-rule]').forEach(b=>b.onclick=()=>{rules.splice(+b.dataset.delRule,1);SAVE('jd_rules',rules);drawRules()});
-}
-drawRules();
-
-// CLIENTS / FOLLOW-UP
-let clients=LS('jd_clients',[
- {name:'Lorena',org:'Har Moria',phone:'',ask:'Imanes con horarios de encendido',status:'Presupuesto enviado',next:'preguntar si lo vio',nextDate:'2026-10-08',paid:false},
- {name:'Cliente demo',org:'',phone:'',ask:'Birkón Classic · 2 nusajim',status:'Aceptado',next:'Solicitar pago',nextDate:'',paid:false}
-]);
-const clientsSec=document.getElementById('clients');
-function jdClientAlert(c){
- const today=new Date(); today.setHours(0,0,0,0);
- let d=null;
- if(c.nextDate){ const x=new Date(c.nextDate+'T00:00:00'); if(!isNaN(x)) d=x; }
- if(!d){
-   const m=String(c.next||'').match(/\\b(\\d{1,2})\\/(\\d{1,2})(?:\\/(\\d{2,4}))?/);
-   if(m){ let y=m[3]?Number(m[3]):today.getFullYear(); if(y<100)y+=2000; d=new Date(y,Number(m[2])-1,Number(m[1])); }
- }
- if(!d) return {label:'Sin fecha',cls:'',sort:999999};
- d.setHours(0,0,0,0);
- const diff=Math.round((d-today)/86400000);
- if(diff<0) return {label:'⚠ Atrasado '+Math.abs(diff)+' día'+(Math.abs(diff)===1?'':'s'),cls:'danger',sort:diff};
- if(diff===0) return {label:'● Hoy',cls:'warn',sort:0};
- if(diff===1) return {label:'Mañana',cls:'warn',sort:1};
- if(diff<=3) return {label:'En '+diff+' días',cls:'warn',sort:diff};
- return {label:d.toLocaleDateString('es-AR'),cls:'ok',sort:diff};
-}
-function jdClientWaText(c){
- const n=(c.name||'').trim();
- const ask=(c.ask||'tu consulta').trim();
- if(c.status==='Presupuesto enviado') return 'Hola '+n+', ¿cómo estás? Quería saber si pudiste ver el presupuesto que te enviamos por '+ask+'. Si querés, te ayudo con cualquier duda.';
- if(c.status==='Esperando respuesta') return 'Hola '+n+', ¿cómo estás? Te escribo para retomar '+ask+'. ¿Pudiste verlo?';
- if(c.status==='Aceptado'||c.status==='Pago pendiente') return 'Hola '+n+', ¿cómo estás? Te escribo para avanzar con '+ask+'. Quedamos atentos al pago para poder comenzar.';
- return 'Hola '+n+', ¿cómo estás? Te escribo por '+ask+'.';
-}
-function drawClients(){
- if(!clientsSec)return;
- clients=LS('jd_clients',clients);
- const sorted=clients.map((c,i)=>({c,i,a:jdClientAlert(c)})).sort((x,y)=>x.a.sort-y.a.sort);
- clientsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><button class="btn primary" id="jdAddClient">+ Nuevo cliente / consulta</button></div>'+
- '<div class="notice"><b>Seguimiento activo:</b> los avisos se calculan según la fecha de próxima acción. Cargá el WhatsApp para usar el mensaje automático.</div>'+
- '<table class="table"><thead><tr><th>Cliente</th><th>Consulta</th><th>Estado</th><th>Próxima acción</th><th>Aviso</th><th>Pago</th><th>Contacto</th><th></th></tr></thead><tbody>'+
- sorted.map(({c,i,a})=>{const d=(c.phone||'').replace(/\\D/g,'');const wa=d?'<a class="btn sm wa-link jd-wa" target="_blank" rel="noopener" href="https://wa.me/'+d+'?text='+encodeURIComponent(jdClientWaText(c))+'">WhatsApp</a>':'<button class="btn sm" data-edit-client="'+i+'">Agregar WhatsApp</button>';const nextDate=c.nextDate?new Date(c.nextDate+'T00:00:00').toLocaleDateString('es-AR'):'';return '<tr><td><b>'+esc(c.name)+'</b>'+(c.org?' · '+esc(c.org):'')+'</td><td>'+esc(c.ask)+'</td><td><span class="tag warn">'+esc(c.status)+'</span></td><td>'+esc(c.next||'—')+(nextDate?'<div class="small muted">'+nextDate+'</div>':'')+'</td><td><span class="tag '+a.cls+'">'+a.label+'</span></td><td>'+(c.paid?'<span class="tag ok">Pagado</span>':'<span class="tag danger">Pendiente</span>')+'</td><td>'+wa+'</td><td><div class="jd-toolbar"><button class="btn sm" data-edit-client="'+i+'">Editar</button><button class="btn sm" data-pay-client="'+i+'">'+(c.paid?'Marcar pendiente':'Marcar pagado')+'</button></div></td></tr>'}).join('')+
- '</tbody></table>';
- document.getElementById('jdAddClient').onclick=()=>editClient(-1);
- clientsSec.querySelectorAll('[data-edit-client]').forEach(b=>b.onclick=()=>editClient(+b.dataset.editClient));
- clientsSec.querySelectorAll('[data-pay-client]').forEach(b=>b.onclick=()=>{clients[+b.dataset.payClient].paid=!clients[+b.dataset.payClient].paid;SAVE('jd_clients',clients);drawClients(); if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();});
-}
-function editClient(i){
- const base=i>=0?clients[i]:{name:'',firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paid:false};
- const oldParts=String(base.name||'').trim().split(/\s+/),first=base.firstName||oldParts.shift()||'',last=base.lastName||oldParts.join(' ');
- modal(i>=0?'Editar seguimiento':'Nuevo cliente / consulta','<div class="jd-formgrid"><div><label>Nombre</label><input id="jcFirstName" value="'+esc(first)+'"></div><div><label>Apellido</label><input id="jcLastName" value="'+esc(last)+'"></div><div><label>Institución</label><input id="jcOrg" value="'+esc(base.org||'')+'"></div><div><label>WhatsApp</label><input id="jcPhone" value="'+esc(base.phone||'')+'" placeholder="54911..."></div><div><label>Consulta</label><input id="jcAsk" value="'+esc(base.ask||'')+'"></div><div><label>Estado</label><select id="jcStatus">'+['Consulta recibida','Presupuesto listo','Presupuesto enviado','Esperando respuesta','Aceptado','Rechazado','Pago pendiente','Pagado'].map(s=>'<option '+(s===base.status?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div><label>Próxima acción</label><input id="jcNext" value="'+esc(base.next||'')+'" placeholder="Ej. preguntar si vio el presupuesto"></div><div><label>Fecha de próxima acción</label><input id="jcNextDate" type="date" value="'+esc(base.nextDate||'')+'"></div></div>','Guardar',w=>{
-  const firstName=w.querySelector('#jcFirstName').value.trim(),lastName=w.querySelector('#jcLastName').value.trim();
-  const obj={...base,firstName,lastName,name:[firstName,lastName].filter(Boolean).join(' '),org:w.querySelector('#jcOrg').value,phone:w.querySelector('#jcPhone').value,ask:w.querySelector('#jcAsk').value,status:w.querySelector('#jcStatus').value,next:w.querySelector('#jcNext').value,nextDate:w.querySelector('#jcNextDate').value,paid:base.paid};
-  if(!firstName)return alert('Falta el nombre'); if(i>=0)clients[i]=obj;else clients.push(obj); SAVE('jd_clients',clients);w.remove();drawClients(); if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();
- });
-}
-drawClients();
- });
-}
-drawClients();
-
-// MASTERS: text x nusaj x language
-let masters=LS('jd_masters',[
- {nusaj:'Ashkenazí',text:'Birkat Hamazón',lang:'Hebreo',status:'Revisión fina',ref:'ArtScroll impreso',body:'',note:'Revisar Ya’alé Veyavó y traducciones.'},
- {nusaj:'Jabad',text:'Birkat Hamazón',lang:'Hebreo',status:'Revisión fina',ref:'Tehilat Hashem impreso',body:'',note:'Propagar correcciones a todas las variantes Jabad.'},
- {nusaj:'Sefaradí',text:'Birkat Hamazón',lang:'Hebreo',status:'Revisión fina',ref:'Pendiente: Simchón 1 / Simchón 2 / Bircat Shelomo',body:'',note:'Definir base y resolver diferencias de zimún/frases.'},
- {nusaj:'Sefaradí',text:'Birkot Hashajar',lang:'Hebreo',status:'Revisión fina',ref:'Producto existente',body:'',note:'Existe.'},
- {nusaj:'Sefaradí',text:'Birkot Hashajar',lang:'Fonética',status:'Revisión fina',ref:'Generador + revisión manual',body:'',note:'Existe.'},
- {nusaj:'Sefaradí',text:'Birkot Hashajar',lang:'Español',status:'Revisión fina',ref:'Pendiente chequeo traducción',body:'',note:'Existe.'},
- {nusaj:'Ashkenazí',text:'Birkot Hashajar',lang:'Hebreo',status:'Falta crear',ref:'—',body:'',note:'No disponible actualmente.'}
-]);
-const mastersSec=document.getElementById('masters');
-function drawMasters(){
- if(!mastersSec)return;
- mastersSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Editorial</div><h1>Masters de textos</h1></div><button class="btn primary" id="jdAddMaster">+ Nuevo texto / variante</button></div><div class="notice"><b>Cada Master es Nusaj + texto + idioma.</b> Así puede existir Birkot Hashajar en Sefaradí y faltar todavía en Ashkenazí, o existir sólo en hebreo.</div><div class="product-grid">'+
- masters.map((m,i)=>'<div class="master-card"><div class="eyebrow">'+esc(m.nusaj)+' · '+esc(m.lang)+'</div><h3>'+esc(m.text)+'</h3><div class="chips"><span class="tag '+(m.status==='Aprobado'?'ok':m.status==='Falta crear'?'danger':'warn')+'">'+esc(m.status)+'</span></div><p class="small"><b>Referencia:</b> '+esc(m.ref)+'</p><p class="small muted">'+esc(m.note||'')+'</p><button class="btn sm" data-edit-master="'+i+'">Abrir / editar texto</button></div>').join('')+
- '</div>';
- document.getElementById('jdAddMaster').onclick=()=>editMaster(-1);
- mastersSec.querySelectorAll('[data-edit-master]').forEach(b=>b.onclick=()=>editMaster(+b.dataset.editMaster));
-}
-function editMaster(i){
- const m=i>=0?masters[i]:{nusaj:'',text:'',lang:'Hebreo',status:'Revisión fina',ref:'',body:'',note:''};
- modal(i>=0?'Editar Master':'Nuevo Master','<div class="jd-formgrid"><div><label>Nusaj</label><input id="jmNusaj" value="'+esc(m.nusaj)+'" placeholder="Sefaradí"></div><div><label>Texto / producto</label><input id="jmText" value="'+esc(m.text)+'" placeholder="Birkat Hamazón / Birkot Hashajar"></div><div><label>Idioma</label><select id="jmLang">'+['Hebreo','Fonética','Español'].map(s=>'<option '+(s===m.lang?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div><label>Estado</label><select id="jmStatus">'+['Revisión fina','Falta crear','Aprobado'].map(s=>'<option '+(s===m.status?'selected':'')+'>'+s+'</option>').join('')+'</select></div><div class="span2"><label>Referencia</label><input id="jmRef" value="'+esc(m.ref)+'"></div><div class="span2"><label>Notas editoriales</label><input id="jmNote" value="'+esc(m.note)+'"></div><div class="span2"><label>Contenido Master</label><textarea id="jmBody">'+esc(m.body)+'</textarea></div></div>','Guardar Master',w=>{
-   const obj={nusaj:w.querySelector('#jmNusaj').value,text:w.querySelector('#jmText').value,lang:w.querySelector('#jmLang').value,status:w.querySelector('#jmStatus').value,ref:w.querySelector('#jmRef').value,note:w.querySelector('#jmNote').value,body:w.querySelector('#jmBody').value};
-   if(!obj.nusaj.trim()||!obj.text.trim())return alert('Falta nusaj o nombre del texto'); if(i>=0)masters[i]=obj;else masters.push(obj); SAVE('jd_masters',masters);w.remove();drawMasters();
- });
-}
-drawMasters();
-})();
-</script>
 
 <style>
 :root{--jd-teal:#0f5b5d;--jd-gold:#b88a3b}
@@ -573,58 +383,7 @@ h1,h2,h3,.section h2,.product-body h3,.master-card h3,.index-box h4{color:var(--
 .jd-field input,.jd-field select,.jd-field textarea{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff}
 .jd-panel{background:var(--panel);border:1px solid #d9c69c;border-radius:16px;padding:18px}
 </style>
-<script>
-(function(){
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
-const SAVE=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const modal=(title,body,saveLabel,onSave)=>{const w=document.createElement('div');w.className='modal open';w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+esc(title)+'</h2><button class="btn x">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button class="btn primary save">'+esc(saveLabel||'Guardar')+'</button></div></div>';document.body.appendChild(w);w.querySelector('.x').onclick=()=>w.remove();w.querySelector('.save').onclick=()=>onSave(w);return w};
 
-// Folleto disponible en presupuesto
-const qp=document.getElementById('qProduct');
-if(qp && ![...qp.options].some(o=>o.value==='Birkón · Folleto')) {
- const o=document.createElement('option');o.value='Birkón · Folleto';o.textContent='Birkón · Folleto';qp.appendChild(o);
-}
-
-// Variantes editables de Birkón Librito
-let variants=LS('jd_birkon_variants',[
-{name:'Essential',nusajCount:2,lang:'Hebreo + español + fonética',pages:48,active:true},
-{name:'Classic',nusajCount:1,lang:'Hebreo + español + fonética',pages:48,active:true},
-{name:'Classic',nusajCount:2,lang:'Hebreo + español + fonética',pages:72,active:true},
-{name:'Deluxe',nusajCount:1,lang:'Hebreo + español + fonética',pages:64,active:true},
-{name:'Deluxe',nusajCount:2,lang:'Hebreo + español + fonética',pages:88,active:true},
-{name:'Deluxe Plus',nusajCount:2,lang:'Hebreo + español + fonética',pages:88,active:true}
-]);
-
-const originalRender=window.renderQuote;
-window.renderQuote=function(){
- const model=qModel.value,nusaj=qNusaj.value,lang=qLang.value;
- const count=nusaj.includes('+')?2:1;
- const v=variants.find(x=>x.active&&x.name===model&&x.nusajCount===count&&x.lang===lang);
- originalRender();
- if(v) qPages.value=v.pages;
-};
-
-const prod=document.getElementById('products');
-if(prod){
- const card=[...prod.querySelectorAll('.product-card')].find(c=>c.textContent.includes('Birkón · Librito'));
- if(card){
-   const btn=card.querySelector('button'); if(btn){btn.textContent='Editar variantes';btn.onclick=()=>showVariants();}
- }
-}
-function showVariants(){
- const rows=variants.map((v,i)=>'<tr><td><b>'+esc(v.name)+'</b></td><td>'+v.nusajCount+'</td><td>'+esc(v.lang)+'</td><td>'+v.pages+'</td><td>'+(v.active?'<span class="tag ok">Activa</span>':'<span class="tag">Inactiva</span>')+'</td><td><button class="btn sm" data-ev="'+i+'">Editar</button></td></tr>').join('');
- const w=modal('Variantes · Birkón Librito','<div class="jd-panel"><table class="table"><thead><tr><th>Modelo</th><th>Nusajim</th><th>Textos</th><th>Páginas</th><th>Estado</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div><div style="margin-top:12px"><button class="btn" id="addVar">+ Nueva variante</button></div>','Cerrar',x=>x.remove());
- w.querySelectorAll('[data-ev]').forEach(b=>b.onclick=()=>{const i=+b.dataset.ev;w.remove();editVariant(i)});
- w.querySelector('#addVar').onclick=()=>{w.remove();editVariant(-1)};
-}
-function editVariant(i){
- const v=i>=0?variants[i]:{name:'Classic',nusajCount:1,lang:'Hebreo + español + fonética',pages:48,active:true};
- modal(i>=0?'Editar variante':'Nueva variante','<div class="jd-grid"><div class="jd-field"><label>Modelo</label><select id="vvName">'+['Essential','Classic','Deluxe','Deluxe Plus'].map(x=>'<option '+(x===v.name?'selected':'')+'>'+x+'</option>').join('')+'</select></div><div class="jd-field"><label>Cantidad de nusajim</label><select id="vvN"><option '+(v.nusajCount===1?'selected':'')+'>1</option><option '+(v.nusajCount===2?'selected':'')+'>2</option></select></div><div class="jd-field"><label>Textos</label><select id="vvLang"><option '+(v.lang==='Hebreo + español + fonética'?'selected':'')+'>Hebreo + español + fonética</option><option '+(v.lang==='Solo hebreo'?'selected':'')+'>Solo hebreo</option></select></div><div class="jd-field"><label>Páginas</label><input id="vvPages" type="number" value="'+v.pages+'"></div></div>','Guardar variante',w=>{const obj={name:w.querySelector('#vvName').value,nusajCount:Number(w.querySelector('#vvN').value),lang:w.querySelector('#vvLang').value,pages:Number(w.querySelector('#vvPages').value),active:true};if(i>=0)variants[i]=obj;else variants.push(obj);SAVE('jd_birkon_variants',variants);w.remove();renderQuote()});
-}
-renderQuote();
-})();
-</script>
 <style>
 /* JD modular catalog v3 */
 .jd-thumb{width:100%;height:150px;object-fit:contain;background:#f4efe5;border:1px solid var(--line);border-radius:10px}
@@ -642,7 +401,7 @@ renderQuote();
 (function(){
   const seed={"Birkat Hamazón||Ashkenazí||Hebreo":{"status":"Aprobado","ref":"ArtScroll impreso","body":"ברכת המזון · נוסח אשכנזברכת המזון · נוסח אשכנז\nבימות החול– עַל נַהֲרוֹת בָּבֶל שָׁם יָשַׁבְנוּ, גַּם בָּכִינוּ, בְּזָכְרֵנוּ אֶת צִיּוֹן. עַל עֲרָבִים בְּתוֹכָהּ תָּלִינוּ כִּנֹּרוֹתֵינוּ. כִּי שָׁם שְׁאֵלוּנוּ שׁוֹבֵינוּ דִּבְרֵי שִׁיר וְתוֹלָלֵינוּ שִׂמְחָה, שִׁירוּ לָנוּ מִשִּׁיר צִיּוֹן. אֵיךְ נָשִׁיר אֶת שִׁיר יְיָ, עַל אַדְמַת נֵכָר. אִם אֶשְׁכָּחֵךְ יְרוּשָׁלָ‍ִם, תִּשְׁכַּח יְמִינִי. תִּדְבַּק לְשׁוֹנִי לְחִכִּי, אִם לֹא אֶזְכְּרֵכִי, אִם לֹא אַעֲלֶה אֶת יְרוּשָׁלַ‍ִם עַל רֹאשׁ שִׂמְחָתִי. זְכֹר יְיָ לִבְנֵי אֱדוֹם אֵת יוֹם יְרוּשָׁלָ‍ִם, הָאֹמְרִים עָרוּ עָרוּ, עַד הַיְסוֹד בָּהּ. בַּת בָּבֶל הַשְּׁדוּדָה, אַשְׁרֵי שֶׁיְשַׁלֶּם לָךְ אֶת גְּמוּלֵךְ שֶׁגָּמַלְתְּ לָנוּ. אַשְׁרֵי שֶׁיֹּאחֵז וְנִפֵּץ אֶת עֹלָלַיִךְ אֶל הַסָּלַע.\n\nבשבת, יום טוב ובסעודת מצוה– שִׁיר הַמַּעֲלוֹת, בְּשׁוּב יְיָ אֶת שִׁיבַת צִיּוֹן הָיִינוּ כְּחֹלְמִים. אָז יִמָּלֵא שְׂחוֹק פִּינוּ וּלְשׁוֹנֵנוּ רִנָּה, אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְיָ לַעֲשׂוֹת עִם אֵלֶּה. הִגְדִּיל יְיָ לַעֲשׂוֹת עִמָּנוּ הָיִינוּ שְׂמֵחִים. שׁוּבָה יְיָ אֶת שְׁבִיתֵנוּ כַּאֲפִיקִים בַּנֶּגֶב. הַזֹּרְעִים בְּדִמְעָה בְּרִנָּה יִקְצֹרוּ. הָלוֹךְ יֵלֵךְ וּבָכֹה נֹשֵׂא מֶשֶׁךְ הַזָּרַע, בֹּא יָבֹא בְרִנָּה, נֹשֵׂא אֲלֻמֹּתָיו.\nתְּהִלַּת יְיָ יְדַבֶּר פִּי. וִיבָרֵךְ כָּל בָּשָׂר שֵׁם קָדְשׁוֹ לְעוֹלָם וָעֶד. וַאֲנַחְנוּ נְבָרֵךְ יָהּ מֵעַתָּה וְעַד עוֹלָם. הַלְלוּיָהּ. הוֹדוּ ליְיָ כִּי טוֹב, כִּי לְעולָם חַסְדּו. מִי יְמַלֵּל גְּבוּרוֹת יְיָ. יַשְׁמִיעַ כָּל תְּהִלָּתוֹ.\n\nזימון\nהמזמן אומר– רַבּוֹתַי נְבָרֵךְ.              המסובים עונים– יְהִי שֵׁם יְיָ מְבֹרָךְ מֵעַתָּה וְעַד עוֹלָם.\nהמזמן– יְהִי שֵׁם יְיָ מְבֹרָךְ מֵעַתָּה וְעַד עוֹלָם. בִּרְשׁוּת מָרָנָן וְרַבָּנָן וְרַבּוֹתַי, נְבָרֵך (בעשרה: אֱלֹהֵינוּ) שֶׁאָכַלְנוּ מִשֶּׁלּוֹ.                           המסובים– בָּרוּךְ (בעשרה: אֱלֹהֵינוּ) שֶׁאָכַלְנוּ מִשֶּׁלּוֹ וּבְטוּבוֹ חָיִינוּ.\nהמזמן– בָּרוּךְ (בעשרה: אֱלֹהֵינוּ) שֶׁאָכַלְנוּ מִשֶּׁלּוֹ וּבְטוּבוֹ חָיִינוּ. בָּרוּךְ הוּא וּבָרוּךְ שְׁמוֹ.\n\nזימון לשבע ברכות\nהמזמן אומר– רַבּוֹתַי נְבָרֵךְ.              המסובים עונים– יְהִי שֵׁם יְיָ מְבֹרָךְ מֵעַתָּה וְעַד עוֹלָם.\nהמזמן– יְהִי שֵׁם יְיָ מְבֹרָךְ מֵעַתָּה וְעַד עוֹלָם. דְּוַי הָסֵר וְגַם חָרוֹן, וְאָז אִלֵּם בְּשִׁיר יָרוֹן, נְחֵנוּ בְּמַעְגְּלֵי צֶדֶק, שְׁעֵה בִּרְכַּת בְּנֵי אַהֲרֹן. בִּרְשׁוּת מָרָנָן וְרַבָּנָן וְרַבּוֹתַי, נְבָרֵךְ אֱלֹהֵינוּ שֶׁהַשִּׂמְחָה בִּמְעוֹנוֹ, \n(וְ)שֶׁאָכַלְנוּ מִשֶּׁלוֹ. המסובים– בָּרוּךְ אֱלֹהֵינוּ שֶׁהַשִּׂמְחָה בִּמְעוֹנוֹ, (וְ)שֶׁאָכַלְנוּ מִשֶּׁלּוֹ, וּבְטוּבוֹ חָיִינוּ. המזמן– בָּרוּךְ אֱלֹהֵינוּ שֶׁהַשִּׂמְחָה בִּמְעוֹנוֹ, (וְ)שֶׁאָכַלְנוּ מִשֶּׁלּוֹ וּבְטוּבוֹ חָיִינוּ. בָּרוּךְ הוּא וּבָרוּךְ שְׁמוֹ.\n\nבָּרוּךְ אַתָּה יְיָ, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, הַזָּן אֶת הָעוֹלָם כֻּלּוֹ, בְּטוּבוֹ, בְּחֵן בְּחֶסֶד וּבְרַחֲמִים, הוּא נוֹתֵן לֶחֶם לְכָל בָּשָׂר, כִּי לְעוֹלָם חַסְדּוֹ. וּבְטוּבוֹ הַגָּדוֹל, תָּמִיד לֹא חָסַר לָנוּ, וְאַל יֶחְסַר לָנוּ מָזוֹן לְעוֹלָם וָעֶד. בַּעֲבוּר שְׁמוֹ הַגָּדוֹל, כִּי הוּא אֵל זָן וּמְפַרְנֵס לַכֹּל, וּמֵטִיב לַכֹּל וּמֵכִין מָזוֹן לְכָל בְּרִיּוֹתָיו אֲשֶׁר בָּרָא. (כָּאָמוּר: פּוֹתֵחַ אֶת יָדֶךָ וּמַשְׂבִּיעַ לְכָל חַי רָצוֹן)\nבָּרוּךְ אַתָּה יְיָ, הַזָּן אֶת הַכֹּל.\n\nנוֹדֶה לְּךָ, יְיָ אֱלֹהֵינוּ, עַל שֶׁהִנְחַלְתָּ לַאֲבוֹתֵינוּ אֶרֶץ חֶמְדָה טוֹבָה וּרְחָבָה. וְעַל שֶׁהוֹצֵאתָנוּ יְיָ אֱלֹהֵינוּ מֵאֶרֶץ מִצְרַיִם, וּפְדִיתָנוּ מִבֵּית עֲבָדִים, וְעַל בְּרִיתְךָ שֶׁחָתַמְתָּ בִּבְשָׂרֵנוּ, וְעַל תּוֹרָתְךָ שֶׁלִּמַּדְתָּנוּ, וְעַל חֻקֶּיךָ שֶׁהוֹדַעְתָּנוּ, וְעַל חַיִּים חֵן וָחֶסֶד שֶׁחוֹנַנְתָּנוּ, וְעַל אֲכִילַת מָזוֹן שָׁאַתָּה זָן וּמְפַרְנֵס אוֹתָנוּ תָּמִיד, בְּכָל יוֹם וּבְכָל עֵת וּבְכָל שָׁעָה.\n\nבחנוכה ובפורים אומרים זה:\n(וְ)עַל הַנִּסִּים וְעַל הַפֻּרְקָן וְעַל הַגְּבוּרוֹת וְעַל הַתְּשׁוּעוֹת וְעַל הַמִּלְחָמוֹת שֶׁעָשִׂיתָ לַאֲבוֹתֵינוּ בַּיָּמִים הָהֵם בַּזְּמַן הַזֶּה.\n\nלחנוכה:\nבִּימֵי מַתִּתְיָהוּ בֶּן יוֹחָנָן כֹּהֵן גָּדוֹל חַשְׁמוֹנָאִי וּבָנָיו, כְּשֶׁעָמְדָה מַלְכוּת יָוָן הָרְשָׁעָה עַל עַמְּךָ יִשְׂרָאֵל, לְהַשְׁכִּיחָם תּוֹרָתֶךָ, וּלְהַעֲבִירָם מֵחֻקֵּי רְצוֹנֶךָ. וְאַתָּה בְּרַחֲמֶיךָ הָרַבִּים, עָמַדְתָּ לָהֶם בְּעֵת צָרָתָם, רַבְתָּ אֶת רִיבָם, דַּנְתָּ אֶת דִּינָם, נָקַמְתָּ אֶת נִקְמָתָם. מָסַרְתָּ גִבּוֹרִים בְּיַד חַלָּשִׁים, וְרַבִּים בְּיַד מְעַטִּים, וּטְמֵאִים בְּיַד טְהוֹרִים, וּרְשָׁעִים בְּיַד צַדִּיקִים, וְזֵדִים בְּיַד עוֹסְקֵי תוֹרָתֶךָ, וּלְךָ עָשִׂיתָ שֵׁם גָּדוֹל וְקָדוֹשׁ בְּעוֹלָמֶךָ, וּלְעַמְּךָ יִשְׂרָאֵל עָשִׂיתָ תְּשׁוּעָה גְדוֹלָה וּפֻרְקָן כְּהַיּוֹם הַזֶּה. וְאַחַר כַּךְ בָּאוּ בָנֶיךָ לִדְבִיר בֵּיתֶךָ, וּפִנּוּ אֶת הֵיכָלֶךָ, וְטִהֲרוּ אֶת מִקְדָּשֶׁךָ, וְהִדְלִיקוּ נֵרוֹת בְּחַצְרוֹת קָדְשֶׁךָ, וְקָבְעוּ שְׁמוֹנַת יְמֵי חֲנֻכָּה אֵלּוּ, לְהוֹדוֹת וּלְהַלֵּל לְשִׁמְךָ הַגָּדוֹל.\n\nלפורים:\nבִּימֵי מָרְדְּכַי וְאֶסְתֵּר בְּשׁוּשַׁן הַבִּירָה, כְּשֶׁעָמַד עֲלֵיהֶם הָמָן הָרָשָׁע, בִּקֵּשׁ לְהַשְׁמִיד לַהֲרֹג וּלְאַבֵּד אֶת כָּל הַיְּהוּדִים, מִנַּעַר וְעַד זָקֵן, טַף וְנָשִׁים בְּיוֹם אֶחָד, בִּשְׁלֹשָׁה עָשָׂר לְחֹדֶשׁ שְׁנֵים עָשָׂר, הוּא חֹדֶשׁ אֲדָר, וּשְׁלָלָם לָבוֹז. וְאַתָּה בְּרַחֲמֶיךָ הָרַבִּים הֵפַרְתָּ אֶת עֲצָתוֹ, וְקִלְקַלְתָּ אֶת מַחֲשַׁבְתּוֹ, וַהֲשֵׁבוֹתָ לּוֹ גְּמוּלוֹ בְּרֹאשׁוֹ, וְתָלוּ אוֹתוֹ וְאֶת בָּנָיו עַל הָעֵץ.\n\nוְעַל הַכֹּל יְיָ אֱלֹהֵינוּ, אֲנַחְנוּ מוֹדִים לָךְ, וּמְבָרְכִים אוֹתָךְ יִתְבָּרַךְ שִׁמְךָ בְּפִי כָּל חַי תָּמִיד לְעוֹלָם וָעֶד. כַּכָּתוּב, וְאָכַלְתָּ וְשָׂבָעְתָּ, וּבֵרַכְתָּ אֶת יְיָ אֱלֹהֶיךָ, עַל הָאָרֶץ הַטֹּבָה אֲשֶׁר נָתַן לָךְ. בָּרוּךְ אַתָּה יְיָ, עַל הָאָרֶץ וְעַל הַמָּזוֹן.\n\nרַחֵם יְיָ אֱלֹהֵינוּ עַל יִשְׂרָאֵל עַמֶּךָ, וְעַל יְרוּשָׁלַיִם עִירֶךָ, וְעַל צִיּוֹן מִשְׁכַּן כְּבוֹדֶךָ, וְעַל מַלְכוּת בֵּית דָּוִד מְשִׁיחֶךָ, וְעַל הַבַּיִת הַגָּדוֹל וְהַקָּדוֹשׁ שֶׁנִּקְרָא שִׁמְךָ עָלָיו. אֱלֹהֵינוּ אָבִינוּ, רְעֵנוּ זוּנֵנוּ פַּרְנְסֵנוּ וְכַלְכְּלֵנוּ וְהַרְוִיחֵנוּ, וְהַרְוַח לָנוּ יְיָ אֱלֹהֵינוּ מְהֵרָה מִכָּל צָרוֹתֵינוּ. וְנָא אַל תַּצְרִיכֵנוּ, יְיָ אֱלֹהֵינוּ, לֹא לִידֵי מַתְּנַת בָּשָׂר וָדָם, וְלֹא לִידֵי הַלְוָאָתָם, כִּי אִם לְיָדְךָ הַמְּלֵאָה הַפְּתוּחָה הַקְּדוֹשָׁה וְהָרְחָבָה, שֶׁלֹּא נֵבוֹשׁ וְלֹא נִכָּלֵם לְעוֹלָם וָעֶד.\n\nבשבת:\nרְצֵה וְהַחֲלִיצֵנוּ יְיָ אֱלֹהֵינוּ בְּמִצְוֹתֶיךָ, וּבְמִצְוַת יוֹם הַשְּׁבִיעִי הַשַׁבָּת הַגָּדוֹל וְהַקָּדוֹשׁ הַזֶּה, כִּי יוֹם זֶה גָּדוֹל וְקָדוֹשׁ הוּא לְפָנֶיךָ, לִשְׁבּוֹת בּוֹ וְלָנוּחַ בּוֹ בְּאַהֲבָה כְּמִצְוַת רְצוֹנֶךָ. וּבִרְצוֹנְךָ הָנִיחַ לָנוּ, יְיָ אֱלֹהֵינוּ, שֶׁלֹא תְּהֵא צָרָה וְיָגוֹן וַאֲנָחָה בְּיוֹם מְנוּחָתֵנוּ. וְהַרְאֵנוּ יְיָ אֱלֹהֵינוּ בְּנֶחָמַת צִיּוֹן עִירֶךָ, וּבְּבִנְיַן יְרוּשָׁלַיִם עִיר קָדְשֶׁךָ, כִּי אַתָּה הוּא בַּעַל הַיְשׁוּעוֹת וּבַעַל הַנֶּחָמוֹת.\n\nלראש חודש, ליום טוב ולחול המועד:\nאֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ, יַעֲלֶה, וְיָבֹא, וְיַגִּיעַ, וְיֵרָאֶה, וְיֵרָצֶה, וְיִשָּׁמַע, וְיִפָּקֵד, וְיִזָּכֵר זִכְרוֹנֵנוּ וּפִקְדוֹנֵנוּ, וְזִכְרוֹן אֲבוֹתֵינוּ, וְזִכְרוֹן מָשִׁיחַ בֶּן דָּוִד עַבְדֶךָ, וְזִכְרוֹן יְרוּשָׁלַיִם עִיר קָדְשֶׁךָ, וְזִכְרוֹן כָּל עַמְּךָ בֵּית יִשְׂרָאֵל לְפָנֶיךָ, לִפְלֵיטָה לְטוֹבָה לְחֵן וּלְחֶסֶד וּלְרַחֲמִים, לְחַיִּים וּלְשָׁלוֹם, בְּיוֹם:\nבראש חודש– רֹאשׁ הַחֹדֶשׁ     |     בפסח– חַג הַמַּצוֹת     |     בשבועות– חַג הַשָּׁבוּעוֹת \nבראש השנה– הַזִּכָּרוֹן   |   בסוכות– חַג הַסֻּכּוֹת   |   בשמיני עצרת– הַשְּׁמִינִי חַג הָעֲצֶרֶת\nהַזֶּה. זָכְרֵנוּ יְיָ אֱלֹהֵינוּ בּוֹ לְטוֹבָה, וּפָקְדֵנוּ בוֹ לִבְרָכָה, וְהוֹשִׁיעֵנוּ בוֹ לְחַיִּים. וּבִדְבַר יְשׁוּעָה וְרַחֲמִים, חוּס וְחָנֵנוּ וְרַחֵם עָלֵינוּ וְהוֹשִׁיעֵנוּ, כִּי אֵלֶיךָ עֵינֵינוּ, כִּי אֵל [בר''ה: מֶלֶךְ] חַנּוּן וְרַחוּם אַתָּה.\n\nוּבְנֵה יְרוּשָׁלַיִם עִיר הַקֹּדֶשׁ בִּמְהֵרָה בְיָמֵינוּ. בָּרוּךְ אַתָּה יְיָ, בּוֹנֵה (בְרַחֲמָיו) יְרוּשָׁלָיִם. אָמֵן.\n\nבָּרוּךְ אַתָּה יְיָ אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, הָאֵל אָבִינוּ מַלְכֵּנוּ אַדִּירֵנוּ בּוֹרְאֵנוּ גּוֹאֲלֵנוּ יוֹצְרֵנוּ. קְדוֹשֵׁנוּ קְדוֹשׁ יַעֲקֹב, רוֹעֵנוּ רוֹעֵה יִשְׂרָאֵל, הַמֶּלֶךְ הַטּוֹב וְהַמֵּטִיב לַכֹּל, שֶׁבְּכָל יוֹם וָיוֹם הוּא הֵטִיב, הוּא מֵטִיב, הוּא יֵיטִיב לָנוּ. הוּא גְמָלָנוּ, הוּא גוֹמְלֵנוּ, הוּא יִגְמְלֵנוּ לָעַד, לְחֵן וּלְחֶסֶד וּלְרַחֲמִים וּלְרֶוַח הַצָּלָה וְהַצְלָחָה, בְּרָכָה וִישׁוּעָה נֶחָמָה פַּרְנָסָה וְכַלְכָּלָה וְרַחֲמִים וְחַיִּים וְשָׁלוֹם וְכָל טוֹב, וּמִכָּל טוּב לְעוֹלָם אַל יְחַסְּרֵנוּ.\n\nהָרַחֲמָן הוּא יִמְלוֹךְ עָלֵינוּ לְעוֹלָם וָעֶד. הָרַחֲמָן הוּא יִתְבָּרַךְ בַּשָּׁמַיִם וּבָאָרֶץ. הָרַחֲמָן הוּא יִשְׁתַּבַּח לְדוֹר דּוֹרִים, וְיִתְפָּאַר בָּנוּ לָעַד וּלְנֵצַח נְצָחִים, וְיִתְהַדַּר בָּנוּ לָעַד וּלְעוֹלְמֵי עוֹלָמִים. הָרַחֲמָן הוּא יְפַרְנְסֵנוּ בְּכָבוֹד. הָרַחֲמָן הוּא יִשְׁבֹּר עֻלֵנוּ מֵעַל צַוָּארֵנוּ, וְהוּא יוֹלִיכֵנוּ קוֹמְמִיּוּת לְאַרְצֵנוּ. הָרַחֲמָן הוּא יִשְׁלַח לָנוּ בְּרָכָה מְרֻבָּה בַּבַּיִת הַזֶּה, וְעַל שֻׁלְחָן זֶה שֶׁאָכַלְנוּ עָלָיו. הָרַחֲמָן הוּא יִשְׁלַח לָנוּ אֶת אֵלִיָּהוּ הַנָּבִיא זָכוּר לַטּוֹב, וִיבַשֶּׂר לָנוּ בְּשׂוֹרוֹת טוֹבוֹת יְשׁוּעוֹת וְנֶחָמוֹת.\n\nברכת האורח– יְהִי רָצוֹן שֶׁלֹּא יֵבוֹשׁ וְלֹא יִכָּלֵם בַּעַל הַבַּיִת הַזֶּה, לֹא בָעוֹלָם הַזֶּה וְלֹא בָעוֹלָם הַבָּא, וְיַצְלִיחַ בְּכָל נְכָסָיו, וְיִהְיוּ נְכָסָיו מֻצְלָחִים וּקְרוֹבִים לָעִיר, וְאַל יִשְׁלוֹט שָׂטָן בְּמַעַשֵׂה יָדָיו, וְאַל יִזְדַּקֵק לְפָנָיו שׁוּם דְּבַר חֵטְא וְהִרְהוּר עָוֹן, מֵעַתָּה וְעַד עוֹלָם.\n\nהָרַחֲמָן הוּא יְבָרֵךְ [אֶת (אצל הורים: אָבִי מוֹרִי) בַּעַל הַבַּיִת הַזֶּה, וְאֶת (אִמִּי מוֹרָתִי) בַּעֲלַת הַבַּיִת הַזֶּה, אוֹתָם וְאֶת בֵּיתָם וְאֶת זַרְעָם וְאֶת כָּל אֲשֶׁר לָהֶם/ בביתו: אוֹתִי (נשוי אומר: וְאֶת אִשְׁתִּי/ אשת אומרת: וְאֶת בַּעֲלִי/ על בניו: וְאֶת זַרְעִי) וְאֶת כָּל אֲשֶׁר לִי]. אוֹתָנוּ וְאֶת כָּל אֲשֶׁר לָנוּ, כְּמוֹ שֶׁנִּתְבָּרְכוּ אֲבוֹתֵינוּ אַבְרָהָם יִצְחָק וְיַעֲקֹב בַּכֹּל מִכֹּל כֹּל, כֵּן יְבָרֵךְ אוֹתָנוּ כֻּלָּנוּ יַחַד בִּבְרָכָה שְׁלֵמָה וְנֹאמַר, אָמֵן.\n\nבַּמָּּרוֹם יְלַמְּדוּ עֲלֵיהֶם וְעָלֵינוּ זְכוּת, שֶׁתְּהֵא לְמִשְׁמֶרֶת שָׁלוֹם. וְנִשָּׂא בְרָכָה מֵאֵת יְיָ, וּצְדָקָה מֵאֱלֹהֵי יִשְׁעֵנוּ, וְנִמְצָא חֵן וְשֵׂכֶל טוֹב בְּעֵינֵי אֱלֹהִים וְאָדָם.\n\nבשבת– הָרַחֲמָן הוּא יַנְחִילֵנוּ יוֹם שֶׁכֻּלּוֹ שַׁבָּת וּמְנוּחָה לְחַיֵּי הָעוֹלָמִים.\nבראש חודש– הָרַחֲמָן הוּא יְחַדֵּשׁ עָלֵינוּ אֶת הַחֹדֶשׁ הַזֶּה לְטוֹבָה וְלִבְרָכָה.\nביום טוב– הָרַחֲמָן הוּא יַנְחִילֵנוּ יוֹם שֶׁכֻּלּוֹ טוֹב.\nבראש השנה– הָרַחֲמָן הוּא יְחַדֵּשׁ עָלֵינוּ אֶת הַשָּׁנָה הַזֹּאת לְטוֹבָה וְלִבְרָכָה.\nבסוכות– הָרַחֲמָן הוּא יָקִים לָנוּ אֶת סֻכַּת דָּוִיד הַנֹֹּּפָלֶת.\nהָרַחֲמָן הוּא יְזַכֵּנוּ לִימוֹת הַמָּשִׁיחַ וּלְחַיֵּי הָעוֹלָם הַבָּא.\t\tבשבת, יום טוב, חול המועד וראש חודש: מִגְדּוֹל         ביום חול: מַגְדִּיל\nיְשׁוּעוֹת מַלְכּוֹ וְעֹשֶׂה חֶסֶד לִמְשִׁיחוֹ לְדָוִד וּלְזַרְעוֹ עַד עוֹלָם. עֹשֶׂה שָׁלוֹם בִּמְרוֹמָיו, הוּא יַעֲשֶׂה שָׁלוֹם עָלֵינוּ וְעַל כָּל יִשְׂרָאֵל וְאִמְרוּ, אָמֵן.\n\nיְראוּ אֶת יְיָ קְדֹשָׁיו, כִּי אֵין מַחְסוֹר לִירֵאָיו. כְּפִירִים רָשׁוּ וְרָעֵבוּ, וְדֹרְשֵׁי יְיָ לֹא יַחְסְרוּ כָל טוֹב. הוֹדוּ לַיְיָ כִּי טוֹב, כִּי לְעוֹלָם חַסְדּוֹ. פּוֹתֵחַ אֶת יָדֶךָ, וּמַשְׂבִּיעַ לְכָל חַי רָצוֹן. בָּרוּךְ הַגֶּבֶר אֲשֶׁר יִבְטַח בַּיְיָ, וְהָיָה יְיָ מִבְטַחוֹ. נַעַר הָיִיתִי גַם זָקַנְתִּי, וְלֹא רָאִיתִי צַדִּיק נֶעֱזָב, וְזַרְעוֹ מְבַקֶּשׁ לָחֶם. יְיָ עֹז לְעַמּוֹ יִתֵּן, יְיָ יְבָרֵךְ אֶת עַמּוֹ בַשָּׁלוֹם.","note":"VERSIÓN FINAL. Master hebreo Ashkenazí aprobado."},"Birkat Hamazón||Ashkenazí||Fonética":{"status":"Revisión fina","ref":"ArtScroll impreso","body":"en días que se dice tajanún\n'Al naharot Bavel sham yashavnu, gam bajinu, bezojrenu et Tsiyón. 'Al 'aravim betojah talinu kinorotenu. Ki sham sheelunu shovenu divré shir vetolalenu simjá, shirú lanu mishir Tsiyón. Ej nashir et shir Ad-nai, 'al admat nejar. Im eshkajej Yerushaláyim, tishkaj yeminí. Tidbak leshoní lejikí, im lo ezkerejí, im lo a'alé et Yerushaláyim 'al rosh simjatí. Zejor Ad-nai livené Edom et yom Yerushaláyim, haomrim 'arú 'arú, 'ad hayesod bah. Bat Bavel hashedudá, ashré sheyshalem laj et gemulej shegamalt lanu. Ashré sheyojez venipéts et 'olalayij el hasala'.\n\nEn Shabat, Yom Tov y en una comida de mitsvá\nShir hama'alot, beshuv Ad-nai et shivat Tsiyón hayinu kejolmim. Az yimalé sejok pinu uleshonenu riná, az yomrú vagoyim higdil Ad-nai la'asot 'im elé. Higdil Ad-nai la'asot 'imanu hayinu semejim. Shuvá Ad-nai et shevitenu kaafikim baNéguev. Hazor'im bedim'á beriná yiktsorú. Haloj yelej uvajó nosé meshej hazara', bo yavó beriná, nosé alumotav.\nTehilat Ad-nai yedaber pi. Vivarej kol basar Shem kodshó le'olam va'ed. Vaanajnu nevarej Yah me'atá ve'ad 'olam. HaleluYah. Hodú laAd-nai ki tov, ki le'olam jasdó. Mi yemalel gevurot Ad-nai. Yashmía' kol tehilató.\n\n zimún  \nConductor– Rabotái nevarej.\ncomensales– Yehí Shem Ad-nai mevoraj me'atá ve'ad 'olam.\nconductor–  Yehí Shem Ad-nai mevoraj me'atá ve'ad 'olam. Birshut maranán verabanán verabotái nevarej (si hay 10: Elohenu) sheajalnu misheló.\ncomensales– Baruj (si hay 10: Elohenu) sheajalnu misheló uvtuvó jayinu.\nconductor– Baruj (si hay 10: Elohenu) sheajalnu misheló uvtuvó jayinu. Baruj Hu uvaruj Shemó.\nzimún para sheva' berajot\nConductor– Rabotái nevarej.\ncomensales– Yehí Shem Ad-nai mevoraj me'atá ve'ad 'olam.\nconductor–  Yehí Shem Ad-nai mevoraj me'atá ve'ad 'olam. Devái haser vegam jarón, veaz ilém beshir yarón, nejenu bema'guelé tsédek, she'é bircat bené Aharón. Birshut maranán verabanán verabotái, nevarej Elohenu shehasimjá bim'onó, (ve)sheajalnu misheló.\ncomensales y luego conductor– Baruj Elohenu shehasimjá bim'onó, (ve)sheajalnu misheló uvtuvó jayinu. conductor– Baruj Hu uvaruj Shemó. \n\nBaruj Atá Ad-nai, Elohenu Mélej ha'olam, hazán et ha'olam kuló, betuvó, bején bejésed uverajamim, Hu Notén léjem lejol basar, ki le'olam jasdó. Uvtuvó hagadol, tamid lo jasar lanu, veal yejsar lanu mazón le'olam va'ed. Ba'avur Shemó hagadol, ki Hu El zan umfarnés lakol, umetiv lakol umejín mazón lejol beriyotav asher bará. (Kaamur: potéaj et yadeja umasbía' lejol jay ratsón). Baruj Atá Ad-nai, hazán et hakol.\n\nNodé lejá, Ad-nai Elohenu, 'al shehinjalta laavotenu erets jemdá tová urjavá. Ve'al shehotsetanu Ad-nai Elohenu meérets Mitsráyim, ufditanu mibet 'avadim, ve'al beriteja shejatamta bivsarenu, ve'al Toratja shelimadtanu, ve'al jukeja shehoda'tanu, ve'al jayim jen vajésed shejonantanu, ve'al ajilat mazón shaAtá zan umfarnés otanu tamid, bejol yom uvejol 'et uvejol sha'á.\n\nEn Janucá y Purim se agrega:\n(Ve)'al hanisim ve'al hapurkán ve'al haguevurot ve'al hateshu'ot ve'al hamiljamot she'asita laavotenu bayamim hahem bazemán hazé.\nEn Janucá– Bimé Matityahu ben Yojanán Cohén Gadol jashmonaí uvanav, keshe'amdá maljut Yaván haresha'á 'al 'amjá Yisrael, lehashkijam Torateja, uleha'aviram mejuké retsoneja. VeAtá berajameja harabim, 'amadta lahem be'et tsaratam, ravta et rivam, danta et dinam, nakamta et nikmatam. Masarta guiborim beyad jalashim, verabim beyad me'atim, utmeim beyad tehorim, uresha'im beyad tsadikim, vezedim beyad 'oské Torateja, uljá 'asita Shem gadol vekadosh be'olameja,\nule'amjá Yisrael 'asita teshu'á guedolá ufurkán kehayom hazé. Veajar kaj bau vaneja lidvir beteja, ufinú et hejaleja, vetiharú et Mikdasheja, vehidliku nerot bejatsrot kodsheja, vekav'ú shemonat yemé Januká elu, lehodot ulhalel leShimjá hagadol.\n\nEn Purim– Bimé Mordejái veEster beShushán habirá, keshe'amad 'alehem Hamán harashá', bikesh lehashmid laharog ulabed et kol hayehudim, mina'ar ve'ad zakén, taf venashim beyom ejad, bishloshá 'asar lejódesh sheném 'asar, hu jódesh Adar, ushlalam lavoz. VeAtá berajameja harabim hefarta et 'atsató, vekilkalta et majashavtó, vahashevota lo guemuló beroshó, vetalú otó veet banav 'al ha'ets.\n\nVe'al hakol Ad-nai Elohenu anajnu modim Laj umevarjim Otaj Yitbaraj Shimjá befí kol jay tamid le'olam va'ed. Kakatuv, veajalta vesava'ta uverajta et Ad-nai Eloheja 'al haarets hatová asher natán laj. Baruj Atá Ad-nai, 'al haarets ve'al hamazón.\n\nRajem Ad-nai Elohenu 'al Yisrael 'ameja, ve'al Yerushaláyim 'ireja, ve'al Tsiyón mishkán kevodeja, ve'al maljut Bet David meshijeja, ve'al habáyit hagadol vehakadosh shenikrá Shimjá 'alav. Elohenu Avinu re'enu zunenu parnesenu vejalkelenu veharvijenu, veharvaj lanu Ad-nai Elohenu meherá mikol tsarotenu. Vená al tatsrijenu, Ad-nai Elohenu, lo lidé matnat basar vadam, veló lidé halvaatam, ki im leYadjá hameleá hapetujá hakedoshá veharjavá, sheló nevosh veló nikalem le'olam va'ed.\n\nen shabat:\nRetsé vehajalitsenu Ad-nai Elohenu bemitsvoteja uvemitsvat yom hashevi'í haShabat hagadol vehakadosh hazé. Ki yom ze gadol vekadosh hu lefaneja lishbot bo velanúaj bo beahavá kemitsvat retsoneja. Uvirtsoneja haníaj lanu Ad-nai Elohenu sheló tehé tsará veyagón vaanajá beyom menujatenu. Veharenu Ad-nai Elohenu benejamat Tsiyón 'ireja uvevinyán Yerushaláyim 'ir kodsheja ki Atá Hu ba'al hayeshu'ot uva'al hanejamot.\n\nEn Rosh Jódesh y fiestas se agrega:\nElohenu veElohé avotenu ya'alé veyavó veyaguía' veyeraé\nveyeratsé veyishamá' veyipaked veyizajer zijronenu ufikdonenu, vezijrón avotenu, vezijrón Mashíaj ben David 'avdeja, vezijrón Yerushaláyim 'ir kodsheja, vezijrón kol 'amjá bet Yisrael lefaneja, lifletá letová lején uljésed ulrajamim lejayim ulshalom beyom:\nEn Rosh Jódesh– Rosh Hajódesh hazé.\nEn Pésaj– Jag Hamatsot hazé.\nEn Shavuot– Jag Hashavu'ot hazé.\nEn Rosh Hashaná– Hazikarón hazé.   |   En Sucot– Jag Hasucot hazé.\nEn Sheminí Atséret y Simjat Torá–  Hasheminí Jag Ha'atséret hazé.\n\nZojrenu Ad-nai Elohenu bo letová, ufokdenu vo livrajá, vehoshi'enu vo lejayim. Uvidvar yeshu'á verajamim jus vejonenu verajem 'alenu vehoshi'enu, ki Eleja 'enenu ki El — En Rosh Hashaná: Mélej — janún verajum Atá.\n\nUvné Yerushaláyim 'ir hakódesh bimherá veyamenu. Baruj Atá Ad-nai, boné (verajamav) Yerushaláyim. Amén.\n\nBaruj Atá Ad-nai, Elohenu Mélej ha'olam, haEl Avinu Malkenu Adirenu Borenu Goalenu Yotserenu, Kedoshenu Kedosh Ya'akov, Ro'enu Ro'é Yisrael haMélej hatov vehametiv lakol shebejol yom vayom Hu hetiv, Hu metiv, Hu yetiv lanu. Hu guemalanu, Hu gomlenu, Hu yigmelenu la'ad lején uljésed ulrajamim ulrevaj hatsalá vehatslajá berajá vishu'á nejamá parnasá vejalkalá verajamim vejayim veshalom vejol tov, umikol tuv le'olam al yejaserenu.\n\nHarajamán Hu yimloj 'alenu le'olam va'ed. Harajamán Hu yitbaraj bashamáyim uvaarets. Harajamán Hu yishtabaj ledor dorim veyitpaar banu la'ad ulnétsaj netsajim veyithadar banu la'ad ule'olmé 'olamim. Harajamán Hu yefarnesenu bejavod. Harajamán Hu yishbor 'ulenu me'al tsavarenu veHu yolijenu komemiyut leartsenu. Harajamán Hu yishlaj lanu berajá merubá babayit hazé ve'al shulján ze sheajalnu 'alav. Harajamán Hu yishlaj lanu et Eliyahu hanaví zajur latov vivaser lanu besorot tovot yeshu'ot venejamot.\n\nBendición del invitado\nYehí ratsón sheló yevosh veló yikalem ba'al habáyit hazé, lo va'olam hazé veló va'olam habá, veyatslíaj bejol nejasav, veyihyú nejasav mutslajim ukrovim la'ir, veal yishlot satán bema'asé yadav, veal yizdakek lefanav shum devar jet vehirhur 'avón, me'atá ve'ad 'olam.\n\nHarajamán Hu yevarej et [Si come en la casa de sus padres agrega — (aví morí) ba'al habáyit hazé, veet (imí moratí) ba'alat habáyit hazé, otam veet betam veet zar'am veet kol asher lahem, / Quien come en su mesa agrega — Harajamán Hu yevarej otí (veet ishtí / veet ba'alí / veet zar'í) veet kol asher lí], otanu veet kol asher lanu kemó shenitbarjú avotenu Avraham Yitsjak veYa'akov bakol mikol kol, ken yevarej otanu kulanu yájad bivrajá shelemá, venomar amén.\n\nBamarom yelamedú 'alehem ve'alenu zejut shetehé lemishmeret shalom. Venisá verajá meét Ad-nai utsdaká meElohé yishe'enu. Venimtsá jen veséjel tov be'ené Elohim veadam. \nEn Shabat– Harajamán Hu yanjilenu yom shekuló Shabat umenujá lejayé ha'olamim.\nEn Rosh Jódesh– Harajamán Hu yejadesh 'alenu et hajódesh hazé letová velivrajá.\nEn las fiestas– Harajamán Hu yanjilenu yom shekuló tov.\nEn Rosh Hashaná– Harajamán Hu yejadesh 'alenu et hashaná hazot letová velivrajá.\nEn Sucot– Harajamán Hu yakim lanu et sucat David hanofálet.\nHarajamán Hu yezakenu limot haMashíaj ulejayé ha'olam habá.\nEn Shabat, Yom Tov, Jol Hamo'ed y Rosh Jódesh: Migdol | En días de semana: Magdil \nyeshu'ot malkó ve'osé jésed liMshijó leDavid ulzar'ó 'ad 'olam. 'Osé shalom bimromav Hu ya'asé shalom 'alenu ve'al kol Yisrael, veimrú amén.\n\nYirú et Ad-nai kedoshav ki en majsor lireav. Kefirim rashú vera'evú vedoreshé Ad-nai lo yajserú kol tov. Hodú laAd-nai ki tov, ki le'olam jasdó. Potéaj et yadeja umasbía' lejol jay ratsón. Baruj haguéver asher yivtaj baAd-nai vehayá Ad-nai mivtajó. Na'ar hayíti gam zakanti veló raíti tsadik ne'ezav vezar'ó mevakesh lájem. Ad-nai 'oz le'amó yitén Ad-nai yevarej et 'amó vashalom.","note":"Golden cargado. Falta refinar la fonética aplicando sistemáticamente el dato de meteg/meseg de ArtScroll."},"Birkat Hamazón||Sefaradí||Hebreo":{"status":"Revisión fina","ref":"Golden 2026-10-02 · base sefaradí aún por cerrar","body":"ברכת המזון · נוסח ע''מ\nNUSAJ SEFARADI BIRCAT HAMAZON\n\n\nברכת המזון · נוסח ע''מ\nלַמְנַצֵּחַ בִּנְגִינֹת מִזְמוֹר שִׁיר. אֱלֹהִים יְחָנֵּנוּ וִיבָרְכֵנוּ, יָאֵר פָּנָיו אִתָּנוּ סֶלָה. לָדַעַת בָּאָרֶץ דַּרְכֶּךָ, בְּכָל גּוֹיִם יְשׁוּעָתֶךָ. יוֹדוּךָ עַמִּים אֱלֹהִים, יוֹדוּךָ עַמִּים כֻּלָּם. יִשְׂמְחוּ וִירַנְּנוּ לְאֻמִּים, כִּי תִשְׁפֹּט עַמִּים מִישֹׁר, וּלְאֻמִּים בָּאָרֶץ תַּנְחֵם סֶלָה. יוֹדוּךָ עַמִּים אֱלֹהִים, יוֹדוּךָ עַמִּים כֻּלָּם. אֶרֶץ נָתְנָה יְבוּלָהּ, יְבָרְכֵנוּ אֱלֹהִים אֱלֹהֵינוּ. יְבָרְכֵנוּ אֱלֹהִים, וְיִירְאוּ אוֹתוֹ כָּל אַפְסֵי אָרֶץ.\n\nאֲבָרְכָה אֶת יְיָ בְּכָל עֵת תָּמִיד תְּהִלָּתוֹ בְּפִי. סוֹף דָּבָר הַכֹּל נִשְׁמָע. אֶת הָאֱלֹהִים יְרָא וְאֶת מִצְוֹתָיו שְׁמוֹר, כִּי זֶה כָּל הָאָדָם. תְּהִלַּת יְיָ יְדַבֶּר פִּי וִיבָרֵךְ כָּל בָּשָׂר שֵׁם קָדְשׁוֹ לְעוֹלָם וָעֶד. וַאֲנַחְנוּ נְבָרֵךְ יָהּ מֵעַתָּה וְעַד עוֹלָם הַלְלוּיָהּ. וַיְדַבֵּר אֵלַי, זֶה הַשֻּׁלְחָן אֲשֶׁר לִפְנֵי יְיָ.\n\n זימון\nהמזמן אומר– הַב לָן וְנִבְרִיךְ לְמַלְכָּא עִלָּאָה קַדִּישָׁא.\tהמסובים עונים– שָׁמַיִם.\tהמזמן– בִּרְשׁוּת מַלְכָּא עִלָּאָה קַדִּישָׁא, בשבת אומרים: וּבִרְשׁוּת שַׁבָּת מַלְכְּתָּא | ביו”ט: וּבִּרְשׁוּת יוֹמָא טָבָא אֻשְׁפִּיזָא קַדִּישָׁא, | בסוכות: וּבִּרְשׁוּת שִׁבְעָה אֻשְׁפִּיזִין עִלָּאִין קַדִּישִׁין, וּבִרְשׁוּת מוֹרַי וְרַבּוֹתַי וּבִרְשׁוּתְכֶם נְבָרֵך (בעשרה: אֱלֹהֵינוּ) [בסעודת חתן: שֶׁהַשִּׂמְחָה בִּמְעוֹנוֹ] שֶׁאָכַלְנוּ מִשֶּׁלוֹ.\nהמסובים עונים– בָּרוּךְ (בעשרה: אֱלֹהֵינוּ) [בסעודת חתן: שֶׁהַשִּׂמְחָה בִּמְעוֹנוֹ וְ] שֶׁאָכַלְנוּ מִשֶּׁלוֹ וּבְטוּבוֹ חָיִינוּ.\nהמזמן– בָּרוּךְ (בעשרה: אֱלֹהֵינוּ) [בסעודת חתן: שֶׁהַשִּׂמְחָה בִּמְעוֹנוֹ וְ] שֶׁאָכַלְנוּ מִשֶּׁלוֹ וּבְטוּבוֹ חָיִינוּ.\n\n\nבָּרוּךְ אַתָּה יְיָ, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, הָאֵל הַזָּן אוֹתָנוּ וְאֶת הָעוֹלָם כֻּלּוֹ בְּטוּבוֹ בְּחֵן בְּחֶסֶד בְּרֶוַח וּבְרַחֲמִים רַבִּים. נוֹתֵן לֶחֶם לְכָל בָּשָׂר, כִּי לְעוֹלָם חַסְדּוֹ. וּבְטוּבוֹ הַגָּדוֹל תָּמִיד לֹא חָסַר לָנוּ, וְאַל יֶחְסַר לָנוּ מָזוֹן תָּמִיד לְעוֹלָם וָעֶד. כִּי הוּא אֵל זָן וּמְפַרְנֵס לַכֹּל וְשֻׁלְחָנוֹ עָרוּךְ לַכֹּל, וְהִתְקִין מִחְיָה וּמָזוֹן לְכָל בְּרִיּוֹתָיו אֲשֶׁר בָּרָא בְרַחֲמָיו וּבְרוֹב חֲסָדָיו, כָּאָמוּר, פּוֹתֵחַ אֶת יָדֶךָ, וּמַשְׂבִּיעַ לְכָל חַי רָצוֹן. בָּרוּךְ אַתָּה יְיָ, הַזָּן אֶת הַכֹּל.\n\nנוֹדֶה לְךָ יְיָ אֱלֹהֵינוּ עַל שֶׁהִנְחַלְתָּ לַאֲבוֹתֵינוּ, אֶרֶץ חֶמְדָּה טוֹבָה וּרְחָבָה בְּרִית וְתוֹרָה חַיִּים וּמָזוֹן, עַל שֶׁהוֹצֵאתָנוּ מֵאֶרֶץ מִצְרַיִם, וּפְדִיתָנוּ מִבֵּית עֲבָדִים, וְעַל בְּרִיתְךָ שֶׁחָתַמְתָּ בִּבְשָׂרֵנוּ, וְעַל תּוֹרָתְךָ שֶׁלִּמַּדְתָּנוּ, וְעַל חֻקֵּי רְצוֹנָךְ שֶׁהוֹדַעְתָּנוּ, וְעַל חַיִּים וּמָזוֹן שֶׁאַתָּה זָן וּמְפַרְנֵס אוֹתָנוּ.\n\nבחנוכה ובפורים אומרים זה:\nעַל הַנִּסִּים וְעַל הַפֻּרְקָן וְעַל הַגְּבוּרוֹת וְעַל הַתְּשׁוּעוֹת וְעַל הַנִּפְלָאוֹת וְעַל הַנֶּחָמוֹת שֶׁעָשִֽׂיתָ לַאֲבוֹתֵֽינוּ בַּיָּמִים הָהֵם בַּזְּמַן הַזֶּה.\n\nלחנוכה:\nבִּימֵי מַתִּתְיָה בֶּן יוֹחָנָן כֹּהֵן גָּדוֹל, חַשְׁמוֹנָאִי וּבָנָיו, כְּשֶׁעָמְדָה מַלְכוּת יָוָן הָרְשָׁעָה עַל עַמְּךָ יִשְׂרָאֵל, לְשַׁכְּחָם תּוֹרָתָךְ וּלְהַעֲבִירָם מֵחֻקֵּי רְצוֹנָךְ. וְאַתָּה בְּרַחֲמֶיךָ הָרַבִּים עָמַדְתָּ לָהֶם בְּעֵת צָרָתָם, רַבְתָּ אֶת רִיבָם, דַּנְתָּ אֶת דִּינָם, נָקַמְתָּ אֶת נִקְמָתָם, מָסַרְתָּ גִבּוֹרִים בְּיַד חַלָּשִׁים, וְרַבִּים בְּיַד מְעַטִּים, וּרְשָׁעִים בְּיַד צַדִּיקִים, וּטְמֵאִים בְּיַד טְהוֹרִים, וְזֵדִים בְּיַד עוֹסְקֵי תוֹרָתֶךָ. לְךָ עָשִׂיתָ שֵׁם גָּדוֹל וְקָדוֹשׁ בְּעוֹלָמָךְ, וּלְעַמְּךָ יִשְׂרָאֵל עָשִׂיתָ תְּשׁוּעָה גְדוֹלָה וּפֻרְקָן כְּהַיּוֹם הַזֶּה. וְאַחַר כַּךְ בָּאוּ בָנֶיךָ לִדְבִיר בֵּיתֶךָ, וּפִנּוּ אֶת הֵיכָלֶךָ, וְטִהֲרוּ אֶת מִקְדָּשֶׁךָ, וְהִדְלִיקוּ נֵרוֹת בְּחַצְרוֹת קָדְשֶׁךָ, וְקָבְעוּ שְׁמוֹנַת יְמֵי חֲנֻכָּה אֵלּוּ בְּהַלֵּל וּבְהוֹדָאָה. וְעָשִׂיתָ עִמָּהֶם נִסִּים וְנִפְלָאוֹת וְנוֹדֶה לְשִׁמְךָ הַגָּדוֹל סֶלָה.\n\nלפורים:\nבִּימֵי מָרְדְּכַי וְאֶסְתֵּר בְּשׁוּשַׁן הַבִּירָה, כְּשֶׁעָמַד עֲלֵיהֶם הָמָן הָרָשָׁע, בִּקֵּשׁ לְהַשְׁמִיד לַהֲרוֹג וּלְאַבֵּד אֶת כָּל הַיְּהוּדִים מִנַּעַר וְעַד זָקֵן טַף וְנָשִׁים בְּיוֹם אֶחָד, בִּשְׁלֹשָׁה עָשָׂר לְחֹדֶשׁ שְׁנֵים עָשָׂר, הוּא חֹדֶשׁ אֲדָר, וּשְׁלָלָם לָבוֹז. וְאַתָּה בְּרַחֲמֶיךָ הָרַבִּים הֵפַרְתָּ אֶת עֲצָתוֹ, וְקִלְקַלְתָּ אֶת מַחֲשַׁבְתּוֹ, וַהֲשֵׁבוֹתָ לּוֹ גְּמוּלוֹ בְּרֹאשׁוֹ. וְתָלוּ אוֹתוֹ וְאֶת בָּנָיו עַל הָעֵץ. וְעָשִׂיתָ עִמָּהֶם נִסִּים וְנִפְלָאוֹת וְנוֹדֶה לְשִׁמְךָ הַגָּדוֹל סֶלָה.\n\nוְעַל הַכֹּל יְיָ אֱלֹהֵינוּ אֲנַחְנוּ מוֹדִים לָךְ, וּמְבָרְכִים אֶת שְׁמָךְ, כָּאָמוּר וְאָכַלְתָּ וְשָׂבָעְתָּ, וּבֵרַכְתָּ אֶת יְיָ אֱלֹהֶיךָ עַל הָאָרֶץ הַטּוֹבָה אֲשֶׁר נָתַן לָךְ. בָּרוּךְ אַתָּה יְיָ, עַל הָאָרֶץ וְעַל הַמָּזוֹן.\n\nרַחֵם יְיָ אֱלֹהֵינוּ עָלֵינוּ וְעַל יִשְׂרָאֵל עַמָּךְ, וְעַל יְרוּשָׁלַיִם עִירָךְ, וְעַל הַר צִיּוֹן מִשְׁכַּן כְּבוֹדָךְ, וְעַל הֵיכָלָךְ, וְעַל מְעוֹנָךְ, וְעַל דְּבִירָךְ, וְעַל הַבַּיִת הַגָּדוֹל וְהַקָּדוֹשׁ שֶׁנִּקְרָא שִׁמְךָ עָלָיו. אָבִינוּ, רְעֵנוּ, זוּנֵנוּ, פַּרְנְסֵנוּ, כַּלְכְּלֵנוּ, הַרְוִיחֵנוּ הַרְוַח לָנוּ מְהֵרָה מִכָּל צָרוֹתֵינוּ. וְנָא, אַל תַּצְרִיכֵנוּ יְיָ אֱלֹהֵינוּ, לִידֵי מַתְּנוֹת בָּשָׂר וָדָם וְלֹא לִידֵי הַלְוָאָתָם. אֶלָּא לְיָדְךָ הַמְּלֵאָה וְהָרְחָבָה, הָעֲשִׁירָה וְהַפְּתוּחָה, יְהִי רָצוֹן שֶׁלּא נֵבוֹשׁ בָּעוֹלָם הַזֶּה, וְלֹא נִכָּלֵם לְעוֹלָם הַבָּא, וּמַלְכוּת בֵּית דָּוִד מְשִׁיחָךְ תַּחֲזִירֶנָּה לִמְקוֹמָהּ בִּמְהֵרָה בְיָמֵינוּ.\n\nבשבת:\nרְצֵה וְהַחֲלִיצֵנוּ יְיָ אֱלֹהֵינוּ בְּמִצְוֹתֶיךָ וּבְמִצְוַת יוֹם הַשְּׁבִיעִי, הַשַׁבָּת הַגָּדוֹל וְהַקָּדוֹשׁ הַזֶּה. כִּי יוֹם גָּדוֹל וְקָדוֹשׁ הוּא מִלְּפָנֶיךָ, נִשְׁבּוֹת בּוֹ וְנָנוּחַ בּוֹ וְנִתְעַנֵּג בּוֹ כְּמִצְוַת חֻקּי רְצוֹנָךְ, וְאַל תְּהִי צָרָה וְיָגוֹן בְּיוֹם מְנוּחָתֵנוּ. וְהַרְאֵנוּ בְּנֶחָמַת צִיּוֹן בִּמְהֵרָה בְיָמֵינוּ, כִּי אַתָּה הוּא בַּעַל הַנֶּחָמוֹת. וַהֲגַם שֶׁאָכַלְנוּ וְשָׁתִינוּ חָרְבַּן בֵיתְךָ הַגָּדוֹל וְהַקָּדוֹשׁ לֹא שָׁכַחְנוּ. אַל תִּשְׁכָּחֵנוּ לָנֶצַח וְאַל תִּזְנָחֵנוּ לָעַד כִּי אֵל מֶלֶךְ גָּדוֹל וְקָדוֹשׁ אָתָּה.\n\nלראש חדש, ליום טוב ולחול המועד:\nאֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ יַעֲלֶה וְיָבֹא, וְיַגִּֽיעַ וְיֵרָאֶה, וְיֵרָצֶה וְיִשָּׁמַע, וְיִפָּקֵד וְיִזָּכֵר, זִכְרוֹנֵֽנוּ וְזִכְרוֹן אֲבוֹתֵֽינוּ. זִכְרוֹן יְרוּשָׁלַֽיִם עִירָךְ, וְזִכְרוֹן מָשִֽׁיחַ בֶּן דָּוִד עַבְדָּךְ, וְזִכְרוֹן כָּל עַמְּךָ בֵּית יִשְׂרָאֵל לְפָנֶֽיךָ, לִפְלֵיטָה, לְטוֹבָה, לְחֵן, לְחֶסֶד וּלְרַחֲמִים, לְחַיִּים טוֹבִים וּלְשָׁלוֹם, בְּיוֹם:\nבראש חודש– רֹאשׁ הַחֹדֶשׁ | בפסח– חַג הַמַּצוֹת הַזֶּה, בְּיוֹם (ביו”ט: טוֹב) מִקְרָא קוֹדֶשׁ\nבשבועות– חַג הַשָּׁבוּעוֹת הַזֶּה, בְּיוֹם טוֹב מִקְרָא קוֹדֶשׁ | בראש השנה– הַזִּכָּרוֹן הַזֶּה, בְּיוֹם טוֹב מִקְרָא קוֹדֶשׁ | בסוכות– חַג הַסֻּכּוֹת הַזֶּה, בְּיוֹם (ביו”ט: טוֹב) מִקְרָא קוֹדֶשׁ\nבשמיני העצרת– שְׁמִינִי חַג עֲצֶרֶת הַזֶּה, בְּיוֹם טוֹב מִקְרָא קוֹדֶשׁ\nהַזֶּה. לְרַחֵם בּוֹ עָלֵינוּ וּלְהוֹשִׁיעֵנוּ. זָכְרֵנוּ יְיָ אֱלֹהֵינוּ בּוֹ לְטוֹבָה. וּפָקְדֵנוּ בוֹ לִבְרָכָה. וְהוֹשִׁיעֵנוּ בוֹ לְחַיִּים טוֹבִים. בִדְבַר יְשׁוּעָה וְרַחֲמִים, חוּס וְחָנֵּנוּ וַחֲמוֹל וְרַחֵם עָלֵינוּ וְהוֹשִׁיעֵנוּ, כִּי אֵלֶיךָ עֵינֵינוּ, כִּי אֵל מֶלֶךְ חַנּוּן וְרַחוּם אָתָּה.\n\nוְתִבְנֶה יְרוּשָׁלַיִם עִירָךְ בִּמְהֵרָה בְיָמֵינוּ. בָּרוּךְ אַתָּה יְיָ, בּוֹנֵה יְרוּשָׁלָיִם. (בלחש: אָמֵן).\n\nבָּרוּךְ אַתָּה יְיָ, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם לָעַד, הָאֵל אָבִינוּ מַלְכֵּנוּ אַדִּירֵנוּ, בּוֹרְאֵנוּ, גּוֹאֲלֵנוּ, קְדוֹשֵׁנוּ קְדוֹשׁ יַעֲקֹב, רוֹעֵנוּ רוֹעֵה יִשְׂרָאֵל. הַמֶּלֶךְ הַטּוֹב, וְהַמֵּטִיב לַכֹּל, שֶׁבְּכָל יוֹם וָיוֹם הוּא הֵטִיב לָנוּ, הוּא מֵטִיב לָנוּ, הוּא יֵיטִיב לָנוּ. הוּא גְמָלָנוּ, הוּא גוֹמְלֵנוּ, הוּא יִגְמְלֵנוּ לָעַד חֵן וָחֶסֶד וְרַחֲמִים וְרֶוַח וְהַצָּלָה וְכָל טוֹב.\n\nהָרַחֲמָן הוּא יִשְׁתַּבַּח עַל כִּסֵּא כְבוֹדוֹ. הָרַחֲמָן הוּא יִשְׁתַּבַּח בַּשָּׁמַיִם וּבָאָרֶץ. הָרַחֲמָן הוּא יִשְׁתַּבַּח בָּנוּ לְדוֹר דּוֹרִים. הָרַחֲמָן הוּא קֶרֶן לְעַמּוֹ יָרִים. הָרַחֲמָן הוּא יִתְפָּאַר בָּנוּ לָנֶצַח נְצָחִים. הָרַחֲמָן הוּא יְפַרְנְסֵנוּ בְּכָבוֹד וְלֹא בְבִזּוּי (בְּהֶתֵּר וְלֹא בְאִסּוּר) בְּנַחַת וְלֹא בְצָעַר. הָרַחֲמָן הוּא יִתֵּן שָׁלוֹם בֵּינֵינוּ. הָרַחֲמָן הוּא יִשְׁלַח בְּרָכָה רְוָחָה וְהַצְלָחָה בְּכָל מַעֲשֵׂה יָדֵינוּ. הָרַחֲמָן הוּא יַצְלִיחַ אֶת דְּרָכֵינוּ. הָרַחֲמָן הוּא יִשְׁבּוֹר עוֹל גָּלוּת מְהֵרָה מֵעַל צַוָּארֵנוּ. הָרַחֲמָן הוּא יוֹלִיכֵנוּ מְהֵרָה קוֹמְמִיּוּת לְאַרְצֵנוּ. הָרַחֲמָן הוּא יִרְפָּאֵנוּ רְפוּאָה שְׁלֵמָה רְפוּאַת הַנֶּפֶשׁ וּרְפוּאַת הַגּוּף. הָרַחֲמָן הוּא יִפְתַּח לָנוּ אֶת יָדוֹ הָרְחָבָה. הָרַחֲמָן הוּא יְבָרֵךְ כָּל אֶחָד וְאֶחָד מִמֶּנּוּ בִּשְׁמוֹ הַגָּדוֹל כְּמוֹ שֶׁנִּתְבָּרְכוּ אֲבוֹתֵינוּ אַבְרָהָם יִצְחָק וְיַעֲקֹב בַּכֹּל מִכֹּל כֹּל, כֵּן יְבָרֵךְ אוֹתָנוּ יַחַד בְּרָכָה שְׁלֵמָה. וְכֵן יְהִי רָצוֹן וְנֹאמַר אָמֵן. הָרַחֲמָן הוּא יִפְרוֹשׂ עָלֵינוּ סֻכַּת שְׁלוֹמוֹ.\n\nבשבת– הָרַחֲמָן הוּא יַנְחִילֵנוּ עוֹלָם שֶׁכֻּלּוֹ שַׁבָּת וּמְנוּחָה לְחַיֵּי הָעוֹלָמִים.\nבראש חודש– הָרַחֲמָן הוּא יְחַדֵּשׁ עָלֵינוּ אֶת הַחֹדֶשׁ הַזֶּה, לְטוֹבָה וְלִבְרָכָה.\nבחול המועד– הָרַחֲמָן הוּא יַגִּיעֵנוּ לְמוֹעֲדִים אֲחֵרִים הַבָּאִים לִקְרָתֵנוּ לְשָלוֹם. \nבראש השנה– הָרַחֲמָן הוּא יְחַדֵּשׁ עָלֵינוּ אֶת הַשָּׁנָה הַזֹּאת לְטוֹבָה וְלִבְרָכָה.\nבסוכות– הָרַחֲמָן הוּא יְזַכֵּנוּ לֵישֵׁב בְּסֻכַּת עוֹרוֹ שֶׁל לִוְיָתָן. הָרַחֲמָן הוּא יַשְׁפִּיעַ עָלֵינוּ שֶׁפַע קְדוּשָּׁה וְטָהֳרָה מִשִּׁבְעָה אוּשְׁפִּיזִין עִלָּאִין קַדִּישִׁין, זְכוּתָם תְּהֵא מָגֵן וְצִנָּה עָלֵינוּ. הָרַחֲמָן הוּא יָקִים לָנוּ אֶת סֻכַּת דָּוִד הַנּוֹפֶלֶת.\nביום טוב– הָרַחֲמָן הוּא יַנְחִילֵנוּ יוֹם שֶׁכֻּלּוֹ טוֹב.\n\nהָרַחֲמָן הוּא יִטַּע תּוֹרָתוֹ וְאַהֲבָתוֹ בְּלִבֵּנוּ וְתִהְיֶה יִרְאָתוֹ עַל פָּנֵינוּ לְבִלְתִּי נֶחֱטָא. וְיִהְיוּ כָל מַעֲשֵׂינוּ לְשֵׁם שָׁמָיִם.\n\nברכת האורח:\nהָרַחֲמָן הוּא יְבָרֵךְ אֶת הַשֻּׁלְחָן הַזֶּה שֶׁאָכַלְנוּ עָלָיו, וִיסַדֵּר בּוֹ כָּל מַעֲדַנֵּי עוֹלָם, וְיִהְיֶה כְשֻׁלְחָנוֹ שֶׁל אַבְרָהָם אָבִינוּ כָּל רָעֵב מִמֶּנּוּ יֹאכַל, וְכָל צָמֵא מִמֶּנּוּ יִשְׁתֶּה. וְאַל יֶחְסַר מִמֶּנּוּ כָּל טוּב לָעַד וּלְעוֹלְמֵי עוֹלָמִים, אָמֵן. הָרַחֲמָן הוּא יְבָרֵךְ בַּעַל הַבַּיִת הַזֶּה וּבַעַל הַסְּעֻדָּה הַזֹּאת. הוּא וּבָנָיו וְאִשְׁתּוֹ וְכָל אֲשֶׁר לוֹ, בְּבָנִים שֶׁיִּחְיוּ, וּבִנְכָסִים שֶׁיִּרְבּוּ. בָּרֵךְ יְיָ חֵילוֹ וּפֹעַל יָדָיו תִּרְצֶה, וְיִהְיוּ נְכָסָיו וּנְכָסֵינוּ מֻצְלָחִים וּקְרוֹבִים לָעִיר, וְאַל יִזְדַּקֵּק לְפָנָיו וְלֹא לְפָנֵינוּ שׁוּם דְּבַר חֵטְא וְהִרְהוּר עָוֹן. שָׂשׂ וְשָׂמֵחַ כָּל הַיָּמִים בְּעֹשֶׁר וְכָבוֹד מֵעַתָּה וְעַד עוֹלָם. לֹא יֵבוֹשׁ בָּעוֹלָם הַזֶּה וְלֹא יִכָּלֵם לָעוֹלָם הַבָּא. אָמֵן כֵּן יְהִי רָצוֹן.\n\nבסעודת חתן:\nהָרַחֲמָן הוּא יְבָרֵךְ אֶת הֶחָתָן וְהַכַּלָּה, בְּבָנִים זְכָרִים שֶׁל קַיָּמָא, לַעֲבוֹדָתוֹ יִתְבָּרַךְ. הָרַחֲמָן הוּא יְבָרֵךְ אֶת כָּל הַמְּסֻבִּין בַּשֻּׁלְחָן הַזֶּה, וְיִתֵּן לָנוּ הַקָּדוֹשׁ בָּרוּךְ הוּא, כָּל מִשְׁאֲלוֹת לִבֵּנוּ לְטוֹבָה.\n\nהָרַחֲמָן הוּא יְחַיֵּינוּ וִיזַכֵּנוּ וִיקָרְבֵנוּ לִימוֹת הַמָּשִׁיחַ וּלְבִנְיַן בֵּית הַמִּקְדָּשׁ וּלְחַיֵּי הָעוֹלָם הַבָּא.\t\t\t\tבשבת, ראש חודש, חגים ופורים: מִגְדּוֹל         ביום חול: מַגְדִּיל\nיְשׁוּעוֹת מַלְכּוֹ. וְעֹשֶׂה חֶסֶד לִמְשִׁיחוֹ לְדָוִד וּלְזַרְעוֹ עַד עוֹלָם.\n\nכְּפִירִים רָשׁוּ וְרָעֵבוּ. וְדֹרְשֵׁי יְיָ לֹא יַחְסְרוּ כָל טוֹב. נַעַר הָיִיתִי גַּם זָקַנְתִּי וְלֹא רָאִיתִי צַדִּיק נֶעֱזָב. וְזַרְעוֹ מְבַקֶּשׁ לָחֶם. כָּל הַיּוֹם חוֹנֵן וּמַלְוֶה. וְזַרְעוֹ לִבְרָכָה. מַה שֶּׁאָכַלְנוּ יִהְיֶה לְשָׂבְעָה. וּמַה שֶּׁשָּׁתִינוּ יִהְיֶה לִרְפוּאָה. וּמַה שֶּׁהוֹתַרְנוּ יִהְיֶה לִבְרָכָה כְּדִכְתִיב וַיִּתֵּן לִפְנֵיהֶם וַיֹּאכְלוּ וַיּוֹתִירוּ כִּדְבַר יְיָ. בְּרוּכִים אַתֶּם לַיְיָ. עוֹשֵׂה שָׁמַיִם וָאָרֶץ. בָּרוּךְ הַגֶּבֶר אֲשֶׁר יִבְטַח בַּיְיָ. וְהָיָה יְיָ מִבְטָחוֹ. יְיָ עֹז לְעַמּוֹ יִתֵּן. יְיָ יְבָרֵךְ אֶת עַמּוֹ בַשָּׁלוֹם. עוֹשֶׂה שָׁלוֹם בִּמְרוֹמָיו הוּא בְרַחֲמָיו יַעֲשֶׂה שָׁלוֹם עָלֵינוּ וְעַל כָּל עַמּוֹ יִשְׂרָאֵל וְאִמְרוּ אָמֵן.","note":"Pendiente cerrar criterio de referencia entre Simchón 1, Simchón 2 y Bircat Shelomo."},"Birkat Hamazón||Sefaradí||Fonética":{"status":"Revisión fina","ref":"Golden 2026-10-02 · referencia sefaradí pendiente","body":"Lamenatséaj binguinot mizmor shir. Elohim yejanenu vivarjenu, yaer Panav itanu sela. Lada'at baarets darkeja, bejol goyim yeshu'ateja. Yoduja 'amim Elohim, yoduja 'amim kulam. Yismejú viranenú leumim, ki tishpot 'amim mishor, uleumim baarets tanjem sela. Yoduja 'amim Elohim, yoduja 'amim kulam. Erets natná yevuláh, yevarejenu Elohim Elohenu. Yevarejenu Elohim, veyirú otó kol afsé arets.\n\nAvarejá et Ad-nai bejol 'et tamid tehilató befí. Sof davar hakol nishmá'. Et haElohim yerá veet mitsvotav shemor, ki ze kol haadam. Tehilat Ad-nai yedaber pi vivarej kol basar Shem kodshó le'olam va'ed. Vaanajnu nevarej Yah me'atá ve'ad 'olam HaleluYah. Vaydaber elái, ze hashulján asher lifné Ad-nai.\n\n zimún  \nConductor– Hav lan venivrij leMalká 'ilaá kadishá.\ncomensales– Shamáyim.\nconductor– Birshut Malká 'ilaá kadishá, [en Shabat: Ubirshut Shabat malketá, | en festividad: Ubirshut yomá tavá ushpizá kadishá, | en Sucot: Ubirshut shiv'á ushpizín 'ilaín kadishín,) ubirshut morai verabotái uvirshutjem nevarej (Elohenu) [en seudat jatán: shehasimjá bim'onó] sheajalnu misheló.\ncomensales y luego conductor– Baruj (si hay 10: Elohenu) [en seudat jatán: shehasimjá bim'onó] sheajalnu misheló uvtuvó jayinu.\n\nBaruj Atá Ad-nai, Elohenu Mélej ha'olam, haEl hazán otanu veet ha'olam kuló betuvó bején bejésed berévaj uverajamim rabim. Notén léjem lejol basar ki le'olam jasdó. Uvtuvó hagadol tamid lo jasar lanu, veal yejsar lanu mazón tamid le'olam va'ed. Ki Hu El zan umfarnés lakol veshuljanó 'aruj lakol, vehitkín mijyá umazón lejol beriyotav asher bará verajamav uverov jasadav, kaamur, potéaj et yadeja, umasbía' lejol jay ratsón. Baruj Atá Ad-nai, hazán et hakol.\n\nNodé lejá Ad-nai Elohenu 'al shehinjalta laavotenu, erets jemdá tová urjavá berit veTorá jayim umazón, 'al shehotsetanu meérets Mitsráyim, ufditanu mibet 'avadim, ve'al beritjá shejatamta bivsarenu, ve'al Toratja shelimadtanu, ve'al juké retsonaj shehoda'tanu, ve'al jayim umazón sheAtá zan umfarnés otanu.\n\nEn Janucá y Purim se agrega:\n'Al hanisim ve'al hapurkán ve'al haguevurot ve'al hateshu'ot ve'al haniflaot ve'al hanejamot she'asita laavotenu bayamim hahem bazemán hazé.\n\nEn Janucá– Bimé Matityá ben Yojanán Cohén gadol, jashmonaí uvanav, keshe'amdá maljut Yaván haresha'á 'al 'amjá Yisrael, leshakejam Torataj uleha'aviram mejuké retsonaj. VeAtá berajameja harabim 'amadta lahem be'et tsaratam, ravta et rivam, danta et dinam, nakamta et nikmatam, masarta guiborim beyad jalashim, verabim beyad me'atim, uresha'im beyad tsadikim, utmeim beyad tehorim, vezedim beyad 'oské Torateja. Lejá 'asita shem gadol vekadosh be'olamaj, ule'amjá\nYisrael 'asita teshu'á guedolá ufurkán kehayom hazé. Veajar kaj bau vaneja lidvir beteja, ufinú et hejaleja, vetiharú et Mikdasheja, vehidliku nerot bejatsrot kodsheja, vekav'ú shemonat yemé Janucá elu behalel uvehodaá. Ve'asita 'imahem nisim veniflaot venodé leShimjá hagadol sela.\n\nEn Purim– Bimé Mordejái veEster beShushán habirá, keshe'amad 'alehem Hamán harashá', bikesh lehashmid laharog ulabed et kol hayehudim mina'ar ve'ad zakén taf venashim beyom ejad, bishloshá 'asar lejódesh sheném 'asar, hu jódesh Adar, ushlalam lavoz. VeAtá berajameja harabim hefarta et 'atsató, vekilkalta et majashavtó, vahashevota lo guemuló beroshó. Vetalú otó veet banav 'al ha'ets. Ve'asita 'imahem nisim veniflaot venodé leShimjá hagadol sela. \n\nVe'al hakol Ad-nai Elohenu anajnu modim laj, umevarjim et Shemaj, kaamur: veajalta vesava'ta, uverajta et Ad-nai Eloheja 'al haarets hatová asher natán laj. Baruj Atá Ad-nai, 'al haarets ve'al hamazón.\n\nRajem Ad-nai Elohenu 'alenu ve'al Yisrael 'amaj, ve'al Yerushaláyim 'iraj, ve'al har Tsiyón mishkán kevodaj, ve'al hejalaj, ve'al me'onaj, ve'al deviraj, ve'al habáyit hagadol vehakadosh shenikrá Shimjá 'alav. Avinu, re'enu, zunenu, parnesenu, kalkelenu, harvijenu harvaj lanu meherá mikol tsarotenu. Vená, al tatsrijenu Ad-nai Elohenu, lidé matnot basar vadam veló lidé halvaatam. Ela leYadjá hameleá veharjavá, ha'ashirá vehapetujá, yehí ratsón sheló nevosh ba'olam hazé, veló nikalem le'olam habá, umaljut bet David meshijaj tajazirena limkomáh bimherá veyamenu.\n\nen shabat:\nRetsé vehajalitsenu Ad-nai Elohenu bemitsvoteja uvemitsvat yom hashevi'í, haShabat hagadol vehakadosh hazé. Ki yom gadol vekadosh hu milefaneja, nishbot bo venanúaj bo venit'aneg bo kemitsvat juké retsonaj, veal tehí tsará veyagón beyom menujatenu. Veharenu benejamat Tsiyón bimherá veyamenu, ki Atá Hu ba'al hanejamot. Vahagam sheajalnu veshatinu jorbán betjá hagadol vehakadosh lo shajajnu. Al tishkajenu lanétsaj veal tiznajenu la'ad ki El Mélej gadol vekadosh Atá.\n\nEn Rosh Jódesh y fiestas se agrega:\nElohenu veElohé avotenu, ya'alé veyavó, veyaguía' veyeraé, veyeratsé veyishamá', veyipaked veyizajer, zijronenu vezijrón avotenu, zijrón Yerushaláyim 'iraj, vezijrón Mashíaj ben David 'avdaj, vezijrón kol 'amjá bet Yisrael lefaneja, lifletá, letová lején, lejésed ulrajamim lejayim tovim ulshalom, beyom:\n\nEn Rosh Jódesh– Rosh Hajódesh hazé\nEn Pésaj– Jag Hamatsot hazé, beyom (en Yom Tov: tov) mikrá kódesh hazé.\nEn Shavuot– Jag Hashavu'ot hazé, beyom tov mikrá kódesh hazé.\nEn Rosh Hashaná– Hazikarón hazé, beyom tov mikrá kódesh hazé.\nEn Sucot– Jag HaSucot hazé, beyom (en Yom Tov: tov) mikrá kódesh hazé.\nEn Sheminí 'Atséret y Simjat Torá– Sheminí Jag 'Atséret hazé, beyom tov mikrá kódesh hazé.\nLerajem bo 'alenu ulehoshi'enu. Zojrenu Ad-nai Elohenu bo letová. Ufokdenu vo livrajá. Vehoshi'enu vo lejayim tovim. Bidvar yeshu'á verajamim, jus vejanenu vajamol verajem 'alenu vehoshi'enu, ki eleja 'enenu, ki El Mélej janún verajum Atá.\n\nVetivné Yerushaláyim 'iraj bimherá veyamenu. Baruj Atá Ad-nai, boné Yerushaláyim (En voz baja: Amén).\n\nBaruj Atá Ad-nai, Elohenu Mélej ha'olam la'ad, haEl Avinu Malkenu Adirenu, Borenu, Goalenu, Kedoshenu kedosh Ya'akov, Ro'enu Ro'é Yisrael. HaMélej hatov, vehametiv lakol, shebejol yom vayom Hu hetiv lanu, Hu metiv lanu, Hu yetiv lanu. Hu guemalanu, Hu gomlenu, Hu yigmelenu la'ad jen vajésed verajamim verévaj vehatsalá vejol tov. \n\nHarajamán Hu yishtabaj 'al kisé jevodó. Harajamán Hu yishtabaj bashamáyim uvaarets. Harajamán Hu yishtabaj banu ledor dorim. Harajamán Hu keren le'amó yarim. Harajamán Hu yitpaar banu lanétsaj netsajim. Harajamán Hu yefarnesenu bejavod veló vevizui (beheter veló veisur) benájat veló vetsá'ar. Harajamán Hu yitén shalom benenu. Harajamán Hu yishlaj berajá revajá vehatslajá bejol ma'asé yadenu. Harajamán Hu yatslíaj et derajenu. Harajamán Hu yishbor 'ol galut meherá me'al tsavarenu. Harajamán Hu yolijenu meherá komemiyut leartsenu. Harajamán Hu yirpaenu refuá shelemá refuat hanefesh urfuat haguf. Harajamán Hu yiftaj lanu et Yadó harejavá. Harajamán Hu yevarej kol ejad veejad mimenu biShmó\nhagadol kemó shenitbarjú avotenu Avraham Yitsjak veYa'akov bakol mikol kol, ken yevarej otanu yájad berajá shelemá. Vején yehí ratsón venomar Amén. Harajamán Hu yifros 'alenu sucat Shelomó.\n\nEn Shabat– Harajamán Hu yanjilenu 'olam shekuló Shabat umenujá lejayé ha'olamim.\nEn Rosh Jódesh– Harajamán Hu yejadesh 'alenu et hajódesh hazé, letová velivrajá.\nEn jol hamo'ed– Harajamán Hu yagui'enu lemo'adim ajerim habaim likratenu leshalom. \nEn Rosh Hashaná– Harajamán Hu yejadesh 'alenu et hashaná hazot letová velivrajá.\nEn Sucot– Harajamán Hu yezakenu leshev besucat 'oró shel livyatán. Harajamán Hu yashpía' 'alenu shefa' kedushá vetahorá mishiv'á ushpizín 'ilaín kadishín, zejutam tehé maguén vetsiná 'alenu. Harajamán Hu yakim lanu et sucat David hanofélet.\nEn Yom Tov– Harajamán Hu yanjilenu yom shekuló tov.\n\nHarajamán Hu yitá' Torató veahavató belibenu vetihyé yirató 'al panenu leviltí nejetá. Veyihyú kol ma'asenu leshem shamáyim.\n\nbendición del invitado:\nHarajamán Hu yevarej et hashulján hazé sheajalnu 'alav visader bo kol ma'adané 'olam, veyihyé keshuljanó shel Avraham avinu, kol ra'ev mimenu yojal vejol tsamé mimenu yishté, veal yejsar mimenu kol tuv la'ad ule'olmé 'olamim, amén. Harajamán Hu yevarej ba'al habáyit hazé uva'al hase'udá hazot, hu uvanav veishtó vejol asher lo, bevanim sheyijyú uvinjasim sheyirbú. Barej Ad-nai jeló ufó'al yadav tirtsé. Veyihyú nejasav unejasenu mutslajim ukrovim la'ir, veal yizdakek lefanav veló lefanenu shum devar jet vehirhur 'avón. Sas vesaméaj kol hayamim, be'ósher vejavod. Me'atá ve'ad 'olam. Lo yevosh ba'olam hazé, veló yikalem la'olam habá, amén ken yehí ratsón.\n\nen un banquete nupcial:\nHarajamán Hu yevarej et hejatán vehakalá bevanim zejarím shel kayamá, la'avodató yitbaraj. Harajamán Hu yevarej et kol hamesubín bashulján hazé, veyitén lanu Hakadosh Baruj Hu, kol mishalot libenu letová.\n\nHarajamán Hu yejayenu vizakenu vikarvenu limot haMashíaj ulevinyán bet hamikdash ulejayé ha'olam habá.\nEn Shabat, Rosh Jódesh, fiestas y Purim: Migdol | En días de semana: Magdil\nyeshu'ot malkó. Ve'osé jésed limshijó leDavid ulzar'ó 'ad 'olam. \n\nKefirim rashú vera'evú. Vedorshé Ad-nai lo yajserú kol tov. Na'ar hayíti gam zakanti veló raíti tsadik ne'ezav. Vezar'ó mevakesh lájem. Kol hayom jonén umalvé. Vezar'ó livrajá. Ma sheajalnu yihyé lesov'á. Umá sheshatinu yihyé lirfuá. Umá shehotarnu yihyé livrajá kedijtiv vayitén lifnehem vayojelú vayotiru kidvar Ad-nai. Berujim atem laAd-nai. 'Osé shamáyim vaarets. Baruj haguéver asher yivtaj baAd-nai. Vehayá Ad-nai mivtajó. Ad-nai 'oz le'amó yitén. Ad-nai yevarej et 'Amó vashalom. 'Osé shalom bimromav Hu verajamav ya'asé shalom 'alenu ve'al kol 'amó Yisrael veimrú Amén.","note":"Pendiente revisión fina y cierre de criterio base sefaradí."}};
   let cells={}; try{cells=JSON.parse(localStorage.getItem('jd_master_cells')||'{}')}catch(e){}
-  for(const [k,v] of Object.entries(seed)){ cells[k]=v; }
+  for(const [k,v] of Object.entries(seed)){ if(!(k in cells)) cells[k]=v; }
   localStorage.setItem('jd_master_cells',JSON.stringify(cells));
 })();
 </script>
@@ -905,81 +664,7 @@ document.querySelectorAll('#dashboard .section').forEach(sec=>{if(sec.textConten
 input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid #b88a3b!important;outline-offset:1px!important;border-color:#b88a3b!important;box-shadow:0 0 0 3px rgba(184,138,59,.12)!important}
 .jd-rule-card{background:var(--panel);border:1px solid #d9c69c;border-radius:14px;padding:14px}.jd-kpi{font-size:28px;font-weight:700;color:#0f5b5d}
 </style>
-<script>
-(function(){
-const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const L=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
-const S=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const M=(title,body,saveLabel,onSave)=>{const w=document.createElement('div');w.className='modal open';w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+E(title)+'</h2><button class="btn jx">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button class="btn primary js">'+E(saveLabel||'Guardar')+'</button></div></div>';document.body.appendChild(w);w.querySelector('.jx').onclick=()=>w.remove();w.querySelector('.js').onclick=()=>onSave(w);return w};
 
-let pricingRules=L('jd_structured_rules',[
-{id:'rule-birkon-librito',name:'Birkón · Librito',costShare:64.5,shipping:20000,extra:0,notes:'Costo imprenta / 0,645 + envío'},
-{id:'rule-deluxe-plus',name:'Deluxe Plus',costShare:64.5,shipping:20000,extra:100000,notes:'Base librito + $100.000'},
-{id:'rule-iman-horario',name:'Imán horario encendido',costShare:30.7692308,shipping:10000,extra:0,notes:'Ejemplo: $48.000 imprenta → $166.000 final con $10.000 de envío'}
-]);
-let catalog=L('jd_catalog_products',[
-{id:'birkon-librito',name:'Birkón · Librito',family:'Birkón',supplier:'Zloto',size:'Normal / Grande',production:'2 semanas',ruleId:'rule-birkon-librito',status:'Activo'},
-{id:'birkon-folleto',name:'Birkón · Folleto',family:'Birkón',supplier:'Gráfica B612',size:'Díptico / Tríptico / Cuadríptico',production:'48 h aprox.',ruleId:'',status:'Activo'},
-{id:'iman-horario',name:'Imán · horario encendido de velas',family:'Imanes',supplier:'Gráfica B612',size:'14 × 10 cm',production:'48 h aprox.',ruleId:'rule-iman-horario',status:'Activo'}
-]);
-function calcRule(rule,cost){return cost/(Number(rule.costShare)/100)+Number(rule.shipping||0)+Number(rule.extra||0)}
-function grossProfit(rule,cost){return calcRule(rule,cost)-Number(rule.shipping||0)-Number(cost)}
-function fmt(n){return '$ '+Math.round(Number(n||0)).toLocaleString('es-AR')}
-
-const rs=document.getElementById('rules');
-function drawRules(){
- if(!rs)return;
- rs.innerHTML='<div class="topbar"><div><div class="eyebrow">Motor comercial</div><h1>Reglas de precio</h1></div><button class="btn primary" id="addRuleV4">+ Nueva regla</button></div>'+
- '<div class="jd-note">Las reglas son estructuradas y se vinculan a productos. Se define qué porcentaje del precio representa el costo, el envío y extras fijos.</div>'+
- '<div class="grid" style="margin-top:16px">'+pricingRules.map((r,i)=>{const linked=catalog.filter(p=>p.ruleId===r.id).map(p=>p.name).join(', ')||'Sin productos vinculados';return '<div class="jd-rule-card"><div class="eyebrow">REGLA</div><h3>'+E(r.name)+'</h3><p><b>Costo = '+Number(r.costShare).toFixed(2).replace('.',',')+'%</b> del precio antes de envío/extras.</p><p class="small">Envío: '+fmt(r.shipping)+' · Extra fijo: '+fmt(r.extra)+'</p><p class="small muted">Productos: '+E(linked)+'</p><div class="jd-toolbar"><button class="btn sm" data-erule="'+i+'">Editar</button></div></div>'}).join('')+'</div>';
- document.getElementById('addRuleV4').onclick=()=>editRule(-1);
- rs.querySelectorAll('[data-erule]').forEach(b=>b.onclick=()=>editRule(+b.dataset.erule));
-}
-function editRule(i){
- const r=i>=0?pricingRules[i]:{id:'rule-'+Date.now(),name:'',costShare:64.5,shipping:0,extra:0,notes:''};
- const w=M(i>=0?'Editar regla':'Nueva regla','<div class="jd-grid"><div class="jd-field"><label>Nombre</label><input id="prName" value="'+E(r.name)+'"></div><div class="jd-field"><label>El costo representa (%)</label><input id="prShare" type="number" step="0.01" value="'+r.costShare+'"></div><div class="jd-field"><label>Envío fijo</label><input id="prShip" type="number" value="'+r.shipping+'"></div><div class="jd-field"><label>Extra fijo</label><input id="prExtra" type="number" value="'+r.extra+'"></div><div class="jd-field" style="grid-column:1/-1"><label>Notas</label><input id="prNotes" value="'+E(r.notes)+'"></div><div class="jd-panel" style="grid-column:1/-1"><b>Prueba rápida</b><div class="jd-toolbar" style="margin-top:8px"><input id="prCostTest" type="number" value="48000" style="max-width:180px"><button type="button" class="btn" id="prCalc">Calcular</button><span id="prResult"></span></div></div></div>','Guardar regla',x=>{
-  const obj={id:r.id,name:x.querySelector('#prName').value.trim(),costShare:Number(x.querySelector('#prShare').value),shipping:Number(x.querySelector('#prShip').value),extra:Number(x.querySelector('#prExtra').value),notes:x.querySelector('#prNotes').value};if(!obj.name||!obj.costShare)return alert('Falta nombre o porcentaje');if(i>=0)pricingRules[i]=obj;else pricingRules.push(obj);S('jd_structured_rules',pricingRules);x.remove();drawRules();drawCatalog();
- });
- w.querySelector('#prCalc').onclick=()=>{const temp={costShare:Number(w.querySelector('#prShare').value),shipping:Number(w.querySelector('#prShip').value),extra:Number(w.querySelector('#prExtra').value)};const cost=Number(w.querySelector('#prCostTest').value);w.querySelector('#prResult').innerHTML='<b>'+fmt(calcRule(temp,cost))+'</b> · ganancia bruta: '+fmt(grossProfit(temp,cost))};
-}
-drawRules();
-
-const ps=document.getElementById('products');
-function drawCatalog(){
- if(!ps)return;
- ps.innerHTML='<div class="topbar"><div><div class="eyebrow">Catálogo interno</div><h1>Productos & variantes</h1></div><button class="btn primary" id="addProductV4">+ Nuevo producto</button></div>'+
- '<div class="product-grid">'+catalog.map((p,i)=>{const r=pricingRules.find(x=>x.id===p.ruleId);return '<div class="product-card"><div class="product-visual"><div class="book">'+E(p.family.toUpperCase())+'</div></div><div class="product-body"><h3>'+E(p.name)+'</h3><div class="chips"><span class="tag ok">'+E(p.status)+'</span><span class="tag">'+E(p.supplier)+'</span></div><p class="small"><b>Tamaño:</b> '+E(p.size)+'</p><p class="small"><b>Producción:</b> '+E(p.production)+'</p><p class="small"><b>Regla:</b> '+E(r?r.name:'Sin regla')+'</p><button class="btn sm" data-eprod="'+i+'">Editar producto</button></div></div>'}).join('')+'</div>';
- document.getElementById('addProductV4').onclick=()=>editProduct(-1);
- ps.querySelectorAll('[data-eprod]').forEach(b=>b.onclick=()=>editProduct(+b.dataset.eprod));
-}
-function editProduct(i){
- const p=i>=0?catalog[i]:{id:'product-'+Date.now(),name:'',family:'',supplier:'Gráfica B612',size:'',production:'48 h aprox.',ruleId:'',status:'Activo'};
- const ruleOptions='<option value="">Sin regla todavía</option>'+pricingRules.map(r=>'<option value="'+E(r.id)+'" '+(r.id===p.ruleId?'selected':'')+'>'+E(r.name)+'</option>').join('');
- const w=M(i>=0?'Editar producto':'Nuevo producto','<div class="jd-grid"><div class="jd-field"><label>Nombre</label><input id="ppName" value="'+E(p.name)+'" placeholder="Ej. Imán · horario encendido de velas"></div><div class="jd-field"><label>Familia</label><input id="ppFamily" value="'+E(p.family)+'" placeholder="Imanes"></div><div class="jd-field"><label>Tamaño / formato</label><input id="ppSize" value="'+E(p.size)+'" placeholder="14 × 10 cm"></div><div class="jd-field"><label>Proveedor</label><select id="ppSupplier"><option>Zloto</option><option>Gráfica B612</option></select></div><div class="jd-field"><label>Producción</label><input id="ppProduction" value="'+E(p.production)+'"></div><div class="jd-field"><label>Regla de precio</label><select id="ppRule">'+ruleOptions+'</select></div><div class="jd-panel" style="grid-column:1/-1"><b>Simulador comercial</b><div class="jd-grid" style="margin-top:8px"><div class="jd-field"><label>Costo imprenta</label><input id="ppCost" type="number" value="48000"></div><div class="jd-field"><label>Precio cliente</label><div id="ppPreview" class="jd-kpi">—</div></div></div></div></div>','Guardar producto',x=>{
-   const obj={id:p.id,name:x.querySelector('#ppName').value.trim(),family:x.querySelector('#ppFamily').value.trim(),supplier:x.querySelector('#ppSupplier').value,size:x.querySelector('#ppSize').value,production:x.querySelector('#ppProduction').value,ruleId:x.querySelector('#ppRule').value,status:'Activo'};if(!obj.name)return alert('Falta nombre');if(i>=0)catalog[i]=obj;else catalog.push(obj);S('jd_catalog_products',catalog);x.remove();drawCatalog();drawRules();syncQuoteProducts();
- });
- w.querySelector('#ppSupplier').value=p.supplier;
- const refresh=()=>{const rule=pricingRules.find(r=>r.id===w.querySelector('#ppRule').value);const cost=Number(w.querySelector('#ppCost').value);w.querySelector('#ppPreview').textContent=rule?fmt(calcRule(rule,cost)):'Sin regla vinculada'};
- w.querySelector('#ppRule').onchange=refresh;w.querySelector('#ppCost').oninput=refresh;refresh();
-}
-drawCatalog();
-
-function syncQuoteProducts(){
- const q=document.getElementById('qProduct');if(!q)return;const current=q.value;q.innerHTML=catalog.map(p=>'<option>'+E(p.name)+'</option>').join('');if([...q.options].some(o=>o.value===current))q.value=current;
-}
-syncQuoteProducts();
-
-const qprice1=document.getElementById('qPrice1');
-if(qprice1 && !document.getElementById('qInternalCost')){
- const parent=qprice1.closest('.field').parentNode;
- const costField=document.createElement('div');costField.className='field';costField.innerHTML='<label>Costo imprenta de referencia</label><input id="qInternalCost" type="number" placeholder="Ej. 48000">';
- const sugField=document.createElement('div');sugField.className='field';sugField.innerHTML='<label>Precio sugerido por regla</label><input id="qSuggestedPrice" readonly placeholder="—">';
- parent.insertBefore(costField,qprice1.closest('.field'));parent.insertBefore(sugField,qprice1.closest('.field').nextSibling);
- const refreshSuggested=()=>{const prod=catalog.find(x=>x.name===qProduct.value);const rule=prod&&pricingRules.find(x=>x.id===prod.ruleId);const cost=Number(document.getElementById('qInternalCost').value);document.getElementById('qSuggestedPrice').value=rule&&cost?Math.round(calcRule(rule,cost)):''};
- document.getElementById('qInternalCost').oninput=refreshSuggested;qProduct.addEventListener('change',refreshSuggested);
-}
-})();
-</script>
 <!-- JD COMMERCIAL ENGINE V4 START -->
 <style>
 .jd-clause{border:1px solid #d9c69c;border-radius:14px;padding:14px 16px;background:var(--panel);margin-bottom:10px}
@@ -1011,7 +696,7 @@ const jdLegalSet=id=>legalSets.find(x=>x.id===id);
 if(!Array.isArray(legalLibrito)||!legalLibrito.length){legalLibrito=defaultLegal;SET('jd_legal_librito_v4',legalLibrito)}
 
 const products=[
- {id:'librito',name:'Birkón · Librito',models:['Essential','Classic','Deluxe','Deluxe Plus'],modelLabel:'Modelo',nusaj:true,texts:true,size:['Normal · 11,6 × 15,5 cm','Grande · 14 × 18,5 cm'],binding:['Abrochado','Cosido con hilo / Binder'],pages:true,supplier:'Zloto'},
+ {id:'librito',name:'Birkón · Librito',models:['Essential','Classic','Deluxe'],modelLabel:'Modelo',nusaj:true,texts:true,size:['Normal · 11,6 × 15,5 cm','Grande · 14 × 18,5 cm'],binding:['Abrochado','Cosido con hilo / Binder'],pages:true,supplier:'Zloto'},
  {id:'folleto',name:'Birkón · Folleto',models:['Tríptico','Cuadríptico'],modelLabel:'Formato',nusaj:true,texts:true,size:[],binding:[],pages:false,supplier:'Gráfica B612'},
  {id:'luaj',name:'Luaj',models:[],nusaj:false,texts:false,size:[],binding:[],pages:false,supplier:''},
  {id:'birkot',name:'Birkot Hashajar',models:[],nusaj:true,texts:true,size:[],binding:[],pages:false,supplier:''},
@@ -1321,188 +1006,7 @@ setupQuoteUI();
 .jd-age-bad{margin-top:5px;font-size:11px;color:#9a4b45}
 .jd-content-editor textarea{min-height:280px}
 </style>
-<script>
-(function(){
-const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const GET=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
-const SET=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const M=n=>'$ '+Math.round(Number(n||0)).toLocaleString('es-AR');
-const daysOld=date=>{
- if(!date)return null;
- const a=new Date(date+'T00:00:00'),b=new Date();return Math.floor((b-a)/(1000*60*60*24));
-};
 
-// ---------- Editable model contents ----------
-const defaultContents={
- 'Essential':[
-  'Encendido de velas de Shabat + Yom Tov',
-  'Bendición de los hijos',
-  'Shalom Alejem',
-  'Eshet Jail',
-  'Kidush de la noche de Shabat',
-  'Kidush de la noche de Yom Tov',
-  'Birkat Hamazón',
-  'Birkat Me’en Shalosh',
-  'Kidush del día · Shabat y fiestas',
-  'Havdalá'
- ],
- 'Classic':[
-  'Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur',
-  'Bendición de los hijos',
-  'Shalom Alejem',
-  'Eshet Jail',
-  'Kidush de la noche de Shabat',
-  'Kidush de la noche de Yom Tov',
-  'Birkat Hamazón',
-  'Sheva Berajot',
-  'Birkat Me’en Shalosh',
-  'Kidush del día · Shabat y fiestas',
-  'Havdalá',
-  'Plegaria de agradecimiento'
- ],
- 'Deluxe':[
-  'Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur',
-  'Bendición de los hijos',
-  'Shalom Alejem',
-  'Eshet Jail',
-  'Kidush de la noche de Shabat',
-  'Kidush de la noche de Yom Tov',
-  'Birkat Hamazón',
-  'Sheva Berajot',
-  'Birkat Me’en Shalosh',
-  'Kidush del día · Shabat y fiestas',
-  'Havdalá',
-  'Hasta 16 páginas para contenido adicional a elección'
- ],
- 'Deluxe Plus':[
-  'Base Deluxe',
-  '88 páginas fijas',
-  'Interior redistribuible a pedido del cliente'
- ]
-};
-let contents=GET('jd_model_contents_v5',defaultContents);
-for(const k of Object.keys(defaultContents))if(!contents[k])contents[k]=defaultContents[k];
-SET('jd_model_contents_v5',contents);
-
-const prodSec=document.getElementById('products');
-if(prodSec){
- const oldHtml=prodSec.innerHTML;
- const box=document.createElement('div');
- box.className='section';
- box.innerHTML='<div class="section-head"><h2>Contenido de variantes · Birkón Librito</h2></div>'+
- '<div class="grid cards">'+Object.keys(contents).map(model=>'<div class="card"><div class="eyebrow">MODELO</div><h3>'+E(model)+'</h3><p class="small muted">'+contents[model].length+' bloques de contenido</p><button class="btn sm" data-edit-content="'+E(model)+'">Editar contenido</button></div>').join('')+'</div>';
- prodSec.appendChild(box);
- box.querySelectorAll('[data-edit-content]').forEach(b=>b.onclick=()=>editContent(b.dataset.editContent));
-}
-function editContent(model){
- const w=document.createElement('div');w.className='modal open';
- w.innerHTML='<div class="modal-box jd-content-editor"><div class="modal-head"><h2 style="margin:0">Contenido · '+E(model)+'</h2><button class="btn xx">×</button></div>'+
- '<p class="small muted">Una línea = un ítem del índice/contenido. Acá podés corregir Essential, Classic, Deluxe, etc.</p>'+
- '<div class="field"><label>Contenido</label><textarea id="mcBody">'+E((contents[model]||[]).join('\n'))+'</textarea></div>'+
- '<div style="text-align:right;margin-top:14px"><button class="btn primary ss">Guardar contenido</button></div></div>';
- document.body.appendChild(w);w.querySelector('.xx').onclick=()=>w.remove();
- w.querySelector('.ss').onclick=()=>{contents[model]=w.querySelector('#mcBody').value.split(/\n+/).map(x=>x.trim()).filter(Boolean);SET('jd_model_contents_v5',contents);w.remove();location.reload()};
-}
-
-// ---------- Multi quantity selector ----------
-function availableQtysForCurrent(){
- try{
-   const p=currentProduct();
-   const costs=GET('jd_cost_quotes_v2',[]);
-   const model=p.models?.length?qModel.value:'',size=p.size?.length?qSize.value:'',bind=p.binding?.length?qBind.value:'',pg=p.pages?Number(qPages.value):0;
-   const qs=costs.filter(c=>c.product===p.name &&
-     (!p.models?.length||!c.variant||c.variant===model) &&
-     (!p.size?.length||!c.size||c.size===size) &&
-     (!p.binding?.length||!c.binding||c.binding===bind) &&
-     (!p.pages||!c.pages||Number(c.pages)===pg)
-   ).map(c=>Number(c.qty)).filter(Boolean);
-   return [...new Set([50,60,80,100,150,...qs])].sort((a,b)=>a-b);
- }catch(e){return [50,60,80,100,150]}
-}
-function ageLabel(res){
- if(!res?.ok||!res.base?.date)return '';
- const d=daysOld(res.base.date);
- if(d==null)return '';
- if(d<=14)return '<div class="small" style="color:#41745d">Cotización reciente · '+d+' días</div>';
- if(d<=30)return '<div class="jd-age-warn">⚠ Cotización de hace '+d+' días. Conviene chequear vigencia.</div>';
- return '<div class="jd-age-bad">⚠ Precio de imprenta antiguo: '+d+' días. Revisar antes de enviar.</div>';
-}
-function setupQtySelector(){
- const q1=document.getElementById('qQty1');
- if(!q1||document.getElementById('jdQtySelector'))return;
- const card=q1.closest('.card');
- const fields=[document.getElementById('qQty1')?.closest('.field'),document.getElementById('qQty2')?.closest('.field'),document.getElementById('qAuto1')?.closest('.field'),document.getElementById('qAuto2')?.closest('.field')].filter(Boolean);
- fields.forEach(x=>x.classList.add('jd-hidden'));
- const holder=document.createElement('div');holder.className='field span2';holder.id='jdQtySelector';
- holder.innerHTML='<label>Cantidades solicitadas</label><div class="jd-qty-list" id="jdQtyList"></div><button type="button" class="btn sm" id="jdAddQty" style="margin-top:8px">+ Agregar otra cantidad</button><div class="jd-field-note">Elegí las tiradas que pidió el cliente. Todas salen en el mismo presupuesto.</div>';
- const anchor=document.getElementById('qEvent')?.closest('.field')||card.querySelector('.form-grid').lastElementChild;
- card.querySelector('.form-grid').insertBefore(holder,anchor);
- window.jdQuoteQtys=GET('jd_quote_qtys_v5',[60,100]);
- drawQtyRows();
- document.getElementById('jdAddQty').onclick=()=>{const opts=availableQtysForCurrent();const next=opts.find(x=>!window.jdQuoteQtys.includes(x))||opts[opts.length-1];window.jdQuoteQtys.push(next);SET('jd_quote_qtys_v5',window.jdQuoteQtys);drawQtyRows();renderQuoteV5()};
-}
-function drawQtyRows(){
- const list=document.getElementById('jdQtyList');if(!list)return;
- const opts=availableQtysForCurrent();
- list.innerHTML=window.jdQuoteQtys.map((q,i)=>'<div class="jd-qty-row"><div><select data-qidx="'+i+'">'+opts.map(v=>'<option value="'+v+'" '+(v===q?'selected':'')+'>'+v+' unidades</option>').join('')+'</select></div><div class="jd-qty-price" id="jdqp'+i+'">—</div><button type="button" class="btn sm" data-rq="'+i+'">Quitar</button></div>').join('');
- list.querySelectorAll('[data-qidx]').forEach(s=>s.onchange=()=>{window.jdQuoteQtys[+s.dataset.qidx]=Number(s.value);SET('jd_quote_qtys_v5',window.jdQuoteQtys);renderQuoteV5()});
- list.querySelectorAll('[data-rq]').forEach(b=>b.onclick=()=>{if(window.jdQuoteQtys.length<=1)return;window.jdQuoteQtys.splice(+b.dataset.rq,1);SET('jd_quote_qtys_v5',window.jdQuoteQtys);drawQtyRows();renderQuoteV5()});
-}
-
-const oldSync=window.syncQuoteFields;
-if(oldSync)window.syncQuoteFields=function(){oldSync();drawQtyRows();renderQuoteV5()};
-
-function priceForQtyV5(qty){
- try{return priceForQty(qty)}catch(e){return {ok:false,reason:'No se pudo calcular.'}}
-}
-function renderQuoteV5(){
- if(!document.getElementById('qProduct'))return;
- // run v4 first so specs and legal stay current
- try{renderQuoteV4()}catch(e){}
- if(!window.jdQuoteQtys)return;
- window.jdQuoteQtys.forEach((q,i)=>{
-  const r=priceForQtyV5(q),el=document.getElementById('jdqp'+i);
-  if(el)el.innerHTML=r.ok?'<b>'+M(Math.max(0,r.price-Number(qDiscount.value||0)))+'</b>'+ageLabel(r):'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
- });
- // replace preview price cards with all requested quantities
- const preview=document.getElementById('quotePreview');if(!preview)return;
- const old=preview.querySelector('.quote-prices');
- if(old){
-   old.innerHTML=window.jdQuoteQtys.map(q=>{const r=priceForQtyV5(q);return '<div class="quote-price"><span class="small muted">'+q+' unidades</span><strong>'+(r.ok?M(Math.max(0,r.price-Number(qDiscount.value||0))):'A cotizar')+'</strong>'+(r.ok?ageLabel(r):'')+'</div>'}).join('');
-   old.style.gridTemplateColumns='repeat('+Math.min(window.jdQuoteQtys.length,3)+',1fr)';
- }
- // replace contents for librito
- try{
-  if(currentProduct().name==='Birkón · Librito'){
-    const ib=preview.querySelector('.index-box');
-    if(ib){
-      const model=qModel.value;
-      ib.innerHTML='<h4>Contenido '+E(model)+'</h4><div class="index-list">'+(contents[model]||[]).map(x=>E(x)).join('<br>')+'</div>';
-    }
-  }
- }catch(e){}
-}
-window.renderQuote=renderQuoteV5;
-setupQtySelector();
-renderQuoteV5();
-
-// refresh qty choices when configuration changes
-['qProduct','qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>{
- const el=document.getElementById(id);if(el)el.addEventListener('change',()=>{drawQtyRows();renderQuoteV5()});
-});
-
-// explicit phonetics access note
-const ph=document.getElementById('phonetics');
-if(ph){
- const top=ph.querySelector('.topbar');
- if(top && !document.getElementById('phoneticsStandaloneNote')){
-   const note=document.createElement('div');note.id='phoneticsStandaloneNote';note.className='jd-note';note.style.marginBottom='14px';
-   note.innerHTML='El generador está integrado dentro del panel y también puede abrirse aparte desde el botón <b>Abrir aparte</b>.';
-   top.insertAdjacentElement('afterend',note);
- }
-}
-})();
-</script>
 <!-- JD QUOTE QTY CONTENT V5 END -->
 
 
@@ -1522,7 +1026,7 @@ const SET=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const legalSets=GET('jd_legal_sets_v1',[]);
 const jdLegalSet=id=>legalSets.find(x=>x.id===id);
 const uid=()=>String(Date.now())+Math.random().toString(36).slice(2,8);
-const textOptions=['Hebreo + español','Hebreo + fonética','Hebreo solo','Hebreo + español + fonética','Español + fonética'];
+const textOptions=['Hebreo + español','Hebreo + fonética','Hebreo solo','Español solo','Hebreo + español + fonética','Español + fonética'];
 const JD_LOGO="assets/jd-logo-black.svg?v=1";
 let jdDeadlineManual=false;
 function parseLocalDate(v){if(!v)return null;const [y,m,d]=v.split('-').map(Number);return new Date(y,m-1,d,12,0,0)}
@@ -1588,22 +1092,24 @@ const seedCatalog=[
  {
   id:'birkon-folleto',name:'Birkón · Folleto',status:'Activo',supplier:'Gráfica B612',models:['Díptico','Tríptico','Cuadríptico'],nusaj:true,
   texts:['Hebreo solo','Hebreo + español','Hebreo + fonética'],sizes:[],bindings:[],
+  technical:{paper:'Papel ilustración',weightGsm:300,lamination:'Laminado mate',print:'Full color',sides:'Doble faz',finish:'Doblez'},
   variants:[
-   {id:'fol-dip',model:'Díptico',nusajCount:1,texts:'Hebreo solo',pages:0,content:[]},
-   {id:'fol-tri',model:'Tríptico',nusajCount:1,texts:'Hebreo solo',pages:0,content:[]},
-   {id:'fol-cua',model:'Cuadríptico',nusajCount:2,texts:'Hebreo solo',pages:0,content:[]},
-   {id:'fol-cua-fon',model:'Cuadríptico',nusajCount:1,texts:'Hebreo + fonética',pages:0,content:[]},
-   {id:'fol-cua-esp',model:'Cuadríptico',nusajCount:1,texts:'Hebreo + español',pages:0,content:[]}
+   {id:'fol-dip',model:'Díptico',nusajCount:1,texts:'Hebreo solo',pages:0,size:'Abierto 200 × 140 mm · Cerrado 100 × 140 mm',technical:{openWidthMm:200,openHeightMm:140,closedWidthMm:100,closedHeightMm:140},content:[]},
+   {id:'fol-tri',model:'Tríptico',nusajCount:1,texts:'Hebreo solo',pages:0,size:'Abierto 290 × 140 mm · Cerrado 100 × 140 mm',technical:{openWidthMm:290,openHeightMm:140,closedWidthMm:100,closedHeightMm:140},content:[]},
+   {id:'fol-cua',model:'Cuadríptico',nusajCount:2,texts:'Hebreo solo',pages:0,size:'Abierto 391 × 190 mm · Cerrado 100 × 190 mm',technical:{openWidthMm:391,openHeightMm:190,closedWidthMm:100,closedHeightMm:190},content:[]},
+   {id:'fol-cua-fon',model:'Cuadríptico',nusajCount:1,texts:'Hebreo + fonética',pages:0,size:'Abierto 391 × 190 mm · Cerrado 100 × 190 mm',technical:{openWidthMm:391,openHeightMm:190,closedWidthMm:100,closedHeightMm:190},content:[]},
+   {id:'fol-cua-esp',model:'Cuadríptico',nusajCount:1,texts:'Hebreo + español',pages:0,size:'Abierto 391 × 190 mm · Cerrado 100 × 190 mm',technical:{openWidthMm:391,openHeightMm:190,closedWidthMm:100,closedHeightMm:190},content:[]}
   ]
  },
  {id:'luaj',name:'Luaj',status:'Activo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[]},
  {
-  id:'birkot-hashajar',name:'Birkot Hashajar',status:'No publicado',supplier:'Gráfica B612',models:[],nusaj:true,
-  texts:['Hebreo solo','Hebreo + español + fonética'],
-  sizes:['Díptico · tamaño existente','Tríptico · tamaño existente'],bindings:[],
+  id:'birkot-hashajar',name:'Birkot Hashajar',status:'No publicado',supplier:'Gráfica B612',models:['Díptico','Tríptico'],nusaj:true,
+  texts:['Hebreo solo','Español solo','Español + fonética'],sizes:[],bindings:[],
+  technical:{paper:'Papel ilustración',weightGsm:300,lamination:'Laminado mate',print:'Full color',sides:'Doble faz',finish:'Doblez'},
   variants:[
-   {id:'bh-sef-heb',model:'',nusajCount:1,texts:'Hebreo solo',pages:0,size:'Díptico · tamaño existente',content:[]},
-   {id:'bh-sef-hef',model:'',nusajCount:1,texts:'Hebreo + español + fonética',pages:0,size:'Tríptico · tamaño existente',content:[]}
+   {id:'bh-sef-heb',model:'Díptico',nusajCount:1,nusajOptions:['Solo Sefaradí'],texts:'Hebreo solo',pages:0,size:'Abierto 200 × 140 mm · Cerrado 100 × 140 mm',technical:{openWidthMm:200,openHeightMm:140,closedWidthMm:100,closedHeightMm:140},content:[]},
+   {id:'bh-sef-esp',model:'Díptico',nusajCount:1,nusajOptions:['Solo Sefaradí'],texts:'Español solo',pages:0,size:'Abierto 200 × 140 mm · Cerrado 100 × 140 mm',technical:{openWidthMm:200,openHeightMm:140,closedWidthMm:100,closedHeightMm:140},content:[]},
+   {id:'bh-sef-espfon',model:'Tríptico',nusajCount:1,nusajOptions:['Solo Sefaradí'],texts:'Español + fonética',pages:0,size:'Abierto 300 × 140 mm · Cerrado 100 × 140 mm',technical:{openWidthMm:300,openHeightMm:140,closedWidthMm:100,closedHeightMm:140},content:[]}
   ]
  },
  {id:'hagada',name:'Hagadá de Pesaj',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo solo','Hebreo + español + fonética'],sizes:[],bindings:[],variants:[]},
@@ -1683,6 +1189,7 @@ function jdVariantNusajOptions(v,p){
 (function migrateCoreRules(){
   const defaults=[
     {id:'r-librito',product:'Birkón · Librito',variant:'*',divisor:0.645,shipping:20000,label:'Librito',note:'Precio = costo / 0,645 + envío.'},
+    {id:'r-diptico',product:'Birkón · Folleto',variant:'Díptico',divisor:0.5,shipping:10000,label:'Díptico',note:'Precio = costo / 0,50 + envío del proveedor.'},
     {id:'r-triptico',product:'Birkón · Folleto',variant:'Tríptico',divisor:0.5,shipping:10000,label:'Tríptico',note:'Precio = costo / 0,50 + $10.000 de envío.'},
     {id:'r-cuadri',product:'Birkón · Folleto',variant:'Cuadríptico',divisor:0.6,shipping:10000,label:'Cuadríptico',note:'Precio = costo / 0,60 + $10.000 de envío.'},
     {id:'r-iman',product:'Imán · horario encendido de velas',variant:'*',divisor:0.31,shipping:10000,label:'Imán horario encendido',note:'Regla provisional basada en el ejemplo real.'}
@@ -1703,30 +1210,19 @@ function jdVariantNusajOptions(v,p){
   SET('jd_pricing_rules_v4',rs);
 })();
 
-(function migrateZlotoMatrix(){
-  const rows=[["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",48,60,605770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",48,100,896770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",72,60,740770],["Classic","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",72,100,1150770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",64,60,690770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",64,100,1050770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",88,60,820770],["Deluxe","Grande · 14 × 18,5 cm","Cosido con hilo / Binder",88,100,1250770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",48,60,330770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",48,100,440770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",72,60,395770],["Classic","Normal · 11,6 × 15,5 cm","Abrochado",72,100,560770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",64,60,370770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",64,100,520770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",88,60,450770],["Deluxe","Normal · 11,6 × 15,5 cm","Abrochado",88,100,650770]];
-  let arr=GET('jd_cost_quotes_v2',[]);
-  if(!Array.isArray(arr)) arr=[];
-  const key=x=>[x.supplier,x.product,x.size||'',x.binding||'',Number(x.pages||0),Number(x.qty||0),x.date||''].join('|');
-  const m=new Map(arr.map(x=>[key(x),x]));
-  rows.forEach(r=>{
-    const x={supplier:'Zloto',product:'Birkón · Librito',variant:r[0],size:r[1],binding:r[2],pages:r[3],qty:r[4],cost:r[5],date:'2026-08-25'};
-    if(!m.has(key(x))) m.set(key(x),x);
-  });
-  SET('jd_cost_quotes_v2',[...m.values()]);
-})();
 
 
-function popup(title,body,onSave){
+function popup(title,body,saveLabel,onSave){
+ if(typeof saveLabel==='function' && onSave==null){onSave=saveLabel;saveLabel='Guardar';}
  const w=document.createElement('div');w.className='modal open';w.dataset.jdDynamicModal='1';
- w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+E(title)+'</h2><button type="button" class="btn x6" aria-label="Cerrar">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button type="button" class="btn primary s6">Guardar</button></div></div>';
- const close=()=>w.remove();
+ w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+E(title)+'</h2><button type="button" class="btn x6" aria-label="Cerrar">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button type="button" class="btn primary s6">'+E(saveLabel||'Guardar')+'</button></div></div>';
+ const escClose=e=>{if(e.key==='Escape')close()};
+ const close=()=>{document.removeEventListener('keydown',escClose);w.remove()};
  document.body.appendChild(w);
  w.querySelector('.x6').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();close()});
  w.addEventListener('click',e=>{if(e.target===w)close()});
- const escClose=e=>{if(e.key==='Escape'){close();document.removeEventListener('keydown',escClose)}};
  document.addEventListener('keydown',escClose);
- w.querySelector('.s6').onclick=()=>onSave(w);return w;
+ w.querySelector('.s6').onclick=()=>{if(typeof onSave==='function')onSave(w);else close()};return w;
 }
 
 function productCard(p,i){
@@ -1947,18 +1443,22 @@ function editVariant(pi,vi){
  const sharedContent=isLibrito?jdLibritoModelContent(p,v.model):(v.content||[]);
  const contentLabel=isLibrito?'Contenido base del modelo · una línea por ítem':'Contenido · una línea por ítem';
  const vt=v.technical||{};
+ const inherited=jdEffectiveTechnical(p,{technical:{}})||{};
  const techFields=!isLibrito?(
-   '<div class="span2"><div class="jd-linked"><b>Medida y terminación de esta variante</b><br>Esto permite cotizar el formato correcto. Si queda vacío, hereda la ficha técnica del producto.</div></div>'+
+   '<div class="span2"><div class="jd-linked"><b>Medida de esta variante</b><br>La ficha de papel/laminado se define una sola vez en el producto y se hereda. Acá sólo cargás la medida; abrí “Excepción técnica” únicamente si esta variante realmente cambia.</div></div>'+
    '<div><label>Ancho abierto (mm)</label><input id="vtow6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(vt.openWidthMm??'')+'"></div>'+
    '<div><label>Alto abierto (mm)</label><input id="vtoh6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(vt.openHeightMm??'')+'"></div>'+
    '<div><label>Ancho cerrado (mm)</label><input id="vtcw6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(vt.closedWidthMm??'')+'"></div>'+
    '<div><label>Alto cerrado (mm)</label><input id="vtch6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(vt.closedHeightMm??'')+'"></div>'+
-   '<div><label>Papel</label><input id="vtpaper6" value="'+E(vt.paper||'')+'"></div>'+
-   '<div><label>Gramaje (g)</label><input id="vtgsm6" type="text" inputmode="numeric" pattern="[0-9]*" data-jd-numeric="integer" value="'+E(vt.weightGsm??'')+'"></div>'+
-   '<div><label>Laminado / terminación</label><input id="vtlam6" value="'+E(vt.lamination||'')+'"></div>'+
-   '<div><label>Impresión</label><input id="vtprint6" value="'+E(vt.print||'')+'"></div>'+
-   '<div><label>Caras</label><input id="vtsides6" value="'+E(vt.sides||'')+'"></div>'+
-   '<div><label>Acabado</label><input id="vtfinish6" value="'+E(vt.finish||'')+'"></div>'
+   '<div class="span2"><div class="small muted">Hereda: '+E([inherited.paper,inherited.weightGsm?inherited.weightGsm+' g':'',inherited.lamination,inherited.print,inherited.sides,inherited.finish].filter(Boolean).join(' · ')||'sin ficha técnica del producto')+'</div></div>'+
+   '<details class="span2"><summary>Excepción técnica de esta variante</summary><div class="jd-formgrid" style="margin-top:10px">'+
+   '<div><label>Papel</label><input id="vtpaper6" value="'+E(vt.paper||'')+'" placeholder="'+E(inherited.paper||'')+'"></div>'+
+   '<div><label>Gramaje (g)</label><input id="vtgsm6" type="text" inputmode="numeric" pattern="[0-9]*" data-jd-numeric="integer" value="'+E(vt.weightGsm??'')+'" placeholder="'+E(inherited.weightGsm??'')+'"></div>'+
+   '<div><label>Laminado / terminación</label><input id="vtlam6" value="'+E(vt.lamination||'')+'" placeholder="'+E(inherited.lamination||'')+'"></div>'+
+   '<div><label>Impresión</label><input id="vtprint6" value="'+E(vt.print||'')+'" placeholder="'+E(inherited.print||'')+'"></div>'+
+   '<div><label>Caras</label><input id="vtsides6" value="'+E(vt.sides||'')+'" placeholder="'+E(inherited.sides||'')+'"></div>'+
+   '<div><label>Acabado</label><input id="vtfinish6" value="'+E(vt.finish||'')+'" placeholder="'+E(inherited.finish||'')+'"></div>'+
+   '</div></details>'
  ):'';
  const info=isLibrito?'<div class="span2"><div class="jd-linked"><b>Esta variante define la paginación.</b><br>El tamaño y la encuadernación NO forman parte de esta variante: se eligen al presupuestar.</div></div>':'';
  const pagesField=isLibrito?'<div><label>Páginas</label><input id="vp6" type="number" min="1" value="'+Number(v.pages||0)+'"></div>':'';
@@ -1984,16 +1484,20 @@ function editVariant(pi,vi){
    if(isLibrito && !(pages>0)){alert('Indicá la cantidad de páginas de esta variante.');return;}
    const contentBase=w.querySelector('#vc6').value.split(/\n+/).map(z=>z.trim()).filter(Boolean).map(jdStripNusajMarker);
    const num=id=>{const raw=w.querySelector(id)?.value;return raw===''||raw==null?null:Number(raw)};
-   const technical=isLibrito?{}:{
-     openWidthMm:num('#vtow6'),openHeightMm:num('#vtoh6'),
-     closedWidthMm:num('#vtcw6'),closedHeightMm:num('#vtch6'),
-     paper:w.querySelector('#vtpaper6')?.value.trim()||'',
-     weightGsm:num('#vtgsm6'),
-     lamination:w.querySelector('#vtlam6')?.value.trim()||'',
-     print:w.querySelector('#vtprint6')?.value.trim()||'',
-     sides:w.querySelector('#vtsides6')?.value.trim()||'',
-     finish:w.querySelector('#vtfinish6')?.value.trim()||''
-   };
+   const technical={};
+   if(!isLibrito){
+     const dims={openWidthMm:num('#vtow6'),openHeightMm:num('#vtoh6'),closedWidthMm:num('#vtcw6'),closedHeightMm:num('#vtch6')};
+     for(const [k,val] of Object.entries(dims))if(val!=null&&Number.isFinite(val))technical[k]=val;
+     const overrides={
+       paper:w.querySelector('#vtpaper6')?.value.trim()||'',
+       weightGsm:num('#vtgsm6'),
+       lamination:w.querySelector('#vtlam6')?.value.trim()||'',
+       print:w.querySelector('#vtprint6')?.value.trim()||'',
+       sides:w.querySelector('#vtsides6')?.value.trim()||'',
+       finish:w.querySelector('#vtfinish6')?.value.trim()||''
+     };
+     for(const [k,val] of Object.entries(overrides)){if(val===''||val==null)continue;if(typeof val==='number'&&!Number.isFinite(val))continue;technical[k]=val;}
+   }
    const nv={...v,model,texts:p.texts.length?w.querySelector('#vt6').value:'',nusajOptions:selectedNusaj,nusajCount:p.nusaj?(arities[0]||0):0,pages,content:isLibrito?[]:contentBase,technical};
    nv.size=isLibrito?'':jdTechnicalSizeLabel(jdEffectiveTechnical(p,nv));
    const next=JSON.parse(JSON.stringify(catalog)),target=next[pi];
@@ -2029,9 +1533,7 @@ async function ensureClassicHebrewOnly24(){
  const vi=p.variants.findIndex(v=>v.model==='Classic' && v.texts==='Hebreo solo' && Number(v.nusajCount)===1);
  let changed=false;
  if(vi>=0){
-   if(Number(p.variants[vi].pages)!==24 || p.variants[vi].size){
-     p.variants[vi]={...p.variants[vi],pages:24,size:''};changed=true;
-   }
+   return;
  }else{
    p.variants.push({id:'cl-1-heb',model:'Classic',texts:'Hebreo solo',nusajCount:1,size:'',pages:24,content:[]});changed=true;
  }
@@ -2096,7 +1598,12 @@ function currentCostRecords(p,v){
 function findRule(p){
  const rules=GET('jd_pricing_rules_v4',[]);
  const model=p.models.length?qModel.value:'';
- return rules.find(r=>r.product===p.name&&(r.variant===model||r.variant==='*'))||null;
+ const direct=rules.find(r=>r.product===p.name&&(r.variant===model||r.variant==='*'));
+ if(direct)return direct;
+ if(String(p?.supplier||'').toLowerCase().includes('b612') && /^(Díptico|Tríptico|Cuadríptico)$/i.test(model)){
+   return rules.find(r=>r.product==='Birkón · Folleto'&&r.variant===model)||null;
+ }
+ return null;
 }
 const JD_B612_QUOTE_URL='https://athiruoimehofqzrplnl.supabase.co/functions/v1/b612-quote';
 const jdB612Cache=new Map();
@@ -2122,12 +1629,16 @@ function jdRuleMath(r){
  }
  return {divisor,marginPct:r?.marginPct!=null?Number(r.marginPct):Math.round((1-divisor)*10000)/100};
 }
-function jdIsB612Live(p){
- return p?.name==='Birkón · Folleto' && /^Tr[ií]ptico$/i.test(String(qModel?.value||''));
+function jdIsB612Live(p,v=selectedVariant(p)){
+ const model=String(qModel?.value||v?.model||'');
+ const t=jdEffectiveTechnical(p,v)||{};
+ const dims=[t.openWidthMm,t.openHeightMm,t.closedWidthMm,t.closedHeightMm].every(x=>Number(x)>0);
+ const specOk=Number(t.weightGsm||0)===300 && /ilustr/i.test(String(t.paper||'')) && /mate/i.test(String(t.lamination||'')) && /doble/i.test(String(t.sides||''));
+ return String(p?.supplier||'').toLowerCase().includes('b612') && /^(Díptico|Tríptico)$/i.test(model) && dims && specOk;
 }
 function jdB612Key(q,p,v){
  const t=jdEffectiveTechnical(p,v)||{};
- return [qModel?.value||'',Number(q),t.openWidthMm||'',t.openHeightMm||'',t.closedWidthMm||'',t.closedHeightMm||'',t.weightGsm||'',t.lamination||''].join('|');
+ return [p?.id||p?.name||'',qModel?.value||v?.model||'',Number(q),t.openWidthMm||'',t.openHeightMm||'',t.closedWidthMm||'',t.closedHeightMm||'',t.weightGsm||'',t.lamination||''].join('|');
 }
 function jdFetchB612(q,p,v){
  const key=jdB612Key(q,p,v);
@@ -2137,9 +1648,9 @@ function jdFetchB612(q,p,v){
  const t=jdEffectiveTechnical(p,v)||{};
  jdB612Cache.set(key,{state:'loading',at:Date.now()});
  const payload={
-   format:qModel.value,qty:Number(q),
-   openWidthMm:Number(t.openWidthMm||290),openHeightMm:Number(t.openHeightMm||140),
-   closedWidthMm:Number(t.closedWidthMm||100),closedHeightMm:Number(t.closedHeightMm||140)
+   format:qModel.value||v?.model||'',qty:Number(q),
+   openWidthMm:Number(t.openWidthMm||0),openHeightMm:Number(t.openHeightMm||0),
+   closedWidthMm:Number(t.closedWidthMm||0),closedHeightMm:Number(t.closedHeightMm||0)
  };
  fetch(JD_B612_QUOTE_URL,{
    method:'POST',
@@ -2162,7 +1673,7 @@ function calcQty(q){
    return {ok:false,reason:'Esta combinación todavía no tiene cantidad de páginas definida. No se puede usar un costo de imprenta hasta cargar esa variante.'};
  }
 
- // Folleto Tríptico: el costo se consulta EN VIVO a B612.
+ // Díptico / Tríptico compatibles: el costo se consulta EN VIVO a B612.
  if(jdIsB612Live(p)){
    const key=jdB612Key(q,p,v),cached=jdB612Cache.get(key);
    if(!cached){
@@ -2230,9 +1741,10 @@ function syncVariant6(){
  const p=activeProduct(),model=qModel.value||'';
  const liveBanner=document.getElementById('jdB612LiveBanner');
  if(liveBanner){
-   if(p.name==='Birkón · Folleto' && /^Tr[ií]ptico$/i.test(model)){
+   const liveVariant=selectedVariant(p);
+   if(jdIsB612Live(p,liveVariant)){
      liveBanner.className='jd-note';
-     liveBanner.innerHTML='<b>B612 en vivo:</b> al elegir una cantidad, el sistema consulta el cotizador actual de Gráfica B612 con la ficha técnica del Tríptico y recién después aplica la regla comercial de Judaica Design.';
+     liveBanner.innerHTML='<b>B612 en vivo:</b> al elegir una cantidad, el sistema consulta el cotizador actual de Gráfica B612 con la ficha técnica de '+E(model)+' y recién después aplica la regla comercial de Judaica Design.';
    }else{
      liveBanner.className='jd-note jd-hidden';liveBanner.innerHTML='';
    }
@@ -2252,7 +1764,7 @@ function syncVariant6(){
  render6();
 }
 function jdQtyOptionsForProduct(p){
- if(p?.name==='Birkón · Folleto')return [50,75,100,150];
+ if(String(p?.supplier||'').toLowerCase().includes('b612'))return [50,75,100,150];
  if(p?.name==='Birkón · Librito')return [50,60,75,80,100,150,200];
  return [50,75,100,150,200];
 }
@@ -2889,35 +2401,7 @@ h1{font-size:clamp(30px,3vw,42px)}
 })();
 </script>
 
-<script id="jd-folleto-specs-v13">
-(function(){
- const KEY='jd_catalog_v6',URL='https://athiruoimehofqzrplnl.supabase.co',PUB='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
- let cat=[];try{cat=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
- if(!Array.isArray(cat))return;
- const pi=cat.findIndex(p=>p.name==='Birkón · Folleto');if(pi<0)return;
- const p=cat[pi]; let changed=false;
- const baseTech={paper:'Papel ilustración',weightGsm:300,lamination:'Laminado mate',print:'Full color',sides:'Doble faz',finish:'Doblez'};
- if(JSON.stringify(p.technical||{})!==JSON.stringify(baseTech)){p.technical={...(p.technical||{}),...baseTech};changed=true}
- (p.variants||[]).forEach(v=>{
-   let dims=null;
-   if(v.model==='Tríptico')dims={openWidthMm:290,openHeightMm:140,closedWidthMm:100,closedHeightMm:140};
-   if(v.model==='Cuadríptico')dims={openWidthMm:391,openHeightMm:190,closedWidthMm:100,closedHeightMm:190};
-   if(dims){
-     const nt={...baseTech,...(v.technical||{}),...dims};
-     if(JSON.stringify(v.technical||{})!==JSON.stringify(nt)){v.technical=nt;changed=true}
-     const sl='Abierto '+dims.openWidthMm+' × '+dims.openHeightMm+' mm · Cerrado '+dims.closedWidthMm+' × '+dims.closedHeightMm+' mm';
-     if(v.size!==sl){v.size=sl;changed=true}
-   }
-   if(v.model==='Tríptico' && v.texts==='Hebreo solo'){
-     const only=['Solo Ashkenazí','Solo Jabad','Solo Sefaradí'];
-     if(JSON.stringify(v.nusajOptions||[])!==JSON.stringify(only)){v.nusajOptions=only;v.nusajCount=1;changed=true}
-   }
- });
- if(!changed)return;
- localStorage.setItem(KEY,JSON.stringify(cat));
- fetch(URL+'/rest/v1/app_state',{method:'POST',headers:{apikey:PUB,Authorization:'Bearer '+PUB,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({key:KEY,value:cat,updated_at:new Date().toISOString()})}).catch(console.error);
-})();
-</script>
+
 
 
 <style id="jd-crm-v2-css">
