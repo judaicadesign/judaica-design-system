@@ -88,6 +88,23 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
  .jd-cost-table th,.jd-cost-table td{padding:11px 12px}
 }
 </style>
+
+<style id="jd-temp-quote-preview-polish-v1">
+/* Temporal: la maqueta definitiva será el PDF master diseñado por Judaica Design. */
+.jd-pdf-header{grid-template-columns:105px minmax(0,1fr) auto!important;gap:15px!important}
+.jd-pdf-logo{width:96px!important;max-height:74px!important}
+.jd-doc-title{font-size:32px!important;line-height:1!important;white-space:nowrap!important}
+@media print{
+ .jd-pdf-header{grid-template-columns:94px minmax(0,1fr) auto!important}
+ .jd-pdf-logo{width:86px!important;max-height:68px!important}
+ .jd-doc-title{font-size:29px!important;white-space:nowrap!important}
+}
+@media(max-width:700px){
+ .jd-pdf-header{grid-template-columns:82px minmax(0,1fr)!important}
+ .jd-pdf-logo{width:76px!important;max-height:60px!important}
+ .jd-doc-title{font-size:26px!important;white-space:nowrap!important}
+}
+</style>
 </head>
 <body>
 <script>
@@ -2234,11 +2251,12 @@ function render6(){
      }
    }
  });
+ const displayedSize=p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v);
  const specs=[
    p.models.length?['▣','Modelo / formato',E(qModel.value)]:null,
    p.nusaj?['◉','Nusaj',E(qNusaj.value)]:null,
    p.texts.length?['Aa','Textos',E(qLang.value)]:null,
-   jdEffectiveSize(p,v)?['↔','Tamaño',E(jdEffectiveSize(p,v))]:null,
+   displayedSize?['↔','Tamaño',E(displayedSize)]:null,
    p.bindings.length?['≡','Encuadernación',E(qBind.value)]:null,
    v?.pages?['#','Páginas','<b>'+v.pages+'</b>']:null
  ].filter(Boolean);
@@ -2286,7 +2304,7 @@ function render6(){
 }
 async function save6(){
  const arr=GET('jd_saved_quotes_v6',[]),p=activeProduct(),v=selectedVariant(p);
- const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:jdEffectiveSize(p,v),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar',content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round(r.price/5000)*5000:null,cost:r.ok?Math.round(r.cost):null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar',content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
  if(!quote.client){alert('Falta el nombre y apellido del cliente.');return null}
  if(p.name==='Birkón · Librito' && !quote.pages){alert('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');return null}
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
