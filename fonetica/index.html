@@ -255,7 +255,7 @@ function norm(s){
   // Also strip zero-width joiner/non-joiner (U+200D/U+200C): invisible
   // formatting characters some sources insert (e.g. the double-pointed
   // Yerushalayim, pataj+jirik together) that shouldn't affect matching.
-  return s.normalize("NFD").replace(CANT_RE,"").replace(/[\u200C\u200D]/g,"").normalize("NFC");
+  return s.normalize("NFD").replace(CANT_RE,"").replace(/\u05BD/g,"").replace(/[\u200C\u200D]/g,"").normalize("NFC");
 }
 
 function clusters(word){
@@ -1277,7 +1277,7 @@ function selectedNakdanGenre(){
   return ["modern","rabbinic","poetry"].includes(value) ? value : "rabbinic";
 }
 
-function cleanNakdanForm(v){return typeof v==="string"?v.replaceAll("|","").replace(/\u05BD/g,""):"";}
+function cleanNakdanForm(v){return typeof v==="string"?v.replaceAll("|",""):"";}
 function collectNakdanStrings(v,out=[]){
   if(typeof v==="string") out.push(v);
   else if(Array.isArray(v)) for(const x of v) collectNakdanStrings(x,out);
@@ -1295,7 +1295,7 @@ function parseNakdanOption(opt){
 async function nakdanDetailed(text){
   const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),45000);
   try{
-    const payload={data:text,task:"nakdan",genre:selectedNakdanGenre(),keepmetagim:false,keepqq:false,matchpartial:true,nodageshdefmem:false,patachma:false,addmorph:true};
+    const payload={data:text,task:"nakdan",genre:selectedNakdanGenre(),keepmetagim:true,keepqq:false,matchpartial:true,nodageshdefmem:false,patachma:false,addmorph:true};
     const response=await fetch(NAKDAN_ENDPOINT,{method:"POST",headers:{"content-type":"text/plain;charset=UTF-8"},body:JSON.stringify(payload),signal:controller.signal});
     if(!response.ok) throw new Error("Nakdan HTTP "+response.status);
     const data=await response.json();
