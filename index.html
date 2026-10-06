@@ -233,114 +233,21 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
   </div>
 </section>
 
-<section class="screen" id="quotes">
-  <div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn" onclick="resetQuote()">Limpiar</button> <button class="btn primary" onclick="window.print()">Vista para PDF</button></div></div>
-  <div class="quote-layout">
-    <div class="card">
-      <div class="form-grid">
-        <div class="field"><label>Cliente</label><input id="qClient" value="Erik Laham" oninput="renderQuote()"></div>
-        <div class="field"><label>Producto</label><select id="qProduct" onchange="renderQuote()"><option>Birkón · Librito</option></select></div>
-        <div class="field"><label>Modelo</label><select id="qModel" onchange="renderQuote()"><option>Classic</option><option>Deluxe</option><option>Deluxe Plus</option><option>Essential</option></select></div>
-        <div class="field"><label>Nusaj</label><select id="qNusaj" onchange="renderQuote()">
-          <option>Sefaradí + Ashkenazí</option><option>Ashkenazí + Sefaradí</option><option>Jabad + Sefaradí</option><option>Sefaradí + Jabad</option><option>Solo Ashkenazí</option><option>Solo Jabad</option><option>Solo Sefaradí</option>
-        </select></div>
-        <div class="field"><label>Textos</label><select id="qLang" onchange="renderQuote()"><option>Hebreo + español + fonética</option><option>Solo hebreo</option></select></div>
-        <div class="field"><label>Tamaño</label><select id="qSize" onchange="renderQuote()"><option value="normal">Normal · 11,6 × 15,5 cm</option><option value="large">Grande · 14 × 18,5 cm</option></select></div>
-        <div class="field"><label>Encuadernación</label><select id="qBind" onchange="renderQuote()"><option>Abrochado</option><option>Cosido con hilo / Binder</option></select></div>
-        <div class="field"><label>Cantidad de páginas</label><input id="qPages" value="72" readonly></div>
-        <div class="field"><label>Cantidad 1</label><input id="qQty1" type="number" value="60" oninput="renderQuote()"></div>
-        <div class="field"><label>Precio 1</label><input id="qPrice1" type="number" value="635000" oninput="renderQuote()"></div>
-        <div class="field"><label>Cantidad 2</label><input id="qQty2" type="number" value="100" oninput="renderQuote()"></div>
-        <div class="field"><label>Precio 2</label><input id="qPrice2" type="number" value="890000" oninput="renderQuote()"></div>
-        <div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0" oninput="renderQuote()"></div>
-        <div class="field"><label>Motivo</label><input id="qDiscountWhy" placeholder="Ej. cliente aporta tapa" oninput="renderQuote()"></div>
-        <div class="field span2"><label>Nota interna</label><textarea placeholder="No aparece en el PDF."></textarea></div>
-      </div>
-      <p class="small muted">El sistema toma los costos cargados en Proveedores & cotizaciones y aplica automáticamente la regla comercial vinculada al producto.</p>
-    </div>
-    <div class="quote-preview" id="quotePreview"></div>
-  </div>
-</section>
+<section class="screen" id="quotes"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
-<section class="screen" id="products">
-  <div class="topbar"><div><div class="eyebrow">Catálogo interno</div><h1>Productos & variantes</h1></div><button class="btn primary" onclick="openModal('productModal')">+ Nuevo producto</button></div>
-  <div class="product-grid">
-    <div class="product-card"><div class="product-visual"><div class="book">BIRKÓN</div></div><div class="product-body"><h3>Birkón · Librito</h3><div class="chips"><span class="tag ok">Activo</span><span class="tag">2 tamaños</span><span class="tag">2 encuadernaciones</span></div><p class="small muted">Essential · Classic · Deluxe · Deluxe Plus</p><button class="btn sm" onclick="alert('Ficha de variantes: en construcción del siguiente sprint.')">Ver variantes</button></div></div>
-    <div class="product-card"><div class="product-visual"><div class="book" style="width:150px;height:90px">FOLLETO</div></div><div class="product-body"><h3>Birkón · Folleto</h3><div class="chips"><span class="tag ok">Activo</span><span class="tag">Tríptico</span><span class="tag">Cuadríptico</span></div><p class="small muted">Cuadrípticos requieren cotización por email.</p><button class="btn sm">Ver variantes</button></div></div>
-    <div class="product-card"><div class="product-visual"><div class="book">לוח</div></div><div class="product-body"><h3>Luaj</h3><div class="chips"><span class="tag ok">Activo</span><span class="tag">múltiples clientes</span></div><p class="small muted">Configuración, horarios, criterios y legales propios.</p><button class="btn sm">Ver variantes</button></div></div>
-    <div class="product-card"><div class="product-visual"><div class="book">שחרית</div></div><div class="product-body"><h3>Birkot Hashajar</h3><div class="chips"><span class="tag warn">No publicado</span></div><p class="small muted">Sefaradí. Díptico solo hebreo / tríptico Heb+Esp+Fon.</p><button class="btn sm">Abrir ficha</button></div></div>
-    <div class="product-card"><div class="product-visual"><div class="book">הגדה</div></div><div class="product-body"><h3>Hagadá de Pesaj</h3><div class="chips"><span class="tag warn">Desarrollo</span></div><p class="small muted">Producto existente todavía no explotado comercialmente.</p><button class="btn sm">Abrir ficha</button></div></div>
-    <div class="product-card"><div class="product-visual"><div class="book">🕯</div></div><div class="product-body"><h3>Imán · encendido</h3><div class="chips"><span class="tag warn">Nuevo</span></div><p class="small muted">Horarios de encendido de velas.</p><button class="btn sm">Abrir ficha</button></div></div>
-  </div>
-</section>
+<section class="screen" id="products"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
-<section class="screen jd-hidden" id="nusaj" aria-hidden="true">
-  <div class="topbar"><div><div class="eyebrow">Configuración</div><h1>Nusajim & combinaciones</h1></div><button class="btn primary" onclick="openModal('nusajModal')">+ Nueva variante de nusaj</button></div>
-  <table class="table"><thead><tr><th>Variante</th><th>Orden</th><th>Estado editorial</th><th>Referencia</th></tr></thead><tbody id="nusajTable"></tbody></table>
-</section>
+<section class="screen" id="clients"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
-<section class="screen" id="clients">
-  <div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><button class="btn primary">+ Nueva consulta</button></div>
-  <table class="table"><thead><tr><th>Cliente</th><th>Consulta</th><th>Fecha</th><th>Estado</th><th>Próxima acción</th><th>Pago</th></tr></thead><tbody>
-    <tr><td><b>Lorena · Har Moria</b></td><td>Imanes con horarios</td><td>05/10/26</td><td><span class="tag warn">Presupuesto enviado</span></td><td>08/10 · preguntar si lo vio</td><td>—</td></tr>
-    <tr><td><b>Cliente demo</b></td><td>Birkón Classic · 2 nusajim</td><td>02/10/26</td><td><span class="tag ok">Aceptado</span></td><td>Solicitar pago</td><td><span class="tag danger">Pendiente</span></td></tr>
-  </tbody></table>
-</section>
+<section class="screen" id="costs"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
-<section class="screen" id="costs">
-  <div class="topbar"><div><div class="eyebrow">Costos</div><h1>Proveedores & cotizaciones</h1></div><button class="btn primary">+ Cargar cotización</button></div>
-  <div class="grid cards">
-    <div class="card"><b>Imprenta · Libritos</b><p class="small muted">Última cotización cargada hace 12 días.</p><span class="tag ok">Vigente</span></div>
-    <div class="card"><b>Gráfica B612 · Folletos</b><p class="small muted">Trípticos / dípticos calculables online.</p><span class="tag ok">Calculadora externa</span></div>
-    <div class="card"><b>Cuadrípticos</b><p class="small muted">No existe cálculo online.</p><span class="tag warn">Cotizar por email</span></div>
-  </div>
-  <div class="section"><table class="table"><thead><tr><th>Producto</th><th>Especificación</th><th>Costo</th><th>Fecha</th><th>Vigencia</th></tr></thead><tbody>
-    <tr><td>Birkón normal</td><td>72 págs · 60 u. · abrochado</td><td class="price">$395.770</td><td>25/08/26</td><td><span class="tag danger">Actualizar</span></td></tr>
-    <tr><td>Birkón normal</td><td>88 págs · 100 u. · abrochado</td><td class="price">$650.770</td><td>25/08/26</td><td><span class="tag danger">Actualizar</span></td></tr>
-  </tbody></table></div>
-</section>
+<section class="screen" id="rules"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
-<section class="screen" id="rules">
-  <div class="topbar"><div><div class="eyebrow">Motor comercial</div><h1>Reglas de precio</h1></div><button class="btn primary">+ Nueva regla</button></div>
-  <div class="card">
-    <div class="rule"><div><b>Birkón · Librito</b><div class="small muted">Precio base</div></div><div><code>costo imprenta / 0.645 + envío</code></div><div>Envío: $20.000</div><button class="btn sm">Editar</button></div>
-    <div class="rule"><div><b>Deluxe Plus</b><div class="small muted">Recargo comercial</div></div><div><code>+ $100.000</code></div><div>88 páginas fijas</div><button class="btn sm">Editar</button></div>
-    <div class="rule"><div><b>Prioridad de agenda</b><div class="small muted">Diseño urgente</div></div><div><code>+ 30%</code></div><div>Según legales</div><button class="btn sm">Editar</button></div>
-  </div>
-</section>
+<section class="screen" id="assets"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
-<section class="screen" id="assets">
-  <div class="topbar"><div><div class="eyebrow">Biblioteca visual</div><h1>Assets</h1></div><button class="btn primary">+ Subir asset</button></div>
-  <div class="product-grid">
-    <div class="card"><b>binding-stapled.png</b><p class="small muted">Macro canto abrochado.</p><span class="tag">Encuadernación</span></div>
-    <div class="card"><b>binding-binder.png</b><p class="small muted">Macro lomo cuadrado / binder.</p><span class="tag">Encuadernación</span></div>
-    <div class="card"><b>size-comparison.png</b><p class="small muted">Normal vs grande en escala comparativa.</p><span class="tag">Tamaños</span></div>
-    <div class="card"><b>classic-2nusaj-ashkenazi+sefaradi-index.jpg</b><p class="small muted">Índice específico por orden de nusaj.</p><span class="tag">Índice</span></div>
-    <div class="card"><b>interior-hebrew.jpg</b><p class="small muted">Doble página ilustrativa solo hebreo.</p><span class="tag">Interior</span></div>
-    <div class="card"><b>interior-heb-spa-phon.jpg</b><p class="small muted">Doble página Heb + Esp + Fon.</p><span class="tag">Interior</span></div>
-  </div>
-</section>
+<section class="screen" id="masters"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
-<section class="screen" id="masters">
-  <div class="topbar"><div><div class="eyebrow">Control editorial</div><h1>Masters & revisión</h1></div><button class="btn primary">+ Nuevo Master</button></div>
-  <div class="notice"><b>Todas las versiones requieren revisión fina.</b> El sistema separará estado de hebreo, fonética y español, y conservará fuente de referencia y decisiones editoriales.</div>
-  <div class="grid" style="grid-template-columns:1fr 1fr">
-    <div class="card master"><div><b>Birkat Hamazón · Ashkenazí</b><p class="small muted">Referencia: ArtScroll impreso</p><div class="chips"><span class="tag warn">Hebreo · revisión</span><span class="tag warn">Fonética · revisión</span><span class="tag warn">Español · revisión</span></div><div class="master-diff"><div class="diff-row old"><span class="label">InDesign</span><span>... jasar ...</span></div><div class="diff-row new"><span class="label">Master</span><span>... jásar ...</span></div></div><p class="small">Cambio detectado: <b>jasar → jásar</b></p></div><button class="btn sm primary">Aplicar</button></div>
-    <div class="card"><b>Birkat Hamazón · Jabad</b><p class="small muted">Referencia: Tehilat Hashem impreso</p><div class="chips"><span class="tag warn">Revisión fina</span></div><p class="small">Pendiente propagación sistemática a Jabad solo, Jabad+Sefaradí y Sefaradí+Jabad.</p></div>
-    <div class="card"><b>Birkat Hamazón · Sefaradí</b><p class="small muted">Referencia base: pendiente resolver.</p><div class="chips"><span class="tag danger">Simchón 1 vs 2</span><span class="tag danger">Bircat Shelomo</span></div><p class="small">Cerrar diferencias de zimún y frases antes de declarar Master.</p></div>
-    <div class="card"><b>Checklist transversal</b><p class="small">Ya'alé Veyavó · revisar hebreo, fonética y traducción en todos los nusajim.</p><span class="tag warn">Pendiente</span></div>
-  </div>
-</section>
-
-<section class="screen" id="legal">
-  <div class="topbar"><div><div class="eyebrow">Plantillas</div><h1>Legales & aclaraciones</h1></div><button class="btn primary">+ Nueva plantilla</button></div>
-  <div class="grid cards">
-    <div class="card"><b>Birkón · Librito</b><p class="small muted">Bloque extenso: revisión, impresión, archivos, plazos, urgencia, canciones, pago, vigencia, propiedad intelectual.</p><button class="btn sm">Editar</button></div>
-    <div class="card"><b>Birkón · Folleto</b><p class="small muted">Bloque específico y más breve.</p><button class="btn sm">Editar</button></div>
-    <div class="card"><b>Luaj</b><p class="small muted">Criterios y aclaraciones propias del producto.</p><button class="btn sm">Editar</button></div>
-    <div class="card"><b>General Judaica Design®</b><p class="small muted">Cláusulas compartidas reutilizables.</p><button class="btn sm">Editar</button></div>
-  </div>
-</section>
+<section class="screen" id="legal"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
 <section class="screen" id="phonetics">
   <div class="topbar"><div><div class="eyebrow">Herramientas</div><h1>Generador de fonética</h1></div></div>
@@ -349,12 +256,6 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 
 </main>
 </div>
-
-<div class="modal" id="nusajModal"><div class="modal-box"><div class="modal-head"><div><div class="eyebrow">Configuración</div><h2 style="margin:4px 0">Nueva variante de nusaj</h2></div><button class="btn" onclick="closeModal('nusajModal')">×</button></div>
-<div class="form-grid"><div class="field"><label>Nombre</label><input id="nName" placeholder="Ej. Sfarad"></div><div class="field"><label>Tipo</label><select id="nType"><option>1 nusaj</option><option>2 nusajim</option><option>Combinado</option></select></div><div class="field span2"><label>Referencia editorial</label><input id="nRef" placeholder="Libro / edición / pendiente"></div></div>
-<div style="margin-top:18px;text-align:right"><button class="btn primary" onclick="addNusaj()">Crear variante</button></div></div></div>
-
-<div class="modal" id="productModal"><div class="modal-box"><div class="modal-head"><h2 style="margin:0">Nuevo producto</h2><button class="btn" onclick="closeModal('productModal')">×</button></div><p class="muted">En la siguiente versión esta pantalla permitirá crear familia, formato, atributos, páginas, proveedor, reglas de precio y assets heredables.</p><button class="btn primary" onclick="closeModal('productModal')">Entendido</button></div></div>
 
 <script id="jd-core-navigation-v1">
 function go(id){
@@ -924,7 +825,7 @@ function syncQuoteFields(){
 function syncPages(){
  const p=currentProduct();if(!p.pages){qPages.value='';return}
  const model=qModel.value,nusaj=qNusaj.value,lang=qLang.value,count=['Sefaradí + Ashkenazí','Ashkenazí + Sefaradí','Jabad + Sefaradí','Sefaradí + Jabad'].includes(nusaj)?2:1;
- const map={'Essential|2|Hebreo + español + fonética':48,'Classic|1|Hebreo + español + fonética':48,'Classic|2|Hebreo + español + fonética':72,'Deluxe|1|Hebreo + español + fonética':64,'Deluxe|2|Hebreo + español + fonética':88,'Deluxe Plus|2|Hebreo + español + fonética':88};
+ const map={'Essential|2|Hebreo + español + fonética':48,'Classic|1|Hebreo + español + fonética':48,'Classic|2|Hebreo + español + fonética':72,'Deluxe|1|Hebreo + español + fonética':64,'Deluxe|2|Hebreo + español + fonética':88};
  qPages.value=map[model+'|'+count+'|'+lang]||48;
 }
 function normalizeSupplierCost(amount,supplier,sourceIncludesVat){
