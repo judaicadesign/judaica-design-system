@@ -665,34 +665,61 @@ if(newQuoteBtn){
  newQuoteBtn.textContent='Presupuestos';
  newQuoteBtn.dataset.screen='savedQuotes';
 }
-let savedQuotes=LS3('jd_saved_quotes',[]);
 let sq=document.getElementById('savedQuotes');
 if(!sq){
  sq=document.createElement('section');sq.className='screen';sq.id='savedQuotes';
  document.querySelector('main.main').appendChild(sq);
 }
-function drawSavedQuotes(){
+const normQuoteClient=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const fmtDate=q=>{
+ const raw=q.created||''; if(!raw)return '—';
+ const d=new Date(raw); return isNaN(d)?String(raw):d.toLocaleDateString('es-AR');
+};
+function getSavedQuotesV6(){return LS3('jd_saved_quotes_v6',[])}
+function quoteQtyText(q){
+ return (q.quantities||[]).map(x=>x.qty+' u. · '+(x.price?'$ '+Number(x.price).toLocaleString('es-AR'):'A cotizar')).join(' / ')||'—';
+}
+function drawSavedQuotesV6(clientFilter){
+ const all=getSavedQuotesV6();
+ const filter=clientFilter||window.jdSavedQuotesClientFilter||'';
+ const rows=filter?all.filter(q=>normQuoteClient(q.client)===normQuoteClient(filter)):all;
+ const filterNote=filter?'<div class="jd-note" style="margin-bottom:14px">Mostrando presupuestos de <b>'+esc3(filter)+'</b>. <button class="btn sm" id="jdClearQuoteFilter">Ver todos</button></div>':'';
  sq.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Presupuestos</h1></div><button class="btn primary" id="jdNewQuoteBtn">+ Nuevo presupuesto</button></div>'+
- (savedQuotes.length?'<table class="table"><thead><tr><th>Cliente</th><th>Producto</th><th>Configuración</th><th>Fecha</th><th>Evento / entrega</th><th></th></tr></thead><tbody>'+
- savedQuotes.map((q,i)=>'<tr><td><b>'+esc3(q.client)+'</b></td><td>'+esc3(q.product)+'</td><td>'+esc3(q.model+' · '+q.nusaj+' · '+q.size)+'</td><td>'+esc3(q.created)+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><button class="btn sm" data-open-q="'+i+'">Abrir</button></td></tr>').join('')+'</tbody></table>':'<div class="card"><p class="muted">Todavía no hay presupuestos guardados.</p></div>');
+ '<div class="jd-note" style="margin-bottom:14px"><b>Presupuestos</b> guarda cada cotización/versión enviada o preparada. <b>Clientes & seguimiento</b> mantiene una sola ficha por cliente y enlaza sus presupuestos.</div>'+filterNote+
+ (rows.length?'<div class="jd-table-scroll jd-savedquotes-scroll"><table class="table jd-savedquotes-table"><thead><tr><th>Cliente</th><th>Producto</th><th>Configuración</th><th>Cantidades / precio</th><th>Estado</th><th>Fecha</th><th>Evento / entrega</th><th></th></tr></thead><tbody>'+
+ rows.map((q,i)=>'<tr><td><b>'+esc3(q.client||'—')+'</b></td><td>'+esc3(q.product||'—')+'</td><td>'+esc3([q.model,q.nusaj,q.texts||q.lang,q.size,q.binding||q.bind].filter(Boolean).join(' · '))+'</td><td>'+esc3(quoteQtyText(q))+'</td><td><span class="tag '+(/enviado/i.test(q.status||'')?'ok':'')+'">'+esc3(q.status||'Guardado')+'</span></td><td>'+esc3(fmtDate(q))+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><div class="jd-toolbar"><button class="btn sm" data-open-qid="'+esc3(q.id||'')+'">Abrir</button>'+(q.pdfUrl?'<a class="btn sm" target="_blank" rel="noopener" href="'+esc3(q.pdfUrl)+'">PDF</a>':'')+'</div></td></tr>').join('')+
+ '</tbody></table></div>':'<div class="card"><p class="muted">'+(filter?'No hay presupuestos guardados para este cliente.':'Todavía no hay presupuestos guardados.')+'</p></div>');
  document.getElementById('jdNewQuoteBtn').onclick=()=>go('quotes');
- sq.querySelectorAll('[data-open-q]').forEach(b=>b.onclick=()=>loadSavedQuote(+b.dataset.openQ));
+ const clear=document.getElementById('jdClearQuoteFilter');if(clear)clear.onclick=()=>{window.jdSavedQuotesClientFilter='';drawSavedQuotesV6()};
+ sq.querySelectorAll('[data-open-qid]').forEach(b=>b.onclick=()=>loadSavedQuoteV6(b.dataset.openQid));
 }
-drawSavedQuotes();
-document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
-const quoteTop=document.querySelector('#quotes .topbar>div:last-child');
-if(quoteTop && !document.getElementById('jdSaveQuote')){
- const b=document.createElement('button');b.className='btn gold';b.id='jdSaveQuote';b.textContent='Guardar presupuesto';b.onclick=saveCurrentQuote;quoteTop.insertBefore(b,quoteTop.firstChild);
+function loadSavedQuoteV6(id){
+ const q=getSavedQuotesV6().find(x=>String(x.id)===String(id)); if(!q)return;
+ window.qs6=(q.quantities||[]).map(x=>Number(x.qty)).filter(Boolean);
+ if(window.qs6.length) localStorage.setItem('jd_quote_qtys_v6',JSON.stringify(window.qs6));
+ go('quotes');
+ const set=(id,val,fire=true)=>{
+   const el=document.getElementById(id); if(!el||val==null)return;
+   const has=[...el.options||[]].some(o=>o.value===String(val)||o.text===String(val));
+   if(el.tagName==='SELECT'&&!has)return;
+   el.value=val;
+   if(fire)el.dispatchEvent(new Event('change',{bubbles:true}));
+ };
+ set('qProduct',q.product,true);
+ set('qModel',q.model,true);
+ set('qLang',q.texts||q.lang,true);
+ set('qNusaj',q.nusaj,true);
+ set('qSize',q.size,true);
+ set('qBind',q.binding||q.bind,true);
+ const ev=document.getElementById('qEvent');if(ev)ev.value=q.event||'';
+ const dl=document.getElementById('qDeadline');if(dl)dl.value=q.deadline||'';
+ const cl=document.getElementById('qClient');if(cl)cl.value=q.client||'';
+ if(window.renderQuote)window.renderQuote();
 }
-function saveCurrentQuote(){
- const q={client:qClient.value,product:qProduct.value,model:qModel.value,nusaj:qNusaj.value,lang:qLang.value,size:qSize.options[qSize.selectedIndex].text,bind:qBind.value,pages:qPages.value,qty1:qQty1.value,price1:qPrice1.value,qty2:qQty2.value,price2:qPrice2.value,discount:qDiscount.value,why:qDiscountWhy.value,event:document.getElementById('qEvent')?.value||'',deadline:document.getElementById('qDeadline')?.value||'',created:new Date().toLocaleDateString('es-AR')};
- savedQuotes.unshift(q);SAVE3('jd_saved_quotes',savedQuotes);drawSavedQuotes();alert('Presupuesto guardado.');
-}
-function loadSavedQuote(i){
- const q=savedQuotes[i];go('quotes');qClient.value=q.client;qProduct.value=q.product;qModel.value=q.model;qNusaj.value=q.nusaj;qLang.value=q.lang;
- [...qSize.options].forEach(o=>{if(o.text===q.size)o.selected=true});qBind.value=q.bind;qQty1.value=q.qty1;qPrice1.value=q.price1;qQty2.value=q.qty2;qPrice2.value=q.price2;qDiscount.value=q.discount;qDiscountWhy.value=q.why||'';
- if(document.getElementById('qEvent'))qEvent.value=q.event||'';if(document.getElementById('qDeadline'))qDeadline.value=q.deadline||'';renderQuote();
-}
+window.jdRenderSavedQuotes=drawSavedQuotesV6;
+window.jdOpenSavedQuotesForClient=name=>{window.jdSavedQuotesClientFilter=name||'';drawSavedQuotesV6(name);go('savedQuotes')};
+drawSavedQuotesV6();
+document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>{if(b.dataset.screen==='savedQuotes')drawSavedQuotesV6();go(b.dataset.screen)});
 
 // ---------------- ASSETS REALES + ASIGNACIÓN ----------------
 let assets=LS3('jd_assets',[]);
@@ -1093,7 +1120,6 @@ function drawCostsV4(){
    'Zloto':{shipping:20000,production:'2 semanas'},
    'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
  });
- // Una especificación física = un renglón. Las distintas tiradas/precios viven dentro.
  const groups=new Map();
  costs.forEach((x,i)=>{
    const key=[x.supplier,x.product,x.size,x.binding,Number(x.pages||0)].join('||');
@@ -1107,6 +1133,17 @@ function drawCostsV4(){
    String(a.binding).localeCompare(String(b.binding),'es')||
    a.pages-b.pages
  );
+ const ageDays=g=>{
+   const ds=g.items.map(x=>x.date).filter(Boolean).map(x=>new Date(x+'T00:00:00')).filter(x=>!isNaN(x));
+   if(!ds.length)return null;
+   const latest=new Date(Math.max(...ds.map(x=>x.getTime())));
+   return Math.floor((new Date()-latest)/86400000);
+ };
+ const latestDate=g=>{
+   const ds=g.items.map(x=>x.date).filter(Boolean).sort();return ds.length?ds[ds.length-1]:'';
+ };
+ const stale=g=>ageDays(g)!=null&&ageDays(g)>30;
+ const staleCount=grouped.filter(stale).length;
  const qtyCell=g=>g.items.sort((a,b)=>Number(a.qty)-Number(b.qty)).map(x=>
    '<button class="jd-cost-qty" data-ce="'+x._i+'" title="Editar esta tirada"><b>'+E(x.qty)+' u.</b><span>'+M(x.cost)+'</span><small>'+E(x.date||'')+'</small></button>'
  ).join('');
@@ -1115,8 +1152,8 @@ function drawCostsV4(){
  '<div class="section"><div class="section-head"><h2>Configuración general de proveedores</h2></div><div class="grid cards">'+
  Object.entries(supplierCfg).map(([name,s])=>'<div class="card"><b>'+E(name)+'</b><p class="small muted">Producción: '+E(s.production||'—')+'</p>'+(String(name).toLowerCase().includes('b612')?'<p class="small"><b>Base de costo:</b> sin IVA</p>':'')+'<p style="margin:10px 0 12px"><span class="small muted">Envío general</span><br><strong style="font-size:22px;color:#0f5b5d">'+M(s.shipping||0)+'</strong></p><button class="btn sm" data-supplier-edit="'+E(name)+'">Editar proveedor</button></div>').join('')+
  '</div></div>'+
- '<div class="section"><div class="section-head"><h2>Cotizaciones de imprenta</h2><span class="small muted">Una especificación por fila · todas sus cantidades juntas</span></div><div class="jd-table-scroll"><table class="table jd-cost-table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Cantidades / costos</th></tr></thead><tbody>'+
- grouped.map(g=>'<tr><td><b>'+E(g.supplier)+'</b></td><td>'+E(g.product)+'</td><td>'+E(spec(g))+'</td><td><div class="jd-cost-qtys">'+qtyCell(g)+'</div></td></tr>').join('')+
+ '<div class="section"><div class="section-head"><h2>Cotizaciones de imprenta</h2><span class="small muted">'+staleCount+' especificación'+(staleCount===1?'':'es')+' con precio de más de 30 días</span></div><div class="jd-table-scroll"><table class="table jd-cost-table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Cantidades / costos</th><th>Vigencia</th></tr></thead><tbody>'+
+ grouped.map(g=>'<tr '+(stale(g)?'class="jd-cost-stale" data-cost-stale="1"':'')+'><td><b>'+E(g.supplier)+'</b></td><td>'+E(g.product)+'</td><td>'+E(spec(g))+'</td><td><div class="jd-cost-qtys">'+qtyCell(g)+'</div></td><td>'+(ageDays(g)==null?'<span class="tag">Sin fecha</span>':stale(g)?'<span class="tag danger">Actualizar · '+ageDays(g)+' días</span><div class="small muted">'+E(latestDate(g))+'</div>':'<span class="tag ok">'+ageDays(g)+' días</span><div class="small muted">'+E(latestDate(g))+'</div>')+'</td></tr>').join('')+
  '</tbody></table></div></div>';
  document.getElementById('ac4').onclick=()=>editCostV4(-1);
  costsSec.querySelectorAll('[data-ce]').forEach(btn=>btn.onclick=()=>editCostV4(+btn.dataset.ce));
@@ -3137,6 +3174,104 @@ h1{font-size:clamp(30px,3vw,42px)}
  },true);
 })();
 </script>
+
+<style id="jd-real-dashboard-v1-css">
+#clients .jd-panel{overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;max-width:100%!important}
+#clients .jd-crm-table{min-width:980px!important}
+.jd-savedquotes-scroll{overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;max-width:100%!important}
+.jd-savedquotes-table{min-width:1050px!important}
+.jd-dashboard-card{cursor:pointer;position:relative;transition:transform .12s ease,box-shadow .12s ease}
+.jd-dashboard-card:active{transform:translateY(1px)}
+.jd-dashboard-card:after{content:'Abrir →';display:block;margin-top:12px;font-size:11px;color:#0f5b5d;font-weight:700}
+.jd-cost-stale td{background:#fff8f5!important}
+.jd-client-quote-link{margin-top:6px}
+@media(max-width:700px){
+ #clients .jd-panel{padding:0!important;border-radius:16px!important}
+ #clients .jd-crm-table th,#clients .jd-crm-table td{padding:10px 12px!important}
+ #savedQuotes{overflow-x:hidden!important}
+}
+</style>
+<script id="jd-real-dashboard-v1">
+(function(){
+ const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ function costGroups(){
+   const costs=get('jd_cost_quotes_v2',[]);
+   const m=new Map();
+   costs.forEach(x=>{
+     const k=[x.supplier,x.product,x.size,x.binding,Number(x.pages||0)].join('||');
+     if(!m.has(k))m.set(k,{...x,items:[]});
+     m.get(k).items.push(x);
+   });
+   return [...m.values()].map(g=>{
+     const dates=g.items.map(x=>x.date).filter(Boolean).sort();
+     const latest=dates.length?dates[dates.length-1]:'';
+     const age=latest?Math.floor((new Date()-new Date(latest+'T00:00:00'))/86400000):null;
+     return {...g,latest,age};
+   });
+ }
+ function quoteFollowClients(){
+   const statuses=/presupuesto|esperando respuesta|pago pendiente|esperando pago/i;
+   return get('jd_clients',[]).filter(c=>statuses.test(c.status||'')&&!/rechaz/i.test(c.status||'')&&!c.paid);
+ }
+ function masterReviewCount(){
+   const cells=get('jd_master_cells',null);
+   if(cells&&typeof cells==='object')return Object.values(cells).filter(x=>x&&x.status==='Revisión fina').length;
+   const old=get('jd_masters',[]);
+   return Array.isArray(old)?old.filter(x=>x.status==='Revisión fina').length:0;
+ }
+ function renderDashboardKpis(){
+   const dash=document.getElementById('dashboard');if(!dash)return;
+   const grid=dash.querySelector('.notice + .grid.cards')||dash.querySelector('.grid.cards');if(!grid)return;
+   const quotes=get('jd_saved_quotes_v6',[]);
+   const follows=quoteFollowClients();
+   const stale=costGroups().filter(g=>g.age!=null&&g.age>30);
+   const catalog=get('jd_catalog_v6',[]);
+   const used=new Set(quotes.map(q=>q.product).filter(Boolean));
+   const unused=catalog.filter(p=>!used.has(p.name));
+   const masters=masterReviewCount();
+   grid.innerHTML=
+    '<div class="card jd-dashboard-card" data-jd-dash="quotes"><div class="muted small">Presupuestos guardados</div><div class="metric">'+quotes.length+'</div><span class="tag warn">'+follows.length+' cliente'+(follows.length===1?'':'s')+' con seguimiento de presupuesto</span></div>'+
+    '<div class="card jd-dashboard-card" data-jd-dash="costs"><div class="muted small">Precios de imprenta</div><div class="metric">'+stale.length+'</div><span class="tag '+(stale.length?'danger':'ok')+'">'+(stale.length?'requieren actualización (>30 días)':'al día')+'</span></div>'+
+    '<div class="card jd-dashboard-card" data-jd-dash="products"><div class="muted small">Productos sin presupuestos</div><div class="metric">'+unused.length+'</div><span class="tag">sin explotación registrada</span></div>'+
+    '<div class="card jd-dashboard-card" data-jd-dash="masters"><div class="muted small">Masters en revisión</div><div class="metric">'+masters+'</div><span class="tag warn">revisión fina</span></div>';
+   grid.querySelector('[data-jd-dash="quotes"]').onclick=()=>{window.jdSavedQuotesClientFilter='';window.jdRenderSavedQuotes?.();go('savedQuotes')};
+   grid.querySelector('[data-jd-dash="costs"]').onclick=()=>window.jdShowStaleCosts();
+   grid.querySelector('[data-jd-dash="products"]').onclick=()=>go('products');
+   grid.querySelector('[data-jd-dash="masters"]').onclick=()=>go('masters');
+ }
+ window.jdShowStaleCosts=function(){
+   go('costs');
+   setTimeout(()=>{
+     const row=document.querySelector('#costs [data-cost-stale="1"]');
+     if(row)row.scrollIntoView({behavior:'smooth',block:'center'});
+   },100);
+ };
+ function decorateClientQuoteLinks(){
+   const table=document.querySelector('#clients .jd-crm-table');if(!table)return;
+   const quotes=get('jd_saved_quotes_v6',[]);
+   [...table.querySelectorAll('tbody tr')].forEach(row=>{
+     if(row.dataset.jdQuotesDecorated)return;
+     const b=row.querySelector('td:first-child b');if(!b)return;
+     const client=b.textContent.trim();
+     const count=quotes.filter(q=>norm(q.client)===norm(client)).length;
+     if(!count)return;
+     const btn=document.createElement('button');btn.className='btn sm jd-client-quote-link';btn.textContent='Presupuestos ('+count+')';
+     btn.onclick=()=>window.jdOpenSavedQuotesForClient?.(client);
+     row.querySelector('td:first-child').appendChild(btn);
+     row.dataset.jdQuotesDecorated='1';
+   });
+ }
+ window.jdRenderDashboardKpis=renderDashboardKpis;
+ const rerender=()=>{renderDashboardKpis();setTimeout(decorateClientQuoteLinks,100)};
+ document.addEventListener('DOMContentLoaded',()=>setTimeout(rerender,300));
+ window.addEventListener('jd-shared-ready',()=>setTimeout(rerender,300));
+ const mo=new MutationObserver(()=>{if(document.getElementById('dashboard')?.classList.contains('active'))renderDashboardKpis();decorateClientQuoteLinks()});
+ const root=document.querySelector('main.main');if(root)mo.observe(root,{subtree:true,childList:true});
+})();
+</script>
+
 </body></html>
 <style id="jd-sidebar-logo-fix-v4">
 .jd-brand{
