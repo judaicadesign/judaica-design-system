@@ -1439,7 +1439,7 @@ const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt
 const GET=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
 const SET=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const uid=()=>String(Date.now())+Math.random().toString(36).slice(2,8);
-const textOptions=['Hebreo + español','Hebreo + fonética','Hebreo sólo','Hebreo + español + fonética','Español + fonética'];
+const textOptions=['Hebreo + español','Hebreo + fonética','Hebreo solo','Hebreo + español + fonética','Español + fonética'];
 const JD_LOGO="assets/jd-logo-black.svg?v=1";
 let jdDeadlineManual=false;
 function parseLocalDate(v){if(!v)return null;const [y,m,d]=v.split('-').map(Number);return new Date(y,m-1,d,12,0,0)}
@@ -1491,7 +1491,7 @@ const seedCatalog=[
   id:'birkon-librito',name:'Birkón · Librito',status:'Activo',supplier:'Zloto',
   models:['Essential','Classic','Deluxe'],
   nusaj:true,
-  texts:['Hebreo sólo','Hebreo + español + fonética'],
+  texts:['Hebreo solo','Hebreo + español + fonética'],
   sizes:['Normal · 11,6 × 15,5 cm','Grande · 14 × 18,5 cm'],
   bindings:['Abrochado','Cosido con hilo / Binder'],
   variants:[
@@ -1504,11 +1504,11 @@ const seedCatalog=[
  },
  {
   id:'birkon-folleto',name:'Birkón · Folleto',status:'Activo',supplier:'Gráfica B612',models:['Díptico','Tríptico','Cuadríptico'],nusaj:true,
-  texts:['Hebreo sólo','Hebreo + español','Hebreo + fonética'],sizes:[],bindings:[],
+  texts:['Hebreo solo','Hebreo + español','Hebreo + fonética'],sizes:[],bindings:[],
   variants:[
-   {id:'fol-dip',model:'Díptico',nusajCount:1,texts:'Hebreo sólo',pages:0,content:[]},
-   {id:'fol-tri',model:'Tríptico',nusajCount:1,texts:'Hebreo sólo',pages:0,content:[]},
-   {id:'fol-cua',model:'Cuadríptico',nusajCount:2,texts:'Hebreo sólo',pages:0,content:[]},
+   {id:'fol-dip',model:'Díptico',nusajCount:1,texts:'Hebreo solo',pages:0,content:[]},
+   {id:'fol-tri',model:'Tríptico',nusajCount:1,texts:'Hebreo solo',pages:0,content:[]},
+   {id:'fol-cua',model:'Cuadríptico',nusajCount:2,texts:'Hebreo solo',pages:0,content:[]},
    {id:'fol-cua-fon',model:'Cuadríptico',nusajCount:1,texts:'Hebreo + fonética',pages:0,content:[]},
    {id:'fol-cua-esp',model:'Cuadríptico',nusajCount:1,texts:'Hebreo + español',pages:0,content:[]}
   ]
@@ -1516,18 +1516,18 @@ const seedCatalog=[
  {id:'luaj',name:'Luaj',status:'Activo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[]},
  {
   id:'birkot-hashajar',name:'Birkot Hashajar',status:'No publicado',supplier:'Gráfica B612',models:[],nusaj:true,
-  texts:['Hebreo sólo','Hebreo + español + fonética'],
+  texts:['Hebreo solo','Hebreo + español + fonética'],
   sizes:['Díptico · tamaño existente','Tríptico · tamaño existente'],bindings:[],
   variants:[
-   {id:'bh-sef-heb',model:'',nusajCount:1,texts:'Hebreo sólo',pages:0,size:'Díptico · tamaño existente',content:[]},
+   {id:'bh-sef-heb',model:'',nusajCount:1,texts:'Hebreo solo',pages:0,size:'Díptico · tamaño existente',content:[]},
    {id:'bh-sef-hef',model:'',nusajCount:1,texts:'Hebreo + español + fonética',pages:0,size:'Tríptico · tamaño existente',content:[]}
   ]
  },
- {id:'hagada',name:'Hagadá de Pesaj',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo sólo','Hebreo + español + fonética'],sizes:[],bindings:[],variants:[]},
- {id:'seder-rh',name:'Séder Rosh Hashaná',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo sólo','Hebreo + español + fonética'],sizes:[],bindings:[],variants:[]},
+ {id:'hagada',name:'Hagadá de Pesaj',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo solo','Hebreo + español + fonética'],sizes:[],bindings:[],variants:[]},
+ {id:'seder-rh',name:'Séder Rosh Hashaná',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo solo','Hebreo + español + fonética'],sizes:[],bindings:[],variants:[]},
  {id:'minja-arvit',name:'Minjá / Arvit',status:'No publicado',supplier:'',models:[],nusaj:true,texts:['Hebreo + fonética'],sizes:[],bindings:[],variants:[]},
  {id:'iman-encendido',name:'Imán · horario encendido de velas',status:'Activo',supplier:'Gráfica B612',models:[],nusaj:false,texts:[],sizes:['14 × 10 cm'],bindings:[],variants:[]},
- {id:'hadlakat-nerot',name:'Hadlakat Nerot',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo sólo'],sizes:[],bindings:[],variants:[]}
+ {id:'hadlakat-nerot',name:'Hadlakat Nerot',status:'Desarrollo',supplier:'',models:[],nusaj:true,texts:['Hebreo solo'],sizes:[],bindings:[],variants:[]}
 ];
 
 let catalog=GET('jd_catalog_v6',seedCatalog);
@@ -1921,14 +1921,14 @@ async function ensureClassicHebrewOnly24(){
  if(pi<0)return;
  const p=catalog[pi];
  if(!Array.isArray(p.variants))p.variants=[];
- const vi=p.variants.findIndex(v=>v.model==='Classic' && v.texts==='Hebreo sólo' && Number(v.nusajCount)===1);
+ const vi=p.variants.findIndex(v=>v.model==='Classic' && v.texts==='Hebreo solo' && Number(v.nusajCount)===1);
  let changed=false;
  if(vi>=0){
    if(Number(p.variants[vi].pages)!==24 || p.variants[vi].size){
      p.variants[vi]={...p.variants[vi],pages:24,size:''};changed=true;
    }
  }else{
-   p.variants.push({id:'cl-1-heb',model:'Classic',texts:'Hebreo sólo',nusajCount:1,size:'',pages:24,content:[]});changed=true;
+   p.variants.push({id:'cl-1-heb',model:'Classic',texts:'Hebreo solo',nusajCount:1,size:'',pages:24,content:[]});changed=true;
  }
  if(!changed)return;
  try{
@@ -2801,7 +2801,7 @@ h1{font-size:clamp(30px,3vw,42px)}
      const sl='Abierto '+dims.openWidthMm+' × '+dims.openHeightMm+' mm · Cerrado '+dims.closedWidthMm+' × '+dims.closedHeightMm+' mm';
      if(v.size!==sl){v.size=sl;changed=true}
    }
-   if(v.model==='Tríptico' && v.texts==='Hebreo sólo'){
+   if(v.model==='Tríptico' && v.texts==='Hebreo solo'){
      const only=['Solo Ashkenazí','Solo Jabad','Solo Sefaradí'];
      if(JSON.stringify(v.nusajOptions||[])!==JSON.stringify(only)){v.nusajOptions=only;v.nusajCount=1;changed=true}
    }
