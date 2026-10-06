@@ -1615,9 +1615,15 @@ function jdVariantNusajOptions(v,p){
 
 
 function popup(title,body,onSave){
- const w=document.createElement('div');w.className='modal open';
- w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+E(title)+'</h2><button class="btn x6">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button class="btn primary s6">Guardar</button></div></div>';
- document.body.appendChild(w);w.querySelector('.x6').onclick=()=>w.remove();w.querySelector('.s6').onclick=()=>onSave(w);return w;
+ const w=document.createElement('div');w.className='modal open';w.dataset.jdDynamicModal='1';
+ w.innerHTML='<div class="modal-box"><div class="modal-head"><h2 style="margin:0">'+E(title)+'</h2><button type="button" class="btn x6" aria-label="Cerrar">×</button></div>'+body+'<div style="text-align:right;margin-top:14px"><button type="button" class="btn primary s6">Guardar</button></div></div>';
+ const close=()=>w.remove();
+ document.body.appendChild(w);
+ w.querySelector('.x6').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();close()});
+ w.addEventListener('click',e=>{if(e.target===w)close()});
+ const escClose=e=>{if(e.key==='Escape'){close();document.removeEventListener('keydown',escClose)}};
+ document.addEventListener('keydown',escClose);
+ w.querySelector('.s6').onclick=()=>onSave(w);return w;
 }
 
 function productCard(p,i){
@@ -1652,12 +1658,12 @@ function editProduct(i){
  '<div class="span2"><label>Encuadernaciones <span class="small muted">(solo si corresponde)</span></label><input id="pbd6" value="'+E((p.bindings||[]).join(', '))+'" placeholder="Ej. Abrochado, Binder"></div>'+
  '<div class="span2"><label>Textos disponibles</label><div class="jd-nusaj-checks">'+checks+'</div></div>'+
  '<div class="span2"><div class="jd-linked"><b>Ficha técnica predeterminada</b><br>Si un formato tiene otra medida, podés sobreescribirla dentro de esa variante. Esta ficha es la que usa el presupuesto y la cotización.</div></div>'+
- '<div><label>Ancho abierto (mm)</label><input id="ptow6" type="number" step="0.1" value="'+E(t.openWidthMm??'')+'"></div>'+
- '<div><label>Alto abierto (mm)</label><input id="ptoh6" type="number" step="0.1" value="'+E(t.openHeightMm??'')+'"></div>'+
- '<div><label>Ancho cerrado (mm)</label><input id="ptcw6" type="number" step="0.1" value="'+E(t.closedWidthMm??'')+'"></div>'+
- '<div><label>Alto cerrado (mm)</label><input id="ptch6" type="number" step="0.1" value="'+E(t.closedHeightMm??'')+'"></div>'+
+ '<div><label>Ancho abierto (mm)</label><input id="ptow6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(t.openWidthMm??'')+'"></div>'+
+ '<div><label>Alto abierto (mm)</label><input id="ptoh6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(t.openHeightMm??'')+'"></div>'+
+ '<div><label>Ancho cerrado (mm)</label><input id="ptcw6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(t.closedWidthMm??'')+'"></div>'+
+ '<div><label>Alto cerrado (mm)</label><input id="ptch6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(t.closedHeightMm??'')+'"></div>'+
  '<div><label>Papel</label><input id="ptpaper6" value="'+E(t.paper||'')+'" placeholder="Ej. Papel ilustración"></div>'+
- '<div><label>Gramaje (g)</label><input id="ptgsm6" type="number" step="1" value="'+E(t.weightGsm??'')+'" placeholder="300"></div>'+
+ '<div><label>Gramaje (g)</label><input id="ptgsm6" type="text" inputmode="numeric" pattern="[0-9]*" data-jd-numeric="integer" value="'+E(t.weightGsm??'')+'" placeholder="300"></div>'+
  '<div><label>Laminado / terminación</label><input id="ptlam6" value="'+E(t.lamination||'')+'" placeholder="Ej. Laminado mate"></div>'+
  '<div><label>Impresión</label><input id="ptprint6" value="'+E(t.print||'')+'" placeholder="Ej. Full color"></div>'+
  '<div><label>Caras</label><input id="ptsides6" value="'+E(t.sides||'')+'" placeholder="Ej. Doble faz"></div>'+
@@ -1838,12 +1844,12 @@ function editVariant(pi,vi){
  const vt=v.technical||{};
  const techFields=!isLibrito?(
    '<div class="span2"><div class="jd-linked"><b>Medida y terminación de esta variante</b><br>Esto permite cotizar el formato correcto. Si queda vacío, hereda la ficha técnica del producto.</div></div>'+
-   '<div><label>Ancho abierto (mm)</label><input id="vtow6" type="number" step="0.1" value="'+E(vt.openWidthMm??'')+'"></div>'+
-   '<div><label>Alto abierto (mm)</label><input id="vtoh6" type="number" step="0.1" value="'+E(vt.openHeightMm??'')+'"></div>'+
-   '<div><label>Ancho cerrado (mm)</label><input id="vtcw6" type="number" step="0.1" value="'+E(vt.closedWidthMm??'')+'"></div>'+
-   '<div><label>Alto cerrado (mm)</label><input id="vtch6" type="number" step="0.1" value="'+E(vt.closedHeightMm??'')+'"></div>'+
+   '<div><label>Ancho abierto (mm)</label><input id="vtow6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(vt.openWidthMm??'')+'"></div>'+
+   '<div><label>Alto abierto (mm)</label><input id="vtoh6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(vt.openHeightMm??'')+'"></div>'+
+   '<div><label>Ancho cerrado (mm)</label><input id="vtcw6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(vt.closedWidthMm??'')+'"></div>'+
+   '<div><label>Alto cerrado (mm)</label><input id="vtch6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(vt.closedHeightMm??'')+'"></div>'+
    '<div><label>Papel</label><input id="vtpaper6" value="'+E(vt.paper||'')+'"></div>'+
-   '<div><label>Gramaje (g)</label><input id="vtgsm6" type="number" value="'+E(vt.weightGsm??'')+'"></div>'+
+   '<div><label>Gramaje (g)</label><input id="vtgsm6" type="text" inputmode="numeric" pattern="[0-9]*" data-jd-numeric="integer" value="'+E(vt.weightGsm??'')+'"></div>'+
    '<div><label>Laminado / terminación</label><input id="vtlam6" value="'+E(vt.lamination||'')+'"></div>'+
    '<div><label>Impresión</label><input id="vtprint6" value="'+E(vt.print||'')+'"></div>'+
    '<div><label>Caras</label><input id="vtsides6" value="'+E(vt.sides||'')+'"></div>'+
@@ -3037,6 +3043,30 @@ h1{font-size:clamp(30px,3vw,42px)}
 })();
 </script>
 
+<script id="jd-mobile-modal-numeric-hotfix">
+(function(){
+ function cleanNumeric(el){
+   let v=String(el.value||'');
+   if(el.dataset.jdNumeric==='integer') v=v.replace(/[^0-9]/g,'');
+   else{
+     v=v.replace(/,/g,'.').replace(/[^0-9.]/g,'');
+     const first=v.indexOf('.');
+     if(first>=0)v=v.slice(0,first+1)+v.slice(first+1).replace(/\./g,'');
+   }
+   if(el.value!==v)el.value=v;
+ }
+ document.addEventListener('input',e=>{if(e.target?.matches?.('[data-jd-numeric]'))cleanNumeric(e.target)},true);
+ document.addEventListener('beforeinput',e=>{
+   const el=e.target;if(!el?.matches?.('[data-jd-numeric]')||!e.data)return;
+   const ok=el.dataset.jdNumeric==='integer'?/^[0-9]+$/.test(e.data):/^[0-9.,]+$/.test(e.data);
+   if(!ok)e.preventDefault();
+ },true);
+ document.addEventListener('click',e=>{
+   const navBtn=e.target.closest?.('#nav button[data-screen]');
+   if(navBtn)document.querySelectorAll('.modal.open[data-jd-dynamic-modal="1"]').forEach(m=>m.remove());
+ },true);
+})();
+</script>
 </body></html>
 <style id="jd-sidebar-logo-fix-v4">
 .jd-brand{
