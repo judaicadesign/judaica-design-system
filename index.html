@@ -1560,6 +1560,26 @@ const seedCatalog=[
 let catalog=GET('jd_catalog_v6',seedCatalog);
 if(!Array.isArray(catalog)||!catalog.length){catalog=seedCatalog;SET('jd_catalog_v6',catalog)}
 
+// Normalize legacy spelling and remove duplicate options/variants left by the old “sólo” label.
+(function normalizeCatalogTextLabelsV14(){
+  const norm=s=>String(s||'').replaceAll('Hebreo sólo','Hebreo solo').replaceAll('Español sólo','Español solo').replaceAll('Fonética sólo','Fonética solo');
+  catalog=catalog.map(p=>{
+    const seenText=new Set();
+    const texts=(p.texts||[]).map(norm).filter(x=>x&&!seenText.has(x)&&seenText.add(x));
+    const seenVariant=new Set();
+    const variants=[];
+    [...(p.variants||[])].reverse().forEach(v=>{
+      const nv={...v,texts:norm(v.texts)};
+      const k=nv.id||[nv.model,nv.texts,nv.nusajCount,(nv.nusajOptions||[]).join('|')].join('::');
+      if(seenVariant.has(k))return;
+      seenVariant.add(k);variants.push(nv);
+    });
+    variants.reverse();
+    return {...p,texts,variants};
+  });
+  SET('jd_catalog_v6',catalog);
+})();
+
 // Merge any newly seeded product names without overwriting user-edited existing products.
 for(const sp of seedCatalog){if(!catalog.some(p=>p.id===sp.id||p.name===sp.name))catalog.push(sp)}
 
