@@ -72,6 +72,22 @@ iframe.jd-frame{width:100%;height:78vh;border:1px solid var(--accent2);border-ra
 </style>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<style id="jd-costs-mobile-fix">
+.jd-table-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px}
+.jd-cost-table{min-width:760px}
+.jd-cost-qtys{display:flex;gap:8px;flex-wrap:wrap;min-width:260px}
+.jd-cost-qty{appearance:none;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;text-align:left;color:var(--ink);min-width:112px}
+.jd-cost-qty b,.jd-cost-qty span,.jd-cost-qty small{display:block;white-space:nowrap}
+.jd-cost-qty span{font-weight:800;margin-top:2px}
+.jd-cost-qty small{color:var(--muted);margin-top:2px}
+.jd-cost-qty:active{transform:translateY(1px)}
+@media(max-width:650px){
+ #costs .main{min-width:0}
+ #costs .section{min-width:0}
+ .jd-table-scroll{max-width:calc(100vw - 28px);touch-action:pan-x pan-y}
+ .jd-cost-table th,.jd-cost-table td{padding:11px 12px}
+}
+</style>
 </head>
 <body>
 <script>
@@ -1057,26 +1073,34 @@ function drawCostsV4(){
    'Zloto':{shipping:20000,production:'2 semanas'},
    'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
  });
+ // Una especificación física = un renglón. Las distintas tiradas/precios viven dentro.
+ const groups=new Map();
+ costs.forEach((x,i)=>{
+   const key=[x.supplier,x.product,x.size,x.binding,Number(x.pages||0)].join('||');
+   if(!groups.has(key))groups.set(key,{supplier:x.supplier,product:x.product,size:x.size,binding:x.binding,pages:Number(x.pages||0),items:[]});
+   groups.get(key).items.push({...x,_i:i});
+ });
+ const grouped=[...groups.values()].sort((a,b)=>
+   String(a.supplier).localeCompare(String(b.supplier),'es')||
+   String(a.product).localeCompare(String(b.product),'es')||
+   String(a.size).localeCompare(String(b.size),'es')||
+   String(a.binding).localeCompare(String(b.binding),'es')||
+   a.pages-b.pages
+ );
+ const qtyCell=g=>g.items.sort((a,b)=>Number(a.qty)-Number(b.qty)).map(x=>
+   '<button class="jd-cost-qty" data-ce="'+x._i+'" title="Editar esta tirada"><b>'+E(x.qty)+' u.</b><span>'+M(x.cost)+'</span><small>'+E(x.date||'')+'</small></button>'
+ ).join('');
+ const spec=g=>[g.size,g.binding,g.pages?g.pages+' págs':''].filter(Boolean).join(' · ');
  costsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Costos</div><h1>Proveedores & cotizaciones</h1></div><button class="btn primary" id="ac4">+ Cargar cotización</button></div>'+
  '<div class="section"><div class="section-head"><h2>Configuración general de proveedores</h2></div><div class="grid cards">'+
  Object.entries(supplierCfg).map(([name,s])=>'<div class="card"><b>'+E(name)+'</b><p class="small muted">Producción: '+E(s.production||'—')+'</p>'+(String(name).toLowerCase().includes('b612')?'<p class="small"><b>Base de costo:</b> sin IVA</p>':'')+'<p style="margin:10px 0 12px"><span class="small muted">Envío general</span><br><strong style="font-size:22px;color:#0f5b5d">'+M(s.shipping||0)+'</strong></p><button class="btn sm" data-supplier-edit="'+E(name)+'">Editar proveedor</button></div>').join('')+
  '</div></div>'+
- '<div class="section"><div class="section-head"><h2>Cotizaciones de imprenta</h2></div><table class="table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Costo</th><th>Fecha</th><th></th></tr></thead><tbody>'+costs.map((c,i)=>'<tr><td><b>'+E(c.supplier)+'</b></td><td>'+E(c.product)+'</td><td>'+E(costSpec(c))+'</td><td class="price">'+M(c.cost)+'</td><td>'+E(c.date||'')+'</td><td><button class="btn sm" data-ce="'+i+'">Editar / actualizar</button></td></tr>').join('')+'</tbody></table></div>';
+ '<div class="section"><div class="section-head"><h2>Cotizaciones de imprenta</h2><span class="small muted">Una especificación por fila · todas sus cantidades juntas</span></div><div class="jd-table-scroll"><table class="table jd-cost-table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Cantidades / costos</th></tr></thead><tbody>'+
+ grouped.map(g=>'<tr><td><b>'+E(g.supplier)+'</b></td><td>'+E(g.product)+'</td><td>'+E(spec(g))+'</td><td><div class="jd-cost-qtys">'+qtyCell(g)+'</div></td></tr>').join('')+
+ '</tbody></table></div></div>';
  document.getElementById('ac4').onclick=()=>editCostV4(-1);
- costsSec.querySelectorAll('[data-ce]').forEach(b=>b.onclick=()=>editCostV4(+b.dataset.ce));
- costsSec.querySelectorAll('[data-supplier-edit]').forEach(b=>b.onclick=()=>editSupplierSettingsV4(b.dataset.supplierEdit));
-}
-function editSupplierSettingsV4(name){
- const all=GET('jd_supplier_settings_v1',{
-   'Zloto':{shipping:20000,production:'2 semanas'},
-   'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
- });
- const s=all[name]||{shipping:0,production:''};
- popup('Editar proveedor · '+E(name),'<div class="jd-formgrid"><div><label>Costo de envío general</label><input id="spShip" type="number" min="0" step="1000" value="'+Number(s.shipping||0)+'"></div><div><label>Tiempo de producción</label><input id="spProd" value="'+E(s.production||'')+'"></div><div class="span2"><div class="jd-linked">Este envío se aplica automáticamente a <b>todos los productos</b> que usen este proveedor. No se configura producto por producto.</div></div></div>',x=>{
-   all[name]={...s,shipping:Number(x.querySelector('#spShip').value||0),production:x.querySelector('#spProd').value.trim(),...(String(name).toLowerCase().includes('b612')?{costBasis:'net_without_vat',vatRate:21}:{})};
-   SET('jd_supplier_settings_v1',all);
-   x.remove();drawCostsV4();
- });
+ costsSec.querySelectorAll('[data-ce]').forEach(btn=>btn.onclick=()=>editCostV4(+btn.dataset.ce));
+ costsSec.querySelectorAll('[data-supplier-edit]').forEach(btn=>btn.onclick=()=>editSupplier(btn.dataset.supplierEdit));
 }
 function editCostV4(i){
  const c=i>=0?costs[i]:{supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:50,cost:'',date:new Date().toISOString().slice(0,10)};
