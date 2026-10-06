@@ -2061,9 +2061,9 @@ function calcQty(q){
    if(cached.state==='loading')return {ok:false,loading:true,reason:'Consultando precio actual en B612…'};
    if(cached.state==='error')return {ok:false,liveError:true,reason:'No se pudo consultar B612: '+cached.error};
    const data=cached.data;
-   // B612 publica el precio neto + IVA. Para Judaica Design usamos como costo
-   // lo que efectivamente se paga a imprenta: total con IVA.
-   const cost=Number(data.gross||0);
+   // Judaica Design calcula sobre el precio B612 SIN IVA.
+   // data.gross se conserva sólo como referencia informativa de B612.
+   const cost=Number(data.net||0);
    if(!(cost>0))return {ok:false,reason:'B612 devolvió un costo inválido.'};
    const shipping=jdSupplierShipping(p);
    const base={qty:Number(q),cost,date:String(data.fetchedAt||'').slice(0,10),source:'B612 live'};
@@ -2169,7 +2169,7 @@ function render6(){
    if(el){
      if(r.ok){
        const src=r.live
-         ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo final c/IVA $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Neto $ '+Math.round(r.b612.net).toLocaleString('es-AR')+' + IVA · consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos</div>'
+         ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo neto sin IVA $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Total B612 c/IVA $ '+Math.round(r.b612.gross).toLocaleString('es-AR')+' · consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos</div>'
          :'<div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base);
        el.innerHTML='<b>$ '+round5(r.price-disc).toLocaleString('es-AR')+'</b>'+src;
      }else{
@@ -2311,6 +2311,24 @@ window.renderQuote=render6;
  .jd-content-box{padding:12px!important}
  .jd-full-legal{font-size:6.6px;line-height:1.18;column-gap:13px}
  .jd-full-legal p{margin-bottom:3px}
+}
+</style>
+
+<style id="jd-mobile-hotfix-v2">
+@media (max-width:700px){
+  .sidebar{position:sticky!important;top:0!important;height:auto!important;max-height:none!important;padding:8px 10px!important}
+  .jd-brand{display:flex!important;align-items:center!important;gap:9px!important;margin:0 0 6px!important}
+  .jd-brand img{width:54px!important;max-height:54px!important;margin:0!important}
+  .jd-brand small{font-size:8px!important;margin:0!important}
+  .nav{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;gap:4px!important;padding:0 0 2px!important;-webkit-overflow-scrolling:touch}
+  .nav .sep{flex:0 0 auto!important;grid-column:auto!important;margin:0 3px!important;padding:9px 3px 0!important;font-size:8px!important}
+  .nav button{flex:0 0 auto!important;white-space:nowrap!important;padding:8px 9px!important;font-size:12px!important}
+  .main{padding:14px 10px 26px!important;overflow-x:hidden!important}
+  .topbar{flex-direction:column!important;align-items:stretch!important}
+  .topbar>div:last-child{justify-content:flex-start!important}
+  .jd-qty-row{grid-template-columns:minmax(92px,120px) minmax(0,1fr) auto!important;gap:7px!important;align-items:start!important}
+  .jd-qty-price{min-width:0!important;overflow-wrap:anywhere!important}
+  #quotePreview{max-width:100%!important;overflow:hidden!important}
 }
 </style>
 
@@ -2568,8 +2586,21 @@ h1{font-size:clamp(30px,3vw,42px)}
    if(!el)throw new Error('No se encontró la vista del presupuesto.');
    if(!window.html2canvas||!window.jspdf?.jsPDF)throw new Error('No se pudo cargar el generador PDF. Recargá la página.');
    await document.fonts?.ready;
-   const canvas=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#f7f2e8',logging:false});
-   const img=canvas.toDataURL('image/jpeg',0.96);
+   // En iPhone/iPad evitamos capturar la versión responsive angosta: se clona
+   // el presupuesto a ancho A4/desktop y se limita la escala para no agotar memoria.
+   const mobile=/iPhone|iPad|iPod/i.test(navigator.userAgent)||window.innerWidth<700;
+   const source=el.cloneNode(true);
+   source.id='jdPdfCapture';
+   source.style.cssText='position:fixed;left:-10000px;top:0;width:794px;max-width:none;overflow:visible;z-index:-1;background:#f7f2e8;padding:26px';
+   if(mobile)document.body.appendChild(source);
+   const target=mobile?source:el;
+   let canvas;
+   try{
+     canvas=await html2canvas(target,{scale:mobile?1.35:2,useCORS:true,allowTaint:false,backgroundColor:'#f7f2e8',logging:false,windowWidth:900});
+   }finally{
+     if(mobile&&source.isConnected)source.remove();
+   }
+   const img=canvas.toDataURL('image/jpeg',mobile?0.90:0.96);
    const {jsPDF}=window.jspdf;
    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
    const pw=210,ph=297,iw=pw;
@@ -2612,10 +2643,16 @@ h1{font-size:clamp(30px,3vw,42px)}
    try{
      const blob=await pdfBlob(),url=URL.createObjectURL(blob),q=currentQuoteFromForm();
      const w=document.createElement('div');w.className='jd-pdf-modal';
-     w.innerHTML='<div class="jd-pdf-modal-card"><div class="jd-pdf-modal-bar"><div><b>Vista previa · '+esc(q.client)+'</b><div class="jd-send-state">Este es el PDF que recibirá el cliente.</div></div><div class="jd-pdf-modal-actions"><a class="btn" href="'+url+'" download="'+esc(fileName(q))+'">Descargar PDF</a><button class="btn primary" id="jdModalSend">Enviar por WhatsApp</button><button class="btn" id="jdModalClose">Cerrar</button></div></div><iframe src="'+url+'" style="width:100%;height:75vh;border:0;background:#fff"></iframe></div>';
+     w.innerHTML='<div class="jd-pdf-modal-card"><div class="jd-pdf-modal-bar"><div><b>Vista previa · '+esc(q.client)+'</b><div class="jd-send-state">Este es el PDF que recibirá el cliente.</div></div><div class="jd-pdf-modal-actions"><a class="btn" href="'+url+'" target="_blank" rel="noopener">Abrir PDF</a><a class="btn" href="'+url+'" download="'+esc(fileName(q))+'">Descargar PDF</a><button class="btn" id="jdModalShare">Compartir PDF</button><button class="btn primary" id="jdModalSend">Enviar por WhatsApp</button><button class="btn" id="jdModalClose">Cerrar</button></div></div><iframe src="'+url+'" style="width:100%;height:75vh;border:0;background:#fff"></iframe></div>';
      document.body.appendChild(w);
      w.querySelector('#jdModalClose').onclick=()=>{URL.revokeObjectURL(url);w.remove()};
      w.querySelector('#jdModalSend').onclick=()=>window.jdSendCurrentQuoteWhatsApp?.();
+     const shareBtn=w.querySelector('#jdModalShare');
+     if(shareBtn){
+       if(navigator.share&&navigator.canShare){
+         shareBtn.onclick=async()=>{try{const file=new File([blob],fileName(q),{type:'application/pdf'});if(navigator.canShare({files:[file]}))await navigator.share({files:[file],title:'Presupuesto Judaica Design'});else window.open(url,'_blank')}catch(err){if(err?.name!=='AbortError')alert('No se pudo compartir el PDF. Podés abrirlo o descargarlo.')}};
+       }else shareBtn.style.display='none';
+     }
    }catch(e){alert(e.message||e)}
  }
  window.jdSendCurrentQuoteWhatsApp=async function(){
