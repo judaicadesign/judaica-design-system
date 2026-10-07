@@ -48,14 +48,36 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+ const configRows=fixture();configRows.find(r=>r.key==='jd_pricing_rules_v4').value.unshift({id:'general-first',product:product.name,variant:'*',marginPct:36});
+ const config=await boot(configRows);config.w.document.getElementById('qClient').value='Cliente de prueba';config.w.qs6=[50];config.w.renderQuote();
+ assert.equal(config.w.jdCollectQuote().quantities[0].price,210000,'specific format rule wins over general rule');
+ config.w.jdRefreshRules();assert.match(config.w.document.getElementById('rules').textContent,/10\.000/);
+ config.w.document.querySelector('[data-rule-supplier="Zloto"]').click();
+ config.w.document.getElementById('supplierShipping').value=-1;await config.w.document.querySelector('.modal.open .ss').onclick();assert.match(config.w.document.getElementById('supplierMessage').textContent,/válido/);
+ config.w.document.getElementById('supplierShipping').value=25000;config.fail(true);await config.w.document.querySelector('.modal.open .ss').onclick();assert.equal(config.get('jd_supplier_settings_v1').Zloto.shipping,10000);
+ config.fail(false);await config.w.document.querySelector('.modal.open .ss').onclick();assert.equal(config.get('jd_supplier_settings_v1').Zloto.shipping,25000);assert.equal(config.get('jd_supplier_settings_v1').Zloto.production,'2 semanas');assert.equal(config.w.jdCollectQuote().quantities[0].shipping,25000);
+ config.w.document.getElementById('newProd6').click();config.w.document.getElementById('pn6').value='Producto nuevo QA';config.w.document.getElementById('psup6').value='Zloto';config.w.document.getElementById('pmargin6').value=42;
+ config.fail(true);await config.w.document.querySelector('.modal.open .s6').onclick(new config.w.Event('click'));assert.equal(config.get('jd_catalog_v6').length,1);assert.ok(!config.get('jd_pricing_rules_v4').some(r=>r.product==='Producto nuevo QA'));
+ config.fail(false);await config.w.document.querySelector('.modal.open .s6').onclick(new config.w.Event('click'));await sleep(300);
+ assert.equal(config.get('jd_catalog_v6').length,2);assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.product==='Producto nuevo QA').marginPct,42);
+ config.w.document.querySelector('[data-pedit="0"]').click();config.w.document.getElementById('pn6').value='Birkón renombrado QA';config.w.document.getElementById('pmargin6').value=40;
+ await config.w.document.querySelector('.modal.open .s6').onclick(new config.w.Event('click'));await sleep(300);
+ assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.id==='qa-rule').product,'Birkón renombrado QA');assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.id==='qa-rule').divisor,.5);
+ assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.id==='general-first').marginPct,40);assert.ok(!config.get('jd_pricing_rules_v4').find(r=>r.id==='general-first').divisor);
+ config.close();console.log('supplier shipping source, validation/retry, atomic product and margin creation, rename and variant priority passed');
  const legalRows=fixture();
  const originalClauses=[['Título primero','Párrafo original\nSegunda línea'],['Título segundo','Otro párrafo']];
  legalRows.push({key:'jd_legal_sets_v1',value:[{id:'legal-birkonim',name:'Legales Birkonim',clauses:structuredClone(originalClauses)},{id:'legal-luaj',name:'Legales & aclaraciones Luaj',clauses:[['Luaj','Texto exclusivo de Luaj']]}]},{key:'jd_legal_librito_v4',value:structuredClone(originalClauses)});
  const legalEditor=await boot(legalRows);legalEditor.w.go('legal');
+ legalEditor.w.document.getElementById('jdLegalNew').click();legalEditor.w.document.getElementById('jdLegalName').value='Legales & aclaraciones Otro producto';
+ legalEditor.w.document.getElementById('jdLegalTitle0').value='Primera aclaración';legalEditor.w.document.getElementById('jdLegalBody0').value='Texto nuevo';
+ legalEditor.w.document.getElementById('jdLegalAdd').click();legalEditor.w.document.getElementById('jdLegalTitle1').value='Otra aclaración';legalEditor.w.document.getElementById('jdLegalBody1').value='Otro texto';
+ await legalEditor.w.document.getElementById('jdLegalSave').onclick();assert.equal(legalEditor.get('jd_legal_sets_v1').length,3);assert.equal(legalEditor.get('jd_legal_sets_v1')[2].clauses.length,2);assert.deepEqual(legalEditor.get('jd_legal_librito_v4'),originalClauses);
  assert.match(legalEditor.w.document.getElementById('legal').textContent,/Legales & aclaraciones Birkonim/);
  legalEditor.w.document.querySelector('[data-legal-edit="legal-birkonim"]').click();
  assert.equal(legalEditor.w.document.querySelectorAll('.jd-legal-editor textarea').length,2);
  legalEditor.w.document.getElementById('jdLegalBody0').value='Texto actualizado\nSegunda línea conservada';
+ legalEditor.w.document.getElementById('jdLegalAdd').click();legalEditor.w.document.getElementById('jdLegalTitle2').value='Aclaración adicional';legalEditor.w.document.getElementById('jdLegalBody2').value='Texto adicional';
  legalEditor.fail(true);await legalEditor.w.document.getElementById('jdLegalSave').onclick();
  assert.deepEqual(legalEditor.get('jd_legal_librito_v4'),originalClauses);
  assert.equal(legalEditor.w.document.getElementById('jdLegalBody0').value,'Texto actualizado\nSegunda línea conservada');

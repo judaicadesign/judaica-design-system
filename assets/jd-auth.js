@@ -75,6 +75,7 @@
     return next;
   }
   let sharedMutation = false;
+  window.jdConfirmedState = key => clone(confirmed.get(key)??null);
   window.jdUpdateSharedState = async function(keys, transform) {
     if (!active || sharedMutation) throw new Error('Esperá a que termine el cambio anterior.');
     sharedMutation = true;

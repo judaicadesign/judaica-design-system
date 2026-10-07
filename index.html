@@ -17,7 +17,7 @@
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
-<script src="assets/jd-auth.js?v=20261007c" defer></script>
+<script src="assets/jd-auth.js?v=20261007-pricing-config" defer></script>
 <section class="jd-login" id="jdLogin">
 <img src="assets/jd-logo-black.svg" alt="Judaica Design®" style="width:180px">
 <div class="eyebrow">Sistema interno</div><h1>Bienvenido.</h1><p>Ingresá para continuar con tu trabajo.</p>
@@ -92,7 +92,7 @@
 
 <section class="screen" id="phonetics">
   <div class="topbar"><div><div class="eyebrow">Herramientas</div><h1>Generador de fonética</h1></div></div>
-  <div class="card"><h2>Módulo reservado</h2><p>La interfaz del generador se integrará aquí. Durante esta etapa pública no copiamos automáticamente el contenido completo del conversor privado para no exponerlo sin que lo decidas expresamente.</p><p class="muted small">Cuando el sistema migre a hosting privado, este módulo quedará dentro del mismo acceso.</p></div>
+  <div class="card"><h2>Generador de fonética · uso local</h2><p>El generador se desarrolla por separado. Su web en GitHub Pages está desactivada; por eso el enlace anterior devuelve 404.</p><p>Para usarlo en tu computadora, descargá el archivo HTML y abrilo en Chrome o Edge.</p><a class="btn" href="https://github.com/judaicadesign/fonetica-hebreo/blob/main/index.html" target="_blank" rel="noopener">Ver archivo del generador</a><p class="small muted">En GitHub, usá “Download raw file” para descargarlo. La contraseña del sistema protege los datos comerciales; no hace privado el código publicado en GitHub Pages.</p></div>
 </section>
 
 </main>
@@ -546,22 +546,33 @@ function currentLegalSets(){
 }
 function drawLegal(){
  if(!legalSec)return;
- legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Plantillas por producto</div><h1>Legales & aclaraciones</h1></div></div>'+currentLegalSets().map(s=>
+ legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Plantillas por producto</div><h1>Legales & aclaraciones</h1></div><button class="btn primary" id="jdLegalNew">+ Crear nuevo</button></div>'+currentLegalSets().map(s=>
  '<article class="card jd-legal-document"><div class="section-head"><h2>'+E(legalName(s))+'</h2><button class="btn" data-legal-edit="'+E(s.id)+'">Editar texto completo</button></div><p class="small muted">Plantilla compartida por los productos que la tengan vinculada.</p><div class="jd-legal-copy">'+(s.clauses||[]).map(c=>'<section><h3>'+E(c[0])+'</h3><p>'+E(c[1])+'</p></section>').join('')+'</div></article>').join('')+
  '<p class="small muted">Legales & aclaraciones Luaj: pendiente de incorporar su texto propio.</p>';
  legalSec.querySelectorAll('[data-legal-edit]').forEach(b=>b.onclick=()=>editLegalDocument(b.dataset.legalEdit));
+ document.getElementById('jdLegalNew').onclick=()=>editLegalDocument(null);
 }
 function editLegalDocument(id){
- const set=currentLegalSets().find(s=>s.id===id);if(!set)return;
- const baseline=JSON.stringify(set.clauses);
+ const creating=!id;
+ const set=creating?{id:'legal-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),name:'',clauses:[['','']]}:currentLegalSets().find(s=>s.id===id);if(!set)return;
+ id=set.id;
+ const baseline=creating?'null':JSON.stringify(set.clauses);
  const legacyBaseline=JSON.stringify(GET('jd_legal_librito_v4',null));
- legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Editar documento completo</div><h1>'+E(legalName(set))+'</h1></div><div class="jd-toolbar"><button class="btn" id="jdLegalCancel">Cancelar</button><button class="btn primary" id="jdLegalSave">Guardar cambios</button></div></div><p id="jdLegalMessage" role="status" class="small muted">Todos los títulos y párrafos del documento se editan juntos.</p><div class="card jd-legal-document jd-legal-editor">'+set.clauses.map((c,i)=>'<section><label class="sr-only" for="jdLegalTitle'+i+'">Título '+(i+1)+'</label><input class="jd-legal-heading" id="jdLegalTitle'+i+'" value="'+E(c[0])+'"><label class="sr-only" for="jdLegalBody'+i+'">Texto de '+E(c[0])+'</label><textarea class="jd-legal-paragraph" id="jdLegalBody'+i+'">'+E(c[1])+'</textarea></section>').join('')+'</div>';
+ legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">'+(creating?'Crear documento':'Editar documento completo')+'</div><h1>'+E(creating?'Nueva plantilla':legalName(set))+'</h1></div><div class="jd-toolbar"><button class="btn" id="jdLegalCancel">Cancelar</button><button class="btn primary" id="jdLegalSave">Guardar cambios</button></div></div><div class="field" style="max-width:1000px"><label for="jdLegalName">Nombre de la plantilla</label><input id="jdLegalName" value="'+E(legalName(set))+'" placeholder="Legales & aclaraciones Luaj" '+(id==='legal-birkonim'?'readonly':'')+'></div><p id="jdLegalMessage" role="status" class="small muted">Todos los títulos y párrafos del documento se editan juntos.</p><div class="card jd-legal-document jd-legal-editor" id="jdLegalEditor"></div><button class="btn" id="jdLegalAdd">+ Agregar título y texto</button>';
  const resize=t=>{t.style.height='auto';t.style.height=Math.max(70,t.scrollHeight+4)+'px'};
- legalSec.querySelectorAll('textarea').forEach(t=>{resize(t);t.oninput=()=>resize(t)});
+ function addClause(c){
+  const container=document.getElementById('jdLegalEditor'),i=container.children.length,section=document.createElement('section');
+  section.innerHTML='<label class="sr-only" for="jdLegalTitle'+i+'">Título '+(i+1)+'</label><input class="jd-legal-heading" id="jdLegalTitle'+i+'" value="'+E(c[0])+'" placeholder="Título"><label class="sr-only" for="jdLegalBody'+i+'">Texto '+(i+1)+'</label><textarea class="jd-legal-paragraph" id="jdLegalBody'+i+'" placeholder="Texto de la aclaración">'+E(c[1])+'</textarea>';
+  container.appendChild(section);const t=section.querySelector('textarea');resize(t);t.oninput=()=>resize(t);return section;
+ }
+ set.clauses.forEach(addClause);
+ document.getElementById('jdLegalAdd').onclick=()=>addClause(['','']).querySelector('input').focus();
  document.getElementById('jdLegalCancel').onclick=drawLegal;
  document.getElementById('jdLegalSave').onclick=async()=>{
   const button=document.getElementById('jdLegalSave'),message=document.getElementById('jdLegalMessage');
-  const clauses=set.clauses.map((_,i)=>[document.getElementById('jdLegalTitle'+i).value.trim(),document.getElementById('jdLegalBody'+i).value.trim()]);
+  const name=document.getElementById('jdLegalName').value.trim();
+  const clauses=[...document.getElementById('jdLegalEditor').children].map(section=>[section.querySelector('input').value.trim(),section.querySelector('textarea').value.trim()]);
+  if(!name){message.textContent='Ingresá el nombre de la plantilla.';return}
   if(clauses.some(c=>!c[0]||!c[1])){message.textContent='Completá todos los títulos y textos antes de guardar.';return}
   button.disabled=true;document.getElementById('jdLegalCancel').disabled=true;message.textContent='Guardando…';
   try{
@@ -571,7 +582,8 @@ function editLegalDocument(id){
     const existing=sets.find(s=>s.id===id);
     const current=existing?.clauses||(id==='legal-birkonim'?(state.jd_legal_librito_v4||defaultLegal):null);
     if(JSON.stringify(current)!==baseline||(id==='legal-birkonim'&&JSON.stringify(state.jd_legal_librito_v4??null)!==legacyBaseline))throw new Error('El texto cambió en otro dispositivo. Cancelá y volvé a abrirlo para revisar la última versión.');
-    const next={...(existing||set),name:legalName(set),clauses};
+    if(sets.some(s=>s.id!==id&&s.name.trim().toLowerCase()===name.toLowerCase()))throw new Error('Ya existe una plantilla con ese nombre.');
+    const next={...(existing||set),name,clauses};
     const updates={jd_legal_sets_v1:existing?sets.map(s=>s.id===id?next:s):[...sets,next]};
     if(id==='legal-birkonim')updates.jd_legal_librito_v4=clauses;
     return updates;
@@ -584,25 +596,65 @@ drawLegal();
 
 // RULES linked to products/variants
 const rulesSec=document.getElementById('rules');
+const supplierDefaults={'Zloto':{shipping:20000,production:'2 semanas'},'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}};
+const ruleProducts=()=>GET('jd_catalog_v6',products);
+window.jdSupplierShipping=p=>{
+ const all=GET('jd_supplier_settings_v1',supplierDefaults),name=String(p?.supplier||'').trim();
+ const key=Object.hasOwn(all,name)?name:/zloto/i.test(name)?'Zloto':/b612/i.test(name)?'Gráfica B612':name;
+ return Number(all[key]?.shipping??supplierDefaults[key]?.shipping??0);
+};
+function editSupplier(name){
+ const all=GET('jd_supplier_settings_v1',supplierDefaults),original=all[name]||supplierDefaults[name]||{};
+ const baseline=JSON.stringify(all[name]??null);
+ const w=popup('Editar proveedor · '+name,'<div class="jd-formgrid"><div><label>Envío general ($)</label><input id="supplierShipping" type="number" min="0" step="0.01" value="'+window.jdSupplierShipping({supplier:name})+'"></div><div><label>Plazo de producción</label><input id="supplierProduction" value="'+E(original.production||'')+'"></div><p class="span2 small muted">Este envío se suma una vez a cada cantidad cotizada de los productos de este proveedor.</p><p class="span2 small" id="supplierMessage" role="status"></p></div>',async x=>{
+  const raw=x.querySelector('#supplierShipping').value,shipping=Number(raw),message=x.querySelector('#supplierMessage');
+  if(raw===''||!Number.isFinite(shipping)||shipping<0){message.textContent='Ingresá un envío válido, mayor o igual a cero.';return}
+  const btn=x.querySelector('.ss');btn.disabled=true;
+  try{
+   await window.jdUpdateSharedState(['jd_supplier_settings_v1'],state=>{
+    const cfg=state.jd_supplier_settings_v1||supplierDefaults;
+    if(JSON.stringify(cfg[name]??null)!==baseline)throw new Error('El proveedor cambió en otro dispositivo. Volvé a abrirlo.');
+    return {jd_supplier_settings_v1:{...cfg,[name]:{...original,...cfg[name],shipping,production:x.querySelector('#supplierProduction').value.trim()}}};
+   });
+   x.remove();drawCostsV4();drawRulesV4();window.renderQuote?.();
+  }catch(error){message.textContent=error.message||'No se pudo guardar. Reintentá.';btn.disabled=false;}
+ });return w;
+}
 function drawRulesV4(){
  if(!rulesSec)return;
+ priceRules=GET('jd_pricing_rules_v4',priceRules);
  rulesSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Motor comercial</div><h1>Reglas de precio</h1></div><button class="btn primary" id="nr4">+ Nueva regla</button></div>'+
  '<div class="jd-note" style="margin-bottom:14px">Las reglas están <b>vinculadas</b> al producto y, cuando corresponde, a una variante. No son texto libre: el presupuesto las aplica automáticamente.</div>'+
  '<table class="table"><thead><tr><th>Producto</th><th>Variante</th><th>Ganancia objetivo</th><th>Fórmula interna</th><th>Envío</th><th></th></tr></thead><tbody>'+
- priceRules.map((r,i)=>{const pct=Number(r.marginPct||0),div=(1-pct/100);return '<tr><td><b>'+E(r.product)+'</b></td><td>'+E(r.variant==='*'?'Todas':r.variant)+'</td><td><b>'+pct.toLocaleString('es-AR')+'%</b> del precio</td><td class="small muted">Costo ÷ '+String(Number(div.toFixed(4))).replace('.',',')+'</td><td>'+M(r.shipping)+'</td><td><button class="btn sm" data-pr="'+i+'">Editar</button></td></tr>'}).join('')+'</tbody></table>';
+ priceRules.map((r,i)=>{const pct=r.marginPct!=null?Number(r.marginPct):Number(((1-Number(r.divisor))*100).toFixed(2)),div=(1-pct/100),p=ruleProducts().find(p=>p.name===r.product),supplier=p?.supplier||'';return '<tr><td><b>'+E(r.product)+'</b></td><td>'+E(r.variant==='*'?'Todas':r.variant)+'</td><td><b>'+pct.toLocaleString('es-AR')+'%</b> del precio</td><td class="small muted">Costo ÷ '+String(Number(div.toFixed(4))).replace('.',',')+'</td><td>'+(supplier?M(window.jdSupplierShipping(p))+'<div class="small muted">'+E(supplier)+'</div><button class="btn sm" data-rule-supplier="'+E(supplier)+'">Editar envío</button>':'Sin proveedor fijo')+'</td><td><button class="btn sm" data-pr="'+i+'">Editar</button></td></tr>'}).join('')+'</tbody></table>';
  document.getElementById('nr4').onclick=()=>editRule(-1);
  rulesSec.querySelectorAll('[data-pr]').forEach(b=>b.onclick=()=>editRule(+b.dataset.pr));
+ rulesSec.querySelectorAll('[data-rule-supplier]').forEach(b=>b.onclick=()=>editSupplier(b.dataset.ruleSupplier));
 }
+window.jdRefreshRules=drawRulesV4;
 function editRule(i){
  const r=i>=0?priceRules[i]:{product:'Birkón · Folleto',variant:'Tríptico',marginPct:50,shipping:10000,note:''};
- const prodOpts=products.map(p=>'<option '+(p.name===r.product?'selected':'')+'>'+E(p.name)+'</option>').join('');
- const w=popup(i>=0?'Editar regla':'Nueva regla','<div class="jd-formgrid"><div><label>Producto</label><select id="rp">'+prodOpts+'</select></div><div><label>Variante</label><select id="rv"></select></div><div><label>Ganancia objetivo (%)</label><input id="rm" type="number" min="0" max="95" step="0.5" value="'+Number(r.marginPct||0)+'"></div><div class="span2"><div class="jd-linked" id="ruleExplain">Vos indicás cuánto querés ganar sobre el precio de venta. El sistema hace internamente: <b>costo ÷ (1 − margen)</b> y luego suma el envío general configurado en el proveedor.</div></div></div>',x=>{
+ const confirmed=window.jdConfirmedState('jd_pricing_rules_v4')||[];
+ const original=confirmed.find(x=>x.id===r.id);const baseline=JSON.stringify(original??null);
+ const prodOpts=ruleProducts().map(p=>'<option '+(p.name===r.product?'selected':'')+'>'+E(p.name)+'</option>').join('');
+ const w=popup(i>=0?'Editar regla':'Nueva regla','<div class="jd-formgrid"><div><label>Producto</label><select id="rp">'+prodOpts+'</select></div><div><label>Variante</label><select id="rv"></select></div><div><label>Ganancia objetivo (%)</label><input id="rm" type="number" min="0" max="95" step="0.5" value="'+Number(r.marginPct||0)+'"></div><div class="span2"><div class="jd-linked" id="ruleExplain">Vos indicás cuánto querés ganar sobre el precio de venta. El sistema hace internamente: <b>costo ÷ (1 − margen)</b> y luego suma el envío general configurado en el proveedor.</div></div></div>',async x=>{
    const marginPct=Number(x.querySelector('#rm').value);
-   const obj={id:r.id||('r'+Date.now()),product:x.querySelector('#rp').value,variant:x.querySelector('#rv').value,marginPct};
-   if(!(marginPct>=0&&marginPct<100))return alert('La ganancia debe estar entre 0% y 99%.'); if(i>=0)priceRules[i]=obj;else priceRules.push(obj);SET('jd_pricing_rules_v4',priceRules);x.remove();drawRulesV4();try{window.renderQuote?.()}catch(e){};
+   const obj={...r,id:r.id||('r'+Date.now()),product:x.querySelector('#rp').value,variant:x.querySelector('#rv').value,marginPct};delete obj.divisor;
+   if(!Number.isFinite(marginPct)||!(marginPct>=0&&marginPct<100))return alert('La ganancia debe ser mayor o igual a 0% y menor a 100%.');
+   const btn=x.querySelector('.ss');btn.disabled=true;
+   try{
+    await window.jdUpdateSharedState(['jd_pricing_rules_v4'],state=>{
+     const rules=state.jd_pricing_rules_v4||[],current=rules.find(y=>y.id===r.id);
+     if(JSON.stringify(current??null)!==baseline)throw new Error('La regla cambió en otro dispositivo. Volvé a abrirla.');
+     if(rules.some(y=>y.id!==r.id&&y.product===obj.product&&y.variant===obj.variant))throw new Error('Ya existe una regla para ese producto y formato. Editá esa regla.');
+     return {jd_pricing_rules_v4:current?rules.map(y=>y.id===r.id?obj:y):[...rules,obj]};
+    });
+    x.remove();drawRulesV4();window.renderQuote?.();
+   }catch(error){alert(error.message||'No se pudo guardar. Reintentá.');btn.disabled=false;}
+
  });
  const rp=w.querySelector('#rp'),rv=w.querySelector('#rv');
- const fill=()=>{const p=products.find(x=>x.name===rp.value);const vals=['*',...(p?.models||[])];rv.innerHTML=vals.map(v=>'<option value="'+E(v)+'">'+(v==='*'?'Todas las variantes':E(v))+'</option>').join('');rv.value=vals.includes(r.variant)?r.variant:'*'};
+ const fill=()=>{const p=ruleProducts().find(x=>x.name===rp.value);const vals=['*',...(p?.models||[])];rv.innerHTML=vals.map(v=>'<option value="'+E(v)+'">'+(v==='*'?'Todas las variantes':E(v))+'</option>').join('');rv.value=vals.includes(r.variant)?r.variant:'*'};
  rp.onchange=fill;fill();
 }
 drawRulesV4();
@@ -918,7 +970,13 @@ function drawProducts(){
  ps.querySelectorAll('[data-pvars]').forEach(b=>b.onclick=()=>openVariants(+b.dataset.pvars));
 }
 function editProduct(i){
+ const legalSets=GET('jd_legal_sets_v1',[]);
  const p=i>=0?catalog[i]:{id:'p-'+uid(),name:'',status:'Desarrollo',supplier:'',models:[],nusaj:false,texts:[],sizes:[],bindings:[],variants:[],technical:{}};
+ const productRules=GET('jd_pricing_rules_v4',[]).filter(r=>r.product===p.name);
+ const baseRule=productRules.find(r=>r.variant==='*');
+ const baseMargin=baseRule?(baseRule.marginPct??Number(((1-Number(baseRule.divisor))*100).toFixed(2))):'';
+ const confirmedCatalog=window.jdConfirmedState('jd_catalog_v6')||[],confirmedRules=window.jdConfirmedState('jd_pricing_rules_v4')||[];
+ const baselineProduct=i>=0?JSON.stringify(confirmedCatalog.find(x=>x.id===p.id)):null,baselineRules=JSON.stringify(confirmedRules.filter(r=>r.product===p.name));
  const t=p.technical||{};
  const checks=textOptions.map(x=>'<label class="jd-checkline"><input type="checkbox" class="ptxt" value="'+E(x)+'" '+((p.texts||[]).includes(x)?'checked':'')+'> <span>'+E(x)+'</span></label>').join('');
  const body=
@@ -928,6 +986,7 @@ function editProduct(i){
  '<div><label>Estado</label><select id="pst6"><option>Activo</option><option>Desarrollo</option><option>No publicado</option></select></div>'+
  '<div><label>Proveedor</label><select id="psup6"><option value="">Sin proveedor fijo</option><option>Zloto</option><option>Gráfica B612</option></select></div>'+
  '<div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div>'+
+ '<div class="span2"><label>Ganancia objetivo del producto (%)</label><input id="pmargin6" type="number" min="0" max="99.99" step="0.01" value="'+E(baseMargin)+'" placeholder="Ej. 36"><div class="small muted">Regla general: costo ÷ (1 − margen) + envío del proveedor. Las reglas específicas de cada formato tienen prioridad. Si lo dejás vacío, se conservan las reglas actuales.</div>'+(productRules.some(r=>r.variant!=='*')?'<p class="small muted">Reglas por formato: '+productRules.filter(r=>r.variant!=='*').map(r=>E(r.variant)+' · '+E(r.marginPct??Number(((1-Number(r.divisor))*100).toFixed(2)))+'%').join(' / ')+'</p>':'')+'</div>'+
  '<div class="span2"><label>Modelos / formatos <span class="small muted">(solo si este producto tiene más de uno)</span></label><input id="pmod6" value="'+E((p.models||[]).join(', '))+'" placeholder="Ej. Tríptico, Cuadríptico"></div>'+
  '<div class="span2"><label>Opciones de tamaño <span class="small muted">(solo si el cliente puede elegir entre varios)</span></label><input id="psz6" value="'+E((p.sizes||[]).join(', '))+'" placeholder="Ej. Normal · 11,6 × 15,5 cm, Grande · 14 × 18,5 cm"></div>'+
  '<div class="span2"><label>Encuadernaciones <span class="small muted">(solo si corresponde)</span></label><input id="pbd6" value="'+E((p.bindings||[]).join(', '))+'" placeholder="Ej. Abrochado, Binder"></div>'+
@@ -980,20 +1039,26 @@ function editProduct(i){
      variants:Array.isArray(p.variants)?p.variants:[]
    };
    if(!obj.name){alert('Falta nombre');return;}
+   const marginRaw=w.querySelector('#pmargin6').value,marginPct=Number(marginRaw);
+   if(marginRaw!==''&&(!Number.isFinite(marginPct)||marginPct<0||marginPct>=100)){alert('La ganancia debe ser mayor o igual a 0% y menor a 100%.');return;}
    btn.disabled=true;btn.textContent='Guardando…';
    const next=[...catalog];
    if(i>=0)next[i]=obj;else next.push(obj);
    try{
-     const URL='https://athiruoimehofqzrplnl.supabase.co';
-     const KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
-     const resp=await fetch(URL+'/rest/v1/app_state',{
-       method:'POST',
-       headers:{apikey:KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
-       body:JSON.stringify({key:'jd_catalog_v6',value:next,updated_at:new Date().toISOString()})
+     await window.jdUpdateSharedState(['jd_catalog_v6','jd_pricing_rules_v4'],state=>{
+       const arr=state.jd_catalog_v6;if(!Array.isArray(arr))throw new Error('No se pudo verificar el catálogo.');
+       const existing=arr.find(x=>x.id===p.id),rules=state.jd_pricing_rules_v4||[];
+       if((existing?JSON.stringify(existing):null)!==baselineProduct||JSON.stringify(rules.filter(r=>r.product===p.name))!==baselineRules)throw new Error('El producto o sus reglas cambiaron en otro dispositivo. Volvé a abrirlo.');
+       if(arr.some(x=>x.id!==p.id&&x.name.trim().toLowerCase()===obj.name.toLowerCase()))throw new Error('Ya existe un producto con ese nombre.');
+       let updatedRules=rules.map(r=>r.product===p.name?{...r,product:obj.name}:r);
+       if(marginRaw!==''){
+         const general=updatedRules.find(r=>r.product===obj.name&&r.variant==='*');
+         const rule={...(general||{}),id:general?.id||'r-'+uid(),product:obj.name,variant:'*',marginPct};delete rule.divisor;
+         updatedRules=general?updatedRules.map(r=>r===general?rule:r):[...updatedRules,rule];
+       }
+       return {jd_catalog_v6:existing?arr.map(x=>x.id===p.id?obj:x):[...arr,obj],jd_pricing_rules_v4:updatedRules};
      });
-     if(!resp.ok){let tx='';try{tx=await resp.text()}catch(e){}throw new Error('Supabase '+resp.status+(tx?' · '+tx:''));}
-     catalog=next;
-     SET('jd_catalog_v6',catalog);
+     catalog=GET('jd_catalog_v6',[]);window.jdRefreshRules?.();
      btn.textContent='Guardado ✓';
      setTimeout(()=>{w.remove();drawProducts();try{buildQuote()}catch(e){}},250);
    }catch(err){
@@ -1252,7 +1317,7 @@ function currentCostRecords(p,v){
 function findRule(p){
  const rules=GET('jd_pricing_rules_v4',[]);
  const model=p.models.length?qModel.value:'';
- const direct=rules.find(r=>r.product===p.name&&(r.variant===model||r.variant==='*'));
+ const direct=rules.find(r=>r.product===p.name&&r.variant===model)||rules.find(r=>r.product===p.name&&r.variant==='*');
  if(direct)return direct;
  if(String(p?.supplier||'').toLowerCase().includes('b612') && /^(Díptico|Tríptico|Cuadríptico)$/i.test(model)){
    return rules.find(r=>r.product==='Birkón · Folleto'&&r.variant===model)||null;
@@ -1263,24 +1328,11 @@ const JD_B612_QUOTE_URL='https://athiruoimehofqzrplnl.supabase.co/functions/v1/b
 const jdB612Cache=new Map();
 
 function jdSupplierShipping(p){
- const all=GET('jd_supplier_settings_v1',{
-   'Zloto':{shipping:20000,production:'2 semanas'},
-   'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
- });
- const supplier=String(p?.supplier||'').trim();
- if(all[supplier])return Number(all[supplier].shipping||0);
- const s=supplier.toLowerCase();
- if(s.includes('zloto'))return Number(all['Zloto']?.shipping||20000);
- if(s.includes('b612'))return Number(all['Gráfica B612']?.shipping||10000);
- return 0;
+ return window.jdSupplierShipping(p);
 }
 function jdRuleMath(r){
- let divisor=Number(r?.divisor||0);
- if(!(divisor>0&&divisor<=1)){
-   const margin=Number(r?.marginPct||0)/100;
-   if(!(margin>=0&&margin<1))return null;
-   divisor=1-margin;
- }
+ const divisor=r?.marginPct!=null?1-Number(r.marginPct)/100:Number(r?.divisor||0);
+ if(!(divisor>0&&divisor<=1))return null;
  return {divisor,marginPct:r?.marginPct!=null?Number(r.marginPct):Math.round((1-divisor)*10000)/100};
 }
 function jdIsB612Live(p,v=selectedVariant(p)){
