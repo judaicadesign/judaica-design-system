@@ -6,11 +6,23 @@ async function run(mode){
  const d=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'https://judaicadesign.github.io/judaica-design-system/',runScripts:'dangerously',virtualConsole:vc});const w=d.window;
  w.fetch=async()=>({ok:true,json:async()=>({}),text:async()=>''});w.Headers=Headers;w.Request=Request;w.scrollTo=()=>{};
  const client={auth:{getSession:async()=>({data:{session:mode==='none'?null:{access_token:'test-only'}}}),getUser:async()=>({data:{user:{email:'judaica.dzn@gmail.com'}}}),onAuthStateChange:()=>({}),signOut:async()=>({})},storage:{from:()=>({createSignedUrl:async p=>({data:{signedUrl:'https://athiruoimehofqzrplnl.supabase.co/storage/v1/object/sign/jd-assets/'+p+'?token=test'}})})},from:t=>({select:()=>t==='jd_team_access'?{eq:async()=>({data:mode==='denied'?[]:[{email:'judaica.dzn@gmail.com'}]})}:Object.assign(Promise.resolve({data:structuredClone(remote)}),{in:async(field,keys)=>({data:structuredClone(remote.filter(row=>keys.includes(row.key)))})}),upsert:async x=>{if(failWrite)return{error:{message:'Sin conexión'}};writes.push(x);for(const row of (Array.isArray(x)?x:[x])){const i=remote.findIndex(r=>r.key===row.key);if(i<0)remote.push(structuredClone(row));else remote[i]=structuredClone(row)}return{}},delete:()=>({eq:async()=>({})})})};
- w.supabase={createClient:()=>client};w.eval(fs.readFileSync(root+'/assets/jd-auth.js','utf8'));
+ w.supabase={createClient:()=>client};w.eval(fs.readFileSync(root+'/assets/jd-ui.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-auth.js','utf8'));
  await new Promise(r=>setTimeout(r,800));
  assert.equal(w.document.body.classList.contains('jd-authenticated'),mode==='allowed');
  assert.equal(writes.length,0,'bootstrap must not write remote commercial data');
+ const menu=w.document.querySelector('.jd-nav-toggle');
+ menu.click();assert.equal(menu.getAttribute('aria-expanded'),'true');
+ w.document.getElementById('nav').querySelector('button').click();
+ assert.equal(menu.getAttribute('aria-expanded'),'false');
+ const reveal=w.document.querySelector('.jd-password-toggle');reveal.click();
+ assert.equal(w.document.getElementById('jdPassword').type,'text');reveal.click();
+ assert.equal(w.document.getElementById('jdPassword').type,'password');
  if(mode==='allowed'){assert.equal(typeof w.go,'function');w.go('products');assert.ok(w.document.querySelector('#products').classList.contains('active'));assert.ok(w.document.querySelector('#products').textContent.includes('Birkón'));assert.equal(w.document.querySelectorAll('script[data-jd-app]').length,0);
+  assert.equal(w.document.querySelector('.jd-dashboard-card').getAttribute('role'),'button');
+  assert.equal(w.document.querySelector('.jd-savedquotes-table tbody td').dataset.label,'Cliente');
+  for(const button of w.document.querySelectorAll('#nav [data-screen]')){
+   button.click();assert.ok(w.document.getElementById(button.dataset.screen).classList.contains('active'));
+  }
   const saved=()=>JSON.parse(w.localStorage.getItem('jd_saved_quotes_v6'));
   const deleted=()=>JSON.parse(w.localStorage.getItem('jd_deleted_quotes_v6')||'[]');
   const preserved=JSON.stringify(remote.filter(row=>!row.key.includes('quotes')));

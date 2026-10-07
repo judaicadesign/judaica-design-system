@@ -1,1 +1,9 @@
-{"private":true,"scripts":{"test":"node tests/auth-bootstrap.cjs"},"devDependencies":{"jsdom":"26.1.0"}}
+{
+  "private": true,
+  "scripts": {
+    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}
