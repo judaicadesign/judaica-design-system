@@ -12,6 +12,7 @@
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
 <script src="assets/jd-orders.js?v=20261007" defer></script>
+<script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
@@ -106,7 +107,7 @@ function go(id){
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
 function openModal(id){document.getElementById(id)?.classList.add('open')}
 function closeModal(id){document.getElementById(id)?.classList.remove('open')}
-function resetQuote(){window.jdQuoteParent=null;document.getElementById('jdQuoteVersionNote')?.remove();go('quotes')}
+function resetQuote(){window.jdQuoteParent=null;window.jdQuoteEdit=null;document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
 </script>
 
 
@@ -213,10 +214,42 @@ function drawSavedQuotesV6(clientFilter){
  sq.querySelectorAll('[data-delete-qid]').forEach(b=>b.onclick=()=>moveSavedQuoteV6(b.dataset.deleteQid,false,b));
  const clear=document.getElementById('jdClearQuoteFilter');if(clear)clear.onclick=()=>{window.jdSavedQuotesClientFilter='';drawSavedQuotesV6()};
  sq.querySelectorAll('[data-open-qid]').forEach(b=>b.onclick=()=>loadSavedQuoteV6(b.dataset.openQid));
+ sq.querySelectorAll('[data-open-qid]').forEach(b=>{
+   const edit=document.createElement('button');edit.className='btn sm primary';edit.dataset.editQid=b.dataset.openQid;edit.textContent='Editar';
+   edit.onclick=()=>{
+     const q=getSavedQuotesV6().find(x=>x.id===edit.dataset.editQid);if(!q)return;
+     loadSavedQuoteV6(q.id);window.jdQuoteParent=null;window.jdQuoteEdit={id:q.id,baseline:window.jdQuoteEditTools.fingerprint(q)};
+     document.getElementById('sq6').textContent='Guardar cambios';
+     document.getElementById('jdQuoteVersionNote').textContent='Editando el mismo presupuesto · versión '+Number(q.revision||1)+'. Podés cambiar las cantidades. Los precios se recalculan con los costos actuales; el historial y los PDF anteriores se conservan. Los pedidos aceptados mantienen su precio acordado.';
+   };
+   b.before(edit);b.textContent='Nueva versión';
+   if(qHasHistory(b.dataset.openQid)){
+     const history=document.createElement('button');history.className='btn sm';history.textContent='Historial';history.dataset.quoteHistory=b.dataset.openQid;history.onclick=()=>showQuoteHistory(b.dataset.openQid);b.parentElement.appendChild(history);
+   }
+ });
+}
+function qHasHistory(id){return !!getSavedQuotesV6().find(q=>q.id===id)?.revisions?.length}
+function showQuoteHistory(id){
+ const q=getSavedQuotesV6().find(q=>q.id===id);if(!q)return;
+ const modal=document.createElement('div');modal.className='jd-crm-modal';
+ const versions=[...(q.revisions||[]).map(r=>r.snapshot),q].reverse();
+ modal.innerHTML='<div class="jd-crm-card"><div class="jd-crm-head"><div><div class="eyebrow">HISTORIAL DEL PRESUPUESTO</div><h2>'+esc3(q.client)+'</h2></div><button class="btn" data-close>Cerrar</button></div><div class="jd-crm-panel">'+versions.map((v,i)=>'<div class="card"><b>Versión '+Number(v.revision||1)+(i===0?' · actual':'')+'</b><p>'+esc3(v.product)+' · '+esc3(v.client)+'</p>'+quoteQtyText(v)+'<p class="small muted">'+esc3(v.status||'Guardado')+' · '+esc3(v.updatedAt||v.created||'')+'</p>'+(typeof v.pdfUrl==='string'&&/^https:\/\//.test(v.pdfUrl)?'<a class="btn sm" href="'+esc3(v.pdfUrl)+'" target="_blank" rel="noopener">PDF de esta versión</a>':'')+'</div>').join('')+'</div></div>';
+ document.body.appendChild(modal);modal.querySelector('[data-close]').onclick=()=>modal.remove();
+ modal.querySelectorAll('a[href]').forEach(link=>{
+   const match=link.href.match(/^https:\/\/athiruoimehofqzrplnl\.supabase\.co\/storage\/v1\/object\/(?:sign|public)\/jd-quotes\/([^?]+)/);
+   if(!match)return;
+   link.onclick=async event=>{
+     event.preventDefault();const tab=window.open('about:blank','_blank');
+     try{const {data,error}=await window.jdSupabase.storage.from('jd-quotes').createSignedUrl(decodeURIComponent(match[1]),604800);if(error)throw error;if(tab)tab.location=data.signedUrl;else alert('El navegador bloqueó el PDF. Permití abrir la ventana y reintentá.');}
+     catch(error){if(tab)tab.close();alert(error.message||'No se pudo abrir el PDF de esta versión.')}
+   };
+ });
 }
 function loadSavedQuoteV6(id){
  const q=getSavedQuotesV6().find(x=>String(x.id)===String(id)); if(!q)return;
  window.jdQuoteParent=q.id;
+ window.jdQuoteEdit=null;
+ const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';
  window.qs6=(q.quantities||[]).map(x=>Number(x.qty)).filter(Boolean);
  if(window.qs6.length) localStorage.setItem('jd_quote_qtys_v6',JSON.stringify(window.qs6));
  go('quotes');
@@ -1463,15 +1496,17 @@ function collectQuote6(){
  return quote;
 }
 window.jdCollectQuote=collectQuote6;
-async function save6(){
+async function save6(silent=false){
  if(document.getElementById('sq6')?.disabled)return null;
  let quote;try{quote=collectQuote6()}catch(error){alert(error.message);return null}
+ const editing=window.jdQuoteEdit;
  const btn=document.getElementById('sq6'); if(btn){btn.disabled=true;btn.textContent='Guardando…'}
  try{
    await window.jdUpdateSharedState(['jd_saved_quotes_v6','jd_clients'],state=>{
    if(!Array.isArray(state.jd_saved_quotes_v6)||!Array.isArray(state.jd_clients))throw new Error('No se pudieron verificar presupuestos y clientes.');
    const saved=state.jd_saved_quotes_v6,clients=state.jd_clients.map(c=>({...c}));
-   quote.revision=Math.max(0,...saved.filter(q=>(q.quoteFamily||q.id)===quote.quoteFamily).map(q=>Number(q.revision||1)))+1;
+   if(editing){quote=window.jdQuoteEditTools.replace(saved.find(q=>q.id===editing.id),quote,editing.baseline)}
+   else quote.revision=Math.max(0,...saved.filter(q=>(q.quoteFamily||q.id)===quote.quoteFamily).map(q=>Number(q.revision||1)))+1;
    const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
    const parts=quote.client.trim().split(/\s+/);
    const firstName=parts.shift()||quote.client.trim(),lastName=parts.join(' ');
@@ -1480,21 +1515,27 @@ async function save6(){
    clientObj.name=quote.client;
    if(!(clientObj.org===quote.client&&!clientObj.firstName&&!clientObj.lastName)){clientObj.firstName=clientObj.firstName||firstName;clientObj.lastName=clientObj.lastName||lastName;}
    clientObj.ask=[quote.product,quote.model,quote.nusaj].filter(Boolean).join(' · ');
-   clientObj.status='Presupuesto listo';clientObj.next='enviar presupuesto';
+   if(!editing||!/diseño|aprobado|imprenta|entregado|pago realizado/i.test(clientObj.status||'')){clientObj.status='Presupuesto listo';clientObj.next='enviar presupuesto'}
    clientObj.quoteIds=Array.from(new Set([...(clientObj.quoteIds||[]),quote.id]));
    if(ci>=0)clients[ci]=clientObj;else clients.push(clientObj);
-   return {jd_saved_quotes_v6:[quote,...saved],jd_clients:clients};
+   if(editing){
+     const index=saved.findIndex(q=>q.id===editing.id),previous=saved[index];saved[index]=quote;
+     if(norm(previous.client)!==norm(quote.client))clients.filter(c=>norm(c.name)===norm(previous.client)).forEach(c=>{if(Array.isArray(c.quoteIds))c.quoteIds=c.quoteIds.filter(id=>id!==quote.id)});
+   }
+   return {jd_saved_quotes_v6:editing?saved:[quote,...saved],jd_clients:clients};
 
    });
+   if(editing)window.jdQuoteEdit={id:quote.id,baseline:window.jdQuoteEditTools.fingerprint(quote)};
    window.jdRenderSavedQuotes?.();
    if(btn){btn.disabled=false;btn.textContent='Guardado ✓'}
-   alert('Presupuesto guardado y cliente creado/actualizado en seguimiento.');
+   if(silent!==true)alert(editing?'Cambios guardados en el mismo presupuesto. La versión anterior quedó en el historial.':'Presupuesto guardado y cliente creado/actualizado en seguimiento.');
    return quote;
  }catch(err){
-   console.error(err);if(btn){btn.disabled=false;btn.textContent='Guardar presupuesto'}
+   console.error(err);if(btn){btn.disabled=false;btn.textContent=editing?'Guardar cambios':'Guardar presupuesto'}
    alert('No se pudo guardar el presupuesto: '+(err.message||err));return null;
  }
 }
+window.jdSaveQuote=()=>save6(true);
 buildQuote();
 window.renderQuote=render6;
 })();
@@ -1592,7 +1633,7 @@ window.renderQuote=render6;
    return 'Judaica Design - '+q.client+' - '+q.product.replace(/·/g,'-')+' - '+d+'.pdf';
  }
  async function uploadPdf(blob,q){
-   const path=(q.id||('q-'+Date.now()))+'-'+slug(q.client)+'-'+slug(q.product)+'.pdf';
+   const path=(q.id||('q-'+Date.now()))+'-v'+Number(q.revision||1)+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'-'+slug(q.client)+'-'+slug(q.product)+'.pdf';
    const r=await fetch(SB_URL+'/storage/v1/object/jd-quotes/'+encodeURIComponent(path),{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/pdf','x-upsert':'true'},body:blob});
    if(!r.ok)throw new Error('No se pudo guardar el PDF en la nube.');
    const signed=await window.jdSupabase.storage.from('jd-quotes').createSignedUrl(path,604800);
@@ -1637,18 +1678,25 @@ window.renderQuote=render6;
    // Open synchronously to avoid popup blockers while the PDF is generated.
    const wa=window.open('about:blank','_blank');
    try{
+     const editing=window.jdQuoteEdit;
+     if(editing){q=await window.jdSaveQuote();if(!q){if(wa)wa.close();return}}
      const blob=await pdfBlob();
      const url=await uploadPdf(blob,q);
      // Save quote if it is not already present with same client/product in the last minute.
      const fingerprint=x=>JSON.stringify([x.product,x.model,x.nusaj,x.texts,x.size,x.binding,x.pages,x.quantities.map(y=>[y.qty,y.price]),x.discount||0]);
+     let committed;
      await window.jdUpdateSharedState(['jd_saved_quotes_v6'],state=>{
        if(!Array.isArray(state.jd_saved_quotes_v6))throw new Error('No se pudieron verificar los presupuestos.');
        const arr=state.jd_saved_quotes_v6;
-       const found=arr.find(x=>norm(x.client)===norm(q.client)&&fingerprint(x)===fingerprint(q)&&Date.now()-new Date(x.created).getTime()<60000);
-       const frozen={...q,status:'Preparado para compartir',pdfUrl:url,pdfGeneratedAt:new Date().toISOString(),pdfSnapshot:JSON.parse(JSON.stringify(q))};
+       const found=editing?arr.find(x=>x.id===q.id):arr.find(x=>norm(x.client)===norm(q.client)&&fingerprint(x)===fingerprint(q)&&Date.now()-new Date(x.created).getTime()<60000);
+       if(editing&&(!found||window.jdQuoteEditTools.fingerprint(found)!==window.jdQuoteEdit.baseline))throw new Error('El presupuesto cambió en otro dispositivo. Volvé a abrirlo.');
+       const snapshot={...q};delete snapshot.revisions;delete snapshot.pdfSnapshot;
+       const frozen={...q,status:'Preparado para compartir',pdfUrl:url,pdfGeneratedAt:new Date().toISOString(),pdfSnapshot:JSON.parse(JSON.stringify(snapshot))};
        if(!found)arr.unshift(frozen);else Object.assign(found,{status:frozen.status,pdfUrl:url,pdfGeneratedAt:frozen.pdfGeneratedAt,pdfSnapshot:frozen.pdfSnapshot});
+       committed=found||frozen;
        return {jd_saved_quotes_v6:arr};
      });
+     if(editing)window.jdQuoteEdit={id:q.id,baseline:window.jdQuoteEditTools.fingerprint(committed)};
      // Opening WhatsApp only prepares a draft; it is not evidence of delivery.
      window.jdUpsertClientFromQuote(q,false);
      const first=q.client.split(/\s+/)[0]||q.client;

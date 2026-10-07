@@ -40,3 +40,11 @@ Deployment remains GitHub Pages with relative static assets and .nojekyll; no ba
 - Automated tests: boot with no/denied/allowed auth, race between read and commit, commercial edge cases, CRM conflict/retry, A4 geometry, order deposit/overpayment/retry/delivery, supplier offline, inflation original preservation. Simulations do not write production data.
 - Database function tests use rollback-only transactions. Security advisor reports leaked-password protection disabled; dashboard configuration remains pending. Existing signup redirect review and GitGuardian administrative incident closure remain unverified.
 - Official IPC automatic retrieval remains pending; manual percentage and manually verified IPC indices remain explicitly estimates, never automatic supplier confirmation.
+# 2026-10-07 — Edit existing quotes
+
+- Explicit Edit action keeps the quote ID, original creation date and its place in the list. Quantity, pricing and configuration changes replace that record atomically with the client linkage.
+- Each prior revision is preserved as an immutable snapshot, including its sent status and PDF. Current PDF/sent metadata is invalidated after editing; History opens prior PDFs using renewed private signed links.
+- Each uploaded PDF now has a unique revision-specific object path. Editing/resending cannot overwrite the original Storage object.
+- Same-record conflict detection ignores renewed Storage URL tokens but includes commercial fields and revision history. A missing/deleted or remotely changed quote is never silently recreated or overwritten.
+- Send while editing saves the changes and attaches the generated PDF to the same ID. Already accepted orders remain frozen and unchanged.
+- Tests simulate 50/100 → 75 units, failed-write retry, old-PDF/history preservation, remote edit conflict, resending twice to distinct Storage paths and accepted-order price preservation. No production commercial records were edited during verification.
