@@ -88,6 +88,10 @@
   .jd-legal-editor .jd-legal-paragraph { font:14px/1.75 Inter,system-ui; color:var(--ink); resize:vertical; min-height:70px; }
   .jd-legal-editor input:hover,.jd-legal-editor textarea:hover { border-color:var(--line); }
   .jd-legal-editor input:focus,.jd-legal-editor textarea:focus { border-color:var(--accent); outline:2px solid #245c5d18; background:var(--panel); }
+  .jd-legal-remove { float:right; margin:0 0 6px 12px; color:#994941; }
+  .jd-legal-editor section { display:flow-root; }
+  #jdLegalAdd + button { margin-left:8px; }
+  #jdLegalAdd + button[hidden] { display:none; }
   @media(max-width:1100px) {
     .grid.cards { grid-template-columns:repeat(2,minmax(0,1fr)); }
     .quote-layout { grid-template-columns:1fr; }

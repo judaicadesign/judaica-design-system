@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/jd-base.css?v=20261007-pricing">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-nav">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-legal-items">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
 <script src="assets/jd-orders.js?v=20261007" defer></script>
@@ -558,11 +558,17 @@ function editLegalDocument(id){
  id=set.id;
  const baseline=creating?'null':JSON.stringify(set.clauses);
  const legacyBaseline=JSON.stringify(GET('jd_legal_librito_v4',null));
- legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">'+(creating?'Crear documento':'Editar documento completo')+'</div><h1>'+E(creating?'Nueva plantilla':legalName(set))+'</h1></div><div class="jd-toolbar"><button class="btn" id="jdLegalCancel">Cancelar</button><button class="btn primary" id="jdLegalSave">Guardar cambios</button></div></div><div class="field" style="max-width:1000px"><label for="jdLegalName">Nombre de la plantilla</label><input id="jdLegalName" value="'+E(legalName(set))+'" placeholder="Legales & aclaraciones Luaj" '+(id==='legal-birkonim'?'readonly':'')+'></div><p id="jdLegalMessage" role="status" class="small muted">Todos los títulos y párrafos del documento se editan juntos.</p><div class="card jd-legal-document jd-legal-editor" id="jdLegalEditor"></div><button class="btn" id="jdLegalAdd">+ Agregar título y texto</button>';
+ legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">'+(creating?'Crear documento':'Editar documento completo')+'</div><h1>'+E(creating?'Nueva plantilla':legalName(set))+'</h1></div><div class="jd-toolbar"><button class="btn" id="jdLegalCancel">Cancelar</button><button class="btn primary" id="jdLegalSave">Guardar cambios</button></div></div><div class="field" style="max-width:1000px"><label for="jdLegalName">Nombre de la plantilla</label><input id="jdLegalName" value="'+E(legalName(set))+'" placeholder="Legales & aclaraciones Luaj" '+(id==='legal-birkonim'?'readonly':'')+'></div><p id="jdLegalMessage" role="status" class="small muted">Todos los títulos y párrafos del documento se editan juntos.</p><div class="card jd-legal-document jd-legal-editor" id="jdLegalEditor"></div><button class="btn" id="jdLegalAdd">+ Agregar ítem/cláusula</button>';
+ const addButton=document.getElementById('jdLegalAdd');addButton.textContent='+ Agregar ítem/cláusula';
+ const undo=document.createElement('button');undo.type='button';undo.className='btn';undo.textContent='Deshacer eliminación';undo.hidden=true;addButton.after(undo);
+ const removed=[];let clauseIndex=0;
+ undo.onclick=()=>{const item=removed.pop();if(!item)return;const container=document.getElementById('jdLegalEditor');container.insertBefore(item.section,item.next?.parentElement===container?item.next:null);undo.hidden=!removed.length;item.section.querySelector('input').focus();};
  const resize=t=>{t.style.height='auto';t.style.height=Math.max(70,t.scrollHeight+4)+'px'};
  function addClause(c){
-  const container=document.getElementById('jdLegalEditor'),i=container.children.length,section=document.createElement('section');
+  const container=document.getElementById('jdLegalEditor'),i=clauseIndex++,section=document.createElement('section');
   section.innerHTML='<label class="sr-only" for="jdLegalTitle'+i+'">Título '+(i+1)+'</label><input class="jd-legal-heading" id="jdLegalTitle'+i+'" value="'+E(c[0])+'" placeholder="Título"><label class="sr-only" for="jdLegalBody'+i+'">Texto '+(i+1)+'</label><textarea class="jd-legal-paragraph" id="jdLegalBody'+i+'" placeholder="Texto de la aclaración">'+E(c[1])+'</textarea>';
+  const remove=document.createElement('button');remove.type='button';remove.className='btn sm jd-legal-remove';remove.textContent='Quitar cláusula';remove.setAttribute('data-legal-remove','');remove.setAttribute('aria-label','Quitar cláusula '+(i+1));
+  remove.onclick=()=>{removed.push({section,next:section.nextSibling});section.remove();undo.hidden=false;document.getElementById('jdLegalMessage').textContent='Cláusula quitada de la edición. El cambio se aplica al guardar; podés deshacerlo.';};section.prepend(remove);
   container.appendChild(section);const t=section.querySelector('textarea');resize(t);t.oninput=()=>resize(t);return section;
  }
  set.clauses.forEach(addClause);
@@ -571,9 +577,13 @@ function editLegalDocument(id){
  document.getElementById('jdLegalSave').onclick=async()=>{
   const button=document.getElementById('jdLegalSave'),message=document.getElementById('jdLegalMessage');
   const name=document.getElementById('jdLegalName').value.trim();
-  const clauses=[...document.getElementById('jdLegalEditor').children].map(section=>[section.querySelector('input').value.trim(),section.querySelector('textarea').value.trim()]);
+  const sections=[...document.getElementById('jdLegalEditor').children];
+  const values=sections.map(section=>[section.querySelector('input').value.trim(),section.querySelector('textarea').value.trim()]);
+  const clauses=values.filter(c=>c[0]||c[1]);
   if(!name){message.textContent='Ingresá el nombre de la plantilla.';return}
-  if(clauses.some(c=>!c[0]||!c[1])){message.textContent='Completá todos los títulos y textos antes de guardar.';return}
+  const incomplete=values.findIndex(c=>(c[0]||c[1])&&(!c[0]||!c[1]));
+  if(incomplete>=0){message.textContent='Hay una cláusula incompleta: completá su título y texto, o quitala.';const field=sections[incomplete].querySelector(values[incomplete][0]?'textarea':'input');field.focus();field.scrollIntoView?.({block:'center',behavior:'smooth'});return}
+  if(!clauses.length){message.textContent='Agregá al menos una cláusula con título y texto.';return}
   button.disabled=true;document.getElementById('jdLegalCancel').disabled=true;message.textContent='Guardando…';
   try{
    const keys=['jd_legal_sets_v1'];if(id==='legal-birkonim')keys.push('jd_legal_librito_v4');
