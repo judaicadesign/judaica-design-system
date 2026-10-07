@@ -46,6 +46,7 @@
     <button data-screen="legal">Legales & aclaraciones</button>
     <div class="sep">Herramientas</div>
     <button data-screen="phonetics">Generador de fonética</button>
+    <button data-screen="leaflets">Calculadora de folletos</button>
   </nav>
 </aside>
 <main class="main" id="jdMain">
@@ -93,17 +94,25 @@
 
 <section class="screen" id="phonetics">
   <div class="topbar"><div><div class="eyebrow">Herramientas</div><h1>Generador de fonética</h1></div></div>
-  <div class="jd-toolbar" style="margin-bottom:16px"><a class="btn" href="tools/fonetica/index.html" target="_blank" rel="noopener">Abrir en pestaña nueva</a><span class="small muted">Generador integrado · tus textos se conservan al cambiar de sección.</span></div>
-  <iframe id="jdPhoneticsFrame" class="jd-phonetics-frame" title="Generador de fonética hebrea" data-src="tools/fonetica/index.html?v=20261007-resize" sandbox="allow-scripts allow-downloads" allow="clipboard-write"></iframe>
+  <div class="jd-toolbar" style="margin-bottom:16px"><a class="btn" href="https://judaicadesign.github.io/fonetica-hebreo/" target="_blank" rel="noopener">Abrir en pestaña nueva</a><span class="small muted">Generador original · tus textos se conservan al cambiar de sección.</span></div>
+  <iframe id="jdPhoneticsFrame" class="jd-phonetics-frame" title="Generador de fonética hebrea" data-src="https://judaicadesign.github.io/fonetica-hebreo/" sandbox="allow-scripts allow-downloads" allow="clipboard-write"></iframe>
 </section>
+<section class="screen" id="leaflets">
+  <div class="topbar"><div><div class="eyebrow">Herramientas</div><h1>Calculadora de folletos</h1></div></div>
+  <div class="jd-toolbar" style="margin-bottom:16px"><a class="btn" href="https://judaicadesign.github.io/calculadora-cuadriptico/" target="_blank" rel="noopener">Abrir en pestaña nueva</a><span class="small muted">Tríptico y cuadríptico envolvente · medidas en milímetros.</span></div>
+  <iframe id="jdLeafletsFrame" class="jd-phonetics-frame" title="Calculadora de folletos" data-src="https://judaicadesign.github.io/calculadora-cuadriptico/" sandbox="allow-scripts"></iframe>
+</section>
+
 
 </main>
 </div>
 
 <script type="text/plain" data-jd-app id="jd-core-navigation-v1">
 window.addEventListener('message',event=>{
-  const frame=document.getElementById('jdPhoneticsFrame');
-  if(!frame||!frame.getAttribute('src')||event.source!==frame.contentWindow||event.data?.type!=='jd-phonetics-height')return;
+  if(event.data?.type!=='jd-tool-height')return;
+  const frames={phonetics:'jdPhoneticsFrame',leaflets:'jdLeafletsFrame'};
+  const frame=document.getElementById(frames[event.data.tool]||'');
+  if(!frame||!frame.getAttribute('src')||event.source!==frame.contentWindow)return;
   const height=event.data.height;
   if(typeof height!=='number'||!Number.isFinite(height)||height<100||height>100000)return;
   frame.style.height=Math.ceil(height)+'px';
@@ -112,7 +121,7 @@ function go(id){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
   const target=document.getElementById(id);if(target)target.classList.add('active');
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
-  if(id==='phonetics'){const frame=document.getElementById('jdPhoneticsFrame');if(frame&&!frame.getAttribute('src'))frame.setAttribute('src',frame.dataset.src);}
+  if(id==='phonetics'||id==='leaflets'){const frame=document.getElementById(id==='phonetics'?'jdPhoneticsFrame':'jdLeafletsFrame');if(frame&&!frame.getAttribute('src'))frame.setAttribute('src',frame.dataset.src);}
   window.scrollTo(0,0);
 }
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
