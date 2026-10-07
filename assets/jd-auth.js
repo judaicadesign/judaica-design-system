@@ -16,6 +16,8 @@
   const syncKey = k => String(k).startsWith('jd_') && k !== 'jd_quote_qtys_v6';
   const status = document.createElement('div');
   status.className = 'jd-auth-status';
+  status.setAttribute('role','status');
+  status.setAttribute('aria-live','polite');
   const chains = new Map();
   const pending = new Set();
   async function privateLinks(value) {
@@ -58,7 +60,7 @@
       if (error) throw error;
     });
     chains.set(k,next);
-    next.then(() => { if (chains.get(k)===next) { pending.delete(k); badge(pending.size?'Guardando…':'● Datos compartidos'); } },
+    next.then(() => { if (chains.get(k)===next) { pending.delete(k); badge(pending.size?'Guardando…':'● Sincronizado'); } },
       () => badge('⚠ Cambio local pendiente de sincronización'));
   }
   Storage.prototype.setItem = function(k,v) {
@@ -101,10 +103,12 @@
       window.dispatchEvent(new CustomEvent('jd-shared-ready'));
       document.getElementById('jdLogin').hidden=true;
       document.body.classList.add('jd-authenticated');
-      const logout=document.createElement('button');logout.className='btn';logout.textContent='Cerrar sesión';
+      const controls=document.createElement('div');controls.className='jd-session-controls';
+      const logout=document.createElement('button');logout.className='jd-logout';logout.type='button';logout.textContent='Cerrar sesión';
       logout.onclick=async()=>{await Promise.allSettled([...chains.values()]);if(pending.size){badge('No se pudo sincronizar. Reintentá antes de salir.');return;}await client.auth.signOut();location.reload();};
-      document.querySelector('.sidebar').appendChild(logout);
-      document.body.appendChild(status);badge('● Datos compartidos');
+      controls.append(status,logout);
+      document.querySelector('.sidebar').insertBefore(controls,document.getElementById('nav'));
+      badge('● Sincronizado');
     } finally {initializing=false;}
   }
   document.getElementById('jdLoginForm').onsubmit=async e=>{
