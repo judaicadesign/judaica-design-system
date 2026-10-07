@@ -48,6 +48,28 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+ const legalRows=fixture();
+ const originalClauses=[['Título primero','Párrafo original\nSegunda línea'],['Título segundo','Otro párrafo']];
+ legalRows.push({key:'jd_legal_sets_v1',value:[{id:'legal-birkonim',name:'Legales Birkonim',clauses:structuredClone(originalClauses)},{id:'legal-luaj',name:'Legales & aclaraciones Luaj',clauses:[['Luaj','Texto exclusivo de Luaj']]}]},{key:'jd_legal_librito_v4',value:structuredClone(originalClauses)});
+ const legalEditor=await boot(legalRows);legalEditor.w.go('legal');
+ assert.match(legalEditor.w.document.getElementById('legal').textContent,/Legales & aclaraciones Birkonim/);
+ legalEditor.w.document.querySelector('[data-legal-edit="legal-birkonim"]').click();
+ assert.equal(legalEditor.w.document.querySelectorAll('.jd-legal-editor textarea').length,2);
+ legalEditor.w.document.getElementById('jdLegalBody0').value='Texto actualizado\nSegunda línea conservada';
+ legalEditor.fail(true);await legalEditor.w.document.getElementById('jdLegalSave').onclick();
+ assert.deepEqual(legalEditor.get('jd_legal_librito_v4'),originalClauses);
+ assert.equal(legalEditor.w.document.getElementById('jdLegalBody0').value,'Texto actualizado\nSegunda línea conservada');
+ legalEditor.fail(false);await legalEditor.w.document.getElementById('jdLegalSave').onclick();
+ assert.equal(legalEditor.get('jd_legal_sets_v1')[0].clauses[0][1],'Texto actualizado\nSegunda línea conservada');
+ assert.deepEqual(legalEditor.get('jd_legal_sets_v1')[0].clauses,legalEditor.get('jd_legal_librito_v4'));
+ assert.equal(legalEditor.get('jd_legal_sets_v1')[1].clauses[0][1],'Texto exclusivo de Luaj');
+ legalEditor.w.renderQuote();assert.match(legalEditor.w.document.querySelector('.jd-full-legal').textContent,/Texto actualizado/);
+ legalEditor.w.document.querySelector('[data-legal-edit="legal-birkonim"]').click();
+ legalEditor.remote.find(r=>r.key==='jd_legal_sets_v1').value[0].clauses[0][1]='Cambio en otro dispositivo';
+ await legalEditor.w.document.getElementById('jdLegalSave').onclick();
+ assert.match(legalEditor.w.document.getElementById('jdLegalMessage').textContent,/otro dispositivo/);
+ assert.equal(legalEditor.get('jd_legal_sets_v1')[0].clauses[0][1],'Cambio en otro dispositivo');
+ legalEditor.close();console.log('complete legal document, multiline text, atomic retry, Luaj preservation, current PDF and conflict passed');
  const pricing=require('../assets/jd-price.js');
  assert.deepEqual(pricing.calculate(211111,260000,50000),{calculatedPrice:210000,priceBeforeDiscount:260000,discountAmount:50000,price:210000,manualPrice:260000});
  assert.equal(pricing.calculate(210000,250123.45,20123.45).price,230000);
