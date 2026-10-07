@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/jd-base.css?v=20261007">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261007">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261007b">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
 </head>
@@ -185,7 +185,7 @@ function drawDeletedQuotesV6(){
  sq.querySelectorAll('[data-restore-qid]').forEach(b=>b.onclick=()=>moveSavedQuoteV6(b.dataset.restoreQid,true,b));
 }
 function quoteQtyText(q){
- return (q.quantities||[]).map(x=>x.qty+' u. · '+(x.price?'$ '+Number(x.price).toLocaleString('es-AR'):'A cotizar')).join(' / ')||'—';
+ return '<div class="jd-quote-amounts">'+((q.quantities||[]).map(x=>'<div class="jd-quote-amount"><span>'+esc3(x.qty)+' u.</span><b>'+(x.price?'$ '+Number(x.price).toLocaleString('es-AR'):'A cotizar')+'</b></div>').join('')||'—')+'</div>';
 }
 function drawSavedQuotesV6(clientFilter){
  const all=getSavedQuotesV6();
@@ -193,9 +193,9 @@ function drawSavedQuotesV6(clientFilter){
  const rows=filter?all.filter(q=>normQuoteClient(q.client)===normQuoteClient(filter)):all;
  const filterNote=filter?'<div class="jd-note" style="margin-bottom:14px">Mostrando presupuestos de <b>'+esc3(filter)+'</b>. <button class="btn sm" id="jdClearQuoteFilter">Ver todos</button></div>':'';
  sq.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Presupuestos</h1></div><div class="jd-toolbar"><button class="btn" id="jdQuoteTrash">Papelera ('+getDeletedQuotesV6().length+')</button><button class="btn primary" id="jdNewQuoteBtn">+ Nuevo presupuesto</button></div></div>'+
- '<div class="jd-note" style="margin-bottom:14px"><b>Presupuestos</b> guarda cada cotización/versión enviada o preparada. <b>Clientes & seguimiento</b> mantiene una sola ficha por cliente y enlaza sus presupuestos.</div>'+filterNote+
+ '<div class="jd-note" style="margin-bottom:14px">Cada cotización conserva su versión. Los presupuestos eliminados se pueden recuperar desde la papelera.</div>'+filterNote+
  (rows.length?'<div class="jd-table-scroll jd-savedquotes-scroll"><table class="table jd-savedquotes-table"><thead><tr><th>Cliente</th><th>Producto</th><th>Configuración</th><th>Cantidades / precio</th><th>Estado</th><th>Fecha</th><th>Evento / entrega</th><th></th></tr></thead><tbody>'+
- rows.map((q,i)=>'<tr><td><b>'+esc3(q.client||'—')+'</b></td><td>'+esc3(q.product||'—')+'</td><td>'+esc3([q.model,q.nusaj,q.texts||q.lang,q.size,q.binding||q.bind].filter(Boolean).join(' · '))+'</td><td>'+esc3(quoteQtyText(q))+'</td><td><span class="tag '+(/enviado/i.test(q.status||'')?'ok':'')+'">'+esc3(q.status||'Guardado')+'</span></td><td>'+esc3(fmtDate(q))+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><div class="jd-toolbar"><button class="btn sm" data-open-qid="'+esc3(q.id||'')+'">Abrir</button>'+(q.pdfUrl?'<a class="btn sm" target="_blank" rel="noopener" href="'+esc3(q.pdfUrl)+'">PDF</a>':'')+'<button class="btn sm" data-delete-qid="'+esc3(q.id||'')+'">Eliminar</button></div></td></tr>').join('')+
+ rows.map((q,i)=>'<tr><td><b>'+esc3(q.client||'—')+'</b></td><td>'+esc3(q.product||'—')+'</td><td>'+esc3([q.model,q.nusaj,q.texts||q.lang,q.size,q.binding||q.bind].filter(Boolean).join(' · '))+'</td><td>'+quoteQtyText(q)+'</td><td><span class="tag '+(/enviado/i.test(q.status||'')?'ok':'')+'">'+esc3(q.status||'Guardado')+'</span></td><td>'+esc3(fmtDate(q))+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><div class="jd-toolbar"><button class="btn sm" data-open-qid="'+esc3(q.id||'')+'">Abrir</button>'+(q.pdfUrl?'<a class="btn sm" target="_blank" rel="noopener" href="'+esc3(q.pdfUrl)+'">PDF</a>':'')+'<button class="btn sm" data-delete-qid="'+esc3(q.id||'')+'">Eliminar</button></div></td></tr>').join('')+
  '</tbody></table></div>':'<div class="card"><p class="muted">'+(filter?'No hay presupuestos guardados para este cliente.':'Todavía no hay presupuestos guardados.')+'</p></div>');
  document.getElementById('jdNewQuoteBtn').onclick=()=>go('quotes');
  document.getElementById('jdQuoteTrash').onclick=drawDeletedQuotesV6;
