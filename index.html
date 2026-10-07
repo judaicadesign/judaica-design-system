@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/jd-base.css?v=20261007-pricing">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-followup-alignment">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-generator">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
 <script src="assets/jd-orders.js?v=20261007" defer></script>
@@ -93,7 +93,8 @@
 
 <section class="screen" id="phonetics">
   <div class="topbar"><div><div class="eyebrow">Herramientas</div><h1>Generador de fonética</h1></div></div>
-  <div class="card"><h2>Generador de fonética · uso local</h2><p>El generador se desarrolla por separado. Su web en GitHub Pages está desactivada; por eso el enlace anterior devuelve 404.</p><p>Para usarlo en tu computadora, descargá el archivo HTML y abrilo en Chrome o Edge.</p><a class="btn" href="https://github.com/judaicadesign/fonetica-hebreo/blob/main/index.html" target="_blank" rel="noopener">Ver archivo del generador</a><p class="small muted">En GitHub, usá “Download raw file” para descargarlo. La contraseña del sistema protege los datos comerciales; no hace privado el código publicado en GitHub Pages.</p></div>
+  <div class="jd-toolbar" style="margin-bottom:16px"><a class="btn" href="tools/fonetica/index.html" target="_blank" rel="noopener">Abrir en pestaña nueva</a><span class="small muted">Generador integrado · tus textos se conservan al cambiar de sección.</span></div>
+  <iframe id="jdPhoneticsFrame" class="jd-phonetics-frame" title="Generador de fonética hebrea" data-src="tools/fonetica/index.html?v=20261007" sandbox="allow-scripts allow-downloads" allow="clipboard-write"></iframe>
 </section>
 
 </main>
@@ -104,6 +105,7 @@ function go(id){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
   const target=document.getElementById(id);if(target)target.classList.add('active');
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
+  if(id==='phonetics'){const frame=document.getElementById('jdPhoneticsFrame');if(frame&&!frame.getAttribute('src'))frame.setAttribute('src',frame.dataset.src);}
   window.scrollTo(0,0);
 }
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));

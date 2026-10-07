@@ -22,7 +22,8 @@ async function run(mode){
  const reveal=w.document.querySelector('.jd-password-toggle');reveal.click();
  assert.equal(w.document.getElementById('jdPassword').type,'text');reveal.click();
  assert.equal(w.document.getElementById('jdPassword').type,'password');
- if(mode==='allowed'){assert.equal(typeof w.go,'function');w.go('products');assert.ok(w.document.querySelector('#products').classList.contains('active'));assert.ok(w.document.querySelector('#products').textContent.includes('Birkón'));assert.equal(w.document.querySelectorAll('script[data-jd-app]').length,0);
+ assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('src'),null,'generator is not loaded before opening its section');
+ if(mode==='allowed'){w.go('phonetics');assert.match(w.document.getElementById('jdPhoneticsFrame').getAttribute('src'),/^tools\/fonetica\/index.html/);assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('sandbox'),'allow-scripts allow-downloads');assert.equal(typeof w.go,'function');w.go('products');assert.ok(w.document.querySelector('#products').classList.contains('active'));assert.ok(w.document.querySelector('#products').textContent.includes('Birkón'));assert.equal(w.document.querySelectorAll('script[data-jd-app]').length,0);
   assert.equal(w.document.querySelector('.jd-dashboard-card').getAttribute('role'),'button');
   assert.equal(w.document.querySelector('.jd-savedquotes-table tbody td').dataset.label,'Cliente');
   for(const button of w.document.querySelectorAll('#nav [data-screen]')){
