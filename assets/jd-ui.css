@@ -166,3 +166,20 @@
 .jd-price-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid #ddd3be}
 .jd-price-controls label,.jd-price-controls small{grid-column:1/-1}.jd-price-controls label{font-size:12px;font-weight:600;color:#355e5c}.jd-price-controls small{font-size:11px;color:#7c746a;line-height:1.4}.jd-price-controls input{min-width:0;width:100%}.jd-price-controls .btn{white-space:normal}
 @media(max-width:480px){.jd-price-controls{grid-template-columns:1fr}.jd-price-controls .btn{justify-self:start}}
+
+/* Legal families stay visible together; full text opens on demand. */
+.jd-legal-module { padding:0; margin-bottom:14px; }
+.jd-legal-module > summary { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 24px; cursor:pointer; list-style:none; border-radius:inherit; }
+.jd-legal-module > summary::-webkit-details-marker { display:none; }
+.jd-legal-module > summary:hover { background:rgba(15,91,93,.04); }
+.jd-legal-module > summary:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.jd-legal-module-name { display:block; font:600 19px/1.35 Inter,system-ui; color:var(--accent); }
+.jd-legal-module-hint { display:block; margin-top:5px; }
+.jd-legal-chevron { flex:none; font:24px/1 system-ui; color:var(--accent); transition:transform .15s; }
+.jd-legal-module[open] .jd-legal-chevron { transform:rotate(180deg); }
+.jd-legal-module-body { border-top:1px solid var(--line); padding:16px 24px 4px; }
+@media(max-width:640px) {
+ .jd-legal-module > summary { padding:17px 18px; }
+ .jd-legal-module-name { font-size:17px; }
+ .jd-legal-module-body { padding:14px 18px 4px; }
+}

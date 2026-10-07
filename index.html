@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/jd-base.css?v=20261007-pricing">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-legal-items">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-legal-modules">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
 <script src="assets/jd-orders.js?v=20261007" defer></script>
@@ -548,7 +548,7 @@ function currentLegalSets(){
 function drawLegal(){
  if(!legalSec)return;
  legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Plantillas por producto</div><h1>Legales & aclaraciones</h1></div><button class="btn primary" id="jdLegalNew">+ Crear nuevo</button></div>'+currentLegalSets().map(s=>
- '<article class="card jd-legal-document"><div class="section-head"><h2>'+E(legalName(s))+'</h2><button class="btn" data-legal-edit="'+E(s.id)+'">Editar texto completo</button></div><p class="small muted">Plantilla compartida por los productos que la tengan vinculada.</p><div class="jd-legal-copy">'+(s.clauses||[]).map(c=>'<section><h3>'+E(c[0])+'</h3><p>'+E(c[1])+'</p></section>').join('')+'</div></article>').join('')+
+ '<details class="card jd-legal-document jd-legal-module"><summary><span><span class="jd-legal-module-name">'+E(legalName(s))+'</span><span class="small muted jd-legal-module-hint">'+(s.clauses||[]).length+' cláusulas · Ver texto completo</span></span><span class="jd-legal-chevron" aria-hidden="true">⌄</span></summary><div class="jd-legal-module-body"><div class="section-head"><p class="small muted">Plantilla compartida por los productos que la tengan vinculada.</p><button class="btn" data-legal-edit="'+E(s.id)+'">Editar texto completo</button></div><div class="jd-legal-copy">'+(s.clauses||[]).map(c=>'<section><h3>'+E(c[0])+'</h3><p>'+E(c[1])+'</p></section>').join('')+'</div></div></details>').join('')+
  (currentLegalSets().some(s=>s.id==='legal-luaj')?'':'<p class="small muted">Legales & aclaraciones Luaj: pendiente de incorporar su texto propio.</p>');
  legalSec.querySelectorAll('[data-legal-edit]').forEach(b=>b.onclick=()=>editLegalDocument(b.dataset.legalEdit));
  document.getElementById('jdLegalNew').onclick=()=>editLegalDocument(null);
