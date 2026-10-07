@@ -183,3 +183,9 @@
  .jd-legal-module-name { font-size:17px; }
  .jd-legal-module-body { padding:14px 18px 4px; }
 }
+
+/* Keep dashboard product columns aligned regardless of the WhatsApp label. */
+@media(min-width:821px) {
+ .jd-action-item { grid-template-columns:minmax(0,1.1fr) minmax(0,1.5fr) 250px; }
+ .jd-action-main,.jd-action-copy { min-width:0; overflow-wrap:anywhere; }
+}
