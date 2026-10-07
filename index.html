@@ -14,6 +14,7 @@
 <script src="assets/jd-orders.js?v=20261007" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-price.js?v=20261007" defer></script>
+<script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
@@ -548,7 +549,7 @@ function drawLegal(){
  if(!legalSec)return;
  legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Plantillas por producto</div><h1>Legales & aclaraciones</h1></div><button class="btn primary" id="jdLegalNew">+ Crear nuevo</button></div>'+currentLegalSets().map(s=>
  '<article class="card jd-legal-document"><div class="section-head"><h2>'+E(legalName(s))+'</h2><button class="btn" data-legal-edit="'+E(s.id)+'">Editar texto completo</button></div><p class="small muted">Plantilla compartida por los productos que la tengan vinculada.</p><div class="jd-legal-copy">'+(s.clauses||[]).map(c=>'<section><h3>'+E(c[0])+'</h3><p>'+E(c[1])+'</p></section>').join('')+'</div></article>').join('')+
- '<p class="small muted">Legales & aclaraciones Luaj: pendiente de incorporar su texto propio.</p>';
+ (currentLegalSets().some(s=>s.id==='legal-luaj')?'':'<p class="small muted">Legales & aclaraciones Luaj: pendiente de incorporar su texto propio.</p>');
  legalSec.querySelectorAll('[data-legal-edit]').forEach(b=>b.onclick=()=>editLegalDocument(b.dataset.legalEdit));
  document.getElementById('jdLegalNew').onclick=()=>editLegalDocument(null);
 }
@@ -558,7 +559,7 @@ function editLegalDocument(id){
  id=set.id;
  const baseline=creating?'null':JSON.stringify(set.clauses);
  const legacyBaseline=JSON.stringify(GET('jd_legal_librito_v4',null));
- legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">'+(creating?'Crear documento':'Editar documento completo')+'</div><h1>'+E(creating?'Nueva plantilla':legalName(set))+'</h1></div><div class="jd-toolbar"><button class="btn" id="jdLegalCancel">Cancelar</button><button class="btn primary" id="jdLegalSave">Guardar cambios</button></div></div><div class="field" style="max-width:1000px"><label for="jdLegalName">Nombre de la plantilla</label><input id="jdLegalName" value="'+E(legalName(set))+'" placeholder="Legales & aclaraciones Luaj" '+(id==='legal-birkonim'?'readonly':'')+'></div><p id="jdLegalMessage" role="status" class="small muted">Todos los títulos y párrafos del documento se editan juntos.</p><div class="card jd-legal-document jd-legal-editor" id="jdLegalEditor"></div><button class="btn" id="jdLegalAdd">+ Agregar ítem/cláusula</button>';
+ legalSec.innerHTML='<div class="topbar"><div><div class="eyebrow">'+(creating?'Crear documento':'Editar documento completo')+'</div><h1>'+E(creating?'Nueva plantilla':legalName(set))+'</h1></div><div class="jd-toolbar"><button class="btn" id="jdLegalCancel">Cancelar</button><button class="btn primary" id="jdLegalSave">Guardar cambios</button></div></div><div class="field" style="max-width:1000px"><label for="jdLegalName">Nombre de la plantilla</label><input id="jdLegalName" value="'+E(legalName(set))+'" placeholder="Legales & aclaraciones Luaj" '+(id==='legal-birkonim'?'readonly':'')+'></div><p id="jdLegalMessage" role="status" class="small muted">Todos los títulos y párrafos del documento se editan juntos. Usá {{vencimiento}} para insertar la fecha de vencimiento: un mes desde la emisión del presupuesto.</p><div class="card jd-legal-document jd-legal-editor" id="jdLegalEditor"></div><button class="btn" id="jdLegalAdd">+ Agregar ítem/cláusula</button>';
  const addButton=document.getElementById('jdLegalAdd');addButton.textContent='+ Agregar ítem/cláusula';
  const undo=document.createElement('button');undo.type='button';undo.className='btn';undo.textContent='Deshacer eliminación';undo.hidden=true;addButton.after(undo);
  const removed=[];let clauseIndex=0;
@@ -1538,7 +1539,8 @@ function render6(){
    p.bindings.length?['≡','Encuadernación',E(qBind.value)]:null,
    v?.pages?['#','Páginas','<b>'+v.pages+'</b>']:null
  ].filter(Boolean);
- const today=new Date().toLocaleDateString('es-AR');
+ const issuedDate=window.jdLegalDates.today();
+ const today=window.jdLegalDates.display(issuedDate);
  const assetList=GET('jd_assets',[]);
  const selectedBinding=(p.bindings.length?qBind.value:'').toLowerCase();
  let assetCandidates=assetList.filter(a=>a.product===p.name&&a.role==='Mockup principal');
@@ -1568,7 +1570,7 @@ function render6(){
    ?'<div class="jd-tech"><span><strong>Tapa:</strong> papel ilustración 300 grs. · laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs.</span></div>'
    :((et.paper||et.weightGsm||et.lamination||et.print||et.sides||et.finish)?'<div class="jd-tech"><b>DETALLES TÉCNICOS</b>'+(et.paper||et.weightGsm?'<span><strong>Papel:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' g':''].filter(Boolean).join(' · '))+'</span>':'')+(et.lamination?'<span><strong>Terminación:</strong> '+E(et.lamination)+'</span>':'')+((et.print||et.sides)?'<span><strong>Impresión:</strong> '+E([et.print,et.sides].filter(Boolean).join(' · '))+'</span>':'')+((et.finish && !/^(Tríptico|Cuadríptico|Díptico)$/i.test(String(qModel?.value||'')))?'<span><strong>Acabado:</strong> '+E(et.finish)+'</span>':'')+'</div>':'');
  const legalSet=jdLegalSet(p.legalSetId||((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
- const legal=legalSet?.clauses||[];
+ const legal=window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate);
  const legalBlock=legal.length?'<div class="jd-full-legal"><div class="jd-legal-title">ACLARACIONES</div>'+legal.map(x=>'<p><b>'+E(x[0])+'.</b> '+E(x[1])+'</p>').join('')+'</div>':'';
  const prices=window.qs6.map(q=>{const price=price6(calcQty(q),q,disc);return '<div class="jd-client-price"><span>'+q+' unidades</span><div class="jd-pdf-price-breakdown">'+(price.ok?(price.discountAmount?'<small>Precio antes del descuento: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+'</small><small>Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</small>':'')+'<b>Total: $ '+price.price.toLocaleString('es-AR')+'.-</b>':'<b>A cotizar</b>')+'</div></div>'}).join('');
  quotePreview.innerHTML=
@@ -1586,7 +1588,9 @@ function collectQuote6(){
  if(!Number.isFinite(rawDiscount)||rawDiscount<0)throw new Error('El descuento debe ser un importe válido, mayor o igual a cero.');
  const discount=Math.round((rawDiscount+Number.EPSILON)*100)/100;
  const p=activeProduct(),v=selectedVariant(p);
- const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live}:null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar',discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
+ const issuedDate=window.jdLegalDates.today();
+ const legalSet=jdLegalSet(p.legalSetId||((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live}:null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
  if(!quote.client)throw new Error('Falta el nombre y apellido del cliente.');
  if(p.name==='Birkón · Librito' && !quote.pages)throw new Error('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);

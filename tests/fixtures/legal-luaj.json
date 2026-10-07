@@ -1,0 +1,54 @@
+{
+  "id": "legal-luaj",
+  "name": "Legales & aclaraciones Luaj",
+  "clauses": [
+    [
+      "Fotografías",
+      "No están estipuladas en el presupuesto sesión de fotos o compras en banco de imágenes."
+    ],
+    [
+      "Tipografías",
+      "No están estipuladas en el presupuesto la compra de tipografías."
+    ],
+    [
+      "Iso/logotipo",
+      "No está estipulado en el presupuesto el diseño, creación o edición de iso/logotipo."
+    ],
+    [
+      "Confidencialidad",
+      "El presente presupuesto tiene el carácter de confidencial y es propiedad exclusiva del cliente solicitante. Queda terminantemente prohibida su reproducción, publicación y/o reenvío, total o parcial, a terceros."
+    ],
+    [
+      "Portfolio",
+      "El diseñador conserva el derecho no exclusivo, perpetuo y global de mostrar, reproducir y distribuir los diseños en el portfolio y el sitio web del diseñador, y en publicaciones comerciales, premios o exhibiciones de terceros, con el único fin de promover o ejemplificar el trabajo del diseñador, y el derecho a ser acreditado con la propiedad de los derechos de autor y la autoría de los diseños en relación con dicho uso."
+    ],
+    [
+      "Archivos editables",
+      "No está estipulada la entrega de archivos editables, son propiedad exclusiva del diseñador."
+    ],
+    [
+      "Forma y lugar de pago",
+      "La ejecución del presente contrato comenzará al abonarse el 70% del monto total en concepto de seña. Previo a la impresión, se saldará el 30% restante en un plazo máximo de 48 horas salvo estipulación en contrario pactada fehacientemente. En caso de incumplimiento (por falta de pago), el cliente incurrirá en mora de pleno derecho sin necesidad de interpelación. Los pagos se efectuarán del modo y en el lugar indicados por el oferente. Si se suspendiera la ejecución del trabajo contratado antes de su entrega final por causas imputables al cliente, éste deberá abonar al diseñador en concepto de lucro cesante el 40% del saldo restante, es decir, 12% del presupuesto completo (Complementarios al 70% de adelanto). Si se hubieran realizado tareas adicionales solicitadas por el cliente (V.gr.: modificaciones de archivos, piezas extra, gestiones fuera del alcance original, etc.), se cobrarán aparte según el valor del trabajo realizado. Para los valores en dólares (USD), solo se aceptan pagos en dólares en efectivo, por transferencia, Zelle o en USDT. Para los valores en pesos (ARS), solo se aceptan pagos en pesos argentinos en efectivo o transferencia. No se aceptan cheques."
+    ],
+    [
+      "Vigencia del precio",
+      "(Solo aplica para lo presupuestado en pesos argentinos). La tarifa propuesta vence el {{vencimiento}}. Vencido el plazo de vigencia del precio sin haberse abonado la seña del presupuesto, el monto será plausible de ajuste o actualización. Efectuado el pago del 70% inicial, señalado en el punto “Forma y lugar de pago”, se dará inmediato comienzo al trabajo con el objetivo de terminar la etapa de diseño, para luego proceder a imprenta con la mayor celeridad posible. De lo contrario y ante los reiterados aumentos de precio, el costo de imprenta puede sufrir variaciones ajenas al control del diseñador."
+    ],
+    [
+      "Cancelación del proyecto y destino de los pagos efectuados",
+      "Los importes abonados en concepto de seña, anticipo o pago parcial/total para el diseño, producción y/o impresión del Luaj corresponden exclusivamente al proyecto contratado y a la reserva de tiempo de trabajo, planificación y recursos destinados a su ejecución. En caso de suspensión, cancelación o interrupción del proyecto por decisión del cliente, cualquiera sea la instancia en que se encuentre, las sumas abonadas no podrán ser transferidas, imputadas, compensadas ni aplicadas a otros trabajos, productos o servicios presentes o futuros ofrecidos por el diseñador. Los pagos efectuados serán considerados como correspondientes al proyecto originalmente contratado, independientemente de su grado de avance, y no generarán créditos a favor del cliente para futuras contrataciones. Asimismo, en caso de cancelación del proyecto, los trabajos de diseño ya realizados, total o parcialmente, permanecerán bajo titularidad del diseñador y no podrán ser utilizados, reproducidos o modificados sin la correspondiente autorización."
+    ],
+    [
+      "Entrega de materiales",
+      "Los plazos de diseño y producción estimados se encuentran sujetos a la recepción en tiempo y forma de los materiales necesarios para la elaboración del Luaj (publicidades, adhesiones, Leilui Nishmat, textos, logos, fotografías y demás contenidos). Las demoras en la entrega de dichos materiales por parte del cliente podrán implicar la reprogramación de los plazos de trabajo y entrega originalmente estimados, sin que ello genere responsabilidad alguna para el diseñador."
+    ],
+    [
+      "Correcciones y modificaciones",
+      "El presupuesto contempla las correcciones razonables necesarias para la adecuada elaboración del proyecto. Modificaciones sustanciales de diseño, cambios de criterio una vez aprobado un elemento, reestructuraciones generales o solicitudes adicionales posteriores al inicio del trabajo podrán presupuestarse por separado."
+    ],
+    [
+      "NOTA",
+      "El cliente declara haber leído en su totalidad y comprendido el presente presupuesto, incluyendo la sección “DISEÑO DE HOJA ADICIONAL” y “OPCIONAL” que detalla los servicios adicionales con costo extra. Al abonar la seña, el cliente acepta expresamente dichas condiciones y reconoce que el monto abonado en concepto de seña es no reembolsable ni transferible a terceros en caso de cancelación, por cubrir trabajos ya realizados, tiempo de producción reservado y/o gastos incurridos, aun cuando no se hubiera completado la totalidad del encargo."
+    ]
+  ]
+}

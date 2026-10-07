@@ -37,7 +37,7 @@ async function boot(rows=fixture(),fetchResult){
    return {data:updates,error:null};
  };
  w.supabase={createClient:()=>client};
- for(const file of ['jd-ui.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
@@ -48,6 +48,24 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+ const dates=require('../assets/jd-legal.js');
+ for(const [from,to] of [['2027-05-05','2027-06-05'],['2027-01-31','2027-02-28'],['2028-01-31','2028-02-29'],['2026-12-31','2027-01-31']])assert.equal(dates.nextMonth(from),to);
+ assert.equal(dates.today(new Date('2027-05-06T01:00:00Z')),'2027-05-05','Argentina date around midnight');
+ const luaj=JSON.parse(fs.readFileSync(root+'/tests/fixtures/legal-luaj.json','utf8'));
+ assert.equal(luaj.clauses.length,12);assert.equal(luaj.clauses.filter(c=>c[1].includes('{{vencimiento}}')).length,1);
+ const luajRows=fixture();luajRows.find(r=>r.key==='jd_catalog_v6').value[0].legalSetId='legal-luaj';
+ luajRows.push({key:'jd_legal_sets_v1',value:[luaj]});const luajApp=await boot(luajRows);
+ luajApp.w.jdLegalDates.today=()=> '2027-05-05';luajApp.w.document.getElementById('qClient').value='Cliente Luaj de prueba';luajApp.w.qs6=[50];luajApp.w.renderQuote();
+ const luajPreview=luajApp.w.document.querySelector('.jd-full-legal').textContent;
+ assert.match(luajPreview,/vence el 5\/6\/2027/);assert.ok(!luajPreview.includes('{{vencimiento}}'));assert.match(luajPreview,/Correcciones y modificaciones/);assert.match(luajPreview,/70%/);
+ const savedLuaj=await save(luajApp);assert.equal(savedLuaj.issuedDate,'2027-05-05');assert.equal(savedLuaj.validUntil,'2027-06-05');assert.equal(savedLuaj.legalClauses.length,12);
+ luajApp.w.jdLegalDates.today=()=> '2027-05-10';luajApp.w.renderQuote();
+ assert.equal(luajApp.get('jd_saved_quotes_v6')[0].validUntil,'2027-06-05','saved expiry remains fixed');
+ luajApp.w.go('legal');assert.ok(!luajApp.w.document.getElementById('legal').textContent.includes('pendiente de incorporar'));
+ luajApp.w.document.querySelector('[data-legal-edit="legal-luaj"]').click();assert.equal(luajApp.w.document.querySelectorAll('.jd-legal-editor textarea').length,12);
+ assert.match(luajApp.w.document.getElementById('jdLegalBody7').value,/{{vencimiento}}/);await luajApp.w.document.getElementById('jdLegalSave').onclick();assert.equal(luajApp.get('jd_legal_sets_v1')[0].clauses.length,12);
+ luajApp.close();console.log('Luaj complete clauses, calendar-month dates, Argentina timezone, PDF text and fixed saved validity passed');
+
  const configRows=fixture();configRows.find(r=>r.key==='jd_pricing_rules_v4').value.unshift({id:'general-first',product:product.name,variant:'*',marginPct:36});
  const config=await boot(configRows);config.w.document.getElementById('qClient').value='Cliente de prueba';config.w.qs6=[50];config.w.renderQuote();
  assert.equal(config.w.jdCollectQuote().quantities[0].price,210000,'specific format rule wins over general rule');
