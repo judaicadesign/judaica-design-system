@@ -1973,7 +1973,7 @@ window.renderQuote=render6;
    const arr=get().map(migrate);
    let i=arr.findIndex(c=>norm(c.name)===norm(q.client));
    let c=i>=0?arr[i]:{name:q.client,firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()};
-   if(!c.firstName){const pp=String(q.client||'').trim().split(/\s+/);c.firstName=pp.shift()||'';c.lastName=pp.join(' ')}
+   if(!c.firstName&&c.org!==q.client){const pp=String(q.client||'').trim().split(/\s+/);c.firstName=pp.shift()||'';c.lastName=pp.join(' ')}
    c.ask=[q.product,q.model,q.nusaj].filter(Boolean).join(' · ');
    const target=sent?'Presupuesto enviado':'Presupuesto listo para enviar';
    if(c.status!==target){const prev=c.status;c.status=target;addHistory(c,'Presupuesto',(sent?'Presupuesto enviado':'Presupuesto guardado y listo para enviar')+(prev?' · estado anterior: '+prev:''));}

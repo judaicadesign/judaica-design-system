@@ -69,6 +69,10 @@ async function scenarios(){
  share.w.jdRenderSavedQuotes();await sleep(30);await share.w.document.querySelector('[data-confirm-sent]').onclick();
  assert.equal(share.get('jd_saved_quotes_v6')[0].status,'Presupuesto enviado');assert.ok(share.get('jd_saved_quotes_v6')[0].sentConfirmedAt);
  share.close();console.log('WhatsApp draft is not sent, PDF snapshot and explicit sent confirmation passed');
+ const orgApp=await boot();orgApp.w.jdRenderClients();orgApp.w.document.getElementById('jdNewClient').click();
+ orgApp.w.document.getElementById('crmOrg').value='Institución sin contacto';await orgApp.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
+ const institution=orgApp.get('jd_clients').find(c=>c.org==='Institución sin contacto');assert.ok(institution);assert.equal(institution.firstName,'');assert.equal(institution.lastName,'');
+ orgApp.w.document.getElementById('qClient').value=institution.name;await save(orgApp);assert.equal(orgApp.get('jd_clients').find(c=>c.id===institution.id).firstName,'');orgApp.close();console.log('institution without person names remains distinct passed');
  await invalid('empty client',a=>a.w.document.getElementById('qClient').value='',/Falta el nombre/);
  await invalid('empty quantities',a=>a.w.qs6=[],/cantidades/);
  await invalid('negative quantity',a=>a.w.qs6=[-50],/cantidades/);
