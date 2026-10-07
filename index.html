@@ -269,6 +269,41 @@ const fmtDate=q=>{
  const d=new Date(raw); return isNaN(d)?String(raw):d.toLocaleDateString('es-AR');
 };
 function getSavedQuotesV6(){return LS3('jd_saved_quotes_v6',[])}
+function getDeletedQuotesV6(){return LS3('jd_deleted_quotes_v6',[])}
+async function moveSavedQuoteV6(id,restore,button){
+ const source=restore?getDeletedQuotesV6():getSavedQuotesV6();
+ const quote=source.find(q=>String(q.id)===String(id));
+ if(!quote)return;
+ if(!restore&&!confirm('¿Eliminar el presupuesto de '+(quote.client||'este cliente')+'? Podés restaurarlo desde la papelera. La ficha del cliente y el PDF se conservan.'))return;
+ button.disabled=true;button.textContent=restore?'Restaurando…':'Eliminando…';
+ try{
+  await window.jdUpdateSharedState(['jd_saved_quotes_v6','jd_deleted_quotes_v6'],state=>{
+   const saved=state.jd_saved_quotes_v6;
+   const deleted=state.jd_deleted_quotes_v6||[];
+   if(!Array.isArray(saved)||!Array.isArray(deleted))throw new Error('No se pudieron verificar los presupuestos.');
+   const from=restore?deleted:saved;
+   const target=from.find(q=>String(q.id)===String(id));
+   if(!target)throw new Error('Este presupuesto ya cambió. Recargá la página.');
+   if(restore&&saved.some(q=>String(q.id)===String(id)))throw new Error('Este presupuesto ya existe en la lista.');
+   const restored={...target};delete restored.deletedAt;
+   return restore?{
+    jd_saved_quotes_v6:[...saved,restored],
+    jd_deleted_quotes_v6:deleted.filter(q=>String(q.id)!==String(id))
+   }:{
+    jd_saved_quotes_v6:saved.filter(q=>String(q.id)!==String(id)),
+    jd_deleted_quotes_v6:[...deleted,{...target,deletedAt:new Date().toISOString()}]
+   };
+  });
+  if(restore)drawDeletedQuotesV6();else drawSavedQuotesV6();
+ }catch(error){alert('No se cambió el presupuesto. '+(error.message||error));button.disabled=false;button.textContent=restore?'Restaurar':'Eliminar';}
+}
+function drawDeletedQuotesV6(){
+ const rows=getDeletedQuotesV6();
+ sq.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Papelera de presupuestos</h1></div><button class="btn" id="jdBackSavedQuotes">Volver a presupuestos</button></div><p class="muted">Los presupuestos eliminados se conservan acá y se pueden restaurar.</p>'+
+ (rows.length?'<div class="card">'+rows.map(q=>'<div class="jd-toolbar" style="padding:12px 0;border-bottom:1px solid #d9cfb1"><span><b>'+esc3(q.client||'—')+'</b> · '+esc3(q.product||'—')+' · '+esc3(fmtDate(q))+'</span><button class="btn sm" data-restore-qid="'+esc3(q.id)+'">Restaurar</button></div>').join('')+'</div>':'<div class="card"><p class="muted">La papelera está vacía.</p></div>');
+ document.getElementById('jdBackSavedQuotes').onclick=()=>drawSavedQuotesV6();
+ sq.querySelectorAll('[data-restore-qid]').forEach(b=>b.onclick=()=>moveSavedQuoteV6(b.dataset.restoreQid,true,b));
+}
 function quoteQtyText(q){
  return (q.quantities||[]).map(x=>x.qty+' u. · '+(x.price?'$ '+Number(x.price).toLocaleString('es-AR'):'A cotizar')).join(' / ')||'—';
 }
@@ -277,12 +312,14 @@ function drawSavedQuotesV6(clientFilter){
  const filter=clientFilter||window.jdSavedQuotesClientFilter||'';
  const rows=filter?all.filter(q=>normQuoteClient(q.client)===normQuoteClient(filter)):all;
  const filterNote=filter?'<div class="jd-note" style="margin-bottom:14px">Mostrando presupuestos de <b>'+esc3(filter)+'</b>. <button class="btn sm" id="jdClearQuoteFilter">Ver todos</button></div>':'';
- sq.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Presupuestos</h1></div><button class="btn primary" id="jdNewQuoteBtn">+ Nuevo presupuesto</button></div>'+
+ sq.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Presupuestos</h1></div><div class="jd-toolbar"><button class="btn" id="jdQuoteTrash">Papelera ('+getDeletedQuotesV6().length+')</button><button class="btn primary" id="jdNewQuoteBtn">+ Nuevo presupuesto</button></div></div>'+
  '<div class="jd-note" style="margin-bottom:14px"><b>Presupuestos</b> guarda cada cotización/versión enviada o preparada. <b>Clientes & seguimiento</b> mantiene una sola ficha por cliente y enlaza sus presupuestos.</div>'+filterNote+
  (rows.length?'<div class="jd-table-scroll jd-savedquotes-scroll"><table class="table jd-savedquotes-table"><thead><tr><th>Cliente</th><th>Producto</th><th>Configuración</th><th>Cantidades / precio</th><th>Estado</th><th>Fecha</th><th>Evento / entrega</th><th></th></tr></thead><tbody>'+
- rows.map((q,i)=>'<tr><td><b>'+esc3(q.client||'—')+'</b></td><td>'+esc3(q.product||'—')+'</td><td>'+esc3([q.model,q.nusaj,q.texts||q.lang,q.size,q.binding||q.bind].filter(Boolean).join(' · '))+'</td><td>'+esc3(quoteQtyText(q))+'</td><td><span class="tag '+(/enviado/i.test(q.status||'')?'ok':'')+'">'+esc3(q.status||'Guardado')+'</span></td><td>'+esc3(fmtDate(q))+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><div class="jd-toolbar"><button class="btn sm" data-open-qid="'+esc3(q.id||'')+'">Abrir</button>'+(q.pdfUrl?'<a class="btn sm" target="_blank" rel="noopener" href="'+esc3(q.pdfUrl)+'">PDF</a>':'')+'</div></td></tr>').join('')+
+ rows.map((q,i)=>'<tr><td><b>'+esc3(q.client||'—')+'</b></td><td>'+esc3(q.product||'—')+'</td><td>'+esc3([q.model,q.nusaj,q.texts||q.lang,q.size,q.binding||q.bind].filter(Boolean).join(' · '))+'</td><td>'+esc3(quoteQtyText(q))+'</td><td><span class="tag '+(/enviado/i.test(q.status||'')?'ok':'')+'">'+esc3(q.status||'Guardado')+'</span></td><td>'+esc3(fmtDate(q))+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><div class="jd-toolbar"><button class="btn sm" data-open-qid="'+esc3(q.id||'')+'">Abrir</button>'+(q.pdfUrl?'<a class="btn sm" target="_blank" rel="noopener" href="'+esc3(q.pdfUrl)+'">PDF</a>':'')+'<button class="btn sm" data-delete-qid="'+esc3(q.id||'')+'">Eliminar</button></div></td></tr>').join('')+
  '</tbody></table></div>':'<div class="card"><p class="muted">'+(filter?'No hay presupuestos guardados para este cliente.':'Todavía no hay presupuestos guardados.')+'</p></div>');
  document.getElementById('jdNewQuoteBtn').onclick=()=>go('quotes');
+ document.getElementById('jdQuoteTrash').onclick=drawDeletedQuotesV6;
+ sq.querySelectorAll('[data-delete-qid]').forEach(b=>b.onclick=()=>moveSavedQuoteV6(b.dataset.deleteQid,false,b));
  const clear=document.getElementById('jdClearQuoteFilter');if(clear)clear.onclick=()=>{window.jdSavedQuotesClientFilter='';drawSavedQuotesV6()};
  sq.querySelectorAll('[data-open-qid]').forEach(b=>b.onclick=()=>loadSavedQuoteV6(b.dataset.openQid));
 }

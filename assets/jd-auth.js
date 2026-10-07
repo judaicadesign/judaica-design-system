@@ -63,6 +63,30 @@
     next.then(() => { if (chains.get(k)===next) { pending.delete(k); badge(pending.size?'Guardando…':'● Sincronizado'); } },
       () => badge('⚠ Cambio local pendiente de sincronización'));
   }
+  let sharedMutation = false;
+  window.jdUpdateSharedState = async function(keys, transform) {
+    if (!active || sharedMutation) throw new Error('Esperá a que termine el cambio anterior.');
+    sharedMutation = true;
+    try {
+      await Promise.all([...chains.values()]);
+      await session();
+      badge('Guardando…');
+      const {data, error:readError} = await client.from('app_state').select('key,value').in('key',keys);
+      if(readError) throw readError;
+      const current = Object.fromEntries(data.map(row=>[row.key,row.value]));
+      const updates = transform(current);
+      if(!updates) { badge('● Sincronizado'); return; }
+      const rows = Object.entries(updates).map(([key,value])=>({key,value,updated_at:new Date().toISOString()}));
+      const {error} = await client.from('app_state').upsert(rows);
+      if(error) throw error;
+      for(const row of rows) rawSet.call(localStorage,row.key,JSON.stringify(row.value));
+      window.dispatchEvent(new CustomEvent('jd-shared-ready'));
+      badge(pending.size?'Guardando…':'● Sincronizado');
+    } catch(error) {
+      badge('⚠ No se pudo guardar el cambio');
+      throw error;
+    } finally { sharedMutation = false; }
+  };
   Storage.prototype.setItem = function(k,v) {
     rawSet.call(this,k,v);
     if(this===localStorage && active && syncKey(k)) {
@@ -74,7 +98,7 @@
     rawRemove.call(this,k);
     if(this===localStorage && active && syncKey(k)) enqueue(k,null,true);
   };
-  window.addEventListener('beforeunload',e=>{if(pending.size){e.preventDefault();e.returnValue='';}});
+  window.addEventListener('beforeunload',e=>{if(pending.size || sharedMutation){e.preventDefault();e.returnValue='';}});
   async function open() {
     if(active || initializing) return;
     initializing=true;
@@ -105,7 +129,7 @@
       document.body.classList.add('jd-authenticated');
       const controls=document.createElement('div');controls.className='jd-session-controls';
       const logout=document.createElement('button');logout.className='jd-logout';logout.type='button';logout.textContent='Cerrar sesión';
-      logout.onclick=async()=>{await Promise.allSettled([...chains.values()]);if(pending.size){badge('No se pudo sincronizar. Reintentá antes de salir.');return;}await client.auth.signOut();location.reload();};
+      logout.onclick=async()=>{if(sharedMutation){badge('Esperá a que termine el cambio.');return;}await Promise.allSettled([...chains.values()]);if(pending.size){badge('No se pudo sincronizar. Reintentá antes de salir.');return;}await client.auth.signOut();location.reload();};
       controls.append(status,logout);
       document.querySelector('.sidebar').insertBefore(controls,document.getElementById('nav'));
       badge('● Sincronizado');
