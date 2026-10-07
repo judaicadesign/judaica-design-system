@@ -49,6 +49,10 @@
   .jd-quote-amounts { display:grid; gap:5px; min-width:130px; }
   .jd-quote-amount { display:flex; justify-content:space-between; gap:12px; }
   .jd-quote-amount b { white-space:nowrap; font-weight:600; }
+  .jd-profit { display:grid; gap:4px; padding:12px; margin-top:10px; border-radius:10px; background:#edf5ef; color:#285c45; }
+  .jd-profit span,.jd-profit small { font-size:12px; line-height:1.4; }
+  .jd-profit-low { background:#fff0ec; color:#914438; }
+  .jd-savedquotes-table tr[hidden] { display:none!important; }
   .field label,.jd-field label,.jd-formgrid label,.jd-crm-field label { font-size:11px; letter-spacing:.045em; line-height:1.5; }
   .field input,.field select,.field textarea,.jd-field input,.jd-field select,.jd-field textarea,.jd-formgrid input,.jd-formgrid select,.jd-formgrid textarea,.jd-crm-field input,.jd-crm-field select,.jd-crm-field textarea { min-height:42px; border-color:var(--line); color:var(--ink); line-height:1.45; }
   input[type=checkbox],input[type=radio] { accent-color:var(--accent); min-height:0; }

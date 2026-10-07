@@ -6,6 +6,11 @@ async function run(mode){
  const d=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'https://judaicadesign.github.io/judaica-design-system/',runScripts:'dangerously',virtualConsole:vc});const w=d.window;
  w.fetch=async()=>({ok:true,json:async()=>({}),text:async()=>''});w.Headers=Headers;w.Request=Request;w.scrollTo=()=>{};
  const client={auth:{getSession:async()=>({data:{session:mode==='none'?null:{access_token:'test-only'}}}),getUser:async()=>({data:{user:{email:'judaica.dzn@gmail.com'}}}),onAuthStateChange:()=>({}),signOut:async()=>({})},storage:{from:()=>({createSignedUrl:async p=>({data:{signedUrl:'https://athiruoimehofqzrplnl.supabase.co/storage/v1/object/sign/jd-assets/'+p+'?token=test'}})})},from:t=>({select:()=>t==='jd_team_access'?{eq:async()=>({data:mode==='denied'?[]:[{email:'judaica.dzn@gmail.com'}]})}:Object.assign(Promise.resolve({data:structuredClone(remote)}),{in:async(field,keys)=>({data:structuredClone(remote.filter(row=>keys.includes(row.key)))})}),upsert:async x=>{if(failWrite)return{error:{message:'Sin conexión'}};writes.push(x);for(const row of (Array.isArray(x)?x:[x])){const i=remote.findIndex(r=>r.key===row.key);if(i<0)remote.push(structuredClone(row));else remote[i]=structuredClone(row)}return{}},delete:()=>({eq:async()=>({})})})};
+ client.rpc=async(name,{changes})=>{
+  assert.equal(name,'jd_commit_state');if(failWrite)return{error:{message:'Sin conexión'}};
+  for(const c of changes){const old=remote.find(r=>r.key===c.key);if(!!old!==c.exists||old&&JSON.stringify(old.value)!==JSON.stringify(c.expected))return{error:{code:'40001',message:'Conflicto'}};}
+  const rows=changes.map(c=>({key:c.key,value:c.value}));writes.push(rows);for(const row of rows){const i=remote.findIndex(r=>r.key===row.key);if(i<0)remote.push(structuredClone(row));else remote[i]=structuredClone(row)}return{data:rows};
+ };
  w.supabase={createClient:()=>client};w.eval(fs.readFileSync(root+'/assets/jd-ui.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-auth.js','utf8'));
  await new Promise(r=>setTimeout(r,800));
  assert.equal(w.document.body.classList.contains('jd-authenticated'),mode==='allowed');

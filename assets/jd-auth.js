@@ -19,6 +19,8 @@
   status.setAttribute('role','status');
   status.setAttribute('aria-live','polite');
   const chains = new Map();
+  const confirmed = new Map();
+  const clone = value => JSON.parse(JSON.stringify(value));
   const pending = new Set();
   async function privateLinks(value) {
     if(typeof value==='string' && value.startsWith(URL+'/storage/v1/object/')) {
@@ -44,6 +46,13 @@
       if (!active && !initializing) throw new Error('Acceso privado: iniciá sesión.');
       const s = await session();
       const headers = new Headers(init?.headers || (input instanceof Request ? input.headers : undefined));
+      if(active && target.pathname==='/rest/v1/app_state' && String(init?.method||'GET').toUpperCase()==='POST'){
+        try{
+          const body=JSON.parse(init.body),rows=Array.isArray(body)?body:[body];
+          for(const row of rows)await enqueue(row.key,row.value,false);
+          return new Response('[]',{status:200,headers:{'Content-Type':'application/json'}});
+        }catch(error){return new Response(JSON.stringify({message:error.message}),{status:409,headers:{'Content-Type':'application/json'}})}
+      }
       headers.set('apikey', KEY);
       headers.set('Authorization', 'Bearer ' + s.access_token);
       return rawFetch(input, { ...init, headers });
@@ -54,14 +63,16 @@
     pending.add(k); badge('Guardando…');
     const next = (chains.get(k) || Promise.resolve()).catch(() => {}).then(async () => {
       const s = await session();
-      const request = remove ? client.from('app_state').delete().eq('key', k) :
-        client.from('app_state').upsert({key:k, value, updated_at:new Date().toISOString()});
-      const { error } = await request;
+      const exists=confirmed.has(k),expected=exists?confirmed.get(k):null;
+      if(!remove&&exists&&JSON.stringify(value)===JSON.stringify(expected))return;
+      const { error } = await client.rpc('jd_commit_state',{changes:[{key:k,value,remove,exists,expected}]});
       if (error) throw error;
+      if(remove)confirmed.delete(k);else confirmed.set(k,clone(value));
     });
     chains.set(k,next);
     next.then(() => { if (chains.get(k)===next) { pending.delete(k); badge(pending.size?'Guardando…':'● Sincronizado'); } },
       () => badge('⚠ Cambio local pendiente de sincronización'));
+    return next;
   }
   let sharedMutation = false;
   window.jdUpdateSharedState = async function(keys, transform) {
@@ -74,12 +85,14 @@
       const {data, error:readError} = await client.from('app_state').select('key,value').in('key',keys);
       if(readError) throw readError;
       const current = Object.fromEntries(data.map(row=>[row.key,row.value]));
+      const baseline=clone(current);
       const updates = transform(current);
       if(!updates) { badge('● Sincronizado'); return; }
       const rows = Object.entries(updates).map(([key,value])=>({key,value,updated_at:new Date().toISOString()}));
-      const {error} = await client.from('app_state').upsert(rows);
+      const changes=rows.map(row=>({key:row.key,value:row.value,exists:Object.hasOwn(baseline,row.key),expected:baseline[row.key]??null}));
+      const {error} = await client.rpc('jd_commit_state',{changes});
       if(error) throw error;
-      for(const row of rows) rawSet.call(localStorage,row.key,JSON.stringify(row.value));
+      for(const row of rows){confirmed.set(row.key,clone(row.value));rawSet.call(localStorage,row.key,JSON.stringify(row.value));}
       window.dispatchEvent(new CustomEvent('jd-shared-ready'));
       badge(pending.size?'Guardando…':'● Sincronizado');
     } catch(error) {
@@ -114,7 +127,7 @@
       const cache={};
       for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(syncKey(k))cache[k]=localStorage.getItem(k);}
       rawSet.call(localStorage,'jd-recovery-cache',JSON.stringify(cache));
-      for(const row of rows)rawSet.call(localStorage,row.key,JSON.stringify(await privateLinks(row.value)));
+      for(const row of rows){confirmed.set(row.key,clone(row.value));rawSet.call(localStorage,row.key,JSON.stringify(await privateLinks(row.value)));}
       for(const inert of document.querySelectorAll('script[data-jd-app]')) {
         const script=document.createElement('script');
         if(inert.id)script.id=inert.id+'-active';
@@ -157,6 +170,7 @@
   };
   client.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){
     active=false;
+    confirmed.clear();
     for(const k of Object.keys(localStorage))if(syncKey(k)||k==='jd-recovery-cache')rawRemove.call(localStorage,k);
     document.body.classList.remove('jd-authenticated');document.getElementById('jdLogin').hidden=false;
   }});

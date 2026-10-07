@@ -8,13 +8,14 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/jd-base.css?v=20261007">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261007b">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261007c">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
+<script src="assets/jd-orders.js?v=20261007" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
-<script src="assets/jd-auth.js" defer></script>
+<script src="assets/jd-auth.js?v=20261007c" defer></script>
 <section class="jd-login" id="jdLogin">
 <img src="assets/jd-logo-black.svg" alt="Judaica Design®" style="width:180px">
 <div class="eyebrow">Sistema interno</div><h1>Bienvenido.</h1><p>Ingresá para continuar con tu trabajo.</p>
@@ -105,7 +106,7 @@ function go(id){
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
 function openModal(id){document.getElementById(id)?.classList.add('open')}
 function closeModal(id){document.getElementById(id)?.classList.remove('open')}
-function resetQuote(){go('quotes')}
+function resetQuote(){window.jdQuoteParent=null;document.getElementById('jdQuoteVersionNote')?.remove();go('quotes')}
 </script>
 
 
@@ -197,17 +198,32 @@ function drawSavedQuotesV6(clientFilter){
  (rows.length?'<div class="jd-table-scroll jd-savedquotes-scroll"><table class="table jd-savedquotes-table"><thead><tr><th>Cliente</th><th>Producto</th><th>Configuración</th><th>Cantidades / precio</th><th>Estado</th><th>Fecha</th><th>Evento / entrega</th><th></th></tr></thead><tbody>'+
  rows.map((q,i)=>'<tr><td><b>'+esc3(q.client||'—')+'</b></td><td>'+esc3(q.product||'—')+'</td><td>'+esc3([q.model,q.nusaj,q.texts||q.lang,q.size,q.binding||q.bind].filter(Boolean).join(' · '))+'</td><td>'+quoteQtyText(q)+'</td><td><span class="tag '+(/enviado/i.test(q.status||'')?'ok':'')+'">'+esc3(q.status||'Guardado')+'</span></td><td>'+esc3(fmtDate(q))+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><div class="jd-toolbar"><button class="btn sm" data-open-qid="'+esc3(q.id||'')+'">Abrir</button>'+(q.pdfUrl?'<a class="btn sm" target="_blank" rel="noopener" href="'+esc3(q.pdfUrl)+'">PDF</a>':'')+'<button class="btn sm" data-delete-qid="'+esc3(q.id||'')+'">Eliminar</button></div></td></tr>').join('')+
  '</tbody></table></div>':'<div class="card"><p class="muted">'+(filter?'No hay presupuestos guardados para este cliente.':'Todavía no hay presupuestos guardados.')+'</p></div>');
- document.getElementById('jdNewQuoteBtn').onclick=()=>go('quotes');
+ document.getElementById('jdNewQuoteBtn').onclick=resetQuote;
  document.getElementById('jdQuoteTrash').onclick=drawDeletedQuotesV6;
+ if(rows.length){
+   const tools=document.createElement('div');tools.className='jd-toolbar';tools.style.marginBottom='16px';
+   tools.innerHTML='<input id="jdQuoteSearch" aria-label="Buscar presupuestos" placeholder="Buscar cliente, producto o configuración…"><select id="jdQuoteStatus" aria-label="Filtrar estado"><option value="">Todos los estados</option>'+[...new Set(rows.map(q=>q.status||'Guardado'))].map(s=>'<option>'+esc3(s)+'</option>').join('')+'</select><span id="jdQuoteSearchCount" class="small muted"></span>';
+   sq.querySelector('.jd-savedquotes-scroll').before(tools);
+   const apply=()=>{let n=0;const search=normQuoteClient(document.getElementById('jdQuoteSearch').value),status=document.getElementById('jdQuoteStatus').value;
+     sq.querySelectorAll('.jd-savedquotes-table tbody tr').forEach((tr,i)=>{tr.hidden=!!(search&&!normQuoteClient(tr.textContent).includes(search)||status&&(rows[i].status||'Guardado')!==status);if(!tr.hidden)n++});
+     document.getElementById('jdQuoteSearchCount').textContent=n+' de '+rows.length+' presupuestos';
+   };
+   document.getElementById('jdQuoteSearch').oninput=apply;document.getElementById('jdQuoteStatus').onchange=apply;apply();
+ }
  sq.querySelectorAll('[data-delete-qid]').forEach(b=>b.onclick=()=>moveSavedQuoteV6(b.dataset.deleteQid,false,b));
  const clear=document.getElementById('jdClearQuoteFilter');if(clear)clear.onclick=()=>{window.jdSavedQuotesClientFilter='';drawSavedQuotesV6()};
  sq.querySelectorAll('[data-open-qid]').forEach(b=>b.onclick=()=>loadSavedQuoteV6(b.dataset.openQid));
 }
 function loadSavedQuoteV6(id){
  const q=getSavedQuotesV6().find(x=>String(x.id)===String(id)); if(!q)return;
+ window.jdQuoteParent=q.id;
  window.qs6=(q.quantities||[]).map(x=>Number(x.qty)).filter(Boolean);
  if(window.qs6.length) localStorage.setItem('jd_quote_qtys_v6',JSON.stringify(window.qs6));
  go('quotes');
+ document.getElementById('jdQuoteVersionNote')?.remove();
+ const versionNote=document.createElement('div');versionNote.id='jdQuoteVersionNote';versionNote.className='notice';
+ versionNote.textContent='Nueva versión: los precios se recalculan con los costos actuales. Guardar crea otro presupuesto; el presupuesto y el PDF anteriores no se modifican.';
+ document.getElementById('quotes').prepend(versionNote);
  const set=(id,val,fire=true)=>{
    const el=document.getElementById(id); if(!el||val==null)return;
    const has=[...el.options||[]].some(o=>o.value===String(val)||o.text===String(val));
@@ -1372,7 +1388,8 @@ function render6(){
        const src=r.live
          ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo neto sin IVA $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Total B612 c/IVA $ '+Math.round(r.b612.gross).toLocaleString('es-AR')+' · consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos'+(r.b612.productionQty&&Number(r.b612.productionQty)!==Number(q)?' · B612 optimiza '+q+' → '+r.b612.productionQty+' u.':'')+'</div>'
          :'<div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base);
-       el.innerHTML='<b>$ '+round5(r.price-disc).toLocaleString('es-AR')+'</b>'+src;
+       const sale=round5(r.price-disc),profit=sale-r.cost-r.shipping,margin=profit/sale*100;
+       el.innerHTML='<b>$ '+sale.toLocaleString('es-AR')+'</b>'+src+'<div class="jd-profit '+(profit<=0?'jd-profit-low':'')+'"><b>Ganancia bruta estimada: $ '+Math.round(profit).toLocaleString('es-AR')+'</b><span>'+margin.toLocaleString('es-AR',{maximumFractionDigits:1})+'% del precio · envío $ '+Math.round(r.shipping).toLocaleString('es-AR')+'</span><small>Antes de impuestos y de valorar tu tiempo de diseño.</small></div>'+(profit<=0?'<div class="jd-age-bad">Este precio no cubre imprenta y envío. Revisá el descuento.</div>':'');
      }else{
        el.innerHTML=r.ok?'<span style="color:#9a4b45">Revisá el descuento: el precio debe ser mayor a cero.</span>':r.loading?'<span style="color:#0f5b5d">↻ '+E(r.reason)+'</span>':'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
      }
@@ -1440,6 +1457,9 @@ function collectQuote6(){
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
  if(badQty)throw new Error('No se puede guardar este presupuesto: '+badQty.r.reason);
  if(quote.quantities.some(x=>!Number.isFinite(x.price)||x.price<=0))throw new Error('El descuento deja alguna cantidad sin precio válido. Revisá el importe.');
+ quote.quantities.forEach(x=>{const r=calcQty(x.qty);x.shipping=Number(r.shipping||0);x.profit=Math.round((x.price-x.cost-x.shipping)*100)/100;x.marginPct=x.profit/x.price*100;});
+ const parent=GET('jd_saved_quotes_v6',[]).find(q=>q.id===window.jdQuoteParent&&q.client===quote.client);
+ if(parent){quote.parentQuoteId=parent.id;quote.quoteFamily=parent.quoteFamily||parent.id;quote.revision=Number(parent.revision||1)+1;}else{quote.quoteFamily=quote.id;quote.revision=1;}
  return quote;
 }
 window.jdCollectQuote=collectQuote6;
@@ -1451,12 +1471,14 @@ async function save6(){
    await window.jdUpdateSharedState(['jd_saved_quotes_v6','jd_clients'],state=>{
    if(!Array.isArray(state.jd_saved_quotes_v6)||!Array.isArray(state.jd_clients))throw new Error('No se pudieron verificar presupuestos y clientes.');
    const saved=state.jd_saved_quotes_v6,clients=state.jd_clients.map(c=>({...c}));
+   quote.revision=Math.max(0,...saved.filter(q=>(q.quoteFamily||q.id)===quote.quoteFamily).map(q=>Number(q.revision||1)))+1;
    const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
    const parts=quote.client.trim().split(/\s+/);
    const firstName=parts.shift()||quote.client.trim(),lastName=parts.join(' ');
    let ci=clients.findIndex(x=>norm([x.firstName,x.lastName].filter(Boolean).join(' ')||x.name)===norm(quote.client));
    const clientObj=ci>=0?{...clients[ci]}:{name:quote.client,firstName,lastName,org:'',phone:'',paid:false,quoteIds:[]};
-   clientObj.name=quote.client;clientObj.firstName=clientObj.firstName||firstName;clientObj.lastName=clientObj.lastName||lastName;
+   clientObj.name=quote.client;
+   if(!(clientObj.org===quote.client&&!clientObj.firstName&&!clientObj.lastName)){clientObj.firstName=clientObj.firstName||firstName;clientObj.lastName=clientObj.lastName||lastName;}
    clientObj.ask=[quote.product,quote.model,quote.nusaj].filter(Boolean).join(' · ');
    clientObj.status='Presupuesto listo';clientObj.next='enviar presupuesto';
    clientObj.quoteIds=Array.from(new Set([...(clientObj.quoteIds||[]),quote.id]));
@@ -1546,28 +1568,23 @@ window.renderQuote=render6;
    const source=el.cloneNode(true);
    source.id='jdPdfCapture';
    source.style.cssText='position:fixed;left:-10000px;top:0;width:794px;max-width:none;overflow:visible;z-index:-1;background:#f7f2e8;padding:26px';
-   if(mobile)document.body.appendChild(source);
-   const target=mobile?source:el;
+   document.body.appendChild(source);
+   const target=source;
    let canvas;
    try{
      canvas=await html2canvas(target,{scale:mobile?1.35:2,useCORS:true,allowTaint:false,backgroundColor:'#f7f2e8',logging:false,windowWidth:900});
    }finally{
-     if(mobile&&source.isConnected)source.remove();
+     if(source.isConnected)source.remove();
    }
    const img=canvas.toDataURL('image/jpeg',mobile?0.90:0.96);
    const {jsPDF}=window.jspdf;
    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
-   const pw=210,ph=297,iw=pw;
-   const ih=canvas.height*iw/canvas.width;
-   if(ih<=ph){pdf.addImage(img,'JPEG',0,0,iw,ih,'FAST')}
-   else{
-     let y=0,page=0;
-     while(y<ih){
-       if(page>0)pdf.addPage();
-       pdf.addImage(img,'JPEG',0,-y,iw,ih,'FAST');
-       y+=ph;page++;
-     }
-   }
+   // Fit the entire document on exactly one A4; never crop or split clauses.
+   if(!(canvas.width>0&&canvas.height>0))throw new Error('No se pudo capturar el presupuesto.');
+   const pw=210,ph=297,pad=6;
+   const ratio=Math.min((pw-pad*2)/canvas.width,(ph-pad*2)/canvas.height);
+   const iw=canvas.width*ratio,ih=canvas.height*ratio;
+   pdf.addImage(img,'JPEG',(pw-iw)/2,pad,iw,ih,undefined,'FAST');
    return pdf.output('blob');
  }
  function fileName(q){
@@ -1623,15 +1640,21 @@ window.renderQuote=render6;
      const blob=await pdfBlob();
      const url=await uploadPdf(blob,q);
      // Save quote if it is not already present with same client/product in the last minute.
-     let arr=get('jd_saved_quotes_v6',[]);
      const fingerprint=x=>JSON.stringify([x.product,x.model,x.nusaj,x.texts,x.size,x.binding,x.pages,x.quantities.map(y=>[y.qty,y.price]),x.discount||0]);
-     const found=arr.find(x=>norm(x.client)===norm(q.client)&&fingerprint(x)===fingerprint(q)&&Date.now()-new Date(x.created).getTime()<60000);
-     if(!found){arr.unshift({...q,status:'Presupuesto enviado',pdfUrl:url});set('jd_saved_quotes_v6',arr)}
-     else{found.status='Presupuesto enviado';found.pdfUrl=url;set('jd_saved_quotes_v6',arr)}
-     window.jdUpsertClientFromQuote(found||q,true);
+     await window.jdUpdateSharedState(['jd_saved_quotes_v6'],state=>{
+       if(!Array.isArray(state.jd_saved_quotes_v6))throw new Error('No se pudieron verificar los presupuestos.');
+       const arr=state.jd_saved_quotes_v6;
+       const found=arr.find(x=>norm(x.client)===norm(q.client)&&fingerprint(x)===fingerprint(q)&&Date.now()-new Date(x.created).getTime()<60000);
+       const frozen={...q,status:'Preparado para compartir',pdfUrl:url,pdfGeneratedAt:new Date().toISOString(),pdfSnapshot:JSON.parse(JSON.stringify(q))};
+       if(!found)arr.unshift(frozen);else Object.assign(found,{status:frozen.status,pdfUrl:url,pdfGeneratedAt:frozen.pdfGeneratedAt,pdfSnapshot:frozen.pdfSnapshot});
+       return {jd_saved_quotes_v6:arr};
+     });
+     // Opening WhatsApp only prepares a draft; it is not evidence of delivery.
+     window.jdUpsertClientFromQuote(q,false);
      const first=q.client.split(/\s+/)[0]||q.client;
      const msg='Hola '+first+', ¿cómo estás? Te envío el presupuesto de '+q.product+'.\n\n'+url+'\n\nCualquier duda, escribime.';
-     wa.location='https://wa.me/'+phone+'?text='+encodeURIComponent(msg);
+     const href='https://wa.me/'+phone+'?text='+encodeURIComponent(msg);
+     if(wa)wa.location=href;else alert('El navegador bloqueó WhatsApp. El PDF quedó guardado; abrilo desde Presupuestos.');
    }catch(e){
      if(wa)wa.close();
      alert(e.message||e);
@@ -1792,6 +1815,8 @@ window.renderQuote=render6;
  }
  function migrate(c){
    const x={...c};
+   // Deterministic identity for old records, without writing a migration on login.
+   if(!x.id)x.id='legacy-'+encodeURIComponent([x.name||[x.firstName,x.lastName].filter(Boolean).join(' '),x.org||'',x.created||''].join('|'));
    if(x.status==='Aceptado'||x.status==='Pago pendiente')x.status='Presupuesto aprobado · esperando pago';
    if(x.status==='Presupuesto listo')x.status='Presupuesto listo para enviar';
    if(!x.status)x.status='Consulta recibida';
@@ -1799,27 +1824,39 @@ window.renderQuote=render6;
    if(!x.paymentStatus)x.paymentStatus=x.paid?'Pagado':'Pendiente';
    if(!x.name)x.name=[x.firstName,x.lastName].filter(Boolean).join(' ').trim();
    const parts=String(x.name||'').trim().split(/\s+/);
-   if(!x.firstName)x.firstName=parts.shift()||'';
-   if(!x.lastName)x.lastName=parts.join(' ');
+   if(!(x.org===x.name&&!x.firstName&&!x.lastName)){
+     if(!x.firstName)x.firstName=parts.shift()||'';
+     if(!x.lastName)x.lastName=parts.join(' ');
+   }
    if(!Array.isArray(x.history))x.history=[];
    return x;
  }
  async function saveAll(arr,quiet){
    arr=arr.map(migrate);
-   localStorage.setItem(CLIENT_KEY,JSON.stringify(arr));
+   const before=get().map(migrate);
+   const baseline=new Map(before.map(c=>[c.id,c]));
+   const changes=arr.filter(c=>JSON.stringify(c)!==JSON.stringify(baseline.get(c.id)));
    try{
-     const r=await fetch(SB_URL+'/rest/v1/app_state',{
-       method:'POST',
-       headers:{apikey:SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'},
-       body:JSON.stringify({key:CLIENT_KEY,value:arr,updated_at:nowIso()})
+     await window.jdUpdateSharedState([CLIENT_KEY],state=>{
+       if(!Array.isArray(state[CLIENT_KEY]))throw new Error('No se pudieron verificar los clientes.');
+       const latest=state[CLIENT_KEY].map(migrate);
+       for(const changed of changes){
+         const matches=latest.map((c,i)=>c.id===changed.id?i:-1).filter(i=>i>=0);
+         if(matches.length>1)throw new Error('Hay fichas duplicadas. No se modificó ningún cliente.');
+         const i=matches[0],old=baseline.get(changed.id);
+         if(old&&(i===undefined||JSON.stringify(latest[i])!==JSON.stringify(old)))throw new Error('Esta ficha cambió en otro dispositivo. Cerrá y volvé a abrir la ficha antes de guardar.');
+         if(i===undefined)latest.unshift(changed);else latest[i]=changed;
+       }
+       return {[CLIENT_KEY]:latest};
      });
-     if(!r.ok)throw new Error('Supabase '+r.status);
    }catch(e){
      console.error('CRM sync',e);
-     if(!quiet)alert('El cambio quedó guardado en este navegador, pero no se pudo sincronizar todavía.');
+     alert(e.message||'No se pudo guardar. Tus cambios siguen en la ficha para reintentar.');
+     return false;
    }
    render();
    if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();
+   return true;
  }
  function paymentBadge(c){
    const s=c.paymentStatus||(c.paid?'Pagado':'Pendiente');
@@ -1865,7 +1902,7 @@ window.renderQuote=render6;
  function openClient(index){
    const arr=get().map(migrate);
    const isNew=index<0;
-   const c=isNew?{name:'',firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()}:arr[index];
+   const c=isNew?{id:'client-'+crypto.randomUUID(),name:'',firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()}:arr[index];
    const events=historyOf(c);
    const timeline=events.length?events.map(e=>'<div class="jd-crm-event"><span class="jd-crm-event-dot"></span><div><b>'+esc(e.type||'Movimiento')+'</b><small>'+fmt(e.at)+'</small><p>'+esc(e.text||'')+'</p></div></div>').join(''):'<div class="jd-crm-empty">Todavía no hay movimientos registrados.</div>';
    const body=
@@ -1875,6 +1912,13 @@ window.renderQuote=render6;
       '<div class="jd-crm-field"><label>Apellido</label><input id="crmLast" value="'+esc(c.lastName||'')+'"></div>'+
       '<div class="jd-crm-field"><label>Institución</label><input id="crmOrg" value="'+esc(c.org||'')+'"></div>'+
       '<div class="jd-crm-field"><label>WhatsApp</label><input id="crmPhone" value="'+esc(c.phone||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Correo electrónico</label><input id="crmEmail" type="email" autocomplete="email" value="'+esc(c.email||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Destinatario de la entrega</label><input id="crmRecipient" value="'+esc(c.deliveryRecipient||'')+'" placeholder="Persona o institución que recibe"></div>'+
+      '<div class="jd-crm-field jd-crm-span2"><label>Dirección de entrega · calle, número y piso</label><input id="crmAddress" autocomplete="street-address" value="'+esc(c.address||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Localidad / provincia</label><input id="crmCity" value="'+esc(c.city||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Código postal</label><input id="crmPostal" autocomplete="postal-code" value="'+esc(c.postalCode||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>País</label><input id="crmCountry" autocomplete="country-name" value="'+esc(c.country||'')+'"></div>'+
+      '<div class="jd-crm-field jd-crm-span2"><label>Notas del cliente</label><textarea id="crmNotes">'+esc(c.notes||'')+'</textarea></div>'+
       '<div class="jd-crm-field jd-crm-span2"><label>Pedido / consulta</label><input id="crmAsk" value="'+esc(c.ask||'')+'"></div>'+
       '<div class="jd-crm-field"><label>Estado</label><select id="crmStatus">'+statusOptions(c.status)+'</select></div>'+
       '<div class="jd-crm-field"><label>Pago</label><select id="crmPay"><option '+(c.paymentStatus==='Pendiente'?'selected':'')+'>Pendiente</option><option '+(c.paymentStatus==='Seña'?'selected':'')+'>Seña</option><option '+(c.paymentStatus==='Pagado'?'selected':'')+'>Pagado</option><option '+(c.paymentStatus==='No corresponde'?'selected':'')+'>No corresponde</option></select></div>'+
@@ -1890,18 +1934,25 @@ window.renderQuote=render6;
    const w=modalShell(isNew?'Nueva consulta':(c.name||'Cliente'),body);
    w.querySelector('[data-cancel]').onclick=()=>w.remove();
    w.querySelector('[data-save]').onclick=async()=>{
+     const button=w.querySelector('[data-save]');if(button.disabled)return;
      const first=w.querySelector('#crmFirst').value.trim(),last=w.querySelector('#crmLast').value.trim();
-     if(!first&&!last){alert('Indicá nombre o apellido.');return}
+     const org=w.querySelector('#crmOrg').value.trim();
+     if(!first&&!last&&!org){alert('Indicá nombre, apellido o institución.');return}
+     const email=w.querySelector('#crmEmail');if(email.value&&!email.checkValidity()){alert('Revisá el correo electrónico.');email.focus();return}
+     button.disabled=true;
      const oldStatus=c.status,oldPay=c.paymentStatus;
-     c.firstName=first;c.lastName=last;c.name=[first,last].filter(Boolean).join(' ').trim();
-     c.org=w.querySelector('#crmOrg').value.trim();
+     c.firstName=first;c.lastName=last;c.name=[first,last].filter(Boolean).join(' ').trim()||org;
+     c.org=org;
+     c.email=email.value.trim();c.address=w.querySelector('#crmAddress').value.trim();
+     c.city=w.querySelector('#crmCity').value.trim();c.postalCode=w.querySelector('#crmPostal').value.trim();
+     c.country=w.querySelector('#crmCountry').value.trim();c.deliveryRecipient=w.querySelector('#crmRecipient').value.trim();c.notes=w.querySelector('#crmNotes').value.trim();
      c.phone=w.querySelector('#crmPhone').value.trim();
      c.ask=w.querySelector('#crmAsk').value.trim();
      c.status=w.querySelector('#crmStatus').value;
      c.paymentStatus=w.querySelector('#crmPay').value;c.paid=c.paymentStatus==='Pagado';
      c.next=w.querySelector('#crmNext').value.trim();
      c.nextDate=w.querySelector('#crmNextDate').value;
-     if(isNew)addHistory(c,'Contacto','Se creó la consulta / ficha del cliente.',c.created);
+     if(isNew&&!c.history.some(h=>h.text==='Se creó la consulta / ficha del cliente.'))addHistory(c,'Contacto','Se creó la consulta / ficha del cliente.',c.created);
      if(!isNew&&oldStatus!==c.status)addHistory(c,'Estado',oldStatus+' → '+c.status);
      if(!isNew&&oldPay!==c.paymentStatus)addHistory(c,'Pago','Estado de pago: '+oldPay+' → '+c.paymentStatus);
      const ht=w.querySelector('#crmHistText').value.trim();
@@ -1913,8 +1964,8 @@ window.renderQuote=render6;
        c.status='Pago realizado · iniciar diseño';
        addHistory(c,'Estado','Pago confirmado. Inicia etapa de diseño.');
      }
-     if(isNew)arr.unshift(c);else arr[index]=c;
-     w.remove();await saveAll(arr);
+     if(isNew){const existing=arr.findIndex(x=>x.id===c.id);if(existing<0)arr.unshift(c);else arr[existing]=c}else arr[index]=c;
+     try{if(await saveAll(arr))w.remove()}finally{button.disabled=false}
    };
  }
  // Quote-driven client upsert: quote and WhatsApp actions also become timeline events.

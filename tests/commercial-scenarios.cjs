@@ -16,11 +16,11 @@ function fixture(){return [
 ];}
 async function boot(rows=fixture(),fetchResult){
  const remote=structuredClone(rows),writes=[],alerts=[],errors=[];
- let writeFailure=false,expired=false;
+ let writeFailure=false,expired=false,raceKey=null;
  const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
  const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'https://example.test/',runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc});
  const w=dom.window;
- w.Headers=Headers;w.Request=Request;w.scrollTo=()=>{};w.alert=message=>alerts.push(message);w.confirm=()=>true;
+ w.Headers=Headers;w.Request=Request;w.Response=Response;w.structuredClone=structuredClone;w.scrollTo=()=>{};w.alert=message=>alerts.push(message);w.confirm=()=>true;
  w.fetch=async()=>fetchResult||{ok:false,status:503,json:async()=>({ok:false,error:'Proveedor sin conexión'}),text:async()=>''};
  const session=()=>({data:{session:expired?null:{access_token:'fixture-only'}}});
  const client={auth:{getSession:async()=>session(),getUser:async()=>({data:{user:{email:'qa@example.test'}}}),onAuthStateChange:()=>{},signOut:async()=>({})},storage:{from:()=>({createSignedUrl:async()=>({data:{signedUrl:'https://example.test/fixture.pdf'}})})},from:table=>({
@@ -28,14 +28,22 @@ async function boot(rows=fixture(),fetchResult){
   upsert:async updates=>{if(writeFailure)return{error:{message:'Falla de red simulada'}};const batch=Array.isArray(updates)?updates:[updates];writes.push(structuredClone(batch));for(const row of batch){const i=remote.findIndex(x=>x.key===row.key);if(i<0)remote.push(structuredClone(row));else remote[i]=structuredClone(row)}return{}},
   delete:()=>({eq:async()=>({})})
  })};
+ client.rpc=async(name,{changes})=>{
+   assert.equal(name,'jd_commit_state');if(writeFailure)return {error:{message:'Falla de red simulada'}};
+   if(raceKey){remote.find(r=>r.key===raceKey).value.push({id:'racing-device',client:'Dispositivo simultáneo'});raceKey=null;}
+   for(const c of changes){const current=remote.find(r=>r.key===c.key);if(!!current!==c.exists||current&&JSON.stringify(current.value)!==JSON.stringify(c.expected))return {error:{code:'40001',message:'Datos modificados por otro dispositivo'}};}
+   const updates=changes.map(c=>({key:c.key,value:c.value}));writes.push(structuredClone(updates));
+   for(const c of changes){const i=remote.findIndex(r=>r.key===c.key);if(c.remove){if(i>=0)remote.splice(i,1)}else if(i<0)remote.push(structuredClone({key:c.key,value:c.value}));else remote[i]=structuredClone({key:c.key,value:c.value});}
+   return {data:updates,error:null};
+ };
  w.supabase={createClient:()=>client};
- for(const file of ['jd-ui.js','jd-inflation.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-inflation.js','jd-orders.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
  const get=key=>remote.find(row=>row.key===key)?.value;
  const setLocal=(key,value)=>w.localStorage.setItem(key,JSON.stringify(value));
- return {w,remote,writes,alerts,errors,get,setLocal,fail:value=>writeFailure=value,expire:value=>expired=value,close:()=>{assert.deepEqual(errors,[]);dom.window.close()}};
+ return {w,remote,writes,alerts,errors,get,setLocal,race:key=>raceKey=key,fail:value=>writeFailure=value,expire:value=>expired=value,close:()=>{assert.deepEqual(errors,[]);dom.window.close()}};
 }
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
@@ -47,6 +55,20 @@ async function scenarios(){
  assert.throws(()=>math.indexPercent(0,10));assert.throws(()=>math.indexPercent(150,140));
  assert.equal(math.validDate('2026-02-30'),false);assert.equal(math.validDate('2026-02-28'),true);
  console.log('inflation math and invalid values passed');
+ const concurrent=await boot();concurrent.w.document.getElementById('qClient').value='Cliente simultáneo';concurrent.race('jd_saved_quotes_v6');await save(concurrent);
+ assert.equal(concurrent.get('jd_saved_quotes_v6').length,1);assert.equal(concurrent.get('jd_saved_quotes_v6')[0].id,'racing-device');assert.equal(concurrent.get('jd_clients').length,1);assert.match(concurrent.alerts.at(-1),/otro dispositivo/);concurrent.close();
+ console.log('race between read and commit rejects entire quote/client batch passed');
+ const shareRows=fixture();shareRows.find(r=>r.key==='jd_clients').value[0].phone='5491100000000';
+ const share=await boot(shareRows,{ok:true,status:200});share.w.document.getElementById('qClient').value='Ána Prueba';
+ const draft={location:'',close(){}};share.w.open=()=>draft;
+ share.w.html2canvas=async()=>({width:794,height:1000,toDataURL:()=> 'data:image/jpeg;base64,AA=='});
+ share.w.jspdf={jsPDF:class{addImage(){}output(){return new share.w.Blob(['fixture'])}}};
+ await share.w.jdSendCurrentQuoteWhatsApp();await sleep(100);
+ assert.match(draft.location,/^https:\/\/wa.me\//);assert.equal(share.get('jd_saved_quotes_v6')[0].status,'Preparado para compartir');
+ assert.ok(share.get('jd_saved_quotes_v6')[0].pdfSnapshot);assert.notEqual(share.get('jd_clients')[0].status,'Presupuesto enviado');
+ share.w.jdRenderSavedQuotes();await sleep(30);await share.w.document.querySelector('[data-confirm-sent]').onclick();
+ assert.equal(share.get('jd_saved_quotes_v6')[0].status,'Presupuesto enviado');assert.ok(share.get('jd_saved_quotes_v6')[0].sentConfirmedAt);
+ share.close();console.log('WhatsApp draft is not sent, PDF snapshot and explicit sent confirmation passed');
  await invalid('empty client',a=>a.w.document.getElementById('qClient').value='',/Falta el nombre/);
  await invalid('empty quantities',a=>a.w.qs6=[],/cantidades/);
  await invalid('negative quantity',a=>a.w.qs6=[-50],/cantidades/);
@@ -76,12 +98,57 @@ async function scenarios(){
  assert.deepEqual(quote.quantities.map(x=>x.price),[200000,300000,360000,660000]);
  assert.equal(quote.discount,10000);assert.equal(quote.internal,'Nota interna de prueba');
  assert.equal(app.writes.at(-1).length,2,'client and quote must be committed together');
+ assert.deepEqual(quote.quantities.map(x=>x.profit),[90000,140000,170000,320000]);
+ assert.equal(quote.quantities[0].shipping,10000);
+ assert.equal(quote.quantities[0].marginPct,45);
  app.w.jdRenderSavedQuotes();
+ const search=app.w.document.getElementById('jdQuoteSearch');search.value='otro cliente';search.oninput();
+ assert.equal(app.w.document.querySelectorAll('.jd-savedquotes-table tbody tr:not([hidden])').length,1);
+ search.value='';search.oninput();
  app.w.document.querySelector('[data-open-qid]').click();
  assert.equal(app.w.document.getElementById('qDiscount').value,'10000');
  assert.equal(app.w.document.getElementById('qInternal').value,'Nota interna de prueba');
  console.log('multi-quantity, discount, retry, double click, existing client and concurrent remote quote passed');
- app.expire(true);await save(app);assert.equal(app.get('jd_saved_quotes_v6').length,2);assert.match(app.alerts.at(-1),/sesión/);app.expire(false);
+ // Rich client fields survive retries, other-device additions and a quote save.
+ app.w.jdRenderClients();app.w.document.querySelector('[data-open="0"]').click();
+ const field=(id,value)=>app.w.document.getElementById(id).value=value;
+ field('crmEmail','cliente@example.test');field('crmAddress','Calle de prueba 123, piso 2');field('crmCity','CABA');field('crmPostal','C1000');field('crmCountry','Argentina');field('crmRecipient','Recepción de prueba');field('crmNotes','Datos ficticios');
+ app.get('jd_clients').push({id:'remote-new-client',name:'Cliente de otro dispositivo',status:'Consulta recibida'});
+ app.fail(true);await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
+ assert.ok(app.w.document.getElementById('crmEmail'),'failed write must keep form open');
+ assert.equal(app.get('jd_clients')[0].email,undefined);
+ app.fail(false);await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
+ assert.equal(app.get('jd_clients')[0].address,'Calle de prueba 123, piso 2');
+ assert.equal(app.get('jd_clients')[0].email,'cliente@example.test');assert.equal(app.get('jd_clients').length,2);
+ await save(app);assert.equal(app.get('jd_clients')[0].address,'Calle de prueba 123, piso 2');
+ // A concurrent edit to the same client is rejected instead of overwriting it.
+ app.w.jdRenderClients();app.w.document.querySelector('[data-open="0"]').click();field('crmNotes','Cambio local');
+ app.get('jd_clients')[0].notes='Cambio remoto';
+ await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
+ assert.equal(app.get('jd_clients')[0].notes,'Cambio remoto');assert.match(app.alerts.at(-1),/otro dispositivo/);
+ app.w.document.querySelector('.jd-crm-modal [data-cancel]').click();
+ console.log('client address, email, retry, remote addition and same-client conflict passed');
+ // Extremely tall documents are fitted once, not split or cropped.
+ const pages=[];let removedCapture=false;
+ app.w.html2canvas=async target=>{assert.equal(target.id,'jdPdfCapture');assert.equal(target.style.width,'794px');return {width:794,height:4000,toDataURL:()=>{removedCapture=!app.w.document.getElementById('jdPdfCapture');return 'data:image/jpeg;base64,AA=='}}};
+ app.w.jspdf={jsPDF:class{constructor(){pages.push([])}addPage(){throw Error('A4 must not add a second page')}addImage(...args){pages[0].push(args)}output(){return new app.w.Blob(['mock-pdf'])}}};
+ app.w.URL.createObjectURL=()=> 'blob:fixture';app.w.URL.revokeObjectURL=()=>{};
+ await app.w.jdPreviewCurrentPDF();assert.equal(pages.length,1);assert.equal(pages[0].length,1);assert.ok(removedCapture);
+ const image=pages[0][0];assert.ok(image[2]>=6);assert.equal(image[3],6);assert.ok(image[4]<=198);assert.ok(image[5]<=285);
+ app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
+ console.log('one A4 page, fixed desktop width and full-document fit passed');
+ app.w.jdOpenOrder(quote.id);
+ field('jdOrderQty','2');field('jdOrderPaid','99999999');
+ await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1'),undefined);assert.match(app.alerts.at(-1),/total del pedido/);
+ field('jdOrderPaid','100000');field('jdOrderStage','Diseño');
+ app.fail(true);await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1'),undefined);assert.ok(app.w.document.getElementById('jdOrderPaid'));
+ app.fail(false);await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
+ const order=app.get('jd_orders_v1')[0];assert.equal(order.quantity.qty,100);assert.equal(order.quantity.price,360000);assert.equal(order.quantity.profit,170000);assert.equal(order.paid,100000);assert.equal(order.balance,260000);assert.equal(order.stage,'Diseño');
+ assert.equal(order.address,'Recepción de prueba · Calle de prueba 123, piso 2 · CABA · C1000 · Argentina');
+ app.w.jdOpenOrder(quote.id);assert.ok(app.w.document.getElementById('jdOrderQty').disabled);field('jdOrderPaid','360000');field('jdOrderStage','Entregado');
+ await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1').length,1);assert.equal(app.get('jd_orders_v1')[0].balance,0);assert.equal(app.get('jd_orders_v1')[0].history.length,2);
+ console.log('accepted quantity, deposit, balance, delivery, frozen price and order retry passed');
+ app.expire(true);await save(app);assert.equal(app.get('jd_saved_quotes_v6').length,3);assert.match(app.alerts.at(-1),/sesión/);app.expire(false);
  console.log('expired session passed');
  const originalCost=structuredClone(app.get('jd_cost_quotes_v2')[0]);
  app.w.jdOpenInflation(originalCost);

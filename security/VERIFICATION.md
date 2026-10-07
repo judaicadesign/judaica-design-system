@@ -26,3 +26,16 @@ Deployment remains GitHub Pages with relative static assets and .nojekyll; no ba
 - Estimate tests include 100000 + 8.5% = 108500, failed save, repeated adjustment, IPC period validation and reset. Test index values are fictional and must not be interpreted as current inflation data.
 - tests/ui-preview.html is an isolated static snapshot of synthetic data for mobile/tablet/desktop visual QA. Its sandboxed frame has no Auth, Supabase access, localStorage operations or commercial mutations.
 - Production remained at nine app_state rows, five quotes and five Storage files during this work. No simulated client, order or cost was written to production.
+# 2026-10-07 — CRM, orders, A4 and atomic commits
+
+- Read-only audit: 9 commercial collections, 5 saved quotes, 5 storage files. Every commercial JSON value matches the verified prior backup (timestamps are not used for that comparison). ZIP integrity passed.
+- Additive `jd_commit_state(jsonb)` RPC: SECURITY INVOKER, empty search_path, authenticated team only, non-anonymous identities, deterministic transaction lock order, compare-and-swap and atomic rollback across keys. No commercial rows migrated.
+- Browser writes, including legacy REST POST handlers, now route through that RPC. No fallback to blind upsert after a conflict.
+- CRM supports email, delivery recipient, address, city/province, postal code, country and notes; separate first/last/institution fields retained. Failed writes keep the modal open. Same-client remote changes rejected.
+- Per-quantity gross estimated profit and margin include supplier cost, shipping, discount and price rounding; explicitly exclude taxes and design labour.
+- Quote search/status filter; revisions link to their parent without editing historical prices. WhatsApp opening creates only a prepared draft, with a PDF snapshot; explicit team confirmation is needed for sent status.
+- Order acceptance selects one quantity and freezes its price, shipping, profit and quote snapshot. Deposits, balance, stages and delivery address/date are stored per order.
+- PDF capture always clones at desktop width and fits the complete content within one A4 with 6 mm margins; tall-canvas tests assert one image, no extra page and no clipping. Visual readability for unusually long content still needs real-PDF inspection.
+- Automated tests: boot with no/denied/allowed auth, race between read and commit, commercial edge cases, CRM conflict/retry, A4 geometry, order deposit/overpayment/retry/delivery, supplier offline, inflation original preservation. Simulations do not write production data.
+- Database function tests use rollback-only transactions. Security advisor reports leaked-password protection disabled; dashboard configuration remains pending. Existing signup redirect review and GitGuardian administrative incident closure remain unverified.
+- Official IPC automatic retrieval remains pending; manual percentage and manually verified IPC indices remain explicitly estimates, never automatic supplier confirmation.
