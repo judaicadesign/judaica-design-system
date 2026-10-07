@@ -48,3 +48,11 @@ Deployment remains GitHub Pages with relative static assets and .nojekyll; no ba
 - Same-record conflict detection ignores renewed Storage URL tokens but includes commercial fields and revision history. A missing/deleted or remotely changed quote is never silently recreated or overwritten.
 - Send while editing saves the changes and attaches the generated PDF to the same ID. Already accepted orders remain frozen and unchanged.
 - Tests simulate 50/100 → 75 units, failed-write retry, old-PDF/history preservation, remote edit conflict, resending twice to distinct Storage paths and accepted-order price preservation. No production commercial records were edited during verification.
+
+## 2026-10-07 — Negotiated quote prices
+
+- Optional manual total per quantity may raise or lower the suggested price. A separate nonnegative discount applies exactly to each alternative; it is not rounded again to 5000 after subtraction. Automatic suggested prices retain the existing 5000 rounding.
+- Customer PDF capture shows price before discount, discount and final total. Internal calculation, supplier costs and estimated profit stay out of the customer view.
+- Editing preserves the quoted pre-discount prices, while resetting to calculation or opening a new version uses current costs. Configuration changes clear manual overrides. Prior revisions and accepted orders remain unchanged.
+- Synthetic tests cover a 260000 base minus 50000 discount = 210000 final, different totals per quantity, precise cents, lower prices, PDF capture, persistence, revision snapshots and invalid inputs. Existing Auth, CAS, retry, A4 and order tests also pass.
+- No schema, Auth or RLS changes required. Read-only production verification: 9 collections, 5 quotes, 5 Storage files. No simulated commercial writes.

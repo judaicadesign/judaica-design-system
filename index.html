@@ -7,12 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
-<link rel="stylesheet" href="assets/jd-base.css?v=20261007">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261007c">
+<link rel="stylesheet" href="assets/jd-base.css?v=20261007-pricing">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-pricing">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
 <script src="assets/jd-orders.js?v=20261007" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
+<script src="assets/jd-price.js?v=20261007" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
@@ -107,7 +108,7 @@ function go(id){
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
 function openModal(id){document.getElementById(id)?.classList.add('open')}
 function closeModal(id){document.getElementById(id)?.classList.remove('open')}
-function resetQuote(){window.jdQuoteParent=null;window.jdQuoteEdit=null;document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
+function resetQuote(){window.jdQuoteParent=null;window.jdQuoteEdit=null;window.jdManualPrices={};window.jdDrawQuoteQuantities?.();window.renderQuote?.();document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
 </script>
 
 
@@ -218,9 +219,9 @@ function drawSavedQuotesV6(clientFilter){
    const edit=document.createElement('button');edit.className='btn sm primary';edit.dataset.editQid=b.dataset.openQid;edit.textContent='Editar';
    edit.onclick=()=>{
      const q=getSavedQuotesV6().find(x=>x.id===edit.dataset.editQid);if(!q)return;
-     loadSavedQuoteV6(q.id);window.jdQuoteParent=null;window.jdQuoteEdit={id:q.id,baseline:window.jdQuoteEditTools.fingerprint(q)};
+     loadSavedQuoteV6(q.id,true);window.jdQuoteParent=null;window.jdQuoteEdit={id:q.id,baseline:window.jdQuoteEditTools.fingerprint(q)};
      document.getElementById('sq6').textContent='Guardar cambios';
-     document.getElementById('jdQuoteVersionNote').textContent='Editando el mismo presupuesto · versión '+Number(q.revision||1)+'. Podés cambiar las cantidades. Los precios se recalculan con los costos actuales; el historial y los PDF anteriores se conservan. Los pedidos aceptados mantienen su precio acordado.';
+     document.getElementById('jdQuoteVersionNote').textContent='Editando el mismo presupuesto · versión '+Number(q.revision||1)+'. Podés cambiar cantidades y configuración. Se conserva el precio pasado por cantidad; usá «Volver al cálculo» para recalcularlo con los costos actuales. Cambiar la configuración o agregar cantidades usa el cálculo actual. El historial, los PDF anteriores y los pedidos aceptados se conservan.';
    };
    b.before(edit);b.textContent='Nueva versión';
    if(qHasHistory(b.dataset.openQid)){
@@ -245,7 +246,7 @@ function showQuoteHistory(id){
    };
  });
 }
-function loadSavedQuoteV6(id){
+function loadSavedQuoteV6(id,preservePrices=false){
  const q=getSavedQuotesV6().find(x=>String(x.id)===String(id)); if(!q)return;
  window.jdQuoteParent=q.id;
  window.jdQuoteEdit=null;
@@ -274,6 +275,8 @@ function loadSavedQuoteV6(id){
  const dl=document.getElementById('qDeadline');if(dl)dl.value=q.deadline||'';
  const cl=document.getElementById('qClient');if(cl)cl.value=q.client||'';
  set('qDiscount',q.discount||0,false);set('qDiscountWhy',q.discountWhy||'',false);set('qInternal',q.internal||'',false);
+ window.jdManualPrices=preservePrices?Object.fromEntries((q.quantities||[]).filter(x=>Number.isFinite(Number(x.price))&&Number(x.price)>0).map(x=>[x.qty,String(x.priceBeforeDiscount??(Number(x.price)+Number(q.discount||0)))])):{};
+ window.jdDrawQuoteQuantities?.();
  if(window.renderQuote)window.renderQuote();
 }
 window.jdRenderSavedQuotes=drawSavedQuotesV6;
@@ -1337,8 +1340,10 @@ function buildQuote(){
  qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn" id="previewPdf6">Vista previa PDF</button> <button class="btn primary" id="sendWa6">Enviar por WhatsApp</button></div></div>'+
  '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" placeholder="Nombre y apellido" autocomplete="name"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
  qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
+ qDiscount.min='0';qDiscount.step='0.01';qDiscount.previousElementSibling.textContent='Descuento por alternativa ($)';qDiscount.insertAdjacentHTML('afterend','<small class="muted">Se resta a cada total de tirada. Para subir un precio, usá el precio manual.</small>');
  window.qs6=GET('jd_quote_qtys_v6',[60,100]);
  qProduct.onchange=syncFields6;['qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>document.getElementById(id).addEventListener('change',syncVariant6));
+ ['qProduct','qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{window.jdManualPrices={};drawQty6();render6()}));
  ['qClient','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',render6));
  qEvent.addEventListener('change',()=>{
    const ev=parseLocalDate(qEvent.value);
@@ -1399,9 +1404,16 @@ function drawQty6(){
  const p=activeProduct();
  const standard=jdQtyOptionsForProduct(p);
  const opts=jdUnique([...standard,...window.qs6.map(Number)]).sort((a,b)=>a-b);
- el.innerHTML=window.qs6.map((q,i)=>'<div class="jd-qty-row"><select data-qi="'+i+'">'+opts.map(x=>'<option '+(x===q?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="jd-qty-price" id="qpr6-'+i+'">—</div><button class="btn sm" data-qr="'+i+'">Quitar</button></div>').join('');
- el.querySelectorAll('[data-qi]').forEach(s=>s.onchange=()=>{window.qs6[+s.dataset.qi]=Number(s.value);SET('jd_quote_qtys_v6',window.qs6);render6()});
+ el.innerHTML=window.qs6.map((q,i)=>'<div class="jd-qty-row"><select data-qi="'+i+'">'+opts.map(x=>'<option '+(x===q?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="jd-qty-price"><div id="qpr6-'+i+'">—</div><div class="jd-price-controls"><label for="qManualPrice-'+i+'">Precio antes del descuento</label><input id="qManualPrice-'+i+'" data-manual-price="'+i+'" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="Usar cálculo automático" value="'+E(window.jdManualPrices?.[q]??'')+'"><button type="button" class="btn sm" data-price-reset="'+i+'">Volver al cálculo</button><small>Opcional: podés subirlo o bajarlo. Es el total de esta tirada, no el precio por unidad.</small></div></div><button class="btn sm" data-qr="'+i+'">Quitar</button></div>').join('');
+ el.querySelectorAll('[data-qi]').forEach(s=>s.onchange=()=>{window.qs6[+s.dataset.qi]=Number(s.value);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()});
+ el.querySelectorAll('[data-manual-price]').forEach(input=>input.oninput=()=>{window.jdManualPrices=window.jdManualPrices||{};window.jdManualPrices[window.qs6[+input.dataset.manualPrice]]=input.value;render6()});
+ el.querySelectorAll('[data-price-reset]').forEach(button=>button.onclick=()=>{if(window.jdManualPrices)delete window.jdManualPrices[window.qs6[+button.dataset.priceReset]];drawQty6();render6()});
  el.querySelectorAll('[data-qr]').forEach(b=>b.onclick=()=>{if(window.qs6.length>1){window.qs6.splice(+b.dataset.qr,1);SET('jd_quote_qtys_v6',window.qs6);drawQty6();render6()}});
+}
+window.jdDrawQuoteQuantities=drawQty6;
+function price6(r,qty,discount){
+ if(!r.ok)return {ok:false,reason:r.reason};
+ try{return {ok:true,...window.jdPrice.calculate(r.price,window.jdManualPrices?.[qty],discount)}}catch(error){return {ok:false,reason:error.message}}
 }
 function ageInfo(base){
  if(base?.adjustment)return '<div class="jd-age-warn">Estimación '+E(base.adjustment.method==='ipc'?'por IPC':'manual')+' · '+Number(base.adjustment.percent).toLocaleString('es-AR')+'% · base '+E(base.date||'sin fecha')+'</div>';
@@ -1413,18 +1425,17 @@ function ageInfo(base){
 function render6(){
  const p=activeProduct(),v=selectedVariant(p),disc=Number(qDiscount.value||0);
  urgencyInfo();
- const round5=n=>Math.round(Number(n||0)/5000)*5000;
  window.qs6.forEach((q,i)=>{
-   const r=calcQty(q),el=document.getElementById('qpr6-'+i);
+   const r=calcQty(q),price=price6(r,q,disc),el=document.getElementById('qpr6-'+i);
    if(el){
-     if(r.ok && Number.isFinite(disc) && disc>=0 && round5(r.price-disc)>0){
+     if(r.ok && price.ok){
        const src=r.live
          ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo neto sin IVA $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Total B612 c/IVA $ '+Math.round(r.b612.gross).toLocaleString('es-AR')+' · consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos'+(r.b612.productionQty&&Number(r.b612.productionQty)!==Number(q)?' · B612 optimiza '+q+' → '+r.b612.productionQty+' u.':'')+'</div>'
          :'<div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base);
-       const sale=round5(r.price-disc),profit=sale-r.cost-r.shipping,margin=profit/sale*100;
-       el.innerHTML='<b>$ '+sale.toLocaleString('es-AR')+'</b>'+src+'<div class="jd-profit '+(profit<=0?'jd-profit-low':'')+'"><b>Ganancia bruta estimada: $ '+Math.round(profit).toLocaleString('es-AR')+'</b><span>'+margin.toLocaleString('es-AR',{maximumFractionDigits:1})+'% del precio · envío $ '+Math.round(r.shipping).toLocaleString('es-AR')+'</span><small>Antes de impuestos y de valorar tu tiempo de diseño.</small></div>'+(profit<=0?'<div class="jd-age-bad">Este precio no cubre imprenta y envío. Revisá el descuento.</div>':'');
+       const sale=price.price,profit=sale-r.cost-r.shipping,margin=profit/sale*100;
+       el.innerHTML='<b>Total final: $ '+sale.toLocaleString('es-AR')+'</b><div class="small muted">Cálculo sugerido: $ '+price.calculatedPrice.toLocaleString('es-AR')+(price.manualPrice!==null?' · precio manual':'')+'</div>'+(price.discountAmount?'<div class="small">Antes: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+' · Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</div>':'')+src+'<div class="jd-profit '+(profit<=0?'jd-profit-low':'')+'"><b>Ganancia bruta estimada: $ '+Math.round(profit).toLocaleString('es-AR')+'</b><span>'+margin.toLocaleString('es-AR',{maximumFractionDigits:1})+'% del precio · envío $ '+Math.round(r.shipping).toLocaleString('es-AR')+'</span><small>Antes de impuestos y de valorar tu tiempo de diseño.</small></div>'+(profit<=0?'<div class="jd-age-bad">Este precio no cubre imprenta y envío. Revisá el descuento o el precio manual.</div>':'');
      }else{
-       el.innerHTML=r.ok?'<span style="color:#9a4b45">Revisá el descuento: el precio debe ser mayor a cero.</span>':r.loading?'<span style="color:#0f5b5d">↻ '+E(r.reason)+'</span>':'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
+       el.innerHTML=r.ok?'<span style="color:#9a4b45">'+E(price.reason)+'</span>':r.loading?'<span style="color:#0f5b5d">↻ '+E(r.reason)+'</span>':'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
      }
    }
  });
@@ -1469,28 +1480,28 @@ function render6(){
  const legalSet=jdLegalSet(p.legalSetId||((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
  const legal=legalSet?.clauses||[];
  const legalBlock=legal.length?'<div class="jd-full-legal"><div class="jd-legal-title">ACLARACIONES</div>'+legal.map(x=>'<p><b>'+E(x[0])+'.</b> '+E(x[1])+'</p>').join('')+'</div>':'';
- const prices=window.qs6.map(q=>{const r=calcQty(q);return '<div class="jd-client-price"><span>'+q+' unidades</span><b>'+(r.ok&&Number.isFinite(disc)&&disc>=0&&round5(r.price-disc)>0?'$ '+round5(r.price-disc).toLocaleString('es-AR')+'.-':'A cotizar')+'</b></div>'}).join('');
+ const prices=window.qs6.map(q=>{const price=price6(calcQty(q),q,disc);return '<div class="jd-client-price"><span>'+q+' unidades</span><div class="jd-pdf-price-breakdown">'+(price.ok?(price.discountAmount?'<small>Precio antes del descuento: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+'</small><small>Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</small>':'')+'<b>Total: $ '+price.price.toLocaleString('es-AR')+'.-</b>':'<b>A cotizar</b>')+'</div></div>'}).join('');
  quotePreview.innerHTML=
  '<div class="jd-pdf-sheet">'+
  '<div class="jd-pdf-header"><img src="'+JD_LOGO+'" class="jd-pdf-logo"><div class="jd-header-copy"><div class="jd-overline">PRESUPUESTO</div><div class="jd-doc-title">'+E(p.name)+'</div></div><div class="jd-client-meta"><div><small>CLIENTE</small><b>'+E(qClient.value||'—')+'</b></div><div><small>FECHA</small><b>'+today+'</b></div></div></div>'+
  '<div class="jd-pdf-divider"></div>'+
- '<div class="jd-pdf-bodytop"><div class="jd-pdf-mock">'+hero+'</div><div class="jd-compact-specs">'+specs.map(s=>'<div class="jd-spec-icon-row"><span class="jd-spec-icon">'+s[0]+'</span><div><small>'+s[1]+'</small><strong>'+s[2]+'</strong></div></div>').join('')+technical+'<div class="jd-client-prices">'+prices+'</div>'+(disc?'<div class="jd-discount-note">Ajuste aplicado: -$ '+Math.round(disc).toLocaleString('es-AR')+(qDiscountWhy.value?' · '+E(qDiscountWhy.value):'')+'</div>':'')+'</div></div>'+
+ '<div class="jd-pdf-bodytop"><div class="jd-pdf-mock">'+hero+'</div><div class="jd-compact-specs">'+specs.map(s=>'<div class="jd-spec-icon-row"><span class="jd-spec-icon">'+s[0]+'</span><div><small>'+s[1]+'</small><strong>'+s[2]+'</strong></div></div>').join('')+technical+'<div class="jd-client-prices">'+prices+'</div>'+(disc?'<div class="jd-discount-note">Descuento por alternativa: $ '+(Math.round((disc+Number.EPSILON)*100)/100).toLocaleString('es-AR')+(qDiscountWhy.value?' · '+E(qDiscountWhy.value):'')+'</div>':'')+'</div></div>'+
  ((()=>{const content=jdQuoteContent(p,v);return content.length?'<div class="jd-content-box"><h4>Contenido'+(p.models.length?' '+E(qModel.value):'')+'</h4><div class="index-list">'+content.map(x=>'• '+E(x)).join('<br>')+'</div></div>':''})())+
  legalBlock+
  '</div>';
 }
 function collectQuote6(){
  if(!window.qs6.length||window.qs6.some(q=>!Number.isSafeInteger(Number(q))||Number(q)<=0)||new Set(window.qs6.map(Number)).size!==window.qs6.length)throw new Error('Revisá las cantidades: deben ser enteros positivos y no repetirse.');
- const discount=Number(qDiscount.value||0);
- if(!Number.isFinite(discount)||discount<0)throw new Error('El descuento debe ser un importe válido, mayor o igual a cero.');
+ const rawDiscount=Number(qDiscount.value||0);
+ if(!Number.isFinite(rawDiscount)||rawDiscount<0)throw new Error('El descuento debe ser un importe válido, mayor o igual a cero.');
+ const discount=Math.round((rawDiscount+Number.EPSILON)*100)/100;
  const p=activeProduct(),v=selectedVariant(p);
- const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,price:r.ok?Math.round((r.price-discount)/5000)*5000:null,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live}:null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar',discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live}:null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),status:'Listo para enviar',discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
  if(!quote.client)throw new Error('Falta el nombre y apellido del cliente.');
  if(p.name==='Birkón · Librito' && !quote.pages)throw new Error('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
  if(badQty)throw new Error('No se puede guardar este presupuesto: '+badQty.r.reason);
- if(quote.quantities.some(x=>!Number.isFinite(x.price)||x.price<=0))throw new Error('El descuento deja alguna cantidad sin precio válido. Revisá el importe.');
- quote.quantities.forEach(x=>{const r=calcQty(x.qty);x.shipping=Number(r.shipping||0);x.profit=Math.round((x.price-x.cost-x.shipping)*100)/100;x.marginPct=x.profit/x.price*100;});
+ quote.quantities.forEach(x=>{const r=calcQty(x.qty),price=price6(r,x.qty,discount);if(!price.ok)throw new Error(price.reason);Object.assign(x,{price:price.price,priceBeforeDiscount:price.priceBeforeDiscount,discountAmount:price.discountAmount,manualPrice:price.manualPrice,calculatedPrice:price.calculatedPrice});x.shipping=Number(r.shipping||0);x.profit=Math.round((x.price-x.cost-x.shipping)*100)/100;x.marginPct=x.profit/x.price*100;});
  const parent=GET('jd_saved_quotes_v6',[]).find(q=>q.id===window.jdQuoteParent&&q.client===quote.client);
  if(parent){quote.parentQuoteId=parent.id;quote.quoteFamily=parent.quoteFamily||parent.id;quote.revision=Number(parent.revision||1)+1;}else{quote.quoteFamily=quote.id;quote.revision=1;}
  return quote;

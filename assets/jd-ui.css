@@ -141,3 +141,6 @@
   @media(max-width:360px) { .grid.cards { grid-template-columns:1fr; } .sidebar { gap:0 8px; padding:10px 12px; } }
   @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
 }
+.jd-price-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid #ddd3be}
+.jd-price-controls label,.jd-price-controls small{grid-column:1/-1}.jd-price-controls label{font-size:12px;font-weight:600;color:#355e5c}.jd-price-controls small{font-size:11px;color:#7c746a;line-height:1.4}.jd-price-controls input{min-width:0;width:100%}.jd-price-controls .btn{white-space:normal}
+@media(max-width:480px){.jd-price-controls{grid-template-columns:1fr}.jd-price-controls .btn{justify-self:start}}

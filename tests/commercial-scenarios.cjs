@@ -37,7 +37,7 @@ async function boot(rows=fixture(),fetchResult){
    return {data:updates,error:null};
  };
  w.supabase={createClient:()=>client};
- for(const file of ['jd-ui.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
@@ -48,6 +48,27 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+ const pricing=require('../assets/jd-price.js');
+ assert.deepEqual(pricing.calculate(211111,260000,50000),{calculatedPrice:210000,priceBeforeDiscount:260000,discountAmount:50000,price:210000,manualPrice:260000});
+ assert.equal(pricing.calculate(210000,250123.45,20123.45).price,230000);
+ assert.equal(pricing.calculate(210000,190000,1234).price,188766);
+ assert.equal(pricing.calculate(211111,'',1234).price,208766);
+ for(const args of [[210000,0,0],[210000,-1000,0],[210000,Infinity,0],[210000,NaN,0],[210000,260000,-0.001],[210000,260000,NaN],[210000,260000,260000]])assert.throws(()=>pricing.calculate(...args));
+ const manual=await boot();manual.w.document.getElementById('qClient').value='Cliente precio negociado';manual.w.qs6=[50,100];manual.w.jdDrawQuoteQuantities();
+ const setManual=(i,value)=>{const input=manual.w.document.getElementById('qManualPrice-'+i);input.value=value;input.dispatchEvent(new manual.w.Event('input',{bubbles:true}));};
+ setManual(0,260000);setManual(1,400000);manual.w.document.getElementById('qDiscount').value=50000;manual.w.renderQuote();
+ assert.match(manual.w.document.querySelector('.jd-client-price').textContent,/Precio antes del descuento:.*260\.000.*Descuento:.*50\.000.*Total:.*210\.000/);
+ assert.doesNotMatch(manual.w.document.getElementById('quotePreview').textContent,/Cálculo sugerido|Ganancia bruta|precio manual/);
+ let capturedPrice=false;manual.w.html2canvas=async target=>{assert.match(target.querySelector('.jd-client-price').textContent,/260\.000.*50\.000.*210\.000/);assert.equal(target.querySelectorAll('.jd-client-price').length,2);capturedPrice=true;return {width:794,height:1123,toDataURL:()=> 'data:image/jpeg;base64,AA=='}};manual.w.jspdf={jsPDF:class{addImage(){}output(){return new manual.w.Blob(['mock-pdf'])}}};manual.w.URL.createObjectURL=()=> 'blob:fixture';manual.w.URL.revokeObjectURL=()=>{};
+ await manual.w.jdPreviewCurrentPDF();assert.ok(capturedPrice);manual.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
+ const negotiated=await save(manual);assert.deepEqual(Array.from(negotiated.quantities,q=>q.price),[210000,350000]);assert.deepEqual(Array.from(negotiated.quantities,q=>q.priceBeforeDiscount),[260000,400000]);assert.deepEqual(Array.from(negotiated.quantities,q=>q.discountAmount),[50000,50000]);assert.equal(negotiated.quantities[0].profit,100000);assert.equal(manual.get('jd_cost_quotes_v2')[0].cost,100000);
+ manual.w.jdRenderSavedQuotes();manual.w.document.querySelector('[data-edit-qid]').click();assert.equal(manual.w.document.getElementById('qManualPrice-0').value,'260000');assert.equal(manual.w.document.getElementById('qDiscount').value,'50000');
+ manual.w.document.getElementById('qDiscount').value=60000;const revised=await save(manual);assert.equal(revised.quantities[0].price,200000);assert.equal(revised.revisions[0].snapshot.quantities[0].price,210000);assert.equal(revised.revisions[0].snapshot.quantities[0].priceBeforeDiscount,260000);
+ manual.w.document.querySelector('[data-price-reset="0"]').click();assert.equal(manual.w.document.getElementById('qManualPrice-0').value,'');assert.equal(manual.w.jdCollectQuote().quantities[0].price,150000);
+ setManual(0,190000);assert.equal(manual.w.jdCollectQuote().quantities[0].price,130000);
+ manual.w.document.getElementById('qNusaj').dispatchEvent(new manual.w.Event('change',{bubbles:true}));assert.equal(manual.w.document.getElementById('qManualPrice-0').value,'');
+ manual.w.jdRenderSavedQuotes();manual.w.document.querySelector('[data-open-qid]').click();assert.equal(manual.w.document.getElementById('qManualPrice-0').value,'');manual.close();
+ console.log('manual increase/decrease, exact discount, customer PDF breakdown, persistence, revision and automatic reset passed');
  assert.equal(math.adjustedAmount(100000,8.5),108500);
  assert.equal(math.adjustedAmount(100000,0),100000);
  assert.ok(Math.abs(math.indexPercent(150,165)-10)<1e-10);
@@ -97,6 +118,9 @@ async function scenarios(){
  await invalid('below minimum cost quantity',a=>a.w.qs6=[25],/Falta costo/);
  await invalid('negative discount',a=>a.w.document.getElementById('qDiscount').value=-1000,/descuento/);
  await invalid('discount exceeds total',a=>a.w.document.getElementById('qDiscount').value=99999999,/descuento/);
+ await invalid('zero manual price',a=>a.w.jdManualPrices={60:'0'},/precio manual/);
+ await invalid('negative manual price',a=>a.w.jdManualPrices={60:'-1000'},/precio manual/);
+ await invalid('manual price cannot bypass missing cost',a=>{a.w.qs6=[25];a.w.jdManualPrices={25:'300000'}},/Falta costo/);
  const app=await boot();
  app.w.document.getElementById('qClient').value='ana prueba';
  app.w.qs6=[50,75,100,200];
