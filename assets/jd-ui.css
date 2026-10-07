@@ -190,4 +190,4 @@
  .jd-action-main,.jd-action-copy { min-width:0; overflow-wrap:anywhere; }
 }
 
-.jd-phonetics-frame { display:block; width:100%; height:85vh; min-height:740px; border:1px solid var(--line); border-radius:16px; background:var(--panel); }
+.jd-phonetics-frame { display:block; width:100%; height:1100px; border:1px solid var(--line); border-radius:16px; background:var(--panel); }

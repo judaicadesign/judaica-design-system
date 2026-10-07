@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/jd-base.css?v=20261007-pricing">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-generator">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261007-resize">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
 <script src="assets/jd-orders.js?v=20261007" defer></script>
@@ -94,13 +94,20 @@
 <section class="screen" id="phonetics">
   <div class="topbar"><div><div class="eyebrow">Herramientas</div><h1>Generador de fonética</h1></div></div>
   <div class="jd-toolbar" style="margin-bottom:16px"><a class="btn" href="tools/fonetica/index.html" target="_blank" rel="noopener">Abrir en pestaña nueva</a><span class="small muted">Generador integrado · tus textos se conservan al cambiar de sección.</span></div>
-  <iframe id="jdPhoneticsFrame" class="jd-phonetics-frame" title="Generador de fonética hebrea" data-src="tools/fonetica/index.html?v=20261007" sandbox="allow-scripts allow-downloads" allow="clipboard-write"></iframe>
+  <iframe id="jdPhoneticsFrame" class="jd-phonetics-frame" title="Generador de fonética hebrea" data-src="tools/fonetica/index.html?v=20261007-resize" sandbox="allow-scripts allow-downloads" allow="clipboard-write"></iframe>
 </section>
 
 </main>
 </div>
 
 <script type="text/plain" data-jd-app id="jd-core-navigation-v1">
+window.addEventListener('message',event=>{
+  const frame=document.getElementById('jdPhoneticsFrame');
+  if(!frame||!frame.getAttribute('src')||event.source!==frame.contentWindow||event.data?.type!=='jd-phonetics-height')return;
+  const height=event.data.height;
+  if(typeof height!=='number'||!Number.isFinite(height)||height<100||height>100000)return;
+  frame.style.height=Math.ceil(height)+'px';
+});
 function go(id){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
   const target=document.getElementById(id);if(target)target.classList.add('active');

@@ -23,7 +23,15 @@ async function run(mode){
  assert.equal(w.document.getElementById('jdPassword').type,'text');reveal.click();
  assert.equal(w.document.getElementById('jdPassword').type,'password');
  assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('src'),null,'generator is not loaded before opening its section');
- if(mode==='allowed'){w.go('phonetics');assert.match(w.document.getElementById('jdPhoneticsFrame').getAttribute('src'),/^tools\/fonetica\/index.html/);assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('sandbox'),'allow-scripts allow-downloads');assert.equal(typeof w.go,'function');w.go('products');assert.ok(w.document.querySelector('#products').classList.contains('active'));assert.ok(w.document.querySelector('#products').textContent.includes('Birkón'));assert.equal(w.document.querySelectorAll('script[data-jd-app]').length,0);
+ if(mode==='allowed'){w.go('phonetics');assert.match(w.document.getElementById('jdPhoneticsFrame').getAttribute('src'),/^tools\/fonetica\/index.html/);assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('sandbox'),'allow-scripts allow-downloads');
+const generator=w.document.getElementById('jdPhoneticsFrame');
+const resize=(source,height)=>w.dispatchEvent(new w.MessageEvent('message',{source,data:{type:'jd-phonetics-height',height}}));
+resize(w,1200);assert.equal(generator.style.height,'','other windows cannot resize generator');
+resize(generator.contentWindow,'1200');assert.equal(generator.style.height,'','strings are rejected');
+resize(generator.contentWindow,Infinity);assert.equal(generator.style.height,'','invalid heights are rejected');
+resize(generator.contentWindow,1200.2);assert.equal(generator.style.height,'1201px');
+resize(generator.contentWindow,900);assert.equal(generator.style.height,'900px','can shrink after closing content');
+assert.equal(typeof w.go,'function');w.go('products');assert.ok(w.document.querySelector('#products').classList.contains('active'));assert.ok(w.document.querySelector('#products').textContent.includes('Birkón'));assert.equal(w.document.querySelectorAll('script[data-jd-app]').length,0);
   assert.equal(w.document.querySelector('.jd-dashboard-card').getAttribute('role'),'button');
   assert.equal(w.document.querySelector('.jd-savedquotes-table tbody td').dataset.label,'Cliente');
   for(const button of w.document.querySelectorAll('#nav [data-screen]')){
