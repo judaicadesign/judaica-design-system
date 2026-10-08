@@ -7,10 +7,10 @@
    const block=sheet.querySelector(selector);if(!block||!block.clientHeight)continue;
    sheet.style.setProperty(property,'1');
    for(let scale=1;scale>.5;scale-=.025){
-    const exceeds=overflow==='width'?block.scrollWidth>block.clientWidth+2:overflow==='body'?block.scrollHeight>block.parentElement.clientHeight+2:block.scrollHeight>block.clientHeight+2;
+    const exceeds=overflow==='width'?(block.scrollWidth>block.clientWidth+2||block.scrollHeight>block.clientHeight+2):overflow==='body'?block.scrollHeight>block.parentElement.clientHeight+2:block.scrollHeight>block.clientHeight+2;
     if(!exceeds)break;sheet.style.setProperty(property,String(scale-.025));
    }
-   if(overflow==='width'?block.scrollWidth>block.clientWidth+2:overflow==='body'?block.scrollHeight>block.parentElement.clientHeight+2:block.scrollHeight>block.clientHeight+2)fits=false;
+   if(overflow==='width'?(block.scrollWidth>block.clientWidth+2||block.scrollHeight>block.clientHeight+2):overflow==='body'?block.scrollHeight>block.parentElement.clientHeight+2:block.scrollHeight>block.clientHeight+2)fits=false;
   }
   sheet.dataset.layoutOverflow=String(!fits);return fits;
  };
