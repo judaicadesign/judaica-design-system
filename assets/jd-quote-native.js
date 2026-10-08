@@ -115,11 +115,12 @@
   const cols=[lines.slice(0,best),lines.slice(best)],rowCount=Math.max(0,...cols.map(col=>col.reduce((n,v)=>n+v.length,0))),frame={...mockFrame},top=frame.y+frame.height+frame.gap,legalTop=603.779-(m._lift||0),available=legalTop-frame.legalGap-top;
   // Keep the supplied illustration canvas fixed. Tighten only the index leading,
   // preserving the 8.5 pt type, both columns and every content item.
-  const leading=rowCount?Math.min(13,(available-38.555)/rowCount):13;
-  if(leading<10||available<72.555)throw Error('El contenido excede el espacio de una A4 con el mockup fijo.');
-  const height=Math.max(34,rowCount*leading)+38.555,bottom=top+height;return {cols,top,bottom,frame,leading};
+  const compact=rowCount&&available<38.555+rowCount*10,padding=compact?30:38.555,titleBaseline=compact?20.214:24.214,firstBaseline=compact?34.466:41.466;
+  const leading=rowCount?Math.min(13,(available-padding)/rowCount):13;
+  if(leading<10||available<padding+34)throw Error('El contenido excede el espacio de una A4 con el mockup fijo.');
+  const height=Math.max(34,rowCount*leading)+padding,bottom=top+height;return {cols,top,bottom,frame,leading,titleBaseline,firstBaseline};
  }
- function drawContent(pdf,m){const l=contentLayout(pdf,m);if(!l)return;const {cols,top,bottom,leading}=l;rule(pdf,24.252,top,380.787,top,.5,colors.gold);rule(pdf,24.252,bottom,380.787,bottom,.5,colors.gold);text(pdf,m.contentTitle,33.759,top+24.214,18,'title',colors.teal);cols.forEach((col,index)=>{const x=index?213.523:33.759;let y=top+41.466;for(const list of col){text(pdf,'·',x,y,8.5,'medium',colors.rule);list.forEach(line=>{text(pdf,line,x+5.669,y,8.5);y+=leading})}});}
+ function drawContent(pdf,m){const l=contentLayout(pdf,m);if(!l)return;const {cols,top,bottom,leading,titleBaseline,firstBaseline}=l;rule(pdf,24.252,top,380.787,top,.5,colors.gold);rule(pdf,24.252,bottom,380.787,bottom,.5,colors.gold);text(pdf,m.contentTitle,33.759,top+titleBaseline,18,'title',colors.teal);cols.forEach((col,index)=>{const x=index?213.523:33.759;let y=top+firstBaseline;for(const list of col){text(pdf,'·',x,y,8.5,'medium',colors.rule);list.forEach(line=>{text(pdf,line,x+5.669,y,8.5);y+=leading})}});}
 
  function technicalLines(pdf,items){
   const result=[];
@@ -171,7 +172,7 @@
  }
  root.jdQuotePreviewSVG=svgPreview;
 
- async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v7'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={version:'20261008-master-v7',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,iconDimensions,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v8'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
+ root.jdNativeQuote={version:'20261008-master-v8',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,iconDimensions,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);

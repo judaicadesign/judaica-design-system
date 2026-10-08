@@ -18,11 +18,11 @@
 <script src="assets/jd-price.js?v=20261008-rush" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
 <link rel="stylesheet" href="https://use.typekit.net/ydp7axr.css?v=20261008-bold">
-<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v7">
+<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v8">
 <script src="assets/jd-quote-hyphen.js?v=20261008-native" defer></script>
-<script src="assets/jd-quote-vectors.js?v=20261008-master-v7" defer></script>
-<script src="assets/jd-quote-native.js?v=20261008-master-v7" defer></script>
-<script src="assets/jd-quote-fit.js?v=20261008-master-v7" defer></script>
+<script src="assets/jd-quote-vectors.js?v=20261008-master-v8" defer></script>
+<script src="assets/jd-quote-native.js?v=20261008-master-v8" defer></script>
+<script src="assets/jd-quote-fit.js?v=20261008-master-v8" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
@@ -1852,7 +1852,7 @@ window.renderQuote=render6;
  }
  async function pdfBlob(){
    const el=document.getElementById('quotePreview');if(!el)throw Error('No se encontró la vista del presupuesto.');
-   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v7')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
+   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v8')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
    const sheets=[...el.querySelectorAll('.jd-pdf-sheet')];if(!sheets.length)throw Error('No hay páginas para exportar.');
    return await window.jdVectorQuotePdf(sheets);
  }

@@ -37,7 +37,7 @@ async function boot(rows=fixture(),fetchResult){
    return {data:updates,error:null};
  };
  w.supabase={createClient:()=>client};
- w.jdNativeQuote={version:'20261008-master-v7'};
+ w.jdNativeQuote={version:'20261008-master-v8'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
  for(const file of ['jd-ui.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
@@ -50,6 +50,13 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+ const brokenPreview=new JSDOM('<div id="quotePreview"><div class="jd-master-sheet jd-has-art"><div class="jd-full-legal">Texto auxiliar</div><svg class="jd-master-art"></svg></div></div>',{runScripts:'outside-only'});
+ brokenPreview.window.jdNativeQuote={readSheet:()=>({})};brokenPreview.window.jdQuotePreviewSVG=async()=>{throw Error('Fallo de render de prueba')};brokenPreview.window.eval(fs.readFileSync(root+'/assets/jd-quote-fit.js','utf8'));
+ await sleep(30);await brokenPreview.window.jdRefreshQuoteArt();assert.equal(brokenPreview.window.document.querySelector('.jd-master-art'),null);assert.equal(brokenPreview.window.document.querySelector('.jd-preview-error').textContent,'Fallo de render de prueba');
+ assert.ok(fs.readFileSync(root+'/assets/jd-quote-layout.css','utf8').includes('.jd-master-sheet>*:not(.jd-master-art):not(.jd-preview-error){visibility:hidden!important}'));
+ brokenPreview.window.jdQuotePreviewSVG=async()=>'<svg class="jd-master-art"></svg>';await brokenPreview.window.jdRefreshQuoteArt();assert.ok(brokenPreview.window.document.querySelector('.jd-master-art'));assert.equal(brokenPreview.window.document.querySelector('.jd-preview-error'),null);brokenPreview.window.close();
+ console.log('preview failure removes stale artwork, suppresses malformed HTML fallback and recovers cleanly passed');
+
  const eventRows=fixture();eventRows.find(r=>r.key==='jd_assets').value=[
   {id:'generic',product:product.name,role:'Mockup principal',data:'https://example.test/generic.png',mockCanvas:true},
   {id:'bar',product:product.name,role:'Mockup principal',eventType:'bar_mitzvah',binding:'Abrochado',data:'https://example.test/bar.png',mockCanvas:true},
@@ -357,7 +364,7 @@ async function scenarios(){
  app.w.URL.createObjectURL=()=> 'blob:fixture';app.w.URL.revokeObjectURL=()=>{};
  await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);
 app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
- app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261008-master-v7';
+ app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261008-master-v8';
  console.log('complete semantic A4 sheet reaches native renderer without raster capture passed');
  app.w.jdOpenOrder(quote.id);
  field('jdOrderQty','2');field('jdOrderPaid','99999999');
