@@ -458,9 +458,25 @@ function drawMasters3(){
  if(!mastersSec3)return;
  mastersSec3.innerHTML='<div class="topbar"><div><div class="eyebrow">Editorial</div><h1>Masters & desarrollo del catálogo</h1></div><button class="btn primary" id="jdAddItem">+ Nuevo ítem de contenido</button></div>'+
  '<div class="jd-note"><b>Master modular:</b> cada renglón del índice es un ítem independiente. Ese ítem puede tener versiones por nusaj y por idioma. Los productos comerciales se construyen combinando estos ítems; así una corrección de un Master puede propagarse a todos los productos que lo usan.</div>'+
- '<div class="product-grid" style="margin-top:16px">'+contentItems.map((it,i)=>{let total=it.nusajim.length*it.langs.length,done=0;it.nusajim.forEach(n=>it.langs.forEach(l=>{if(masterCells[cellKey(it.name,n,l)]?.status==='Aprobado')done++}));const pct=Math.round(done*100/total);return '<div class="master-card jd-click" data-item="'+i+'"><div class="eyebrow">'+esc3(it.category)+'</div><h3>'+esc3(it.name)+'</h3><p class="small muted">'+it.nusajim.length+' nusajim · '+it.langs.length+' idiomas · '+total+' Masters posibles</p><div class="jd-completion"><span style="width:'+pct+'%"></span></div><p class="small">'+done+'/'+total+' aprobados</p><button class="btn sm">Abrir matriz</button></div>'}).join('')+'</div>';
+ '<div class="product-grid" style="margin-top:16px"><div class="master-card"><div class="eyebrow">Tehilim · textos maestros</div><h3>Tehilim 1–150</h3><p class="small muted">150 capítulos · 2.527 pesukim · hebreo de Wikisource y fonética JD</p><p><span class="tag warn">En revisión</span></p><p class="small">La revisión visual de ArtScroll y los acentos siguen en curso.</p><button class="btn sm" id="jdTehilimHebrew">Abrir hebreo</button> <button class="btn sm" id="jdTehilimPhonetic">Abrir fonética</button></div>'+contentItems.map((it,i)=>{let total=it.nusajim.length*it.langs.length,done=0;it.nusajim.forEach(n=>it.langs.forEach(l=>{if(masterCells[cellKey(it.name,n,l)]?.status==='Aprobado')done++}));const pct=Math.round(done*100/total);return '<div class="master-card jd-click" data-item="'+i+'"><div class="eyebrow">'+esc3(it.category)+'</div><h3>'+esc3(it.name)+'</h3><p class="small muted">'+it.nusajim.length+' nusajim · '+it.langs.length+' idiomas · '+total+' Masters posibles</p><div class="jd-completion"><span style="width:'+pct+'%"></span></div><p class="small">'+done+'/'+total+' aprobados</p><button class="btn sm">Abrir matriz</button></div>'}).join('')+'</div>';
+ document.getElementById('jdTehilimHebrew').onclick=()=>openTehilimMaster('hebrew');
+ document.getElementById('jdTehilimPhonetic').onclick=()=>openTehilimMaster('phonetic');
  document.getElementById('jdAddItem').onclick=()=>editContentItem(-1);
  mastersSec3.querySelectorAll('[data-item]').forEach(c=>c.onclick=()=>openMatrix(+c.dataset.item));
+}
+const tehilimTextCache=new Map();
+async function openTehilimMaster(language){
+ const hebrew=language==='hebrew';
+ const url='masters/tehilim/TEHILIM_001-150_'+(hebrew?'HEBREO':'FONETICA')+'_EN_REVISION.txt';
+ const w=modal3('Tehilim 1–150 · '+(hebrew?'Hebreo':'Fonética'),'<p class="small muted">150 capítulos · 2.527 pesukim · En revisión. Hebreo de Wikisource; fonética JD. La revisión de ArtScroll y acentos sigue abierta.</p><p><a class="btn sm" href="'+url+'" download>Descargar TXT completo</a></p><label class="small" for="jdTehilimText">Texto completo</label><textarea id="jdTehilimText" readonly dir="'+(hebrew?'rtl':'ltr')+'" style="width:100%;min-height:55vh;font-size:18px;line-height:1.7" placeholder="Cargando texto…"></textarea>','Cerrar',x=>x.remove());
+ const field=w.querySelector('#jdTehilimText');
+ try{
+  if(!tehilimTextCache.has(language)){
+   const response=await fetch(url);if(!response.ok)throw Error('No se pudo cargar el TXT');
+   tehilimTextCache.set(language,await response.text());
+  }
+  field.value=tehilimTextCache.get(language);
+ }catch(error){field.placeholder='No se pudo cargar el texto. Volvé a abrirlo o usá Descargar TXT completo.';}
 }
 function editContentItem(i){
  const it=i>=0?contentItems[i]:{name:'',category:'General',nusajim:['Ashkenazí','Jabad','Sefaradí'],langs:['Hebreo','Fonética','Español']};
