@@ -1,0 +1,52 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "IMG_1333(1).png · ArtScroll app · Tehilim 23",
+    "metegAdded": 16,
+    "scope": "Visible nikud and meteg checked. Asterisks not treated as meteg. Divine-name vocalization retained from digital Wikisource base; app prints the name without vowel points. Phonetic stress and reverential capitalization reviewed for this chapter."
+  },
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "מִזְמוֹר לְדָוִד יְהֹוָה רֹעִי לֹא אֶחְסָר.",
+      "hebrew": "מִזְמוֹר לְדָוִד יְהֹוָה רֹעִי לֹא אֶחְסָר.",
+      "previousPhonetic": "Mizmor leDavid Ad-nai ro'í lo ejsar.",
+      "phonetic": "Mizmor leDavid Ad-nai ro'í lo ejsar."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "בִּנְאוֹת דֶּשֶׁא יַרְבִּיצֵנִי עַל מֵי מְנֻחוֹת יְנַהֲלֵנִי.",
+      "hebrew": "בִּנְאוֹת דֶּֽשֶׁא יַרְבִּיצֵֽנִי עַל מֵי מְנֻחוֹת יְנַהֲלֵֽנִי.",
+      "previousPhonetic": "Binot deshe yarbitseni 'al me menujot yenahaleni.",
+      "phonetic": "Binot deshe yarbitseni 'al me menujot yenahaleni."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "נַפְשִׁי יְשׁוֹבֵב יַנְחֵנִי בְמַעְגְּלֵי צֶדֶק לְמַעַן שְׁמוֹ.",
+      "hebrew": "נַפְשִׁי יְשׁוֹבֵב יַנְחֵֽנִי בְּמַעְגְּלֵי צֶֽדֶק לְמַֽעַן שְׁמוֹ.",
+      "previousPhonetic": "Nafshí yeshovev yanjeni vema'guelé tsédek lema'an shemó.",
+      "phonetic": "Nafshí yeshovev yanjeni bema'guelé tsédek lema'an Shemó."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "גַּם כִּי אֵלֵךְ בְּגֵיא צַלְמָוֶת לֹא אִירָא רָע כִּי אַתָּה עִמָּדִי שִׁבְטְךָ וּמִשְׁעַנְתֶּךָ הֵמָּה יְנַחֲמֻנִי.",
+      "hebrew": "גַּם כִּי אֵלֵךְ בְּגֵיא צַלְמָֽוֶת לֹא אִירָא רָע כִּי אַתָּה עִמָּדִי שִׁבְטְךָ וּמִשְׁעַנְתֶּֽךָ הֵֽמָּה יְנַחֲמֻֽנִי.",
+      "previousPhonetic": "Gam ki elej begué tsalmávet lo irá ra' ki atá 'imadí shivtejá umish'anteja hema yenajamuni.",
+      "phonetic": "Gam ki elej begué tsalmávet lo irá ra' ki Atá 'imadí Shivtejá uMish'anteja hema yenajamuni."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "תַּעֲרֹךְ לְפָנַי שֻׁלְחָן נֶגֶד צֹרְרָי דִּשַּׁנְתָּ בַשֶּׁמֶן רֹאשִׁי כּוֹסִי רְוָיָה.",
+      "hebrew": "תַּעֲרֹךְ לְפָנַי שֻׁלְחָן נֶֽגֶד צֹרְרָי דִּשַּֽׁנְתָּ בַשֶּֽׁמֶן רֹאשִׁי כּוֹסִי רְוָיָה.",
+      "previousPhonetic": "Ta'aroj lefanái shulján négued tsorrái dishanta vashemen roshí kosí revayá.",
+      "phonetic": "Ta'aroj lefanái shulján négued tsorrái dishanta vashemen roshí kosí revayá."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "אַךְ טוֹב וָחֶסֶד יִרְדְּפוּנִי כׇּל יְמֵי חַיָּי וְשַׁבְתִּי בְּבֵית יְהֹוָה לְאֹרֶךְ יָמִים.",
+      "hebrew": "אַךְ טוֹב וָחֶֽסֶד יִרְדְּפוּֽנִי כָּל יְמֵי חַיָּי וְשַׁבְתִּי בְּבֵית יְהֹוָה לְאֹֽרֶךְ יָמִים.",
+      "previousPhonetic": "Aj tov vajésed yirdefuni kol yemé jayái veshavti bevet Ad-nai leórej yamim.",
+      "phonetic": "Aj tov vajésed yirdefuni kol yemé jayái veshavtí bevet Ad-nai leórej yamim."
+    }
+  ]
+}

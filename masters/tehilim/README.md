@@ -8,3 +8,7 @@ En Sistema: Masters & revisión → Tehilim 1–150 → Abrir hebreo / Abrir fon
 
 Regeneración: `TEHILIM_CACHE=/ruta/cache node scripts/build-tehilim.mjs /ruta/fonetica-hebreo/index.html`.
 Verificación: `node tests/tehilim-masters.cjs`.
+
+Revisión 2026-10-08: Tehilim 23 cotejado con la captura ArtScroll de la app; 16 meteg añadidos, nikud y fonética registrados en ARTSCROLL_023_REVISION.json. La escritura digital del Nombre se conserva de Wikisource. Las correcciones se reaplican al regenerar. El resto del corpus sigue en revisión.
+
+El visor permite editar y Guardar Master en hebreo y fonética usando el mismo almacenamiento sincronizado que Birkat Hamazón. La descarga incluye la edición abierta. Las ediciones personales guardadas prevalecen sobre la base publicada.

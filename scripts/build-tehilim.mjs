@@ -30,6 +30,13 @@ async function load(n){
  chapters[n-1]={chapter:n,hebrewNumber:name,url,sha256:crypto.createHash('sha256').update(raw).digest('hex'),verses};done++;if(done%10===0)console.log('Fetched '+done+'/150');
 }
 let next=1;await Promise.all(Array.from({length:1},async()=>{while(next<=150)await load(next++)}));
+// Reapply versioned visual reviews after extraction.
+const review=JSON.parse(fs.readFileSync(path.join(root,'masters/tehilim/ARTSCROLL_023_REVISION.json'),'utf8'));
+for(const patch of review.verses){const verse=chapters[22].verses[patch.verse-1];
+ if(verse.hebrew!==patch.previousHebrew)throw Error('Wikisource 23:'+patch.verse+' changed; review patch before rebuilding');
+ verse.hebrew=patch.hebrew;verse.phonetic=patch.phonetic;
+}
+chapters[22].artscrollReview=review.source;
 const count=chapters.reduce((a,c)=>a+c.verses.length,0);if(count!==2527)throw Error('Verse count '+count+' != 2527');
 const header='Judaica Design® · Tehilim 1–150\nEN REVISIÓN · No aprobado para producción\nHebreo: Wikisource, edición con nikud. Fonética: generador JD con decisiones editoriales disponibles.\nRevisión visual de ArtScroll y acentos: en curso.\n\n';
 for(const [lang,file] of [['hebrew','TEHILIM_001-150_HEBREO_EN_REVISION.txt'],['phonetic','TEHILIM_001-150_FONETICA_EN_REVISION.txt']]){
