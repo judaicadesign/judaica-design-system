@@ -17,11 +17,11 @@
 <script src="assets/jd-price.js?v=20261008-rush" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
 <link rel="stylesheet" href="https://use.typekit.net/ydp7axr.css">
-<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v3">
+<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v4">
 <script src="assets/jd-quote-hyphen.js?v=20261008-native" defer></script>
-<script src="assets/jd-quote-vectors.js?v=20261008-master-v3" defer></script>
-<script src="assets/jd-quote-native.js?v=20261008-master-v3" defer></script>
-<script src="assets/jd-quote-fit.js?v=20261008-master-v3" defer></script>
+<script src="assets/jd-quote-vectors.js?v=20261008-master-v4" defer></script>
+<script src="assets/jd-quote-native.js?v=20261008-master-v4" defer></script>
+<script src="assets/jd-quote-fit.js?v=20261008-master-v4" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
@@ -333,7 +333,7 @@ const assetsSec=document.getElementById('assets');
 function drawAssets(){
  if(!assetsSec)return;
  assetsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Biblioteca visual</div><h1>Assets</h1></div><button class="btn primary" id="jdAddAsset">+ Subir asset</button></div>'+
- '<div class="jd-note">Mockups: lienzo de <b>125 × 100 mm</b> (1476 × 1181 px a 300 ppp), preferentemente PNG transparente. Cada asset se etiqueta por <b>producto + función + variante</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
+ '<div class="jd-note">Mockups: lienzo de <b>343 × 348 px de InDesign</b> (1429 × 1450 px a 300 ppp · 121 × 122,8 mm), preferentemente PNG transparente. Cada asset se etiqueta por <b>producto + función + variante</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
  '<div class="product-grid" style="margin-top:16px">'+(assets.length?assets.map((a,i)=>'<div class="jd-asset-card">'+(a.data?'<img class="jd-thumb" src="'+a.data+'">':'<div class="product-visual">Sin preview</div>')+'<h3>'+esc3(a.name)+'</h3><div class="jd-asset-meta"><span class="tag">'+esc3(a.role)+'</span><span class="tag">'+esc3(a.product)+'</span>'+(a.variant?'<span class="tag">'+esc3(a.variant)+'</span>':'')+'</div><p class="small muted">'+esc3([a.model,a.binding,a.size,a.notes].filter(Boolean).join(' · '))+'</p><div class="jd-toolbar"><button class="btn sm" data-ea="'+i+'">Editar</button><button class="btn sm" data-da="'+i+'">Eliminar</button></div></div>').join(''):'<div class="card"><p class="muted">Todavía no cargaste assets reales. Subilos acá y quedarán disponibles para el equipo y para los presupuestos.</p></div>')+'</div>';
  document.getElementById('jdAddAsset').onclick=()=>editAsset(-1);
  assetsSec.querySelectorAll('[data-ea]').forEach(b=>b.onclick=()=>editAsset(+b.dataset.ea));
@@ -352,7 +352,7 @@ function editAsset(i){
  '<div class="jd-field"><label>Función</label><select id="jaRole">'+['Mockup principal','Índice','Interior','Tamaño comparativo','Canto abrochado','Canto binder'].map(x=>'<option '+(x===a.role?'selected':'')+'>'+x+'</option>').join('')+'</select></div>'+
  '<div class="jd-field"><label>Variante / criterio</label><input id="jaVar" value="'+esc3(a.variant)+'" placeholder="Ej. Classic · Solo Sefaradí · Abrochado"></div>'+
  '<div class="jd-field"><label>Modelo / formato</label><select id="jaModel"></select></div><div class="jd-field"><label>Encuadernación</label><select id="jaBinding"></select></div><div class="jd-field"><label>Tamaño</label><select id="jaSize"></select></div>'+
- '<div class="jd-field"><label style="display:flex;gap:8px"><input id="jaCanvas" type="checkbox" style="width:auto" '+((i<0||a.mockCanvas)?'checked':'')+'> Lienzo del presupuesto · 125 × 100 mm</label><small>PNG transparente, 1476 × 1181 px a 300 ppp. Se respeta el lienzo completo y su proporción; no se recorta ni se recentra el objeto.</small></div>'+
+ '<div class="jd-field"><label style="display:flex;gap:8px"><input id="jaCanvas" type="checkbox" style="width:auto" '+((i<0||a.mockCanvas)?'checked':'')+'> Lienzo del presupuesto · 343 × 348 px de InDesign</label><small>PNG transparente, 1429 × 1450 px a 300 ppp · 121 × 122,8 mm. Se respeta el lienzo completo y su proporción; no se recorta ni se recentra el objeto.</small></div>'+
  '<div class="jd-field"><label>Imagen</label><input id="jaFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">'+(a.data?'<div class="small muted" style="margin-top:5px">Ya hay una imagen cargada. Elegí otra sólo si querés reemplazarla.</div>':'')+'</div>'+
  '<div class="jd-field"><label>Notas</label><input id="jaNotes" value="'+esc3(a.notes)+'"></div>'+
  '</div>','Guardar asset',async x=>{
@@ -1630,7 +1630,7 @@ function render6(){
  const issuedDate=window.jdLegalDates.today();
  const today=window.jdLegalDates.display(issuedDate);
  const asset=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,model:qModel.value,binding:p.bindings.length?qBind.value:'',size:qSize.value,role:'Mockup principal'});
- const hero=asset?.data?'<img src="'+E(asset.data)+'" class="jd-pdf-product-img" data-mock-canvas="'+(asset.mockCanvas?'true':'false')+'">':'<div class="jd-mock-placeholder"><span>MOCKUP PRINCIPAL · 125 × 100 mm</span></div>';
+ const hero=asset?.data?'<img src="'+E(asset.data)+'" class="jd-pdf-product-img" data-mock-canvas="'+(asset.mockCanvas?'true':'false')+'">':'<div class="jd-mock-placeholder"><span>MOCKUP PRINCIPAL · 343 × 348 px de InDesign</span></div>';
  const et=jdEffectiveTechnical(p,v);
  const technical=p.name==='Birkón · Librito'
    ?'<div class="jd-tech">'+(et.paper||et.weightGsm?'<span><strong>Tapa:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' grs.':''].filter(Boolean).join(' '))+'</span>':'')+(et.lamination?'<span>'+E(et.lamination)+'</span>':'')+(et.interiorPaper||et.interiorWeightGsm||et.print?'<span><strong>Interior:</strong> '+E([[et.interiorPaper,et.interiorWeightGsm?et.interiorWeightGsm+' grs.':''].filter(Boolean).join(' '),et.print].filter(Boolean).join(' - '))+'</span>':'')+(et.sides?'<span>'+E(et.sides)+'</span>':'')+(et.finish?'<span>'+E(et.finish)+'</span>':'')+'</div>' 
@@ -1846,7 +1846,7 @@ window.renderQuote=render6;
  }
  async function pdfBlob(){
    const el=document.getElementById('quotePreview');if(!el)throw Error('No se encontró la vista del presupuesto.');
-   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v3')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
+   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v4')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
    const sheets=[...el.querySelectorAll('.jd-pdf-sheet')];if(!sheets.length)throw Error('No hay páginas para exportar.');
    return await window.jdVectorQuotePdf(sheets);
  }

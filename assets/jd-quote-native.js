@@ -2,8 +2,10 @@
    Text and supplied SVG paths remain vectors; only the original mockup is an image. */
 (function(root){
  const W=595.275590551,H=841.88976378;
+ // InDesign pixels are 1 pt: 343 × 348 = 121.00 × 122.77 mm on A4.
+ const mockFrame={x:31.0195,y:106.5,width:343,height:348,gap:12,legalGap:18};
  const colors={paper:'#f4f2ec',ink:'#111111',teal:'#18666b',gold:'#8f7859',rule:'#ab9373',card:'#fbfaf5',legal:'#e6e7e8',circle:'#dcd6c2',footer:'#125b64'};
- const fonts={text:'JDText',medium:'JDMedium',bold:'JDBold',wide:'JDWide',label:'JDLabel',cond:'JDCond',condMedium:'JDCondMedium',title:'JDTitle'};
+ const fonts={text:'JDText',medium:'JDMedium',bold:'JDBold',wide:'JDWide',label:'JDLabel',metaBold:'JDMetaBold',cond:'JDCond',condMedium:'JDCondMedium',title:'JDTitle'};
  let fontPromise;
  async function request(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('No se pudo cargar '+url);const consume=method=>async()=>{try{return await r[method]()}finally{clearTimeout(timer)}};return {text:consume('text'),arrayBuffer:consume('arrayBuffer')}}catch(error){clearTimeout(timer);throw error}}
  function base64(bytes){let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(s)}
@@ -11,17 +13,18 @@
   if(fontPromise)return fontPromise;
   fontPromise=(async()=>{
    const css=await (await request('https://use.typekit.net/ydp7axr.css')).text(),faces=[...css.matchAll(/@font-face\s*\{([^}]+)\}/g)].map(m=>m[1]);
-   const requests=[['text','aktiv-grotesk-hebrew',400],['medium','aktiv-grotesk-hebrew',500],['bold','aktiv-grotesk-hebrew',700],['wide','aktiv-grotesk-ex-hebrew',500],['label','aktiv-grotesk-ex-hebrew',800],['cond','aktiv-grotesk-cd-hebrew',300],['condMedium','aktiv-grotesk-cd-hebrew',500]];
+   const requests=[['text','aktiv-grotesk-hebrew',400],['medium','aktiv-grotesk-hebrew',500],['bold','aktiv-grotesk-hebrew',700],['wide','aktiv-grotesk-ex-hebrew',500],['label','aktiv-grotesk-ex-hebrew',800],['metaBold','aktiv-grotesk-ex-hebrew',700],['cond','aktiv-grotesk-cd-hebrew',300],['condMedium','aktiv-grotesk-cd-hebrew',500]];
    const result=await Promise.all(requests.map(async([key,family,weight])=>{
     const face=faces.find(s=>s.includes('font-family:"'+family+'"')&&s.includes('font-weight:'+weight)&&s.includes('font-style:normal'));
+    if(!face&&key==='metaBold')return null;
     const url=face?.match(/url\("([^"]+)"\)\s*format\("opentype"\)/)?.[1];if(!url)throw Error('Falta '+family+' '+weight+' en el kit de Adobe.');
     return [key,new Uint8Array(await (await request(url)).arrayBuffer())];
    }));
    const url='https://fonts.gstatic.com/s/librecasloncondensed/v3/flUURrasxYEyVwtcWIsbLunUPow3bHNaxvyEdaQClLYatgOE7C0g4yuo.ttf';
-   result.push(['title',new Uint8Array(await (await request(url)).arrayBuffer())]);return Object.fromEntries(result);
+   result.push(['title',new Uint8Array(await (await request(url)).arrayBuffer())]);return Object.fromEntries(result.filter(Boolean));
   })().catch(e=>{fontPromise=null;throw e});return fontPromise;
  }
- function install(pdf,files){for(const [key,data] of Object.entries(files)){if(data[0]!==0||data[1]!==1||data[2]!==0||data[3]!==0)throw Error('La fuente '+key+' no llegó como TrueType válida. Volvé a intentar.');const file=fonts[key]+'.ttf';pdf.addFileToVFS(file,base64(data));pdf.addFont(file,fonts[key],'normal');pdf.setFont(fonts[key],'normal');if(typeof pdf.getFont().metadata.characterToGlyph!=='function')throw Error('No se pudo incorporar la fuente '+key+' al PDF.')}}
+ function install(pdf,files){family.JDMetaBold[1]=files.metaBold?700:800;files={...files,metaBold:files.metaBold||files.label};for(const [key,data] of Object.entries(files)){if(data[0]!==0||data[1]!==1||data[2]!==0||data[3]!==0)throw Error('La fuente '+key+' no llegó como TrueType válida. Volvé a intentar.');const file=fonts[key]+'.ttf';pdf.addFileToVFS(file,base64(data));pdf.addFont(file,fonts[key],'normal');pdf.setFont(fonts[key],'normal');if(typeof pdf.getFont().metadata.characterToGlyph!=='function')throw Error('No se pudo incorporar la fuente '+key+' al PDF.')}}
  function text(pdf,value,x,y,size,font='text',color=colors.ink,tracking=0){pdf.setFont(fonts[font],'normal');pdf.setFontSize(size);pdf.setTextColor(color);pdf.setCharSpace(size*tracking/1000);pdf.text(String(value),x,y);pdf.setCharSpace(0)}
  function width(pdf,value,size,font='text'){pdf.setFont(fonts[font],'normal');pdf.setFontSize(size);return pdf.getTextWidth(value)}
  function wrap(pdf,value,max,size,font='text'){
@@ -71,19 +74,19 @@
  function contactIcon(pdf,name,x,y,w,h){vector(pdf,'footer-'+name,x,y,w,h)}
  async function drawSheet(pdf,m,page,total){
   pdf.setFillColor(colors.paper);pdf.rect(0,0,W,H,'F');
-  const legal=legalLayout(pdf,m.legal);m={...m,_lift:legal.lift};const content=contentLayout(pdf,m);
-  if(m.mock){const data=await imageData(m.mock),info=pdf.getImageProperties(data),availableHeight=Math.max(80,(content?.top||592.481-m._lift)-8-116.5);let placement;
-   if(m.mockCanvas){const frameW=354.330708661,frameH=Math.min(283.464566929,availableHeight),factor=Math.min(frameW/info.width,frameH/info.height),w=info.width*factor,h=info.height*factor;placement={x:202.5195-w/2,y:116.5+(frameH-h)/2,w,h};}
-   else{const box=await opaqueBounds(data,info);placement=mockPlacement(info,box,Math.min(355.530,availableHeight));}
+  const legal=legalLayout(pdf,m.legal);m={...m,_lift:legal.lift};const content=contentLayout(pdf,m),frame=content?.frame||mockFrame;
+  if(m.mock){const data=await imageData(m.mock),info=pdf.getImageProperties(data);let placement;
+   if(m.mockCanvas){const factor=Math.min(frame.width/info.width,frame.height/info.height),w=info.width*factor,h=info.height*factor;placement={x:frame.x+(frame.width-w)/2,y:frame.y+(frame.height-h)/2,w,h};}
+   else{const box=await opaqueBounds(data,info);placement=mockPlacement(info,box,frame.height);placement.y=frame.y+(frame.height-placement.h)/2;}
    pdf.addImage(data,info.fileType,placement.x,placement.y,placement.w,placement.h);
-  }else if(m._preview){const h=Math.min(283.464566929,(content?.top||592.481-m._lift)-8-116.5);pdf.setDrawColor(colors.circle);pdf.setLineWidth(.25);pdf.rect(25.354,116.5,354.331,h,'D');text(pdf,'Asigná un mockup en Recursos',110,116.5+h/2,7,'text',colors.gold);}
+  }else if(m._preview){pdf.setDrawColor(colors.circle);pdf.setLineWidth(.25);pdf.rect(frame.x,frame.y,frame.width,frame.height,'D');text(pdf,'Asigná un mockup en Recursos',110,frame.y+frame.height/2,7,'text',colors.gold);}
 
   vector(pdf,'assets/jd-logo-quote.svg',33.759,32.0,54.0,40.67);
   text(pdf,m.overline,106.790,34.814,7.291296893,'wide',colors.gold,120);
   const parts=m.title.split('·');text(pdf,parts[0].trim(),106.790,74.916,36.456484466,'title',colors.teal,10);
   if(parts[1]){const x=106.790+width(pdf,parts[0].trim()+' ',36.456484466,'title')+parts[0].trim().length*.364564845; text(pdf,'·',x,74.916,36.456484466,'title',colors.rule,10);text(pdf,' '+parts[1].trim(),x+width(pdf,'·',36.456484466,'title')+.364564845,74.916,36.456484466,'title',colors.teal,10)}
   rule(pdf,432.31,50.18,432.31,74.98,.25,colors.gold);rule(pdf,513.78,50.18,513.78,74.98,.25,colors.gold);
-  text(pdf,'CLIENTE',436.858,58.504,5.103907825,'label',colors.ink,70);text(pdf,'FECHA',518.326,58.504,5.103907825,'label',colors.ink,70);
+  text(pdf,'CLIENTE',436.858,58.504,5.103907825,'metaBold',colors.ink,100);text(pdf,'FECHA',518.326,58.504,5.103907825,'metaBold',colors.ink,100);
   const client=wrap(pdf,m.client,74,7.291296893);client.slice(0,3).forEach((line,i)=>text(pdf,line,436.858,68.712+i*10.2078156505,7.291296893));if(client.length>3)throw Error('El nombre del cliente no cabe en el encabezado.');text(pdf,m.date,518.326,68.712,7.291296893);
   vector(pdf,'master-bsd',565.8791,22.6919,12.1860,4.6460);rule(pdf,24.252,97.552,571.024,97.552,.5,colors.gold);
   drawContent(pdf,m);drawCard(pdf,m);drawLegal(pdf,m.legal);
@@ -92,7 +95,8 @@
   text(pdf,'|',208,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'instagram',223.9375,820.1875,10,10);text(pdf,'@JudaicaDesign',237.031,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'|',333,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'whatsapp',351.8125,819.4375,9.9375,10.0625);text(pdf,'+54 9 11 5822 4686',364.852,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'» '+page+' / '+total,520.482,827.189,10.3154,'wide','#b8a781',26);
  }
  function contentLayout(pdf,m){if(!m.content.length&&!m.contentTitle)return null;const lines=m.content.map(t=>wrap(pdf,t,169.1,8.5));let best=1,score=Infinity;for(let i=1;i<lines.length;i++){const a=lines.slice(0,i).reduce((n,v)=>n+v.length,0),b=lines.slice(i).reduce((n,v)=>n+v.length,0),s=Math.abs(a-b);if(s<score){best=i;score=s}}
-  const cols=[lines.slice(0,best),lines.slice(best)],height=Math.max(34,...cols.map(col=>col.reduce((n,v)=>n+v.length*13,0)))+38.555,bottom=592.481-(m._lift||0),top=bottom-height;if(top<250)throw Error('El contenido excede el espacio de una A4.');return {cols,top,bottom};
+  const cols=[lines.slice(0,best),lines.slice(best)],height=Math.max(34,...cols.map(col=>col.reduce((n,v)=>n+v.length*13,0)))+38.555,legalTop=603.779-(m._lift||0),available=legalTop-mockFrame.legalGap-height-mockFrame.gap-mockFrame.y;
+  if(available<80)throw Error('El contenido excede el espacio de una A4.');const frameHeight=Math.min(mockFrame.height,available),frameWidth=mockFrame.width*frameHeight/mockFrame.height,frame={...mockFrame,x:mockFrame.x+(mockFrame.width-frameWidth)/2,width:frameWidth,height:frameHeight},top=frame.y+frame.height+frame.gap,bottom=top+height;return {cols,top,bottom,frame};
  }
  function drawContent(pdf,m){const l=contentLayout(pdf,m);if(!l)return;const {cols,top,bottom}=l;rule(pdf,24.252,top,380.787,top,.5,colors.gold);rule(pdf,24.252,bottom,380.787,bottom,.5,colors.gold);text(pdf,m.contentTitle,33.759,top+24.214,18,'title',colors.teal);cols.forEach((col,index)=>{const x=index?213.523:33.759;let y=top+41.466;for(const list of col){text(pdf,'·',x,y,8.5,'medium',colors.rule);list.forEach(line=>{text(pdf,line,x+5.669,y,8.5);y+=13})}});}
  function technicalLines(pdf,items){
@@ -109,16 +113,16 @@
  function drawSpecIcon(pdf,path,cx,cy){const key=path.split('/').at(-1).replace('.svg',''),size=iconSizes[key]||30;pdf.setFillColor(colors.circle);pdf.circle(cx,cy,17.375,'F');vector(pdf,path,cx-size/2,cy-size/2+(key==='10_cuadriptico'?-1:0),size,size);}
  function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65,tech=technicalLines(pdf,m.technical),note=m.discount?wrap(pdf,m.discount,inner,5.5):[];
   const build=compact=>{const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:(compact?37:39.004)+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1)}));const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('Prioridad de agenda','Prioridad').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold'),noteStart=compact?5:8,noteLeading=compact?7:8,totalOffset=notes.length?noteStart+notes.length*noteLeading+(compact?8:10):14;return {...p,lines,notes,multiple,noteStart,noteLeading,totalOffset,height:totalOffset+14*lines.length+(compact?8:12)}});
-   const header=compact?32:38,techHeight=tech.length?Math.max(39,24.5+tech.length*8):0,height=header+specs.reduce((n,s)=>n+s.height,0)+techHeight+prices.reduce((n,p)=>n+p.height,0)+(note.length?note.length*7+14:0)+16,bottom=592.481-(m._lift||0),top=bottom-height;return {specs,tech,techHeight,prices,note,top,height,header};};
-  let layout=build(false);if(layout.top<104)layout=build(true);if(layout.top<104)throw Error('Este presupuesto supera el espacio de una A4. Separá algunas cantidades en otra alternativa.');return layout;
+   const header=compact?32:38,techHeight=tech.length?Math.max(39,24.5+tech.length*8):0,height=header+specs.reduce((n,s)=>n+s.height,0)+techHeight+prices.reduce((n,p)=>n+p.height,0)+(note.length?note.length*7+14:0)+16,top=mockFrame.y;return {specs,tech,techHeight,prices,note,top,height,header};};
+  const maxBottom=603.779-(m._lift||0)-12;let layout=build(false);if(layout.top+layout.height>maxBottom)layout=build(true);if(layout.top+layout.height>maxBottom)throw Error('Este presupuesto supera el espacio de una A4. Separá algunas cantidades en otra alternativa.');return layout;
  }
- function drawCard(pdf,m){const l=cardLayout(pdf,m);pdf.setFillColor(colors.card);pdf.setDrawColor(colors.gold);pdf.setLineWidth(.25);pdf.roundedRect(387.874,l.top,173.386,l.height,11,11,'FD');text(pdf,'DETALLES DEL PRODUCTO',398.815,l.top+20,7.291296893,'wide',colors.gold,120);let y=l.top+l.header;
+ function drawCard(pdf,m){const l=cardLayout(pdf,m);pdf.setFillColor(colors.card);pdf.setDrawColor(colors.gold);pdf.setLineWidth(.25);pdf.roundedRect(387.874,l.top,173.386,l.height,11,11,'FD');text(pdf,'DETALLES DEL PRODUCTO',398.815,l.top+20,7.5,'wide',colors.gold,100);let y=l.top+l.header;
   for(const s of l.specs){drawSpecIcon(pdf,s.icon,415.85,y+11.95);text(pdf,s.title.toUpperCase(),436.134,y+7.836,6,'medium',colors.gold,80);s.lines.forEach((line,i)=>text(pdf,line,436.134,y+20.836+i*13,8.75,'medium'));y+=s.height;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
   if(l.tech.length){drawSpecIcon(pdf,'assets/quote-icons/13_engranaje.svg',415.85,y+11.95);text(pdf,'DETALLES TÉCNICOS',436.134,y+7.836,6,'medium',colors.gold,80);l.tech.forEach((runs,i)=>{let x=436.134;for(const run of runs){text(pdf,run.text,x,y+18.671+i*8,6,run.font);x+=width(pdf,run.text,6,run.font)}});y+=l.techHeight;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
   for(let index=0;index<l.prices.length;index++){const p=l.prices[index];if(index)rule(pdf,396.85,y-5,552.755,y-5,.25);text(pdf,p.qty,399.543,y+p.totalOffset,7.5,'text',colors.gold);p.notes.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,6),y+p.noteStart+i*p.noteLeading,6,'text',colors.gold));p.lines.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,11,'bold'),y+p.totalOffset+i*14,11,'bold',colors.teal));y+=p.height}
   const noteTop=l.top+l.height-16-(l.note.length-1)*7;l.note.forEach((line,i)=>text(pdf,line,399.543,noteTop+i*7,5.5,'text',colors.gold));
  }
- const family={JDText:['aktiv-grotesk-hebrew',400],JDMedium:['aktiv-grotesk-hebrew',500],JDBold:['aktiv-grotesk-hebrew',700],JDWide:['aktiv-grotesk-ex-hebrew',500],JDLabel:['aktiv-grotesk-ex-hebrew',800],JDCond:['aktiv-grotesk-cd-hebrew',300],JDCondMedium:['aktiv-grotesk-cd-hebrew',500],JDTitle:['Libre Caslon Condensed',500]};
+ const family={JDText:['aktiv-grotesk-hebrew',400],JDMedium:['aktiv-grotesk-hebrew',500],JDBold:['aktiv-grotesk-hebrew',700],JDWide:['aktiv-grotesk-ex-hebrew',500],JDLabel:['aktiv-grotesk-ex-hebrew',800],JDMetaBold:['aktiv-grotesk-ex-hebrew',800],JDCond:['aktiv-grotesk-cd-hebrew',300],JDCondMedium:['aktiv-grotesk-cd-hebrew',500],JDTitle:['Libre Caslon Condensed',500]};
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
  class SVGDoc{
   constructor(metric){this.metric=metric;this.nodes=[];this.lineWidth=.25;this.fillColor='#111';this.strokeColor='#111';this.textColor='#111';this.charSpace=0;this.font='JDText';this.fontSize=8.5}
@@ -144,7 +148,7 @@
  }
  root.jdQuotePreviewSVG=svgPreview;
 
- async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v2'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={version:'20261008-master-v3',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,iconSizes,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v4'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
+ root.jdNativeQuote={version:'20261008-master-v4',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);
