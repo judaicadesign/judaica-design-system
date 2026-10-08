@@ -1085,7 +1085,7 @@ function editProduct(i){
  '<div><label>¿Tiene nusaj?</label><select id="pnus6"><option value="yes">Sí</option><option value="no">No</option></select></div>'+
  '<div class="span2"><label>Ganancia objetivo del producto (%)</label><input id="pmargin6" type="number" min="0" max="99.99" step="0.01" value="'+E(baseMargin)+'" placeholder="Ej. 36"><div class="small muted">Regla general: costo ÷ (1 − margen) + envío del proveedor. Las reglas específicas de cada formato tienen prioridad. Si lo dejás vacío, se conservan las reglas actuales.</div>'+(productRules.some(r=>r.variant!=='*')?'<p class="small muted">Reglas por formato: '+productRules.filter(r=>r.variant!=='*').map(r=>E(r.variant)+' · '+E(r.marginPct??Number(((1-Number(r.divisor))*100).toFixed(2)))+'%').join(' / ')+'</p>':'')+'</div>'+
  '<div class="span2"><label>Modelos / formatos <span class="small muted">(solo si este producto tiene más de uno)</span></label><input id="pmod6" value="'+E((p.models||[]).join(', '))+'" placeholder="Ej. Tríptico, Cuadríptico"></div>'+
- '<div class="span2"><label>Opciones de tamaño <span class="small muted">(solo si el cliente puede elegir entre varios)</span></label><input id="psz6" value="'+E((p.sizes||[]).join(', '))+'" placeholder="Ej. Normal · 11,6 × 15,5 cm, Grande · 14 × 18,5 cm"></div>'+
+ '<div class="span2"><label>Opciones de tamaño <span class="small muted">(solo si el cliente puede elegir entre varios)</span></label><input id="psz6" value="'+E((p.sizes||[]).join('; '))+'" placeholder="Ej. Normal · 11,6 × 15,5 cm; Grande · 14 × 18,5 cm"></div>'+
  '<div class="span2"><label>Encuadernaciones <span class="small muted">(solo si corresponde)</span></label><input id="pbd6" value="'+E((p.bindings||[]).join(', '))+'" placeholder="Ej. Abrochado, Binder"></div>'+
  '<div class="span2"><label>Textos disponibles</label><div class="jd-nusaj-checks">'+checks+'</div></div>'+
  '<div class="span2"><label>Legales del presupuesto</label><select id="plegal6"><option value="">Sin legales</option>'+legalSets.map(s=>'<option value="'+E(s.id)+'" '+((p.legalSetId||'')===s.id?'selected':'')+'>'+E(s.id==='legal-birkonim'?'Legales & aclaraciones Birkonim':s.name)+'</option>').join('')+'</select><div class="small muted" style="margin-top:5px">La plantilla elegida se agrega automáticamente al presupuesto/PDF de este producto.</div></div>'+
@@ -1120,7 +1120,7 @@ function editProduct(i){
      supplier:w.querySelector('#psup6').value,
      nusaj:w.querySelector('#pnus6').value==='yes',
      models:w.querySelector('#pmod6').value.split(',').map(v=>v.trim()).filter(Boolean),
-     sizes:w.querySelector('#psz6').value.split(',').map(v=>v.trim()).filter(Boolean),
+     sizes:w.querySelector('#psz6').value.split(/,(?!\d)|[;\n]+/).map(v=>v.trim()).filter(Boolean),
      bindings:w.querySelector('#pbd6').value.split(',').map(v=>v.trim()).filter(Boolean),
      texts:[...w.querySelectorAll('.ptxt:checked')].map(x=>x.value),
      legalSetId:w.querySelector('#plegal6').value,
@@ -1178,7 +1178,7 @@ function jdBaseLibritoContent(model){
  return (fallback[model]||[]).slice();
 }
 function jdStripNusajMarker(s){
- return String(s||'').replace(/\s*\((?:1|2)\s+nusaj(?:im)?\)\s*$/i,'').trim().replace(/^Kidush del día\s*[·•-]\s*Shabat y (?:fiestas|Yom Tov)$/i,'Kidush del día - Shabat y Yom Tov');
+ return String(s||'').replace(/\s*\((?:1|2)\s+nusaj(?:im)?\)\s*$/i,'').trim().replace(/^Kidush del día(?:\s*[·•-]\s*|\s*\(\s*)Shabat y (?:fiestas|Yom Tov)\)?$/i,'Kidush del día - Shabat y Yom Tov');
 }
 function jdLibritoModelContent(p,model){
  const stored=p?.modelContent?.[model];
@@ -1289,7 +1289,7 @@ function editVariant(pi,vi){
  const currentNusaj=jdVariantNusajOptions(v,p);
  const allNusaj=[...JD_SINGLE_NUSAJ,...JD_DOUBLE_NUSAJ];
  const nusajChecks=allNusaj.map(n=>'<label class="jd-checkline"><input type="checkbox" class="vn6" value="'+E(n)+'" '+(currentNusaj.includes(n)?'checked':'')+'> <span>'+E(n)+'</span></label>').join('');
- const sharedContent=isLibrito?jdLibritoModelContent(p,v.model):(v.content||[]);
+ const sharedContent=isLibrito?jdLibritoModelContent(p,v.model):(v.content||[]).map(jdStripNusajMarker);
  const contentLabel=isLibrito?'Contenido base del modelo · una línea por ítem':'Contenido · una línea por ítem';
  const vt=v.technical||{};
  const inherited=jdEffectiveTechnical(p,{technical:{}})||{};
@@ -2013,7 +2013,7 @@ window.renderQuote=render6;
       supplier:modal.querySelector('#psup6')?.value||'',
       nusaj:(modal.querySelector('#pnus6')?.value||'no')==='yes',
       models:(modal.querySelector('#pmod6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
-      sizes:(modal.querySelector('#psz6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
+      sizes:(modal.querySelector('#psz6')?.value||'').split(/,(?!\d)|[;\n]+/).map(v=>v.trim()).filter(Boolean),
       bindings:(modal.querySelector('#pbd6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
       texts:[...modal.querySelectorAll('.ptxt:checked')].map(x=>x.value),
       technical:{

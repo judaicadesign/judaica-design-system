@@ -51,6 +51,9 @@ async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
 
+ const kidushRows=fixture();kidushRows[0].value[0].variants[0].content=['Kidush del día (Shabat y Yom Tov)','Birkat Hamazón'];
+ const kidush=await boot(kidushRows);kidush.w.renderQuote();assert.match(kidush.w.document.querySelector('.index-list').textContent,/Kidush del día - Shabat y Yom Tov/);kidush.w.go('products');kidush.w.document.querySelector('[data-pvars="0"]').click();kidush.w.document.querySelector('[data-ve="0"]').click();assert.match(kidush.w.document.getElementById('vc6').value,/Kidush del día - Shabat y Yom Tov/);await sleep(80);kidush.close();
+
  const materialRows=fixture();materialRows[0].value[0].technical={customMetadata:'preservar'};
  const materials=await boot(materialRows);
  materials.w.renderQuote();
@@ -58,13 +61,16 @@ async function scenarios(){
  materials.w.go('products');materials.w.document.querySelector('[data-pedit="0"]').click();
  for(const [id,value] of Object.entries({ptpaper6:'Papel de tapa QA',ptgsm6:'250',ptlam6:'Laminado brillante',ptinteriorpaper6:'Obra',ptinteriorgsm6:'90',ptprint6:'Blanco y negro'}))materials.w.document.getElementById(id).value=value;
  await materials.w.document.querySelector('.modal .s6').onclick(new materials.w.Event('click'));await sleep(350);
- const savedMaterials=materials.get('jd_catalog_v6')[0];assert.equal(savedMaterials.technical.customMetadata,'preservar');assert.equal(savedMaterials.variants.length,1);assert.equal(savedMaterials.technical.interiorWeightGsm,90);
+ const savedMaterials=materials.get('jd_catalog_v6')[0];assert.equal(savedMaterials.technical.customMetadata,'preservar');assert.equal(savedMaterials.variants.length,1);assert.deepEqual(savedMaterials.sizes,['Normal · 11,6 × 15,5 cm']);assert.equal(savedMaterials.technical.interiorWeightGsm,90);
  materials.w.renderQuote();assert.deepEqual([...materials.w.document.querySelectorAll('.jd-tech span')].map(x=>x.textContent),['Tapa: Papel de tapa QA 250 grs.','Laminado brillante','Interior: Obra 90 grs. - Blanco y negro']);
  materials.w.go('products');materials.w.document.querySelector('[data-pedit="0"]').click();materials.w.document.getElementById('ptlam6').value='';
  await materials.w.document.querySelector('.modal .s6').onclick(new materials.w.Event('click'));await sleep(350);
  materials.w.renderQuote();assert.equal(materials.get('jd_catalog_v6')[0].technical.lamination,'');assert.ok(!materials.w.document.querySelector('.jd-tech').textContent.includes('laminado mate/brillante'));await sleep(80);materials.close();
  const reloadMaterials=await boot(materials.remote);reloadMaterials.w.go('products');reloadMaterials.w.document.querySelector('[data-pedit="0"]').click();assert.equal(reloadMaterials.w.document.getElementById('ptinteriorpaper6').value,'Obra');assert.equal(reloadMaterials.w.document.getElementById('ptlam6').value,'');await sleep(80);reloadMaterials.close();
  console.log('editable book cover/interior, lamination newline, metadata preservation, intentional blanks and reload passed');
+ const zlotoRows=fixture();zlotoRows[0].value[0].variants[0].pages=72;zlotoRows[0].value[0].sizes.push('Grande · 14 × 18,5 cm');zlotoRows.find(r=>r.key==='jd_cost_quotes_v2').value=[{supplier:'Zloto',product:product.name,variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:100,cost:560770,date:'2026-08-25'}];
+ const zloto=await boot(zlotoRows);zloto.w.go('products');zloto.w.document.querySelector('[data-pedit="0"]').click();await zloto.w.document.querySelector('.modal .s6').onclick(new zloto.w.Event('click'));await sleep(350);assert.deepEqual(zloto.get('jd_catalog_v6')[0].sizes,['Normal · 11,6 × 15,5 cm','Grande · 14 × 18,5 cm']);zloto.w.document.getElementById('qClient').value='Prueba costo Zloto';zloto.w.qs6=[100];zloto.w.renderQuote();assert.equal(zloto.w.jdCollectQuote().quantities[0].cost,560770);await sleep(80);zloto.close();console.log('saving product preserves decimal dimensions and exact Zloto Classic 72-page/100-unit cost passed');
+
 
  const foldRows=fixture();const fold=foldRows.find(r=>r.key==='jd_catalog_v6').value[0];fold.name='Birkón · Folleto';fold.id='birkon-folleto';fold.technical={paper:'Obra folleto QA',weightGsm:170,lamination:'Sin laminado',print:'Dos tintas',sides:'Doble faz'};fold.models=['Bífold','Tríptico','Cuadríptico'];fold.variants=fold.models.map((model,i)=>({...structuredClone(fold.variants[0]),id:'fold-'+i,model,pages:36}));
  const foldApp=await boot(foldRows);
