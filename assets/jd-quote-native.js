@@ -100,7 +100,7 @@
    }if(runs.length)result.push(runs);
   }return result;
  }
- function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65;const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:Math.max(39.004,23+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1))}));const tech=technicalLines(pdf,m.technical);const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold');const totalOffset=multiple?7+Math.max(1,notes.length)*8+8:10+Math.max(1,notes.length)*8+10;return {...p,lines,notes,multiple,totalOffset,height:totalOffset+14*lines.length+(multiple?-5:12)}});
+ function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65;const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:39.004+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1)}));const tech=technicalLines(pdf,m.technical);const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold');const totalOffset=multiple?7+Math.max(1,notes.length)*8+8:10+Math.max(1,notes.length)*8+10;return {...p,lines,notes,multiple,totalOffset,height:totalOffset+14*lines.length+(multiple?-5:12)}});
 
   const note=m.discount?wrap(pdf,m.discount,inner,5.5):[];const height=Math.max(404.102,52.524+specs.reduce((n,s)=>n+s.height,0)+(tech.length?23.93+tech.length*8+3.5:0)+prices.reduce((n,p)=>n+p.height,0)+(note.length?note.length*7+12:0)+21);
   const bottom=592.481-(m._lift||0),top=bottom-height;if(top<116.5)throw Error('Hay demasiadas cantidades o notas para el master. Agregá otra alternativa para conservar los tamaños originales.');return{specs,tech,prices,note,top,height};
@@ -122,12 +122,12 @@
   setFontSize(n){this.fontSize=n;this.metric.setFontSize(n)}
   getTextWidth(s){return this.metric.getTextWidth(s)}
   setTextColor(c){this.textColor=c}setFillColor(c){this.fillColor=c}setDrawColor(c){this.strokeColor=c}setLineWidth(n){this.lineWidth=n}setCharSpace(n){this.charSpace=n}
-  text(s,x,y){const [font,weight]=family[this.font];this.nodes.push(`<text x="${x}" y="${y}" fill="${this.textColor}" font-family="${font}" font-weight="${weight}" font-size="${this.fontSize}" letter-spacing="${this.charSpace}" style="font-kerning:none;font-variant-ligatures:none">${esc(s)}</text>`)}
+  text(s,x,y){const [font,weight]=family[this.font];this.nodes.push(`<text x="${x}" y="${y}" fill="${this.textColor}" font-family="${font}" font-weight="${weight}" font-size="${this.fontSize}" letter-spacing="${this.charSpace}" xml:space="preserve" style="white-space:pre;font-kerning:none;font-variant-ligatures:none">${esc(s)}</text>`)}
   line(x1,y1,x2,y2){this.nodes.push(`<path d="M${x1} ${y1} L${x2} ${y2}" fill="none" stroke="${this.strokeColor}" stroke-width="${this.lineWidth}"/>`)}
   rect(x,y,w,h,type){this.roundedRect(x,y,w,h,0,0,type)}
   roundedRect(x,y,w,h,rx,ry,type){this.nodes.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" ry="${ry}" fill="${type?.includes('F')?this.fillColor:'none'}" stroke="${type?.includes('D')?this.strokeColor:'none'}" stroke-width="${this.lineWidth}"/>`)}
   circle(x,y,r,type){this.nodes.push(`<circle cx="${x}" cy="${y}" r="${r}" fill="${type==='F'?this.fillColor:'none'}"/>`)}
-  path(ops){this.currentPath=ops.map(s=>s.op.toUpperCase()+s.c.join(' ')).join(' ')}
+  path(ops){this.currentPath=ops.map(s=>(s.op==='h'?'Z':s.op.toUpperCase())+s.c.join(' ')).join(' ')}
   fill(){this.nodes.push(`<path d="${this.currentPath}" fill="${this.fillColor}"/>`)}
   getImageProperties(data){return this.metric.getImageProperties(data)}
   addImage(data,type,x,y,w,h){const href=typeof data==='string'?data:'data:image/'+type.toLowerCase()+';base64,'+base64(data);this.nodes.push(`<image href="${esc(href)}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`)}
