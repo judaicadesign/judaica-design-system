@@ -1225,7 +1225,7 @@ function jdQuoteContent(p,v){
  const seenSpecific=new Set();
  for(const b of blocks){
    if(!b.nusaj){
-     out.push(/^Kidush del día - Shabat y Yom Tov$/i.test(b.title)&&selected.length>1?b.title+' ('+selected.length+' nusajim)':b.title);
+     out.push(b.title);
      continue;
    }
    if(seenSpecific.has(b.title))continue;
