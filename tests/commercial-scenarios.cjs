@@ -187,10 +187,22 @@ async function scenarios(){
  multi.w.document.getElementById('jdNewQuoteBtn').click();assert.equal(multi.w.document.querySelectorAll('button[data-alternative]').length,1);assert.equal(multi.w.jdCollectQuote().alternatives,undefined);
  multi.close();console.log('multi-product alternatives, independent price/discount, two A4 pages, edit/history, failed save, accepted choice and reset passed');
  }
+ {
+ const rush=await boot();rush.w.document.getElementById('qClient').value='Cliente urgencia';rush.w.qs6=[100];rush.w.jdDrawQuoteQuantities();
+ const box=rush.w.document.getElementById('qRush');const plain=rush.w.jdCollectQuote().quantities[0].price;box.checked=true;box.dispatchEvent(new rush.w.Event('change'));const urgent=rush.w.jdCollectQuote();assert.equal(urgent.rushPercent,30);assert.equal(urgent.quantities[0].price,plain*1.3);assert.match(rush.w.document.getElementById('quotePreview').textContent,/Prioridad de agenda/);
+ const saved=await save(rush);rush.w.jdRenderSavedQuotes();rush.w.document.querySelector('[data-edit-qid]').click();assert.equal(rush.w.document.getElementById('qRush').checked,true);assert.equal(rush.w.jdCollectQuote().quantities[0].price,saved.quantities[0].price,'editing must not compound rush');
+ rush.w.document.getElementById('qRush').checked=false;rush.w.renderQuote();assert.equal(rush.w.jdCollectQuote().quantities[0].price,plain);rush.close();
+ const auto=await boot();auto.w.fetch=async()=>({ok:true,json:async()=>({data:[['2026-07-01',150],['2026-08-01',165]]})});auto.w.go('costs');
+ const card=auto.w.document.querySelector('[data-ce]');assert.ok(card.parentElement.classList.contains('jd-cost-option'));assert.equal(card.parentElement.querySelectorAll('button').length,2);
+ auto.w.jdOpenInflation(auto.get('jd_cost_quotes_v2')[0]);await sleep(40);assert.equal(auto.w.document.getElementById('jdAdjustmentMethod').value,'auto');assert.equal(auto.w.document.querySelector('[data-apply]').disabled,false);assert.match(auto.w.document.querySelector('[data-result]').textContent,/2026-08/);await auto.w.document.querySelector('[data-apply]').onclick();await sleep(50);assert.equal(auto.get('jd_cost_quotes_v2')[0].cost,100000);assert.equal(math.effectiveCost(auto.get('jd_cost_quotes_v2')[0]),110000);auto.close();
+ const offline=await boot();offline.w.jdOpenInflation(offline.get('jd_cost_quotes_v2')[0]);await sleep(30);assert.equal(offline.w.document.querySelector('[data-apply]').disabled,true);assert.match(offline.w.document.querySelector('[data-result]').textContent,/fuente oficial/);assert.equal(offline.get('jd_cost_quotes_v2')[0].adjustment,undefined);offline.close();
+ console.log('rush checkbox, saved edit without compounding, removal, per-cost buttons, automatic IPC, publication lag and offline safety passed');
+ }
  const pricing=require('../assets/jd-price.js');
+ assert.equal(pricing.calculate(100000,null,10000,30).price,120000);assert.equal(pricing.calculate(100000,200000,10000,30).price,250000);assert.equal(pricing.calculate(100000,null,10000,0).price,90000);
  assert.equal(pricing.calculate(116135/0.5+10000,'',0).price,245000,'El redondeo no reduce el margen objetivo');
  assert.equal(pricing.calculate(240000,'',0).price,240000,'Un múltiplo exacto no se incrementa');
- assert.deepEqual(pricing.calculate(211111,260000,50000),{calculatedPrice:215000,priceBeforeDiscount:260000,discountAmount:50000,price:210000,manualPrice:260000});
+ assert.deepEqual(pricing.calculate(211111,260000,50000),{basePrice:260000,rushAmount:0,calculatedPrice:215000,priceBeforeDiscount:260000,discountAmount:50000,price:210000,manualPrice:260000});
  assert.equal(pricing.calculate(210000,250123.45,20123.45).price,230000);
  assert.equal(pricing.calculate(210000,190000,1234).price,188766);
  assert.equal(pricing.calculate(211111,'',1234).price,213766);
@@ -216,6 +228,7 @@ async function scenarios(){
  for(const args of [[100000,-1],[0,10],[100000,Infinity]])assert.throws(()=>math.adjustedAmount(...args));
  assert.throws(()=>math.indexPercent(0,10));assert.throws(()=>math.indexPercent(150,140));
  assert.equal(math.validDate('2026-02-30'),false);assert.equal(math.validDate('2026-02-28'),true);
+ assert.equal(math.ipcEstimate([['2026-07-01',150],['2026-08-01',165]],'2026-07-10','2026-10-08').endMonth,'2026-08');assert.equal(Math.round(math.ipcEstimate([['2026-07-01',150],['2026-08-01',165]],'2026-07-10','2026-10-08').percent),10);assert.throws(()=>math.ipcEstimate([['2026-08-01',165]],'2026-09-01','2026-10-08'));
  console.log('inflation math and invalid values passed');
  const editRows=fixture();editRows.find(r=>r.key==='jd_saved_quotes_v6').value=[{id:'edit-original',client:'Ána Prueba',product:product.name,productId:product.id,model:'Classic',nusaj:'Solo Ashkenazí',texts:'Hebreo solo',size:product.sizes[0],binding:'Abrochado',pages:24,created:'2026-09-01T12:00:00Z',status:'Presupuesto enviado',pdfUrl:'https://example.test/original.pdf',sentConfirmedAt:'2026-09-02T12:00:00Z',quantities:[{qty:50,price:210000,cost:100000},{qty:100,price:370000,cost:180000}]}];
  editRows.find(r=>r.key==='jd_clients').value[0].phone='5491100000000';
@@ -335,6 +348,7 @@ app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
  console.log('expired session passed');
  const originalCost=structuredClone(app.get('jd_cost_quotes_v2')[0]);
  app.w.jdOpenInflation(originalCost);
+ app.w.document.getElementById('jdAdjustmentMethod').value='manual';
  const input=app.w.document.getElementById('jdAdjustmentPercent');input.value='8,5';input.dispatchEvent(new app.w.Event('input',{bubbles:true}));
  app.fail(true);await app.w.document.querySelector('[data-apply]').onclick();await sleep(30);
  assert.equal(app.get('jd_cost_quotes_v2')[0].adjustment,undefined,'failure must keep original cost');
@@ -343,6 +357,7 @@ app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
  assert.equal(estimated.cost,100000);assert.equal(estimated.date,'2026-07-01');assert.equal(math.effectiveCost(estimated),108500);
  assert.equal(app.get('jd_saved_quotes_v6')[0].quantities[0].price,200000,'existing quote must keep agreed price');
  app.w.jdOpenInflation(estimated);
+ app.w.document.getElementById('jdAdjustmentMethod').value='manual';
  const percent=app.w.document.getElementById('jdAdjustmentPercent');percent.value='20';percent.dispatchEvent(new app.w.Event('input',{bubbles:true}));
  await app.w.document.querySelector('[data-apply]').onclick();await sleep(30);
  assert.equal(math.effectiveCost(app.get('jd_cost_quotes_v2')[0]),120000,'repeated adjustment must start from original, not compound twice');

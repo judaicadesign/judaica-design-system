@@ -577,3 +577,6 @@ h1{font-size:clamp(30px,3vw,42px)}
 .jd-checkline input{width:auto!important;margin:0}
 @media(max-width:700px){.jd-nusaj-checks{grid-template-columns:1fr}}
 .jd-pdf-price-breakdown{display:grid;gap:2px;text-align:right}.jd-pdf-price-breakdown small{font-size:9px;color:#756c60;line-height:1.25}.jd-pdf-price-breakdown b{white-space:nowrap}
+
+
+.jd-cost-option{display:flex;flex-direction:column;gap:5px;min-width:112px}.jd-cost-option .jd-cost-qty{width:100%}.jd-estimate-btn.btn.sm{min-height:0;padding:4px 9px;font-size:12px;line-height:1.25;margin-top:4px}
