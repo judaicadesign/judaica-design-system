@@ -1,0 +1,74 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "ArtScroll Interlinear Benching · PDF page 1",
+    "metegAdded": 19,
+    "status": "Revisión fina",
+    "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval."
+  },
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "עַל נַהֲרוֹת בָּבֶל שָׁם יָשַׁבְנוּ גַּם בָּכִינוּ בְּזׇכְרֵנוּ אֶת צִיּוֹן.",
+      "hebrew": "עַל נַהֲרוֹת בָּבֶל שָׁם יָשַֽׁבְנוּ גַּם בָּכִֽינוּ בְּזָכְרֵֽנוּ אֶת צִיּוֹן.",
+      "previousPhonetic": "'Al naharot Bável sham yashavnu gam bajinu bezojrenu et Tsiyón.",
+      "phonetic": "'Al naharot Bável sham yashavnu gam bajinu bezojrenu et Tsiyón."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "עַל עֲרָבִים בְּתוֹכָהּ תָּלִינוּ כִּנֹּרוֹתֵינוּ.",
+      "hebrew": "עַל עֲרָבִים בְּתוֹכָהּ תָּלִֽינוּ כִּנֹּרוֹתֵֽינוּ.",
+      "previousPhonetic": "'Al 'aravim betojah talinu kinorotenu.",
+      "phonetic": "'Al 'aravim betojah talinu kinorotenu."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "כִּי שָׁם שְׁאֵלוּנוּ שׁוֹבֵינוּ דִּבְרֵי שִׁיר וְתוֹלָלֵינוּ שִׂמְחָה שִׁירוּ לָנוּ מִשִּׁיר צִיּוֹן.",
+      "hebrew": "כִּי שָׁם שְׁאֵלֽוּנוּ שׁוֹבֵֽינוּ דִּבְרֵי שִׁיר וְתוֹלָלֵֽינוּ שִׂמְחָה שִֽׁירוּ לָֽנוּ מִשִּׁיר צִיּוֹן.",
+      "previousPhonetic": "Ki sham sheelunu shovenu divré shir vetolalenu simjá shiru lanu mishir Tsiyón.",
+      "phonetic": "Ki sham sheelunu shovenu divré shir vetolalenu simjá shiru lanu mishir Tsiyón."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "אֵיךְ נָשִׁיר אֶת שִׁיר יְהֹוָה עַל אַדְמַת נֵכָר.",
+      "hebrew": "אֵיךְ נָשִׁיר אֶת שִׁיר יְהֹוָה עַל אַדְמַת נֵכָר.",
+      "previousPhonetic": "Ej nashir et shir Ad-nai 'al admat nejar.",
+      "phonetic": "Ej nashir et shir Ad-nai 'al admat nejar."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "אִם אֶשְׁכָּחֵךְ יְרוּשָׁלָ͏ִם תִּשְׁכַּח יְמִינִי.",
+      "hebrew": "אִם אֶשְׁכָּחֵךְ יְרוּשָׁלָֽיִם תִּשְׁכַּח יְמִינִי.",
+      "previousPhonetic": "Im eshkajej yerushalá͏m tishkaj yeminí.",
+      "phonetic": "Im eshkajej Yerushaláyim tishkaj yeminí."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "תִּדְבַּק לְשׁוֹנִי לְחִכִּי אִם לֹא אֶזְכְּרֵכִי אִם לֹא אַעֲלֶה אֶת יְרוּשָׁלַ͏ִם עַל רֹאשׁ שִׂמְחָתִי.",
+      "hebrew": "תִּדְבַּק לְשׁוֹנִי לְחִכִּי אִם לֹא אֶזְכְּרֵֽכִי אִם לֹא אַעֲלֶה אֶת יְרוּשָׁלַֽיִם עַל רֹאשׁ שִׂמְחָתִי.",
+      "previousPhonetic": "Tidbak leshoni lejikí im lo ezkerejí im lo a'alé et yerushalá͏m 'al rosh simjatí.",
+      "phonetic": "Tidbak leshoní lejikí im lo ezkereji im lo a'alé et Yerushaláyim 'al rosh simjatí."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "זְכֹר יְהֹוָה לִבְנֵי אֱדוֹם אֵת יוֹם יְרוּשָׁלָ͏ִם הָאֹמְרִים עָרוּ עָרוּ עַד הַיְסוֹד בָּהּ.",
+      "hebrew": "זְכֹר יְהֹוָה לִבְנֵי אֱדוֹם אֵת יוֹם יְרוּשָׁלָֽיִם הָאֹמְרִים עָֽרוּ עָֽרוּ עַד הַיְסוֹד בָּהּ.",
+      "previousPhonetic": "Zejor Ad-nai livné Edom et yom yerushalá͏m haomrim 'arú 'arú 'ad hayesod bah.",
+      "phonetic": "Zejor Ad-nai livné Edom et yom Yerushaláyim haomrim 'aru 'aru 'ad hayesod bah."
+    },
+    {
+      "verse": 8,
+      "previousHebrew": "בַּת בָּבֶל הַשְּׁדוּדָה אַשְׁרֵי שֶׁיְשַׁלֶּם לָךְ אֶת גְּמוּלֵךְ שֶׁגָּמַלְתְּ לָנוּ.",
+      "hebrew": "בַּת בָּבֶל הַשְּׁדוּדָה אַשְׁרֵי שֶׁיְשַׁלֶּם לָךְ אֶת גְּמוּלֵךְ שֶׁגָּמַלְתְּ לָֽנוּ.",
+      "previousPhonetic": "Bat Bável hasheduda ashré sheyshálem laj et guemulej shegamalt lanu.",
+      "phonetic": "Bat Bável hashedudá ashré sheyeshalem laj et guemulej shegamalt lanu."
+    },
+    {
+      "verse": 9,
+      "previousHebrew": "אַשְׁרֵי שֶׁיֹּאחֵז וְנִפֵּץ אֶת עֹלָלַיִךְ אֶל הַסָּלַע.",
+      "hebrew": "אַשְׁרֵי שֶׁיֹּאחֵז וְנִפֵּץ אֶת עֹלָלַֽיִךְ אֶל הַסָּֽלַע.",
+      "previousPhonetic": "Ashré sheyojez venipéts et 'olalayij el hasalá'.",
+      "phonetic": "Ashré sheyojez venipéts et 'olaláyij el hasála'."
+    }
+  ]
+}

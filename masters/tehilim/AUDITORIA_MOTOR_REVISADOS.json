@@ -1,0 +1,175 @@
+{
+  "date": "2026-10-08",
+  "engineSha256": "be6d225c4a8ec56e24a68bd7104dee3cf0926c9aa9d2423b0f2283abbe57ab2f",
+  "status": "Open differences, not engine approval",
+  "cases": [
+    {
+      "chapter": 23,
+      "verse": 1,
+      "hebrew": "מִזְמוֹר לְדָוִד יְהֹוָה רֹעִי לֹא אֶחְסָר.",
+      "master": "Mizmor leDavid Ad-nai ro'í lo ejsar.",
+      "generator": "Mizmor leDavid Ad-nai ro'í lo ejsar.",
+      "matches": true
+    },
+    {
+      "chapter": 23,
+      "verse": 2,
+      "hebrew": "בִּנְאוֹת דֶּֽשֶׁא יַרְבִּיצֵֽנִי עַל מֵי מְנֻחוֹת יְנַהֲלֵֽנִי.",
+      "master": "Binot deshe yarbitseni 'al me menujot yenahaleni.",
+      "generator": "Binot deshe yarbitseni 'al me menujot yenahaleni.",
+      "matches": true
+    },
+    {
+      "chapter": 23,
+      "verse": 3,
+      "hebrew": "נַפְשִׁי יְשׁוֹבֵב יַנְחֵֽנִי בְּמַעְגְּלֵי צֶֽדֶק לְמַֽעַן שְׁמוֹ.",
+      "master": "Nafshí yeshovev yanjeni bema'guelé tsédek lema'an Shemó.",
+      "generator": "Nafshí yeshovev yanjeni bema'guelé tsédek lema'an shemó.",
+      "matches": false
+    },
+    {
+      "chapter": 23,
+      "verse": 4,
+      "hebrew": "גַּם כִּי אֵלֵךְ בְּגֵיא צַלְמָֽוֶת לֹא אִירָא רָע כִּי אַתָּה עִמָּדִי שִׁבְטְךָ וּמִשְׁעַנְתֶּֽךָ הֵֽמָּה יְנַחֲמֻֽנִי.",
+      "master": "Gam ki elej begué tsalmávet lo irá ra' ki Atá 'imadí Shivtejá uMish'anteja hema yenajamuni.",
+      "generator": "Gam ki elej begué tsalmávet lo irá ra' ki atá 'imadí shivtejá umish'anteja hema yenajamuni.",
+      "matches": false
+    },
+    {
+      "chapter": 23,
+      "verse": 5,
+      "hebrew": "תַּעֲרֹךְ לְפָנַי שֻׁלְחָן נֶֽגֶד צֹרְרָי דִּשַּֽׁנְתָּ בַשֶּֽׁמֶן רֹאשִׁי כּוֹסִי רְוָיָה.",
+      "master": "Ta'aroj lefanái shulján négued tsorrái dishanta vashemen roshí kosí revayá.",
+      "generator": "Ta'aroj lefanái shulján négued tsorrái dishanta vashemen roshí kosí revayá.",
+      "matches": true
+    },
+    {
+      "chapter": 23,
+      "verse": 6,
+      "hebrew": "אַךְ טוֹב וָחֶֽסֶד יִרְדְּפוּֽנִי כָּל יְמֵי חַיָּי וְשַׁבְתִּי בְּבֵית יְהֹוָה לְאֹֽרֶךְ יָמִים.",
+      "master": "Aj tov vajésed yirdefuni kol yemé jayái veshavtí bevet Ad-nai leórej yamim.",
+      "generator": "Aj tov vajésed yirdefuni kol yemé jayái veshavti bevet Ad-nai leórej yamim.",
+      "matches": false
+    },
+    {
+      "chapter": 126,
+      "verse": 1,
+      "hebrew": "שִׁיר הַמַּעֲלוֹת בְּשׁוּב יְהֹוָה אֶת שִׁיבַת צִיּוֹן הָיִֽינוּ כְּחֹלְמִים.",
+      "master": "Shir hama'alot beshuv Ad-nai et shivat Tsiyón hayinu kejolmim.",
+      "generator": "Shir hama'alot beshuv Ad-nai et shivat Tsiyón hayinu kejolmim.",
+      "matches": true
+    },
+    {
+      "chapter": 126,
+      "verse": 2,
+      "hebrew": "אָז יִמָּלֵא שְׂחוֹק פִּֽינוּ וּלְשׁוֹנֵֽנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵֽלֶּה.",
+      "master": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
+      "generator": "Az yimalé sejok pinu ulshonenú riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
+      "matches": false
+    },
+    {
+      "chapter": 126,
+      "verse": 3,
+      "hebrew": "הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִמָּֽנוּ הָיִֽינוּ שְׂמֵחִים.",
+      "master": "Higdil Ad-nai la'asot 'imanu hayinu semejim.",
+      "generator": "Higdil Ad-nai la'asot 'imanu hayinu semejim.",
+      "matches": true
+    },
+    {
+      "chapter": 126,
+      "verse": 4,
+      "hebrew": "שׁוּבָה יְהֹוָה אֶת שְׁבִיתֵֽנוּ כַּאֲפִיקִים בַּנֶּֽגֶב.",
+      "master": "Shuvá Ad-nai et shevitenu kaafikim baNéguev.",
+      "generator": "Shuvá Ad-nai et shevitenú kaafikim baNéguev.",
+      "matches": false
+    },
+    {
+      "chapter": 126,
+      "verse": 5,
+      "hebrew": "הַזֹּרְעִים בְּדִמְעָה בְּרִנָּה יִקְצֹֽרוּ.",
+      "master": "Hazor'im bedim'á beriná yiktsoru.",
+      "generator": "Hazor'im bedim'á beriná yiktsorú.",
+      "matches": false
+    },
+    {
+      "chapter": 126,
+      "verse": 6,
+      "hebrew": "הָלוֹךְ יֵלֵךְ וּבָכֹה נֹשֵׂא מֶֽשֶׁךְ הַזָּֽרַע בֹּא יָבֹא בְרִנָּה נֹשֵׂא אֲלֻמֹּתָיו.",
+      "master": "Haloj yelej uvajó nosé méshej hazára' bo yavó veriná nosé alumotav.",
+      "generator": "Haloj yelej uvajó nosé méshej hazará' bo yavó veriná nosé alumotav.",
+      "matches": false
+    },
+    {
+      "chapter": 137,
+      "verse": 1,
+      "hebrew": "עַל נַהֲרוֹת בָּבֶל שָׁם יָשַֽׁבְנוּ גַּם בָּכִֽינוּ בְּזָכְרֵֽנוּ אֶת צִיּוֹן.",
+      "master": "'Al naharot Bável sham yashavnu gam bajinu bezojrenu et Tsiyón.",
+      "generator": "'Al naharot Bável sham yashavnu gam bajinu bezojrenu et Tsiyón.",
+      "matches": true
+    },
+    {
+      "chapter": 137,
+      "verse": 2,
+      "hebrew": "עַל עֲרָבִים בְּתוֹכָהּ תָּלִֽינוּ כִּנֹּרוֹתֵֽינוּ.",
+      "master": "'Al 'aravim betojah talinu kinorotenu.",
+      "generator": "'Al 'aravim betojah talinu kinorotenu.",
+      "matches": true
+    },
+    {
+      "chapter": 137,
+      "verse": 3,
+      "hebrew": "כִּי שָׁם שְׁאֵלֽוּנוּ שׁוֹבֵֽינוּ דִּבְרֵי שִׁיר וְתוֹלָלֵֽינוּ שִׂמְחָה שִֽׁירוּ לָֽנוּ מִשִּׁיר צִיּוֹן.",
+      "master": "Ki sham sheelunu shovenu divré shir vetolalenu simjá shiru lanu mishir Tsiyón.",
+      "generator": "Ki sham sheelunu shovenu divré shir vetolalenu simjá shirú lanu mishir Tsiyón.",
+      "matches": false
+    },
+    {
+      "chapter": 137,
+      "verse": 4,
+      "hebrew": "אֵיךְ נָשִׁיר אֶת שִׁיר יְהֹוָה עַל אַדְמַת נֵכָר.",
+      "master": "Ej nashir et shir Ad-nai 'al admat nejar.",
+      "generator": "Ej nashir et shir Ad-nai 'al admat nejar.",
+      "matches": true
+    },
+    {
+      "chapter": 137,
+      "verse": 5,
+      "hebrew": "אִם אֶשְׁכָּחֵךְ יְרוּשָׁלָֽיִם תִּשְׁכַּח יְמִינִי.",
+      "master": "Im eshkajej Yerushaláyim tishkaj yeminí.",
+      "generator": "Im eshkajej Yerushaláyim tishkaj yeminí.",
+      "matches": true
+    },
+    {
+      "chapter": 137,
+      "verse": 6,
+      "hebrew": "תִּדְבַּק לְשׁוֹנִי לְחִכִּי אִם לֹא אֶזְכְּרֵֽכִי אִם לֹא אַעֲלֶה אֶת יְרוּשָׁלַֽיִם עַל רֹאשׁ שִׂמְחָתִי.",
+      "master": "Tidbak leshoní lejikí im lo ezkereji im lo a'alé et Yerushaláyim 'al rosh simjatí.",
+      "generator": "Tidbak leshoni lejikí im lo ezkerejí im lo a'ale et Yerushaláyim 'al rosh simjatí.",
+      "matches": false
+    },
+    {
+      "chapter": 137,
+      "verse": 7,
+      "hebrew": "זְכֹר יְהֹוָה לִבְנֵי אֱדוֹם אֵת יוֹם יְרוּשָׁלָֽיִם הָאֹמְרִים עָֽרוּ עָֽרוּ עַד הַיְסוֹד בָּהּ.",
+      "master": "Zejor Ad-nai livné Edom et yom Yerushaláyim haomrim 'aru 'aru 'ad hayesod bah.",
+      "generator": "Zejor Ad-nai livné Edom et yom Yerushaláyim haomrim 'arú 'arú 'ad hayesod bah.",
+      "matches": false
+    },
+    {
+      "chapter": 137,
+      "verse": 8,
+      "hebrew": "בַּת בָּבֶל הַשְּׁדוּדָה אַשְׁרֵי שֶׁיְשַׁלֶּם לָךְ אֶת גְּמוּלֵךְ שֶׁגָּמַלְתְּ לָֽנוּ.",
+      "master": "Bat Bável hashedudá ashré sheyeshalem laj et guemulej shegamalt lanu.",
+      "generator": "Bat Bável hasheduda ashré sheyshálem laj et guemulej shegamalt lanu.",
+      "matches": false
+    },
+    {
+      "chapter": 137,
+      "verse": 9,
+      "hebrew": "אַשְׁרֵי שֶׁיֹּאחֵז וְנִפֵּץ אֶת עֹלָלַֽיִךְ אֶל הַסָּֽלַע.",
+      "master": "Ashré sheyojez venipéts et 'olaláyij el hasála'.",
+      "generator": "Ashré sheyojez venipéts et 'olalayij el hasalá'.",
+      "matches": false
+    }
+  ]
+}

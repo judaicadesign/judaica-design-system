@@ -1,0 +1,53 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "ArtScroll Interlinear Benching · PDF page 2",
+    "metegAdded": 11,
+    "status": "Revisión fina",
+    "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval."
+  },
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "שִׁיר הַמַּעֲלוֹת בְּשׁוּב יְהֹוָה אֶת שִׁיבַת צִיּוֹן הָיִינוּ כְּחֹלְמִים.",
+      "hebrew": "שִׁיר הַמַּעֲלוֹת בְּשׁוּב יְהֹוָה אֶת שִׁיבַת צִיּוֹן הָיִֽינוּ כְּחֹלְמִים.",
+      "previousPhonetic": "Shir hama'alot beshuv Ad-nai et shivat Tsiyón hayinu kejolmim.",
+      "phonetic": "Shir hama'alot beshuv Ad-nai et shivat Tsiyón hayinu kejolmim."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "אָז יִמָּלֵא שְׂחוֹק פִּינוּ וּלְשׁוֹנֵנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵלֶּה.",
+      "hebrew": "אָז יִמָּלֵא שְׂחוֹק פִּֽינוּ וּלְשׁוֹנֵֽנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵֽלֶּה.",
+      "previousPhonetic": "Az yimalé sejok pinu ulshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
+      "phonetic": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִמָּנוּ הָיִינוּ שְׂמֵחִים.",
+      "hebrew": "הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִמָּֽנוּ הָיִֽינוּ שְׂמֵחִים.",
+      "previousPhonetic": "Higdil Ad-nai la'asot 'imanu hayinu semejim.",
+      "phonetic": "Higdil Ad-nai la'asot 'imanu hayinu semejim."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "שׁוּבָה יְהֹוָה אֶת שְׁבִיתֵנוּ שבותנו כַּאֲפִיקִים בַּנֶּגֶב.",
+      "hebrew": "שׁוּבָה יְהֹוָה אֶת שְׁבִיתֵֽנוּ כַּאֲפִיקִים בַּנֶּֽגֶב.",
+      "previousPhonetic": "Shuvá Ad-nai et shevitenu shvvtnv kaafikim baNéguev.",
+      "phonetic": "Shuvá Ad-nai et shevitenu kaafikim baNéguev."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "הַזֹּרְעִים בְּדִמְעָה בְּרִנָּה יִקְצֹרוּ.",
+      "hebrew": "הַזֹּרְעִים בְּדִמְעָה בְּרִנָּה יִקְצֹֽרוּ.",
+      "previousPhonetic": "Hazor'im bedim'á beriná yiktsorú.",
+      "phonetic": "Hazor'im bedim'á beriná yiktsoru."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "הָלוֹךְ יֵלֵךְ וּבָכֹה נֹשֵׂא מֶשֶׁךְ הַזָּרַע בֹּא יָבֹא בְרִנָּה נֹשֵׂא אֲלֻמֹּתָיו.",
+      "hebrew": "הָלוֹךְ יֵלֵךְ וּבָכֹה נֹשֵׂא מֶֽשֶׁךְ הַזָּֽרַע בֹּא יָבֹא בְרִנָּה נֹשֵׂא אֲלֻמֹּתָיו.",
+      "previousPhonetic": "Haloj yelej uvajó nosé méshej hazará' bo yavó veriná nosé alumotav.",
+      "phonetic": "Haloj yelej uvajó nosé méshej hazára' bo yavó veriná nosé alumotav."
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "updated": "2026-10-08",
+  "chapters": [
+    {
+      "chapter": 23,
+      "hebrew": "Cotejado con ArtScroll",
+      "phonetic": "Cotejado; aprobación final pendiente",
+      "engine": "Pendiente verificar salida automática contra master",
+      "approved": false,
+      "source": "IMG_1333(1).png · ArtScroll app · Tehilim 23"
+    },
+    {
+      "chapter": 126,
+      "hebrew": "Cotejado con ArtScroll",
+      "phonetic": "Cotejado; aprobación final pendiente",
+      "engine": "Pendiente verificar salida automática contra master",
+      "approved": false,
+      "source": "ArtScroll Interlinear Benching · PDF page 2"
+    },
+    {
+      "chapter": 137,
+      "hebrew": "Cotejado con ArtScroll",
+      "phonetic": "Cotejado; aprobación final pendiente",
+      "engine": "Pendiente verificar salida automática contra master",
+      "approved": false,
+      "source": "ArtScroll Interlinear Benching · PDF page 1"
+    }
+  ],
+  "pdfQueue": [
+    {
+      "source": "ArtScroll Interlinear Tehillim / Avinu Malkeinu",
+      "chapters": [
+        13,
+        20,
+        91,
+        112,
+        120,
+        127,
+        130
+      ],
+      "status": "PDF recibido; pendiente cotejo por pasuk"
+    },
+    {
+      "source": "ArtScroll Transliterated Tehillim Eretz Yisrael",
+      "chapters": [
+        20,
+        83,
+        121,
+        130,
+        142
+      ],
+      "status": "PDF recibido; pendiente cotejo por pasuk"
+    }
+  ],
+  "remaining": "Los otros capítulos no quedan aprobados por repetición de una palabra verificada."
+}

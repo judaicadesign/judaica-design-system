@@ -1,0 +1,9 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),E=require('../assets/jd-tehilim-export.js'),{JSDOM}=require('jsdom');
+for(const [lang,name]of [['hebrew','HEBREO'],['phonetic','FONETICA']]){const text=fs.readFileSync('masters/tehilim/TEHILIM_001-150_'+name+'_EN_REVISION.txt','utf8');const rows=E.parse(text);assert.equal(rows.size,150);
+const continuous=E.format(text,lang,'continuous').text;assert.equal((continuous.match(/^TEHILIM /gm)||[]).length,150);assert.doesNotMatch(continuous,/^\d+:\d+ /m);assert.ok(continuous.includes(rows.get(23).map(x=>x.text).join(' ')));
+const numbered=E.format(text,lang,'numbered-html').text;const doc=new JSDOM(numbered).window.document;assert.equal(doc.querySelectorAll('.jd-pasuk').length,2527);assert.equal(doc.querySelectorAll('section').length,150);assert.equal(doc.querySelector('section p').dir,lang==='hebrew'?'rtl':'ltr');assert.equal(doc.querySelector('.jd-pasuk').textContent,lang==='hebrew'?'א':'1');
+const rtf=E.format(text,lang,'numbered-rtf').text;assert.ok(rtf.startsWith('{\\rtf1'));assert.ok(rtf.includes('JD Pasuk;'));assert.equal((rtf.match(/\{\\cs1\\b/g)||[]).length,2527);assert.ok(rtf.includes(lang==='hebrew'?'\\rtlpar':'\\ltrpar'));
+assert.throws(()=>E.format(text.replace(/^23:1  .*$/m,''),lang,'continuous'));
+}
+const data=JSON.parse(fs.readFileSync('masters/tehilim/tehilim.json'));assert.equal(data.items[125].verses.reduce((n,v)=>n+(v.hebrew.match(/ֽ/g)||[]).length,0),11);assert.equal(data.items[136].verses.reduce((n,v)=>n+(v.hebrew.match(/ֽ/g)||[]).length,0),19);assert.doesNotMatch(data.items[125].verses[3].hebrew,/שבותנו/);assert.doesNotMatch(data.items[125].verses[3].phonetic,/shvvtnv/);
+console.log('PASS continuous exports, 2527 isolated Hebrew/numeric labels, native RTF character style, 126/137 meteg and qere-only reading');

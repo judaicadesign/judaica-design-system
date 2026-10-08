@@ -1,0 +1,3 @@
+const fs=require('node:fs'),path=require('node:path'),E=require('../assets/jd-tehilim-export.js');
+function exportMasters(){const dir=path.resolve(__dirname,'../masters/tehilim');for(const [language,name]of [['hebrew','HEBREO'],['phonetic','FONETICA']]){const text=fs.readFileSync(path.join(dir,'TEHILIM_001-150_'+name+'_EN_REVISION.txt'),'utf8');for(const mode of ['continuous','numbered-html','numbered-rtf']){const f=E.format(text,language,mode);fs.writeFileSync(path.join(dir,'TEHILIM_001-150_'+name+'_'+mode+'.'+f.ext),f.text)}}}
+module.exports=exportMasters;if(require.main===module)exportMasters();

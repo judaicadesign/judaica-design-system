@@ -12,3 +12,7 @@ Verificación: `node tests/tehilim-masters.cjs`.
 Revisión 2026-10-08: Tehilim 23 cotejado con la captura ArtScroll de la app; 16 meteg añadidos, nikud y fonética registrados en ARTSCROLL_023_REVISION.json. La escritura digital del Nombre se conserva de Wikisource. Las correcciones se reaplican al regenerar. El resto del corpus sigue en revisión.
 
 El visor permite editar y Guardar Master en hebreo y fonética usando el mismo almacenamiento sincronizado que Birkat Hamazón. La descarga incluye la edición abierta. Las ediciones personales guardadas prevalecen sobre la base publicada.
+
+Revisión 2026-10-08 lote 2: capítulos 126 y 137 con 11 y 19 meteg respectivamente. En 126:4 se eliminó del texto de lectura el ketiv duplicado que aparecía como shvvtnv. Las diferencias del motor están registradas por pasuk en AUDITORIA_MOTOR_REVISADOS.json. Estado por etapa en REVISION_ESTADO.json; ninguno se marca aprobado automáticamente.
+
+Descargas desde el editor: TXT de revisión; TXT de corrido sin números; HTML numerado con marcadores separados; RTF numerado con estilo de carácter JD Pasuk. En hebreo la marca es la letra del pasuk; en fonética el número, sin repetir capítulo:pasuk. Las exportaciones usan el texto de la edición abierta. La traducción española no forma parte de este corpus.
