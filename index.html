@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-native">
 <script src="assets/jd-quote-hyphen.js?v=20261008-native" defer></script>
 <script src="assets/jd-quote-vectors.js?v=20261008-footer" defer></script>
-<script src="assets/jd-quote-native.js?v=20261008-price" defer></script>
+<script src="assets/jd-quote-native.js?v=20261008-tech" defer></script>
 <script src="assets/jd-quote-fit.js?v=20261008-native" defer></script>
 </head>
 <body>
@@ -1657,7 +1657,7 @@ function render6(){
  const hero=asset?.data?'<img src="'+asset.data+'" class="jd-pdf-product-img">':'<div class="jd-mock-placeholder"><div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div><span>MOCKUP PRINCIPAL</span></div>';
  const et=jdEffectiveTechnical(p,v);
  const technical=p.name==='Birkón · Librito'
-   ?'<div class="jd-tech"><span><strong>Tapa:</strong> papel ilustración 300 grs. · laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs.</span></div>'
+   ?'<div class="jd-tech"><span><strong>Tapa:</strong> papel ilustración 300 grs.</span><span>laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs. - Full color</span></div>'
    :((et.paper||et.weightGsm||et.lamination||et.print||et.sides||et.finish)?'<div class="jd-tech"><b>DETALLES TÉCNICOS</b>'+(et.paper||et.weightGsm?'<span><strong>Papel:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' g':''].filter(Boolean).join(' · '))+'</span>':'')+(et.lamination?'<span><strong>Terminación:</strong> '+E(et.lamination)+'</span>':'')+((et.print||et.sides)?'<span><strong>Impresión:</strong> '+E([et.print,et.sides].filter(Boolean).join(' · '))+'</span>':'')+((et.finish && !/^(Tríptico|Cuadríptico|Díptico)$/i.test(String(qModel?.value||'')))?'<span><strong>Acabado:</strong> '+E(et.finish)+'</span>':'')+'</div>':'');
  const legalSet=jdLegalSet(p.legalSetId||((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
  const legal=window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate);

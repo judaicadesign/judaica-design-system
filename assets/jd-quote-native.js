@@ -90,14 +90,24 @@
   const bottom=592.481-(m._lift||0),top=bottom-height;if(top<350)throw Error('El contenido excede el espacio del master a 8,5 pt.');rule(pdf,24.252,top,380.787,top,.5,colors.gold);rule(pdf,24.252,bottom,380.787,bottom,.5,colors.gold);
   text(pdf,m.contentTitle,33.759,top+24.214,18,'title',colors.teal);cols.forEach((col,index)=>{const x=index?213.523:33.759;let y=top+41.466;for(const list of col){text(pdf,'·',x,y,8.5,'medium',colors.rule);list.forEach((line,i)=>{text(pdf,line,x+5.669,y,8.5);y+=13})}});
  }
- function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65;const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:Math.max(39.004,23+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1))}));const tech=m.technical.flatMap(s=>wrap(pdf,s,117.8,6));const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,'Total: '+p.total.replace(/^Total:\s*/,''),inner,11,'bold');const totalOffset=multiple?7+Math.max(1,notes.length)*8+8:10+Math.max(1,notes.length)*8+10;return {...p,lines,notes,multiple,totalOffset,height:totalOffset+14*lines.length+(multiple?-5:12)}});
+ function technicalLines(pdf,items){
+  const result=[];
+  for(const item of items)for(const paragraph of String(item).split('\n')){
+   const words=paragraph.trim().match(/- Full color|Full color|\S+/gi)||[];let runs=[],used=0;
+   for(let i=0;i<words.length;i++){const font=i===0&&/^(Tapa|Interior):$/i.test(words[i])?'bold':'text';let value=(runs.length?' ':'')+words[i],size=width(pdf,value,6,font);
+    if(runs.length&&used+size>117.8){result.push(runs);runs=[];used=0;value=words[i];size=width(pdf,value,6,font)}
+    runs.push({text:value,font});used+=size;
+   }if(runs.length)result.push(runs);
+  }return result;
+ }
+ function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65;const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:Math.max(39.004,23+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1))}));const tech=technicalLines(pdf,m.technical);const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold');const totalOffset=multiple?7+Math.max(1,notes.length)*8+8:10+Math.max(1,notes.length)*8+10;return {...p,lines,notes,multiple,totalOffset,height:totalOffset+14*lines.length+(multiple?-5:12)}});
 
   const note=m.discount?wrap(pdf,m.discount,inner,5.5):[];const height=Math.max(404.102,52.524+specs.reduce((n,s)=>n+s.height,0)+(tech.length?23.93+tech.length*8+3.5:0)+prices.reduce((n,p)=>n+p.height,0)+(note.length?note.length*7+12:0)+21);
   const bottom=592.481-(m._lift||0),top=bottom-height;if(top<116.5)throw Error('Hay demasiadas cantidades o notas para el master. Agregá otra alternativa para conservar los tamaños originales.');return{specs,tech,prices,note,top,height};
  }
  function drawCard(pdf,m){const l=cardLayout(pdf,m);pdf.setFillColor(colors.card);pdf.setDrawColor(colors.gold);pdf.setLineWidth(.25);pdf.roundedRect(387.874,l.top,173.386,l.height,11.0,11.0,'FD');text(pdf,'DETALLES DEL PRODUCTO',398.815,l.top+26.044,7.291296893,'wide',colors.gold,120);let y=l.top+54.688;
   for(const s of l.specs){pdf.setFillColor(colors.circle);pdf.circle(415.85,y+11.95,12.5,'F');vector(pdf,s.icon,407.15,y+3.25,17.4,17.4);text(pdf,s.title.toUpperCase(),436.134,y+7.836,6,'medium',colors.gold,80);s.lines.forEach((line,i)=>text(pdf,line,436.134,y+20.836+i*13,8.75,'medium'));y+=s.height;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
-  if(l.tech.length){pdf.setFillColor(colors.circle);pdf.circle(415.85,y+11.95,12.5,'F');vector(pdf,'assets/quote-icons/13_engranaje.svg',406.8,y+2.9,18.1,18.1);text(pdf,'DETALLES TÉCNICOS',436.134,y+7.836,6,'medium',colors.gold,80);l.tech.forEach((line,i)=>text(pdf,'· '+line,436.134,y+18.671+i*8,6));y+=23.93+l.tech.length*8+3.5;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
+  if(l.tech.length){pdf.setFillColor(colors.circle);pdf.circle(415.85,y+11.95,12.5,'F');vector(pdf,'assets/quote-icons/13_engranaje.svg',406.8,y+2.9,18.1,18.1);text(pdf,'DETALLES TÉCNICOS',436.134,y+7.836,6,'medium',colors.gold,80);l.tech.forEach((runs,i)=>{let x=436.134;for(const run of runs){text(pdf,run.text,x,y+18.671+i*8,6,run.font);x+=width(pdf,run.text,6,run.font)}});y+=23.93+l.tech.length*8+3.5;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
   for(let index=0;index<l.prices.length;index++){const p=l.prices[index];if(index)rule(pdf,396.85,y-7,552.755,y-7,.25);text(pdf,p.qty,399.543,y+(p.multiple?p.totalOffset:10),7.5,'text',colors.gold);
    p.notes.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,6),y+(p.multiple?7:10)+i*8,6,'text',colors.gold));
    p.lines.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,11,'bold'),y+p.totalOffset+i*14,11,'bold',colors.teal));y+=p.height}
