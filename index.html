@@ -1073,7 +1073,8 @@ function editProduct(i){
  const baseMargin=baseRule?(baseRule.marginPct??Number(((1-Number(baseRule.divisor))*100).toFixed(2))):'';
  const confirmedCatalog=window.jdConfirmedState('jd_catalog_v6')||[],confirmedRules=window.jdConfirmedState('jd_pricing_rules_v4')||[];
  const baselineProduct=i>=0?JSON.stringify(confirmedCatalog.find(x=>x.id===p.id)):null,baselineRules=JSON.stringify(confirmedRules.filter(r=>r.product===p.name));
- const t=p.technical||{};
+ const isLibrito=p.name==='Birkón · Librito';
+ const t=jdProductTechnical(p);
  const checks=textOptions.map(x=>'<label class="jd-checkline"><input type="checkbox" class="ptxt" value="'+E(x)+'" '+((p.texts||[]).includes(x)?'checked':'')+'> <span>'+E(x)+'</span></label>').join('');
  const body=
  '<div class="jd-formgrid">'+
@@ -1093,10 +1094,11 @@ function editProduct(i){
  '<div><label>Alto abierto (mm)</label><input id="ptoh6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(t.openHeightMm??'')+'"></div>'+
  '<div><label>Ancho cerrado (mm)</label><input id="ptcw6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(t.closedWidthMm??'')+'"></div>'+
  '<div><label>Alto cerrado (mm)</label><input id="ptch6" type="text" inputmode="decimal" pattern="[0-9.,]*" data-jd-numeric="decimal" value="'+E(t.closedHeightMm??'')+'"></div>'+
- '<div><label>Papel</label><input id="ptpaper6" value="'+E(t.paper||'')+'" placeholder="Ej. Papel ilustración"></div>'+
- '<div><label>Gramaje (g)</label><input id="ptgsm6" type="text" inputmode="numeric" pattern="[0-9]*" data-jd-numeric="integer" value="'+E(t.weightGsm??'')+'" placeholder="300"></div>'+
+ '<div><label>'+ (isLibrito?'Tapa · papel':'Papel') +'</label><input id="ptpaper6" value="'+E(t.paper||'')+'" placeholder="Ej. Papel ilustración"></div>'+
+ '<div><label>'+ (isLibrito?'Tapa · gramaje (g)':'Gramaje (g)') +'</label><input id="ptgsm6" type="text" inputmode="numeric" pattern="[0-9]*" data-jd-numeric="integer" value="'+E(t.weightGsm??'')+'" placeholder="300"></div>'+
  '<div><label>Laminado / terminación</label><input id="ptlam6" value="'+E(t.lamination||'')+'" placeholder="Ej. Laminado mate"></div>'+
- '<div><label>Impresión</label><input id="ptprint6" value="'+E(t.print||'')+'" placeholder="Ej. Full color"></div>'+
+ (isLibrito?'<div><label>Interior · papel</label><input id="ptinteriorpaper6" value="'+E(t.interiorPaper||'')+'"></div><div><label>Interior · gramaje (g)</label><input id="ptinteriorgsm6" type="text" inputmode="numeric" pattern="[0-9]*" data-jd-numeric="integer" value="'+E(t.interiorWeightGsm??'')+'"></div>':'')+
+ '<div><label>'+ (isLibrito?'Impresión del interior':'Impresión') +'</label><input id="ptprint6" value="'+E(t.print||'')+'" placeholder="Ej. Full color"></div>'+
  '<div><label>Caras</label><input id="ptsides6" value="'+E(t.sides||'')+'" placeholder="Ej. Doble faz"></div>'+
  '<div><label>Acabado</label><input id="ptfinish6" value="'+E(t.finish||'')+'" placeholder="Ej. Doblez"></div>'+
  '<div id="productSaveStatus6" class="span2 small muted"></div>'+
@@ -1123,6 +1125,8 @@ function editProduct(i){
      texts:[...w.querySelectorAll('.ptxt:checked')].map(x=>x.value),
      legalSetId:w.querySelector('#plegal6').value,
      technical:{
+       ...(p.technical||{}),
+       ...(isLibrito?{bookMaterialVersion:1,interiorPaper:w.querySelector('#ptinteriorpaper6').value.trim(),interiorWeightGsm:num('#ptinteriorgsm6')}:{}),
        openWidthMm:num('#ptow6'),openHeightMm:num('#ptoh6'),
        closedWidthMm:num('#ptcw6'),closedHeightMm:num('#ptch6'),
        paper:w.querySelector('#ptpaper6').value.trim(),
@@ -1262,7 +1266,15 @@ function jdTechnicalSizeLabel(technical){
  if(n(t.closedWidthMm)&&n(t.closedHeightMm)) return n(t.closedWidthMm)+' × '+n(t.closedHeightMm)+' mm';
  return '';
 }
-function jdEffectiveTechnical(p,v){return {...(p?.technical||{}),...(v?.technical||{})};}
+function jdProductTechnical(p){
+ const t={...(p?.technical||{})};
+ if(p?.name==='Birkón · Librito'&&!t.bookMaterialVersion){
+   const defaults={paper:'papel ilustración',weightGsm:300,lamination:'laminado mate/brillante',interiorPaper:'papel ilustración',interiorWeightGsm:115,print:'Full color'};
+   for(const [key,value] of Object.entries(defaults))if(t[key]==null||t[key]==='')t[key]=value;
+ }
+ return t;
+}
+function jdEffectiveTechnical(p,v){return {...jdProductTechnical(p),...(v?.technical||{})};}
 function jdEffectiveSize(p,v){
  if(v?.size)return v.size;
  const lab=jdTechnicalSizeLabel(jdEffectiveTechnical(p,v));
@@ -1321,7 +1333,7 @@ function editVariant(pi,vi){
    if(isLibrito && !(pages>0)){alert('Indicá la cantidad de páginas de esta variante.');return;}
    const contentBase=w.querySelector('#vc6').value.split(/\n+/).map(z=>z.trim()).filter(Boolean).map(jdStripNusajMarker);
    const num=id=>{const raw=w.querySelector(id)?.value;return raw===''||raw==null?null:Number(raw)};
-   const technical={};
+   const technical=isLibrito?{...(v.technical||{})}:{};
    if(!isLibrito){
      const dims={openWidthMm:num('#vtow6'),openHeightMm:num('#vtoh6'),closedWidthMm:num('#vtcw6'),closedHeightMm:num('#vtch6')};
      for(const [k,val] of Object.entries(dims))if(val!=null&&Number.isFinite(val))technical[k]=val;
@@ -1657,7 +1669,7 @@ function render6(){
  const hero=asset?.data?'<img src="'+asset.data+'" class="jd-pdf-product-img">':'<div class="jd-mock-placeholder"><div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div><span>MOCKUP PRINCIPAL</span></div>';
  const et=jdEffectiveTechnical(p,v);
  const technical=p.name==='Birkón · Librito'
-   ?'<div class="jd-tech"><span><strong>Tapa:</strong> papel ilustración 300 grs.</span><span>laminado mate/brillante</span><span><strong>Interior:</strong> papel ilustración 115 grs. - Full color</span></div>'
+   ?'<div class="jd-tech">'+(et.paper||et.weightGsm?'<span><strong>Tapa:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' grs.':''].filter(Boolean).join(' '))+'</span>':'')+(et.lamination?'<span>'+E(et.lamination)+'</span>':'')+(et.interiorPaper||et.interiorWeightGsm||et.print?'<span><strong>Interior:</strong> '+E([[et.interiorPaper,et.interiorWeightGsm?et.interiorWeightGsm+' grs.':''].filter(Boolean).join(' '),et.print].filter(Boolean).join(' - '))+'</span>':'')+(et.sides?'<span>'+E(et.sides)+'</span>':'')+(et.finish?'<span>'+E(et.finish)+'</span>':'')+'</div>' 
    :((et.paper||et.weightGsm||et.lamination||et.print||et.sides||et.finish)?'<div class="jd-tech"><b>DETALLES TÉCNICOS</b>'+(et.paper||et.weightGsm?'<span><strong>Papel:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' g':''].filter(Boolean).join(' · '))+'</span>':'')+(et.lamination?'<span><strong>Terminación:</strong> '+E(et.lamination)+'</span>':'')+((et.print||et.sides)?'<span><strong>Impresión:</strong> '+E([et.print,et.sides].filter(Boolean).join(' · '))+'</span>':'')+((et.finish && !/^(Tríptico|Cuadríptico|Díptico)$/i.test(String(qModel?.value||'')))?'<span><strong>Acabado:</strong> '+E(et.finish)+'</span>':'')+'</div>':'');
  const legalSet=jdLegalSet(p.legalSetId||((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
  const legal=window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate);
@@ -2005,6 +2017,8 @@ window.renderQuote=render6;
       bindings:(modal.querySelector('#pbd6')?.value||'').split(',').map(v=>v.trim()).filter(Boolean),
       texts:[...modal.querySelectorAll('.ptxt:checked')].map(x=>x.value),
       technical:{
+        ...(old.technical||{}),
+        ...(modal.querySelector('#ptinteriorpaper6')?{bookMaterialVersion:1,interiorPaper:modal.querySelector('#ptinteriorpaper6').value.trim(),interiorWeightGsm:modal.querySelector('#ptinteriorgsm6').value?Number(modal.querySelector('#ptinteriorgsm6').value):null}:{}),
         openWidthMm:modal.querySelector('#ptow6')?.value?Number(modal.querySelector('#ptow6').value):null,
         openHeightMm:modal.querySelector('#ptoh6')?.value?Number(modal.querySelector('#ptoh6').value):null,
         closedWidthMm:modal.querySelector('#ptcw6')?.value?Number(modal.querySelector('#ptcw6').value):null,

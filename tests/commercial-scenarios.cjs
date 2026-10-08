@@ -50,12 +50,28 @@ async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
 
- const foldRows=fixture();const fold=foldRows.find(r=>r.key==='jd_catalog_v6').value[0];fold.name='Birkón · Folleto';fold.id='birkon-folleto';fold.models=['Bífold','Tríptico','Cuadríptico'];fold.variants=fold.models.map((model,i)=>({...structuredClone(fold.variants[0]),id:'fold-'+i,model,pages:36}));
+ const materialRows=fixture();materialRows[0].value[0].technical={customMetadata:'preservar'};
+ const materials=await boot(materialRows);
+ materials.w.renderQuote();
+ assert.deepEqual([...materials.w.document.querySelectorAll('.jd-tech span')].map(x=>x.textContent),['Tapa: papel ilustración 300 grs.','laminado mate/brillante','Interior: papel ilustración 115 grs. - Full color']);
+ materials.w.go('products');materials.w.document.querySelector('[data-pedit="0"]').click();
+ for(const [id,value] of Object.entries({ptpaper6:'Papel de tapa QA',ptgsm6:'250',ptlam6:'Laminado brillante',ptinteriorpaper6:'Obra',ptinteriorgsm6:'90',ptprint6:'Blanco y negro'}))materials.w.document.getElementById(id).value=value;
+ await materials.w.document.querySelector('.modal .s6').onclick(new materials.w.Event('click'));await sleep(350);
+ const savedMaterials=materials.get('jd_catalog_v6')[0];assert.equal(savedMaterials.technical.customMetadata,'preservar');assert.equal(savedMaterials.variants.length,1);assert.equal(savedMaterials.technical.interiorWeightGsm,90);
+ materials.w.renderQuote();assert.deepEqual([...materials.w.document.querySelectorAll('.jd-tech span')].map(x=>x.textContent),['Tapa: Papel de tapa QA 250 grs.','Laminado brillante','Interior: Obra 90 grs. - Blanco y negro']);
+ materials.w.go('products');materials.w.document.querySelector('[data-pedit="0"]').click();materials.w.document.getElementById('ptlam6').value='';
+ await materials.w.document.querySelector('.modal .s6').onclick(new materials.w.Event('click'));await sleep(350);
+ materials.w.renderQuote();assert.equal(materials.get('jd_catalog_v6')[0].technical.lamination,'');assert.ok(!materials.w.document.querySelector('.jd-tech').textContent.includes('laminado mate/brillante'));await sleep(80);materials.close();
+ const reloadMaterials=await boot(materials.remote);reloadMaterials.w.go('products');reloadMaterials.w.document.querySelector('[data-pedit="0"]').click();assert.equal(reloadMaterials.w.document.getElementById('ptinteriorpaper6').value,'Obra');assert.equal(reloadMaterials.w.document.getElementById('ptlam6').value,'');await sleep(80);reloadMaterials.close();
+ console.log('editable book cover/interior, lamination newline, metadata preservation, intentional blanks and reload passed');
+
+ const foldRows=fixture();const fold=foldRows.find(r=>r.key==='jd_catalog_v6').value[0];fold.name='Birkón · Folleto';fold.id='birkon-folleto';fold.technical={paper:'Obra folleto QA',weightGsm:170,lamination:'Sin laminado',print:'Dos tintas',sides:'Doble faz'};fold.models=['Bífold','Tríptico','Cuadríptico'];fold.variants=fold.models.map((model,i)=>({...structuredClone(fold.variants[0]),id:'fold-'+i,model,pages:36}));
  const foldApp=await boot(foldRows);
  for(const [model,count,svg] of [['Bífold',4,'08_bifold'],['Tríptico',6,'09_triptico'],['Cuadríptico',8,'10_cuadriptico']]){
   const input=foldApp.w.document.getElementById('qModel');input.value=model;input.dispatchEvent(new foldApp.w.Event('change',{bubbles:true}));foldApp.w.renderQuote();
   const sheet=foldApp.w.document.querySelector('.jd-master-sheet');const row=[...sheet.querySelectorAll('.jd-spec-icon-row')].find(x=>x.querySelector('small')?.textContent==='Carillas');assert.equal(row.querySelector('strong').textContent,String(count));assert.ok(sheet.querySelector('img[src="assets/quote-icons/'+svg+'.svg"]'));assert.ok(![...sheet.querySelectorAll('small')].some(x=>x.textContent==='Páginas'));
  }
+ assert.deepEqual([...foldApp.w.document.querySelectorAll('.jd-tech span')].map(x=>x.textContent),['Papel: Obra folleto QA · 170 g','Terminación: Sin laminado','Impresión: Dos tintas · Doble faz']);
  await sleep(80);foldApp.close();
  const bindingRows=fixture();bindingRows.find(r=>r.key==='jd_catalog_v6').value[0].bindings=['Abrochado','Binder','Anillado'];bindingRows.find(r=>r.key==='jd_assets').value=['Abrochado','Binder'].map(variant=>({product:product.name,role:'Mockup principal',variant,data:'data:image/png;base64,'+variant}));
  const bindingApp=await boot(bindingRows);
