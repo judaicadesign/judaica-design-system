@@ -25,7 +25,7 @@
     document.body.appendChild(panel);
     const field=id=>panel.querySelector('#'+id);
     const quantity=()=>quantities[Number(field('jdOrderQty').value)];
-    const totals=()=>{const q=quantity();const paid=Number(field('jdOrderPaid').value||0);field('jdOrderTotals').innerHTML='<b>Total aceptado: '+money(q.price)+'</b><span>Saldo: '+money(q.price-paid)+'</span><span>Ganancia bruta estimada: '+(Number.isFinite(q.profit)?money(q.profit):'No disponible en esta versión anterior')+'</span><small>Antes de impuestos y tiempo de diseño.</small>'};
+    const totals=()=>{const q=quantity();const paid=Number(field('jdOrderPaid').value||0);field('jdOrderTotals').innerHTML='<b>Total aceptado: '+money(q.price)+'</b><span>Saldo: '+money(q.price-paid)+'</span><span>Ganancia bruta estimada: '+(Number.isFinite(q.profit)?money(q.profit):'No disponible en esta versión anterior')+'</span><small>Antes de impuestos.</small>'};
     field('jdOrderQty').onchange=totals;field('jdOrderPaid').oninput=totals;totals();
     panel.querySelector('[data-close]').onclick=()=>panel.remove();
     panel.querySelector('[data-save]').onclick=async()=>{

@@ -11,9 +11,9 @@
 <link rel="stylesheet" href="assets/jd-ui.css?v=20261008-masters-nav">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
-<script src="assets/jd-orders.js?v=20261007" defer></script>
+<script src="assets/jd-orders.js?v=20261008-profit" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
-<script src="assets/jd-price.js?v=20261007" defer></script>
+<script src="assets/jd-price.js?v=20261008-round-up" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
 </head>
 <body>
@@ -1579,7 +1579,7 @@ function render6(){
          ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo neto sin IVA $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Total B612 c/IVA $ '+Math.round(r.b612.gross).toLocaleString('es-AR')+' · consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos'+(r.b612.productionQty&&Number(r.b612.productionQty)!==Number(q)?' · B612 optimiza '+q+' → '+r.b612.productionQty+' u.':'')+'</div>'
          :'<div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base);
        const sale=price.price,profit=sale-r.cost-r.shipping,margin=profit/sale*100;
-       el.innerHTML='<b>Total final: $ '+sale.toLocaleString('es-AR')+'</b><div class="small muted">Cálculo sugerido: $ '+price.calculatedPrice.toLocaleString('es-AR')+(price.manualPrice!==null?' · precio manual':'')+'</div>'+(price.discountAmount?'<div class="small">Antes: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+' · Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</div>':'')+src+'<div class="jd-profit '+(profit<=0?'jd-profit-low':'')+'"><b>Ganancia bruta estimada: $ '+Math.round(profit).toLocaleString('es-AR')+'</b><span>'+margin.toLocaleString('es-AR',{maximumFractionDigits:1})+'% del precio · envío $ '+Math.round(r.shipping).toLocaleString('es-AR')+'</span><small>Antes de impuestos y de valorar tu tiempo de diseño.</small></div>'+(profit<=0?'<div class="jd-age-bad">Este precio no cubre imprenta y envío. Revisá el descuento o el precio manual.</div>':'');
+       el.innerHTML='<b>Total final: $ '+sale.toLocaleString('es-AR')+'</b><div class="small muted">Cálculo sugerido: $ '+price.calculatedPrice.toLocaleString('es-AR')+(price.manualPrice!==null?' · precio manual':'')+'</div>'+(price.discountAmount?'<div class="small">Antes: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+' · Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</div>':'')+src+'<div class="jd-profit '+(profit<=0?'jd-profit-low':'')+'"><b>Ganancia bruta estimada: $ '+Math.round(profit).toLocaleString('es-AR')+'</b><span>'+margin.toLocaleString('es-AR',{maximumFractionDigits:1})+'% del precio · envío $ '+Math.round(r.shipping).toLocaleString('es-AR')+'</span><small>Antes de impuestos.</small></div>'+(profit<=0?'<div class="jd-age-bad">Este precio no cubre imprenta y envío. Revisá el descuento o el precio manual.</div>':'');
      }else{
        el.innerHTML=r.ok?'<span style="color:#9a4b45">'+E(price.reason)+'</span>':r.loading?'<span style="color:#0f5b5d">↻ '+E(r.reason)+'</span>':'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
      }

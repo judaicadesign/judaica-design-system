@@ -125,10 +125,12 @@ async function scenarios(){
  assert.equal(legalEditor.get('jd_legal_sets_v1')[0].clauses[0][1],'Cambio en otro dispositivo');
  legalEditor.close();console.log('complete legal document, multiline text, atomic retry, Luaj preservation, current PDF and conflict passed');
  const pricing=require('../assets/jd-price.js');
- assert.deepEqual(pricing.calculate(211111,260000,50000),{calculatedPrice:210000,priceBeforeDiscount:260000,discountAmount:50000,price:210000,manualPrice:260000});
+ assert.equal(pricing.calculate(116135/0.5+10000,'',0).price,245000,'El redondeo no reduce el margen objetivo');
+ assert.equal(pricing.calculate(240000,'',0).price,240000,'Un múltiplo exacto no se incrementa');
+ assert.deepEqual(pricing.calculate(211111,260000,50000),{calculatedPrice:215000,priceBeforeDiscount:260000,discountAmount:50000,price:210000,manualPrice:260000});
  assert.equal(pricing.calculate(210000,250123.45,20123.45).price,230000);
  assert.equal(pricing.calculate(210000,190000,1234).price,188766);
- assert.equal(pricing.calculate(211111,'',1234).price,208766);
+ assert.equal(pricing.calculate(211111,'',1234).price,213766);
  for(const args of [[210000,0,0],[210000,-1000,0],[210000,Infinity,0],[210000,NaN,0],[210000,260000,-0.001],[210000,260000,NaN],[210000,260000,260000]])assert.throws(()=>pricing.calculate(...args));
  const manual=await boot();manual.w.document.getElementById('qClient').value='Cliente precio negociado';manual.w.qs6=[50,100];manual.w.jdDrawQuoteQuantities();
  const setManual=(i,value)=>{const input=manual.w.document.getElementById('qManualPrice-'+i);input.value=value;input.dispatchEvent(new manual.w.Event('input',{bubbles:true}));};

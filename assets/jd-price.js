@@ -2,7 +2,7 @@
   'use strict';
   function calculate(suggested,manual,discount){
     const cents=n=>Math.round((n+Number.EPSILON)*100)/100;
-    const calculatedPrice=Math.round(Number(suggested)/5000)*5000;
+    const calculatedPrice=Math.ceil(Number(suggested)/5000)*5000;
     const hasManual=manual!==undefined&&manual!==null&&String(manual).trim()!=='';
     const rawPrice=hasManual?Number(manual):calculatedPrice,rawDiscount=Number(discount??0);
     if(!Number.isFinite(rawPrice)||rawPrice<=0||rawPrice>Number.MAX_SAFE_INTEGER/100)throw Error('El precio manual debe ser un importe válido mayor a cero.');
