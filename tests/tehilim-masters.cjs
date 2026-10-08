@@ -16,18 +16,17 @@ w.JDTehilimExport=require('../assets/jd-tehilim-export.js');let downloaded;w.Blo
 w.fetch=async url=>({ok:true,text:async()=>fs.readFileSync(url,'utf8')});
 w.eval(`const esc3=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');const LS3=(k,d)=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));const SAVE3=(k,v)=>localStorage.setItem(k,JSON.stringify(v));`+modal+block);
 async function main(){
- for(const [id,expected,dir] of [['jdTehilimHebrew',heb,'rtl'],['jdTehilimPhonetic',phon,'ltr']]){
-  w.document.getElementById(id).click();await new Promise(r=>setTimeout(r,0));
-  const field=w.document.getElementById('jdTehilimText');assert.equal(field.value,expected);assert.equal(field.dir,dir);
-  assert.equal(field.readOnly,false);assert.equal(field.disabled,false);
-  field.value=expected+'\nEDICIÓN DE PRUEBA';
-  w.document.querySelector('.modal .primary').click();
-  w.document.getElementById(id).click();await new Promise(r=>setTimeout(r,0));
-  assert.equal(w.document.getElementById('jdTehilimText').value,expected+'\nEDICIÓN DE PRUEBA');
-  w.document.getElementById('jdTehilimDownload').click();assert.equal(await downloaded.text(),expected+'\nEDICIÓN DE PRUEBA');
-  w.document.getElementById('jdTehilimFormat').value='continuous';w.document.getElementById('jdTehilimDownload').click();assert.doesNotMatch(await downloaded.text(),/^\d+:\d+ /m);
-  w.document.querySelector('.modal .jd-x').click();
+ for(const [language,expected,dir]of [['hebrew',heb,'rtl'],['phonetic',phon,'ltr']]){
+  await w.openTehilimMaster(language);const field=w.document.getElementById('jdTehilimText');assert.equal(field.value,expected);assert.equal(field.dir,dir);assert.equal(field.readOnly,false);
+  field.value=expected+'\nEDICIÓN DE PRUEBA';w.document.querySelector('.modal .primary').click();
+  await w.openTehilimMaster(language);assert.equal(w.document.getElementById('jdTehilimText').value,expected+'\nEDICIÓN DE PRUEBA');w.document.getElementById('jdTehilimDownload').click();assert.equal(await downloaded.text(),expected+'\nEDICIÓN DE PRUEBA');w.document.querySelector('.modal .jd-x').click();
+  for(const mode of ['continuous','numbered']){
+   w.document.getElementById('jdTehilimMatrix').click();const buttons=w.document.querySelectorAll('[data-language]');assert.equal(buttons.length,4);w.document.querySelector('[data-language="'+language+'"][data-mode="'+mode+'"]').click();await new Promise(r=>setTimeout(r,0));
+   const view=w.document.getElementById('jdTehilimText');assert.equal(view.value,w.JDTehilimExport.format(expected,language,mode).text);assert.equal(view.readOnly,true);assert.equal(view.dir,dir);assert.equal(w.document.querySelector('.modal .primary').hidden,true);assert.equal(w.document.getElementById('jdTehilimFormat'),null);
+   w.document.getElementById('jdTehilimDownload').click();assert.equal(await downloaded.text(),view.value);w.document.getElementById('jdTehilimEdit').click();await new Promise(r=>setTimeout(r,0));assert.equal(w.document.getElementById('jdTehilimText').readOnly,false);w.document.querySelector('.modal .jd-x').click();
+  }
  }
- assert.equal(JSON.parse(w.localStorage.getItem('jd_content_items')||'null'),null,'Static corpus must not rewrite saved catalog items');
- console.log('PASS: 150/2527 alignment, Psalm 119, confirmed accents, both master viewers/downloads and existing catalog preservation');dom.window.close();
+ const wrong=heb.replace('בְמַעְגְּלֵי','בְּמַעְגְּלֵי');assert.equal(w.refreshReviewedTehilim(wrong,'hebrew'),heb,'Retract our erroneous dagesh in saved copies');assert.equal(w.refreshReviewedTehilim(wrong.replace('23:3  ','23:3  EDICIÓN '),'hebrew'),wrong.replace('23:3  ','23:3  EDICIÓN '),'Preserve user-modified lines');
+ assert.equal(JSON.parse(w.localStorage.getItem('jd_content_items')||'null'),null);
+ console.log('PASS: four matrix views, editable shared bases, live downloads, saved-copy correction and custom-edit preservation');dom.window.close();
 }main().catch(e=>{console.error(e);process.exitCode=1});

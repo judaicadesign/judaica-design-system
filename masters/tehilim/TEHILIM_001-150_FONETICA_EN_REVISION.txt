@@ -359,7 +359,7 @@ TEHILIM 22 · כב
 TEHILIM 23 · כג
 23:1  Mizmor leDavid Ad-nai ro'í lo ejsar.
 23:2  Binot deshe yarbitseni 'al me menujot yenahaleni.
-23:3  Nafshí yeshovev yanjeni bema'guelé tsédek lema'an Shemó.
+23:3  Nafshí yeshovev yanjeni vema'guelé tsédek lema'an Shemó.
 23:4  Gam ki elej begué tsalmávet lo irá ra' ki Atá 'imadí Shivtejá uMish'anteja hema yenajamuni.
 23:5  Ta'aroj lefanái shulján négued tsorrái dishanta vashemen roshí kosí revayá.
 23:6  Aj tov vajésed yirdefuni kol yemé jayái veshavtí bevet Ad-nai leórej yamim.
@@ -2499,7 +2499,7 @@ TEHILIM 126 · קכו
 126:3  Higdil Ad-nai la'asot 'imanu hayinu semejim.
 126:4  Shuvá Ad-nai et shevitenu kaafikim baNéguev.
 126:5  Hazor'im bedim'á beriná yiktsoru.
-126:6  Haloj yelej uvajó nosé méshej hazára' bo yavó veriná nosé alumotav.
+126:6  Haloj yelej uvajó nosé méshej hazara' bo yavó veriná nosé alumotav.
 
 TEHILIM 127 · קכז
 127:1  Shir hama'alot lishlomó im Ad-nai lo yivné vayit shav 'amlú vonav bo im Ad-nai lo yishmor 'ir shav shakad shomer.
@@ -2631,7 +2631,7 @@ TEHILIM 137 · קלז
 137:6  Tidbak leshoní lejikí im lo ezkereji im lo a'alé et Yerushaláyim 'al rosh simjatí.
 137:7  Zejor Ad-nai livné Edom et yom Yerushaláyim haomrim 'aru 'aru 'ad hayesod bah.
 137:8  Bat Bável hashedudá ashré sheyeshalem laj et guemulej shegamalt lanu.
-137:9  Ashré sheyojez venipéts et 'olaláyij el hasála'.
+137:9  Ashré sheyojez venipéts et 'olaláyij el hasala'.
 
 TEHILIM 138 · קלח
 138:1  LeDavid odejá vejol libí négued Elohim azamereka.

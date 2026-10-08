@@ -4,24 +4,24 @@
     {
       "chapter": 23,
       "hebrew": "Cotejado con ArtScroll",
-      "phonetic": "Cotejado; aprobación final pendiente",
-      "engine": "Auditado; diferencias pendientes de corregir",
+      "phonetic": "Revisada; coincide con el generador",
+      "engine": "Verificado contra master: todos los pesukim coinciden",
       "approved": false,
       "source": "IMG_1333(1).png · ArtScroll app · Tehilim 23"
     },
     {
       "chapter": 126,
       "hebrew": "Cotejado con ArtScroll",
-      "phonetic": "Cotejado; aprobación final pendiente",
-      "engine": "Auditado; diferencias pendientes de corregir",
+      "phonetic": "Revisada; coincide con el generador",
+      "engine": "Verificado contra master: todos los pesukim coinciden",
       "approved": false,
       "source": "ArtScroll Interlinear Benching · PDF page 2"
     },
     {
       "chapter": 137,
       "hebrew": "Cotejado con ArtScroll",
-      "phonetic": "Cotejado; aprobación final pendiente",
-      "engine": "Auditado; diferencias pendientes de corregir",
+      "phonetic": "Revisada; coincide con el generador",
+      "engine": "Verificado contra master: todos los pesukim coinciden",
       "approved": false,
       "source": "ArtScroll Interlinear Benching · PDF page 1"
     }

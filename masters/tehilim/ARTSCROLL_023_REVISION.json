@@ -3,7 +3,8 @@
     "date": "2026-10-08",
     "source": "IMG_1333(1).png · ArtScroll app · Tehilim 23",
     "metegAdded": 16,
-    "scope": "Visible nikud and meteg checked. Asterisks not treated as meteg. Divine-name vocalization retained from digital Wikisource base; app prints the name without vowel points. Phonetic stress and reverential capitalization reviewed for this chapter."
+    "scope": "Visible nikud and meteg checked. Asterisks not treated as meteg. Divine-name vocalization retained from digital Wikisource base; app prints the name without vowel points. Phonetic stress and reverential capitalization reviewed for this chapter.",
+    "correction": "2026-10-08: dagesh mistakenly added to bet in 23:3 was retracted after rechecking the ArtScroll screenshot. Bet is undotted; vema'guelé is retained."
   },
   "verses": [
     {
@@ -23,9 +24,9 @@
     {
       "verse": 3,
       "previousHebrew": "נַפְשִׁי יְשׁוֹבֵב יַנְחֵנִי בְמַעְגְּלֵי צֶדֶק לְמַעַן שְׁמוֹ.",
-      "hebrew": "נַפְשִׁי יְשׁוֹבֵב יַנְחֵֽנִי בְּמַעְגְּלֵי צֶֽדֶק לְמַֽעַן שְׁמוֹ.",
+      "hebrew": "נַפְשִׁי יְשׁוֹבֵב יַנְחֵֽנִי בְמַעְגְּלֵי צֶֽדֶק לְמַֽעַן שְׁמוֹ.",
       "previousPhonetic": "Nafshí yeshovev yanjeni vema'guelé tsédek lema'an shemó.",
-      "phonetic": "Nafshí yeshovev yanjeni bema'guelé tsédek lema'an Shemó."
+      "phonetic": "Nafshí yeshovev yanjeni vema'guelé tsédek lema'an Shemó."
     },
     {
       "verse": 4,
