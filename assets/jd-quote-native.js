@@ -88,17 +88,22 @@
   rule(pdf,432.31,50.18,432.31,74.98,.25,colors.gold);rule(pdf,513.78,50.18,513.78,74.98,.25,colors.gold);
   text(pdf,'CLIENTE',436.858,58.504,5.103907825,'metaBold',colors.ink,100);text(pdf,'FECHA',518.326,58.504,5.103907825,'metaBold',colors.ink,100);
   const client=wrap(pdf,m.client,74,7.291296893);client.slice(0,3).forEach((line,i)=>text(pdf,line,436.858,68.712+i*10.2078156505,7.291296893));if(client.length>3)throw Error('El nombre del cliente no cabe en el encabezado.');text(pdf,m.date,518.326,68.712,7.291296893);
-  vector(pdf,'master-bsd',565.8791,22.6919,12.1860,4.6460);rule(pdf,24.252,97.552,571.024,97.552,.5,colors.gold);
+  vector(pdf,'master-bsd',565.8791,22.6919,12.1860,4.6460);rule(pdf,24.252,90,571.024,90,.5,colors.gold);
   drawContent(pdf,m);drawCard(pdf,m);drawLegal(pdf,m.legal);
   pdf.setFillColor(colors.footer);pdf.rect(0,805.813,W,H-805.813,'F');
   contactIcon(pdf,'behance',39.5,819.75,10.6875,6.6875);text(pdf,'behance.net/JudaicaDesign',53.281,826.782,8.838383838,'wide','#ffffff',26);
   text(pdf,'|',208,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'instagram',223.9375,820.1875,10,10);text(pdf,'@JudaicaDesign',237.031,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'|',333,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'whatsapp',351.8125,819.4375,9.9375,10.0625);text(pdf,'+54 9 11 5822 4686',364.852,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'» '+page+' / '+total,520.482,827.189,10.3154,'wide','#b8a781',26);
  }
  function contentLayout(pdf,m){if(!m.content.length&&!m.contentTitle)return null;const lines=m.content.map(t=>wrap(pdf,t,169.1,8.5));let best=1,score=Infinity;for(let i=1;i<lines.length;i++){const a=lines.slice(0,i).reduce((n,v)=>n+v.length,0),b=lines.slice(i).reduce((n,v)=>n+v.length,0),s=Math.abs(a-b);if(s<score){best=i;score=s}}
-  const cols=[lines.slice(0,best),lines.slice(best)],height=Math.max(34,...cols.map(col=>col.reduce((n,v)=>n+v.length*13,0)))+38.555,legalTop=603.779-(m._lift||0),available=legalTop-mockFrame.legalGap-height-mockFrame.gap-mockFrame.y;
-  if(available<80)throw Error('El contenido excede el espacio de una A4.');const frameHeight=Math.min(mockFrame.height,available),frameWidth=mockFrame.width*frameHeight/mockFrame.height,frame={...mockFrame,x:mockFrame.x+(mockFrame.width-frameWidth)/2,width:frameWidth,height:frameHeight},top=frame.y+frame.height+frame.gap,bottom=top+height;return {cols,top,bottom,frame};
+  const cols=[lines.slice(0,best),lines.slice(best)],rowCount=Math.max(0,...cols.map(col=>col.reduce((n,v)=>n+v.length,0))),frame={...mockFrame},top=frame.y+frame.height+frame.gap,legalTop=603.779-(m._lift||0),available=legalTop-frame.legalGap-top;
+  // Keep the supplied illustration canvas fixed. Tighten only the index leading,
+  // preserving the 8.5 pt type, both columns and every content item.
+  const leading=rowCount?Math.min(13,(available-38.555)/rowCount):13;
+  if(leading<10||available<72.555)throw Error('El contenido excede el espacio de una A4 con el mockup fijo.');
+  const height=Math.max(34,rowCount*leading)+38.555,bottom=top+height;return {cols,top,bottom,frame,leading};
  }
- function drawContent(pdf,m){const l=contentLayout(pdf,m);if(!l)return;const {cols,top,bottom}=l;rule(pdf,24.252,top,380.787,top,.5,colors.gold);rule(pdf,24.252,bottom,380.787,bottom,.5,colors.gold);text(pdf,m.contentTitle,33.759,top+24.214,18,'title',colors.teal);cols.forEach((col,index)=>{const x=index?213.523:33.759;let y=top+41.466;for(const list of col){text(pdf,'·',x,y,8.5,'medium',colors.rule);list.forEach(line=>{text(pdf,line,x+5.669,y,8.5);y+=13})}});}
+ function drawContent(pdf,m){const l=contentLayout(pdf,m);if(!l)return;const {cols,top,bottom,leading}=l;rule(pdf,24.252,top,380.787,top,.5,colors.gold);rule(pdf,24.252,bottom,380.787,bottom,.5,colors.gold);text(pdf,m.contentTitle,33.759,top+24.214,18,'title',colors.teal);cols.forEach((col,index)=>{const x=index?213.523:33.759;let y=top+41.466;for(const list of col){text(pdf,'·',x,y,8.5,'medium',colors.rule);list.forEach(line=>{text(pdf,line,x+5.669,y,8.5);y+=leading})}});}
+
  function technicalLines(pdf,items){
   const result=[];
   for(const item of items)for(const paragraph of String(item).split('\n')){
@@ -148,7 +153,7 @@
  }
  root.jdQuotePreviewSVG=svgPreview;
 
- async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v4'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={version:'20261008-master-v5',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v6'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
+ root.jdNativeQuote={version:'20261008-master-v6',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);

@@ -82,5 +82,5 @@
 .jd-master-sheet .jd-pdf-bodytop{align-items:start!important}
 .jd-master-sheet .jd-compact-specs{align-self:start!important}
 .jd-master-sheet .jd-master-left{display:flex!important;flex-direction:column!important;justify-content:flex-start!important}
-.jd-master-sheet .jd-pdf-mock{flex:0 1 calc(464 * var(--u))!important;height:calc(464 * var(--u))!important;width:calc(457.333333 * var(--u))!important;max-width:100%!important;align-self:center!important}
+.jd-master-sheet .jd-pdf-mock{flex:0 0 calc(464 * var(--u))!important;height:calc(464 * var(--u))!important;width:calc(457.333333 * var(--u))!important;max-width:100%!important;align-self:center!important}
 .jd-master-sheet .jd-content-box{flex:0 0 auto!important;margin-top:calc(16 * var(--u))!important}
