@@ -1,21 +1,14 @@
-/* Keep the footer fixed. The spec card uses the available space above it first. */
+/* Render preview and PDF from the same point-based master. No font shrink or screenshots. */
 (()=>{
- window.jdFitQuoteSheet=sheet=>{
-  if(!sheet)return;
-  let fits=true;
-  for(const [selector,property,overflow] of [['.jd-legal-flow','--legal-scale','width'],['.jd-content-box','--content-scale','height'],['.jd-compact-specs','--spec-scale','body']]){
-   const block=sheet.querySelector(selector);if(!block||!block.clientHeight)continue;
-   sheet.style.setProperty(property,'1');
-   for(let scale=1;scale>.5;scale-=.025){
-    const exceeds=overflow==='width'?(block.scrollWidth>block.clientWidth+2||block.scrollHeight>block.clientHeight+2):overflow==='body'?block.scrollHeight>block.parentElement.clientHeight+2:block.scrollHeight>block.clientHeight+2;
-    if(!exceeds)break;sheet.style.setProperty(property,String(scale-.025));
-   }
-   if(overflow==='width'?(block.scrollWidth>block.clientWidth+2||block.scrollHeight>block.clientHeight+2):overflow==='body'?block.scrollHeight>block.parentElement.clientHeight+2:block.scrollHeight>block.clientHeight+2)fits=false;
+ let observed=null,revision=0;
+ async function refresh(){const preview=document.getElementById('quotePreview');if(!preview||!window.jdQuotePreviewSVG)return;const version=++revision,sheets=[...preview.querySelectorAll('.jd-master-sheet')];
+  for(let i=0;i<sheets.length;i++){
+   const sheet=sheets[i];try{const svg=await window.jdQuotePreviewSVG(window.jdNativeQuote.readSheet(sheet),i+1,sheets.length);if(version!==revision||!sheet.isConnected)return;sheet.querySelectorAll(':scope>.jd-master-art,:scope>.jd-preview-error').forEach(el=>el.remove());sheet.insertAdjacentHTML('beforeend',svg);sheet.classList.add('jd-has-art')}
+   catch(error){if(version!==revision||!sheet.isConnected)return;sheet.querySelectorAll(':scope>.jd-preview-error').forEach(el=>el.remove());const notice=document.createElement('div');notice.className='jd-preview-error';notice.textContent=error.message;sheet.appendChild(notice)}
   }
-  sheet.dataset.layoutOverflow=String(!fits);return fits;
- };
- let pending=false;
- const fit=()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;document.querySelectorAll('#quotePreview .jd-master-sheet').forEach(window.jdFitQuoteSheet)})};
- const start=()=>{const preview=document.getElementById('quotePreview');if(!preview)return;new MutationObserver(fit).observe(preview,{childList:true,subtree:true});preview.addEventListener('load',fit,true);window.addEventListener('resize',fit);document.fonts?.ready.then(fit);fit()};
+ }
+ function start(){const preview=document.getElementById('quotePreview');if(!preview||observed===preview)return;observed=preview;new MutationObserver(refresh).observe(preview,{childList:true});refresh()}
+ document.addEventListener('jd-app-ready',start);window.addEventListener('jd-shared-ready',start);
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+ window.jdRefreshQuoteArt=refresh;
 })();

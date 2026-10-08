@@ -73,3 +73,8 @@
 
 .jd-master-sheet .jd-full-legal{columns:auto!important}
 .jd-master-sheet .jd-legal-flow{height:100%!important;columns:3!important;column-gap:calc(20 * var(--u))!important;column-rule:1px solid #ab9373!important;column-fill:auto!important;overflow:visible!important}
+/* The visible master is one SVG with the exact PDF point coordinates and font sizes. */
+.jd-master-sheet{height:calc(1122.519685 * var(--u))!important;--u:calc(100cqw / 793.7007874)}
+.jd-master-sheet.jd-has-art>*:not(.jd-master-art):not(.jd-preview-error){visibility:hidden!important}
+.jd-master-sheet>.jd-master-art{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:visible!important}
+.jd-master-sheet>.jd-preview-error{position:absolute!important;top:0!important;left:0!important;right:0!important;padding:12px!important;background:#fff3dc!important;color:#6b4415!important;font:14px/1.4 Inter,Arial,sans-serif!important;z-index:2}

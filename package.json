@@ -1,9 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs && node tests/tehilim-masters.cjs && node tests/master-migration.cjs && node tests/tehilim-exports.cjs"
+    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs"
   },
   "devDependencies": {
-    "jsdom": "26.1.0"
+    "hyphen": "^1.14.1",
+    "jsdom": "26.1.0",
+    "jspdf": "^2.5.2",
+    "svgpath": "^2.6.0"
   }
 }

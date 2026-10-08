@@ -37,6 +37,7 @@ async function boot(rows=fixture(),fetchResult){
    return {data:updates,error:null};
  };
  w.supabase={createClient:()=>client};
+ w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
  for(const file of ['jd-ui.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
  assert.equal(writes.length,0,'bootstrap must not write');
@@ -152,9 +153,8 @@ async function scenarios(){
  multi.w.document.querySelector('button[data-alternative="1"]').click();assert.equal(multi.w.document.getElementById('qManualPrice-0').value,'400000');
  const grouped=await save(multi);assert.equal(grouped.alternatives.length,2);assert.deepEqual(Array.from(grouped.alternatives,a=>a.quantities[0].price),[250000,380000]);assert.equal(multi.get('jd_saved_quotes_v6').length,1);
  assert.equal(multi.w.document.querySelectorAll('#quotePreview>.jd-pdf-sheet').length,2);assert.match(multi.w.document.querySelectorAll('#quotePreview>.jd-pdf-sheet')[0].textContent,/Hebreo solo.*250\.000/);assert.match(multi.w.document.querySelectorAll('#quotePreview>.jd-pdf-sheet')[1].textContent,/Hebreo \+ español \+ fonética.*380\.000/);
- let pages=1,captures=0;multi.w.html2canvas=async target=>{assert.equal(target.querySelectorAll('.jd-pdf-sheet').length,1);assert.doesNotMatch(target.textContent,/Ganancia bruta|Antes de impuestos/);captures++;return {width:794,height:1123,toDataURL:()=> 'data:image/jpeg;base64,AA=='}};
- multi.w.jspdf={jsPDF:class{addPage(){pages++}addImage(){}output(){return new multi.w.Blob(['mock-pdf'])}}};multi.w.URL.createObjectURL=()=> 'blob:fixture';multi.w.URL.revokeObjectURL=()=>{};
- await multi.w.jdPreviewCurrentPDF();assert.equal(captures,2);assert.equal(pages,2);multi.w.document.querySelectorAll('.jd-pdf-modal').forEach(n=>n.remove());
+ let pages=0;multi.w.jdVectorQuotePdf=async sheets=>{pages=sheets.length;for(const sheet of sheets)assert.doesNotMatch(sheet.textContent,/Ganancia bruta|Antes de impuestos/);return new multi.w.Blob(['native-pdf'])};multi.w.URL.createObjectURL=()=> 'blob:fixture';multi.w.URL.revokeObjectURL=()=>{};
+ await multi.w.jdPreviewCurrentPDF();assert.equal(pages,2);multi.w.document.querySelectorAll('.jd-pdf-modal').forEach(n=>n.remove());
  multi.w.jdRenderSavedQuotes();multi.w.document.querySelector('[data-edit-qid]').click();assert.equal(multi.w.document.querySelectorAll('button[data-alternative]').length,2);assert.equal(multi.w.document.getElementById('qManualPrice-0').value,'260000');
  multi.w.document.querySelector('button[data-alternative="1"]').click();assert.equal(multi.w.document.getElementById('qLang').value,'Hebreo + español + fonética');assert.equal(multi.w.document.getElementById('qManualPrice-0').value,'400000');
  multi.fail(true);assert.equal(await save(multi),null);assert.equal(multi.get('jd_saved_quotes_v6')[0].alternatives.length,2);multi.fail(false);
@@ -177,7 +177,7 @@ async function scenarios(){
  setManual(0,260000);setManual(1,400000);manual.w.document.getElementById('qDiscount').value=50000;manual.w.renderQuote();
  assert.match(manual.w.document.querySelector('.jd-client-price').textContent,/Precio antes del descuento:.*260\.000.*Descuento:.*50\.000.*Total:.*210\.000/);
  assert.doesNotMatch(manual.w.document.getElementById('quotePreview').textContent,/Cálculo sugerido|Ganancia bruta|precio manual/);
- let capturedPrice=false;manual.w.html2canvas=async target=>{assert.match(target.querySelector('.jd-client-price').textContent,/260\.000.*50\.000.*210\.000/);assert.equal(target.querySelectorAll('.jd-client-price').length,2);capturedPrice=true;return {width:794,height:1123,toDataURL:()=> 'data:image/jpeg;base64,AA=='}};manual.w.jspdf={jsPDF:class{addImage(){}output(){return new manual.w.Blob(['mock-pdf'])}}};manual.w.URL.createObjectURL=()=> 'blob:fixture';manual.w.URL.revokeObjectURL=()=>{};
+ let capturedPrice=false;manual.w.jdVectorQuotePdf=async sheets=>{assert.match(sheets[0].querySelector('.jd-client-price').textContent,/260\.000.*50\.000.*210\.000/);assert.equal(sheets[0].querySelectorAll('.jd-client-price').length,2);capturedPrice=true;return new manual.w.Blob(['native-pdf'])};manual.w.URL.createObjectURL=()=> 'blob:fixture';manual.w.URL.revokeObjectURL=()=>{};
  await manual.w.jdPreviewCurrentPDF();assert.ok(capturedPrice);manual.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
  const negotiated=await save(manual);assert.deepEqual(Array.from(negotiated.quantities,q=>q.price),[210000,350000]);assert.deepEqual(Array.from(negotiated.quantities,q=>q.priceBeforeDiscount),[260000,400000]);assert.deepEqual(Array.from(negotiated.quantities,q=>q.discountAmount),[50000,50000]);assert.equal(negotiated.quantities[0].profit,100000);assert.equal(manual.get('jd_cost_quotes_v2')[0].cost,100000);
  manual.w.jdRenderSavedQuotes();manual.w.document.querySelector('[data-edit-qid]').click();assert.equal(manual.w.document.getElementById('qManualPrice-0').value,'260000');assert.equal(manual.w.document.getElementById('qDiscount').value,'50000');
@@ -290,15 +290,12 @@ async function scenarios(){
  assert.equal(app.get('jd_clients')[0].notes,'Cambio remoto');assert.match(app.alerts.at(-1),/otro dispositivo/);
  app.w.document.querySelector('.jd-crm-modal [data-cancel]').click();
  console.log('client address, email, retry, remote addition and same-client conflict passed');
- // Extremely tall documents are fitted once, not split or cropped.
- const pages=[];let removedCapture=false;
- app.w.html2canvas=async target=>{assert.equal(target.id,'jdPdfCapture');assert.equal(target.style.width,'794px');return {width:794,height:4000,toDataURL:()=>{removedCapture=!app.w.document.getElementById('jdPdfCapture');return 'data:image/jpeg;base64,AA=='}}};
- app.w.jspdf={jsPDF:class{constructor(){pages.push([])}addPage(){throw Error('A4 must not add a second page')}addImage(...args){pages[0].push(args)}output(){return new app.w.Blob(['mock-pdf'])}}};
+ // Export the complete semantic sheet to the vector renderer, without a capture clone.
+ let rendered=0;app.w.jdVectorQuotePdf=async sheets=>{assert.equal(sheets.length,1);assert.ok(sheets[0].querySelector('.jd-pdf-logo'));assert.ok(!app.w.document.getElementById('jdPdfCapture'));rendered++;return new app.w.Blob(['native-pdf'])};
  app.w.URL.createObjectURL=()=> 'blob:fixture';app.w.URL.revokeObjectURL=()=>{};
- await app.w.jdPreviewCurrentPDF();assert.equal(pages.length,1);assert.equal(pages[0].length,1);assert.ok(removedCapture);
- const image=pages[0][0];assert.ok(image[2]>=0);assert.equal(image[3],0);assert.ok(image[4]<=210);assert.ok(image[5]<=297);
- app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
- console.log('one A4 page, fixed desktop width and full-document fit passed');
+ await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);
+app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
+ console.log('complete semantic A4 sheet reaches native renderer without raster capture passed');
  app.w.jdOpenOrder(quote.id);
  field('jdOrderQty','2');field('jdOrderPaid','99999999');
  await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1'),undefined);assert.match(app.alerts.at(-1),/total del pedido/);
