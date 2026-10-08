@@ -1,0 +1,141 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+    "sha256": "dd23d2f784f4ae6f47130f597c4233ba299ad2f792227ecd1e98260ad69852dd",
+    "metegAdded": 10,
+    "scope": "Marcas de acento cotejadas con glifos del PDF y revisión visual ampliada. Wikisource conserva las consonantes y la escritura plena/defectiva. Se modificó el nikud solamente en los tres casos registrados. No se infiere acento final por ausencia de meteg; se mantiene el fallback salvo ocurrencias ya verificadas.",
+    "status": "Meteg incorporado; acento y mayúsculas revisados. Aprobación editorial final pendiente."
+  },
+  "metegOccurrences": [
+    {
+      "verse": 1,
+      "wordIndex": 4,
+      "letterIndex": 2,
+      "sourceWord": "בַּצָּרָֽתָה",
+      "baseWord": "בַּצָּרָתָה"
+    },
+    {
+      "verse": 1,
+      "wordIndex": 6,
+      "letterIndex": 1,
+      "sourceWord": "קָרָֽאתִי",
+      "baseWord": "קָרָאתִי"
+    },
+    {
+      "verse": 1,
+      "wordIndex": 7,
+      "letterIndex": 3,
+      "sourceWord": "וַיַּעֲנֵֽנִי",
+      "baseWord": "וַיַּעֲנֵנִי."
+    },
+    {
+      "verse": 2,
+      "wordIndex": 1,
+      "letterIndex": 1,
+      "sourceWord": "הַצִּֽילָה",
+      "baseWord": "הַצִּילָה"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 4,
+      "letterIndex": 0,
+      "sourceWord": "שֶֽׁקֶר",
+      "baseWord": "שֶׁקֶר"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 0,
+      "letterIndex": 0,
+      "sourceWord": "אֽוֹיָה",
+      "baseWord": "אוֹיָה"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 3,
+      "letterIndex": 0,
+      "sourceWord": "גַֽרְתִּי",
+      "baseWord": "גַרְתִּי"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 4,
+      "letterIndex": 0,
+      "sourceWord": "מֶֽשֶׁךְ",
+      "baseWord": "מֶשֶׁךְ"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 5,
+      "letterIndex": 1,
+      "sourceWord": "שָׁכַֽנְתִּי",
+      "baseWord": "שָׁכַנְתִּי"
+    },
+    {
+      "verse": 7,
+      "wordIndex": 4,
+      "letterIndex": 0,
+      "sourceWord": "הֵֽמָּה",
+      "baseWord": "הֵמָּה"
+    }
+  ],
+  "nikudChanges": [
+    {
+      "verse": 5,
+      "before": "לִי",
+      "after": "לִּי",
+      "evidence": "Dagesh de lamed visible en el PDF interlineal."
+    }
+  ],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "שִׁיר הַמַּעֲלוֹת אֶל יְהֹוָה בַּצָּרָתָה לִּי קָרָאתִי וַיַּעֲנֵנִי.",
+      "hebrew": "שִׁיר הַמַּעֲלוֹת אֶל יְהֹוָה בַּצָּרָֽתָה לִּי קָרָֽאתִי וַיַּעֲנֵֽנִי.",
+      "previousPhonetic": "Shir hama'alot el Ad-nai batsarata li karati vaya'aneni.",
+      "phonetic": "Shir hama'alot el Ad-nai batsarata li karati vaya'aneni."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "יְהֹוָה הַצִּילָה נַפְשִׁי מִשְּׂפַת שֶׁקֶר מִלָּשׁוֹן רְמִיָּה.",
+      "hebrew": "יְהֹוָה הַצִּֽילָה נַפְשִׁי מִשְּׂפַת שֶֽׁקֶר מִלָּשׁוֹן רְמִיָּה.",
+      "previousPhonetic": "Ad-nai hatsila nafshí misfat shéker milashón remiyá.",
+      "phonetic": "Ad-nai hatsila nafshí misefat shéker milashón remiyá."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "מַה יִּתֵּן לְךָ וּמַה יֹּסִיף לָךְ לָשׁוֹן רְמִיָּה.",
+      "hebrew": "מַה יִּתֵּן לְךָ וּמַה יֹּסִיף לָךְ לָשׁוֹן רְמִיָּה.",
+      "previousPhonetic": "Ma yitén lejá umá yosif laj lashón remiyá.",
+      "phonetic": "Ma yitén lejá umá yosif laj lashón remiyá."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "חִצֵּי גִבּוֹר שְׁנוּנִים עִם גַּחֲלֵי רְתָמִים.",
+      "hebrew": "חִצֵּי גִבּוֹר שְׁנוּנִים עִם גַּחֲלֵי רְתָמִים.",
+      "previousPhonetic": "Jitsé guibor shenunim 'im gajalé retamim.",
+      "phonetic": "Jitsé guibor shenunim 'im gajalé retamim."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "אוֹיָה לִי כִּי גַרְתִּי מֶשֶׁךְ שָׁכַנְתִּי עִם אׇהֳלֵי קֵדָר.",
+      "hebrew": "אֽוֹיָה לִּי כִּי גַֽרְתִּי מֶֽשֶׁךְ שָׁכַֽנְתִּי עִם אׇהֳלֵי קֵדָר.",
+      "previousPhonetic": "Oyá li ki garti méshej shajanti 'im oholé kedar.",
+      "phonetic": "Oya li ki garti méshej shajanti 'im oholé kedar."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "רַבַּת שָׁכְנָה לָּהּ נַפְשִׁי עִם שׂוֹנֵא שָׁלוֹם.",
+      "hebrew": "רַבַּת שָׁכְנָה לָּהּ נַפְשִׁי עִם שׂוֹנֵא שָׁלוֹם.",
+      "previousPhonetic": "Rabat shajná lah nafshí 'im soné shalom.",
+      "phonetic": "Rabat shajná lah nafshí 'im soné shalom."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "אֲנִי שָׁלוֹם וְכִי אֲדַבֵּר הֵמָּה לַמִּלְחָמָה.",
+      "hebrew": "אֲנִי שָׁלוֹם וְכִי אֲדַבֵּר הֵֽמָּה לַמִּלְחָמָה.",
+      "previousPhonetic": "Aní shalom vejí adaber hema lamiljamá.",
+      "phonetic": "Aní shalom vejí adaber hema lamiljamá."
+    }
+  ]
+}

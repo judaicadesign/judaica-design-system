@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-08",
+  "changes": [
+    [
+      20,
+      9,
+      "קַּֽמְנוּ",
+      "קַֽמְנוּ",
+      "Se retira el dagesh de qof: no está en el PDF interlineal."
+    ],
+    [
+      112,
+      10,
+      "וְכָעָס",
+      "וְכָעַס",
+      "ArtScroll imprime patah bajo ayin; se conserva el kamatz de kaf."
+    ],
+    [
+      120,
+      5,
+      "לִי",
+      "לִּי",
+      "Dagesh de lamed visible en el PDF interlineal."
+    ]
+  ],
+  "policy": "No se agregan dagesh por inferencia. Qof 20:9 sin dagesh; lamed 120:5 con dagesh, ambos cotejados visualmente."
+}

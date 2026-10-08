@@ -2,12 +2,68 @@
   "updated": "2026-10-08",
   "chapters": [
     {
+      "chapter": 13,
+      "hebrew": "Meteg cotejado e incorporado: 17 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf"
+    },
+    {
+      "chapter": 20,
+      "hebrew": "Meteg cotejado e incorporado: 27 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf"
+    },
+    {
       "chapter": 23,
       "hebrew": "Cotejado con ArtScroll",
       "phonetic": "Revisada; coincide con el generador",
       "engine": "Verificado contra master: todos los pesukim coinciden",
       "approved": false,
       "source": "IMG_1333(1).png · ArtScroll app · Tehilim 23"
+    },
+    {
+      "chapter": 83,
+      "hebrew": "Meteg cotejado e incorporado: 23 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - Transliterated_Tehillim_Eretz_Yisrael(1).pdf"
+    },
+    {
+      "chapter": 91,
+      "hebrew": "Meteg cotejado e incorporado: 35 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf"
+    },
+    {
+      "chapter": 112,
+      "hebrew": "Meteg cotejado e incorporado: 7 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf"
+    },
+    {
+      "chapter": 120,
+      "hebrew": "Meteg cotejado e incorporado: 10 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf"
+    },
+    {
+      "chapter": 121,
+      "hebrew": "Meteg cotejado e incorporado: 12 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - Transliterated_Tehillim_Eretz_Yisrael(1).pdf"
     },
     {
       "chapter": 126,
@@ -18,12 +74,36 @@
       "source": "ArtScroll Interlinear Benching · PDF page 2"
     },
     {
+      "chapter": 127,
+      "hebrew": "Meteg cotejado e incorporado: 9 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf"
+    },
+    {
+      "chapter": 130,
+      "hebrew": "Meteg cotejado e incorporado: 9 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf"
+    },
+    {
       "chapter": 137,
       "hebrew": "Cotejado con ArtScroll",
       "phonetic": "Revisada; coincide con el generador",
       "engine": "Verificado contra master: todos los pesukim coinciden",
       "approved": false,
       "source": "ArtScroll Interlinear Benching · PDF page 1"
+    },
+    {
+      "chapter": 142,
+      "hebrew": "Meteg cotejado e incorporado: 14 marcas. Nikud: cambios documentados.",
+      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
+      "engine": "Verificado por pasuk contra el master actualizado",
+      "approved": false,
+      "source": "ARTSCROLL - Transliterated_Tehillim_Eretz_Yisrael(1).pdf"
     }
   ],
   "pdfQueue": [
@@ -38,7 +118,7 @@
         127,
         130
       ],
-      "status": "PDF recibido; pendiente cotejo por pasuk"
+      "status": "Cotejo de meteg completado e incorporado; aprobación editorial final pendiente"
     },
     {
       "source": "ArtScroll Transliterated Tehillim Eretz Yisrael",
@@ -49,7 +129,7 @@
         130,
         142
       ],
-      "status": "PDF recibido; pendiente cotejo por pasuk"
+      "status": "Cotejo de meteg completado e incorporado; aprobación editorial final pendiente"
     }
   ],
   "remaining": "Los otros capítulos no quedan aprobados por repetición de una palabra verificada."

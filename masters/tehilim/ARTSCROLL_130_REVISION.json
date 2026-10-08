@@ -1,0 +1,134 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+    "sha256": "dd23d2f784f4ae6f47130f597c4233ba299ad2f792227ecd1e98260ad69852dd",
+    "metegAdded": 9,
+    "scope": "Marcas de acento cotejadas con glifos del PDF y revisión visual ampliada. Wikisource conserva las consonantes y la escritura plena/defectiva. Se modificó el nikud solamente en los tres casos registrados. No se infiere acento final por ausencia de meteg; se mantiene el fallback salvo ocurrencias ya verificadas.",
+    "status": "Meteg incorporado; acento y mayúsculas revisados. Aprobación editorial final pendiente."
+  },
+  "metegOccurrences": [
+    {
+      "verse": 1,
+      "wordIndex": 3,
+      "letterIndex": 3,
+      "sourceWord": "קְרָאתִֽיךָ",
+      "baseWord": "קְרָאתִיךָ"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 3,
+      "letterIndex": 2,
+      "sourceWord": "תִּהְיֶֽינָה",
+      "baseWord": "תִּהְיֶינָה"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 4,
+      "letterIndex": 2,
+      "sourceWord": "אָזְנֶֽיךָ",
+      "baseWord": "אׇזְנֶיךָ"
+    },
+    {
+      "verse": 4,
+      "wordIndex": 3,
+      "letterIndex": 1,
+      "sourceWord": "לְמַֽעַן",
+      "baseWord": "לְמַעַן"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 0,
+      "letterIndex": 1,
+      "sourceWord": "קִוִּֽיתִי",
+      "baseWord": "קִוִּיתִי"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 5,
+      "letterIndex": 2,
+      "sourceWord": "הוֹחָֽלְתִּי",
+      "baseWord": "הוֹחָלְתִּי."
+    },
+    {
+      "verse": 6,
+      "wordIndex": 3,
+      "letterIndex": 1,
+      "sourceWord": "לַבֹּֽקֶר",
+      "baseWord": "לַבֹּקֶר"
+    },
+    {
+      "verse": 6,
+      "wordIndex": 5,
+      "letterIndex": 1,
+      "sourceWord": "לַבֹּֽקֶר",
+      "baseWord": "לַבֹּקֶר."
+    },
+    {
+      "verse": 7,
+      "wordIndex": 7,
+      "letterIndex": 1,
+      "sourceWord": "הַחֶֽסֶד",
+      "baseWord": "הַחֶסֶד"
+    }
+  ],
+  "nikudChanges": [],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "שִׁיר הַמַּעֲלוֹת מִמַּעֲמַקִּים קְרָאתִיךָ יְהֹוָה.",
+      "hebrew": "שִׁיר הַמַּעֲלוֹת מִמַּעֲמַקִּים קְרָאתִֽיךָ יְהֹוָה.",
+      "previousPhonetic": "Shir hama'alot mima'amakim keratija Ad-nai.",
+      "phonetic": "Shir hama'alot mima'amakim keratija Ad-nai."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "אֲדֹנָי שִׁמְעָה בְקוֹלִי תִּהְיֶינָה אׇזְנֶיךָ קַשֻּׁבוֹת לְקוֹל תַּחֲנוּנָי.",
+      "hebrew": "אֲדֹנָי שִׁמְעָה בְקוֹלִי תִּהְיֶֽינָה אׇזְנֶֽיךָ קַשֻּׁבוֹת לְקוֹל תַּחֲנוּנָי.",
+      "previousPhonetic": "Ad-nai shim'á vekolí tihyená ozneja kashuvot lekol tajanunái.",
+      "phonetic": "Ad-nai shim'á vekolí tihyena Ozneja kashuvot lekol tajanunái."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "אִם עֲוֺנוֹת תִּשְׁמׇר יָהּ אֲדֹנָי מִי יַעֲמֹד.",
+      "hebrew": "אִם עֲוֺנוֹת תִּשְׁמׇר יָהּ אֲדֹנָי מִי יַעֲמֹד.",
+      "previousPhonetic": "Im 'aonot tishmor Yah Ad-nai mi ya'amod.",
+      "phonetic": "Im 'avonot tishmor Yah Ad-nai mi ya'amod."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "כִּי עִמְּךָ הַסְּלִיחָה לְמַעַן תִּוָּרֵא.",
+      "hebrew": "כִּי עִמְּךָ הַסְּלִיחָה לְמַֽעַן תִּוָּרֵא.",
+      "previousPhonetic": "Ki 'imjá haselija lema'an tivaré.",
+      "phonetic": "Ki 'Imjá haselija lema'an tivaré."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "קִוִּיתִי יְהֹוָה קִוְּתָה נַפְשִׁי וְלִדְבָרוֹ הוֹחָלְתִּי.",
+      "hebrew": "קִוִּֽיתִי יְהֹוָה קִוְּתָה נַפְשִׁי וְלִדְבָרוֹ הוֹחָֽלְתִּי.",
+      "previousPhonetic": "Kiviti Ad-nai kiuta nafshí velidvaró hojalti.",
+      "phonetic": "Kiviti Ad-nai kivetá nafshí veLidvaró hojalti."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "נַפְשִׁי לַאדֹנָי מִשֹּׁמְרִים לַבֹּקֶר שֹׁמְרִים לַבֹּקֶר.",
+      "hebrew": "נַפְשִׁי לַאדֹנָי מִשֹּׁמְרִים לַבֹּֽקֶר שֹׁמְרִים לַבֹּֽקֶר.",
+      "previousPhonetic": "Nafshí laAd-nai mishomrim labóker shomrim labóker.",
+      "phonetic": "Nafshí laAd-nai mishomrim labóker shomrim labóker."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "יַחֵל יִשְׂרָאֵל אֶל יְהֹוָה כִּי עִם יְהֹוָה הַחֶסֶד וְהַרְבֵּה עִמּוֹ פְדוּת.",
+      "hebrew": "יַחֵל יִשְׂרָאֵל אֶל יְהֹוָה כִּי עִם יְהֹוָה הַחֶֽסֶד וְהַרְבֵּה עִמּוֹ פְדוּת.",
+      "previousPhonetic": "Yajel Yisrael el Ad-nai ki 'im Ad-nai hajésed veharbé 'imó fedut.",
+      "phonetic": "Yajel Yisrael el Ad-nai ki 'im Ad-nai hajésed veharbé 'Imó fedut."
+    },
+    {
+      "verse": 8,
+      "previousHebrew": "וְהוּא יִפְדֶּה אֶת יִשְׂרָאֵל מִכֹּל עֲוֺנֹתָיו.",
+      "hebrew": "וְהוּא יִפְדֶּה אֶת יִשְׂרָאֵל מִכֹּל עֲוֺנֹתָיו.",
+      "previousPhonetic": "Vehu yifdé et Yisrael mikol 'aonotav.",
+      "phonetic": "VeHu yifdé et Yisrael mikol 'avonotav."
+    }
+  ]
+}

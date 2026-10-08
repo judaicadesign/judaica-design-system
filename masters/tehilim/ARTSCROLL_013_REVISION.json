@@ -1,0 +1,176 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+    "sha256": "dd23d2f784f4ae6f47130f597c4233ba299ad2f792227ecd1e98260ad69852dd",
+    "metegAdded": 17,
+    "scope": "Marcas de acento cotejadas con glifos del PDF y revisión visual ampliada. Wikisource conserva las consonantes y la escritura plena/defectiva. Se modificó el nikud solamente en los tres casos registrados. No se infiere acento final por ausencia de meteg; se mantiene el fallback salvo ocurrencias ya verificadas.",
+    "status": "Meteg incorporado; acento y mayúsculas revisados. Aprobación editorial final pendiente."
+  },
+  "metegOccurrences": [
+    {
+      "verse": 1,
+      "wordIndex": 0,
+      "letterIndex": 3,
+      "sourceWord": "לַמְנַצֵּֽחַ",
+      "baseWord": "לַמְנַצֵּחַ"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 1,
+      "letterIndex": 0,
+      "sourceWord": "אָֽנָה",
+      "baseWord": "אָנָה"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 3,
+      "letterIndex": 3,
+      "sourceWord": "תִּשְׁכָּחֵֽנִי",
+      "baseWord": "תִּשְׁכָּחֵנִי"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 4,
+      "letterIndex": 0,
+      "sourceWord": "נֶֽצַח",
+      "baseWord": "נֶצַח"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 6,
+      "letterIndex": 0,
+      "sourceWord": "אָֽנָה",
+      "baseWord": "אָנָה"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 9,
+      "letterIndex": 1,
+      "sourceWord": "פָּנֶֽיךָ",
+      "baseWord": "פָּנֶיךָ"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 10,
+      "letterIndex": 1,
+      "sourceWord": "מִמֶּֽנִּי",
+      "baseWord": "מִמֶּנִּי."
+    },
+    {
+      "verse": 3,
+      "wordIndex": 1,
+      "letterIndex": 0,
+      "sourceWord": "אָֽנָה",
+      "baseWord": "אָנָה"
+    },
+    {
+      "verse": 3,
+      "wordIndex": 9,
+      "letterIndex": 0,
+      "sourceWord": "אָֽנָה",
+      "baseWord": "אָנָה"
+    },
+    {
+      "verse": 4,
+      "wordIndex": 0,
+      "letterIndex": 1,
+      "sourceWord": "הַבִּֽיטָה",
+      "baseWord": "הַבִּיטָה"
+    },
+    {
+      "verse": 4,
+      "wordIndex": 1,
+      "letterIndex": 1,
+      "sourceWord": "עֲנֵֽנִי",
+      "baseWord": "עֲנֵנִי"
+    },
+    {
+      "verse": 4,
+      "wordIndex": 4,
+      "letterIndex": 1,
+      "sourceWord": "הָאִֽירָה",
+      "baseWord": "הָאִירָה"
+    },
+    {
+      "verse": 4,
+      "wordIndex": 8,
+      "letterIndex": 1,
+      "sourceWord": "הַמָּֽוֶת",
+      "baseWord": "הַמָּוֶת."
+    },
+    {
+      "verse": 5,
+      "wordIndex": 5,
+      "letterIndex": 1,
+      "sourceWord": "יָגִֽילוּ",
+      "baseWord": "יָגִילוּ"
+    },
+    {
+      "verse": 6,
+      "wordIndex": 2,
+      "letterIndex": 1,
+      "sourceWord": "בָטַֽחְתִּי",
+      "baseWord": "בָטַחְתִּי"
+    },
+    {
+      "verse": 6,
+      "wordIndex": 5,
+      "letterIndex": 5,
+      "sourceWord": "בִּישׁוּעָתֶֽךָ",
+      "baseWord": "בִּישׁוּעָתֶךָ"
+    },
+    {
+      "verse": 6,
+      "wordIndex": 6,
+      "letterIndex": 1,
+      "sourceWord": "אָשִֽׁירָה",
+      "baseWord": "אָשִׁירָה"
+    }
+  ],
+  "nikudChanges": [],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+      "hebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
+      "previousPhonetic": "Lamnatséaj mizmor leDavid.",
+      "phonetic": "Lamnatséaj mizmor leDavid."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "עַד אָנָה יְהֹוָה תִּשְׁכָּחֵנִי נֶצַח עַד אָנָה תַּסְתִּיר אֶת פָּנֶיךָ מִמֶּנִּי.",
+      "hebrew": "עַד אָֽנָה יְהֹוָה תִּשְׁכָּחֵֽנִי נֶֽצַח עַד אָֽנָה תַּסְתִּיר אֶת פָּנֶֽיךָ מִמֶּֽנִּי.",
+      "previousPhonetic": "'Ad ana Ad-nai tishkajeni nétsaj 'ad ana tastir et paneja mimeni.",
+      "phonetic": "'Ad ana Ad-nai tishkajeni nétsaj 'ad ana tastir et Paneja mimeni."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "עַד אָנָה אָשִׁית עֵצוֹת בְּנַפְשִׁי יָגוֹן בִּלְבָבִי יוֹמָם עַד אָנָה יָרוּם אֹיְבִי עָלָי.",
+      "hebrew": "עַד אָֽנָה אָשִׁית עֵצוֹת בְּנַפְשִׁי יָגוֹן בִּלְבָבִי יוֹמָם עַד אָֽנָה יָרוּם אֹיְבִי עָלָי.",
+      "previousPhonetic": "'Ad ana ashit 'etsot benafshí yagón bilvaví yomam 'ad ana yarum oyví 'alái.",
+      "phonetic": "'Ad ana ashit 'etsot benafshí yagón bilvaví yomam 'ad ana yarum oyví 'alái."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "הַבִּיטָה עֲנֵנִי יְהֹוָה אֱלֹהָי הָאִירָה עֵינַי פֶּן אִישַׁן הַמָּוֶת.",
+      "hebrew": "הַבִּֽיטָה עֲנֵֽנִי יְהֹוָה אֱלֹהָי הָאִֽירָה עֵינַי פֶּן אִישַׁן הַמָּֽוֶת.",
+      "previousPhonetic": "Habita 'aneni Ad-nai Elohái haíra 'enái pen ishán hamávet.",
+      "phonetic": "Habita 'aneni Ad-nai Elohái haíra 'enái pen ishán hamávet."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "פֶּן יֹאמַר אֹיְבִי יְכׇלְתִּיו צָרַי יָגִילוּ כִּי אֶמּוֹט.",
+      "hebrew": "פֶּן יֹאמַר אֹיְבִי יְכׇלְתִּיו צָרַי יָגִֽילוּ כִּי אֶמּוֹט.",
+      "previousPhonetic": "Pen yomar oyví yejoltiv tsarái yaguilu ki emot.",
+      "phonetic": "Pen yomar oyví yejoltiv tsarái yaguilu ki emot."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "וַאֲנִי בְּחַסְדְּךָ בָטַחְתִּי יָגֵל לִבִּי בִּישׁוּעָתֶךָ אָשִׁירָה לַיהֹוָה כִּי גָמַל עָלָי.",
+      "hebrew": "וַאֲנִי בְּחַסְדְּךָ בָטַֽחְתִּי יָגֵל לִבִּי בִּישׁוּעָתֶֽךָ אָשִֽׁירָה לַיהֹוָה כִּי גָמַל עָלָי.",
+      "previousPhonetic": "Vaaní bejasdejá vatajti yaguel libí bishu'ateja ashira laAd-nai ki gamal 'alái.",
+      "phonetic": "Vaaní Bejasdejá vatajti yaguel libí Bishu'ateja ashira laAd-nai ki gamal 'alái."
+    }
+  ]
+}

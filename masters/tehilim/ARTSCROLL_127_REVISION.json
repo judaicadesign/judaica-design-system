@@ -1,0 +1,113 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+    "sha256": "dd23d2f784f4ae6f47130f597c4233ba299ad2f792227ecd1e98260ad69852dd",
+    "metegAdded": 9,
+    "scope": "Marcas de acento cotejadas con glifos del PDF y revisión visual ampliada. Wikisource conserva las consonantes y la escritura plena/defectiva. Se modificó el nikud solamente en los tres casos registrados. No se infiere acento final por ausencia de meteg; se mantiene el fallback salvo ocurrencias ya verificadas.",
+    "status": "Meteg incorporado; acento y mayúsculas revisados. Aprobación editorial final pendiente."
+  },
+  "metegOccurrences": [
+    {
+      "verse": 1,
+      "wordIndex": 7,
+      "letterIndex": 0,
+      "sourceWord": "בַֽיִת",
+      "baseWord": "בַיִת"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 2,
+      "letterIndex": 2,
+      "sourceWord": "מַשְׁכִּֽימֵי",
+      "baseWord": "מַשְׁכִּימֵי"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 4,
+      "letterIndex": 1,
+      "sourceWord": "מְאַֽחֲרֵי",
+      "baseWord": "מְאַחֲרֵי"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 5,
+      "letterIndex": 0,
+      "sourceWord": "שֶֽׁבֶת",
+      "baseWord": "שֶׁבֶת"
+    },
+    {
+      "verse": 2,
+      "wordIndex": 7,
+      "letterIndex": 0,
+      "sourceWord": "לֶֽחֶם",
+      "baseWord": "לֶחֶם"
+    },
+    {
+      "verse": 3,
+      "wordIndex": 6,
+      "letterIndex": 1,
+      "sourceWord": "הַבָּֽטֶן",
+      "baseWord": "הַבָּטֶן."
+    },
+    {
+      "verse": 5,
+      "wordIndex": 1,
+      "letterIndex": 1,
+      "sourceWord": "הַגֶּֽבֶר",
+      "baseWord": "הַגֶּבֶר"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 8,
+      "letterIndex": 1,
+      "sourceWord": "יֵבֹֽשׁוּ",
+      "baseWord": "יֵבֹשׁוּ"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 13,
+      "letterIndex": 1,
+      "sourceWord": "בַּשָּֽׁעַר",
+      "baseWord": "בַּשָּׁעַר."
+    }
+  ],
+  "nikudChanges": [],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "שִׁיר הַמַּעֲלוֹת לִשְׁלֹמֹה אִם יְהֹוָה לֹא יִבְנֶה בַיִת שָׁוְא עָמְלוּ בוֹנָיו בּוֹ אִם יְהֹוָה לֹא יִשְׁמׇר עִיר שָׁוְא שָׁקַד שׁוֹמֵר.",
+      "hebrew": "שִׁיר הַמַּעֲלוֹת לִשְׁלֹמֹה אִם יְהֹוָה לֹא יִבְנֶה בַֽיִת שָׁוְא עָמְלוּ בוֹנָיו בּוֹ אִם יְהֹוָה לֹא יִשְׁמׇר עִיר שָׁוְא שָׁקַד שׁוֹמֵר.",
+      "previousPhonetic": "Shir hama'alot lishlomó im Ad-nai lo yivné vayit shav 'amlú vonav bo im Ad-nai lo yishmor 'ir shav shakad shomer.",
+      "phonetic": "Shir hama'alot lishlomó im Ad-nai lo yivné váyit shav 'amlú vonav bo im Ad-nai lo yishmor 'ir shav shakad shomer."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "שָׁוְא לָכֶם מַשְׁכִּימֵי קוּם מְאַחֲרֵי שֶׁבֶת אֹכְלֵי לֶחֶם הָעֲצָבִים כֵּן יִתֵּן לִידִידוֹ שֵׁנָא.",
+      "hebrew": "שָׁוְא לָכֶם מַשְׁכִּֽימֵי קוּם מְאַֽחֲרֵי שֶֽׁבֶת אֹכְלֵי לֶֽחֶם הָעֲצָבִים כֵּן יִתֵּן לִידִידוֹ שֵׁנָא.",
+      "previousPhonetic": "Shav lajem mashkimé kum meajaré shévet ojlé léjem ha'atsavim ken yitén lididó shená.",
+      "phonetic": "Shav lájem mashkime kum meájare shévet ojlé léjem ha'atsavim ken yitén lididó shená."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "הִנֵּה נַחֲלַת יְהֹוָה בָּנִים שָׂכָר פְּרִי הַבָּטֶן.",
+      "hebrew": "הִנֵּה נַחֲלַת יְהֹוָה בָּנִים שָׂכָר פְּרִי הַבָּֽטֶן.",
+      "previousPhonetic": "Hiné najalat Ad-nai banim sajar perí habaten.",
+      "phonetic": "Hiné najalat Ad-nai banim sajar perí habaten."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "כְּחִצִּים בְּיַד גִּבּוֹר כֵּן בְּנֵי הַנְּעוּרִים.",
+      "hebrew": "כְּחִצִּים בְּיַד גִּבּוֹר כֵּן בְּנֵי הַנְּעוּרִים.",
+      "previousPhonetic": "Kejitsim beyad guibor ken bené hane'urim.",
+      "phonetic": "Kejitsim beyad guibor ken bené hane'urim."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "אַשְׁרֵי הַגֶּבֶר אֲשֶׁר מִלֵּא אֶת אַשְׁפָּתוֹ מֵהֶם לֹא יֵבֹשׁוּ כִּי יְדַבְּרוּ אֶת אוֹיְבִים בַּשָּׁעַר.",
+      "hebrew": "אַשְׁרֵי הַגֶּֽבֶר אֲשֶׁר מִלֵּא אֶת אַשְׁפָּתוֹ מֵהֶם לֹא יֵבֹֽשׁוּ כִּי יְדַבְּרוּ אֶת אוֹיְבִים בַּשָּֽׁעַר.",
+      "previousPhonetic": "Ashré haguéver asher milé et ashpató méhem lo yevoshu ki yedaberu et oyvim basha'ar.",
+      "phonetic": "Ashré haguéver asher milé et ashpató méhem lo yevoshu ki yedaberu et oyvim bashá'ar."
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "ARTSCROLL - Transliterated_Tehillim_Eretz_Yisrael(1).pdf",
+    "sha256": "5ae0b8732a6391c7e59ca279a56e64fad6968ab4838b278ad7a5c7109873471a",
+    "metegAdded": 14,
+    "scope": "Marcas de acento cotejadas con glifos del PDF y revisión visual ampliada. Wikisource conserva las consonantes y la escritura plena/defectiva. Se modificó el nikud solamente en los tres casos registrados. No se infiere acento final por ausencia de meteg; se mantiene el fallback salvo ocurrencias ya verificadas.",
+    "status": "Meteg incorporado; acento y mayúsculas revisados. Aprobación editorial final pendiente."
+  },
+  "metegOccurrences": [
+    {
+      "verse": 4,
+      "wordIndex": 4,
+      "letterIndex": 1,
+      "baseWord": "יָדַעְתָּ",
+      "sourcePage": 9,
+      "sourceX": 299.49,
+      "sourceY": 268
+    },
+    {
+      "verse": 4,
+      "wordIndex": 6,
+      "letterIndex": 1,
+      "baseWord": "בְּאֹרַח",
+      "sourcePage": 9,
+      "sourceX": 329.12,
+      "sourceY": 298
+    },
+    {
+      "verse": 5,
+      "wordIndex": 8,
+      "letterIndex": 1,
+      "baseWord": "מִמֶּנִּי",
+      "sourcePage": 9,
+      "sourceX": 270.27,
+      "sourceY": 391
+    },
+    {
+      "verse": 6,
+      "wordIndex": 1,
+      "letterIndex": 1,
+      "baseWord": "אֵלֶיךָ",
+      "sourcePage": 9,
+      "sourceX": 291.3,
+      "sourceY": 438
+    },
+    {
+      "verse": 6,
+      "wordIndex": 0,
+      "letterIndex": 1,
+      "baseWord": "זָעַקְתִּי",
+      "sourcePage": 9,
+      "sourceX": 330.83,
+      "sourceY": 438
+    },
+    {
+      "verse": 6,
+      "wordIndex": 3,
+      "letterIndex": 1,
+      "baseWord": "אָמַרְתִּי",
+      "sourcePage": 9,
+      "sourceX": 326.2,
+      "sourceY": 466
+    },
+    {
+      "verse": 6,
+      "wordIndex": 7,
+      "letterIndex": 1,
+      "baseWord": "בְּאֶרֶץ",
+      "sourcePage": 9,
+      "sourceX": 295.93,
+      "sourceY": 495
+    },
+    {
+      "verse": 7,
+      "wordIndex": 0,
+      "letterIndex": 2,
+      "baseWord": "הַקְשִׁיבָה",
+      "sourcePage": 10,
+      "sourceX": 320.06,
+      "sourceY": 37
+    },
+    {
+      "verse": 7,
+      "wordIndex": 4,
+      "letterIndex": 1,
+      "baseWord": "דַלּוֹתִי",
+      "sourcePage": 10,
+      "sourceX": 302.54,
+      "sourceY": 54
+    },
+    {
+      "verse": 7,
+      "wordIndex": 6,
+      "letterIndex": 3,
+      "baseWord": "הַצִּילֵנִי",
+      "sourcePage": 10,
+      "sourceX": 315.7,
+      "sourceY": 84
+    },
+    {
+      "verse": 7,
+      "wordIndex": 10,
+      "letterIndex": 1,
+      "baseWord": "מִמֶּנִּי.",
+      "sourcePage": 10,
+      "sourceX": 266.21,
+      "sourceY": 100
+    },
+    {
+      "verse": 8,
+      "wordIndex": 0,
+      "letterIndex": 2,
+      "baseWord": "הוֹצִיאָה",
+      "sourcePage": 10,
+      "sourceX": 324.17,
+      "sourceY": 130
+    },
+    {
+      "verse": 8,
+      "wordIndex": 5,
+      "letterIndex": 1,
+      "baseWord": "שְׁמֶךָ",
+      "sourcePage": 10,
+      "sourceX": 260.99,
+      "sourceY": 160
+    },
+    {
+      "verse": 8,
+      "wordIndex": 7,
+      "letterIndex": 2,
+      "baseWord": "יַכְתִּרוּ",
+      "sourcePage": 10,
+      "sourceX": 309.01,
+      "sourceY": 190
+    }
+  ],
+  "nikudChanges": [],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "מַשְׂכִּיל לְדָוִד בִּהְיוֹתוֹ בַמְּעָרָה תְפִלָּה.",
+      "hebrew": "מַשְׂכִּיל לְדָוִד בִּהְיוֹתוֹ בַמְּעָרָה תְפִלָּה.",
+      "previousPhonetic": "Maskil leDavid bihyotó vame'ará tefilá.",
+      "phonetic": "Maskil leDavid bihyotó vame'ará tefilá."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "קוֹלִי אֶל יְהֹוָה אֶזְעָק קוֹלִי אֶל יְהֹוָה אֶתְחַנָּן.",
+      "hebrew": "קוֹלִי אֶל יְהֹוָה אֶזְעָק קוֹלִי אֶל יְהֹוָה אֶתְחַנָּן.",
+      "previousPhonetic": "Kolí el Ad-nai ez'ak kolí el Ad-nai etjanán.",
+      "phonetic": "Kolí el Ad-nai ez'ak kolí el Ad-nai etjanán."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "אֶשְׁפֹּךְ לְפָנָיו שִׂיחִי צָרָתִי לְפָנָיו אַגִּיד.",
+      "hebrew": "אֶשְׁפֹּךְ לְפָנָיו שִׂיחִי צָרָתִי לְפָנָיו אַגִּיד.",
+      "previousPhonetic": "Eshpoj lefanav sijí tsaratí lefanav aguid.",
+      "phonetic": "Eshpoj lefanav sijí tsaratí lefanav aguid."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "בְּהִתְעַטֵּף עָלַי רוּחִי וְאַתָּה יָדַעְתָּ נְתִיבָתִי בְּאֹרַח זוּ אֲהַלֵּךְ טָמְנוּ פַח לִי.",
+      "hebrew": "בְּהִתְעַטֵּף עָלַי רוּחִי וְאַתָּה יָדַֽעְתָּ נְתִיבָתִי בְּאֹֽרַח זוּ אֲהַלֵּךְ טָמְנוּ פַח לִי.",
+      "previousPhonetic": "Behit'atef 'alái rují veatá yada'ta netivatí beoraj zu ahalej tamnu faj li.",
+      "phonetic": "Behit'atef 'alái rují veAtá yada'ta netivatí beóraj zu ahalej tamnu faj li."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "הַבֵּיט יָמִין וּרְאֵה וְאֵין לִי מַכִּיר אָבַד מָנוֹס מִמֶּנִּי אֵין דּוֹרֵשׁ לְנַפְשִׁי.",
+      "hebrew": "הַבֵּיט יָמִין וּרְאֵה וְאֵין לִי מַכִּיר אָבַד מָנוֹס מִמֶּֽנִּי אֵין דּוֹרֵשׁ לְנַפְשִׁי.",
+      "previousPhonetic": "Habet yamín uré veén li makir avad manós mimeni en doresh lenafshí.",
+      "phonetic": "Habet yamín uré veén li makir avad manós mimeni en doresh lenafshí."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "זָעַקְתִּי אֵלֶיךָ יְהֹוָה אָמַרְתִּי אַתָּה מַחְסִי חֶלְקִי בְּאֶרֶץ הַחַיִּים.",
+      "hebrew": "זָעַֽקְתִּי אֵלֶֽיךָ יְהֹוָה אָמַֽרְתִּי אַתָּה מַחְסִי חֶלְקִי בְּאֶֽרֶץ הַחַיִּים.",
+      "previousPhonetic": "Za'akti eleja Ad-nai amarti atá majsí jelkí beerets hajayim.",
+      "phonetic": "Za'akti Eleja Ad-nai amarti Atá majsí jelkí beerets hajayim."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "הַקְשִׁיבָה אֶל רִנָּתִי כִּי דַלּוֹתִי מְאֹד הַצִּילֵנִי מֵרֹדְפַי כִּי אָמְצוּ מִמֶּנִּי.",
+      "hebrew": "הַקְשִֽׁיבָה אֶל רִנָּתִי כִּי דַלּֽוֹתִי מְאֹד הַצִּילֵֽנִי מֵרֹדְפַי כִּי אָמְצוּ מִמֶּֽנִּי.",
+      "previousPhonetic": "Hakshiva el rinatí ki daloti meod hatsileni merodfái ki amtsú mimeni.",
+      "phonetic": "Hakshiva el rinatí ki daloti meod hatsileni merodfái ki amtsú mimeni."
+    },
+    {
+      "verse": 8,
+      "previousHebrew": "הוֹצִיאָה מִמַּסְגֵּר נַפְשִׁי לְהוֹדוֹת אֶת שְׁמֶךָ בִּי יַכְתִּרוּ צַדִּיקִים כִּי תִגְמֹל עָלָי.",
+      "hebrew": "הוֹצִֽיאָה מִמַּסְגֵּר נַפְשִׁי לְהוֹדוֹת אֶת שְׁמֶֽךָ בִּי יַכְתִּֽרוּ צַדִּיקִים כִּי תִגְמֹל עָלָי.",
+      "previousPhonetic": "Hotsía mimasguer nafshí lehodot et shemeja bi yajtirú tsadikim ki tigmol 'alái.",
+      "phonetic": "Hotsía mimasguer nafshí lehodot et Shemeja bi yajtiru tsadikim ki tigmol 'alái."
+    }
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "source": {
+    "date": "2026-10-08",
+    "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+    "sha256": "dd23d2f784f4ae6f47130f597c4233ba299ad2f792227ecd1e98260ad69852dd",
+    "metegAdded": 27,
+    "scope": "Marcas de acento cotejadas con glifos del PDF y revisión visual ampliada. Wikisource conserva las consonantes y la escritura plena/defectiva. Se modificó el nikud solamente en los tres casos registrados. No se infiere acento final por ausencia de meteg; se mantiene el fallback salvo ocurrencias ya verificadas.",
+    "status": "Meteg incorporado; acento y mayúsculas revisados. Aprobación editorial final pendiente."
+  },
+  "metegOccurrences": [
+    {
+      "verse": 1,
+      "wordIndex": 0,
+      "letterIndex": 3,
+      "sourceWord": "לַמְנַצֵּֽחַ",
+      "baseWord": "לַמְנַצֵּחַ"
+    },
+    {
+      "verse": 3,
+      "wordIndex": 2,
+      "letterIndex": 1,
+      "sourceWord": "מִקֹּֽדֶשׁ",
+      "baseWord": "מִקֹּדֶשׁ"
+    },
+    {
+      "verse": 3,
+      "wordIndex": 4,
+      "letterIndex": 3,
+      "sourceWord": "יִסְעָדֶֽךָ",
+      "baseWord": "יִסְעָדֶךָּ."
+    },
+    {
+      "verse": 4,
+      "wordIndex": 2,
+      "letterIndex": 3,
+      "sourceWord": "מִנְחֹתֶֽיךָ",
+      "baseWord": "מִנְחֹתֶךָ"
+    },
+    {
+      "verse": 4,
+      "wordIndex": 5,
+      "letterIndex": 0,
+      "sourceWord": "סֶֽלָה",
+      "baseWord": "סֶלָה."
+    },
+    {
+      "verse": 5,
+      "wordIndex": 0,
+      "letterIndex": 0,
+      "sourceWord": "יִֽתֶּן",
+      "baseWord": "יִתֶּן"
+    },
+    {
+      "verse": 5,
+      "wordIndex": 2,
+      "letterIndex": 3,
+      "sourceWord": "כִלְבָבֶֽךָ",
+      "baseWord": "כִלְבָבֶךָ"
+    },
+    {
+      "verse": 6,
+      "wordIndex": 1,
+      "letterIndex": 5,
+      "sourceWord": "בִּישׁוּעָתֶֽךָ",
+      "baseWord": "בִּישׁוּעָתֶךָ"
+    },
+    {
+      "verse": 6,
+      "wordIndex": 3,
+      "letterIndex": 2,
+      "sourceWord": "אֱלֹהֵֽינוּ",
+      "baseWord": "אֱלֹהֵינוּ"
+    },
+    {
+      "verse": 6,
+      "wordIndex": 8,
+      "letterIndex": 5,
+      "sourceWord": "מִשְׁאֲלוֹתֶֽיךָ",
+      "baseWord": "מִשְׁאֲלוֹתֶיךָ."
+    },
+    {
+      "verse": 7,
+      "wordIndex": 1,
+      "letterIndex": 1,
+      "sourceWord": "יָדַֽעְתִּי",
+      "baseWord": "יָדַעְתִּי"
+    },
+    {
+      "verse": 7,
+      "wordIndex": 3,
+      "letterIndex": 2,
+      "sourceWord": "הוֹשִֽׁיעַ",
+      "baseWord": "הוֹשִׁיעַ"
+    },
+    {
+      "verse": 7,
+      "wordIndex": 6,
+      "letterIndex": 2,
+      "sourceWord": "יַעֲנֵֽהוּ",
+      "baseWord": "יַעֲנֵהוּ"
+    },
+    {
+      "verse": 7,
+      "wordIndex": 10,
+      "letterIndex": 0,
+      "sourceWord": "יֵֽשַׁע",
+      "baseWord": "יֵשַׁע"
+    },
+    {
+      "verse": 8,
+      "wordIndex": 0,
+      "letterIndex": 0,
+      "sourceWord": "אֵֽלֶּה",
+      "baseWord": "אֵלֶּה"
+    },
+    {
+      "verse": 8,
+      "wordIndex": 1,
+      "letterIndex": 1,
+      "sourceWord": "בָרֶֽכֶב",
+      "baseWord": "בָרֶכֶב"
+    },
+    {
+      "verse": 8,
+      "wordIndex": 2,
+      "letterIndex": 1,
+      "sourceWord": "וְאֵֽלֶּה",
+      "baseWord": "וְאֵלֶּה"
+    },
+    {
+      "verse": 8,
+      "wordIndex": 4,
+      "letterIndex": 2,
+      "sourceWord": "וַאֲנַֽחְנוּ",
+      "baseWord": "וַאֲנַחְנוּ"
+    },
+    {
+      "verse": 8,
+      "wordIndex": 7,
+      "letterIndex": 2,
+      "sourceWord": "אֱלֹהֵֽינוּ",
+      "baseWord": "אֱלֹהֵינוּ"
+    },
+    {
+      "verse": 9,
+      "wordIndex": 0,
+      "letterIndex": 0,
+      "sourceWord": "הֵֽמָּה",
+      "baseWord": "הֵמָּה"
+    },
+    {
+      "verse": 9,
+      "wordIndex": 2,
+      "letterIndex": 2,
+      "sourceWord": "וְנָפָֽלוּ",
+      "baseWord": "וְנָפָלוּ"
+    },
+    {
+      "verse": 9,
+      "wordIndex": 3,
+      "letterIndex": 2,
+      "sourceWord": "וַאֲנַֽחְנוּ",
+      "baseWord": "וַאֲנַחְנוּ"
+    },
+    {
+      "verse": 9,
+      "wordIndex": 4,
+      "letterIndex": 0,
+      "sourceWord": "קַֽמְנוּ",
+      "baseWord": "קַּמְנוּ"
+    },
+    {
+      "verse": 10,
+      "wordIndex": 1,
+      "letterIndex": 2,
+      "sourceWord": "הוֹשִֽׁיעָה",
+      "baseWord": "הוֹשִׁיעָה"
+    },
+    {
+      "verse": 10,
+      "wordIndex": 2,
+      "letterIndex": 1,
+      "sourceWord": "הַמֶּֽלֶךְ",
+      "baseWord": "הַמֶּלֶךְ"
+    },
+    {
+      "verse": 10,
+      "wordIndex": 3,
+      "letterIndex": 2,
+      "sourceWord": "יַעֲנֵֽנוּ",
+      "baseWord": "יַעֲנֵנוּ"
+    },
+    {
+      "verse": 10,
+      "wordIndex": 5,
+      "letterIndex": 2,
+      "sourceWord": "קָרְאֵֽנוּ",
+      "baseWord": "קׇרְאֵנוּ."
+    }
+  ],
+  "nikudChanges": [
+    {
+      "verse": 9,
+      "before": "קַּֽמְנוּ",
+      "after": "קַֽמְנוּ",
+      "evidence": "Se retira el dagesh de qof: no está en el PDF interlineal."
+    }
+  ],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+      "hebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
+      "previousPhonetic": "Lamnatséaj mizmor leDavid.",
+      "phonetic": "Lamnatséaj mizmor leDavid."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "יַעַנְךָ יְהֹוָה בְּיוֹם צָרָה יְשַׂגֶּבְךָ שֵׁם אֱלֹהֵי יַעֲקֹב.",
+      "hebrew": "יַעַנְךָ יְהֹוָה בְּיוֹם צָרָה יְשַׂגֶּבְךָ שֵׁם אֱלֹהֵי יַעֲקֹב.",
+      "previousPhonetic": "Ya'anjá Ad-nai beyom tsará yesagueveja Shem Elohé Ya'akov.",
+      "phonetic": "Ya'anjá Ad-nai beyom tsará yesagueveja Shem Elohé Ya'akov."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "יִשְׁלַח עֶזְרְךָ מִקֹּדֶשׁ וּמִצִּיּוֹן יִסְעָדֶךָּ.",
+      "hebrew": "יִשְׁלַח עֶזְרְךָ מִקֹּֽדֶשׁ וּמִצִּיּוֹן יִסְעָדֶֽךָּ.",
+      "previousPhonetic": "Yishlaj 'ezrejá mikódesh umitsiyón yis'adeka.",
+      "phonetic": "Yishlaj 'ezrejá mikódesh umitsiyón yis'adeka."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "יִזְכֹּר כׇּל מִנְחֹתֶךָ וְעוֹלָתְךָ יְדַשְּׁנֶה סֶלָה.",
+      "hebrew": "יִזְכֹּר כׇּל מִנְחֹתֶֽךָ וְעוֹלָתְךָ יְדַשְּׁנֶה סֶֽלָה.",
+      "previousPhonetic": "Yizkor kol minjoteja ve'olateja yedashené sela.",
+      "phonetic": "Yizkor kol minjoteja ve'olateja yedashené sela."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "יִתֶּן לְךָ כִלְבָבֶךָ וְכׇל עֲצָתְךָ יְמַלֵּא.",
+      "hebrew": "יִֽתֶּן לְךָ כִלְבָבֶֽךָ וְכׇל עֲצָתְךָ יְמַלֵּא.",
+      "previousPhonetic": "Yitén lejá jilvaveja vejol 'atsateja yemalé.",
+      "phonetic": "Yiten lejá jilvaveja vejol 'atsateja yemalé."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "נְרַנְּנָה בִּישׁוּעָתֶךָ וּבְשֵׁם אֱלֹהֵינוּ נִדְגֹּל יְמַלֵּא יְהֹוָה כׇּל מִשְׁאֲלוֹתֶיךָ.",
+      "hebrew": "נְרַנְּנָה בִּישׁוּעָתֶֽךָ וּבְשֵׁם אֱלֹהֵֽינוּ נִדְגֹּל יְמַלֵּא יְהֹוָה כׇּל מִשְׁאֲלוֹתֶֽיךָ.",
+      "previousPhonetic": "Neranená bishu'ateja uvshem Elohenu nidgol yemalé Ad-nai kol mishaloteja.",
+      "phonetic": "Neranená bishu'ateja uvshem Elohenu nidgol yemalé Ad-nai kol mishaloteja."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "עַתָּה יָדַעְתִּי כִּי הוֹשִׁיעַ יְהֹוָה מְשִׁיחוֹ יַעֲנֵהוּ מִשְּׁמֵי קׇדְשׁוֹ בִּגְבֻרוֹת יֵשַׁע יְמִינוֹ.",
+      "hebrew": "עַתָּה יָדַֽעְתִּי כִּי הוֹשִֽׁיעַ יְהֹוָה מְשִׁיחוֹ יַעֲנֵֽהוּ מִשְּׁמֵי קׇדְשׁוֹ בִּגְבֻרוֹת יֵֽשַׁע יְמִינוֹ.",
+      "previousPhonetic": "'Atá yada'ti ki hoshía' Ad-nai meshijó ya'anehu mishmé kodshó bigvurot yesha' yeminó.",
+      "phonetic": "'Atá yada'ti ki hoshía' Ad-nai Meshijó ya'anehu mishemé Kodshó bigvurot yesha' Yeminó."
+    },
+    {
+      "verse": 8,
+      "previousHebrew": "אֵלֶּה בָרֶכֶב וְאֵלֶּה בַסּוּסִים וַאֲנַחְנוּ בְּשֵׁם יְהֹוָה אֱלֹהֵינוּ נַזְכִּיר.",
+      "hebrew": "אֵֽלֶּה בָרֶֽכֶב וְאֵֽלֶּה בַסּוּסִים וַאֲנַֽחְנוּ בְּשֵׁם יְהֹוָה אֱלֹהֵֽינוּ נַזְכִּיר.",
+      "previousPhonetic": "Ele varéjev veele vasusim vaanajnu beshem Ad-nai Elohenu nazkir.",
+      "phonetic": "Ele varéjev veele vasusim vaanajnu beshem Ad-nai Elohenu nazkir."
+    },
+    {
+      "verse": 9,
+      "previousHebrew": "הֵמָּה כָּרְעוּ וְנָפָלוּ וַאֲנַחְנוּ קַּמְנוּ וַנִּתְעוֹדָד.",
+      "hebrew": "הֵֽמָּה כָּרְעוּ וְנָפָֽלוּ וַאֲנַֽחְנוּ קַֽמְנוּ וַנִּתְעוֹדָד.",
+      "previousPhonetic": "Hema kar'ú venafalú vaanajnu kamnu vanit'odad.",
+      "phonetic": "Hema kar'ú venafalu vaanajnu kamnu vanit'odad."
+    },
+    {
+      "verse": 10,
+      "previousHebrew": "יְהֹוָה הוֹשִׁיעָה הַמֶּלֶךְ יַעֲנֵנוּ בְיוֹם קׇרְאֵנוּ.",
+      "hebrew": "יְהֹוָה הוֹשִֽׁיעָה הַמֶּֽלֶךְ יַעֲנֵֽנוּ בְיוֹם קׇרְאֵֽנוּ.",
+      "previousPhonetic": "Ad-nai hoshi'a haMélej ya'anenu veyom korenu.",
+      "phonetic": "Ad-nai hoshi'a haMélej ya'anenu veyom korenu."
+    }
+  ]
+}

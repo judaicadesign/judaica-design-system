@@ -25,3 +25,4 @@ Se retiró el dagesh erróneo añadido a la bet de בְמַעְגְּלֵי. La 
 
 Motor 2026-10-08: los 21 pesukim cotejados de 23, 126 y 137 coinciden con los masters. Las pruebas pasan también para las grafías explícitas del Nombre usadas en el birkón. La coincidencia no aprueba automáticamente el resto del corpus.
 
+2026-10-08: revisión de los 10 salmos recibidos: 97 pesukim, 163 meteg, 3 cambios de nikud documentados. Ver REVISION_10_SALMOS.html y ARTSCROLL_NNN_REVISION.json. Aprobación editorial final pendiente.
