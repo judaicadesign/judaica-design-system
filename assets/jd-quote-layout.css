@@ -9,7 +9,7 @@
 .jd-master-sheet .jd-doc-title span{color:#ab9373!important}
 .jd-master-sheet .jd-client-meta{display:grid!important;grid-template-columns:1fr calc(76 * var(--u))!important;gap:calc(9 * var(--u))!important;align-items:start!important;text-align:left!important;margin-top:calc(16 * var(--u))!important;min-width:0!important}
 .jd-master-sheet .jd-client-meta>div{border-left:1px solid #8f7859!important;padding-left:calc(6 * var(--u))!important;min-width:0!important}
-.jd-master-sheet .jd-client-meta small{display:block!important;font-size:calc(7 * var(--u))!important;font-family:"aktiv-grotesk-ex-hebrew",Arial,sans-serif!important;font-weight:800!important;letter-spacing:.1em!important;color:#111!important;margin:0 0 calc(3 * var(--u))!important}
+.jd-master-sheet .jd-client-meta small{display:block!important;font-size:calc(7 * var(--u))!important;font-family:"aktiv-grotesk-ex-hebrew",Arial,sans-serif!important;font-weight:700!important;letter-spacing:.1em!important;color:#111!important;margin:0 0 calc(3 * var(--u))!important}
 .jd-master-sheet .jd-client-meta b{display:block!important;font-size:calc(9.6 * var(--u))!important;font-weight:400!important;line-height:1.3!important;overflow-wrap:anywhere!important;color:#111!important}
 .jd-master-sheet .jd-pdf-bodytop{display:grid!important;grid-template-columns:minmax(0,2.05fr) minmax(0,1fr)!important;gap:calc(10 * var(--u))!important;height:100%!important;min-height:0!important;align-items:end!important;margin:0!important}
 .jd-master-sheet .jd-master-left{height:100%!important;min-height:0!important;display:grid!important;grid-template-rows:minmax(0,1fr) auto!important}

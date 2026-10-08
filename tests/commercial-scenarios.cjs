@@ -20,7 +20,7 @@ async function boot(rows=fixture(),fetchResult){
  const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
  const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'https://example.test/',runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc});
  const w=dom.window;
- w.Headers=Headers;w.Request=Request;w.Response=Response;w.structuredClone=structuredClone;w.scrollTo=()=>{};w.alert=message=>alerts.push(message);w.confirm=()=>true;
+ w.Headers=Headers;w.Request=Request;w.Response=Response;w.structuredClone=structuredClone;w.scrollTo=()=>{};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};w.alert=message=>alerts.push(message);w.confirm=()=>true;
  w.fetch=async()=>fetchResult||{ok:false,status:503,json:async()=>({ok:false,error:'Proveedor sin conexión'}),text:async()=>''};
  const session=()=>({data:{session:expired?null:{access_token:'fixture-only'}}});
  const client={auth:{getSession:async()=>session(),getUser:async()=>({data:{user:{email:'qa@example.test'}}}),onAuthStateChange:()=>{},signOut:async()=>({})},storage:{from:()=>({createSignedUrl:async()=>({data:{signedUrl:'https://example.test/fixture.pdf'}})})},from:table=>({
@@ -37,9 +37,9 @@ async function boot(rows=fixture(),fetchResult){
    return {data:updates,error:null};
  };
  w.supabase={createClient:()=>client};
- w.jdNativeQuote={version:'20261008-master-v4'};
+ w.jdNativeQuote={version:'20261008-master-v5'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
- for(const file of ['jd-ui.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
@@ -258,14 +258,15 @@ async function scenarios(){
  console.log('race between read and commit rejects entire quote/client batch passed');
  const shareRows=fixture();shareRows.find(r=>r.key==='jd_clients').value[0].phone='5491100000000';
  const share=await boot(shareRows,{ok:true,status:200});share.w.document.getElementById('qClient').value='Ána Prueba';
- const draft={location:'',close(){}};share.w.open=()=>draft;
+ const draft={location:'',close(){}};share.w.open=href=>{draft.location=href;return draft};let downloads=0;share.w.HTMLAnchorElement.prototype.click=function(){downloads++};
  share.w.html2canvas=async()=>({width:794,height:1000,toDataURL:()=> 'data:image/jpeg;base64,AA=='});
  share.w.jspdf={jsPDF:class{addImage(){}output(){return new share.w.Blob(['fixture'])}}};
  await share.w.jdSendCurrentQuoteWhatsApp();await sleep(100);
- assert.match(draft.location,/^https:\/\/wa.me\//);assert.equal(share.get('jd_saved_quotes_v6')[0].status,'Preparado para compartir');
+ assert.equal(draft.location,'','preparing the file does not launch a draft');share.w.document.querySelector('[data-wa-file]').click();assert.equal(downloads,1);assert.match(draft.location,/^https:\/\/wa.me\//);assert.doesNotMatch(decodeURIComponent(draft.location.split('?text=')[1]),/https?:|supabase|token=/);assert.equal(share.get('jd_saved_quotes_v6')[0].status,'Preparado para compartir');
  assert.ok(share.get('jd_saved_quotes_v6')[0].pdfSnapshot);assert.notEqual(share.get('jd_clients')[0].status,'Presupuesto enviado');
  share.w.jdRenderSavedQuotes();await sleep(30);await share.w.document.querySelector('[data-confirm-sent]').onclick();
  assert.equal(share.get('jd_saved_quotes_v6')[0].status,'Presupuesto enviado');assert.ok(share.get('jd_saved_quotes_v6')[0].sentConfirmedAt);
+ let payload;Object.defineProperty(share.w.navigator,'canShare',{configurable:true,value:data=>data.files[0].type==='application/pdf'});Object.defineProperty(share.w.navigator,'share',{configurable:true,value:async data=>{payload=data}});await share.w.jdSendCurrentQuoteWhatsApp();assert.ok(!payload,'sharing awaits a fresh user click');await share.w.document.querySelector('[data-share-file]').onclick();assert.equal(payload.files[0].type,'application/pdf');assert.match(payload.files[0].name,/Ána Prueba.*pdf$/);assert.ok(payload.files[0].size>0);assert.equal(payload.url,undefined);assert.doesNotMatch(payload.text,/https?:|supabase|token=/);assert.equal(share.get('jd_saved_quotes_v6')[0].status,'Preparado para compartir');share.w.navigator.share=async()=>{throw Object.assign(new Error('cancelled'),{name:'AbortError'})};await share.w.document.querySelector('[data-share-file]').onclick();assert.equal(share.w.document.querySelector('[data-share-file]').disabled,false);
  share.close();console.log('WhatsApp draft is not sent, PDF snapshot and explicit sent confirmation passed');
  const orgApp=await boot();orgApp.w.jdRenderClients();orgApp.w.document.getElementById('jdNewClient').click();
  orgApp.w.document.getElementById('crmOrg').value='Institución sin contacto';await orgApp.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
@@ -338,7 +339,7 @@ async function scenarios(){
  app.w.URL.createObjectURL=()=> 'blob:fixture';app.w.URL.revokeObjectURL=()=>{};
  await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);
 app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
- app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261008-master-v4';
+ app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261008-master-v5';
  console.log('complete semantic A4 sheet reaches native renderer without raster capture passed');
  app.w.jdOpenOrder(quote.id);
  field('jdOrderQty','2');field('jdOrderPaid','99999999');

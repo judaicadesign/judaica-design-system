@@ -12,7 +12,7 @@
  async function loadFonts(){
   if(fontPromise)return fontPromise;
   fontPromise=(async()=>{
-   const css=await (await request('https://use.typekit.net/ydp7axr.css')).text(),faces=[...css.matchAll(/@font-face\s*\{([^}]+)\}/g)].map(m=>m[1]);
+   const css=await (await request('https://use.typekit.net/ydp7axr.css?v=20261008-bold')).text(),faces=[...css.matchAll(/@font-face\s*\{([^}]+)\}/g)].map(m=>m[1]);
    const requests=[['text','aktiv-grotesk-hebrew',400],['medium','aktiv-grotesk-hebrew',500],['bold','aktiv-grotesk-hebrew',700],['wide','aktiv-grotesk-ex-hebrew',500],['label','aktiv-grotesk-ex-hebrew',800],['metaBold','aktiv-grotesk-ex-hebrew',700],['cond','aktiv-grotesk-cd-hebrew',300],['condMedium','aktiv-grotesk-cd-hebrew',500]];
    const result=await Promise.all(requests.map(async([key,family,weight])=>{
     const face=faces.find(s=>s.includes('font-family:"'+family+'"')&&s.includes('font-weight:'+weight)&&s.includes('font-style:normal'));
@@ -119,7 +119,7 @@
  function drawCard(pdf,m){const l=cardLayout(pdf,m);pdf.setFillColor(colors.card);pdf.setDrawColor(colors.gold);pdf.setLineWidth(.25);pdf.roundedRect(387.874,l.top,173.386,l.height,11,11,'FD');text(pdf,'DETALLES DEL PRODUCTO',398.815,l.top+20,7.5,'wide',colors.gold,100);let y=l.top+l.header;
   for(const s of l.specs){drawSpecIcon(pdf,s.icon,415.85,y+11.95);text(pdf,s.title.toUpperCase(),436.134,y+7.836,6,'medium',colors.gold,80);s.lines.forEach((line,i)=>text(pdf,line,436.134,y+20.836+i*13,8.75,'medium'));y+=s.height;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
   if(l.tech.length){drawSpecIcon(pdf,'assets/quote-icons/13_engranaje.svg',415.85,y+11.95);text(pdf,'DETALLES TÉCNICOS',436.134,y+7.836,6,'medium',colors.gold,80);l.tech.forEach((runs,i)=>{let x=436.134;for(const run of runs){text(pdf,run.text,x,y+18.671+i*8,6,run.font);x+=width(pdf,run.text,6,run.font)}});y+=l.techHeight;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
-  for(let index=0;index<l.prices.length;index++){const p=l.prices[index];if(index)rule(pdf,396.85,y-5,552.755,y-5,.25);text(pdf,p.qty,399.543,y+p.totalOffset,7.5,'text',colors.gold);p.notes.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,6),y+p.noteStart+i*p.noteLeading,6,'text',colors.gold));p.lines.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,11,'bold'),y+p.totalOffset+i*14,11,'bold',colors.teal));y+=p.height}
+  let previousPriceBottom=null;for(let index=0;index<l.prices.length;index++){const p=l.prices[index];if(index){const nextTextTop=y+(p.notes.length?p.noteStart-6:p.totalOffset-11),separator=(previousPriceBottom+nextTextTop)/2;rule(pdf,396.85,separator,552.755,separator,.25);}text(pdf,p.qty,399.543,y+p.totalOffset,7.5,'text',colors.gold);p.notes.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,6),y+p.noteStart+i*p.noteLeading,6,'text',colors.gold));p.lines.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,11,'bold'),y+p.totalOffset+i*14,11,'bold',colors.teal));previousPriceBottom=y+p.totalOffset+(p.lines.length-1)*14+3;y+=p.height}
   const noteTop=l.top+l.height-16-(l.note.length-1)*7;l.note.forEach((line,i)=>text(pdf,line,399.543,noteTop+i*7,5.5,'text',colors.gold));
  }
  const family={JDText:['aktiv-grotesk-hebrew',400],JDMedium:['aktiv-grotesk-hebrew',500],JDBold:['aktiv-grotesk-hebrew',700],JDWide:['aktiv-grotesk-ex-hebrew',500],JDLabel:['aktiv-grotesk-ex-hebrew',800],JDMetaBold:['aktiv-grotesk-ex-hebrew',800],JDCond:['aktiv-grotesk-cd-hebrew',300],JDCondMedium:['aktiv-grotesk-cd-hebrew',500],JDTitle:['Libre Caslon Condensed',500]};
@@ -149,6 +149,6 @@
  root.jdQuotePreviewSVG=svgPreview;
 
  async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v4'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={version:'20261008-master-v4',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ root.jdNativeQuote={version:'20261008-master-v5',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);

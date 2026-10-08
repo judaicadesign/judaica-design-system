@@ -14,14 +14,15 @@
 <script src="assets/jd-asset-match.js?v=20261008-v3" defer></script>
 <script src="assets/jd-orders.js?v=20261008-alternatives" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
+<script src="assets/jd-quote-share.js?v=20261008-file-share" defer></script>
 <script src="assets/jd-price.js?v=20261008-rush" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
-<link rel="stylesheet" href="https://use.typekit.net/ydp7axr.css">
-<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v4">
+<link rel="stylesheet" href="https://use.typekit.net/ydp7axr.css?v=20261008-bold">
+<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v5">
 <script src="assets/jd-quote-hyphen.js?v=20261008-native" defer></script>
-<script src="assets/jd-quote-vectors.js?v=20261008-master-v4" defer></script>
-<script src="assets/jd-quote-native.js?v=20261008-master-v4" defer></script>
-<script src="assets/jd-quote-fit.js?v=20261008-master-v4" defer></script>
+<script src="assets/jd-quote-vectors.js?v=20261008-master-v5" defer></script>
+<script src="assets/jd-quote-native.js?v=20261008-master-v5" defer></script>
+<script src="assets/jd-quote-fit.js?v=20261008-master-v5" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
@@ -1846,7 +1847,7 @@ window.renderQuote=render6;
  }
  async function pdfBlob(){
    const el=document.getElementById('quotePreview');if(!el)throw Error('No se encontró la vista del presupuesto.');
-   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v4')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
+   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v5')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
    const sheets=[...el.querySelectorAll('.jd-pdf-sheet')];if(!sheets.length)throw Error('No hay páginas para exportar.');
    return await window.jdVectorQuotePdf(sheets);
  }
@@ -1884,12 +1885,8 @@ window.renderQuote=render6;
      document.body.appendChild(w);
      w.querySelector('#jdModalClose').onclick=()=>{URL.revokeObjectURL(url);w.remove()};
      w.querySelector('#jdModalSend').onclick=()=>window.jdSendCurrentQuoteWhatsApp?.();
-     const shareBtn=w.querySelector('#jdModalShare');
-     if(shareBtn){
-       if(navigator.share&&navigator.canShare){
-         shareBtn.onclick=async()=>{try{const file=new File([blob],fileName(q),{type:'application/pdf'});if(navigator.canShare({files:[file]}))await navigator.share({files:[file],title:'Presupuesto Judaica Design'});else window.open(url,'_blank')}catch(err){if(err?.name!=='AbortError')alert('No se pudo compartir el PDF. Podés abrirlo o descargarlo.')}};
-       }else shareBtn.style.display='none';
-     }
+     w.querySelector('#jdModalShare').onclick=()=>window.jdQuoteShare.share(blob,q,{fileName:fileName(q),getPhone:()=>getOrAskPhone(q)});
+
    }catch(e){alert(e.message||e)}
  }
  window.jdSendCurrentQuoteWhatsApp=async function(){
@@ -1897,12 +1894,10 @@ window.renderQuote=render6;
    if(!q.client){alert('Falta el nombre y apellido del cliente.');return}
    if(q.product==='Birkón · Librito'&&!q.pages){alert('No se puede enviar: esta combinación no tiene cantidad de páginas definida.');return}
    if(!q.quantities.length||q.quantities.some(x=>!x.price)){alert('No se puede enviar: hay una cantidad sin precio calculado. Revisá la variante y el costo de imprenta.');return}
-   const phone=getOrAskPhone(q); if(!phone)return;
-   // Open synchronously to avoid popup blockers while the PDF is generated.
-   const wa=window.open('about:blank','_blank');
+   if(window.jdPreparingFile)return;window.jdPreparingFile=true;
    try{
      const editing=window.jdQuoteEdit;
-     if(editing){q=await window.jdSaveQuote();if(!q){if(wa)wa.close();return}}
+     if(editing){q=await window.jdSaveQuote();if(!q)return}
      const blob=await pdfBlob();
      const url=await uploadPdf(blob,q);
      // Save quote if it is not already present with same client/product in the last minute.
@@ -1922,14 +1917,10 @@ window.renderQuote=render6;
      if(editing)window.jdQuoteEdit={id:q.id,baseline:window.jdQuoteEditTools.fingerprint(committed)};
      // Opening WhatsApp only prepares a draft; it is not evidence of delivery.
      window.jdUpsertClientFromQuote(q,false);
-     const first=q.client.split(/\s+/)[0]||q.client;
-     const msg='Hola '+first+', ¿cómo estás? Te envío el presupuesto de '+(q.alternatives?.length>1?'las '+q.alternatives.length+' alternativas solicitadas':q.product)+'.\n\n'+url+'\n\nCualquier duda, escribime.';
-     const href='https://wa.me/'+phone+'?text='+encodeURIComponent(msg);
-     if(wa)wa.location=href;else alert('El navegador bloqueó WhatsApp. El PDF quedó guardado; abrilo desde Presupuestos.');
+     window.jdQuoteShare.open(blob,q,{fileName:fileName(q),getPhone:()=>getOrAskPhone(q)});
    }catch(e){
-     if(wa)wa.close();
      alert(e.message||e);
-   }
+   }finally{window.jdPreparingFile=false}
  }
  window.addEventListener('jd-client-upserted',()=>{
    if(document.getElementById('clients')?.classList.contains('active')) location.hash=''; // harmless redraw trigger below
