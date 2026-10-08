@@ -8,11 +8,11 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/jd-base.css?v=20261007-pricing">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261008-masters-nav">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261008-alternatives">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-tehilim-export.js?v=20261008" defer></script>
 <script src="assets/jd-inflation.js?v=20261007" defer></script>
-<script src="assets/jd-orders.js?v=20261008-profit" defer></script>
+<script src="assets/jd-orders.js?v=20261008-alternatives" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-price.js?v=20261008-round-up" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
@@ -133,7 +133,7 @@ function go(id){
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
 function openModal(id){document.getElementById(id)?.classList.add('open')}
 function closeModal(id){document.getElementById(id)?.classList.remove('open')}
-function resetQuote(){window.jdQuoteParent=null;window.jdQuoteEdit=null;window.jdManualPrices={};window.jdDrawQuoteQuantities?.();window.renderQuote?.();document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
+function resetQuote(){window.jdResetAlternatives?.();window.jdQuoteParent=null;window.jdQuoteEdit=null;window.jdManualPrices={};window.jdDrawQuoteQuantities?.();window.renderQuote?.();document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
 </script>
 
 
@@ -220,6 +220,7 @@ function drawDeletedQuotesV6(){
  sq.querySelectorAll('[data-restore-qid]').forEach(b=>b.onclick=()=>moveSavedQuoteV6(b.dataset.restoreQid,true,b));
 }
 function quoteQtyText(q){
+ if(q.alternatives?.length>1)return q.alternatives.map((a,i)=>'<div class="small"><b>Alternativa '+(i+1)+' · '+esc3([a.product,a.model,a.texts].filter(Boolean).join(' · '))+'</b>'+quoteQtyText(a)+'</div>').join('');
  return '<div class="jd-quote-amounts">'+((q.quantities||[]).map(x=>'<div class="jd-quote-amount"><span>'+esc3(x.qty)+' u.</span><b>'+(x.price?'$ '+Number(x.price).toLocaleString('es-AR'):'A cotizar')+'</b></div>').join('')||'—')+'</div>';
 }
 function drawSavedQuotesV6(clientFilter){
@@ -309,6 +310,7 @@ function loadSavedQuoteV6(id,preservePrices=false){
  set('qDiscount',q.discount||0,false);set('qDiscountWhy',q.discountWhy||'',false);set('qInternal',q.internal||'',false);
  window.jdManualPrices=preservePrices?Object.fromEntries((q.quantities||[]).filter(x=>Number.isFinite(Number(x.price))&&Number(x.price)>0).map(x=>[x.qty,String(x.priceBeforeDiscount??(Number(x.price)+Number(q.discount||0)))])):{};
  window.jdDrawQuoteQuantities?.();
+ window.jdLoadAlternatives?.(q,preservePrices);
  if(window.renderQuote)window.renderQuote();
 }
 window.jdRenderSavedQuotes=drawSavedQuotesV6;
@@ -1495,7 +1497,7 @@ function buildQuote(){
  if(!qs)return;
  const prevProd=document.getElementById('qProduct')?.value||catalog[0].name;
  qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn" id="previewPdf6">Vista previa PDF</button> <button class="btn primary" id="sendWa6">Enviar por WhatsApp</button></div></div>'+
- '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" placeholder="Nombre y apellido" autocomplete="name"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
+ '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div id="jdAlternatives"></div><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" placeholder="Nombre y apellido" autocomplete="name"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
  qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
  qDiscount.min='0';qDiscount.step='0.01';qDiscount.previousElementSibling.textContent='Descuento ($)';qDiscount.insertAdjacentHTML('afterend','<small class="muted">Se resta una vez al total de cada cantidad cotizada. Para subir un precio, usá el precio manual.</small>');
  window.qs6=GET('jd_quote_qtys_v6',[60,100]);
@@ -1647,8 +1649,83 @@ function render6(){
  ((()=>{const content=jdQuoteContent(p,v);return content.length?'<div class="jd-content-box"><h4>Contenido'+(p.models.length?' '+E(qModel.value):'')+'</h4><div class="index-list">'+content.map(x=>'• '+E(x)).join('<br>')+'</div></div>':''})())+
  legalBlock+
  '</div>';
+ presentAlternatives();
 }
+// Each alternative owns its configuration/prices; shared client and dates stay in the form.
+let alternatives=[],activeAlternative=0,restoringAlternative=false;
+const alternativeFields=['qProduct','qModel','qLang','qNusaj','qSize','qBind','qDiscount','qDiscountWhy','qInternal'];
+function alternativeState(){return {fields:Object.fromEntries(alternativeFields.map(id=>[id,document.getElementById(id)?.value||''])),quantities:[...window.qs6],manualPrices:{...window.jdManualPrices}}}
+function applyAlternative(state){
+ restoringAlternative=true;
+ try{
+   for(const id of alternativeFields){const el=document.getElementById(id);if(!el)continue;const value=state.fields[id]??'';
+     if(el.tagName==='SELECT'&&!value&&![...el.options].some(o=>o.value===value))continue;
+     if(el.tagName==='SELECT'&&![...el.options].some(o=>o.value===value))throw Error('La configuración guardada ya no está disponible: '+value+'. Revisá el catálogo.');
+     el.value=value;if(el.tagName==='SELECT')el.dispatchEvent(new Event('change',{bubbles:true}));
+   }
+   window.qs6=[...state.quantities];window.jdManualPrices={...state.manualPrices};drawQty6();render6();
+ }finally{restoringAlternative=false}
+}
+function captureAlternative(){
+ const quote=collectSingleQuote6();
+ alternatives[activeAlternative]={state:alternativeState(),quote,html:quotePreview.querySelector('[data-alternative="'+activeAlternative+'"]')?.outerHTML||quotePreview.querySelector('.jd-pdf-sheet')?.outerHTML||''};
+ return quote;
+}
+function presentAlternatives(){
+ if(restoringAlternative)return;
+ const box=document.getElementById('jdAlternatives');if(!box)return;
+ const count=Math.max(1,alternatives.length);
+ box.innerHTML='<div class="jd-alternative-heading"><b>Productos / alternativas</b><button type="button" class="btn sm" id="jdAddAlternative">+ Agregar producto / alternativa</button></div><p class="small muted">Una página por alternativa. El cliente elige una; los precios no se suman.</p><div class="jd-alternative-tabs">'+Array.from({length:count},(_,i)=>'<button type="button" class="btn sm '+(i===activeAlternative?'primary':'')+'" data-alternative="'+i+'" aria-pressed="'+(i===activeAlternative)+'">Alternativa '+(i+1)+'</button>').join('')+(count>1?'<button type="button" class="btn sm" id="jdRemoveAlternative">Quitar esta alternativa</button>':'')+'</div>';
+ box.querySelector('#jdAddAlternative').onclick=()=>{
+   try{captureAlternative();const duplicate={state:structuredClone(alternatives[activeAlternative].state)};alternatives.push(duplicate);activeAlternative=alternatives.length-1;render6();}
+   catch(error){alert('Completá esta alternativa antes de agregar otra: '+error.message)}
+ };
+ box.querySelectorAll('[data-alternative]').forEach(button=>button.onclick=()=>{
+   const next=Number(button.dataset.alternative);if(next===activeAlternative)return;
+   try{captureAlternative();const previous=activeAlternative;activeAlternative=next;try{applyAlternative(alternatives[next].state)}catch(error){activeAlternative=previous;applyAlternative(alternatives[previous].state);throw error}render6();}
+   catch(error){alert(error.message)}
+ });
+ const remove=box.querySelector('#jdRemoveAlternative');if(remove)remove.onclick=()=>{
+   if(!confirm('¿Quitar esta alternativa del presupuesto en edición? Los presupuestos ya guardados se conservan hasta guardar los cambios.'))return;
+   alternatives.splice(activeAlternative,1);activeAlternative=Math.min(activeAlternative,alternatives.length-1);applyAlternative(alternatives[activeAlternative].state);render6();
+ };
+ if(count>1){
+   const current=quotePreview.querySelector('.jd-pdf-sheet')?.outerHTML||'';
+   if(alternatives[activeAlternative])alternatives[activeAlternative].html=current;
+   quotePreview.innerHTML=alternatives.map((a,i)=>{
+     const holder=document.createElement('div');holder.innerHTML=i===activeAlternative?current:a.html;
+     const sheet=holder.querySelector('.jd-pdf-sheet');if(!sheet)return '';
+     sheet.dataset.alternative=String(i);const overline=sheet.querySelector('.jd-overline');if(overline)overline.textContent='PRESUPUESTO · ALTERNATIVA '+(i+1)+' DE '+count;
+     const name=sheet.querySelector('.jd-client-meta b');if(name)name.textContent=qClient.value||'—';
+     const dates=sheet.querySelectorAll('.jd-client-meta b');if(dates[1])dates[1].textContent=window.jdLegalDates.display(window.jdLegalDates.today());
+     return sheet.outerHTML;
+   }).join('');
+ }
+}
+window.jdResetAlternatives=()=>{alternatives=[];activeAlternative=0};
+window.jdLoadAlternatives=(quote,preservePrices)=>{
+ alternatives=[];activeAlternative=0;
+ if(!quote.alternatives?.length)return;
+ const shared={client:qClient.value,event:qEvent.value,deadline:qDeadline.value};
+ try{
+   alternatives=quote.alternatives.map(a=>({quote:structuredClone(a),state:{fields:{qProduct:a.product,qModel:a.model||'',qLang:a.texts||'',qNusaj:a.nusaj||'',qSize:a.size||'',qBind:a.binding||'',qDiscount:String(a.discount||0),qDiscountWhy:a.discountWhy||'',qInternal:a.internal||''},quantities:a.quantities.map(q=>q.qty),manualPrices:preservePrices?Object.fromEntries(a.quantities.map(q=>[q.qty,String(q.priceBeforeDiscount??(q.price+Number(a.discount||0)))])):{}}}));
+   for(let i=0;i<alternatives.length;i++){activeAlternative=i;applyAlternative(alternatives[i].state);alternatives[i].html=quotePreview.querySelector('.jd-pdf-sheet')?.outerHTML||'';}
+   activeAlternative=0;applyAlternative(alternatives[0].state);
+ }catch(error){alert(error.message)}
+ qClient.value=shared.client;qEvent.value=shared.event;qDeadline.value=shared.deadline;
+};
 function collectQuote6(){
+ const current=captureAlternative();
+ if(alternatives.length<=1){if(window.jdQuoteEdit)current.alternatives=[];return current;}
+ const shared={client:current.client,event:current.event,deadline:current.deadline,issuedDate:current.issuedDate,created:current.created};
+ const quotes=alternatives.map((a,i)=>{
+   if(!a.quote)throw Error('Completá la alternativa '+(i+1));
+   const q={...structuredClone(a.quote),...shared};delete q.alternatives;return q;
+ });
+ const first=quotes[0];
+ return {...first,id:current.id,quoteFamily:current.quoteFamily,revision:current.revision,parentQuoteId:current.parentQuoteId,alternatives:quotes};
+}
+function collectSingleQuote6(){
  if(!window.qs6.length||window.qs6.some(q=>!Number.isSafeInteger(Number(q))||Number(q)<=0)||new Set(window.qs6.map(Number)).size!==window.qs6.length)throw new Error('Revisá las cantidades: deben ser enteros positivos y no repetirse.');
  const rawDiscount=Number(qDiscount.value||0);
  if(!Number.isFinite(rawDiscount)||rawDiscount<0)throw new Error('El descuento debe ser un importe válido, mayor o igual a cero.');
@@ -1771,32 +1848,23 @@ window.renderQuote=render6;
  }
  async function pdfBlob(){
    const el=document.getElementById('quotePreview');
-   if(!el)throw new Error('No se encontró la vista del presupuesto.');
-   if(!window.html2canvas||!window.jspdf?.jsPDF)throw new Error('No se pudo cargar el generador PDF. Recargá la página.');
+   if(!el)throw Error('No se encontró la vista del presupuesto.');
+   if(!window.html2canvas||!window.jspdf?.jsPDF)throw Error('No se pudo cargar el generador PDF. Recargá la página.');
    await document.fonts?.ready;
-   // En iPhone/iPad evitamos capturar la versión responsive angosta: se clona
-   // el presupuesto a ancho A4/desktop y se limita la escala para no agotar memoria.
    const mobile=/iPhone|iPad|iPod/i.test(navigator.userAgent)||window.innerWidth<700;
-   const source=el.cloneNode(true);
-   source.id='jdPdfCapture';
-   source.style.cssText='position:fixed;left:-10000px;top:0;width:794px;max-width:none;overflow:visible;z-index:-1;background:#f7f2e8;padding:26px';
-   document.body.appendChild(source);
-   const target=source;
-   let canvas;
-   try{
-     canvas=await html2canvas(target,{scale:mobile?1.35:2,useCORS:true,allowTaint:false,backgroundColor:'#f7f2e8',logging:false,windowWidth:900});
-   }finally{
-     if(source.isConnected)source.remove();
+   const sheets=[...el.querySelectorAll('.jd-pdf-sheet')];
+   if(!sheets.length)throw Error('No hay páginas para exportar.');
+   const pdf=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
+   for(let i=0;i<sheets.length;i++){
+     const source=el.cloneNode(false);source.id='jdPdfCapture';source.appendChild(sheets[i].cloneNode(true));
+     source.style.cssText='position:fixed;left:-10000px;top:0;width:794px;max-width:none;overflow:visible;z-index:-1;background:#f7f2e8;padding:26px';
+     document.body.appendChild(source);
+     let canvas;try{canvas=await html2canvas(source,{scale:mobile?1.35:2,useCORS:true,allowTaint:false,backgroundColor:'#f7f2e8',logging:false,windowWidth:900})}finally{source.remove()}
+     if(!(canvas.width>0&&canvas.height>0))throw Error('No se pudo capturar la alternativa '+(i+1));
+     if(i)pdf.addPage('a4','portrait');
+     const ratio=Math.min(198/canvas.width,285/canvas.height),iw=canvas.width*ratio,ih=canvas.height*ratio;
+     pdf.addImage(canvas.toDataURL('image/jpeg',mobile?0.90:0.96),'JPEG',(210-iw)/2,6,iw,ih,undefined,'FAST');
    }
-   const img=canvas.toDataURL('image/jpeg',mobile?0.90:0.96);
-   const {jsPDF}=window.jspdf;
-   const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
-   // Fit the entire document on exactly one A4; never crop or split clauses.
-   if(!(canvas.width>0&&canvas.height>0))throw new Error('No se pudo capturar el presupuesto.');
-   const pw=210,ph=297,pad=6;
-   const ratio=Math.min((pw-pad*2)/canvas.width,(ph-pad*2)/canvas.height);
-   const iw=canvas.width*ratio,ih=canvas.height*ratio;
-   pdf.addImage(img,'JPEG',(pw-iw)/2,pad,iw,ih,undefined,'FAST');
    return pdf.output('blob');
  }
  function fileName(q){
@@ -1854,7 +1922,7 @@ window.renderQuote=render6;
      const blob=await pdfBlob();
      const url=await uploadPdf(blob,q);
      // Save quote if it is not already present with same client/product in the last minute.
-     const fingerprint=x=>JSON.stringify([x.product,x.model,x.nusaj,x.texts,x.size,x.binding,x.pages,x.quantities.map(y=>[y.qty,y.price]),x.discount||0]);
+     const fingerprint=x=>JSON.stringify([x.product,x.model,x.nusaj,x.texts,x.size,x.binding,x.pages,x.quantities.map(y=>[y.qty,y.price]),x.discount||0,x.alternatives||[]]);
      let committed;
      await window.jdUpdateSharedState(['jd_saved_quotes_v6'],state=>{
        if(!Array.isArray(state.jd_saved_quotes_v6))throw new Error('No se pudieron verificar los presupuestos.');
@@ -1871,7 +1939,7 @@ window.renderQuote=render6;
      // Opening WhatsApp only prepares a draft; it is not evidence of delivery.
      window.jdUpsertClientFromQuote(q,false);
      const first=q.client.split(/\s+/)[0]||q.client;
-     const msg='Hola '+first+', ¿cómo estás? Te envío el presupuesto de '+q.product+'.\n\n'+url+'\n\nCualquier duda, escribime.';
+     const msg='Hola '+first+', ¿cómo estás? Te envío el presupuesto de '+(q.alternatives?.length>1?'las '+q.alternatives.length+' alternativas solicitadas':q.product)+'.\n\n'+url+'\n\nCualquier duda, escribime.';
      const href='https://wa.me/'+phone+'?text='+encodeURIComponent(msg);
      if(wa)wa.location=href;else alert('El navegador bloqueó WhatsApp. El PDF quedó guardado; abrilo desde Presupuestos.');
    }catch(e){
@@ -2372,3 +2440,5 @@ window.renderQuote=render6;
 </script>
 </body>
 </html>
+
+

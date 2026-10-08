@@ -10,13 +10,14 @@
     const quote=read('jd_saved_quotes_v6').find(q=>q.id===quoteId);
     if(!quote)return;
     const existing=read(KEY).find(o=>o.quoteId===quoteId);
-    const quantities=(existing?[existing.quantity]:quote.quantities||[]).filter(q=>Number.isSafeInteger(Number(q.qty))&&q.qty>0&&Number.isFinite(Number(q.price))&&q.price>0);
+    const alternatives=quote.alternatives?.length?quote.alternatives:[quote];
+    const quantities=(existing?[existing.quantity]:alternatives.flatMap((a,i)=>(a.quantities||[]).map(q=>({...q,alternativeIndex:i,alternativeLabel:alternatives.length>1?'Alternativa '+(i+1)+' · '+[a.product,a.model,a.texts].filter(Boolean).join(' · '):''})))).filter(q=>Number.isSafeInteger(Number(q.qty))&&q.qty>0&&Number.isFinite(Number(q.price))&&q.price>0);
     if(!quantities.length){alert('Este presupuesto no tiene cantidades válidas.');return}
     const original=existing?JSON.stringify(existing):null;
     const client=read('jd_clients').find(c=>c.name===quote.client);
     const panel=document.createElement('div');panel.className='jd-crm-modal';
     panel.innerHTML='<div class="jd-crm-card"><div class="jd-crm-head"><div><div class="eyebrow">PEDIDO</div><h2>'+esc(quote.client)+'</h2><p>'+esc(quote.product)+'</p></div><button class="btn" data-close>Cerrar</button></div><div class="jd-crm-panel"><div class="jd-crm-form">'+
-      '<div class="jd-crm-field"><label>Cantidad aceptada</label><select id="jdOrderQty" '+(existing?'disabled':'')+'>'+quantities.map((q,i)=>'<option value="'+i+'">'+q.qty+' u. · '+money(q.price)+'</option>').join('')+'</select></div>'+
+      '<div class="jd-crm-field"><label>Cantidad aceptada</label><select id="jdOrderQty" '+(existing?'disabled':'')+'>'+quantities.map((q,i)=>'<option value="'+i+'">'+esc(q.alternativeLabel?q.alternativeLabel+' · ':'')+q.qty+' u. · '+money(q.price)+'</option>').join('')+'</select></div>'+
       '<div class="jd-crm-field"><label>Estado del trabajo</label><select id="jdOrderStage">'+stages.map(s=>'<option '+(s===existing?.stage?'selected':'')+'>'+esc(s)+'</option>').join('')+'</select></div>'+
       '<div class="jd-crm-field"><label>Importe cobrado acumulado (seña + pagos)</label><input id="jdOrderPaid" inputmode="decimal" type="number" min="0" step="0.01" value="'+Number(existing?.paid||0)+'"></div>'+
       '<div class="jd-crm-field"><label>Entrega comprometida</label><input id="jdOrderDeadline" type="date" value="'+esc(existing?.deadline||quote.deadline||'')+'"></div>'+
@@ -35,7 +36,7 @@
       const stage=field('jdOrderStage').value,deadline=field('jdOrderDeadline').value;
       if(deadline&&!field('jdOrderDeadline').checkValidity()){alert('Revisá la fecha de entrega.');return}
       const at=new Date().toISOString();
-      const order={...existing,id:existing?.id||'order-'+crypto.randomUUID(),quoteId,client:quote.client,clientId:client?.id||null,product:quote.product,quantity:structuredClone(q),paid,balance:Math.round((q.price-paid)*100)/100,stage,deadline,address:field('jdOrderAddress').value.trim(),notes:field('jdOrderNotes').value.trim(),created:existing?.created||at,updatedAt:at,quoteSnapshot:existing?.quoteSnapshot||structuredClone(quote),history:[...(existing?.history||[]),{at,stage,paid}]};
+      const order={...existing,id:existing?.id||'order-'+crypto.randomUUID(),quoteId,client:quote.client,clientId:client?.id||null,product:existing?.product||alternatives[q.alternativeIndex||0].product,selectedAlternative:existing?.selectedAlternative||structuredClone(alternatives[q.alternativeIndex||0]),quantity:structuredClone(q),paid,balance:Math.round((q.price-paid)*100)/100,stage,deadline,address:field('jdOrderAddress').value.trim(),notes:field('jdOrderNotes').value.trim(),created:existing?.created||at,updatedAt:at,quoteSnapshot:existing?.quoteSnapshot||structuredClone(quote),history:[...(existing?.history||[]),{at,stage,paid}]};
       button.disabled=true;
       try{
         await window.jdUpdateSharedState([KEY],state=>{
@@ -87,3 +88,5 @@
   document.addEventListener('jd-app-ready',()=>{decorate();new MutationObserver(decorate).observe(document.querySelector('main')||document.body,{childList:true,subtree:true})});
   window.addEventListener('jd-shared-ready',decorate);
 })();
+
+

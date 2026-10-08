@@ -202,3 +202,11 @@
  .nav .jd-nav-group button{width:100%;min-height:40px;padding:8px 12px!important}
  .nav>button{width:100%;flex:none}
 }
+
+/* Independent alternatives in one quote. */
+#jdAlternatives{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:18px}
+.jd-alternative-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.jd-alternative-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+#quotePreview>.jd-pdf-sheet+ .jd-pdf-sheet{border-top:2px solid var(--accent2);margin-top:28px;padding-top:24px}
+
+

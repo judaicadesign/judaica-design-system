@@ -124,6 +124,30 @@ async function scenarios(){
  assert.match(legalEditor.w.document.getElementById('jdLegalMessage').textContent,/otro dispositivo/);
  assert.equal(legalEditor.get('jd_legal_sets_v1')[0].clauses[0][1],'Cambio en otro dispositivo');
  legalEditor.close();console.log('complete legal document, multiline text, atomic retry, Luaj preservation, current PDF and conflict passed');
+ {
+ const altRows=fixture();const altCatalog=altRows.find(r=>r.key==='jd_catalog_v6').value[0];
+ altCatalog.texts.push('Hebreo + español + fonética');altCatalog.variants.push({...structuredClone(altCatalog.variants[0]),id:'qa-three-languages',texts:'Hebreo + español + fonética',content:['Contenido trilingüe']});
+ const multi=await boot(altRows);multi.w.document.getElementById('qClient').value='Cliente alternativas';multi.w.qs6=[50];multi.w.jdDrawQuoteQuantities();multi.w.renderQuote();
+ const field=(id,value)=>{const el=multi.w.document.getElementById(id);el.value=value;el.dispatchEvent(new multi.w.Event(el.tagName==='SELECT'?'change':'input',{bubbles:true}));};
+ field('qManualPrice-0','260000');field('qDiscount','10000');
+ multi.w.document.getElementById('jdAddAlternative').click();assert.equal(multi.w.document.querySelectorAll('button[data-alternative]').length,2);
+ field('qLang','Hebreo + español + fonética');field('qManualPrice-0','400000');field('qDiscount','20000');
+ multi.w.document.querySelector('[data-alternative="0"]').click();assert.equal(multi.w.document.getElementById('qLang').value,'Hebreo solo');assert.equal(multi.w.document.getElementById('qManualPrice-0').value,'260000');
+ multi.w.document.querySelector('button[data-alternative="1"]').click();assert.equal(multi.w.document.getElementById('qManualPrice-0').value,'400000');
+ const grouped=await save(multi);assert.equal(grouped.alternatives.length,2);assert.deepEqual(Array.from(grouped.alternatives,a=>a.quantities[0].price),[250000,380000]);assert.equal(multi.get('jd_saved_quotes_v6').length,1);
+ assert.equal(multi.w.document.querySelectorAll('#quotePreview>.jd-pdf-sheet').length,2);assert.match(multi.w.document.querySelectorAll('#quotePreview>.jd-pdf-sheet')[0].textContent,/Hebreo solo.*250\.000/);assert.match(multi.w.document.querySelectorAll('#quotePreview>.jd-pdf-sheet')[1].textContent,/Hebreo \+ español \+ fonética.*380\.000/);
+ let pages=1,captures=0;multi.w.html2canvas=async target=>{assert.equal(target.querySelectorAll('.jd-pdf-sheet').length,1);assert.doesNotMatch(target.textContent,/Ganancia bruta|Antes de impuestos/);captures++;return {width:794,height:1123,toDataURL:()=> 'data:image/jpeg;base64,AA=='}};
+ multi.w.jspdf={jsPDF:class{addPage(){pages++}addImage(){}output(){return new multi.w.Blob(['mock-pdf'])}}};multi.w.URL.createObjectURL=()=> 'blob:fixture';multi.w.URL.revokeObjectURL=()=>{};
+ await multi.w.jdPreviewCurrentPDF();assert.equal(captures,2);assert.equal(pages,2);multi.w.document.querySelectorAll('.jd-pdf-modal').forEach(n=>n.remove());
+ multi.w.jdRenderSavedQuotes();multi.w.document.querySelector('[data-edit-qid]').click();assert.equal(multi.w.document.querySelectorAll('button[data-alternative]').length,2);assert.equal(multi.w.document.getElementById('qManualPrice-0').value,'260000');
+ multi.w.document.querySelector('button[data-alternative="1"]').click();assert.equal(multi.w.document.getElementById('qLang').value,'Hebreo + español + fonética');assert.equal(multi.w.document.getElementById('qManualPrice-0').value,'400000');
+ multi.fail(true);assert.equal(await save(multi),null);assert.equal(multi.get('jd_saved_quotes_v6')[0].alternatives.length,2);multi.fail(false);
+ const groupEdit=await save(multi);assert.equal(groupEdit.id,grouped.id);assert.equal(groupEdit.revisions[0].snapshot.alternatives.length,2);
+ multi.w.jdOpenOrder(groupEdit.id);const choose=multi.w.document.getElementById('jdOrderQty');assert.match(choose.options[1].textContent,/Alternativa 2.*Hebreo \+ español \+ fonética/);choose.value='1';choose.dispatchEvent(new multi.w.Event('change'));multi.w.document.getElementById('jdOrderPaid').value='100000';await multi.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(multi.get('jd_orders_v1')[0].quantity.price,380000);assert.equal(multi.get('jd_orders_v1')[0].selectedAlternative.texts,'Hebreo + español + fonética');
+ multi.w.document.getElementById('jdRemoveAlternative').click();assert.equal(multi.w.jdCollectQuote().alternatives.length,0);const oneOption=await save(multi);assert.equal(oneOption.alternatives.length,0,'Removing an alternative is persisted on same-record edits');multi.w.document.getElementById('jdAddAlternative').click();assert.equal(multi.w.document.querySelectorAll('button[data-alternative]').length,2);
+ multi.w.document.getElementById('jdNewQuoteBtn').click();assert.equal(multi.w.document.querySelectorAll('button[data-alternative]').length,1);assert.equal(multi.w.jdCollectQuote().alternatives,undefined);
+ multi.close();console.log('multi-product alternatives, independent price/discount, two A4 pages, edit/history, failed save, accepted choice and reset passed');
+ }
  const pricing=require('../assets/jd-price.js');
  assert.equal(pricing.calculate(116135/0.5+10000,'',0).price,245000,'El redondeo no reduce el margen objetivo');
  assert.equal(pricing.calculate(240000,'',0).price,240000,'Un múltiplo exacto no se incrementa');
@@ -322,3 +346,4 @@ async function scenarios(){
  console.log('B612 offline passed');
 }
 scenarios().catch(error=>{console.error(error);process.exit(1)});
+
