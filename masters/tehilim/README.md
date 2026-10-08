@@ -4,7 +4,7 @@ Los TXT de hebreo y fonética están alineados por capítulo y pasuk: 150 capít
 
 La fonética usa el generador original JD, revisión `02fbc2c66e2d1e7d5756335ae73eab80db2d255c`, con las decisiones editoriales disponibles. Las cinco revisiones nuevas se aplican por contexto. No se agregaron meteg inferidos al hebreo. Las variantes de lectura, nikud y acentos pendientes siguen abiertas: estos archivos no son golden aprobados ni certifican la pronunciación completa.
 
-En Sistema: Masters & revisión → Tehilim 1–150 → Abrir hebreo / Abrir fonética → Descargar TXT completo. Los archivos publicados son la base versionada y no sobreescriben celdas ni ediciones guardadas del catálogo.
+En Sistema: Masters & revisión → Tehilim 1–150 → Abrir matriz → idioma y presentación → Descargar TXT. Los archivos publicados son la base versionada y no sobreescriben celdas ni ediciones guardadas del catálogo.
 
 Regeneración: `TEHILIM_CACHE=/ruta/cache node scripts/build-tehilim.mjs /ruta/fonetica-hebreo/index.html`.
 Verificación: `node tests/tehilim-masters.cjs`.
@@ -15,10 +15,13 @@ El visor permite editar y Guardar Master en hebreo y fonética usando el mismo a
 
 Revisión 2026-10-08 lote 2: capítulos 126 y 137 con 11 y 19 meteg respectivamente. En 126:4 se eliminó del texto de lectura el ketiv duplicado que aparecía como shvvtnv. Las diferencias del motor están registradas por pasuk en AUDITORIA_MOTOR_REVISADOS.json. Estado por etapa en REVISION_ESTADO.json; ninguno se marca aprobado automáticamente.
 
-Descargas desde el editor: TXT de revisión; TXT de corrido sin números; HTML numerado con marcadores separados; RTF numerado con estilo de carácter JD Pasuk. En hebreo la marca es la letra del pasuk; en fonética el número, sin repetir capítulo:pasuk. Las exportaciones usan el texto de la edición abierta. La traducción española no forma parte de este corpus.
+Descargas de la matriz: cuatro TXT, hebreo/fonética de corrido o con pasuk. La edición del texto base conserva referencias internas para alinear los 2.527 pesukim. En hebreo la marca es la letra del pasuk; en fonética el número, sin repetir capítulo:pasuk. Las exportaciones usan el texto de la edición abierta. La traducción española no forma parte de este corpus.
 
 ## Presentaciones para producción
 Abrir matriz muestra cuatro variantes: hebreo/fonética, de corrido/con pasuk. Todas derivan de las dos bases editables. Con pasuk se exporta TXT con una letra o número, tabulación, y texto por párrafo. En InDesign: crear un estilo de carácter para el pasuk y un estilo anidado hasta la primera tabulación; para el texto siguiente usar el estilo normal. TXT no guarda estilos. RTF/HTML no son opciones necesarias y se retiraron de esta interfaz.
 
 ## Corrección del cotejo 23:3
 Se retiró el dagesh erróneo añadido a la bet de בְמַעְגְּלֵי. La forma correcta conserva vema'guelé. REGISTRO_CAMBIOS_NIKUD.json lista cambios ajenos al meteg y su fuente, para auditoría.
+
+Motor 2026-10-08: los 21 pesukim cotejados de 23, 126 y 137 coinciden con los masters. Las pruebas pasan también para las grafías explícitas del Nombre usadas en el birkón. La coincidencia no aprueba automáticamente el resto del corpus.
+
