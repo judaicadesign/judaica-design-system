@@ -11,18 +11,18 @@
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-tehilim-export.js?v=20261008" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
-<script src="assets/jd-asset-match.js?v=20261008-v3" defer></script>
+<script src="assets/jd-asset-match.js?v=20261008-event-20261008-v3" defer></script>
 <script src="assets/jd-orders.js?v=20261008-alternatives" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-quote-share.js?v=20261008-file-share" defer></script>
 <script src="assets/jd-price.js?v=20261008-rush" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
 <link rel="stylesheet" href="https://use.typekit.net/ydp7axr.css?v=20261008-bold">
-<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v6">
+<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v7">
 <script src="assets/jd-quote-hyphen.js?v=20261008-native" defer></script>
-<script src="assets/jd-quote-vectors.js?v=20261008-master-v6" defer></script>
-<script src="assets/jd-quote-native.js?v=20261008-master-v6" defer></script>
-<script src="assets/jd-quote-fit.js?v=20261008-master-v6" defer></script>
+<script src="assets/jd-quote-vectors.js?v=20261008-master-v7" defer></script>
+<script src="assets/jd-quote-native.js?v=20261008-master-v7" defer></script>
+<script src="assets/jd-quote-fit.js?v=20261008-master-v7" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
@@ -140,7 +140,7 @@ function go(id){
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
 function openModal(id){document.getElementById(id)?.classList.add('open')}
 function closeModal(id){document.getElementById(id)?.classList.remove('open')}
-function resetQuote(){const rush=document.getElementById('qRush');if(rush)rush.checked=false;window.jdResetAlternatives?.();window.jdQuoteParent=null;window.jdQuoteEdit=null;window.jdManualPrices={};window.jdDrawQuoteQuantities?.();window.renderQuote?.();document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
+function resetQuote(){const eventType=document.getElementById('qEventType');if(eventType)eventType.value='generic';const rush=document.getElementById('qRush');if(rush)rush.checked=false;window.jdResetAlternatives?.();window.jdQuoteParent=null;window.jdQuoteEdit=null;window.jdManualPrices={};window.jdDrawQuoteQuantities?.();window.renderQuote?.();document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
 </script>
 
 
@@ -308,6 +308,7 @@ function loadSavedQuoteV6(id,preservePrices=false){
    el.value=val;
    if(fire)el.dispatchEvent(new Event('change',{bubbles:true}));
  };
+ set('qEventType',q.eventType||'generic',false);
  set('qProduct',q.product,true);
  set('qModel',q.model,true);
  set('qLang',q.texts||q.lang,true);
@@ -334,8 +335,8 @@ const assetsSec=document.getElementById('assets');
 function drawAssets(){
  if(!assetsSec)return;
  assetsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Biblioteca visual</div><h1>Assets</h1></div><button class="btn primary" id="jdAddAsset">+ Subir asset</button></div>'+
- '<div class="jd-note">Mockups: lienzo de <b>343 × 348 px de InDesign</b> (1429 × 1450 px a 300 ppp · 121 × 122,8 mm), preferentemente PNG transparente. Cada asset se etiqueta por <b>producto + función + variante</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
- '<div class="product-grid" style="margin-top:16px">'+(assets.length?assets.map((a,i)=>'<div class="jd-asset-card">'+(a.data?'<img class="jd-thumb" src="'+a.data+'">':'<div class="product-visual">Sin preview</div>')+'<h3>'+esc3(a.name)+'</h3><div class="jd-asset-meta"><span class="tag">'+esc3(a.role)+'</span><span class="tag">'+esc3(a.product)+'</span>'+(a.variant?'<span class="tag">'+esc3(a.variant)+'</span>':'')+'</div><p class="small muted">'+esc3([a.model,a.binding,a.size,a.notes].filter(Boolean).join(' · '))+'</p><div class="jd-toolbar"><button class="btn sm" data-ea="'+i+'">Editar</button><button class="btn sm" data-da="'+i+'">Eliminar</button></div></div>').join(''):'<div class="card"><p class="muted">Todavía no cargaste assets reales. Subilos acá y quedarán disponibles para el equipo y para los presupuestos.</p></div>')+'</div>';
+ '<div class="jd-note">Mockups: lienzo de <b>343 × 348 px de InDesign</b> (1429 × 1450 px a 300 ppp · 121 × 122,8 mm), preferentemente PNG transparente. Cada asset se etiqueta por <b>producto + función + variante + evento</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
+ '<div class="product-grid" style="margin-top:16px">'+(assets.length?assets.map((a,i)=>'<div class="jd-asset-card">'+(a.data?'<img class="jd-thumb" src="'+a.data+'">':'<div class="product-visual">Sin preview</div>')+'<h3>'+esc3(a.name)+'</h3><div class="jd-asset-meta"><span class="tag">'+esc3(a.role)+'</span><span class="tag">'+esc3(a.product)+'</span>'+(a.variant?'<span class="tag">'+esc3(a.variant)+'</span>':'')+(a.eventType?'<span class="tag">'+esc3(window.jdAssetMatch.events.find(e=>e[0]===a.eventType)?.[1]||a.eventType)+'</span>':'')+'</div><p class="small muted">'+esc3([a.model,a.binding,a.size,a.notes].filter(Boolean).join(' · '))+'</p><div class="jd-toolbar"><button class="btn sm" data-ea="'+i+'">Editar</button><button class="btn sm" data-da="'+i+'">Eliminar</button></div></div>').join(''):'<div class="card"><p class="muted">Todavía no cargaste assets reales. Subilos acá y quedarán disponibles para el equipo y para los presupuestos.</p></div>')+'</div>';
  document.getElementById('jdAddAsset').onclick=()=>editAsset(-1);
  assetsSec.querySelectorAll('[data-ea]').forEach(b=>b.onclick=()=>editAsset(+b.dataset.ea));
  assetsSec.querySelectorAll('[data-da]').forEach(b=>b.onclick=()=>{assets.splice(+b.dataset.da,1);SAVE3('jd_assets',assets);drawAssets()});
@@ -344,13 +345,14 @@ function editAsset(i){
  const a=i>=0?assets[i]:{name:'',product:'Birkón · Librito',role:'Mockup principal',variant:'',notes:'',data:'',storagePath:''};
  const cat=LS3('jd_catalog_v6',[]);
  const productNames=(Array.isArray(cat)&&cat.length?cat.map(p=>p.name):['Birkón · Librito','Birkón · Folleto','Luaj','Birkot Hashajar','Hagadá de Pesaj','Imán · horario encendido de velas','Hadlakat Nerot']);
- const productOptions=productNames.map(n=>'<option '+(n===a.product?'selected':'')+'>'+esc3(n)+'</option>').join('');
+ const productOptions=['Todos los productos',...productNames].map(n=>'<option '+(n===a.product?'selected':'')+'>'+esc3(n)+'</option>').join('');
  const assetBaseline=window.jdQuoteEditTools.fingerprint(a);
  const w=modal3(i>=0?'Editar asset':'Subir asset',
  '<div class="jd-grid">'+
  '<div class="jd-field"><label>Nombre</label><input id="jaName" value="'+esc3(a.name)+'" placeholder="Ej. Librito normal · abrochado"></div>'+
  '<div class="jd-field"><label>Producto</label><select id="jaProd">'+productOptions+'</select></div>'+
- '<div class="jd-field"><label>Función</label><select id="jaRole">'+['Mockup principal','Índice','Interior','Tamaño comparativo','Canto abrochado','Canto binder'].map(x=>'<option '+(x===a.role?'selected':'')+'>'+x+'</option>').join('')+'</select></div>'+
+ '<div class="jd-field"><label>Función</label><select id="jaRole">'+['Mockup principal','Índice','Interior','Tamaño comparativo','Canto abrochado','Canto binder','Fondo de evento'].map(x=>'<option '+(x===a.role?'selected':'')+'>'+x+'</option>').join('')+'</select></div>'+
+ '<div class="jd-field"><label>Tipo de evento</label><select id="jaEventType">'+window.jdAssetMatch.events.map(([id,label])=>'<option value="'+id+'" '+((a.eventType||'generic')===id?'selected':'')+'>'+esc3(label)+'</option>').join('')+'</select></div>'+
  '<div class="jd-field"><label>Variante / criterio</label><input id="jaVar" value="'+esc3(a.variant)+'" placeholder="Ej. Classic · Solo Sefaradí · Abrochado"></div>'+
  '<div class="jd-field"><label>Modelo / formato</label><select id="jaModel"></select></div><div class="jd-field"><label>Encuadernación</label><select id="jaBinding"></select></div><div class="jd-field"><label>Tamaño</label><select id="jaSize"></select></div>'+
  '<div class="jd-field"><label style="display:flex;gap:8px"><input id="jaCanvas" type="checkbox" style="width:auto" '+((i<0||a.mockCanvas)?'checked':'')+'> Lienzo del presupuesto · 343 × 348 px de InDesign</label><small>PNG transparente, 1429 × 1450 px a 300 ppp · 121 × 122,8 mm. Se respeta el lienzo completo y su proporción; no se recorta ni se recentra el objeto.</small></div>'+
@@ -385,7 +387,7 @@ function editAsset(i){
        if(signed.error)throw signed.error;
        data=signed.data.signedUrl;
      }
-     const obj={id:a.id||('asset-'+Date.now()),name,product:x.querySelector('#jaProd').value,role:x.querySelector('#jaRole').value,variant:x.querySelector('#jaVar').value.trim(),notes:x.querySelector('#jaNotes').value.trim(),model:x.querySelector('#jaModel').value,binding:x.querySelector('#jaBinding').value,size:x.querySelector('#jaSize').value,mockCanvas:x.querySelector('#jaCanvas').checked,data,storagePath};
+     const obj={...a,id:a.id||('asset-'+Date.now()),name,product:x.querySelector('#jaProd').value,role:x.querySelector('#jaRole').value,eventType:x.querySelector('#jaEventType').value,variant:x.querySelector('#jaVar').value.trim(),notes:x.querySelector('#jaNotes').value.trim(),model:x.querySelector('#jaModel').value,binding:x.querySelector('#jaBinding').value,size:x.querySelector('#jaSize').value,mockCanvas:x.querySelector('#jaCanvas').checked,data,storagePath};
      await window.jdUpdateSharedState(['jd_assets'],state=>{const list=state.jd_assets||[];const current=list.find(item=>item.id===a.id);if(i>=0&&(!current||window.jdQuoteEditTools.fingerprint(current)!==assetBaseline))throw Error('La imagen cambió en otro dispositivo. Volvé a abrirla.');return {jd_assets:i>=0?list.map(item=>item.id===a.id?obj:item):[...list,obj]};});
      assets=GET('jd_assets',[]);
      x.remove();
@@ -401,7 +403,7 @@ function editAsset(i){
  w.querySelector('#jaProd').value=a.product;
  const criteria=()=>{const p=cat.find(p=>p.name===w.querySelector('#jaProd').value);for(const [id,key] of [['jaModel','models'],['jaBinding','bindings'],['jaSize','sizes']]){const el=w.querySelector('#'+id),selected=el.value||a[key==='models'?'model':key==='bindings'?'binding':'size']||'';el.innerHTML='<option value="">Todas las variantes</option>'+(p?.[key]||[]).map(value=>'<option>'+esc3(value)+'</option>').join('');el.value=[...el.options].some(o=>o.value===selected)?selected:'';}};w.querySelector('#jaProd').addEventListener('change',criteria);criteria();
 }
-function findAsset(role){return window.jdAssetMatch.select(GET('jd_assets',[]),{product:window.qProduct?.value,model:window.qModel?.value,binding:window.qBind?.value,size:window.qSize?.value,role});}
+function findAsset(role){return window.jdAssetMatch.select(GET('jd_assets',[]),{product:window.qProduct?.value,model:window.qModel?.value,binding:window.qBind?.value,size:window.qSize?.value,eventType:document.getElementById('qEventType')?.value||'generic',role});}
 
 function applyQuoteAsset(){
  const m=findAsset('Mockup principal');const box=document.querySelector('#quotePreview .mock');if(box&&m?.data)box.innerHTML='<img src="'+m.data+'" style="width:100%;height:100%;object-fit:contain;border-radius:12px">';
@@ -1507,7 +1509,7 @@ function buildQuote(){
  if(!qs)return;
  const prevProd=document.getElementById('qProduct')?.value||catalog[0].name;
  qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn" id="previewPdf6">Vista previa PDF</button> <button class="btn primary" id="sendWa6">Enviar por WhatsApp</button></div></div>'+
- '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div id="jdAlternatives"></div><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" placeholder="Nombre y apellido" autocomplete="name"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
+ '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div id="jdAlternatives"></div><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" placeholder="Nombre y apellido" autocomplete="name"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Tipo de evento · interno</label><select id="qEventType">'+window.jdAssetMatch.events.map(([id,label])=>'<option value="'+id+'">'+E(label)+'</option>').join('')+'</select><small id="jdEventVisualStatus" class="muted"></small></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
  qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
  qDiscount.min='0';qDiscount.step='0.01';qDiscount.previousElementSibling.textContent='Descuento ($)';qDiscount.insertAdjacentHTML('afterend','<small class="muted">Se resta una vez al total de cada cantidad cotizada. Para subir un precio, usá el precio manual.</small>');
  window.qs6=GET('jd_quote_qtys_v6',[60,100]);
@@ -1517,6 +1519,7 @@ function buildQuote(){
  const contentField=document.createElement('div');contentField.className='field span2';contentField.id='qLeafletContentField';contentField.innerHTML='<label>Contenido del folleto · una línea por ítem</label><textarea id="qLeafletContent" placeholder="Cargá los contenidos que llevará este folleto"></textarea><small class="muted">Se incluye en este presupuesto. El contenido general de cada variante se edita en Productos & variantes.</small>';document.getElementById('qInternal').parentElement.before(contentField);document.getElementById('qLeafletContent').addEventListener('input',render6);
  ['qProduct','qModel','qLang','qNusaj'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{const p=activeProduct();document.getElementById('qLeafletContent').value=(selectedVariant(p)?.content||[]).join('\n');render6()}));
  ['qClient','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',render6));
+ document.getElementById('qEventType').addEventListener('change',()=>{const current=activeAlternative;for(let i=0;i<alternatives.length;i++){if(i===current||!alternatives[i].state)continue;activeAlternative=i;const state=alternativeState();applyAlternative(alternatives[i].state);alternatives[i].html=quotePreview.querySelector('.jd-pdf-sheet')?.outerHTML||'';activeAlternative=current;applyAlternative(state);}render6();});
  qEvent.addEventListener('change',()=>{
    const ev=parseLocalDate(qEvent.value);
    if(ev && !jdDeadlineManual) qDeadline.value=isoLocal(prevBusinessDay(ev));
@@ -1630,8 +1633,10 @@ function render6(){
  const icon=name=>'<img src="assets/quote-icons/'+name+'.svg" alt="" aria-hidden="true">';
  const issuedDate=window.jdLegalDates.today();
  const today=window.jdLegalDates.display(issuedDate);
- const asset=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,model:qModel.value,binding:p.bindings.length?qBind.value:'',size:qSize.value,role:'Mockup principal'});
- const hero=asset?.data?'<img src="'+E(asset.data)+'" class="jd-pdf-product-img" data-mock-canvas="'+(asset.mockCanvas?'true':'false')+'">':'<div class="jd-mock-placeholder"><span>MOCKUP PRINCIPAL · 343 × 348 px de InDesign</span></div>';
+ const asset=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,model:qModel.value,binding:p.bindings.length?qBind.value:'',size:qSize.value,eventType:document.getElementById('qEventType')?.value||'generic',role:'Mockup principal'});
+ const background=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,eventType:document.getElementById('qEventType')?.value||'generic',role:'Fondo de evento'});
+ const visualStatus=document.getElementById('jdEventVisualStatus');if(visualStatus){const eventType=document.getElementById('qEventType')?.value||'generic';visualStatus.textContent=eventType==='generic'?'':[(asset?.eventType===eventType?'Mockup del evento disponible':'Mockup del evento pendiente; se usa el general'),(background?.eventType===eventType?'Fondo del evento disponible':'Fondo del evento pendiente')].join(' · ');}
+ const hero=(background?.data?'<img src="'+E(background.data)+'" class="jd-pdf-background" alt="">':'')+(asset?.data?'<img src="'+E(asset.data)+'" class="jd-pdf-product-img" data-mock-canvas="'+(asset.mockCanvas?'true':'false')+'">':'<div class="jd-mock-placeholder"><span>MOCKUP PRINCIPAL · 343 × 348 px de InDesign</span></div>');
  const et=jdEffectiveTechnical(p,v);
  const technical=p.name==='Birkón · Librito'
    ?'<div class="jd-tech">'+(et.paper||et.weightGsm?'<span><strong>Tapa:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' grs.':''].filter(Boolean).join(' '))+'</span>':'')+(et.lamination?'<span>'+E(et.lamination)+'</span>':'')+(et.interiorPaper||et.interiorWeightGsm||et.print?'<span><strong>Interior:</strong> '+E([[et.interiorPaper,et.interiorWeightGsm?et.interiorWeightGsm+' grs.':''].filter(Boolean).join(' '),et.print].filter(Boolean).join(' - '))+'</span>':'')+(et.sides?'<span>'+E(et.sides)+'</span>':'')+(et.finish?'<span>'+E(et.finish)+'</span>':'')+'</div>' 
@@ -1716,7 +1721,7 @@ window.jdLoadAlternatives=(quote,preservePrices)=>{
 function collectQuote6(){
  const current=captureAlternative();
  if(alternatives.length<=1){if(window.jdQuoteEdit)current.alternatives=[];return current;}
- const shared={client:current.client,event:current.event,deadline:current.deadline,issuedDate:current.issuedDate,created:current.created};
+ const shared={client:current.client,eventType:current.eventType,event:current.event,deadline:current.deadline,issuedDate:current.issuedDate,created:current.created};
  const quotes=alternatives.map((a,i)=>{
    if(!a.quote)throw Error('Completá la alternativa '+(i+1));
    const q={...structuredClone(a.quote),...shared};delete q.alternatives;return q;
@@ -1732,7 +1737,7 @@ function collectSingleQuote6(){
  const p=activeProduct(),v=selectedVariant(p);
  const issuedDate=window.jdLegalDates.today();
  const legalSet=jdLegalSet(p.legalSetId||((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
- const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live}:null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',rushPercent:document.getElementById('qRush')?.checked?30:0,rushShow:!!document.getElementById('qRushShow')?.checked,discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live}:null}}),eventType:document.getElementById('qEventType')?.value||'generic',event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',rushPercent:document.getElementById('qRush')?.checked?30:0,rushShow:!!document.getElementById('qRushShow')?.checked,discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
  if(!quote.client)throw new Error('Falta el nombre y apellido del cliente.');
  if(p.name==='Birkón · Librito' && !quote.pages)throw new Error('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
@@ -1847,7 +1852,7 @@ window.renderQuote=render6;
  }
  async function pdfBlob(){
    const el=document.getElementById('quotePreview');if(!el)throw Error('No se encontró la vista del presupuesto.');
-   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v6')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
+   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v7')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
    const sheets=[...el.querySelectorAll('.jd-pdf-sheet')];if(!sheets.length)throw Error('No hay páginas para exportar.');
    return await window.jdVectorQuotePdf(sheets);
  }

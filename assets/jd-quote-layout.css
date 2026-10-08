@@ -84,3 +84,7 @@
 .jd-master-sheet .jd-master-left{display:flex!important;flex-direction:column!important;justify-content:flex-start!important}
 .jd-master-sheet .jd-pdf-mock{flex:0 0 calc(464 * var(--u))!important;height:calc(464 * var(--u))!important;width:calc(457.333333 * var(--u))!important;max-width:100%!important;align-self:center!important}
 .jd-master-sheet .jd-content-box{flex:0 0 auto!important;margin-top:calc(16 * var(--u))!important}
+
+.jd-master-sheet .jd-pdf-mock{position:relative!important}
+.jd-master-sheet .jd-pdf-background{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important}
+.jd-master-sheet .jd-pdf-product-img{position:relative!important;z-index:1}

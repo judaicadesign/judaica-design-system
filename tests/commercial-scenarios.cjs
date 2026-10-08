@@ -37,7 +37,7 @@ async function boot(rows=fixture(),fetchResult){
    return {data:updates,error:null};
  };
  w.supabase={createClient:()=>client};
- w.jdNativeQuote={version:'20261008-master-v6'};
+ w.jdNativeQuote={version:'20261008-master-v7'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
  for(const file of ['jd-ui.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
@@ -50,6 +50,24 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+ const eventRows=fixture();eventRows.find(r=>r.key==='jd_assets').value=[
+  {id:'generic',product:product.name,role:'Mockup principal',data:'https://example.test/generic.png',mockCanvas:true},
+  {id:'bar',product:product.name,role:'Mockup principal',eventType:'bar_mitzvah',binding:'Abrochado',data:'https://example.test/bar.png',mockCanvas:true},
+  {id:'wedding',product:product.name,role:'Mockup principal',eventType:'wedding',data:'https://example.test/wedding.png'},
+  {id:'bar-bg',product:'Todos los productos',role:'Fondo de evento',eventType:'bar_mitzvah',data:'https://example.test/bar-bg.jpg'}
+ ];
+ const evApp=await boot(eventRows);evApp.w.document.getElementById('qClient').value='QA evento';
+ const eventSelect=evApp.w.document.getElementById('qEventType');eventSelect.value='bar_mitzvah';eventSelect.dispatchEvent(new evApp.w.Event('change'));
+ assert.match(evApp.w.document.querySelector('.jd-pdf-product-img').src,/bar.png/);assert.match(evApp.w.document.querySelector('.jd-pdf-background').src,/bar-bg.jpg/);
+ assert.doesNotMatch(evApp.w.document.getElementById('quotePreview').textContent,/Tipo de evento|Bar Mitzvá/);
+ const evSaved=await save(evApp);assert.equal(evSaved.eventType,'bar_mitzvah');
+ evApp.w.document.getElementById('jdNewQuoteBtn').click();assert.equal(eventSelect.value,'generic');assert.match(evApp.w.document.querySelector('.jd-pdf-product-img').src,/generic.png/);
+ evApp.w.jdRenderSavedQuotes();evApp.w.document.querySelector('[data-edit-qid]').click();assert.equal(eventSelect.value,'bar_mitzvah');
+ evApp.w.document.getElementById('jdAddAlternative').click();eventSelect.value='wedding';eventSelect.dispatchEvent(new evApp.w.Event('change'));
+ assert.equal(evApp.w.document.querySelectorAll('.jd-pdf-sheet').length,2);for(const img of evApp.w.document.querySelectorAll('.jd-pdf-product-img'))assert.match(img.src,/wedding.png/);
+ const evEdited=await save(evApp);assert.ok(evEdited.alternatives.every(a=>a.eventType==='wedding'));evApp.close();
+ console.log('event assignment, matching background/mockup, internal-only field, save/edit, global alternatives and legacy fallback passed');
+
 
  const kidushRows=fixture();kidushRows[0].value[0].variants[0].content=['Kidush del día (Shabat y Yom Tov)','Birkat Hamazón'];
  const kidush=await boot(kidushRows);kidush.w.renderQuote();assert.match(kidush.w.document.querySelector('.index-list').textContent,/Kidush del día - Shabat y Yom Tov/);kidush.w.go('products');kidush.w.document.querySelector('[data-pvars="0"]').click();kidush.w.document.querySelector('[data-ve="0"]').click();assert.match(kidush.w.document.getElementById('vc6').value,/Kidush del día - Shabat y Yom Tov/);await sleep(80);kidush.close();
@@ -339,7 +357,7 @@ async function scenarios(){
  app.w.URL.createObjectURL=()=> 'blob:fixture';app.w.URL.revokeObjectURL=()=>{};
  await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);
 app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
- app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261008-master-v6';
+ app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261008-master-v7';
  console.log('complete semantic A4 sheet reaches native renderer without raster capture passed');
  app.w.jdOpenOrder(quote.id);
  field('jdOrderQty','2');field('jdOrderPaid','99999999');

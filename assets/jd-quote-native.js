@@ -59,7 +59,7 @@
  }
  function readSheet(sheet){return{
   title:sheet.querySelector('.jd-doc-title')?.textContent||'',overline:sheet.querySelector('.jd-overline')?.textContent||'PRESUPUESTO',client:sheet.querySelector('.jd-client-meta b')?.textContent||'—',date:sheet.querySelectorAll('.jd-client-meta b')[1]?.textContent||'',
-  mock:sheet.querySelector('.jd-pdf-product-img')?.getAttribute('src')||'',mockCanvas:sheet.querySelector('.jd-pdf-product-img')?.dataset.mockCanvas==='true',contentTitle:sheet.querySelector('.jd-content-box h4')?.textContent||'',content:[...sheet.querySelectorAll('.index-list li')].map(el=>el.textContent),
+  background:sheet.querySelector('.jd-pdf-background')?.getAttribute('src')||'',mock:sheet.querySelector('.jd-pdf-product-img')?.getAttribute('src')||'',mockCanvas:sheet.querySelector('.jd-pdf-product-img')?.dataset.mockCanvas==='true',contentTitle:sheet.querySelector('.jd-content-box h4')?.textContent||'',content:[...sheet.querySelectorAll('.index-list li')].map(el=>el.textContent),
   specs:[...sheet.querySelectorAll('.jd-spec-icon-row')].filter(el=>!el.querySelector('.jd-tech')).map(el=>({title:el.querySelector('small')?.textContent||'',value:el.querySelector('strong')?.textContent||'',icon:el.querySelector('img')?.getAttribute('src')})),
   technical:[...sheet.querySelectorAll('.jd-tech span')].map(el=>el.textContent),
   prices:[...sheet.querySelectorAll('.jd-client-price')].map(el=>({qty:el.querySelector(':scope>span')?.textContent||'',total:el.querySelector('.jd-pdf-price-breakdown b')?.textContent||'',adjustments:[...el.querySelectorAll('.jd-pdf-price-breakdown small')].map(el=>el.textContent)})),
@@ -67,6 +67,21 @@
  }}
  async function imageData(source){if(source.startsWith('data:'))return source;const response=await request(source);return new Uint8Array(await response.arrayBuffer())}
  function mockPlacement(info,bounds,availableHeight=355.530){const factor=Math.min(476.354/info.width,availableHeight/info.height),w=info.width*factor,h=info.height*factor,center=bounds?(bounds.left+bounds.right)/2:info.width/2;return{x:(24.252+380.787)/2-center*factor,y:116.5+(availableHeight-h)/2,w,h}}
+ // Export a bounded photo at 300 ppi. Original uploaded PNG/JPG assets stay intact.
+ async function photoLayer(data,info,placement,frame,background){
+  if(typeof createImageBitmap!=='function'||typeof document==='undefined')return null;
+  let bitmap,bg;
+  try{
+   const decode=async bytes=>createImageBitmap(typeof bytes==='string'?await (await fetch(bytes)).blob():new Blob([bytes]));
+   bitmap=await decode(data);if(background)bg=await decode(await imageData(background));
+   const box=background?{x:frame.x,y:frame.y,w:frame.width,h:frame.height}:placement;
+   const scale=Math.min(300/72,Math.max(info.width/placement.w,info.height/placement.h)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(box.w*scale));canvas.height=Math.max(1,Math.round(box.h*scale));
+   const ctx=canvas.getContext('2d');ctx.fillStyle=colors.paper;ctx.fillRect(0,0,canvas.width,canvas.height);
+   if(bg){const factor=Math.max(canvas.width/bg.width,canvas.height/bg.height);ctx.drawImage(bg,(canvas.width-bg.width*factor)/2,(canvas.height-bg.height*factor)/2,bg.width*factor,bg.height*factor);}
+   const sx=canvas.width/box.w,sy=canvas.height/box.h;ctx.drawImage(bitmap,(placement.x-box.x)*sx,(placement.y-box.y)*sy,placement.w*sx,placement.h*sy);
+   return {data:canvas.toDataURL('image/jpeg',.9),placement:box};
+  }finally{bitmap?.close();bg?.close()}
+ }
  async function opaqueBounds(data,info){
   if(typeof createImageBitmap!=='function'||typeof document==='undefined')return null;
   let bitmap;try{const blob=typeof data==='string'?await (await fetch(data)).blob():new Blob([data]);bitmap=await createImageBitmap(blob);const canvas=document.createElement('canvas'),scale=Math.min(1,512/info.width);canvas.width=Math.ceil(info.width*scale);canvas.height=Math.ceil(info.height*scale);const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;let left=canvas.width,right=0,count=0;for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++)if(pixels[(y*canvas.width+x)*4+3]>=230){left=Math.min(left,x);right=Math.max(right,x+1);count++}return count?{left:left/canvas.width*info.width,right:right/canvas.width*info.width}:null}catch(e){return null}finally{bitmap?.close()}
@@ -78,7 +93,9 @@
   if(m.mock){const data=await imageData(m.mock),info=pdf.getImageProperties(data);let placement;
    if(m.mockCanvas){const factor=Math.min(frame.width/info.width,frame.height/info.height),w=info.width*factor,h=info.height*factor;placement={x:frame.x+(frame.width-w)/2,y:frame.y+(frame.height-h)/2,w,h};}
    else{const box=await opaqueBounds(data,info);placement=mockPlacement(info,box,frame.height);placement.y=frame.y+(frame.height-placement.h)/2;}
-   pdf.addImage(data,info.fileType,placement.x,placement.y,placement.w,placement.h);
+   const photo=await photoLayer(data,info,placement,frame,m.background);
+   if(photo){const p=photo.placement;pdf.addImage(photo.data,'JPEG',p.x,p.y,p.w,p.h,undefined,'FAST');}
+   else{if(m.background)throw Error('No se pudo componer el fondo del evento en este navegador.');pdf.addImage(data,info.fileType,placement.x,placement.y,placement.w,placement.h,undefined,'FAST');}
   }else if(m._preview){pdf.setDrawColor(colors.circle);pdf.setLineWidth(.25);pdf.rect(frame.x,frame.y,frame.width,frame.height,'D');text(pdf,'Asigná un mockup en Recursos',110,frame.y+frame.height/2,7,'text',colors.gold);}
 
   vector(pdf,'assets/jd-logo-quote.svg',33.759,32.0,54.0,40.67);
@@ -114,8 +131,9 @@
    }if(runs.length)result.push(runs);
   }return result;
  }
+ const iconDimensions={'11_libro_abierto':[16.599,12.801],'02_siddur':[10.618,14.995],'03_traduccion':[14.318,14.304],'04_tamano':[14,14],'05_abrochado':[9.967,16.249],'06_binder_lomo_cuadrado':[9.967,16.249],'07_anillado':[12,16.249],'12_documento_numeral':[10.659,13.826],'13_engranaje':[14.333,14.335]};
  const iconSizes={'11_libro_abierto':28,'02_siddur':33,'03_traduccion':32,'04_tamano':30,'05_abrochado':34.75,'06_binder_lomo_cuadrado':34.75,'07_anillado':34.75,'12_documento_numeral':30,'13_engranaje':32,'09_triptico':30,'10_cuadriptico':28,'08_bifold':32};
- function drawSpecIcon(pdf,path,cx,cy){const key=path.split('/').at(-1).replace('.svg',''),size=iconSizes[key]||30;pdf.setFillColor(colors.circle);pdf.circle(cx,cy,17.375,'F');vector(pdf,path,cx-size/2,cy-size/2+(key==='10_cuadriptico'?-1:0),size,size);}
+ function drawSpecIcon(pdf,path,cx,cy){const key=path.split('/').at(-1).replace('.svg',''),[w,h]=iconDimensions[key]||[16,16];pdf.setFillColor(colors.circle);pdf.circle(cx,cy,12.756,'F');vector(pdf,path,cx-w/2,cy-h/2,w,h);}
  function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65,tech=technicalLines(pdf,m.technical),note=m.discount?wrap(pdf,m.discount,inner,5.5):[];
   const build=compact=>{const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:(compact?37:39.004)+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1)}));const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('Prioridad de agenda','Prioridad').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold'),noteStart=compact?5:8,noteLeading=compact?7:8,totalOffset=notes.length?noteStart+notes.length*noteLeading+(compact?8:10):14;return {...p,lines,notes,multiple,noteStart,noteLeading,totalOffset,height:totalOffset+14*lines.length+(compact?8:12)}});
    const header=compact?32:38,techHeight=tech.length?Math.max(39,24.5+tech.length*8):0,height=header+specs.reduce((n,s)=>n+s.height,0)+techHeight+prices.reduce((n,p)=>n+p.height,0)+(note.length?note.length*7+14:0)+16,top=mockFrame.y;return {specs,tech,techHeight,prices,note,top,height,header};};
@@ -153,7 +171,7 @@
  }
  root.jdQuotePreviewSVG=svgPreview;
 
- async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v6'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={version:'20261008-master-v6',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v7'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
+ root.jdNativeQuote={version:'20261008-master-v7',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,iconDimensions,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);
