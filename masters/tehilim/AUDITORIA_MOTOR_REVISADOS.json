@@ -1,6 +1,6 @@
 {
   "date": "2026-10-08",
-  "engineSha256": "4356204fbe39b1da85fa1645944cfde73375e4feed0056d6a1d640b53ae82ea0",
+  "engineSha256": "77ccf213a7ddefa3f36d67fa977815e610eea66ef589f2c85d92604cc1da5204",
   "status": "All 118 reviewed verses match; not global corpus approval",
   "cases": [
     {
@@ -207,8 +207,8 @@
       "chapter": 83,
       "verse": 4,
       "hebrew": "עַל עַמְּךָ יַעֲרִֽימוּ סוֹד וְיִתְיָעֲצוּ עַל צְפוּנֶיךָ.",
-      "master": "'Al 'Amjá ya'arimu sod veyitya'atsú 'al Tsefuneja.",
-      "generator": "'Al 'Amjá ya'arimu sod veyitya'atsú 'al Tsefuneja.",
+      "master": "'Al 'Amejá ya'arimu sod veyitya'atsú 'al Tsefuneja.",
+      "generator": "'Al 'Amejá ya'arimu sod veyitya'atsú 'al Tsefuneja.",
       "matches": true
     },
     {
