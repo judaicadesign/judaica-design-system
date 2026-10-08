@@ -1,6 +1,6 @@
 /* A4 composition transcribed from the supplied InDesign PDF: 794 × 1123 CSS px. */
 .quote-preview#quotePreview,.quote-preview#jdPdfCapture{container-type:inline-size!important;padding:0!important;border:0!important;border-radius:0!important;min-height:0!important;background:#f5f2eb!important}
-.jd-master-sheet{--u:calc(100cqw / 794);--legal-scale:1;--content-scale:1;--spec-scale:1;box-sizing:border-box!important;width:100%!important;height:calc(1123 * var(--u))!important;padding:calc(32 * var(--u)) calc(32 * var(--u)) 0!important;background:#f5f2eb!important;display:grid!important;grid-template-rows:calc(100 * var(--u)) minmax(0,1fr) calc(245 * var(--u)) calc(68 * var(--u))!important;gap:calc(16 * var(--u))!important;color:#111!important;font-family:Inter,Arial,sans-serif!important;position:relative!important;overflow:visible!important}
+.jd-master-sheet{--u:calc(100cqw / 794);--legal-scale:1;--content-scale:1;--spec-scale:1;box-sizing:border-box!important;width:100%!important;height:calc(1123 * var(--u))!important;padding:calc(32 * var(--u)) calc(32 * var(--u)) 0!important;background:#f5f2eb!important;display:grid!important;grid-template-rows:calc(100 * var(--u)) minmax(0,1fr) calc(245 * var(--u)) calc(68 * var(--u))!important;gap:calc(16 * var(--u))!important;color:#111!important;font-family:"aktiv-grotesk-hebrew",Inter,Arial,sans-serif!important;position:relative!important;overflow:visible!important}
 .jd-master-sheet .jd-pdf-header{position:relative!important;display:grid!important;grid-template-columns:calc(90 * var(--u)) minmax(0,1fr) calc(186 * var(--u))!important;gap:calc(20 * var(--u))!important;align-items:center!important;border-bottom:1px solid #8f7859!important;padding:0 0 calc(22 * var(--u))!important;margin:0!important;min-width:0!important}
 .jd-master-sheet .jd-bsd{position:absolute!important;right:0!important;top:calc(-7 * var(--u))!important;font:calc(8 * var(--u)) Arial!important;color:#18666b!important}
 .jd-master-sheet .jd-pdf-logo{width:calc(85 * var(--u))!important;height:calc(72 * var(--u))!important;object-fit:contain!important;max-width:none!important}
@@ -22,7 +22,7 @@
 .jd-master-sheet .index-list li{break-inside:avoid!important;position:relative!important;padding-left:calc(7 * var(--u))!important;margin:0!important}
 .jd-master-sheet .index-list li::before{content:'·'!important;position:absolute!important;left:0!important;color:#b88a3b!important}
 .jd-master-sheet .jd-compact-specs{background:#fffdf8!important;border:1px solid #ab9373!important;border-radius:calc(14 * var(--u) * var(--spec-scale))!important;padding:calc(20 * var(--u) * var(--spec-scale)) calc(12 * var(--u) * var(--spec-scale))!important;min-width:0!important;align-self:end!important;overflow:visible!important}
-.jd-master-sheet .jd-compact-specs h3{font-family:Inter,Arial,sans-serif!important;font-size:calc(9.8 * var(--u) * var(--spec-scale))!important;font-weight:500!important;line-height:1.5!important;color:#8f7859!important;letter-spacing:.12em!important;text-transform:uppercase!important;margin:calc(4 * var(--u) * var(--spec-scale)) 0 calc(23 * var(--u) * var(--spec-scale)) calc(3 * var(--u) * var(--spec-scale))!important}
+.jd-master-sheet .jd-compact-specs h3{font-family:"aktiv-grotesk-hebrew",Inter,Arial,sans-serif!important;font-size:calc(9.8 * var(--u) * var(--spec-scale))!important;font-weight:500!important;line-height:1.5!important;color:#8f7859!important;letter-spacing:.12em!important;text-transform:uppercase!important;margin:calc(4 * var(--u) * var(--spec-scale)) 0 calc(23 * var(--u) * var(--spec-scale)) calc(3 * var(--u) * var(--spec-scale))!important}
 .jd-master-sheet .jd-spec-icon-row{display:grid!important;grid-template-columns:calc(38 * var(--u) * var(--spec-scale)) minmax(0,1fr)!important;gap:calc(7 * var(--u) * var(--spec-scale))!important;padding:calc(9 * var(--u) * var(--spec-scale)) calc(4 * var(--u) * var(--spec-scale))!important;align-items:center!important;border-bottom:1px solid #ab9373!important;min-height:calc(52 * var(--u) * var(--spec-scale))!important}
 .jd-master-sheet .jd-spec-icon{width:calc(34 * var(--u) * var(--spec-scale))!important;height:calc(34 * var(--u) * var(--spec-scale))!important;border-radius:50%!important;background:#dcd6c2!important;display:grid!important;place-items:center!important}
 .jd-master-sheet .jd-spec-icon img{width:72%!important;height:72%!important;object-fit:contain!important}
@@ -40,7 +40,7 @@
 .jd-master-sheet .jd-pdf-price-breakdown b{font-size:calc(11.7 * var(--u) * var(--spec-scale))!important;font-weight:500!important;line-height:1.3!important;color:#111!important;display:block!important}
 .jd-master-sheet .jd-pdf-price-breakdown small{font-size:calc(8 * var(--u) * var(--spec-scale))!important;line-height:1.35!important;color:#716b62!important;display:block!important}
 .jd-master-sheet .jd-discount-note{font-size:calc(8 * var(--u) * var(--spec-scale))!important;line-height:1.3!important;color:#716b62!important;margin:calc(5 * var(--u) * var(--spec-scale)) 0 0!important}
-.jd-master-sheet .jd-full-legal{height:100%!important;box-sizing:border-box!important;background:#e5e5e7!important;padding:calc(8 * var(--u)) calc(13 * var(--u))!important;margin:0!important;border:0!important;columns:3!important;column-gap:calc(20 * var(--u))!important;column-rule:1px solid #ab9373!important;column-fill:auto!important;font-family:'Roboto Condensed',Arial,sans-serif!important;font-size:calc(8 * var(--u) * var(--legal-scale))!important;line-height:1.33!important;font-weight:300!important;color:#111!important;overflow:visible!important}
+.jd-master-sheet .jd-full-legal{height:100%!important;box-sizing:border-box!important;background:#e5e5e7!important;padding:calc(8 * var(--u)) calc(13 * var(--u))!important;margin:0!important;border:0!important;columns:3!important;column-gap:calc(20 * var(--u))!important;column-rule:1px solid #ab9373!important;column-fill:auto!important;font-family:"aktiv-grotesk-cd-hebrew","Roboto Condensed",Arial,sans-serif!important;font-size:calc(8 * var(--u) * var(--legal-scale))!important;line-height:1.33!important;font-weight:300!important;color:#111!important;overflow:visible!important}
 .jd-master-sheet .jd-full-legal .jd-legal-title{display:none!important}
 .jd-master-sheet .jd-full-legal p{margin:0 0 calc(3 * var(--u))!important;break-inside:auto!important;white-space:normal!important}
 .jd-master-sheet .jd-full-legal b{font-weight:600!important;color:#111!important}
@@ -61,3 +61,15 @@
 .jd-master-sheet .jd-client-price>span{font-size:calc(11.7 * var(--u) * var(--spec-scale))!important;color:#111!important;white-space:normal!important}
 .jd-master-sheet .jd-pdf-price-breakdown b{white-space:normal!important}
 .jd-master-sheet{grid-template-columns:minmax(0,1fr)!important}
+/* Fixed master regions: variable content expands upward, never moves the footer. */
+.jd-master-sheet{display:block!important}
+.jd-master-sheet>.jd-pdf-header{position:absolute!important;top:calc(32 * var(--u))!important;left:calc(32 * var(--u))!important;right:calc(32 * var(--u))!important;height:calc(100 * var(--u))!important;box-sizing:border-box!important}
+.jd-master-sheet>.jd-pdf-bodytop{position:absolute!important;top:calc(148 * var(--u))!important;left:calc(32 * var(--u))!important;right:calc(32 * var(--u))!important;bottom:calc(345 * var(--u))!important;height:auto!important}
+.jd-master-sheet>.jd-full-legal{position:absolute!important;left:calc(32 * var(--u))!important;right:calc(32 * var(--u))!important;bottom:calc(84 * var(--u))!important;height:calc(245 * var(--u))!important}
+.jd-master-sheet>.jd-quote-footer{position:absolute!important;left:0!important;right:0!important;bottom:0!important;margin:0!important;box-sizing:border-box!important}
+
+.jd-master-sheet .jd-overline,.jd-master-sheet .jd-compact-specs h3{font-family:"aktiv-grotesk-ex-hebrew","aktiv-grotesk-hebrew",Arial,sans-serif!important}
+.jd-master-sheet .jd-bsd{font-family:"aktiv-grotesk-hebrew",Arial,sans-serif!important}
+
+.jd-master-sheet .jd-full-legal{columns:auto!important}
+.jd-master-sheet .jd-legal-flow{height:100%!important;columns:3!important;column-gap:calc(20 * var(--u))!important;column-rule:1px solid #ab9373!important;column-fill:auto!important;overflow:visible!important}

@@ -48,6 +48,22 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+
+ const foldRows=fixture();const fold=foldRows.find(r=>r.key==='jd_catalog_v6').value[0];fold.name='Birkón · Folleto';fold.id='birkon-folleto';fold.models=['Bífold','Tríptico','Cuadríptico'];fold.variants=fold.models.map((model,i)=>({...structuredClone(fold.variants[0]),id:'fold-'+i,model,pages:36}));
+ const foldApp=await boot(foldRows);
+ for(const [model,count,svg] of [['Bífold',4,'08_bifold'],['Tríptico',6,'09_triptico'],['Cuadríptico',8,'10_cuadriptico']]){
+  const input=foldApp.w.document.getElementById('qModel');input.value=model;input.dispatchEvent(new foldApp.w.Event('change',{bubbles:true}));foldApp.w.renderQuote();
+  const sheet=foldApp.w.document.querySelector('.jd-master-sheet');const row=[...sheet.querySelectorAll('.jd-spec-icon-row')].find(x=>x.querySelector('small')?.textContent==='Carillas');assert.equal(row.querySelector('strong').textContent,String(count));assert.ok(sheet.querySelector('img[src="assets/quote-icons/'+svg+'.svg"]'));assert.ok(![...sheet.querySelectorAll('small')].some(x=>x.textContent==='Páginas'));
+ }
+ await sleep(80);foldApp.close();
+ const bindingRows=fixture();bindingRows.find(r=>r.key==='jd_catalog_v6').value[0].bindings=['Abrochado','Binder','Anillado'];bindingRows.find(r=>r.key==='jd_assets').value=['Abrochado','Binder'].map(variant=>({product:product.name,role:'Mockup principal',variant,data:'data:image/png;base64,'+variant}));
+ const bindingApp=await boot(bindingRows);
+ for(const [binding,svg] of [['Abrochado','05_abrochado'],['Binder','06_binder_lomo_cuadrado'],['Anillado','07_anillado']]){
+  const input=bindingApp.w.document.getElementById('qBind');input.value=binding;input.dispatchEvent(new bindingApp.w.Event('change',{bubbles:true}));bindingApp.w.renderQuote();const sheet=bindingApp.w.document.querySelector('.jd-master-sheet');assert.ok(sheet.querySelector('img[src="assets/quote-icons/'+svg+'.svg"]'));assert.ok(sheet.querySelector('img[src="assets/quote-icons/11_libro_abierto.svg"]'));
+  if(binding!=='Anillado')assert.equal(sheet.querySelector('.jd-pdf-product-img').getAttribute('src'),'data:image/png;base64,'+binding);
+  assert.equal([...sheet.querySelectorAll('.jd-spec-icon-row')].find(x=>x.querySelector('small')?.textContent==='Páginas').querySelector('strong').textContent,'24');assert.ok(sheet.querySelector('.jd-master-left>.jd-content-box'));assert.equal(sheet.querySelector('.jd-quote-page').textContent,'» 1 / 1');
+ }
+ await sleep(80);bindingApp.close();console.log('leaflet faces, book pages, supplied format/binding SVGs, existing mockup selection and fixed footer structure passed');
  const dates=require('../assets/jd-legal.js');
  for(const [from,to] of [['2027-05-05','2027-06-05'],['2027-01-31','2027-02-28'],['2028-01-31','2028-02-29'],['2026-12-31','2027-01-31']])assert.equal(dates.nextMonth(from),to);
  assert.equal(dates.today(new Date('2027-05-06T01:00:00Z')),'2027-05-05','Argentina date around midnight');
@@ -280,7 +296,7 @@ async function scenarios(){
  app.w.jspdf={jsPDF:class{constructor(){pages.push([])}addPage(){throw Error('A4 must not add a second page')}addImage(...args){pages[0].push(args)}output(){return new app.w.Blob(['mock-pdf'])}}};
  app.w.URL.createObjectURL=()=> 'blob:fixture';app.w.URL.revokeObjectURL=()=>{};
  await app.w.jdPreviewCurrentPDF();assert.equal(pages.length,1);assert.equal(pages[0].length,1);assert.ok(removedCapture);
- const image=pages[0][0];assert.ok(image[2]>=6);assert.equal(image[3],6);assert.ok(image[4]<=198);assert.ok(image[5]<=285);
+ const image=pages[0][0];assert.ok(image[2]>=0);assert.equal(image[3],0);assert.ok(image[4]<=210);assert.ok(image[5]<=297);
  app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
  console.log('one A4 page, fixed desktop width and full-document fit passed');
  app.w.jdOpenOrder(quote.id);

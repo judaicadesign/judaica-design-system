@@ -3,7 +3,7 @@
  window.jdFitQuoteSheet=sheet=>{
   if(!sheet)return;
   let fits=true;
-  for(const [selector,property,overflow] of [['.jd-full-legal','--legal-scale','width'],['.jd-content-box','--content-scale','height'],['.jd-compact-specs','--spec-scale','body']]){
+  for(const [selector,property,overflow] of [['.jd-legal-flow','--legal-scale','width'],['.jd-content-box','--content-scale','height'],['.jd-compact-specs','--spec-scale','body']]){
    const block=sheet.querySelector(selector);if(!block||!block.clientHeight)continue;
    sheet.style.setProperty(property,'1');
    for(let scale=1;scale>.5;scale-=.025){
