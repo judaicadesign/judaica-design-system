@@ -63,9 +63,15 @@
   discount:sheet.querySelector('.jd-discount-note')?.textContent||'',legal:[...sheet.querySelectorAll('.jd-full-legal p')].map(el=>({title:(el.querySelector('b')?.textContent||'').replace(/\.$/,''),body:el.textContent.slice(el.querySelector('b')?.textContent.length||0).trim()}))
  }}
  async function imageData(source){if(source.startsWith('data:'))return source;const response=await request(source);return new Uint8Array(await response.arrayBuffer())}
+ function mockPlacement(info,bounds){const factor=Math.min(476.354/info.width,355.530/info.height),w=info.width*factor,h=info.height*factor,center=bounds?(bounds.left+bounds.right)/2:info.width/2;return{x:(24.252+380.787)/2-center*factor,y:116.5+(355.530-h)/2,w,h}}
+ async function opaqueBounds(data,info){
+  if(typeof createImageBitmap!=='function'||typeof document==='undefined')return null;
+  let bitmap;try{const blob=typeof data==='string'?await (await fetch(data)).blob():new Blob([data]);bitmap=await createImageBitmap(blob);const canvas=document.createElement('canvas'),scale=Math.min(1,512/info.width);canvas.width=Math.ceil(info.width*scale);canvas.height=Math.ceil(info.height*scale);const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;let left=canvas.width,right=0,count=0;for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++)if(pixels[(y*canvas.width+x)*4+3]>=230){left=Math.min(left,x);right=Math.max(right,x+1);count++}return count?{left:left/canvas.width*info.width,right:right/canvas.width*info.width}:null}catch(e){return null}finally{bitmap?.close()}
+ }
+ function contactIcon(pdf,name,x,y,w,h){vector(pdf,'footer-'+name,x,y,w,h)}
  async function drawSheet(pdf,m,page,total){
   pdf.setFillColor(colors.paper);pdf.rect(0,0,W,H,'F');
-  if(m.mock){const data=await imageData(m.mock),info=pdf.getImageProperties(data),factor=Math.min(476.354/info.width,355.530/info.height),w=info.width*factor,h=info.height*factor;pdf.addImage(data,info.fileType,-1.05+(476.354-w)/2,116.5+(355.530-h)/2,w,h)}
+  if(m.mock){const data=await imageData(m.mock),info=pdf.getImageProperties(data),box=await opaqueBounds(data,info),placement=mockPlacement(info,box);pdf.addImage(data,info.fileType,placement.x,placement.y,placement.w,placement.h)}
   vector(pdf,'assets/jd-logo-quote.svg',33.759,32.0,54.0,40.67);
   text(pdf,m.overline,106.790,34.814,7.291296893,'wide',colors.gold,120);
   const parts=m.title.split('·');text(pdf,parts[0].trim(),106.790,74.916,36.456484466,'title',colors.teal,10);
@@ -76,8 +82,8 @@
   vector(pdf,'master-bsd',565.8791,22.6919,12.1860,4.6460);rule(pdf,24.252,97.552,571.024,97.552,.5,colors.gold);
   const legal=legalLayout(pdf,m.legal);m={...m,_lift:legal.lift};drawContent(pdf,m);drawCard(pdf,m);drawLegal(pdf,m.legal);
   pdf.setFillColor(colors.footer);pdf.rect(0,805.813,W,H-805.813,'F');
-  text(pdf,'Bē',39,826.782,8.838383838,'wide','#b8a781');text(pdf,'behance.net/JudaicaDesign',50.393,826.782,8.838383838,'wide','#ffffff',26);
-  text(pdf,'|',208,826.782,8.838383838,'wide','#ffffff');text(pdf,'@JudaicaDesign',234.143,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'|',333,826.782,8.838383838,'wide','#ffffff');text(pdf,'+54 9 11 5822 4686',361.964,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'» '+page+' / '+total,520.482,827.189,10.3154,'wide','#b8a781',26);
+  contactIcon(pdf,'behance',39.5,819.75,10.6875,6.6875);text(pdf,'behance.net/JudaicaDesign',53.281,826.782,8.838383838,'wide','#ffffff',26);
+  text(pdf,'|',208,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'instagram',223.9375,820.1875,10,10);text(pdf,'@JudaicaDesign',237.031,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'|',333,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'whatsapp',351.8125,819.4375,9.9375,10.0625);text(pdf,'+54 9 11 5822 4686',364.852,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'» '+page+' / '+total,520.482,827.189,10.3154,'wide','#b8a781',26);
  }
  function drawContent(pdf,m){if(!m.content.length)return;const lines=m.content.map(t=>wrap(pdf,t,169.1,8.5));let best=1,score=Infinity;for(let i=1;i<lines.length;i++){const a=lines.slice(0,i).reduce((n,v)=>n+v.length,0),b=lines.slice(i).reduce((n,v)=>n+v.length,0),s=Math.abs(a-b);if(s<score){best=i;score=s}}
   const cols=[lines.slice(0,best),lines.slice(best)],height=Math.max(...cols.map(col=>col.reduce((n,v)=>n+v.length*13,0)))+38.555;
@@ -125,6 +131,6 @@
  root.jdQuotePreviewSVG=svgPreview;
 
  async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={generate,readSheet,legalLayout,legalLines,cardLayout,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ root.jdNativeQuote={generate,readSheet,legalLayout,legalLines,cardLayout,mockPlacement,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);
