@@ -1,0 +1,63 @@
+/* A4 composition transcribed from the supplied InDesign PDF: 794 × 1123 CSS px. */
+.quote-preview#quotePreview,.quote-preview#jdPdfCapture{container-type:inline-size!important;padding:0!important;border:0!important;border-radius:0!important;min-height:0!important;background:#f5f2eb!important}
+.jd-master-sheet{--u:calc(100cqw / 794);--legal-scale:1;--content-scale:1;--spec-scale:1;box-sizing:border-box!important;width:100%!important;height:calc(1123 * var(--u))!important;padding:calc(32 * var(--u)) calc(32 * var(--u)) 0!important;background:#f5f2eb!important;display:grid!important;grid-template-rows:calc(100 * var(--u)) minmax(0,1fr) calc(245 * var(--u)) calc(68 * var(--u))!important;gap:calc(16 * var(--u))!important;color:#111!important;font-family:Inter,Arial,sans-serif!important;position:relative!important;overflow:visible!important}
+.jd-master-sheet .jd-pdf-header{position:relative!important;display:grid!important;grid-template-columns:calc(90 * var(--u)) minmax(0,1fr) calc(186 * var(--u))!important;gap:calc(20 * var(--u))!important;align-items:center!important;border-bottom:1px solid #8f7859!important;padding:0 0 calc(22 * var(--u))!important;margin:0!important;min-width:0!important}
+.jd-master-sheet .jd-bsd{position:absolute!important;right:0!important;top:calc(-7 * var(--u))!important;font:calc(8 * var(--u)) Arial!important;color:#18666b!important}
+.jd-master-sheet .jd-pdf-logo{width:calc(85 * var(--u))!important;height:calc(72 * var(--u))!important;object-fit:contain!important;max-width:none!important}
+.jd-master-sheet .jd-overline{font-size:calc(9.8 * var(--u))!important;letter-spacing:.12em!important;font-weight:500!important;color:#8f7859!important;white-space:nowrap!important;margin-bottom:calc(9 * var(--u))!important}
+.jd-master-sheet .jd-doc-title{font-family:'Libre Caslon Condensed',Georgia,serif!important;font-weight:500!important;font-size:calc(48 * var(--u))!important;line-height:1!important;color:#18666b!important;letter-spacing:0!important;margin:0!important;overflow-wrap:normal!important}
+.jd-master-sheet .jd-doc-title span{color:#ab9373!important}
+.jd-master-sheet .jd-client-meta{display:grid!important;grid-template-columns:1fr calc(76 * var(--u))!important;gap:calc(9 * var(--u))!important;align-items:start!important;text-align:left!important;margin-top:calc(16 * var(--u))!important;min-width:0!important}
+.jd-master-sheet .jd-client-meta>div{border-left:1px solid #8f7859!important;padding-left:calc(6 * var(--u))!important;min-width:0!important}
+.jd-master-sheet .jd-client-meta small{display:block!important;font-size:calc(7 * var(--u))!important;font-weight:800!important;letter-spacing:.07em!important;color:#111!important;margin:0 0 calc(3 * var(--u))!important}
+.jd-master-sheet .jd-client-meta b{display:block!important;font-size:calc(9.6 * var(--u))!important;font-weight:400!important;line-height:1.3!important;overflow-wrap:anywhere!important;color:#111!important}
+.jd-master-sheet .jd-pdf-bodytop{display:grid!important;grid-template-columns:minmax(0,2.05fr) minmax(0,1fr)!important;gap:calc(10 * var(--u))!important;height:100%!important;min-height:0!important;align-items:end!important;margin:0!important}
+.jd-master-sheet .jd-master-left{height:100%!important;min-height:0!important;display:grid!important;grid-template-rows:minmax(0,1fr) auto!important}
+.jd-master-sheet .jd-pdf-mock{height:100%!important;min-height:0!important;background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:visible!important}
+.jd-master-sheet .jd-pdf-product-img{width:100%!important;height:100%!important;max-height:100%!important;object-fit:contain!important;border:0!important;border-radius:0!important;padding:0!important}
+.jd-master-sheet .jd-mock-placeholder{font-size:calc(10 * var(--u))!important}
+.jd-master-sheet .jd-content-box{margin:0!important;padding:calc(9 * var(--u)) calc(12 * var(--u)) calc(10 * var(--u))!important;background:transparent!important;border:0!important;border-top:1px solid #8f7859!important;border-bottom:1px solid #8f7859!important;border-radius:0!important;max-height:calc(220 * var(--u))!important;min-height:calc(90 * var(--u))!important;overflow:visible!important}
+.jd-master-sheet .jd-content-box h4{font-family:'Libre Caslon Condensed',Georgia,serif!important;font-size:calc(24 * var(--u))!important;font-weight:500!important;line-height:1.15!important;color:#18666b!important;margin:0 0 calc(5 * var(--u))!important}
+.jd-master-sheet .jd-content-box .index-list{columns:2!important;column-gap:calc(20 * var(--u))!important;padding:0!important;margin:0!important;font-size:calc(11.3 * var(--u) * var(--content-scale))!important;line-height:1.53!important;list-style:none!important}
+.jd-master-sheet .index-list li{break-inside:avoid!important;position:relative!important;padding-left:calc(7 * var(--u))!important;margin:0!important}
+.jd-master-sheet .index-list li::before{content:'·'!important;position:absolute!important;left:0!important;color:#b88a3b!important}
+.jd-master-sheet .jd-compact-specs{background:#fffdf8!important;border:1px solid #ab9373!important;border-radius:calc(14 * var(--u) * var(--spec-scale))!important;padding:calc(20 * var(--u) * var(--spec-scale)) calc(12 * var(--u) * var(--spec-scale))!important;min-width:0!important;align-self:end!important;overflow:visible!important}
+.jd-master-sheet .jd-compact-specs h3{font-family:Inter,Arial,sans-serif!important;font-size:calc(9.8 * var(--u) * var(--spec-scale))!important;font-weight:500!important;line-height:1.5!important;color:#8f7859!important;letter-spacing:.12em!important;text-transform:uppercase!important;margin:calc(4 * var(--u) * var(--spec-scale)) 0 calc(23 * var(--u) * var(--spec-scale)) calc(3 * var(--u) * var(--spec-scale))!important}
+.jd-master-sheet .jd-spec-icon-row{display:grid!important;grid-template-columns:calc(38 * var(--u) * var(--spec-scale)) minmax(0,1fr)!important;gap:calc(7 * var(--u) * var(--spec-scale))!important;padding:calc(9 * var(--u) * var(--spec-scale)) calc(4 * var(--u) * var(--spec-scale))!important;align-items:center!important;border-bottom:1px solid #ab9373!important;min-height:calc(52 * var(--u) * var(--spec-scale))!important}
+.jd-master-sheet .jd-spec-icon{width:calc(34 * var(--u) * var(--spec-scale))!important;height:calc(34 * var(--u) * var(--spec-scale))!important;border-radius:50%!important;background:#dcd6c2!important;display:grid!important;place-items:center!important}
+.jd-master-sheet .jd-spec-icon img{width:72%!important;height:72%!important;object-fit:contain!important}
+.jd-master-sheet .jd-spec-icon-row small{font-size:calc(8 * var(--u) * var(--spec-scale))!important;font-weight:400!important;line-height:1.35!important;letter-spacing:.06em!important;color:#8f7859!important;margin:0 0 calc(4 * var(--u) * var(--spec-scale))!important;display:block!important;text-transform:uppercase!important}
+.jd-master-sheet .jd-spec-icon-row strong{font-size:calc(11.7 * var(--u) * var(--spec-scale))!important;line-height:1.25!important;font-weight:500!important;color:#111!important;overflow-wrap:anywhere!important;display:block!important}
+.jd-master-sheet .jd-tech{border:0!important;padding:0!important;margin:0!important;font-size:calc(8 * var(--u) * var(--spec-scale))!important;line-height:1.35!important;color:#111!important}
+.jd-master-sheet .jd-tech>b{display:none!important}
+.jd-master-sheet .jd-tech span{display:block!important;margin:calc(3 * var(--u) * var(--spec-scale)) 0!important}
+.jd-master-sheet .jd-tech strong{font-size:inherit!important;display:inline!important;font-weight:600!important}
+.jd-master-sheet .jd-client-prices{margin:calc(8 * var(--u) * var(--spec-scale)) 0 0!important}
+.jd-master-sheet .jd-client-price{display:grid!important;grid-template-columns:1fr 1fr!important;gap:calc(8 * var(--u) * var(--spec-scale))!important;align-items:start!important;padding:calc(7 * var(--u) * var(--spec-scale)) calc(4 * var(--u) * var(--spec-scale))!important;border:0!important;border-radius:0!important;font-size:calc(11.7 * var(--u) * var(--spec-scale))!important;background:transparent!important}
+.jd-master-sheet .jd-client-price>span::before{content:'CANTIDAD'!important;display:block!important;font-size:calc(8 * var(--u) * var(--spec-scale))!important;letter-spacing:.07em!important;color:#8f7859!important;margin-bottom:calc(5 * var(--u) * var(--spec-scale))!important}
+.jd-master-sheet .jd-pdf-price-breakdown{border-left:1px solid #ab9373!important;padding-left:calc(12 * var(--u) * var(--spec-scale))!important;text-align:left!important;min-width:0!important}
+.jd-master-sheet .jd-pdf-price-breakdown::before{content:'PRECIO'!important;display:block!important;font-size:calc(8 * var(--u) * var(--spec-scale))!important;letter-spacing:.07em!important;color:#8f7859!important;margin-bottom:calc(5 * var(--u) * var(--spec-scale))!important}
+.jd-master-sheet .jd-pdf-price-breakdown b{font-size:calc(11.7 * var(--u) * var(--spec-scale))!important;font-weight:500!important;line-height:1.3!important;color:#111!important;display:block!important}
+.jd-master-sheet .jd-pdf-price-breakdown small{font-size:calc(8 * var(--u) * var(--spec-scale))!important;line-height:1.35!important;color:#716b62!important;display:block!important}
+.jd-master-sheet .jd-discount-note{font-size:calc(8 * var(--u) * var(--spec-scale))!important;line-height:1.3!important;color:#716b62!important;margin:calc(5 * var(--u) * var(--spec-scale)) 0 0!important}
+.jd-master-sheet .jd-full-legal{height:100%!important;box-sizing:border-box!important;background:#e5e5e7!important;padding:calc(8 * var(--u)) calc(13 * var(--u))!important;margin:0!important;border:0!important;columns:3!important;column-gap:calc(20 * var(--u))!important;column-rule:1px solid #ab9373!important;column-fill:auto!important;font-family:'Roboto Condensed',Arial,sans-serif!important;font-size:calc(8 * var(--u) * var(--legal-scale))!important;line-height:1.33!important;font-weight:300!important;color:#111!important;overflow:visible!important}
+.jd-master-sheet .jd-full-legal .jd-legal-title{display:none!important}
+.jd-master-sheet .jd-full-legal p{margin:0 0 calc(3 * var(--u))!important;break-inside:auto!important;white-space:normal!important}
+.jd-master-sheet .jd-full-legal b{font-weight:600!important;color:#111!important}
+.jd-master-sheet .jd-quote-footer{height:calc(68 * var(--u))!important;margin:0 calc(-32 * var(--u))!important;padding:0 calc(45 * var(--u))!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:calc(12 * var(--u))!important;background:#145b64!important;color:#fff!important;font-size:calc(11.3 * var(--u))!important;line-height:1!important;white-space:nowrap!important;letter-spacing:.025em!important}
+.jd-master-sheet .jd-quote-footer b,.jd-master-sheet .jd-quote-page{color:#b8a781!important;font-weight:500!important}
+.jd-master-sheet .jd-quote-footer>span+span{border-left:1px solid white!important;padding-left:calc(15 * var(--u))!important}
+.jd-master-sheet .jd-quote-page{font-size:calc(13 * var(--u))!important;margin-left:auto!important}
+#quotePreview>.jd-master-sheet+.jd-master-sheet{margin-top:24px!important;padding-top:calc(32 * var(--u))!important;border-top:0!important}
+/* Explicit slots also preserve the footer when a product has no legal document. */
+.jd-master-sheet .jd-pdf-header{grid-row:1!important}
+.jd-master-sheet .jd-pdf-header>.jd-pdf-logo{grid-column:1!important;grid-row:1!important}
+.jd-master-sheet .jd-header-copy{grid-column:2!important;grid-row:1!important;min-width:0!important}
+.jd-master-sheet .jd-client-meta{grid-column:3!important;grid-row:1!important;padding:0!important}
+.jd-master-sheet .jd-client-meta b{white-space:normal!important}
+.jd-master-sheet .jd-pdf-bodytop{grid-row:2!important}
+.jd-master-sheet .jd-full-legal{grid-row:3!important}
+.jd-master-sheet .jd-quote-footer{grid-row:4!important}
+.jd-master-sheet .jd-client-price>span{font-size:calc(11.7 * var(--u) * var(--spec-scale))!important;color:#111!important;white-space:normal!important}
+.jd-master-sheet .jd-pdf-price-breakdown b{white-space:normal!important}
+.jd-master-sheet{grid-template-columns:minmax(0,1fr)!important}
