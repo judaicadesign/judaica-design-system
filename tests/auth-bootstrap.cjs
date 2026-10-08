@@ -11,7 +11,7 @@ async function run(mode){
   for(const c of changes){const old=remote.find(r=>r.key===c.key);if(!!old!==c.exists||old&&JSON.stringify(old.value)!==JSON.stringify(c.expected))return{error:{code:'40001',message:'Conflicto'}};}
   const rows=changes.map(c=>({key:c.key,value:c.value}));writes.push(rows);for(const row of rows){const i=remote.findIndex(r=>r.key===row.key);if(i<0)remote.push(structuredClone(row));else remote[i]=structuredClone(row)}return{data:rows};
  };
- w.supabase={createClient:()=>client};w.eval(fs.readFileSync(root+'/assets/jd-ui.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-quote-edit.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-price.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-legal.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-auth.js','utf8'));
+ w.supabase={createClient:()=>client};w.eval(fs.readFileSync(root+'/assets/jd-ui.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-asset-match.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-quote-edit.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-price.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-legal.js','utf8'));w.eval(fs.readFileSync(root+'/assets/jd-auth.js','utf8'));
  await new Promise(r=>setTimeout(r,800));
  assert.equal(w.document.body.classList.contains('jd-authenticated'),mode==='allowed');
  assert.equal(writes.length,0,'bootstrap must not write remote commercial data');
@@ -62,3 +62,4 @@ assert.equal(typeof w.go,'function');w.go('products');assert.ok(w.document.query
  assert.deepEqual(errors,[],'runtime exceptions');d.window.close();console.log(mode,'passed');
 }
 (async()=>{for(const mode of ['none','denied','allowed'])await run(mode)})().catch(e=>{console.error(e);process.exit(1)});
+

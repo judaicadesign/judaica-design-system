@@ -10,17 +10,18 @@
 <link rel="stylesheet" href="assets/jd-ui.css?v=20261008-menu-grouped-v2">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-tehilim-export.js?v=20261008" defer></script>
-<script src="assets/jd-inflation.js?v=20261008-auto-ipc" defer></script>
+<script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
+<script src="assets/jd-asset-match.js?v=20261008-v3" defer></script>
 <script src="assets/jd-orders.js?v=20261008-alternatives" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-price.js?v=20261008-rush" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
 <link rel="stylesheet" href="https://use.typekit.net/ydp7axr.css">
-<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-vector-v2">
+<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261008-master-v3">
 <script src="assets/jd-quote-hyphen.js?v=20261008-native" defer></script>
-<script src="assets/jd-quote-vectors.js?v=20261008-vector-v2" defer></script>
-<script src="assets/jd-quote-native.js?v=20261008-vector-v2" defer></script>
-<script src="assets/jd-quote-fit.js?v=20261008-vector-v2" defer></script>
+<script src="assets/jd-quote-vectors.js?v=20261008-master-v3" defer></script>
+<script src="assets/jd-quote-native.js?v=20261008-master-v3" defer></script>
+<script src="assets/jd-quote-fit.js?v=20261008-master-v3" defer></script>
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
@@ -315,7 +316,7 @@ function loadSavedQuoteV6(id,preservePrices=false){
  const ev=document.getElementById('qEvent');if(ev)ev.value=q.event||'';
  const dl=document.getElementById('qDeadline');if(dl)dl.value=q.deadline||'';
  const cl=document.getElementById('qClient');if(cl)cl.value=q.client||'';
- const rush=document.getElementById('qRush');if(rush)rush.checked=!!q.rushPercent;set('qDiscount',q.discount||0,false);set('qDiscountWhy',q.discountWhy||'',false);set('qInternal',q.internal||'',false);
+ const rush=document.getElementById('qRush');if(rush)rush.checked=!!q.rushPercent;const showRush=document.getElementById('qRushShow');if(showRush)showRush.checked=!!q.rushShow;const leafletContent=document.getElementById('qLeafletContent');if(leafletContent&&q.product==='Birkón · Folleto')leafletContent.value=(q.content||[]).join('\n');set('qDiscount',q.discount||0,false);set('qDiscountWhy',q.discountWhy||'',false);set('qInternal',q.internal||'',false);
  window.jdManualPrices=preservePrices?Object.fromEntries((q.quantities||[]).filter(x=>Number.isFinite(Number(x.price))&&Number(x.price)>0).map(x=>[x.qty,String(x.basePrice??((x.priceBeforeDiscount??(Number(x.price)+Number(q.discount||0)))/(1+Number(q.rushPercent||0)/100)))])):{};
  window.jdDrawQuoteQuantities?.();
  window.jdLoadAlternatives?.(q,preservePrices);
@@ -332,8 +333,8 @@ const assetsSec=document.getElementById('assets');
 function drawAssets(){
  if(!assetsSec)return;
  assetsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Biblioteca visual</div><h1>Assets</h1></div><button class="btn primary" id="jdAddAsset">+ Subir asset</button></div>'+
- '<div class="jd-note">Cada asset se etiqueta por <b>producto + función + variante</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
- '<div class="product-grid" style="margin-top:16px">'+(assets.length?assets.map((a,i)=>'<div class="jd-asset-card">'+(a.data?'<img class="jd-thumb" src="'+a.data+'">':'<div class="product-visual">Sin preview</div>')+'<h3>'+esc3(a.name)+'</h3><div class="jd-asset-meta"><span class="tag">'+esc3(a.role)+'</span><span class="tag">'+esc3(a.product)+'</span>'+(a.variant?'<span class="tag">'+esc3(a.variant)+'</span>':'')+'</div><p class="small muted">'+esc3(a.notes||'')+'</p><div class="jd-toolbar"><button class="btn sm" data-ea="'+i+'">Editar</button><button class="btn sm" data-da="'+i+'">Eliminar</button></div></div>').join(''):'<div class="card"><p class="muted">Todavía no cargaste assets reales. Subilos acá y quedarán disponibles para el equipo y para los presupuestos.</p></div>')+'</div>';
+ '<div class="jd-note">Mockups: lienzo de <b>125 × 100 mm</b> (1476 × 1181 px a 300 ppp), preferentemente PNG transparente. Cada asset se etiqueta por <b>producto + función + variante</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
+ '<div class="product-grid" style="margin-top:16px">'+(assets.length?assets.map((a,i)=>'<div class="jd-asset-card">'+(a.data?'<img class="jd-thumb" src="'+a.data+'">':'<div class="product-visual">Sin preview</div>')+'<h3>'+esc3(a.name)+'</h3><div class="jd-asset-meta"><span class="tag">'+esc3(a.role)+'</span><span class="tag">'+esc3(a.product)+'</span>'+(a.variant?'<span class="tag">'+esc3(a.variant)+'</span>':'')+'</div><p class="small muted">'+esc3([a.model,a.binding,a.size,a.notes].filter(Boolean).join(' · '))+'</p><div class="jd-toolbar"><button class="btn sm" data-ea="'+i+'">Editar</button><button class="btn sm" data-da="'+i+'">Eliminar</button></div></div>').join(''):'<div class="card"><p class="muted">Todavía no cargaste assets reales. Subilos acá y quedarán disponibles para el equipo y para los presupuestos.</p></div>')+'</div>';
  document.getElementById('jdAddAsset').onclick=()=>editAsset(-1);
  assetsSec.querySelectorAll('[data-ea]').forEach(b=>b.onclick=()=>editAsset(+b.dataset.ea));
  assetsSec.querySelectorAll('[data-da]').forEach(b=>b.onclick=()=>{assets.splice(+b.dataset.da,1);SAVE3('jd_assets',assets);drawAssets()});
@@ -343,12 +344,15 @@ function editAsset(i){
  const cat=LS3('jd_catalog_v6',[]);
  const productNames=(Array.isArray(cat)&&cat.length?cat.map(p=>p.name):['Birkón · Librito','Birkón · Folleto','Luaj','Birkot Hashajar','Hagadá de Pesaj','Imán · horario encendido de velas','Hadlakat Nerot']);
  const productOptions=productNames.map(n=>'<option '+(n===a.product?'selected':'')+'>'+esc3(n)+'</option>').join('');
+ const assetBaseline=window.jdQuoteEditTools.fingerprint(a);
  const w=modal3(i>=0?'Editar asset':'Subir asset',
  '<div class="jd-grid">'+
  '<div class="jd-field"><label>Nombre</label><input id="jaName" value="'+esc3(a.name)+'" placeholder="Ej. Librito normal · abrochado"></div>'+
  '<div class="jd-field"><label>Producto</label><select id="jaProd">'+productOptions+'</select></div>'+
  '<div class="jd-field"><label>Función</label><select id="jaRole">'+['Mockup principal','Índice','Interior','Tamaño comparativo','Canto abrochado','Canto binder'].map(x=>'<option '+(x===a.role?'selected':'')+'>'+x+'</option>').join('')+'</select></div>'+
  '<div class="jd-field"><label>Variante / criterio</label><input id="jaVar" value="'+esc3(a.variant)+'" placeholder="Ej. Classic · Solo Sefaradí · Abrochado"></div>'+
+ '<div class="jd-field"><label>Modelo / formato</label><select id="jaModel"></select></div><div class="jd-field"><label>Encuadernación</label><select id="jaBinding"></select></div><div class="jd-field"><label>Tamaño</label><select id="jaSize"></select></div>'+
+ '<div class="jd-field"><label style="display:flex;gap:8px"><input id="jaCanvas" type="checkbox" style="width:auto" '+((i<0||a.mockCanvas)?'checked':'')+'> Lienzo del presupuesto · 125 × 100 mm</label><small>PNG transparente, 1476 × 1181 px a 300 ppp. Se respeta el lienzo completo y su proporción; no se recorta ni se recentra el objeto.</small></div>'+
  '<div class="jd-field"><label>Imagen</label><input id="jaFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">'+(a.data?'<div class="small muted" style="margin-top:5px">Ya hay una imagen cargada. Elegí otra sólo si querés reemplazarla.</div>':'')+'</div>'+
  '<div class="jd-field"><label>Notas</label><input id="jaNotes" value="'+esc3(a.notes)+'"></div>'+
  '</div>','Guardar asset',async x=>{
@@ -380,12 +384,12 @@ function editAsset(i){
        if(signed.error)throw signed.error;
        data=signed.data.signedUrl;
      }
-     const obj={id:a.id||('asset-'+Date.now()),name,product:x.querySelector('#jaProd').value,role:x.querySelector('#jaRole').value,variant:x.querySelector('#jaVar').value.trim(),notes:x.querySelector('#jaNotes').value.trim(),data,storagePath};
-     if(i>=0)assets[i]=obj;else assets.push(obj);
-     SAVE3('jd_assets',assets);
+     const obj={id:a.id||('asset-'+Date.now()),name,product:x.querySelector('#jaProd').value,role:x.querySelector('#jaRole').value,variant:x.querySelector('#jaVar').value.trim(),notes:x.querySelector('#jaNotes').value.trim(),model:x.querySelector('#jaModel').value,binding:x.querySelector('#jaBinding').value,size:x.querySelector('#jaSize').value,mockCanvas:x.querySelector('#jaCanvas').checked,data,storagePath};
+     await window.jdUpdateSharedState(['jd_assets'],state=>{const list=state.jd_assets||[];const current=list.find(item=>item.id===a.id);if(i>=0&&(!current||window.jdQuoteEditTools.fingerprint(current)!==assetBaseline))throw Error('La imagen cambió en otro dispositivo. Volvé a abrirla.');return {jd_assets:i>=0?list.map(item=>item.id===a.id?obj:item):[...list,obj]};});
+     assets=GET('jd_assets',[]);
      x.remove();
      drawAssets();
-     applyQuoteAsset();
+     applyQuoteAsset();window.renderQuote?.();
      alert('Asset guardado y sincronizado. Ya puede usarse en presupuestos.');
    }catch(err){
      console.error(err);
@@ -394,35 +398,10 @@ function editAsset(i){
    }
  });
  w.querySelector('#jaProd').value=a.product;
+ const criteria=()=>{const p=cat.find(p=>p.name===w.querySelector('#jaProd').value);for(const [id,key] of [['jaModel','models'],['jaBinding','bindings'],['jaSize','sizes']]){const el=w.querySelector('#'+id),selected=el.value||a[key==='models'?'model':key==='bindings'?'binding':'size']||'';el.innerHTML='<option value="">Todas las variantes</option>'+(p?.[key]||[]).map(value=>'<option>'+esc3(value)+'</option>').join('');el.value=[...el.options].some(o=>o.value===selected)?selected:'';}};w.querySelector('#jaProd').addEventListener('change',criteria);criteria();
 }
-function findAsset(role){
- if(!window.qProduct)return null;
- const product=qProduct.value;
- const model=(window.qModel?.value||'').toLowerCase();
- const nusaj=(window.qNusaj?.value||'').toLowerCase();
- const binding=(window.qBind?.value||'').toLowerCase();
- const size=(window.qSize?.value||'').toLowerCase();
- const cand=assets.filter(a=>a.product===product&&a.role===role);
- const compatible=cand.filter(a=>{
-   const v=String(a.variant||'').toLowerCase();
-   if(!v) return true;
-   if(binding.includes('abrochado') && /(binder|cosido)/.test(v)) return false;
-   if((binding.includes('binder')||binding.includes('cosido')) && /(abrochado|stapled)/.test(v)) return false;
-   if(size.includes('normal') && /grande/.test(v)) return false;
-   if(size.includes('grande') && /normal/.test(v)) return false;
-   return true;
- });
- const score=a=>{
-   const v=String(a.variant||'').toLowerCase(); let s=0;
-   if(!v)return 0;
-   if(model && v.includes(model))s+=5;
-   if(nusaj && v.includes(nusaj))s+=4;
-   if(binding && (v.includes(binding)|| (binding.includes('abrochado')&&v.includes('abrochado')) || ((binding.includes('binder')||binding.includes('cosido'))&&(v.includes('binder')||v.includes('cosido')))))s+=12;
-   if(size && ((size.includes('normal')&&v.includes('normal'))||(size.includes('grande')&&v.includes('grande'))))s+=8;
-   return s;
- };
- return compatible.sort((a,b)=>score(b)-score(a))[0]||null;
-}
+function findAsset(role){return window.jdAssetMatch.select(GET('jd_assets',[]),{product:window.qProduct?.value,model:window.qModel?.value,binding:window.qBind?.value,size:window.qSize?.value,role});}
+
 function applyQuoteAsset(){
  const m=findAsset('Mockup principal');const box=document.querySelector('#quotePreview .mock');if(box&&m?.data)box.innerHTML='<img src="'+m.data+'" style="width:100%;height:100%;object-fit:contain;border-radius:12px">';
 }
@@ -1198,7 +1177,8 @@ function jdIsNusajSpecificTitle(s){
 }
 function jdResolvedContentBlocks(p,v){
  if(p.name!=='Birkón · Librito'){
-   return (Array.isArray(v?.content)?v.content:[]).map(title=>({title:jdStripNusajMarker(title),nusaj:null}));
+   const titles=p.name==='Birkón · Folleto'&&document.getElementById('qLeafletContent')?document.getElementById('qLeafletContent').value.split(/\n+/).map(s=>s.trim()).filter(Boolean):(Array.isArray(v?.content)?v.content:[]);
+   return titles.map(title=>({title:jdStripNusajMarker(title),nusaj:null}));
  }
  const model=qModel?.value||v?.model||'';
  const base=jdLibritoModelContent(p,model).map(jdStripNusajMarker);
@@ -1532,7 +1512,9 @@ function buildQuote(){
  window.qs6=GET('jd_quote_qtys_v6',[60,100]);
  qProduct.onchange=syncFields6;['qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>document.getElementById(id).addEventListener('change',syncVariant6));
  ['qProduct','qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{window.jdManualPrices={};drawQty6();render6()}));
- const rushField=document.createElement('div');rushField.className='field span2';rushField.innerHTML='<label style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="qRush" style="width:auto"> Aplicar prioridad de agenda (+30%)</label><small class="muted">Se suma al precio base de cada cantidad, antes del descuento.</small>';document.getElementById('urgency6').parentElement.after(rushField);document.getElementById('qRush').addEventListener('change',render6);
+ const rushField=document.createElement('div');rushField.className='field span2';rushField.innerHTML='<label style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="qRush" style="width:auto"> Aplicar prioridad de agenda (+30%)</label><small class="muted">Se suma al precio base de cada cantidad, antes del descuento.</small><label style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="qRushShow" style="width:auto"> Mostrar el recargo en el PDF</label>';document.getElementById('urgency6').parentElement.after(rushField);document.getElementById('qRush').addEventListener('change',render6);document.getElementById('qRushShow').addEventListener('change',render6);
+ const contentField=document.createElement('div');contentField.className='field span2';contentField.id='qLeafletContentField';contentField.innerHTML='<label>Contenido del folleto · una línea por ítem</label><textarea id="qLeafletContent" placeholder="Cargá los contenidos que llevará este folleto"></textarea><small class="muted">Se incluye en este presupuesto. El contenido general de cada variante se edita en Productos & variantes.</small>';document.getElementById('qInternal').parentElement.before(contentField);document.getElementById('qLeafletContent').addEventListener('input',render6);
+ ['qProduct','qModel','qLang','qNusaj'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{const p=activeProduct();document.getElementById('qLeafletContent').value=(selectedVariant(p)?.content||[]).join('\n');render6()}));
  ['qClient','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',render6));
  qEvent.addEventListener('change',()=>{
    const ev=parseLocalDate(qEvent.value);
@@ -1545,6 +1527,7 @@ function buildQuote(){
  document.getElementById('previewPdf6').onclick=()=>window.jdPreviewCurrentPDF?.();
  document.getElementById('sendWa6').onclick=()=>window.jdSendCurrentQuoteWhatsApp?.();
  syncFields6();
+ if(activeProduct().name==='Birkón · Folleto'){document.getElementById('qLeafletContent').value=(selectedVariant(activeProduct())?.content||[]).join('\n');render6();}
 }
 function syncFields6(){
  const p=activeProduct();
@@ -1613,6 +1596,7 @@ function ageInfo(base){
 }
 function render6(){
  const p=activeProduct(),v=selectedVariant(p),disc=Number(qDiscount.value||0);
+ document.getElementById('qLeafletContentField').hidden=p.name!=='Birkón · Folleto';
  urgencyInfo();
  window.qs6.forEach((q,i)=>{
    const r=calcQty(q),price=price6(r,q,disc),el=document.getElementById('qpr6-'+i);
@@ -1645,30 +1629,8 @@ function render6(){
  const icon=name=>'<img src="assets/quote-icons/'+name+'.svg" alt="" aria-hidden="true">';
  const issuedDate=window.jdLegalDates.today();
  const today=window.jdLegalDates.display(issuedDate);
- const assetList=GET('jd_assets',[]);
- const selectedBinding=(p.bindings.length?qBind.value:'').toLowerCase();
- let assetCandidates=assetList.filter(a=>a.product===p.name&&a.role==='Mockup principal');
- if(p.name==='Birkón · Librito'){
-   assetCandidates=assetCandidates.filter(a=>{
-     const v=String(a.variant||'').toLowerCase();
-     if(!v)return true;
-     if(selectedBinding.includes('abrochado')) return !/(binder|cosido)/.test(v);
-     if(selectedBinding.includes('binder')||selectedBinding.includes('cosido')) return !/(abrochado|stapled)/.test(v);
-     return true;
-   });
-   assetCandidates.sort((a,b)=>{
-     const av=String(a.variant||'').toLowerCase(),bv=String(b.variant||'').toLowerCase();
-     const score=v=>{
-       if(!v)return 0;
-       if(selectedBinding.includes('abrochado')&&v.includes('abrochado'))return 10;
-       if((selectedBinding.includes('binder')||selectedBinding.includes('cosido'))&&(v.includes('binder')||v.includes('cosido')))return 10;
-       return 0;
-     };
-     return score(bv)-score(av);
-   });
- }
- const asset=assetCandidates[0]||null;
- const hero=asset?.data?'<img src="'+asset.data+'" class="jd-pdf-product-img">':'<div class="jd-mock-placeholder"><div class="book">'+E(p.name.split('·')[0].trim().toUpperCase())+'</div><span>MOCKUP PRINCIPAL</span></div>';
+ const asset=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,model:qModel.value,binding:p.bindings.length?qBind.value:'',size:qSize.value,role:'Mockup principal'});
+ const hero=asset?.data?'<img src="'+E(asset.data)+'" class="jd-pdf-product-img" data-mock-canvas="'+(asset.mockCanvas?'true':'false')+'">':'<div class="jd-mock-placeholder"><span>MOCKUP PRINCIPAL · 125 × 100 mm</span></div>';
  const et=jdEffectiveTechnical(p,v);
  const technical=p.name==='Birkón · Librito'
    ?'<div class="jd-tech">'+(et.paper||et.weightGsm?'<span><strong>Tapa:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' grs.':''].filter(Boolean).join(' '))+'</span>':'')+(et.lamination?'<span>'+E(et.lamination)+'</span>':'')+(et.interiorPaper||et.interiorWeightGsm||et.print?'<span><strong>Interior:</strong> '+E([[et.interiorPaper,et.interiorWeightGsm?et.interiorWeightGsm+' grs.':''].filter(Boolean).join(' '),et.print].filter(Boolean).join(' - '))+'</span>':'')+(et.sides?'<span>'+E(et.sides)+'</span>':'')+(et.finish?'<span>'+E(et.finish)+'</span>':'')+'</div>' 
@@ -1676,9 +1638,9 @@ function render6(){
  const legalSet=jdLegalSet(p.legalSetId||((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
  const legal=window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate);
  const legalBlock=legal.length?'<div class="jd-full-legal"><div class="jd-legal-flow"><div class="jd-legal-title">ACLARACIONES</div>'+legal.map(x=>'<p><b>'+E(x[0])+'.</b> '+E(x[1])+'</p>').join('')+'</div></div>':'';
- const prices=window.qs6.map(q=>{const price=price6(calcQty(q),q,disc);return '<div class="jd-client-price"><span>'+q+' unidades</span><div class="jd-pdf-price-breakdown">'+(price.ok?(price.rushAmount?'<small>Prioridad de agenda (+30%): $ '+price.rushAmount.toLocaleString('es-AR')+'</small>':'')+(price.discountAmount?'<small>Precio antes del descuento: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+'</small><small>Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</small>':'')+'<b>Total: $ '+price.price.toLocaleString('es-AR')+'.-</b>':'<b>A cotizar</b>')+'</div></div>'}).join('');
+ const prices=window.qs6.map(q=>{const price=price6(calcQty(q),q,disc);return '<div class="jd-client-price"><span>'+q+' unidades</span><div class="jd-pdf-price-breakdown">'+(price.ok?(price.rushAmount&&document.getElementById('qRushShow')?.checked?'<small>Prioridad de agenda (+30%): $ '+price.rushAmount.toLocaleString('es-AR')+'</small>':'')+(price.discountAmount?'<small>Precio antes del descuento: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+'</small><small>Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</small>':'')+'<b>Total: $ '+price.price.toLocaleString('es-AR')+'.-</b>':'<b>A cotizar</b>')+'</div></div>'}).join('');
  const content=jdQuoteContent(p,v);
- const contentBlock=content.length?'<div class="jd-content-box"><h4>Contenido'+(p.models.length?' '+E(qModel.value):'')+'</h4><ul class="index-list">'+content.map(x=>'<li>'+E(x)+'</li>').join('')+'</ul></div>':'';
+ const contentBlock=content.length||p.name==='Birkón · Folleto'?'<div class="jd-content-box"><h4>Contenido'+(p.models.length?' '+E(qModel.value):'')+'</h4><ul class="index-list">'+content.map(x=>'<li>'+E(x)+'</li>').join('')+'</ul></div>':'';
  quotePreview.innerHTML=
  '<div class="jd-pdf-sheet jd-master-sheet">'+
  '<div class="jd-pdf-header"><img src="assets/jd-logo-quote.svg" class="jd-pdf-logo" alt="Judaica Design®"><div class="jd-header-copy"><span class="jd-bsd" dir="rtl">בס״ד</span><div class="jd-overline">PRESUPUESTO</div><div class="jd-doc-title">'+E(p.name).replace('·','<span>·</span>')+'</div></div><div class="jd-client-meta"><div><small>CLIENTE</small><b>'+E(qClient.value||'—')+'</b></div><div><small>FECHA</small><b>'+today+'</b></div></div></div>'+
@@ -1689,7 +1651,7 @@ function render6(){
 }
 // Each alternative owns its configuration/prices; shared client and dates stay in the form.
 let alternatives=[],activeAlternative=0,restoringAlternative=false;
-const alternativeFields=['qRush','qProduct','qModel','qLang','qNusaj','qSize','qBind','qDiscount','qDiscountWhy','qInternal'];
+const alternativeFields=['qRush','qRushShow','qProduct','qModel','qLang','qNusaj','qSize','qBind','qDiscount','qDiscountWhy','qInternal','qLeafletContent'];
 function alternativeState(){return {fields:Object.fromEntries(alternativeFields.map(id=>[id,(document.getElementById(id)?.type==='checkbox'?document.getElementById(id).checked:document.getElementById(id)?.value)||''])),quantities:[...window.qs6],manualPrices:{...window.jdManualPrices}}}
 function applyAlternative(state){
  restoringAlternative=true;
@@ -1744,7 +1706,7 @@ window.jdLoadAlternatives=(quote,preservePrices)=>{
  if(!quote.alternatives?.length)return;
  const shared={client:qClient.value,event:qEvent.value,deadline:qDeadline.value};
  try{
-   alternatives=quote.alternatives.map(a=>({quote:structuredClone(a),state:{fields:{qRush:!!a.rushPercent,qProduct:a.product,qModel:a.model||'',qLang:a.texts||'',qNusaj:a.nusaj||'',qSize:a.size||'',qBind:a.binding||'',qDiscount:String(a.discount||0),qDiscountWhy:a.discountWhy||'',qInternal:a.internal||''},quantities:a.quantities.map(q=>q.qty),manualPrices:preservePrices?Object.fromEntries(a.quantities.map(q=>[q.qty,String(q.basePrice??((q.priceBeforeDiscount??(q.price+Number(a.discount||0)))/(1+Number(a.rushPercent||0)/100)))])):{}}}));
+   alternatives=quote.alternatives.map(a=>({quote:structuredClone(a),state:{fields:{qRush:!!a.rushPercent,qRushShow:!!a.rushShow,qLeafletContent:(a.content||[]).join('\n'),qProduct:a.product,qModel:a.model||'',qLang:a.texts||'',qNusaj:a.nusaj||'',qSize:a.size||'',qBind:a.binding||'',qDiscount:String(a.discount||0),qDiscountWhy:a.discountWhy||'',qInternal:a.internal||''},quantities:a.quantities.map(q=>q.qty),manualPrices:preservePrices?Object.fromEntries(a.quantities.map(q=>[q.qty,String(q.basePrice??((q.priceBeforeDiscount??(q.price+Number(a.discount||0)))/(1+Number(a.rushPercent||0)/100)))])):{}}}));
    for(let i=0;i<alternatives.length;i++){activeAlternative=i;applyAlternative(alternatives[i].state);alternatives[i].html=quotePreview.querySelector('.jd-pdf-sheet')?.outerHTML||'';}
    activeAlternative=0;applyAlternative(alternatives[0].state);
  }catch(error){alert(error.message)}
@@ -1769,7 +1731,7 @@ function collectSingleQuote6(){
  const p=activeProduct(),v=selectedVariant(p);
  const issuedDate=window.jdLegalDates.today();
  const legalSet=jdLegalSet(p.legalSetId||((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
- const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live}:null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',rushPercent:document.getElementById('qRush')?.checked?30:0,discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live}:null}}),event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',rushPercent:document.getElementById('qRush')?.checked?30:0,rushShow:!!document.getElementById('qRushShow')?.checked,discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
  if(!quote.client)throw new Error('Falta el nombre y apellido del cliente.');
  if(p.name==='Birkón · Librito' && !quote.pages)throw new Error('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
@@ -1884,7 +1846,7 @@ window.renderQuote=render6;
  }
  async function pdfBlob(){
    const el=document.getElementById('quotePreview');if(!el)throw Error('No se encontró la vista del presupuesto.');
-   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-vector-v2')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
+   if(!window.jdVectorQuotePdf||window.jdNativeQuote?.version!=='20261008-master-v3')throw Error('La versión del generador PDF está desactualizada. Recargá la página antes de exportar.');
    const sheets=[...el.querySelectorAll('.jd-pdf-sheet')];if(!sheets.length)throw Error('No hay páginas para exportar.');
    return await window.jdVectorQuotePdf(sheets);
  }

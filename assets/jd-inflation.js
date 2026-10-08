@@ -23,13 +23,19 @@
     }
     return Number(cost.cost);
   }
+  // Monthly IPC is apportioned geometrically over calendar days. Unpublished
+  // months are explicitly projected using the last published monthly variation.
   function ipcEstimate(rows,baseDate,targetDate){
     if(!validDate(baseDate)||!validDate(targetDate)||targetDate<baseDate)throw Error('Revisá las fechas del período.');
-    const data=rows.filter(r=>Array.isArray(r)&&validDate(r[0])&&Number.isFinite(r[1])&&r[1]>0).sort((a,b)=>a[0].localeCompare(b[0]));
-    const baseMonth=baseDate.slice(0,7),targetMonth=targetDate.slice(0,7);
-    const start=data.find(r=>r[0].slice(0,7)===baseMonth),end=data.filter(r=>r[0].slice(0,7)<=targetMonth).at(-1);
-    if(!start||!end||end[0]<start[0])throw Error('Todavía no hay un índice publicado para el mes del costo original. Podés usar un porcentaje manual.');
-    return {percent:indexPercent(start[1],end[1]),startIndex:start[1],endIndex:end[1],baseMonth,endMonth:end[0].slice(0,7)};
+    const data=rows.filter(r=>Array.isArray(r)&&validDate(r[0])&&Number.isFinite(r[1])&&r[1]>0&&r[0].slice(0,7)<=targetDate.slice(0,7)).sort((a,b)=>a[0].localeCompare(b[0]));
+    if(data.length<2)throw Error('La fuente oficial no tiene suficientes índices para estimar el período.');
+    const factors=new Map();for(let i=1;i<data.length;i++){const previous=new Date(data[i][0]+'T12:00:00Z');previous.setUTCMonth(previous.getUTCMonth()-1);if(previous.toISOString().slice(0,7)===data[i-1][0].slice(0,7))factors.set(data[i][0].slice(0,7),data[i][1]/data[i-1][1]);}
+    const last=data.at(-1),endMonth=last[0].slice(0,7),lastFactor=factors.get(endMonth);
+    if(!lastFactor||lastFactor<1)throw Error('No hay una variación mensual válida para proyectar el período.');
+    const date=new Date(baseDate+'T12:00:00Z'),end=new Date(targetDate+'T12:00:00Z');let log=0,projectedDays=0,days=0;
+    while(date<end){date.setUTCDate(date.getUTCDate()+1);const month=date.toISOString().slice(0,7),factor=factors.get(month);if(!factor&&month<=endMonth)throw Error('Falta un índice mensual del período. Podés usar un porcentaje manual.');const monthDays=new Date(Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,0)).getUTCDate();log+=Math.log(factor||lastFactor)/monthDays;if(!factor)projectedDays++;days++;}
+    const percent=Math.expm1(log)*100;if(!Number.isFinite(percent)||percent<0)throw Error('No se pudo estimar un aumento válido.');
+    return {percent,baseMonth:baseDate.slice(0,7),endMonth,days,projectedDays,lastMonthlyPercent:(lastFactor-1)*100,projection:'Última variación mensual distribuida geométricamente por días calendario'};
   }
   const math={adjustedAmount,indexPercent,validDate,effectiveCost,ipcEstimate};
   if(typeof module==='object'&&module.exports)module.exports=math;
@@ -44,12 +50,12 @@
   }
   const source='https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-5-31';
   const money=n=>'$ '+Number(n).toLocaleString('es-AR',{maximumFractionDigits:2});
-  const today=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
+  const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Argentina/Buenos_Aires',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   const signature=c=>JSON.stringify(['supplier','product','variant','size','binding','pages','qty','cost','date'].map(k=>c[k]??''));
   root.jdOpenInflation=function(cost){
     const overlay=document.createElement('div');overlay.className='modal open';
     overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-labelledby','jdInflationTitle');
-    overlay.innerHTML='<div class="modal-box"><div class="modal-head"><h2 id="jdInflationTitle">Estimar actualización</h2><button type="button" class="btn" data-close aria-label="Cerrar">×</button></div><p data-summary></p><div class="jd-note">El costo original se conserva. Esta estimación se usa al armar nuevos presupuestos; los ya guardados mantienen sus importes.</div><div class="jd-formgrid" style="margin-top:18px"><div><label for="jdAdjustmentMethod">Método</label><select id="jdAdjustmentMethod"><option value="auto">IPC automático · INDEC</option><option value="manual">Porcentaje manual</option><option value="ipc">Índices IPC ingresados</option></select></div><div><label for="jdAdjustmentDate">Fecha de la estimación</label><input id="jdAdjustmentDate" type="date"></div><div data-manual class="span2"><label for="jdAdjustmentPercent">Aumento acumulado (%)</label><input id="jdAdjustmentPercent" type="text" inputmode="decimal" placeholder="Ej.: 8,5"></div><div data-ipc hidden><label for="jdIndexStart">IPC del mes base</label><input id="jdIndexStart" type="number" step="any" min="0"></div><div data-ipc hidden><label for="jdIndexEnd">IPC del mes final</label><input id="jdIndexEnd" type="number" step="any" min="0"></div><div data-ipc hidden><label for="jdIndexMonthStart">Mes base publicado</label><input id="jdIndexMonthStart" type="month"></div><div data-ipc hidden><label for="jdIndexMonthEnd">Mes final publicado</label><input id="jdIndexMonthEnd" type="month"></div></div><p class="small muted">Consultá la <a target="_blank" rel="noopener" href="'+source+'">serie oficial del INDEC</a>. El IPC es mensual: no cubre días ni meses todavía sin publicar. El cálculo automático compara el mes del costo original con el último mes publicado hasta la fecha elegida. No proyecta inflación de meses pendientes.</p><div class="jd-note" data-result role="status" aria-live="polite">Ingresá un porcentaje o los índices para ver el resultado.</div><p class="small" data-error role="alert" style="color:#994941"></p><div class="jd-toolbar" style="margin-top:18px"><button type="button" class="btn primary" data-apply disabled>Aplicar estimación</button><button type="button" class="btn" data-reset>Volver al costo original</button></div></div>';
+    overlay.innerHTML='<div class="modal-box"><div class="modal-head"><h2 id="jdInflationTitle">Estimar actualización</h2><button type="button" class="btn" data-close aria-label="Cerrar">×</button></div><p data-summary></p><div class="jd-note">El costo original se conserva. Esta estimación se usa al armar nuevos presupuestos; los ya guardados mantienen sus importes.</div><div class="jd-formgrid" style="margin-top:18px"><div class="span2"><label for="jdAdjustmentMethod">Método</label><select id="jdAdjustmentMethod"><option value="auto">IPC automático · estimado</option><option value="manual">Porcentaje manual</option></select></div><div><label for="jdAdjustmentBase">Fecha del presupuesto del proveedor</label><input id="jdAdjustmentBase" type="date" readonly></div><div><label for="jdAdjustmentDate">Actualizar a hoy</label><input id="jdAdjustmentDate" type="date" readonly></div><div data-manual class="span2"><label for="jdAdjustmentPercent">Aumento acumulado (%)</label><input id="jdAdjustmentPercent" type="text" inputmode="decimal" placeholder="Ej.: 8,5"></div></div><p class="small muted">Consultá la <a target="_blank" rel="noopener" href="'+source+'">serie oficial del INDEC</a>. Estimación entre las dos fechas: distribuye el IPC mensual por días calendario. Para meses aún sin publicar proyecta la última variación mensual disponible; ese tramo es estimado, no inflación oficial confirmada.</p><div class="jd-note" data-result role="status" aria-live="polite">Ingresá un porcentaje o los índices para ver el resultado.</div><p class="small" data-error role="alert" style="color:#994941"></p><div class="jd-toolbar" style="margin-top:18px"><button type="button" class="btn primary" data-apply disabled>Aplicar estimación</button><button type="button" class="btn" data-reset>Volver al costo original</button></div></div>';
     const $=selector=>overlay.querySelector(selector);
     $('[data-summary]').textContent=[cost.supplier,cost.product,cost.qty+' unidades',money(cost.cost),'Base: '+(cost.date||'sin fecha')].join(' · ');
     const previous=document.activeElement;
@@ -65,8 +71,7 @@
     };
     $('[data-close]').onclick=close;overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
     $('#jdAdjustmentDate').value=today();$('#jdAdjustmentDate').max=today();
-    $('#jdIndexMonthStart').value=String(cost.date||'').slice(0,7);
-    $('#jdIndexMonthEnd').max=today().slice(0,7);
+    $('#jdAdjustmentBase').value=cost.date||'';
     $('[data-reset]').hidden=!cost.adjustment;
     function estimate(){
       if(!validDate(cost.date))throw new Error('Primero cargá una fecha válida para el costo original.');
@@ -81,30 +86,25 @@
         const raw=$('#jdAdjustmentPercent').value.trim();
         if(!/^\d+(?:[.,]\d+)?$/.test(raw))throw new Error('Ingresá el porcentaje acumulado del período.');
         percent=Number(raw.replace(',','.'));
-      }else{
-        const baseMonth=$('#jdIndexMonthStart').value,endMonth=$('#jdIndexMonthEnd').value;
-        if(!baseMonth||!endMonth||baseMonth!==cost.date.slice(0,7)||endMonth<baseMonth||endMonth>date.slice(0,7))throw new Error('Revisá los meses publicados del IPC y la fecha de la estimación.');
-        const start=Number($('#jdIndexStart').value),end=Number($('#jdIndexEnd').value);
-        percent=indexPercent(start,end);extra={startIndex:start,endIndex:end,baseMonth,endMonth,source};
-      }
+      }else throw Error('Elegí IPC automático o porcentaje manual.');
       return {baseCost:Number(cost.cost),percent,estimatedCost:adjustedAmount(cost.cost,percent),method,baseDate:cost.date,targetDate:date,appliedAt:new Date().toISOString(),...extra};
     }
     function preview(){
       $('[data-error]').textContent='';
-      overlay.querySelectorAll('[data-ipc]').forEach(el=>el.hidden=$('#jdAdjustmentMethod').value!=='ipc');
       $('[data-manual]').hidden=$('#jdAdjustmentMethod').value!=='manual';
-      try{const a=estimate();$('[data-result]').textContent=money(cost.cost)+' → '+money(a.estimatedCost)+' · +'+a.percent.toLocaleString('es-AR',{maximumFractionDigits:3})+'%'+(a.endMonth?' · IPC publicado hasta '+a.endMonth+' (los meses pendientes no están incluidos)':'');$('[data-apply]').disabled=false}
+      try{const a=estimate();$('[data-result]').textContent=money(cost.cost)+' → '+money(a.estimatedCost)+' · +'+a.percent.toLocaleString('es-AR',{maximumFractionDigits:3})+'%'+(a.endMonth?' · '+a.days+' días · IPC publicado hasta '+a.endMonth+(a.projectedDays?' · '+a.projectedDays+' días proyectados con la última variación mensual ('+a.lastMonthlyPercent.toLocaleString('es-AR',{maximumFractionDigits:2})+'%)':' · estimación diaria con datos publicados'):'');$('[data-apply]').disabled=saving}
       catch(e){$('[data-result]').textContent=e.message;$('[data-apply]').disabled=true}
     }
     overlay.addEventListener('input',preview);overlay.addEventListener('change',preview);
     async function persist(adjustment){
+      if(saving)return;
       saving=true;$('[data-apply]').disabled=true;$('[data-reset]').disabled=true;
       try{
         await root.jdUpdateSharedState(['jd_cost_quotes_v2'],state=>{
           if(!Array.isArray(state.jd_cost_quotes_v2))throw new Error('No se pudieron verificar los costos.');
           const list=state.jd_cost_quotes_v2.map(c=>({...c}));
           const at=list.findIndex(c=>signature(c)===signature(cost));
-          if(at<0)throw new Error('La cotización cambió. Recargá la lista antes de ajustar.');
+          if(at<0||JSON.stringify(list[at].adjustment||null)!==JSON.stringify(cost.adjustment||null))throw new Error('La cotización cambió. Recargá la lista antes de ajustar.');
           if(adjustment)list[at].adjustment=adjustment;else delete list[at].adjustment;
           return {jd_cost_quotes_v2:list};
         });

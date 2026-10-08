@@ -37,9 +37,9 @@ async function boot(rows=fixture(),fetchResult){
    return {data:updates,error:null};
  };
  w.supabase={createClient:()=>client};
- w.jdNativeQuote={version:'20261008-vector-v2'};
+ w.jdNativeQuote={version:'20261008-master-v3'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
- for(const file of ['jd-ui.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
@@ -88,6 +88,13 @@ async function scenarios(){
   assert.equal([...sheet.querySelectorAll('.jd-spec-icon-row')].find(x=>x.querySelector('small')?.textContent==='Páginas').querySelector('strong').textContent,'24');assert.ok(sheet.querySelector('.jd-master-left>.jd-content-box'));assert.equal(sheet.querySelector('.jd-quote-page').textContent,'» 1 / 1');
  }
  await sleep(80);bindingApp.close();console.log('leaflet faces, book pages, supplied format/binding SVGs, existing mockup selection and fixed footer structure passed');
+ const matching=require('../assets/jd-asset-match.js');
+ const choices=[{id:'tri',product:'Birkón · Folleto',role:'Mockup principal',model:'Tríptico',mockCanvas:true,data:'data:image/png;base64,tri'},{id:'cua',product:'Birkón · Folleto',role:'Mockup principal',model:'Cuadríptico',data:'data:image/png;base64,cua'}];
+ assert.equal(matching.select(choices,{product:'Birkón · Folleto',model:'Tríptico'}).id,'tri');assert.equal(matching.select(choices,{product:'Birkón · Folleto',model:'Cuadríptico'}).id,'cua');assert.equal(matching.select(choices,{product:'Birkón · Folleto',model:'Díptico'}),null);
+ const contentRows=fixture();contentRows.find(r=>r.key==='jd_catalog_v6').value[0]={...structuredClone(product),name:'Birkón · Folleto',models:['Tríptico'],bindings:[],variants:[{id:'tri-content',model:'Tríptico',texts:'Hebreo solo',nusajCount:1,pages:0,content:['Birkat Hamazón']}]};contentRows.find(r=>r.key==='jd_cost_quotes_v2').value.forEach(c=>{c.product='Birkón · Folleto';c.variant='Tríptico'});contentRows.find(r=>r.key==='jd_pricing_rules_v4').value.forEach(c=>c.product='Birkón · Folleto');contentRows.find(r=>r.key==='jd_assets').value=choices;
+ const leaflet=await boot(contentRows);leaflet.w.document.getElementById('qClient').value='Folleto de prueba';const editContent=leaflet.w.document.getElementById('qLeafletContent');assert.equal(editContent.value,'Birkat Hamazón');editContent.value='Birkat Hamazón\nKidush del día - Shabat y Yom Tov';editContent.dispatchEvent(new leaflet.w.Event('input',{bubbles:true}));assert.equal(leaflet.w.document.querySelectorAll('.index-list li').length,2);assert.equal(leaflet.w.document.querySelector('.jd-pdf-product-img').dataset.mockCanvas,'true');const savedContent=await save(leaflet);leaflet.w.jdRenderSavedQuotes();leaflet.w.document.querySelector('[data-edit-qid]').click();assert.equal(leaflet.w.document.getElementById('qLeafletContent').value,'Birkat Hamazón\nKidush del día - Shabat y Yom Tov');assert.equal(leaflet.get('jd_catalog_v6')[0].variants[0].content.length,1,'quote-specific content must not modify catalog');leaflet.close();
+ const assetRows=fixture();assetRows.find(r=>r.key==='jd_assets').value=[{id:'qa-mock',name:'Mockup prueba',product:product.name,role:'Mockup principal',variant:'Abrochado',data:'data:image/png;base64,fixture',storagePath:'',notes:''}];const assetApp=await boot(assetRows);const beforeCosts=structuredClone(assetApp.get('jd_cost_quotes_v2'));assetApp.w.go('assets');assetApp.w.document.querySelector('[data-ea]').click();assetApp.w.document.getElementById('jaModel').value='Classic';assetApp.w.document.getElementById('jaCanvas').checked=true;assetApp.fail(true);await assetApp.w.document.querySelector('.modal .jd-s').onclick();assert.equal(assetApp.get('jd_assets')[0].model,undefined);assetApp.fail(false);await assetApp.w.document.querySelector('.modal .jd-s').onclick();assert.equal(assetApp.get('jd_assets')[0].model,'Classic');assert.equal(assetApp.get('jd_assets')[0].mockCanvas,true);assert.deepEqual(assetApp.get('jd_cost_quotes_v2'),beforeCosts);assetApp.close();
+ console.log('explicit mockup mapping, canonical canvas, editable leaflet content, saved reload and catalog preservation passed');
  const dates=require('../assets/jd-legal.js');
  for(const [from,to] of [['2027-05-05','2027-06-05'],['2027-01-31','2027-02-28'],['2028-01-31','2028-02-29'],['2026-12-31','2027-01-31']])assert.equal(dates.nextMonth(from),to);
  assert.equal(dates.today(new Date('2027-05-06T01:00:00Z')),'2027-05-05','Argentina date around midnight');
@@ -189,12 +196,12 @@ async function scenarios(){
  }
  {
  const rush=await boot();rush.w.document.getElementById('qClient').value='Cliente urgencia';rush.w.qs6=[100];rush.w.jdDrawQuoteQuantities();
- const box=rush.w.document.getElementById('qRush');const plain=rush.w.jdCollectQuote().quantities[0].price;box.checked=true;box.dispatchEvent(new rush.w.Event('change'));const urgent=rush.w.jdCollectQuote();assert.equal(urgent.rushPercent,30);assert.equal(urgent.quantities[0].price,plain*1.3);assert.match(rush.w.document.getElementById('quotePreview').textContent,/Prioridad de agenda/);
+ const box=rush.w.document.getElementById('qRush');const plain=rush.w.jdCollectQuote().quantities[0].price;box.checked=true;box.dispatchEvent(new rush.w.Event('change'));const urgent=rush.w.jdCollectQuote();assert.equal(urgent.rushPercent,30);assert.equal(urgent.quantities[0].price,plain*1.3);assert.ok(!rush.w.document.querySelector('.jd-pdf-price-breakdown').textContent.includes('Prioridad de agenda'));rush.w.document.getElementById('qRushShow').checked=true;rush.w.renderQuote();assert.match(rush.w.document.querySelector('.jd-pdf-price-breakdown').textContent,/Prioridad de agenda/);
  const saved=await save(rush);rush.w.jdRenderSavedQuotes();rush.w.document.querySelector('[data-edit-qid]').click();assert.equal(rush.w.document.getElementById('qRush').checked,true);assert.equal(rush.w.jdCollectQuote().quantities[0].price,saved.quantities[0].price,'editing must not compound rush');
  rush.w.document.getElementById('qRush').checked=false;rush.w.renderQuote();assert.equal(rush.w.jdCollectQuote().quantities[0].price,plain);rush.close();
- const auto=await boot();auto.w.fetch=async()=>({ok:true,json:async()=>({data:[['2026-07-01',150],['2026-08-01',165]]})});auto.w.go('costs');
+ const auto=await boot();auto.w.fetch=async()=>({ok:true,json:async()=>({data:[['2026-06-01',150],['2026-07-01',150],['2026-08-01',165]]})});auto.w.go('costs');
  const card=auto.w.document.querySelector('[data-ce]');assert.ok(card.parentElement.classList.contains('jd-cost-option'));assert.equal(card.parentElement.querySelectorAll('button').length,2);
- auto.w.jdOpenInflation(auto.get('jd_cost_quotes_v2')[0]);await sleep(40);assert.equal(auto.w.document.getElementById('jdAdjustmentMethod').value,'auto');assert.equal(auto.w.document.querySelector('[data-apply]').disabled,false);assert.match(auto.w.document.querySelector('[data-result]').textContent,/2026-08/);await auto.w.document.querySelector('[data-apply]').onclick();await sleep(50);assert.equal(auto.get('jd_cost_quotes_v2')[0].cost,100000);assert.equal(math.effectiveCost(auto.get('jd_cost_quotes_v2')[0]),110000);auto.close();
+ auto.w.jdOpenInflation(auto.get('jd_cost_quotes_v2')[0]);await sleep(40);assert.equal(auto.w.document.getElementById('jdAdjustmentMethod').value,'auto');assert.equal(auto.w.document.querySelector('[data-apply]').disabled,false);assert.match(auto.w.document.querySelector('[data-result]').textContent,/2026-08/);await auto.w.document.querySelector('[data-apply]').onclick();await sleep(50);assert.equal(auto.get('jd_cost_quotes_v2')[0].cost,100000);assert.ok(math.effectiveCost(auto.get('jd_cost_quotes_v2')[0])>110000);assert.equal(auto.w.document.getElementById('jdAdjustmentMethod'),null);auto.close();
  const offline=await boot();offline.w.jdOpenInflation(offline.get('jd_cost_quotes_v2')[0]);await sleep(30);assert.equal(offline.w.document.querySelector('[data-apply]').disabled,true);assert.match(offline.w.document.querySelector('[data-result]').textContent,/fuente oficial/);assert.equal(offline.get('jd_cost_quotes_v2')[0].adjustment,undefined);offline.close();
  console.log('rush checkbox, saved edit without compounding, removal, per-cost buttons, automatic IPC, publication lag and offline safety passed');
  }
@@ -228,7 +235,7 @@ async function scenarios(){
  for(const args of [[100000,-1],[0,10],[100000,Infinity]])assert.throws(()=>math.adjustedAmount(...args));
  assert.throws(()=>math.indexPercent(0,10));assert.throws(()=>math.indexPercent(150,140));
  assert.equal(math.validDate('2026-02-30'),false);assert.equal(math.validDate('2026-02-28'),true);
- assert.equal(math.ipcEstimate([['2026-07-01',150],['2026-08-01',165]],'2026-07-10','2026-10-08').endMonth,'2026-08');assert.equal(Math.round(math.ipcEstimate([['2026-07-01',150],['2026-08-01',165]],'2026-07-10','2026-10-08').percent),10);assert.throws(()=>math.ipcEstimate([['2026-08-01',165]],'2026-09-01','2026-10-08'));
+ assert.equal(math.ipcEstimate([['2026-06-01',150],['2026-07-01',150],['2026-08-01',165]],'2026-07-10','2026-10-08').endMonth,'2026-08');assert.ok(math.ipcEstimate([['2026-06-01',150],['2026-07-01',150],['2026-08-01',165]],'2026-08-25','2026-10-08').percent>0);assert.equal(math.ipcEstimate([['2026-06-01',150],['2026-07-01',150],['2026-08-01',165]],'2026-08-25','2026-10-08').days,44);assert.throws(()=>math.ipcEstimate([['2026-08-01',165]],'2026-09-01','2026-10-08'));
  console.log('inflation math and invalid values passed');
  const editRows=fixture();editRows.find(r=>r.key==='jd_saved_quotes_v6').value=[{id:'edit-original',client:'Ána Prueba',product:product.name,productId:product.id,model:'Classic',nusaj:'Solo Ashkenazí',texts:'Hebreo solo',size:product.sizes[0],binding:'Abrochado',pages:24,created:'2026-09-01T12:00:00Z',status:'Presupuesto enviado',pdfUrl:'https://example.test/original.pdf',sentConfirmedAt:'2026-09-02T12:00:00Z',quantities:[{qty:50,price:210000,cost:100000},{qty:100,price:370000,cost:180000}]}];
  editRows.find(r=>r.key==='jd_clients').value[0].phone='5491100000000';
@@ -331,7 +338,7 @@ async function scenarios(){
  app.w.URL.createObjectURL=()=> 'blob:fixture';app.w.URL.revokeObjectURL=()=>{};
  await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);
 app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
- app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261008-vector-v2';
+ app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261008-master-v3';
  console.log('complete semantic A4 sheet reaches native renderer without raster capture passed');
  app.w.jdOpenOrder(quote.id);
  field('jdOrderQty','2');field('jdOrderPaid','99999999');
@@ -363,12 +370,12 @@ app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
  assert.equal(math.effectiveCost(app.get('jd_cost_quotes_v2')[0]),120000,'repeated adjustment must start from original, not compound twice');
  app.w.jdOpenInflation(app.get('jd_cost_quotes_v2')[0]);await app.w.document.querySelector('[data-reset]').onclick();await sleep(30);
  assert.equal(math.effectiveCost(app.get('jd_cost_quotes_v2')[0]),100000);
+ app.w.fetch=async()=>({ok:true,json:async()=>({data:[['2026-06-01',150],['2026-07-01',150],['2026-08-01',165]]})});
  app.w.jdOpenInflation(app.get('jd_cost_quotes_v2')[0]);
- const method=app.w.document.getElementById('jdAdjustmentMethod');method.value='ipc';method.dispatchEvent(new app.w.Event('change',{bubbles:true}));
- for(const [id,value] of Object.entries({jdIndexStart:150,jdIndexEnd:165,jdIndexMonthStart:'2026-07',jdIndexMonthEnd:'2026-08'})){const field=app.w.document.getElementById(id);field.value=value;field.dispatchEvent(new app.w.Event('input',{bubbles:true}));}
- assert.equal(app.w.document.querySelector('[data-apply]').disabled,false);
+ app.w.document.getElementById('jdAdjustmentMethod').dispatchEvent(new app.w.Event('change',{bubbles:true}));await sleep(40);
+ assert.equal(app.w.document.getElementById('jdAdjustmentBase').value,'2026-07-01');assert.equal(app.w.document.getElementById('jdAdjustmentBase').readOnly,true);assert.equal(app.w.document.getElementById('jdAdjustmentMethod').options.length,2);assert.equal(app.w.document.querySelector('[data-apply]').disabled,false);
  await app.w.document.querySelector('[data-apply]').onclick();await sleep(30);
- assert.equal(math.effectiveCost(app.get('jd_cost_quotes_v2')[0]),110000);
+ assert.ok(math.effectiveCost(app.get('jd_cost_quotes_v2')[0])>110000);
  assert.equal(app.get('jd_cost_quotes_v2')[0].adjustment.endMonth,'2026-08');
  app.w.jdOpenInflation(app.get('jd_cost_quotes_v2')[0]);await app.w.document.querySelector('[data-reset]').onclick();await sleep(30);
  console.log('inflation estimation, failed apply, original preservation, repeat adjustment, IPC period and reset passed');

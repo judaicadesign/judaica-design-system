@@ -56,14 +56,14 @@
  }
  function readSheet(sheet){return{
   title:sheet.querySelector('.jd-doc-title')?.textContent||'',overline:sheet.querySelector('.jd-overline')?.textContent||'PRESUPUESTO',client:sheet.querySelector('.jd-client-meta b')?.textContent||'—',date:sheet.querySelectorAll('.jd-client-meta b')[1]?.textContent||'',
-  mock:sheet.querySelector('.jd-pdf-product-img')?.getAttribute('src')||'',contentTitle:sheet.querySelector('.jd-content-box h4')?.textContent||'',content:[...sheet.querySelectorAll('.index-list li')].map(el=>el.textContent),
+  mock:sheet.querySelector('.jd-pdf-product-img')?.getAttribute('src')||'',mockCanvas:sheet.querySelector('.jd-pdf-product-img')?.dataset.mockCanvas==='true',contentTitle:sheet.querySelector('.jd-content-box h4')?.textContent||'',content:[...sheet.querySelectorAll('.index-list li')].map(el=>el.textContent),
   specs:[...sheet.querySelectorAll('.jd-spec-icon-row')].filter(el=>!el.querySelector('.jd-tech')).map(el=>({title:el.querySelector('small')?.textContent||'',value:el.querySelector('strong')?.textContent||'',icon:el.querySelector('img')?.getAttribute('src')})),
   technical:[...sheet.querySelectorAll('.jd-tech span')].map(el=>el.textContent),
   prices:[...sheet.querySelectorAll('.jd-client-price')].map(el=>({qty:el.querySelector(':scope>span')?.textContent||'',total:el.querySelector('.jd-pdf-price-breakdown b')?.textContent||'',adjustments:[...el.querySelectorAll('.jd-pdf-price-breakdown small')].map(el=>el.textContent)})),
   discount:sheet.querySelector('.jd-discount-note')?.textContent||'',legal:[...sheet.querySelectorAll('.jd-full-legal p')].map(el=>({title:(el.querySelector('b')?.textContent||'').replace(/\.$/,''),body:el.textContent.slice(el.querySelector('b')?.textContent.length||0).trim()}))
  }}
  async function imageData(source){if(source.startsWith('data:'))return source;const response=await request(source);return new Uint8Array(await response.arrayBuffer())}
- function mockPlacement(info,bounds){const factor=Math.min(476.354/info.width,355.530/info.height),w=info.width*factor,h=info.height*factor,center=bounds?(bounds.left+bounds.right)/2:info.width/2;return{x:(24.252+380.787)/2-center*factor,y:116.5+(355.530-h)/2,w,h}}
+ function mockPlacement(info,bounds,availableHeight=355.530){const factor=Math.min(476.354/info.width,availableHeight/info.height),w=info.width*factor,h=info.height*factor,center=bounds?(bounds.left+bounds.right)/2:info.width/2;return{x:(24.252+380.787)/2-center*factor,y:116.5+(availableHeight-h)/2,w,h}}
  async function opaqueBounds(data,info){
   if(typeof createImageBitmap!=='function'||typeof document==='undefined')return null;
   let bitmap;try{const blob=typeof data==='string'?await (await fetch(data)).blob():new Blob([data]);bitmap=await createImageBitmap(blob);const canvas=document.createElement('canvas'),scale=Math.min(1,512/info.width);canvas.width=Math.ceil(info.width*scale);canvas.height=Math.ceil(info.height*scale);const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;let left=canvas.width,right=0,count=0;for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++)if(pixels[(y*canvas.width+x)*4+3]>=230){left=Math.min(left,x);right=Math.max(right,x+1);count++}return count?{left:left/canvas.width*info.width,right:right/canvas.width*info.width}:null}catch(e){return null}finally{bitmap?.close()}
@@ -71,7 +71,13 @@
  function contactIcon(pdf,name,x,y,w,h){vector(pdf,'footer-'+name,x,y,w,h)}
  async function drawSheet(pdf,m,page,total){
   pdf.setFillColor(colors.paper);pdf.rect(0,0,W,H,'F');
-  if(m.mock){const data=await imageData(m.mock),info=pdf.getImageProperties(data),box=await opaqueBounds(data,info),placement=mockPlacement(info,box);pdf.addImage(data,info.fileType,placement.x,placement.y,placement.w,placement.h)}
+  const legal=legalLayout(pdf,m.legal);m={...m,_lift:legal.lift};const content=contentLayout(pdf,m);
+  if(m.mock){const data=await imageData(m.mock),info=pdf.getImageProperties(data),availableHeight=Math.max(80,(content?.top||592.481-m._lift)-8-116.5);let placement;
+   if(m.mockCanvas){const frameW=354.330708661,frameH=Math.min(283.464566929,availableHeight),factor=Math.min(frameW/info.width,frameH/info.height),w=info.width*factor,h=info.height*factor;placement={x:202.5195-w/2,y:116.5+(frameH-h)/2,w,h};}
+   else{const box=await opaqueBounds(data,info);placement=mockPlacement(info,box,Math.min(355.530,availableHeight));}
+   pdf.addImage(data,info.fileType,placement.x,placement.y,placement.w,placement.h);
+  }else if(m._preview){const h=Math.min(283.464566929,(content?.top||592.481-m._lift)-8-116.5);pdf.setDrawColor(colors.circle);pdf.setLineWidth(.25);pdf.rect(25.354,116.5,354.331,h,'D');text(pdf,'Asigná un mockup en Recursos',110,116.5+h/2,7,'text',colors.gold);}
+
   vector(pdf,'assets/jd-logo-quote.svg',33.759,32.0,54.0,40.67);
   text(pdf,m.overline,106.790,34.814,7.291296893,'wide',colors.gold,120);
   const parts=m.title.split('·');text(pdf,parts[0].trim(),106.790,74.916,36.456484466,'title',colors.teal,10);
@@ -80,16 +86,15 @@
   text(pdf,'CLIENTE',436.858,58.504,5.103907825,'label',colors.ink,70);text(pdf,'FECHA',518.326,58.504,5.103907825,'label',colors.ink,70);
   const client=wrap(pdf,m.client,74,7.291296893);client.slice(0,3).forEach((line,i)=>text(pdf,line,436.858,68.712+i*10.2078156505,7.291296893));if(client.length>3)throw Error('El nombre del cliente no cabe en el encabezado.');text(pdf,m.date,518.326,68.712,7.291296893);
   vector(pdf,'master-bsd',565.8791,22.6919,12.1860,4.6460);rule(pdf,24.252,97.552,571.024,97.552,.5,colors.gold);
-  const legal=legalLayout(pdf,m.legal);m={...m,_lift:legal.lift};drawContent(pdf,m);drawCard(pdf,m);drawLegal(pdf,m.legal);
+  drawContent(pdf,m);drawCard(pdf,m);drawLegal(pdf,m.legal);
   pdf.setFillColor(colors.footer);pdf.rect(0,805.813,W,H-805.813,'F');
   contactIcon(pdf,'behance',39.5,819.75,10.6875,6.6875);text(pdf,'behance.net/JudaicaDesign',53.281,826.782,8.838383838,'wide','#ffffff',26);
   text(pdf,'|',208,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'instagram',223.9375,820.1875,10,10);text(pdf,'@JudaicaDesign',237.031,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'|',333,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'whatsapp',351.8125,819.4375,9.9375,10.0625);text(pdf,'+54 9 11 5822 4686',364.852,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'» '+page+' / '+total,520.482,827.189,10.3154,'wide','#b8a781',26);
  }
- function drawContent(pdf,m){if(!m.content.length)return;const lines=m.content.map(t=>wrap(pdf,t,169.1,8.5));let best=1,score=Infinity;for(let i=1;i<lines.length;i++){const a=lines.slice(0,i).reduce((n,v)=>n+v.length,0),b=lines.slice(i).reduce((n,v)=>n+v.length,0),s=Math.abs(a-b);if(s<score){best=i;score=s}}
-  const cols=[lines.slice(0,best),lines.slice(best)],height=Math.max(...cols.map(col=>col.reduce((n,v)=>n+v.length*13,0)))+38.555;
-  const bottom=592.481-(m._lift||0),top=bottom-height;if(top<350)throw Error('El contenido excede el espacio del master a 8,5 pt.');rule(pdf,24.252,top,380.787,top,.5,colors.gold);rule(pdf,24.252,bottom,380.787,bottom,.5,colors.gold);
-  text(pdf,m.contentTitle,33.759,top+24.214,18,'title',colors.teal);cols.forEach((col,index)=>{const x=index?213.523:33.759;let y=top+41.466;for(const list of col){text(pdf,'·',x,y,8.5,'medium',colors.rule);list.forEach((line,i)=>{text(pdf,line,x+5.669,y,8.5);y+=13})}});
+ function contentLayout(pdf,m){if(!m.content.length&&!m.contentTitle)return null;const lines=m.content.map(t=>wrap(pdf,t,169.1,8.5));let best=1,score=Infinity;for(let i=1;i<lines.length;i++){const a=lines.slice(0,i).reduce((n,v)=>n+v.length,0),b=lines.slice(i).reduce((n,v)=>n+v.length,0),s=Math.abs(a-b);if(s<score){best=i;score=s}}
+  const cols=[lines.slice(0,best),lines.slice(best)],height=Math.max(34,...cols.map(col=>col.reduce((n,v)=>n+v.length*13,0)))+38.555,bottom=592.481-(m._lift||0),top=bottom-height;if(top<250)throw Error('El contenido excede el espacio de una A4.');return {cols,top,bottom};
  }
+ function drawContent(pdf,m){const l=contentLayout(pdf,m);if(!l)return;const {cols,top,bottom}=l;rule(pdf,24.252,top,380.787,top,.5,colors.gold);rule(pdf,24.252,bottom,380.787,bottom,.5,colors.gold);text(pdf,m.contentTitle,33.759,top+24.214,18,'title',colors.teal);cols.forEach((col,index)=>{const x=index?213.523:33.759;let y=top+41.466;for(const list of col){text(pdf,'·',x,y,8.5,'medium',colors.rule);list.forEach(line=>{text(pdf,line,x+5.669,y,8.5);y+=13})}});}
  function technicalLines(pdf,items){
   const result=[];
   for(const item of items)for(const paragraph of String(item).split('\n')){
@@ -100,19 +105,18 @@
    }if(runs.length)result.push(runs);
   }return result;
  }
- function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65;const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:39.004+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1)}));const tech=technicalLines(pdf,m.technical);const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold');const totalOffset=multiple?7+Math.max(1,notes.length)*8+8:10+Math.max(1,notes.length)*8+10;return {...p,lines,notes,multiple,totalOffset,height:totalOffset+14*lines.length+(multiple?-5:12)}});
-
-  const note=m.discount?wrap(pdf,m.discount,inner,5.5):[];const height=Math.max(404.102,52.524+specs.reduce((n,s)=>n+s.height,0)+(tech.length?23.93+tech.length*8+3.5:0)+prices.reduce((n,p)=>n+p.height,0)+(note.length?note.length*7+12:0)+21);
-  const bottom=592.481-(m._lift||0),top=bottom-height;if(top<116.5)throw Error('Hay demasiadas cantidades o notas para el master. Agregá otra alternativa para conservar los tamaños originales.');return{specs,tech,prices,note,top,height};
+ const iconSizes={'11_libro_abierto':28,'02_siddur':33,'03_traduccion':32,'04_tamano':30,'05_abrochado':34.75,'06_binder_lomo_cuadrado':34.75,'07_anillado':34.75,'12_documento_numeral':30,'13_engranaje':32,'09_triptico':30,'10_cuadriptico':28,'08_bifold':32};
+ function drawSpecIcon(pdf,path,cx,cy){const key=path.split('/').at(-1).replace('.svg',''),size=iconSizes[key]||30;pdf.setFillColor(colors.circle);pdf.circle(cx,cy,17.375,'F');vector(pdf,path,cx-size/2,cy-size/2+(key==='10_cuadriptico'?-1:0),size,size);}
+ function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65,tech=technicalLines(pdf,m.technical),note=m.discount?wrap(pdf,m.discount,inner,5.5):[];
+  const build=compact=>{const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:(compact?37:39.004)+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1)}));const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('Prioridad de agenda','Prioridad').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold'),noteStart=compact?5:8,noteLeading=compact?7:8,totalOffset=notes.length?noteStart+notes.length*noteLeading+(compact?8:10):14;return {...p,lines,notes,multiple,noteStart,noteLeading,totalOffset,height:totalOffset+14*lines.length+(compact?8:12)}});
+   const header=compact?32:38,techHeight=tech.length?Math.max(39,24.5+tech.length*8):0,height=header+specs.reduce((n,s)=>n+s.height,0)+techHeight+prices.reduce((n,p)=>n+p.height,0)+(note.length?note.length*7+14:0)+16,bottom=592.481-(m._lift||0),top=bottom-height;return {specs,tech,techHeight,prices,note,top,height,header};};
+  let layout=build(false);if(layout.top<104)layout=build(true);if(layout.top<104)throw Error('Este presupuesto supera el espacio de una A4. Separá algunas cantidades en otra alternativa.');return layout;
  }
- function drawCard(pdf,m){const l=cardLayout(pdf,m);pdf.setFillColor(colors.card);pdf.setDrawColor(colors.gold);pdf.setLineWidth(.25);pdf.roundedRect(387.874,l.top,173.386,l.height,11.0,11.0,'FD');text(pdf,'DETALLES DEL PRODUCTO',398.815,l.top+26.044,7.291296893,'wide',colors.gold,120);let y=l.top+54.688;
-  for(const s of l.specs){pdf.setFillColor(colors.circle);pdf.circle(415.85,y+11.95,12.5,'F');vector(pdf,s.icon,407.15,y+3.25,17.4,17.4);text(pdf,s.title.toUpperCase(),436.134,y+7.836,6,'medium',colors.gold,80);s.lines.forEach((line,i)=>text(pdf,line,436.134,y+20.836+i*13,8.75,'medium'));y+=s.height;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
-  if(l.tech.length){pdf.setFillColor(colors.circle);pdf.circle(415.85,y+11.95,12.5,'F');vector(pdf,'assets/quote-icons/13_engranaje.svg',406.8,y+2.9,18.1,18.1);text(pdf,'DETALLES TÉCNICOS',436.134,y+7.836,6,'medium',colors.gold,80);l.tech.forEach((runs,i)=>{let x=436.134;for(const run of runs){text(pdf,run.text,x,y+18.671+i*8,6,run.font);x+=width(pdf,run.text,6,run.font)}});y+=23.93+l.tech.length*8+3.5;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
-  for(let index=0;index<l.prices.length;index++){const p=l.prices[index];if(index)rule(pdf,396.85,y-7,552.755,y-7,.25);text(pdf,p.qty,399.543,y+(p.multiple?p.totalOffset:10),7.5,'text',colors.gold);
-   p.notes.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,6),y+(p.multiple?7:10)+i*8,6,'text',colors.gold));
-   p.lines.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,11,'bold'),y+p.totalOffset+i*14,11,'bold',colors.teal));y+=p.height}
-  const noteTop=l.top+l.height-16-(l.note.length-1)*7;
-  l.note.forEach((line,i)=>text(pdf,line,399.543,noteTop+i*7,5.5,'text',colors.gold));
+ function drawCard(pdf,m){const l=cardLayout(pdf,m);pdf.setFillColor(colors.card);pdf.setDrawColor(colors.gold);pdf.setLineWidth(.25);pdf.roundedRect(387.874,l.top,173.386,l.height,11,11,'FD');text(pdf,'DETALLES DEL PRODUCTO',398.815,l.top+20,7.291296893,'wide',colors.gold,120);let y=l.top+l.header;
+  for(const s of l.specs){drawSpecIcon(pdf,s.icon,415.85,y+11.95);text(pdf,s.title.toUpperCase(),436.134,y+7.836,6,'medium',colors.gold,80);s.lines.forEach((line,i)=>text(pdf,line,436.134,y+20.836+i*13,8.75,'medium'));y+=s.height;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
+  if(l.tech.length){drawSpecIcon(pdf,'assets/quote-icons/13_engranaje.svg',415.85,y+11.95);text(pdf,'DETALLES TÉCNICOS',436.134,y+7.836,6,'medium',colors.gold,80);l.tech.forEach((runs,i)=>{let x=436.134;for(const run of runs){text(pdf,run.text,x,y+18.671+i*8,6,run.font);x+=width(pdf,run.text,6,run.font)}});y+=l.techHeight;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
+  for(let index=0;index<l.prices.length;index++){const p=l.prices[index];if(index)rule(pdf,396.85,y-5,552.755,y-5,.25);text(pdf,p.qty,399.543,y+p.totalOffset,7.5,'text',colors.gold);p.notes.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,6),y+p.noteStart+i*p.noteLeading,6,'text',colors.gold));p.lines.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,11,'bold'),y+p.totalOffset+i*14,11,'bold',colors.teal));y+=p.height}
+  const noteTop=l.top+l.height-16-(l.note.length-1)*7;l.note.forEach((line,i)=>text(pdf,line,399.543,noteTop+i*7,5.5,'text',colors.gold));
  }
  const family={JDText:['aktiv-grotesk-hebrew',400],JDMedium:['aktiv-grotesk-hebrew',500],JDBold:['aktiv-grotesk-hebrew',700],JDWide:['aktiv-grotesk-ex-hebrew',500],JDLabel:['aktiv-grotesk-ex-hebrew',800],JDCond:['aktiv-grotesk-cd-hebrew',300],JDCondMedium:['aktiv-grotesk-cd-hebrew',500],JDTitle:['Libre Caslon Condensed',500]};
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
@@ -136,11 +140,11 @@
  let metricPromise;
  async function svgPreview(model,page=1,total=1,options={}){
   if(!metricPromise||options.fonts){metricPromise=(async()=>{const PDF=options.PDF||root.jspdf.jsPDF,pdf=new PDF({unit:'pt'});install(pdf,options.fonts||await loadFonts());return pdf})().catch(e=>{metricPromise=null;throw e})}
-  const doc=new SVGDoc(await metricPromise);await drawSheet(doc,model,page,total);return doc.output();
+  const doc=new SVGDoc(await metricPromise);await drawSheet(doc,{...model,_preview:true},page,total);return doc.output();
  }
  root.jdQuotePreviewSVG=svgPreview;
 
  async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v2'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={version:'20261008-vector-v2',generate,readSheet,legalLayout,legalLines,cardLayout,mockPlacement,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ root.jdNativeQuote={version:'20261008-master-v3',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,iconSizes,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);
