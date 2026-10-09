@@ -662,12 +662,7 @@
     }
   ],
   "nikudChanges": [],
-  "pending": [
-    {
-      "ref": "17:14–15",
-      "reason": "La captura corta el 14 y no contiene el 15."
-    }
-  ],
+  "pending": [],
   "confirmedAbsentMeteg": [
     {
       "ref": "3:8",
@@ -2793,8 +2788,8 @@
     "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
     "sourceSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
     "pages": {
-      "137": 1,
-      "126": 2
+      "126": 2,
+      "137": 1
     },
     "metegConfirmed": {
       "126": 11,
@@ -2851,5 +2846,13 @@
       }
     ],
     "status": "Meteg y rayitas cotejados; aprobación editorial completa abierta."
-  }
+  },
+  "resolved": [
+    {
+      "ref": "17:14–15",
+      "reason": "La captura corta el 14 y no contiene el 15.",
+      "resolution": "Continuación recibida y cotejada; ver ARTSCROLL_APP_TANDA_017-020.json",
+      "date": "2026-10-09"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "date": "2026-10-09",
-  "engineSha256": "d384c59755a6b8634edffd68c583fd5265406f41bd1a6563245879af2fe677cf",
+  "engineSha256": "249e8ecb1a9ff79b09470475020b4e0d1678426c6b8fba0288b2b9afe5b64b74",
   "status": "All recorded verse outputs match; not global corpus approval",
   "cases": [
     {
@@ -1481,6 +1481,550 @@
       "hebrew": "קוּמָה יְהֹוָה קַדְּמָה פָנָיו הַכְרִיעֵֽהוּ פַּלְּטָה נַפְשִׁי מֵרָשָׁע חַרְבֶּֽךָ.",
       "master": "Kumá Ad-nai kademá fanav hajri'ehu paletá nafshí merashá' Jarbeja.",
       "generator": "Kumá Ad-nai kademá fanav hajri'ehu paletá nafshí merashá' Jarbeja.",
+      "matches": true
+    },
+    {
+      "chapter": 17,
+      "verse": 14,
+      "hebrew": "מִמְתִים יָדְךָ יְהֹוָה מִמְתִים מֵחֶֽלֶד חֶלְקָם בַּחַיִּים וְצְפוּנְךָ תְּמַלֵּא בִטְנָם יִשְׂבְּעוּ בָנִים וְהִנִּֽיחוּ יִתְרָם לְעוֹלְלֵיהֶם.",
+      "master": "Mimetim Yadejá Ad-nai mimetim mejéled jelkam bajayim vetsefuneja temalé vitnam yisbe'ú vanim vehiniju yitram le'olelehem.",
+      "generator": "Mimetim Yadejá Ad-nai mimetim mejéled jelkam bajayim vetsefuneja temalé vitnam yisbe'ú vanim vehiniju yitram le'olelehem.",
+      "matches": true
+    },
+    {
+      "chapter": 17,
+      "verse": 15,
+      "hebrew": "אֲנִי בְּצֶֽדֶק אֶחֱזֶה פָנֶֽיךָ אֶשְׂבְּעָה בְהָקִיץ תְּמוּנָתֶֽךָ.",
+      "master": "Aní betsédek ejeze Faneja esbe'á vehakíts Temunateja.",
+      "generator": "Aní betsédek ejeze Faneja esbe'á vehakíts Temunateja.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 1,
+      "hebrew": "לַמְנַצֵּֽחַ לְעֶֽבֶד יְהֹוָה לְדָוִד אֲשֶׁר דִּבֶּר לַיהֹוָה אֶת דִּבְרֵי הַשִּׁירָה הַזֹּאת בְּיוֹם הִצִּיל יְהֹוָה אוֹתוֹ מִכַּף כׇּל אֹיְבָיו וּמִיַּד שָׁאוּל.",
+      "master": "Lamenatséaj le'éved Ad-nai leDavid asher díber laAd-nai et divré hashira hazot beyom hitsil Ad-nai otó mikaf kol oyevav umiyad Shaúl.",
+      "generator": "Lamenatséaj le'éved Ad-nai leDavid asher díber laAd-nai et divré hashira hazot beyom hitsil Ad-nai otó mikaf kol oyevav umiyad Shaúl.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 2,
+      "hebrew": "וַיֹּאמַר אֶרְחׇמְךָ יְהֹוָה חִזְקִי.",
+      "master": "Vayomar erjomeja Ad-nai jizkí.",
+      "generator": "Vayomar erjomeja Ad-nai jizkí.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 3,
+      "hebrew": "יְהֹוָה סַלְעִי וּמְצוּדָתִי וּמְפַלְטִי אֵלִי צוּרִי אֶחֱסֶה בּוֹ מָגִנִּי וְקֶֽרֶן יִשְׁעִי מִשְׂגַּבִּי.",
+      "master": "Ad-nai Sal'í Umetsudatí Umefaltí Elí Tsurí ejese Bo Maguiní vekeren Yish'í Misgabí.",
+      "generator": "Ad-nai Sal'í Umetsudatí Umefaltí Elí Tsurí ejese Bo Maguiní vekeren Yish'í Misgabí.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 4,
+      "hebrew": "מְהֻלָּל אֶקְרָא יְהֹוָה וּמִן אֹיְבַי אִוָּשֵֽׁעַ.",
+      "master": "Mehulal ekrá Ad-nai umín oyevái ivashea'.",
+      "generator": "Mehulal ekrá Ad-nai umín oyevái ivashea'.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 5,
+      "hebrew": "אֲפָפוּֽנִי חֶבְלֵי מָֽוֶת וְנַחֲלֵי בְלִיַּֽעַל יְבַעֲתוּֽנִי.",
+      "master": "Afafuni jevlé mávet venajalé veliyá'al yeva'atuni.",
+      "generator": "Afafuni jevlé mávet venajalé veliyá'al yeva'atuni.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 6,
+      "hebrew": "חֶבְלֵי שְׁאוֹל סְבָבוּֽנִי קִדְּמוּֽנִי מוֹקְשֵׁי מָֽוֶת.",
+      "master": "Jevlé Sheol sevavuni kidemuni mokeshé mávet.",
+      "generator": "Jevlé Sheol sevavuni kidemuni mokeshé mávet.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 7,
+      "hebrew": "בַּצַּר לִי אֶקְרָא יְהֹוָה וְאֶל אֱלֹהַי אֲשַׁוֵּֽעַ יִשְׁמַע מֵהֵיכָלוֹ קוֹלִי וְשַׁוְעָתִי לְפָנָיו תָּבוֹא בְאׇזְנָיו.",
+      "master": "Batsar li ekrá Ad-nai veel Elohái ashavea' yishmá' Mehekaló kolí veshav'atí Lefanav tavó Veoznav.",
+      "generator": "Batsar li ekrá Ad-nai veel Elohái ashavea' yishmá' Mehekaló kolí veshav'atí Lefanav tavó Veoznav.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 8,
+      "hebrew": "וַתִּגְעַשׁ וַתִּרְעַשׁ הָאָֽרֶץ וּמוֹסְדֵי הָרִים יִרְגָּֽזוּ וַיִּתְגָּעֲשׁוּ כִּי חָֽרָה לוֹ.",
+      "master": "Vatig'ash vatir'ash haarets umosedé harim yirgazu vayitga'ashú ki jara lo.",
+      "generator": "Vatig'ash vatir'ash haarets umosedé harim yirgazu vayitga'ashú ki jara lo.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 9,
+      "hebrew": "עָלָה עָשָׁן בְּאַפּוֹ וְאֵשׁ מִפִּיו תֹּאכֵל גֶּחָלִים בָּעֲרוּ מִמֶּֽנּוּ.",
+      "master": "'Alá 'ashán Beapó veesh Mipiv tojel guejalim ba'arú Mimenu.",
+      "generator": "'Alá 'ashán Beapó veesh Mipiv tojel guejalim ba'arú Mimenu.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 10,
+      "hebrew": "וַיֵּט שָׁמַֽיִם וַיֵּרַד וַעֲרָפֶל תַּֽחַת רַגְלָיו.",
+      "master": "Vayet shamáyim vayerad va'aráfel tájat Raglav.",
+      "generator": "Vayet shamáyim vayerad va'aráfel tájat Raglav.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 11,
+      "hebrew": "וַיִּרְכַּב עַל כְּרוּב וַיָּעֹף וַיֵּֽדֶא עַל כַּנְפֵי רֽוּחַ.",
+      "master": "Vayirkav 'al keruv vaya'of vayede 'al kanfé rúaj.",
+      "generator": "Vayirkav 'al keruv vaya'of vayede 'al kanfé rúaj.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 12,
+      "hebrew": "יָֽשֶׁת חֹֽשֶׁךְ סִתְרוֹ סְבִיבוֹתָיו סֻכָּתוֹ חֶשְׁכַת מַֽיִם עָבֵי שְׁחָקִים.",
+      "master": "Yáshet jóshej Sitró Sevivotav Sukató jeshjat máyim 'avé shejakim.",
+      "generator": "Yáshet jóshej Sitró Sevivotav Sukató jeshjat máyim 'avé shejakim.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 13,
+      "hebrew": "מִנֹּֽגַהּ נֶגְדּוֹ עָבָיו עָבְרוּ בָּרָד וְגַֽחֲלֵי אֵשׁ.",
+      "master": "Minógah Negdó 'avav 'averú barad vegájale esh.",
+      "generator": "Minógah Negdó 'avav 'averú barad vegájale esh.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 14,
+      "hebrew": "וַיַּרְעֵם בַּשָּׁמַֽיִם יְהֹוָה וְעֶלְיוֹן יִתֵּן קֹלוֹ בָּרָד וְגַֽחֲלֵי אֵשׁ.",
+      "master": "Vayar'em bashamáyim Ad-nai Ve'elyón yitén Koló barad vegájale esh.",
+      "generator": "Vayar'em bashamáyim Ad-nai Ve'elyón yitén Koló barad vegájale esh.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 15,
+      "hebrew": "וַיִּשְׁלַח חִצָּיו וַיְפִיצֵם וּבְרָקִים רָב וַיְהֻמֵּם.",
+      "master": "Vayishlaj jitsav vaifitsem uvrakim rav vaihumem.",
+      "generator": "Vayishlaj jitsav vaifitsem uvrakim rav vaihumem.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 16,
+      "hebrew": "וַיֵּרָאוּ אֲפִיקֵי מַֽיִם וַיִּגָּלוּ מוֹסְדוֹת תֵּבֵל מִגַּעֲרָתְךָ יְהֹוָה מִנִּשְׁמַת רֽוּחַ אַפֶּךָ.",
+      "master": "Vayeraú afiké máyim vayigalú mosdot tevel Miga'arateja Ad-nai minishmat rúaj Apeja.",
+      "generator": "Vayeraú afiké máyim vayigalú mosdot tevel Miga'arateja Ad-nai minishmat rúaj Apeja.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 17,
+      "hebrew": "יִשְׁלַח מִמָּרוֹם יִקָּחֵֽנִי יַמְשֵֽׁנִי מִמַּֽיִם רַבִּים.",
+      "master": "Yishlaj mimarom yikajeni yamsheni mimáyim rabim.",
+      "generator": "Yishlaj mimarom yikajeni yamsheni mimáyim rabim.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 18,
+      "hebrew": "יַצִּילֵֽנִי מֵאֹיְבִי עָז וּמִשֹּׂנְאַי כִּי אָמְצוּ מִמֶּֽנִּי.",
+      "master": "Yatsileni meoyeví 'az umisoneái ki ametsú mimeni.",
+      "generator": "Yatsileni meoyeví 'az umisoneái ki ametsú mimeni.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 19,
+      "hebrew": "יְקַדְּמוּֽנִי בְיוֹם אֵידִי וַיְהִי יְהֹוָה לְמִשְׁעָן לִי.",
+      "master": "Yekademuni veyom edí vayehí Ad-nai lemish'án li.",
+      "generator": "Yekademuni veyom edí vayehí Ad-nai lemish'án li.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 20,
+      "hebrew": "וַיּוֹצִיאֵֽנִי לַמֶּרְחָב יְחַלְּצֵֽנִי כִּי חָפֵץ בִּי.",
+      "master": "Vayotsieni lamerjav yejaletseni ki jaféts bi.",
+      "generator": "Vayotsieni lamerjav yejaletseni ki jaféts bi.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 21,
+      "hebrew": "יִגְמְלֵֽנִי יְהֹוָה כְּצִדְקִי כְּבֹר יָדַי יָשִׁיב לִי.",
+      "master": "Yigmeleni Ad-nai ketsidkí kevor yadái yashiv li.",
+      "generator": "Yigmeleni Ad-nai ketsidkí kevor yadái yashiv li.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 22,
+      "hebrew": "כִּי שָׁמַֽרְתִּי דַּרְכֵי יְהֹוָה וְלֹא רָשַׁעְתִּי מֵאֱלֹהָי.",
+      "master": "Ki shamarti darjé Ad-nai veló rasha'ti MeElohái.",
+      "generator": "Ki shamarti darjé Ad-nai veló rasha'ti MeElohái.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 23,
+      "hebrew": "כִּי כׇל מִשְׁפָּטָיו לְנֶגְדִּי וְחֻקֹּתָיו לֹא אָסִיר מֶֽנִּי.",
+      "master": "Ki jol Mishpatav lenegdí Vejukotav lo asir meni.",
+      "generator": "Ki jol Mishpatav lenegdí Vejukotav lo asir meni.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 24,
+      "hebrew": "וָאֱהִי תָמִים עִמּוֹ וָאֶשְׁתַּמֵּר מֵעֲוֺנִי.",
+      "master": "Vaehí tamim 'Imó vaeshtamer me'avoni.",
+      "generator": "Vaehí tamim 'Imó vaeshtamer me'avoni.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 25,
+      "hebrew": "וַיָּֽשֶׁב יְהֹוָה לִי כְצִדְקִי כְּבֹר יָדַי לְנֶֽגֶד עֵינָיו.",
+      "master": "Vayáshev Ad-nai li jetsidkí kevor yadái lenégued 'Enav.",
+      "generator": "Vayáshev Ad-nai li jetsidkí kevor yadái lenégued 'Enav.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 26,
+      "hebrew": "עִם חָסִיד תִּתְחַסָּד עִם גְּבַר תָּמִים תִּתַּמָּם.",
+      "master": "'Im jasid titjasad 'im guevar tamim titamam.",
+      "generator": "'Im jasid titjasad 'im guevar tamim titamam.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 27,
+      "hebrew": "עִם נָבָר תִּתְבָּרָר וְעִם עִקֵּשׁ תִּתְפַּתָּל.",
+      "master": "'Im navar titbarar ve'im 'ikesh titpatal.",
+      "generator": "'Im navar titbarar ve'im 'ikesh titpatal.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 28,
+      "hebrew": "כִּי אַתָּה עַם עָנִי תוֹשִֽׁיעַ וְעֵינַֽיִם רָמוֹת תַּשְׁפִּיל.",
+      "master": "Ki Atá 'am 'aní toshía' ve'enáyim ramot tashpil.",
+      "generator": "Ki Atá 'am 'aní toshía' ve'enáyim ramot tashpil.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 29,
+      "hebrew": "כִּי אַתָּה תָּאִיר נֵרִי יְהֹוָה אֱלֹהַי יַגִּֽיהַּ חׇשְׁכִּי.",
+      "master": "Ki Atá taír nerí Ad-nai Elohái yaguiha joshkí.",
+      "generator": "Ki Atá taír nerí Ad-nai Elohái yaguiha joshkí.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 30,
+      "hebrew": "כִּי בְךָ אָרֻץ גְּדוּד וּבֵאלֹהַי אֲדַלֶּג שׁוּר.",
+      "master": "Ki Veja arúts guedud UvéLohái adáleg shur.",
+      "generator": "Ki Veja arúts guedud UvéLohái adáleg shur.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 31,
+      "hebrew": "הָאֵל תָּמִים דַּרְכּוֹ אִמְרַת יְהֹוָה צְרוּפָה מָגֵן הוּא לְכֹל הַחֹסִים בּוֹ.",
+      "master": "HaEl tamim Darkó imrat Ad-nai tserufá maguén Hu lejol hajosim Bo.",
+      "generator": "HaEl tamim Darkó imrat Ad-nai tserufá maguén Hu lejol hajosim Bo.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 32,
+      "hebrew": "כִּי מִי אֱלֽוֹהַּ מִבַּלְעֲדֵי יְהֹוָה וּמִי צוּר זוּלָתִי אֱלֹהֵֽינוּ.",
+      "master": "Ki mi eloha mibal'adé Ad-nai umí tsur zulatí Elohenu.",
+      "generator": "Ki mi eloha mibal'adé Ad-nai umí tsur zulatí Elohenu.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 33,
+      "hebrew": "הָאֵל הַמְאַזְּרֵֽנִי חָֽיִל וַיִּתֵּן תָּמִים דַּרְכִּי.",
+      "master": "HaEl hameazereni jáyil vayitén tamim darkí.",
+      "generator": "HaEl hameazereni jáyil vayitén tamim darkí.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 34,
+      "hebrew": "מְשַׁוֶּה רַגְלַי כָּאַיָּלוֹת וְעַל בָּמֹתַי יַעֲמִידֵֽנִי.",
+      "master": "Meshave raglái kaayalot ve'al bamotái ya'amideni.",
+      "generator": "Meshave raglái kaayalot ve'al bamotái ya'amideni.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 35,
+      "hebrew": "מְלַמֵּד יָדַי לַמִּלְחָמָה וְנִחֲתָה קֶֽשֶׁת נְחוּשָׁה זְרוֹעֹתָי.",
+      "master": "Melamed yadái lamiljamá venijata késhet nejushá zro'otái.",
+      "generator": "Melamed yadái lamiljamá venijata késhet nejushá zro'otái.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 36,
+      "hebrew": "וַתִּתֶּן לִי מָגֵן יִשְׁעֶֽךָ וִימִינְךָ תִסְעָדֵֽנִי וְעַנְוָתְךָ תַרְבֵּֽנִי.",
+      "master": "Vatiten li maguén Yish'eja Viminejá tis'adeni Ve'anvateja tarbeni.",
+      "generator": "Vatiten li maguén Yish'eja Viminejá tis'adeni Ve'anvateja tarbeni.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 37,
+      "hebrew": "תַּרְחִיב צַעֲדִי תַחְתָּי וְלֹא מָעֲדוּ קַרְסֻלָּי.",
+      "master": "Tarjiv tsa'adí tajtái veló ma'adú karsulái.",
+      "generator": "Tarjiv tsa'adí tajtái veló ma'adú karsulái.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 38,
+      "hebrew": "אֶרְדּוֹף אוֹיְבַי וְאַשִּׂיגֵם וְלֹא אָשׁוּב עַד כַּלּוֹתָם.",
+      "master": "Erdof oyevái veasiguem veló ashuv 'ad kalotam.",
+      "generator": "Erdof oyevái veasiguem veló ashuv 'ad kalotam.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 39,
+      "hebrew": "אֶמְחָצֵם וְלֹא יֻֽכְלוּ קוּם יִפְּלוּ תַֽחַת רַגְלָי.",
+      "master": "Emjatsem veló yújelu kum yiplú tájat raglái.",
+      "generator": "Emjatsem veló yújelu kum yiplú tájat raglái.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 40,
+      "hebrew": "וַתְּאַזְּרֵֽנִי חַֽיִל לַמִּלְחָמָה תַּכְרִיעַ קָמַי תַּחְתָּי.",
+      "master": "Vateazereni jáyil lamiljamá tajría' kamái tajtái.",
+      "generator": "Vateazereni jáyil lamiljamá tajría' kamái tajtái.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 41,
+      "hebrew": "וְאֹיְבַי נָתַֽתָּה לִּי עֹֽרֶף וּמְשַׂנְאַי אַצְמִיתֵם.",
+      "master": "Veoyevái natata li 'óref umesaneái atsmitem.",
+      "generator": "Veoyevái natata li 'óref umesaneái atsmitem.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 42,
+      "hebrew": "יְשַׁוְּעוּ וְאֵין מוֹשִֽׁיעַ עַל יְהֹוָה וְלֹא עָנָם.",
+      "master": "Yeshave'ú veén moshía' 'al Ad-nai veló 'anam.",
+      "generator": "Yeshave'ú veén moshía' 'al Ad-nai veló 'anam.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 43,
+      "hebrew": "וְאֶשְׁחָקֵם כְּעָפָר עַל פְּנֵי רֽוּחַ כְּטִיט חוּצוֹת אֲרִיקֵם.",
+      "master": "Veeshjakem ke'afar 'al pené rúaj ketit jutsot arikem.",
+      "generator": "Veeshjakem ke'afar 'al pené rúaj ketit jutsot arikem.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 44,
+      "hebrew": "תְּפַלְּטֵֽנִי מֵרִיבֵי עָם תְּשִׂימֵֽנִי לְרֹאשׁ גּוֹיִם עַם לֹא יָדַֽעְתִּי יַעַבְדוּֽנִי.",
+      "master": "Tefaleteni merivé 'am tesimeni lerosh goyim 'am lo yada'ti ya'avduni.",
+      "generator": "Tefaleteni merivé 'am tesimeni lerosh goyim 'am lo yada'ti ya'avduni.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 45,
+      "hebrew": "לְשֵֽׁמַע אֹֽזֶן יִשָּֽׁמְעוּ לִי בְּנֵי נֵכָר יְכַֽחֲשׁוּ לִי.",
+      "master": "Leshema' ozen yisháme'u li bené nejar yejájashu li.",
+      "generator": "Leshema' ozen yisháme'u li bené nejar yejájashu li.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 46,
+      "hebrew": "בְּנֵי נֵכָר יִבֹּֽלוּ וְיַחְרְגוּ מִמִּסְגְּרוֹתֵיהֶם.",
+      "master": "Bené nejar yibolu veyajregú mimisguerotehem.",
+      "generator": "Bené nejar yibolu veyajregú mimisguerotehem.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 47,
+      "hebrew": "חַי יְהֹוָה וּבָרוּךְ צוּרִי וְיָרוּם אֱלוֹהֵי יִשְׁעִי.",
+      "master": "Jay Ad-nai uvaruj Tsurí veyarum Elohé Yish'í.",
+      "generator": "Jay Ad-nai uvaruj Tsurí veyarum Elohé Yish'í.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 48,
+      "hebrew": "הָאֵל הַנּוֹתֵן נְקָמוֹת לִי וַיַּדְבֵּר עַמִּים תַּחְתָּי.",
+      "master": "HaEl hanotén nekamot li vayadber 'amim tajtái.",
+      "generator": "HaEl hanotén nekamot li vayadber 'amim tajtái.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 49,
+      "hebrew": "מְפַלְּטִי מֵאֹיְבָי אַף מִן קָמַי תְּרוֹמְמֵֽנִי מֵאִישׁ חָמָס תַּצִּילֵֽנִי.",
+      "master": "Mefaletí meoyvái af min kamái teromemeni meísh jamás tatsileni.",
+      "generator": "Mefaletí meoyvái af min kamái teromemeni meísh jamás tatsileni.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 50,
+      "hebrew": "עַל כֵּן אוֹדְךָ בַגּוֹיִם יְהֹוָה וּלְשִׁמְךָ אֲזַמֵּֽרָה.",
+      "master": "'Al ken odejá vagoyim Ad-nai Ulshimjá azamera.",
+      "generator": "'Al ken odejá vagoyim Ad-nai Ulshimjá azamera.",
+      "matches": true
+    },
+    {
+      "chapter": 18,
+      "verse": 51,
+      "hebrew": "מַגְדִּל יְשׁוּעוֹת מַלְכּוֹ וְעֹֽשֶׂה חֶֽסֶד לִמְשִׁיחוֹ לְדָוִד וּלְזַרְעוֹ עַד עוֹלָם.",
+      "master": "Magdil yeshu'ot malkó ve'ose jésed limshijó leDavid ulzar'ó 'ad 'olam.",
+      "generator": "Magdil yeshu'ot malkó ve'ose jésed limshijó leDavid ulzar'ó 'ad 'olam.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 1,
+      "hebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
+      "master": "Lamenatséaj mizmor leDavid.",
+      "generator": "Lamenatséaj mizmor leDavid.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 2,
+      "hebrew": "הַשָּׁמַֽיִם מְסַפְּרִים כְּבוֹד אֵל וּמַעֲשֵׂה יָדָיו מַגִּיד הָרָקִֽיעַ.",
+      "master": "Hashamáyim mesaperim kevod El uma'asé Yadav maguid harakía'.",
+      "generator": "Hashamáyim mesaperim kevod El uma'asé Yadav maguid harakía'.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 3,
+      "hebrew": "יוֹם לְיוֹם יַבִּֽיעַ אֹֽמֶר וְלַֽיְלָה לְלַֽיְלָה יְחַוֶּה דָּֽעַת.",
+      "master": "Yom leyom yabía' ómer velayla lelayla yejave dá'at.",
+      "generator": "Yom leyom yabía' ómer velayla lelayla yejave dá'at.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 4,
+      "hebrew": "אֵין אֹֽמֶר וְאֵין דְּבָרִים בְּלִי נִשְׁמָע קוֹלָם.",
+      "master": "En ómer veén devarim belí nishmá' kolam.",
+      "generator": "En ómer veén devarim belí nishmá' kolam.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 5,
+      "hebrew": "בְּכׇל הָאָֽרֶץ יָצָא קַוָּם וּבִקְצֵה תֵבֵל מִלֵּיהֶם לַשֶּֽׁמֶשׁ שָׂם אֹֽהֶל בָּהֶם.",
+      "master": "Bejol haarets yatsá kavam uviktsé tevel milehem lashémesh sam óhel bahem.",
+      "generator": "Bejol haarets yatsá kavam uviktsé tevel milehem lashémesh sam óhel bahem.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 6,
+      "hebrew": "וְהוּא כְּחָתָן יֹצֵא מֵחֻפָּתוֹ יָשִׂישׂ כְּגִבּוֹר לָרוּץ אֹֽרַח.",
+      "master": "Vehu kejatán yotsé mejupató yasís keguibor larúts óraj.",
+      "generator": "Vehu kejatán yotsé mejupató yasís keguibor larúts óraj.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 7,
+      "hebrew": "מִקְצֵה הַשָּׁמַֽיִם מוֹצָאוֹ וּתְקוּפָתוֹ עַל קְצוֹתָם וְאֵין נִסְתָּר מֵחַמָּתוֹ.",
+      "master": "Miktsé hashamáyim motsaó utkufató 'al ketsotam veén nistar mejamató.",
+      "generator": "Miktsé hashamáyim motsaó utkufató 'al ketsotam veén nistar mejamató.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 8,
+      "hebrew": "תּוֹרַת יְהֹוָה תְּמִימָה מְשִׁיבַת נָֽפֶשׁ עֵדוּת יְהֹוָה נֶאֱמָנָה מַחְכִּימַת פֶּתִי.",
+      "master": "Torat Ad-nai temimá meshivat náfesh 'edut Ad-nai neemaná majkimat peti.",
+      "generator": "Torat Ad-nai temimá meshivat náfesh 'edut Ad-nai neemaná majkimat peti.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 9,
+      "hebrew": "פִּקּוּדֵי יְהֹוָה יְשָׁרִים מְשַׂמְּחֵי לֵב מִצְוַת יְהֹוָה בָּרָה מְאִירַת עֵינָֽיִם.",
+      "master": "Pikudé Ad-nai yesharim mesamejé lev mitsvat Ad-nai bará meirat 'enáyim.",
+      "generator": "Pikudé Ad-nai yesharim mesamejé lev mitsvat Ad-nai bará meirat 'enáyim.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 10,
+      "hebrew": "יִרְאַת יְהֹוָה טְהוֹרָה עוֹמֶדֶת לָעַד מִשְׁפְּטֵי יְהֹוָה אֱמֶת צָדְקוּ יַחְדָּו.",
+      "master": "Yirat Ad-nai tehorá 'omédet la'ad mishpeté Ad-nai emet tsadekú yajdav.",
+      "generator": "Yirat Ad-nai tehorá 'omédet la'ad mishpeté Ad-nai emet tsadekú yajdav.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 11,
+      "hebrew": "הַנֶּחֱמָדִים מִזָּהָב וּמִפַּֽז רָב וּמְתוּקִים מִדְּבַשׁ וְנֹֽפֶת צוּפִים.",
+      "master": "Hanejemadim mizahav umipaz rav umetukim midevash venófet tsufim.",
+      "generator": "Hanejemadim mizahav umipaz rav umetukim midevash venófet tsufim.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 12,
+      "hebrew": "גַּם עַבְדְּךָ נִזְהָר בָּהֶם בְּשׇׁמְרָם עֵֽקֶב רָב.",
+      "master": "Gam 'Avdejá nizhar bahem beshomram 'ékev rav.",
+      "generator": "Gam 'Avdejá nizhar bahem beshomram 'ékev rav.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 13,
+      "hebrew": "שְׁגִיאוֹת מִי יָבִין מִנִּסְתָּרוֹת נַקֵּֽנִי.",
+      "master": "Sheguiot mi yavín ministarot nakeni.",
+      "generator": "Sheguiot mi yavín ministarot nakeni.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 14,
+      "hebrew": "גַּם מִזֵּדִים חֲשֹׂךְ עַבְדֶּךָ אַל יִמְשְׁלוּ בִי אָז אֵֽיתָם וְנִקֵּֽיתִי מִפֶּֽשַׁע רָב.",
+      "master": "Gam mizedim jasoj 'Avdejá al yimshelú vi az étam veniketi mipesha' rav.",
+      "generator": "Gam mizedim jasoj 'Avdejá al yimshelú vi az étam veniketi mipesha' rav.",
+      "matches": true
+    },
+    {
+      "chapter": 19,
+      "verse": 15,
+      "hebrew": "יִהְיוּ לְרָצוֹן אִמְרֵי פִי וְהֶגְיוֹן לִבִּי לְפָנֶֽיךָ יְהֹוָה צוּרִי וְגֹאֲלִי.",
+      "master": "Yihyú leratsón imré fi vehegyón libí Lefaneja Ad-nai Tsurí Vegoalí.",
+      "generator": "Yihyú leratsón imré fi vehegyón libí Lefaneja Ad-nai Tsurí Vegoalí.",
       "matches": true
     },
     {

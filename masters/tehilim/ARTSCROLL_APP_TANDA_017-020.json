@@ -1,0 +1,2600 @@
+{
+  "date": "2026-10-09",
+  "sources": [
+    {
+      "file": "IMG_1479.png",
+      "sha256": "4d6bdb1e4689e849c0d6c45f0095b969e621c033fb46573a2900909a5573c511"
+    },
+    {
+      "file": "IMG_1483.png",
+      "sha256": "70a9498a421c827108ecef09391c233354d524b2ad582ffb39025213ec608d0c"
+    },
+    {
+      "file": "IMG_1484.png",
+      "sha256": "92ced4748b2a00d32b06131baf84e94a90fc50f6de708e3611b6870208cfab71"
+    },
+    {
+      "file": "IMG_1485.png",
+      "sha256": "cde93882e69f0f3bc4e9f45eb065a689dfa03fbe088a84fd6b81c59a0c5a6abb"
+    },
+    {
+      "file": "IMG_1486.png",
+      "sha256": "ed702d5cf98469e4ddd9280a6a86f344da6cb1292edad4b5720a89f05679bd40"
+    },
+    {
+      "file": "IMG_1487.png",
+      "sha256": "7b280db12df392b6de19b48eb95ca0416f1e09aa6c328cf5b5ed19c5a0a390f8"
+    },
+    {
+      "file": "IMG_1475(1).png",
+      "sha256": "9fc6f3af412f82c31a23d14494b221d1bb14d5a22f6e78bba9d2f8ddbb109879"
+    },
+    {
+      "file": "IMG_1477(1).png",
+      "sha256": "805b70bccf59947bdcca1e04e00600ff9bf75f90ce2e206ab43051eab485ae45"
+    },
+    {
+      "file": "IMG_1478(1).png",
+      "sha256": "d325f52946067d932b3b08b55ecd58ae2404df3d4782027e7da30b6d92cb0634"
+    },
+    {
+      "file": "IMG_1488.png",
+      "sha256": "9b31fe943cea29c7717ed60604d42962b5f4cfca1d1f58d324d6749d95e125b1"
+    },
+    {
+      "file": "IMG_1489.png",
+      "sha256": "252c21835c272d25f48eaa873aaa7975d9cdc7730acba6b30ff15286b26ff48a"
+    }
+  ],
+  "coverage": {
+    "15": "repetición cotejada",
+    "16": "repetición cotejada",
+    "17": "completo; final 14–15 incorporado",
+    "18": "Capturas completas disponibles y cotejadas: 1–51.",
+    "19": "Captura completa disponible y cotejada: 1–15.",
+    "20": "captura completa cotejada contra registro previo"
+  },
+  "verses": [
+    {
+      "ref": "17:14",
+      "beforeHebrew": "מִמְתִים יָדְךָ יְהֹוָה מִמְתִים מֵחֶלֶד חֶלְקָם בַּחַיִּים וצפינך וּצְפוּנְךָ תְּמַלֵּא בִטְנָם יִשְׂבְּעוּ בָנִים וְהִנִּיחוּ יִתְרָם לְעוֹלְלֵיהֶם.",
+      "afterHebrew": "מִמְתִים יָדְךָ יְהֹוָה מִמְתִים מֵחֶֽלֶד חֶלְקָם בַּחַיִּים וְצְפוּנְךָ תְּמַלֵּא בִטְנָם יִשְׂבְּעוּ בָנִים וְהִנִּֽיחוּ יִתְרָם לְעוֹלְלֵיהֶם.",
+      "beforePhonetic": "Mimtim yadejá Ad-nai mimtim mejéled jelkam bajayim vtsfynj utsfuneja temalé vitnam yisbe'ú vanim vehinijú yitram le'olelehem.",
+      "afterPhonetic": "Mimetim Yadejá Ad-nai mimetim mejéled jelkam bajayim vetsefuneja temalé vitnam yisbe'ú vanim vehiniju yitram le'olelehem.",
+      "changes": {
+        "מחלד": {
+          "stress": 1
+        },
+        "והניחו": {
+          "stress": 2
+        },
+        "ממתים": {
+          "vocalSheva": [
+            1
+          ]
+        },
+        "ידך": {
+          "vocalSheva": [
+            1
+          ],
+          "capital": true,
+          "stress": "final"
+        },
+        "וצפונך": {
+          "vocalSheva": [
+            4
+          ]
+        },
+        "ישבעו": {
+          "vocalSheva": [
+            2
+          ]
+        },
+        "לעולליהם": {
+          "vocalSheva": [
+            3
+          ]
+        }
+      }
+    },
+    {
+      "ref": "17:15",
+      "beforeHebrew": "אֲנִי בְּצֶדֶק אֶחֱזֶה פָנֶיךָ אֶשְׂבְּעָה בְהָקִיץ תְּמוּנָתֶךָ.",
+      "afterHebrew": "אֲנִי בְּצֶֽדֶק אֶחֱזֶה פָנֶֽיךָ אֶשְׂבְּעָה בְהָקִיץ תְּמוּנָתֶֽךָ.",
+      "beforePhonetic": "Aní betsédek ejezé faneja esbe'á vehakíts temunateja.",
+      "afterPhonetic": "Aní betsédek ejeze Faneja esbe'á vehakíts Temunateja.",
+      "changes": {
+        "בצדק": {
+          "stress": 1
+        },
+        "פניך": {
+          "stress": 1,
+          "capital": true
+        },
+        "תמונתך": {
+          "stress": 4,
+          "capital": true
+        },
+        "אשבעה": {
+          "vocalSheva": [
+            2
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:1",
+      "beforeHebrew": "לַמְנַצֵּֽחַ לְעֶבֶד יְהֹוָה לְדָוִד אֲשֶׁר דִּבֶּר לַיהֹוָה אֶת דִּבְרֵי הַשִּׁירָה הַזֹּאת בְּיוֹם הִצִּיל יְהֹוָה אוֹתוֹ מִכַּף כׇּל אֹיְבָיו וּמִיַּד שָׁאוּל.",
+      "afterHebrew": "לַמְנַצֵּֽחַ לְעֶֽבֶד יְהֹוָה לְדָוִד אֲשֶׁר דִּבֶּר לַיהֹוָה אֶת דִּבְרֵי הַשִּׁירָה הַזֹּאת בְּיוֹם הִצִּיל יְהֹוָה אוֹתוֹ מִכַּף כׇּל אֹיְבָיו וּמִיַּד שָׁאוּל.",
+      "beforePhonetic": "Lamenatséaj le'éved Ad-nai leDavid asher diber laAd-nai et divré hashira hazot beyom hitsil Ad-nai otó mikaf kol oyvav umiyad Shaúl.",
+      "afterPhonetic": "Lamenatséaj le'éved Ad-nai leDavid asher díber laAd-nai et divré hashira hazot beyom hitsil Ad-nai otó mikaf kol oyevav umiyad Shaúl.",
+      "changes": {
+        "למנצח": {
+          "stress": 3,
+          "vocalSheva": [
+            1
+          ]
+        },
+        "לעבד": {
+          "stress": 1
+        },
+        "איביו": {
+          "vocalSheva": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:2",
+      "beforeHebrew": "וַיֹּאמַר אֶרְחׇמְךָ יְהֹוָה חִזְקִי.",
+      "afterHebrew": "וַיֹּאמַר אֶרְחׇמְךָ יְהֹוָה חִזְקִי.",
+      "beforePhonetic": "Vayomar erjomeja Ad-nai jizkí.",
+      "afterPhonetic": "Vayomar erjomeja Ad-nai jizkí.",
+      "changes": {}
+    },
+    {
+      "ref": "18:3",
+      "beforeHebrew": "יְהֹוָה סַלְעִי וּמְצוּדָתִי וּמְפַלְטִי אֵלִי צוּרִי אֶחֱסֶה בּוֹ מָגִנִּי וְקֶרֶן יִשְׁעִי מִשְׂגַּבִּי.",
+      "afterHebrew": "יְהֹוָה סַלְעִי וּמְצוּדָתִי וּמְפַלְטִי אֵלִי צוּרִי אֶחֱסֶה בּוֹ מָגִנִּי וְקֶֽרֶן יִשְׁעִי מִשְׂגַּבִּי.",
+      "beforePhonetic": "Ad-nai sal'í umetsudatí umefaltí elí tsurí ejesé bo maguiní vekeren yish'í misgabí.",
+      "afterPhonetic": "Ad-nai Sal'í Umetsudatí Umefaltí Elí Tsurí ejese Bo Maguiní vekeren Yish'í Misgabí.",
+      "changes": {
+        "וקרן": {
+          "stress": 1
+        },
+        "סלעי": {
+          "capital": true
+        },
+        "ומצודתי": {
+          "capital": true
+        },
+        "ומפלטי": {
+          "capital": true
+        },
+        "אלי": {
+          "capital": true
+        },
+        "צורי": {
+          "capital": true
+        },
+        "מגני": {
+          "capital": true
+        },
+        "ישעי": {
+          "capital": true
+        },
+        "משגבי": {
+          "capital": true
+        },
+        "בו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:4",
+      "beforeHebrew": "מְהֻלָּל אֶקְרָא יְהֹוָה וּמִן אֹיְבַי אִוָּשֵׁעַ.",
+      "afterHebrew": "מְהֻלָּל אֶקְרָא יְהֹוָה וּמִן אֹיְבַי אִוָּשֵֽׁעַ.",
+      "beforePhonetic": "Mehulal ekrá Ad-nai umín oyvái ivashea'.",
+      "afterPhonetic": "Mehulal ekrá Ad-nai umín oyevái ivashea'.",
+      "changes": {
+        "אושע": {
+          "stress": 2
+        },
+        "איבי": {
+          "vocalSheva": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:5",
+      "beforeHebrew": "אֲפָפוּנִי חֶבְלֵי מָוֶת וְנַחֲלֵי בְלִיַּעַל יְבַעֲתוּנִי.",
+      "afterHebrew": "אֲפָפוּֽנִי חֶבְלֵי מָֽוֶת וְנַחֲלֵי בְלִיַּֽעַל יְבַעֲתוּֽנִי.",
+      "beforePhonetic": "Afafuni jevlé mávet venajalé veliya'al yeva'atuni.",
+      "afterPhonetic": "Afafuni jevlé mávet venajalé veliyá'al yeva'atuni.",
+      "changes": {
+        "אפפוני": {
+          "stress": 3
+        },
+        "מות": {
+          "stress": 0
+        },
+        "בליעל": {
+          "stress": 2
+        },
+        "יבעתוני": {
+          "stress": 4
+        }
+      }
+    },
+    {
+      "ref": "18:6",
+      "beforeHebrew": "חֶבְלֵי שְׁאוֹל סְבָבוּנִי קִדְּמוּנִי מוֹקְשֵׁי מָוֶת.",
+      "afterHebrew": "חֶבְלֵי שְׁאוֹל סְבָבוּֽנִי קִדְּמוּֽנִי מוֹקְשֵׁי מָֽוֶת.",
+      "beforePhonetic": "Jevlé Sheol sevavuni kidmuni mokshé mávet.",
+      "afterPhonetic": "Jevlé Sheol sevavuni kidemuni mokeshé mávet.",
+      "changes": {
+        "סבבוני": {
+          "stress": 3
+        },
+        "קדמוני": {
+          "stress": 3,
+          "vocalSheva": [
+            1
+          ]
+        },
+        "מות": {
+          "stress": 0
+        },
+        "מוקשי": {
+          "vocalSheva": [
+            2
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:7",
+      "beforeHebrew": "בַּצַּר לִי אֶקְרָא יְהֹוָה וְאֶל אֱלֹהַי אֲשַׁוֵּעַ יִשְׁמַע מֵהֵיכָלוֹ קוֹלִי וְשַׁוְעָתִי לְפָנָיו תָּבוֹא בְאׇזְנָיו.",
+      "afterHebrew": "בַּצַּר לִי אֶקְרָא יְהֹוָה וְאֶל אֱלֹהַי אֲשַׁוֵּֽעַ יִשְׁמַע מֵהֵיכָלוֹ קוֹלִי וְשַׁוְעָתִי לְפָנָיו תָּבוֹא בְאׇזְנָיו.",
+      "beforePhonetic": "Batsar li ekrá Ad-nai veel Elohái ashavea' yishmá' mehekaló kolí veshav'atí lefanav tavó veoznav.",
+      "afterPhonetic": "Batsar li ekrá Ad-nai veel Elohái ashavea' yishmá' Mehekaló kolí veshav'atí Lefanav tavó Veoznav.",
+      "changes": {
+        "אשוע": {
+          "stress": 2
+        },
+        "אלהי": {
+          "capital": true
+        },
+        "מהיכלו": {
+          "capital": true
+        },
+        "לפניו": {
+          "capital": true
+        },
+        "באזניו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:8",
+      "beforeHebrew": "וַתִּגְעַשׁ וַתִּרְעַשׁ הָאָרֶץ וּמוֹסְדֵי הָרִים יִרְגָּזוּ וַיִּתְגָּעֲשׁוּ כִּי חָרָה לוֹ.",
+      "afterHebrew": "וַתִּגְעַשׁ וַתִּרְעַשׁ הָאָֽרֶץ וּמוֹסְדֵי הָרִים יִרְגָּֽזוּ וַיִּתְגָּעֲשׁוּ כִּי חָֽרָה לוֹ.",
+      "beforePhonetic": "Vatig'ash vatir'ash haarets umosdé harim yirgazú vayitga'ashú ki jará lo.",
+      "afterPhonetic": "Vatig'ash vatir'ash haarets umosedé harim yirgazu vayitga'ashú ki jara lo.",
+      "changes": {
+        "הארץ": {
+          "stress": 1
+        },
+        "ירגזו": {
+          "stress": 2
+        },
+        "חרה": {
+          "stress": 0
+        },
+        "ומוסדי": {
+          "vocalSheva": [
+            3
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:9",
+      "beforeHebrew": "עָלָה עָשָׁן בְּאַפּוֹ וְאֵשׁ מִפִּיו תֹּאכֵל גֶּחָלִים בָּעֲרוּ מִמֶּנּוּ.",
+      "afterHebrew": "עָלָה עָשָׁן בְּאַפּוֹ וְאֵשׁ מִפִּיו תֹּאכֵל גֶּחָלִים בָּעֲרוּ מִמֶּֽנּוּ.",
+      "beforePhonetic": "'Alá 'ashán beapó veesh mipiv tojel guejalim ba'arú mimenu.",
+      "afterPhonetic": "'Alá 'ashán Beapó veesh Mipiv tojel guejalim ba'arú Mimenu.",
+      "changes": {
+        "ממנו": {
+          "stress": 1,
+          "capital": true
+        },
+        "באפו": {
+          "capital": true
+        },
+        "מפיו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:10",
+      "beforeHebrew": "וַיֵּט שָׁמַיִם וַיֵּרַד וַעֲרָפֶל תַּחַת רַגְלָיו.",
+      "afterHebrew": "וַיֵּט שָׁמַֽיִם וַיֵּרַד וַעֲרָפֶל תַּֽחַת רַגְלָיו.",
+      "beforePhonetic": "Vayet shamáyim vayerad va'aráfel tájat raglav.",
+      "afterPhonetic": "Vayet shamáyim vayerad va'aráfel tájat Raglav.",
+      "changes": {
+        "שמים": {
+          "stress": 1
+        },
+        "תחת": {
+          "stress": 0
+        },
+        "רגליו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:11",
+      "beforeHebrew": "וַיִּרְכַּב עַל כְּרוּב וַיָּעֹף וַיֵּדֶא עַל כַּנְפֵי רוּחַ.",
+      "afterHebrew": "וַיִּרְכַּב עַל כְּרוּב וַיָּעֹף וַיֵּֽדֶא עַל כַּנְפֵי רֽוּחַ.",
+      "beforePhonetic": "Vayirkav 'al keruv vaya'of vayede 'al kanfé rúaj.",
+      "afterPhonetic": "Vayirkav 'al keruv vaya'of vayede 'al kanfé rúaj.",
+      "changes": {
+        "וידא": {
+          "stress": 1
+        },
+        "רוח": {
+          "stress": 0
+        }
+      }
+    },
+    {
+      "ref": "18:12",
+      "beforeHebrew": "יָשֶׁת חֹשֶׁךְ סִתְרוֹ סְבִיבוֹתָיו סֻכָּתוֹ חֶשְׁכַת מַיִם עָבֵי שְׁחָקִים.",
+      "afterHebrew": "יָֽשֶׁת חֹֽשֶׁךְ סִתְרוֹ סְבִיבוֹתָיו סֻכָּתוֹ חֶשְׁכַת מַֽיִם עָבֵי שְׁחָקִים.",
+      "beforePhonetic": "Yáshet jóshej sitró sevivotav sukató jeshjat máyim 'avé shejakim.",
+      "afterPhonetic": "Yáshet jóshej Sitró Sevivotav Sukató jeshjat máyim 'avé shejakim.",
+      "changes": {
+        "ישת": {
+          "stress": 0
+        },
+        "חשך": {
+          "stress": 0
+        },
+        "מים": {
+          "stress": 0
+        },
+        "סתרו": {
+          "capital": true
+        },
+        "סביבותיו": {
+          "capital": true
+        },
+        "סכתו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:13",
+      "beforeHebrew": "מִנֹּגַהּ נֶגְדּוֹ עָבָיו עָבְרוּ בָּרָד וְגַחֲלֵי אֵשׁ.",
+      "afterHebrew": "מִנֹּֽגַהּ נֶגְדּוֹ עָבָיו עָבְרוּ בָּרָד וְגַֽחֲלֵי אֵשׁ.",
+      "beforePhonetic": "Minogah negdó 'avav 'avrú barad vegajalé esh.",
+      "afterPhonetic": "Minógah Negdó 'avav 'averú barad vegájale esh.",
+      "changes": {
+        "מנגה": {
+          "stress": 1
+        },
+        "וגחלי": {
+          "stress": 1
+        },
+        "עברו": {
+          "vocalSheva": [
+            1
+          ]
+        },
+        "נגדו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:14",
+      "beforeHebrew": "וַיַּרְעֵם בַּשָּׁמַיִם יְהֹוָה וְעֶלְיוֹן יִתֵּן קֹלוֹ בָּרָד וְגַחֲלֵי אֵשׁ.",
+      "afterHebrew": "וַיַּרְעֵם בַּשָּׁמַֽיִם יְהֹוָה וְעֶלְיוֹן יִתֵּן קֹלוֹ בָּרָד וְגַֽחֲלֵי אֵשׁ.",
+      "beforePhonetic": "Vayar'em bashamáyim Ad-nai ve'elyón yitén koló barad vegajalé esh.",
+      "afterPhonetic": "Vayar'em bashamáyim Ad-nai Ve'elyón yitén Koló barad vegájale esh.",
+      "changes": {
+        "בשמים": {
+          "stress": 2
+        },
+        "וגחלי": {
+          "stress": 1
+        },
+        "ועליון": {
+          "capital": true
+        },
+        "קלו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:15",
+      "beforeHebrew": "וַיִּשְׁלַח חִצָּיו וַיְפִיצֵם וּבְרָקִים רָב וַיְהֻמֵּם.",
+      "afterHebrew": "וַיִּשְׁלַח חִצָּיו וַיְפִיצֵם וּבְרָקִים רָב וַיְהֻמֵּם.",
+      "beforePhonetic": "Vayishlaj jitsav vaifitsem uvrakim rav vaihumem.",
+      "afterPhonetic": "Vayishlaj jitsav vaifitsem uvrakim rav vaihumem.",
+      "changes": {}
+    },
+    {
+      "ref": "18:16",
+      "beforeHebrew": "וַיֵּרָאוּ אֲפִיקֵי מַיִם וַיִּגָּלוּ מוֹסְדוֹת תֵּבֵל מִגַּעֲרָתְךָ יְהֹוָה מִנִּשְׁמַת רוּחַ אַפֶּךָ.",
+      "afterHebrew": "וַיֵּרָאוּ אֲפִיקֵי מַֽיִם וַיִּגָּלוּ מוֹסְדוֹת תֵּבֵל מִגַּעֲרָתְךָ יְהֹוָה מִנִּשְׁמַת רֽוּחַ אַפֶּךָ.",
+      "beforePhonetic": "Vayeraú afiké máyim vayigalú mosdot tevel miga'arateja Ad-nai minishmat rúaj apeja.",
+      "afterPhonetic": "Vayeraú afiké máyim vayigalú mosdot tevel Miga'arateja Ad-nai minishmat rúaj Apeja.",
+      "changes": {
+        "מים": {
+          "stress": 0
+        },
+        "רוח": {
+          "stress": 0
+        },
+        "מגערתך": {
+          "vocalSheva": [
+            4
+          ],
+          "capital": true
+        },
+        "אפך": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:17",
+      "beforeHebrew": "יִשְׁלַח מִמָּרוֹם יִקָּחֵנִי יַמְשֵׁנִי מִמַּיִם רַבִּים.",
+      "afterHebrew": "יִשְׁלַח מִמָּרוֹם יִקָּחֵֽנִי יַמְשֵֽׁנִי מִמַּֽיִם רַבִּים.",
+      "beforePhonetic": "Yishlaj mimarom yikajeni yamsheni mimáyim rabim.",
+      "afterPhonetic": "Yishlaj mimarom yikajeni yamsheni mimáyim rabim.",
+      "changes": {
+        "יקחני": {
+          "stress": 2
+        },
+        "ימשני": {
+          "stress": 2
+        },
+        "ממים": {
+          "stress": 1
+        }
+      }
+    },
+    {
+      "ref": "18:18",
+      "beforeHebrew": "יַצִּילֵנִי מֵאֹיְבִי עָז וּמִשֹּׂנְאַי כִּי אָמְצוּ מִמֶּנִּי.",
+      "afterHebrew": "יַצִּילֵֽנִי מֵאֹיְבִי עָז וּמִשֹּׂנְאַי כִּי אָמְצוּ מִמֶּֽנִּי.",
+      "beforePhonetic": "Yatsileni meoyví 'az umisonái ki amtsú mimeni.",
+      "afterPhonetic": "Yatsileni meoyeví 'az umisoneái ki ametsú mimeni.",
+      "changes": {
+        "יצילני": {
+          "stress": 3
+        },
+        "ממני": {
+          "stress": 1
+        },
+        "מאיבי": {
+          "vocalSheva": [
+            2
+          ]
+        },
+        "ומשנאי": {
+          "vocalSheva": [
+            3
+          ]
+        },
+        "אמצו": {
+          "vocalSheva": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:19",
+      "beforeHebrew": "יְקַדְּמוּנִי בְיוֹם אֵידִי וַיְהִי יְהֹוָה לְמִשְׁעָן לִי.",
+      "afterHebrew": "יְקַדְּמוּֽנִי בְיוֹם אֵידִי וַיְהִי יְהֹוָה לְמִשְׁעָן לִי.",
+      "beforePhonetic": "Yekademuni veyom edí vayehí Ad-nai lemish'án li.",
+      "afterPhonetic": "Yekademuni veyom edí vayehí Ad-nai lemish'án li.",
+      "changes": {
+        "יקדמוני": {
+          "stress": 4,
+          "vocalSheva": [
+            2
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:20",
+      "beforeHebrew": "וַיּוֹצִיאֵנִי לַמֶּרְחָב יְחַלְּצֵנִי כִּי חָפֵץ בִּי.",
+      "afterHebrew": "וַיּוֹצִיאֵֽנִי לַמֶּרְחָב יְחַלְּצֵֽנִי כִּי חָפֵץ בִּי.",
+      "beforePhonetic": "Vayotsieni lamerjav yejaletseni ki jaféts bi.",
+      "afterPhonetic": "Vayotsieni lamerjav yejaletseni ki jaféts bi.",
+      "changes": {
+        "ויוציאני": {
+          "stress": 5
+        },
+        "יחלצני": {
+          "stress": 3,
+          "vocalSheva": [
+            2
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:21",
+      "beforeHebrew": "יִגְמְלֵנִי יְהֹוָה כְּצִדְקִי כְּבֹר יָדַי יָשִׁיב לִי.",
+      "afterHebrew": "יִגְמְלֵֽנִי יְהֹוָה כְּצִדְקִי כְּבֹר יָדַי יָשִׁיב לִי.",
+      "beforePhonetic": "Yigmeleni Ad-nai ketsidkí kevor yadái yashiv li.",
+      "afterPhonetic": "Yigmeleni Ad-nai ketsidkí kevor yadái yashiv li.",
+      "changes": {
+        "יגמלני": {
+          "stress": 3,
+          "vocalSheva": [
+            2
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:22",
+      "beforeHebrew": "כִּי שָׁמַרְתִּי דַּרְכֵי יְהֹוָה וְלֹא רָשַׁעְתִּי מֵאֱלֹהָי.",
+      "afterHebrew": "כִּי שָׁמַֽרְתִּי דַּרְכֵי יְהֹוָה וְלֹא רָשַׁעְתִּי מֵאֱלֹהָי.",
+      "beforePhonetic": "Ki shamarti darjé Ad-nai veló rasha'ti meElohái.",
+      "afterPhonetic": "Ki shamarti darjé Ad-nai veló rasha'ti MeElohái.",
+      "changes": {
+        "שמרתי": {
+          "stress": 1
+        },
+        "מאלהי": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:23",
+      "beforeHebrew": "כִּי כׇל מִשְׁפָּטָיו לְנֶגְדִּי וְחֻקֹּתָיו לֹא אָסִיר מֶנִּי.",
+      "afterHebrew": "כִּי כׇל מִשְׁפָּטָיו לְנֶגְדִּי וְחֻקֹּתָיו לֹא אָסִיר מֶֽנִּי.",
+      "beforePhonetic": "Ki jol mishpatav lenegdí vejukotav lo asir meni.",
+      "afterPhonetic": "Ki jol Mishpatav lenegdí Vejukotav lo asir meni.",
+      "changes": {
+        "מני": {
+          "stress": 0
+        },
+        "משפטיו": {
+          "capital": true
+        },
+        "וחקתיו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:24",
+      "beforeHebrew": "וָאֱהִי תָמִים עִמּוֹ וָאֶשְׁתַּמֵּר מֵעֲוֺנִי.",
+      "afterHebrew": "וָאֱהִי תָמִים עִמּוֹ וָאֶשְׁתַּמֵּר מֵעֲוֺנִי.",
+      "beforePhonetic": "Vaehí tamim 'imó vaeshtamer me'aoni.",
+      "afterPhonetic": "Vaehí tamim 'Imó vaeshtamer me'avoni.",
+      "changes": {
+        "עמו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:25",
+      "beforeHebrew": "וַיָּשֶׁב יְהֹוָה לִי כְצִדְקִי כְּבֹר יָדַי לְנֶגֶד עֵינָיו.",
+      "afterHebrew": "וַיָּֽשֶׁב יְהֹוָה לִי כְצִדְקִי כְּבֹר יָדַי לְנֶֽגֶד עֵינָיו.",
+      "beforePhonetic": "Vayáshev Ad-nai li jetsidkí kevor yadái lenégued 'enav.",
+      "afterPhonetic": "Vayáshev Ad-nai li jetsidkí kevor yadái lenégued 'Enav.",
+      "changes": {
+        "וישב": {
+          "stress": 1
+        },
+        "לנגד": {
+          "stress": 1
+        },
+        "עיניו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:26",
+      "beforeHebrew": "עִם חָסִיד תִּתְחַסָּד עִם גְּבַר תָּמִים תִּתַּמָּם.",
+      "afterHebrew": "עִם חָסִיד תִּתְחַסָּד עִם גְּבַר תָּמִים תִּתַּמָּם.",
+      "beforePhonetic": "'Im jasid titjasad 'im guevar tamim titamam.",
+      "afterPhonetic": "'Im jasid titjasad 'im guevar tamim titamam.",
+      "changes": {}
+    },
+    {
+      "ref": "18:27",
+      "beforeHebrew": "עִם נָבָר תִּתְבָּרָר וְעִם עִקֵּשׁ תִּתְפַּתָּל.",
+      "afterHebrew": "עִם נָבָר תִּתְבָּרָר וְעִם עִקֵּשׁ תִּתְפַּתָּל.",
+      "beforePhonetic": "'Im navar titbarar ve'im 'ikesh titpatal.",
+      "afterPhonetic": "'Im navar titbarar ve'im 'ikesh titpatal.",
+      "changes": {}
+    },
+    {
+      "ref": "18:28",
+      "beforeHebrew": "כִּי אַתָּה עַם עָנִי תוֹשִׁיעַ וְעֵינַיִם רָמוֹת תַּשְׁפִּיל.",
+      "afterHebrew": "כִּי אַתָּה עַם עָנִי תוֹשִֽׁיעַ וְעֵינַֽיִם רָמוֹת תַּשְׁפִּיל.",
+      "beforePhonetic": "Ki atá 'am 'aní toshía' ve'enáyim ramot tashpil.",
+      "afterPhonetic": "Ki Atá 'am 'aní toshía' ve'enáyim ramot tashpil.",
+      "changes": {
+        "תושיע": {
+          "stress": 2
+        },
+        "ועינים": {
+          "stress": 3
+        },
+        "אתה": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:29",
+      "beforeHebrew": "כִּי אַתָּה תָּאִיר נֵרִי יְהֹוָה אֱלֹהַי יַגִּיהַּ חׇשְׁכִּי.",
+      "afterHebrew": "כִּי אַתָּה תָּאִיר נֵרִי יְהֹוָה אֱלֹהַי יַגִּֽיהַּ חׇשְׁכִּי.",
+      "beforePhonetic": "Ki atá taír nerí Ad-nai Elohái yaguihá joshkí.",
+      "afterPhonetic": "Ki Atá taír nerí Ad-nai Elohái yaguiha joshkí.",
+      "changes": {
+        "יגיה": {
+          "stress": 1
+        },
+        "אתה": {
+          "capital": true
+        },
+        "אלהי": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:30",
+      "beforeHebrew": "כִּי בְךָ אָרֻץ גְּדוּד וּבֵאלֹהַי אֲדַלֶּג שׁוּר.",
+      "afterHebrew": "כִּי בְךָ אָרֻץ גְּדוּד וּבֵאלֹהַי אֲדַלֶּג שׁוּר.",
+      "beforePhonetic": "Ki vejá arúts guedud uvéLohái adáleg shur.",
+      "afterPhonetic": "Ki Veja arúts guedud UvéLohái adáleg shur.",
+      "changes": {
+        "בך": {
+          "capital": true
+        },
+        "ובאלהי": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:31",
+      "beforeHebrew": "הָאֵל תָּמִים דַּרְכּוֹ אִמְרַת יְהֹוָה צְרוּפָה מָגֵן הוּא לְכֹל הַחֹסִים בּוֹ.",
+      "afterHebrew": "הָאֵל תָּמִים דַּרְכּוֹ אִמְרַת יְהֹוָה צְרוּפָה מָגֵן הוּא לְכֹל הַחֹסִים בּוֹ.",
+      "beforePhonetic": "HaEl tamim darkó imrat Ad-nai tserufá maguén Hu lejol hajosim bo.",
+      "afterPhonetic": "HaEl tamim Darkó imrat Ad-nai tserufá maguén Hu lejol hajosim Bo.",
+      "changes": {
+        "דרכו": {
+          "capital": true
+        },
+        "הוא": {
+          "capital": true
+        },
+        "בו": {
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:32",
+      "beforeHebrew": "כִּי מִי אֱלוֹהַּ מִבַּלְעֲדֵי יְהֹוָה וּמִי צוּר זוּלָתִי אֱלֹהֵינוּ.",
+      "afterHebrew": "כִּי מִי אֱלֽוֹהַּ מִבַּלְעֲדֵי יְהֹוָה וּמִי צוּר זוּלָתִי אֱלֹהֵֽינוּ.",
+      "beforePhonetic": "Ki mi elohá mibal'adé Ad-nai umí tsur zulatí Elohenu.",
+      "afterPhonetic": "Ki mi eloha mibal'adé Ad-nai umí tsur zulatí Elohenu.",
+      "changes": {
+        "אלוה": {
+          "stress": 1
+        },
+        "אלהינו": {
+          "stress": 2,
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:33",
+      "beforeHebrew": "הָאֵל הַמְאַזְּרֵנִי חָיִל וַיִּתֵּן תָּמִים דַּרְכִּי.",
+      "afterHebrew": "הָאֵל הַמְאַזְּרֵֽנִי חָֽיִל וַיִּתֵּן תָּמִים דַּרְכִּי.",
+      "beforePhonetic": "HaEl hamazereni jáyil vayitén tamim darkí.",
+      "afterPhonetic": "HaEl hameazereni jáyil vayitén tamim darkí.",
+      "changes": {
+        "המאזרני": {
+          "stress": 4,
+          "vocalSheva": [
+            1,
+            3
+          ]
+        },
+        "חיל": {
+          "stress": 0
+        }
+      }
+    },
+    {
+      "ref": "18:34",
+      "beforeHebrew": "מְשַׁוֶּה רַגְלַי כָּאַיָּלוֹת וְעַל בָּמֹתַי יַעֲמִידֵנִי.",
+      "afterHebrew": "מְשַׁוֶּה רַגְלַי כָּאַיָּלוֹת וְעַל בָּמֹתַי יַעֲמִידֵֽנִי.",
+      "beforePhonetic": "Meshave raglái kaayalot ve'al bamotái ya'amideni.",
+      "afterPhonetic": "Meshave raglái kaayalot ve'al bamotái ya'amideni.",
+      "changes": {
+        "יעמידני": {
+          "stress": 4
+        }
+      }
+    },
+    {
+      "ref": "18:35",
+      "beforeHebrew": "מְלַמֵּד יָדַי לַמִּלְחָמָה וְנִחֲתָה קֶשֶׁת נְחוּשָׁה זְרוֹעֹתָי.",
+      "afterHebrew": "מְלַמֵּד יָדַי לַמִּלְחָמָה וְנִחֲתָה קֶֽשֶׁת נְחוּשָׁה זְרוֹעֹתָי.",
+      "beforePhonetic": "Melamed yadái lamiljamá venijata késhet nejushá zro'otái.",
+      "afterPhonetic": "Melamed yadái lamiljamá venijata késhet nejushá zro'otái.",
+      "changes": {
+        "קשת": {
+          "stress": 0
+        }
+      }
+    },
+    {
+      "ref": "18:36",
+      "beforeHebrew": "וַתִּתֶּן לִי מָגֵן יִשְׁעֶךָ וִימִינְךָ תִסְעָדֵנִי וְעַנְוַתְךָ תַרְבֵּנִי.",
+      "afterHebrew": "וַתִּתֶּן לִי מָגֵן יִשְׁעֶֽךָ וִימִינְךָ תִסְעָדֵֽנִי וְעַנְוָתְךָ תַרְבֵּֽנִי.",
+      "beforePhonetic": "Vatitén li maguén yish'eja vimineja tis'adeni ve'anvatjá tarbeni.",
+      "afterPhonetic": "Vatiten li maguén Yish'eja Viminejá tis'adeni Ve'anvateja tarbeni.",
+      "changes": {
+        "ישעך": {
+          "stress": 2,
+          "capital": true
+        },
+        "תסעדני": {
+          "stress": 3
+        },
+        "תרבני": {
+          "stress": 2
+        },
+        "וימינך": {
+          "vocalSheva": [
+            4
+          ],
+          "capital": true,
+          "stress": "final"
+        },
+        "וענותך": {
+          "vocalSheva": [
+            4
+          ],
+          "capital": true
+        }
+      }
+    },
+    {
+      "ref": "18:37",
+      "beforeHebrew": "תַּרְחִיב צַעֲדִי תַחְתָּי וְלֹא מָעֲדוּ קַרְסֻלָּי.",
+      "afterHebrew": "תַּרְחִיב צַעֲדִי תַחְתָּי וְלֹא מָעֲדוּ קַרְסֻלָּי.",
+      "beforePhonetic": "Tarjiv tsa'adí tajtái veló ma'adú karsulái.",
+      "afterPhonetic": "Tarjiv tsa'adí tajtái veló ma'adú karsulái.",
+      "changes": {}
+    },
+    {
+      "ref": "18:38",
+      "beforeHebrew": "אֶרְדּוֹף אוֹיְבַי וְאַשִּׂיגֵם וְלֹא אָשׁוּב עַד כַּלּוֹתָם.",
+      "afterHebrew": "אֶרְדּוֹף אוֹיְבַי וְאַשִּׂיגֵם וְלֹא אָשׁוּב עַד כַּלּוֹתָם.",
+      "beforePhonetic": "Erdof oyvái veasiguem veló ashuv 'ad kalotam.",
+      "afterPhonetic": "Erdof oyevái veasiguem veló ashuv 'ad kalotam.",
+      "changes": {
+        "אויבי": {
+          "vocalSheva": [
+            2
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:39",
+      "beforeHebrew": "אֶמְחָצֵם וְלֹא יֻכְלוּ קוּם יִפְּלוּ תַּחַת רַגְלָי.",
+      "afterHebrew": "אֶמְחָצֵם וְלֹא יֻֽכְלוּ קוּם יִפְּלוּ תַֽחַת רַגְלָי.",
+      "beforePhonetic": "Emjatsem veló yujlú kum yiplú tájat raglái.",
+      "afterPhonetic": "Emjatsem veló yújelu kum yiplú tájat raglái.",
+      "changes": {
+        "יכלו": {
+          "vocalSheva": [
+            1
+          ],
+          "stress": 0
+        },
+        "תחת": {
+          "stress": 0
+        }
+      }
+    },
+    {
+      "ref": "18:40",
+      "beforeHebrew": "וַתְּאַזְּרֵנִי חַיִל לַמִּלְחָמָה תַּכְרִיעַ קָמַי תַּחְתָּי.",
+      "afterHebrew": "וַתְּאַזְּרֵֽנִי חַֽיִל לַמִּלְחָמָה תַּכְרִיעַ קָמַי תַּחְתָּי.",
+      "beforePhonetic": "Vateazereni jayil lamiljamá tajría' kamái tajtái.",
+      "afterPhonetic": "Vateazereni jáyil lamiljamá tajría' kamái tajtái.",
+      "changes": {
+        "ותאזרני": {
+          "stress": 4,
+          "vocalSheva": [
+            1,
+            3
+          ]
+        },
+        "חיל": {
+          "stress": 0
+        }
+      }
+    },
+    {
+      "ref": "18:41",
+      "beforeHebrew": "וְאֹיְבַי נָתַתָּה לִּי עֹרֶף וּמְשַׂנְאַי אַצְמִיתֵם.",
+      "afterHebrew": "וְאֹיְבַי נָתַֽתָּה לִּי עֹֽרֶף וּמְשַׂנְאַי אַצְמִיתֵם.",
+      "beforePhonetic": "Veoyvái natata li 'óref umesanái atsmitem.",
+      "afterPhonetic": "Veoyevái natata li 'óref umesaneái atsmitem.",
+      "changes": {
+        "נתתה": {
+          "stress": 1
+        },
+        "ערף": {
+          "stress": 0
+        },
+        "ואיבי": {
+          "vocalSheva": [
+            2
+          ]
+        },
+        "ומשנאי": {
+          "vocalSheva": [
+            3
+          ]
+        }
+      }
+    },
+    {
+      "ref": "18:42",
+      "beforeHebrew": "יְשַׁוְּעוּ וְאֵין מוֹשִׁיעַ עַל יְהֹוָה וְלֹא עָנָם.",
+      "afterHebrew": "יְשַׁוְּעוּ וְאֵין מוֹשִֽׁיעַ עַל יְהֹוָה וְלֹא עָנָם.",
+      "beforePhonetic": "Yeshaú'u veén moshía' 'al Ad-nai veló 'anam.",
+      "afterPhonetic": "Yeshave'ú veén moshía' 'al Ad-nai veló 'anam.",
+      "changes": {
+        "מושיע": {
+          "stress": 2
+        },
+        "ישועו": {
+          "vocalSheva": [
+            2
+          ],
+          "stress": "final"
+        }
+      }
+    },
+    {
+      "ref": "18:43",
+      "beforeHebrew": "וְאֶשְׁחָקֵם כְּעָפָר עַל פְּנֵי רוּחַ כְּטִיט חוּצוֹת אֲרִיקֵם.",
+      "afterHebrew": "וְאֶשְׁחָקֵם כְּעָפָר עַל פְּנֵי רֽוּחַ כְּטִיט חוּצוֹת אֲרִיקֵם.",
+      "beforePhonetic": "Veeshjakem ke'afar 'al pené rúaj ketit jutsot arikem.",
+      "afterPhonetic": "Veeshjakem ke'afar 'al pené rúaj ketit jutsot arikem.",
+      "changes": {
+        "רוח": {
+          "stress": 0
+        }
+      }
+    },
+    {
+      "ref": "18:44",
+      "beforeHebrew": "תְּפַלְּטֵנִי מֵרִיבֵי עָם תְּשִׂימֵנִי לְרֹאשׁ גּוֹיִם עַם לֹא יָדַעְתִּי יַעַבְדוּנִי.",
+      "beforePhonetic": "Tefaleteni merivé 'am tesimeni lerosh goyim 'am lo yada'ti ya'avduni.",
+      "afterHebrew": "תְּפַלְּטֵֽנִי מֵרִיבֵי עָם תְּשִׂימֵֽנִי לְרֹאשׁ גּוֹיִם עַם לֹא יָדַֽעְתִּי יַעַבְדוּֽנִי.",
+      "changes": {
+        "תפלטני": {
+          "stress": 3,
+          "vocalSheva": [
+            2
+          ]
+        },
+        "תשימני": {
+          "stress": 3
+        },
+        "ידעתי": {
+          "stress": 1
+        },
+        "יעבדוני": {
+          "stress": 4
+        }
+      },
+      "afterPhonetic": "Tefaleteni merivé 'am tesimeni lerosh goyim 'am lo yada'ti ya'avduni."
+    },
+    {
+      "ref": "18:45",
+      "beforeHebrew": "לְשֵׁמַע אֹזֶן יִשָּׁמְעוּ לִי בְּנֵי נֵכָר יְכַחֲשׁוּ לִי.",
+      "beforePhonetic": "Leshemá' ozen yisham'ú li bené nejar yejajashú li.",
+      "afterHebrew": "לְשֵֽׁמַע אֹֽזֶן יִשָּֽׁמְעוּ לִי בְּנֵי נֵכָר יְכַֽחֲשׁוּ לִי.",
+      "changes": {
+        "לשמע": {
+          "stress": 1
+        },
+        "אזן": {
+          "stress": 0
+        },
+        "ישמעו": {
+          "stress": 1,
+          "vocalSheva": [
+            2
+          ]
+        },
+        "יכחשו": {
+          "stress": 1
+        }
+      },
+      "afterPhonetic": "Leshema' ozen yisháme'u li bené nejar yejájashu li."
+    },
+    {
+      "ref": "18:46",
+      "beforeHebrew": "בְּנֵי נֵכָר יִבֹּלוּ וְיַחְרְגוּ מִמִּסְגְּרוֹתֵיהֶם.",
+      "beforePhonetic": "Bené nejar yibolú veyajregú mimisguerotehem.",
+      "afterHebrew": "בְּנֵי נֵכָר יִבֹּֽלוּ וְיַחְרְגוּ מִמִּסְגְּרוֹתֵיהֶם.",
+      "changes": {
+        "יבלו": {
+          "stress": 1
+        },
+        "ויחרגו": {
+          "vocalSheva": [
+            3
+          ]
+        },
+        "ממסגרותיהם": {
+          "vocalSheva": [
+            3
+          ]
+        }
+      },
+      "afterPhonetic": "Bené nejar yibolu veyajregú mimisguerotehem."
+    },
+    {
+      "ref": "18:47",
+      "beforeHebrew": "חַי יְהֹוָה וּבָרוּךְ צוּרִי וְיָרוּם אֱלוֹהֵי יִשְׁעִי.",
+      "beforePhonetic": "Jay Ad-nai uvaruj tsurí veyarum elohé yish'í.",
+      "afterHebrew": "חַי יְהֹוָה וּבָרוּךְ צוּרִי וְיָרוּם אֱלוֹהֵי יִשְׁעִי.",
+      "changes": {
+        "צורי": {
+          "capital": true
+        },
+        "אלוהי": {
+          "capital": true
+        },
+        "ישעי": {
+          "capital": true
+        }
+      },
+      "afterPhonetic": "Jay Ad-nai uvaruj Tsurí veyarum Elohé Yish'í."
+    },
+    {
+      "ref": "18:48",
+      "beforeHebrew": "הָאֵל הַנּוֹתֵן נְקָמוֹת לִי וַיַּדְבֵּר עַמִּים תַּחְתָּי.",
+      "beforePhonetic": "HaEl hanotén nekamot li vayadber 'amim tajtái.",
+      "afterHebrew": "הָאֵל הַנּוֹתֵן נְקָמוֹת לִי וַיַּדְבֵּר עַמִּים תַּחְתָּי.",
+      "changes": {},
+      "afterPhonetic": "HaEl hanotén nekamot li vayadber 'amim tajtái."
+    },
+    {
+      "ref": "18:49",
+      "beforeHebrew": "מְפַלְּטִי מֵאֹיְבָי אַף מִן קָמַי תְּרוֹמְמֵנִי מֵאִישׁ חָמָס תַּצִּילֵנִי.",
+      "beforePhonetic": "Mefaletí meoyvái af min kamái teromemeni meísh jamás tatsileni.",
+      "afterHebrew": "מְפַלְּטִי מֵאֹיְבָי אַף מִן קָמַי תְּרוֹמְמֵֽנִי מֵאִישׁ חָמָס תַּצִּילֵֽנִי.",
+      "changes": {
+        "תרוממני": {
+          "stress": 4,
+          "vocalSheva": [
+            3
+          ]
+        },
+        "תצילני": {
+          "stress": 3
+        }
+      },
+      "afterPhonetic": "Mefaletí meoyvái af min kamái teromemeni meísh jamás tatsileni."
+    },
+    {
+      "ref": "18:50",
+      "beforeHebrew": "עַל כֵּן אוֹדְךָ בַגּוֹיִם יְהֹוָה וּלְשִׁמְךָ אֲזַמֵּרָה.",
+      "beforePhonetic": "'Al ken odejá vagoyim Ad-nai ulshimjá azamerá.",
+      "afterHebrew": "עַל כֵּן אוֹדְךָ בַגּוֹיִם יְהֹוָה וּלְשִׁמְךָ אֲזַמֵּֽרָה.",
+      "changes": {
+        "אזמרה": {
+          "stress": 2
+        },
+        "אודך": {
+          "vocalSheva": [
+            2
+          ],
+          "stress": "final"
+        },
+        "ולשמך": {
+          "capital": true
+        }
+      },
+      "afterPhonetic": "'Al ken odejá vagoyim Ad-nai Ulshimjá azamera."
+    },
+    {
+      "ref": "18:51",
+      "beforeHebrew": "מַגְדִּל יְשׁוּעוֹת מַלְכּוֹ וְעֹשֶׂה חֶסֶד לִמְשִׁיחוֹ לְדָוִד וּלְזַרְעוֹ עַד עוֹלָם.",
+      "beforePhonetic": "Magdil yeshu'ot malkó ve'osé jésed limshijó leDavid ulzar'ó 'ad 'olam.",
+      "afterHebrew": "מַגְדִּל יְשׁוּעוֹת מַלְכּוֹ וְעֹֽשֶׂה חֶֽסֶד לִמְשִׁיחוֹ לְדָוִד וּלְזַרְעוֹ עַד עוֹלָם.",
+      "changes": {
+        "ועשה": {
+          "stress": 1
+        },
+        "חסד": {
+          "stress": 0
+        }
+      },
+      "afterPhonetic": "Magdil yeshu'ot malkó ve'ose jésed limshijó leDavid ulzar'ó 'ad 'olam."
+    },
+    {
+      "ref": "19:1",
+      "beforeHebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
+      "beforePhonetic": "Lamenatséaj mizmor leDavid.",
+      "afterHebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
+      "changes": {
+        "למנצח": {
+          "stress": 3,
+          "vocalSheva": [
+            1
+          ]
+        }
+      },
+      "afterPhonetic": "Lamenatséaj mizmor leDavid."
+    },
+    {
+      "ref": "19:2",
+      "beforeHebrew": "הַשָּׁמַיִם מְסַפְּרִים כְּבוֹד אֵל וּמַעֲשֵׂה יָדָיו מַגִּיד הָרָקִיעַ.",
+      "beforePhonetic": "Hashamáyim mesaperim kevod El uma'asé yadav maguid harakía'.",
+      "afterHebrew": "הַשָּׁמַֽיִם מְסַפְּרִים כְּבוֹד אֵל וּמַעֲשֵׂה יָדָיו מַגִּיד הָרָקִֽיעַ.",
+      "changes": {
+        "השמים": {
+          "stress": 2
+        },
+        "הרקיע": {
+          "stress": 2
+        },
+        "מספרים": {
+          "vocalSheva": [
+            2
+          ]
+        },
+        "ידיו": {
+          "capital": true
+        }
+      },
+      "afterPhonetic": "Hashamáyim mesaperim kevod El uma'asé Yadav maguid harakía'."
+    },
+    {
+      "ref": "19:3",
+      "beforeHebrew": "יוֹם לְיוֹם יַבִּיעַ אֹמֶר וְלַיְלָה לְּלַיְלָה יְחַוֶּה דָּעַת.",
+      "beforePhonetic": "Yom leyom yabía' ómer velayla lelayla yejave da'at.",
+      "afterHebrew": "יוֹם לְיוֹם יַבִּֽיעַ אֹֽמֶר וְלַֽיְלָה לְלַֽיְלָה יְחַוֶּה דָּֽעַת.",
+      "changes": {
+        "יביע": {
+          "stress": 1
+        },
+        "אמר": {
+          "stress": 0
+        },
+        "ולילה": {
+          "stress": 1
+        },
+        "ללילה": {
+          "stress": 1
+        },
+        "דעת": {
+          "stress": 0
+        }
+      },
+      "afterPhonetic": "Yom leyom yabía' ómer velayla lelayla yejave dá'at."
+    },
+    {
+      "ref": "19:4",
+      "beforeHebrew": "אֵין אֹמֶר וְאֵין דְּבָרִים בְּלִי נִשְׁמָע קוֹלָם.",
+      "beforePhonetic": "En ómer veén devarim belí nishmá' kolam.",
+      "afterHebrew": "אֵין אֹֽמֶר וְאֵין דְּבָרִים בְּלִי נִשְׁמָע קוֹלָם.",
+      "changes": {
+        "אמר": {
+          "stress": 0
+        }
+      },
+      "afterPhonetic": "En ómer veén devarim belí nishmá' kolam."
+    },
+    {
+      "ref": "19:5",
+      "beforeHebrew": "בְּכׇל הָאָרֶץ יָצָא קַוָּם וּבִקְצֵה תֵבֵל מִלֵּיהֶם לַשֶּׁמֶשׁ שָׂם אֹהֶל בָּהֶם.",
+      "beforePhonetic": "Bejol haarets yatsá kavam uviktsé tevel milehem lashémesh sam óhel bahem.",
+      "afterHebrew": "בְּכׇל הָאָֽרֶץ יָצָא קַוָּם וּבִקְצֵה תֵבֵל מִלֵּיהֶם לַשֶּֽׁמֶשׁ שָׂם אֹֽהֶל בָּהֶם.",
+      "changes": {
+        "הארץ": {
+          "stress": 1
+        },
+        "לשמש": {
+          "stress": 1
+        },
+        "אהל": {
+          "stress": 0
+        },
+        "בהם": {
+          "stress": "final"
+        }
+      },
+      "afterPhonetic": "Bejol haarets yatsá kavam uviktsé tevel milehem lashémesh sam óhel bahem."
+    },
+    {
+      "ref": "19:6",
+      "beforeHebrew": "וְהוּא כְּחָתָן יֹצֵא מֵחֻפָּתוֹ יָשִׂישׂ כְּגִבּוֹר לָרוּץ אֹרַח.",
+      "beforePhonetic": "Vehu kejatán yotsé mejupató yasís keguibor larúts óraj.",
+      "afterHebrew": "וְהוּא כְּחָתָן יֹצֵא מֵחֻפָּתוֹ יָשִׂישׂ כְּגִבּוֹר לָרוּץ אֹֽרַח.",
+      "changes": {
+        "ארח": {
+          "stress": 0
+        }
+      },
+      "afterPhonetic": "Vehu kejatán yotsé mejupató yasís keguibor larúts óraj."
+    },
+    {
+      "ref": "19:7",
+      "beforeHebrew": "מִקְצֵה הַשָּׁמַיִם מוֹצָאוֹ וּתְקוּפָתוֹ עַל קְצוֹתָם וְאֵין נִסְתָּר מֵחַמָּתוֹ.",
+      "beforePhonetic": "Miktsé hashamáyim motsaó utkufató 'al ketsotam veén nistar mejamató.",
+      "afterHebrew": "מִקְצֵה הַשָּׁמַֽיִם מוֹצָאוֹ וּתְקוּפָתוֹ עַל קְצוֹתָם וְאֵין נִסְתָּר מֵחַמָּתוֹ.",
+      "changes": {
+        "השמים": {
+          "stress": 2
+        }
+      },
+      "afterPhonetic": "Miktsé hashamáyim motsaó utkufató 'al ketsotam veén nistar mejamató."
+    },
+    {
+      "ref": "19:8",
+      "beforeHebrew": "תּוֹרַת יְהֹוָה תְּמִימָה מְשִׁיבַת נָפֶשׁ עֵדוּת יְהֹוָה נֶאֱמָנָה מַחְכִּימַת פֶּתִי.",
+      "beforePhonetic": "Torat Ad-nai temimá meshivat náfesh 'edut Ad-nai neemaná majkimat peti.",
+      "afterHebrew": "תּוֹרַת יְהֹוָה תְּמִימָה מְשִׁיבַת נָֽפֶשׁ עֵדוּת יְהֹוָה נֶאֱמָנָה מַחְכִּימַת פֶּתִי.",
+      "changes": {
+        "נפש": {
+          "stress": 0
+        }
+      },
+      "afterPhonetic": "Torat Ad-nai temimá meshivat náfesh 'edut Ad-nai neemaná majkimat peti."
+    },
+    {
+      "ref": "19:9",
+      "beforeHebrew": "פִּקּוּדֵי יְהֹוָה יְשָׁרִים מְשַׂמְּחֵי לֵב מִצְוַת יְהֹוָה בָּרָה מְאִירַת עֵינָיִם.",
+      "beforePhonetic": "Pikudé Ad-nai yesharim mesamejé lev mitsvat Ad-nai bará meirat 'enáyim.",
+      "afterHebrew": "פִּקּוּדֵי יְהֹוָה יְשָׁרִים מְשַׂמְּחֵי לֵב מִצְוַת יְהֹוָה בָּרָה מְאִירַת עֵינָֽיִם.",
+      "changes": {
+        "עינים": {
+          "stress": 2
+        },
+        "משמחי": {
+          "vocalSheva": [
+            2
+          ]
+        }
+      },
+      "afterPhonetic": "Pikudé Ad-nai yesharim mesamejé lev mitsvat Ad-nai bará meirat 'enáyim."
+    },
+    {
+      "ref": "19:10",
+      "beforeHebrew": "יִרְאַת יְהֹוָה טְהוֹרָה עוֹמֶדֶת לָעַד מִשְׁפְּטֵי יְהֹוָה אֱמֶת צָדְקוּ יַחְדָּו.",
+      "beforePhonetic": "Yirat Ad-nai tehorá 'omédet la'ad mishpeté Ad-nai emet tsadkú yajdav.",
+      "afterHebrew": "יִרְאַת יְהֹוָה טְהוֹרָה עוֹמֶדֶת לָעַד מִשְׁפְּטֵי יְהֹוָה אֱמֶת צָדְקוּ יַחְדָּו.",
+      "changes": {
+        "משפטי": {
+          "vocalSheva": [
+            2
+          ]
+        },
+        "צדקו": {
+          "vocalSheva": [
+            1
+          ]
+        },
+        "אמת": {
+          "stress": "final"
+        }
+      },
+      "afterPhonetic": "Yirat Ad-nai tehorá 'omédet la'ad mishpeté Ad-nai emet tsadekú yajdav."
+    },
+    {
+      "ref": "19:11",
+      "beforeHebrew": "הַנֶּחֱמָדִים מִזָּהָב וּמִפַּז רָב וּמְתוּקִים מִדְּבַשׁ וְנֹפֶת צוּפִים.",
+      "beforePhonetic": "Hanejemadim mizahav umipaz rav umetukim midvash venófet tsufim.",
+      "afterHebrew": "הַנֶּחֱמָדִים מִזָּהָב וּמִפַּֽז רָב וּמְתוּקִים מִדְּבַשׁ וְנֹֽפֶת צוּפִים.",
+      "changes": {
+        "ומפז": {
+          "stress": 2
+        },
+        "ונפת": {
+          "stress": 1
+        },
+        "מדבש": {
+          "vocalSheva": [
+            1
+          ]
+        }
+      },
+      "afterPhonetic": "Hanejemadim mizahav umipaz rav umetukim midevash venófet tsufim."
+    },
+    {
+      "ref": "19:12",
+      "beforeHebrew": "גַּם עַבְדְּךָ נִזְהָר בָּהֶם בְּשׇׁמְרָם עֵקֶב רָב.",
+      "beforePhonetic": "Gam 'avdejá nizhar bahem beshomram 'ékev rav.",
+      "afterHebrew": "גַּם עַבְדְּךָ נִזְהָר בָּהֶם בְּשׇׁמְרָם עֵֽקֶב רָב.",
+      "changes": {
+        "עקב": {
+          "stress": 0
+        },
+        "עבדך": {
+          "capital": true
+        },
+        "בהם": {
+          "stress": "final"
+        }
+      },
+      "afterPhonetic": "Gam 'Avdejá nizhar bahem beshomram 'ékev rav."
+    },
+    {
+      "ref": "19:13",
+      "beforeHebrew": "שְׁגִיאוֹת מִי יָבִין מִנִּסְתָּרוֹת נַקֵּנִי.",
+      "beforePhonetic": "Sheguiot mi yavín ministarot nakeni.",
+      "afterHebrew": "שְׁגִיאוֹת מִי יָבִין מִנִּסְתָּרוֹת נַקֵּֽנִי.",
+      "changes": {
+        "נקני": {
+          "stress": 1
+        }
+      },
+      "afterPhonetic": "Sheguiot mi yavín ministarot nakeni."
+    },
+    {
+      "ref": "19:14",
+      "beforeHebrew": "גַּם מִזֵּדִים חֲשֹׂךְ עַבְדֶּךָ אַל יִמְשְׁלוּ בִי אָז אֵיתָם וְנִקֵּיתִי מִפֶּשַׁע רָב.",
+      "beforePhonetic": "Gam mizedim jasoj 'avdeja al yimshelú vi az etam veniketi mipesha' rav.",
+      "afterHebrew": "גַּם מִזֵּדִים חֲשֹׂךְ עַבְדֶּךָ אַל יִמְשְׁלוּ בִי אָז אֵֽיתָם וְנִקֵּֽיתִי מִפֶּֽשַׁע רָב.",
+      "changes": {
+        "איתם": {
+          "stress": 0
+        },
+        "ונקיתי": {
+          "stress": 2
+        },
+        "מפשע": {
+          "stress": 1
+        },
+        "עבדך": {
+          "capital": true,
+          "stress": "final"
+        }
+      },
+      "afterPhonetic": "Gam mizedim jasoj 'Avdejá al yimshelú vi az étam veniketi mipesha' rav."
+    },
+    {
+      "ref": "19:15",
+      "beforeHebrew": "יִהְיוּ לְרָצוֹן אִמְרֵי פִי וְהֶגְיוֹן לִבִּי לְפָנֶיךָ יְהֹוָה צוּרִי וְגֹאֲלִי.",
+      "beforePhonetic": "Yihyú leratsón imré fi vehegyón libí lefaneja Ad-nai tsurí vegoalí.",
+      "afterHebrew": "יִהְיוּ לְרָצוֹן אִמְרֵי פִי וְהֶגְיוֹן לִבִּי לְפָנֶֽיךָ יְהֹוָה צוּרִי וְגֹאֲלִי.",
+      "changes": {
+        "לפניך": {
+          "stress": 2,
+          "capital": true
+        },
+        "צורי": {
+          "capital": true
+        },
+        "וגאלי": {
+          "capital": true
+        }
+      },
+      "afterPhonetic": "Yihyú leratsón imré fi vehegyón libí Lefaneja Ad-nai Tsurí Vegoalí."
+    },
+    {
+      "ref": "20:3",
+      "beforeHebrew": "יִשְׁלַח עֶזְרְךָ מִקֹּֽדֶשׁ וּמִצִּיּוֹן יִסְעָדֶֽךָּ.",
+      "afterHebrew": "יִשְׁלַח עֶזְרְךָ מִקֹּֽדֶשׁ וּמִצִּיּוֹן יִסְעָדֶֽךָּ.",
+      "beforePhonetic": "Yishlaj 'ezrejá mikódesh umitsiyón yis'adeka.",
+      "afterPhonetic": "Yishlaj 'ezrejá mikódesh umitsiyón yis'adeka.",
+      "changes": {
+        "מקדש": {
+          "stress": 1
+        },
+        "יסעדך": {
+          "stress": 3
+        },
+        "עזרך": {
+          "vocalSheva": [
+            2
+          ]
+        }
+      }
+    }
+  ],
+  "metegOccurrences": [
+    {
+      "ref": "17:14",
+      "word": "מֵחֶֽלֶד",
+      "letter": "ח",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "17:14",
+      "word": "וְהִנִּֽיחוּ",
+      "letter": "נ",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "17:15",
+      "word": "בְּצֶֽדֶק",
+      "letter": "צ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "17:15",
+      "word": "פָנֶֽיךָ",
+      "letter": "נ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "17:15",
+      "word": "תְּמוּנָתֶֽךָ",
+      "letter": "ת",
+      "clusterIndex": 4,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:1",
+      "word": "לַמְנַצֵּֽחַ",
+      "letter": "צ",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:1",
+      "word": "לְעֶֽבֶד",
+      "letter": "ע",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:3",
+      "word": "וְקֶֽרֶן",
+      "letter": "ק",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:4",
+      "word": "אִוָּשֵֽׁעַ",
+      "letter": "ש",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:5",
+      "word": "אֲפָפוּֽנִי",
+      "letter": "ו",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:5",
+      "word": "מָֽוֶת",
+      "letter": "מ",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:5",
+      "word": "בְלִיַּֽעַל",
+      "letter": "י",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:5",
+      "word": "יְבַעֲתוּֽנִי",
+      "letter": "ו",
+      "clusterIndex": 4,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:6",
+      "word": "סְבָבוּֽנִי",
+      "letter": "ו",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:6",
+      "word": "קִדְּמוּֽנִי",
+      "letter": "ו",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:6",
+      "word": "מָֽוֶת",
+      "letter": "מ",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:7",
+      "word": "אֲשַׁוֵּֽעַ",
+      "letter": "ו",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:8",
+      "word": "הָאָֽרֶץ",
+      "letter": "א",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:8",
+      "word": "יִרְגָּֽזוּ",
+      "letter": "ג",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:8",
+      "word": "חָֽרָה",
+      "letter": "ח",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:9",
+      "word": "מִמֶּֽנּוּ",
+      "letter": "מ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:10",
+      "word": "שָׁמַֽיִם",
+      "letter": "מ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:10",
+      "word": "תַּֽחַת",
+      "letter": "ת",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:11",
+      "word": "וַיֵּֽדֶא",
+      "letter": "י",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:11",
+      "word": "רֽוּחַ",
+      "letter": "ר",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:12",
+      "word": "יָֽשֶׁת",
+      "letter": "י",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:12",
+      "word": "חֹֽשֶׁךְ",
+      "letter": "ח",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:12",
+      "word": "מַֽיִם",
+      "letter": "מ",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:13",
+      "word": "מִנֹּֽגַהּ",
+      "letter": "נ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:13",
+      "word": "וְגַֽחֲלֵי",
+      "letter": "ג",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:14",
+      "word": "בַּשָּׁמַֽיִם",
+      "letter": "מ",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:14",
+      "word": "וְגַֽחֲלֵי",
+      "letter": "ג",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:16",
+      "word": "מַֽיִם",
+      "letter": "מ",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:16",
+      "word": "רֽוּחַ",
+      "letter": "ר",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:17",
+      "word": "יִקָּחֵֽנִי",
+      "letter": "ח",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:17",
+      "word": "יַמְשֵֽׁנִי",
+      "letter": "ש",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:17",
+      "word": "מִמַּֽיִם",
+      "letter": "מ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:18",
+      "word": "יַצִּילֵֽנִי",
+      "letter": "ל",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:18",
+      "word": "מִמֶּֽנִּי",
+      "letter": "מ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:19",
+      "word": "יְקַדְּמוּֽנִי",
+      "letter": "ו",
+      "clusterIndex": 4,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:20",
+      "word": "וַיּוֹצִיאֵֽנִי",
+      "letter": "א",
+      "clusterIndex": 5,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:20",
+      "word": "יְחַלְּצֵֽנִי",
+      "letter": "צ",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:21",
+      "word": "יִגְמְלֵֽנִי",
+      "letter": "ל",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:22",
+      "word": "שָׁמַֽרְתִּי",
+      "letter": "מ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:23",
+      "word": "מֶֽנִּי",
+      "letter": "מ",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:25",
+      "word": "וַיָּֽשֶׁב",
+      "letter": "י",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:25",
+      "word": "לְנֶֽגֶד",
+      "letter": "נ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:28",
+      "word": "תוֹשִֽׁיעַ",
+      "letter": "ש",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:28",
+      "word": "וְעֵינַֽיִם",
+      "letter": "נ",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:29",
+      "word": "יַגִּֽיהַּ",
+      "letter": "ג",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:32",
+      "word": "אֱלֽוֹהַּ",
+      "letter": "ל",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:32",
+      "word": "אֱלֹהֵֽינוּ",
+      "letter": "ה",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:33",
+      "word": "הַמְאַזְּרֵֽנִי",
+      "letter": "ר",
+      "clusterIndex": 4,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:33",
+      "word": "חָֽיִל",
+      "letter": "ח",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:34",
+      "word": "יַעֲמִידֵֽנִי",
+      "letter": "ד",
+      "clusterIndex": 4,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:35",
+      "word": "קֶֽשֶׁת",
+      "letter": "ק",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:36",
+      "word": "יִשְׁעֶֽךָ",
+      "letter": "ע",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:36",
+      "word": "תִסְעָדֵֽנִי",
+      "letter": "ד",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:36",
+      "word": "תַרְבֵּֽנִי",
+      "letter": "ב",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:40",
+      "word": "וַתְּאַזְּרֵֽנִי",
+      "letter": "ר",
+      "clusterIndex": 4,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:40",
+      "word": "חַֽיִל",
+      "letter": "ח",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:41",
+      "word": "נָתַֽתָּה",
+      "letter": "ת",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:41",
+      "word": "עֹֽרֶף",
+      "letter": "ע",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:42",
+      "word": "מוֹשִֽׁיעַ",
+      "letter": "ש",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:43",
+      "word": "רֽוּחַ",
+      "letter": "ר",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:39",
+      "word": "יֻֽכְלוּ",
+      "letter": "י",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:39",
+      "word": "תַֽחַת",
+      "letter": "ת",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:44",
+      "word": "תְּפַלְּטֵֽנִי",
+      "letter": "ט",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:44",
+      "word": "תְּשִׂימֵֽנִי",
+      "letter": "מ",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:44",
+      "word": "יָדַֽעְתִּי",
+      "letter": "ד",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:44",
+      "word": "יַעַבְדוּֽנִי",
+      "letter": "ו",
+      "clusterIndex": 4,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:45",
+      "word": "לְשֵֽׁמַע",
+      "letter": "ש",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:45",
+      "word": "אֹֽזֶן",
+      "letter": "א",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:45",
+      "word": "יִשָּֽׁמְעוּ",
+      "letter": "ש",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:45",
+      "word": "יְכַֽחֲשׁוּ",
+      "letter": "כ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:46",
+      "word": "יִבֹּֽלוּ",
+      "letter": "ב",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:49",
+      "word": "תְּרוֹמְמֵֽנִי",
+      "letter": "מ",
+      "clusterIndex": 4,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:49",
+      "word": "תַּצִּילֵֽנִי",
+      "letter": "ל",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:50",
+      "word": "אֲזַמֵּֽרָה",
+      "letter": "מ",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:51",
+      "word": "וְעֹֽשֶׂה",
+      "letter": "ע",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "18:51",
+      "word": "חֶֽסֶד",
+      "letter": "ח",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:1",
+      "word": "לַמְנַצֵּֽחַ",
+      "letter": "צ",
+      "clusterIndex": 3,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:2",
+      "word": "הַשָּׁמַֽיִם",
+      "letter": "מ",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:2",
+      "word": "הָרָקִֽיעַ",
+      "letter": "ק",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:3",
+      "word": "יַבִּֽיעַ",
+      "letter": "ב",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:3",
+      "word": "אֹֽמֶר",
+      "letter": "א",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:3",
+      "word": "וְלַֽיְלָה",
+      "letter": "ל",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:3",
+      "word": "לְלַֽיְלָה",
+      "letter": "ל",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:3",
+      "word": "דָּֽעַת",
+      "letter": "ד",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:4",
+      "word": "אֹֽמֶר",
+      "letter": "א",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:5",
+      "word": "הָאָֽרֶץ",
+      "letter": "א",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:5",
+      "word": "לַשֶּֽׁמֶשׁ",
+      "letter": "ש",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:5",
+      "word": "אֹֽהֶל",
+      "letter": "א",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:6",
+      "word": "אֹֽרַח",
+      "letter": "א",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:7",
+      "word": "הַשָּׁמַֽיִם",
+      "letter": "מ",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:8",
+      "word": "נָֽפֶשׁ",
+      "letter": "נ",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:9",
+      "word": "עֵינָֽיִם",
+      "letter": "נ",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:11",
+      "word": "וּמִפַּֽז",
+      "letter": "פ",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:11",
+      "word": "וְנֹֽפֶת",
+      "letter": "נ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:12",
+      "word": "עֵֽקֶב",
+      "letter": "ע",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:13",
+      "word": "נַקֵּֽנִי",
+      "letter": "ק",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:14",
+      "word": "אֵֽיתָם",
+      "letter": "א",
+      "clusterIndex": 0,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:14",
+      "word": "וְנִקֵּֽיתִי",
+      "letter": "ק",
+      "clusterIndex": 2,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:14",
+      "word": "מִפֶּֽשַׁע",
+      "letter": "פ",
+      "clusterIndex": 1,
+      "occurrences": 1
+    },
+    {
+      "ref": "19:15",
+      "word": "לְפָנֶֽיךָ",
+      "letter": "נ",
+      "clusterIndex": 2,
+      "occurrences": 1
+    }
+  ],
+  "vocalSheva": [
+    {
+      "ref": "17:14",
+      "word": "מִמְתִים",
+      "letters": [
+        "מ"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 2
+    },
+    {
+      "ref": "17:14",
+      "word": "יָדְךָ",
+      "letters": [
+        "ד"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "17:14",
+      "word": "וְצְפוּנְךָ",
+      "letters": [
+        "נ"
+      ],
+      "clusterIndices": [
+        4
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "17:14",
+      "word": "יִשְׂבְּעוּ",
+      "letters": [
+        "ב"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "17:14",
+      "word": "לְעוֹלְלֵיהֶם",
+      "letters": [
+        "ל"
+      ],
+      "clusterIndices": [
+        3
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "17:15",
+      "word": "אֶשְׂבְּעָה",
+      "letters": [
+        "ב"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:1",
+      "word": "לַמְנַצֵּֽחַ",
+      "letters": [
+        "מ"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:1",
+      "word": "אֹיְבָיו",
+      "letters": [
+        "י"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:4",
+      "word": "אֹיְבַי",
+      "letters": [
+        "י"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:6",
+      "word": "קִדְּמוּנִי",
+      "letters": [
+        "ד"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:6",
+      "word": "מוֹקְשֵׁי",
+      "letters": [
+        "ק"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:8",
+      "word": "וּמוֹסְדֵי",
+      "letters": [
+        "ס"
+      ],
+      "clusterIndices": [
+        3
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:13",
+      "word": "עָבְרוּ",
+      "letters": [
+        "ב"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:16",
+      "word": "מִגַּעֲרָתְךָ",
+      "letters": [
+        "ת"
+      ],
+      "clusterIndices": [
+        4
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:18",
+      "word": "מֵאֹיְבִי",
+      "letters": [
+        "י"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:18",
+      "word": "וּמִשֹּׂנְאַי",
+      "letters": [
+        "נ"
+      ],
+      "clusterIndices": [
+        3
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:18",
+      "word": "אָמְצוּ",
+      "letters": [
+        "מ"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:19",
+      "word": "יְקַדְּמוּנִי",
+      "letters": [
+        "ד"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:20",
+      "word": "יְחַלְּצֵנִי",
+      "letters": [
+        "ל"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:21",
+      "word": "יִגְמְלֵנִי",
+      "letters": [
+        "מ"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:33",
+      "word": "הַמְאַזְּרֵנִי",
+      "letters": [
+        "מ",
+        "ז"
+      ],
+      "clusterIndices": [
+        1,
+        3
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:36",
+      "word": "וִימִינְךָ",
+      "letters": [
+        "נ"
+      ],
+      "clusterIndices": [
+        4
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:36",
+      "word": "וְעַנְוָתְךָ",
+      "letters": [
+        "ת"
+      ],
+      "clusterIndices": [
+        4
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:38",
+      "word": "אוֹיְבַי",
+      "letters": [
+        "י"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:39",
+      "word": "יֻכְלוּ",
+      "letters": [
+        "כ"
+      ],
+      "clusterIndices": [
+        1
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:40",
+      "word": "וַתְּאַזְּרֵנִי",
+      "letters": [
+        "ת",
+        "ז"
+      ],
+      "clusterIndices": [
+        1,
+        3
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:41",
+      "word": "וְאֹיְבַי",
+      "letters": [
+        "י"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:41",
+      "word": "וּמְשַׂנְאַי",
+      "letters": [
+        "נ"
+      ],
+      "clusterIndices": [
+        3
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:42",
+      "word": "יְשַׁוְּעוּ",
+      "letters": [
+        "ו"
+      ],
+      "clusterIndices": [
+        2
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:44",
+      "word": "תְּפַלְּטֵֽנִי",
+      "clusterIndices": [
+        2
+      ],
+      "letters": [
+        "ל"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:45",
+      "word": "יִשָּֽׁמְעוּ",
+      "clusterIndices": [
+        2
+      ],
+      "letters": [
+        "מ"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:46",
+      "word": "וְיַחְרְגוּ",
+      "clusterIndices": [
+        3
+      ],
+      "letters": [
+        "ר"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:46",
+      "word": "מִמִּסְגְּרוֹתֵיהֶם",
+      "clusterIndices": [
+        3
+      ],
+      "letters": [
+        "ג"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:49",
+      "word": "תְּרוֹמְמֵֽנִי",
+      "clusterIndices": [
+        3
+      ],
+      "letters": [
+        "מ"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "18:50",
+      "word": "אוֹדְךָ",
+      "clusterIndices": [
+        2
+      ],
+      "letters": [
+        "ד"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "19:1",
+      "word": "לַמְנַצֵּֽחַ",
+      "clusterIndices": [
+        1
+      ],
+      "letters": [
+        "מ"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "19:2",
+      "word": "מְסַפְּרִים",
+      "clusterIndices": [
+        2
+      ],
+      "letters": [
+        "פ"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "19:9",
+      "word": "מְשַׂמְּחֵי",
+      "clusterIndices": [
+        2
+      ],
+      "letters": [
+        "מ"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "19:11",
+      "word": "מִדְּבַשׁ",
+      "clusterIndices": [
+        1
+      ],
+      "letters": [
+        "ד"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "19:10",
+      "word": "מִשְׁפְּטֵי",
+      "clusterIndices": [
+        2
+      ],
+      "letters": [
+        "פ"
+      ],
+      "occurrences": 1
+    },
+    {
+      "ref": "19:10",
+      "word": "צָדְקוּ",
+      "clusterIndices": [
+        1
+      ],
+      "letters": [
+        "ד"
+      ],
+      "occurrences": 1
+    }
+  ],
+  "textChanges": [
+    {
+      "ref": "17:14",
+      "before": "וצפינך ",
+      "after": ""
+    },
+    {
+      "ref": "17:14",
+      "before": "וּצְפוּנְךָ",
+      "after": "וְצְפוּנְךָ"
+    },
+    {
+      "ref": "18:36",
+      "before": "וְעַנְוַתְךָ",
+      "after": "וְעַנְוָתְךָ"
+    },
+    {
+      "ref": "18:39",
+      "before": "תַּחַת",
+      "after": "תַחַת"
+    },
+    {
+      "ref": "19:3",
+      "before": "לְּלַיְלָה",
+      "after": "לְלַיְלָה"
+    }
+  ],
+  "pending": [],
+  "status": "Cotejo visual completo de las capturas de esta tanda. Marcas implementadas; fonética regenerada y pruebas de regresión. No implica aprobación global de los 150 salmos.",
+  "noMetegStressChecks": {
+    "17:14": [
+      "ידך"
+    ],
+    "18:36": [
+      "וימינך"
+    ],
+    "18:42": [
+      "ישועו"
+    ],
+    "18:50": [
+      "אודך"
+    ],
+    "19:5": [
+      "בהם"
+    ],
+    "19:10": [
+      "אמת"
+    ],
+    "19:12": [
+      "בהם"
+    ],
+    "19:14": [
+      "עבדך"
+    ]
+  },
+  "rectifications": [
+    {
+      "ref": "20:3",
+      "rejected": "עֶזְרֶֽךָ",
+      "confirmed": "עֶזְרְךָ",
+      "phonetic": "'ezrejá",
+      "source": "Corrección explícita del usuario del 2026-10-09; se descarta la lectura visual anterior."
+    }
+  ]
+}

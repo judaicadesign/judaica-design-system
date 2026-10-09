@@ -2592,11 +2592,6 @@
   ],
   "openReview": [
     {
-      "ref": "17:14–15",
-      "word": "",
-      "reason": "Falta la continuación: 17:14 se corta y 17:15 no aparece."
-    },
-    {
       "ref": "10:3",
       "word": "בֵּרֵךְ",
       "reason": "Revisar ubicación/presencia del meteg en ampliación más cercana."
@@ -2624,6 +2619,15 @@
       "previousReading": "tikevat",
       "correctedReading": "tikvat",
       "reason": "La captura ampliada no muestra la rayita horizontal superior sobre ק; por lo tanto la ק lleva shevá נח. Se conserva el hebreo tal como está y se retira únicamente la anotación vocal shevá na."
+    }
+  ],
+  "resolved": [
+    {
+      "ref": "17:14–15",
+      "word": "",
+      "reason": "Falta la continuación: 17:14 se corta y 17:15 no aparece.",
+      "resolution": "Continuación recibida y cotejada; ver ARTSCROLL_APP_TANDA_017-020.json",
+      "date": "2026-10-09"
     }
   ]
 }

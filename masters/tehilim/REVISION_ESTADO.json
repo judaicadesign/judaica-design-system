@@ -163,22 +163,45 @@
     },
     {
       "chapter": 17,
-      "hebrew": "Capturas cotejadas 17:1–13. 29 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
-      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
-      "engine": "13 pesukim comprobados",
+      "hebrew": "Cobertura visual completa disponible. Cotejo registrado en REVISION_APP_017-020.html; marcas de esta tanda implementadas.",
+      "phonetic": "Regenerada y comprobada contra el motor. Aprobación editorial integral aún abierta.",
+      "engine": "15 pesukim con contexto registrado",
       "approved": false,
-      "source": "IMG_1478.png",
-      "scope": "1–13; falta 14–15",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "source": "IMG_1479.png, IMG_1484.png, IMG_1478(1).png",
+      "scope": "1–15",
+      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "visualCoverageComplete": true
+    },
+    {
+      "chapter": 18,
+      "hebrew": "Cobertura visual completa disponible. Cotejo registrado en REVISION_APP_017-020.html; marcas de esta tanda implementadas.",
+      "phonetic": "Regenerada y comprobada contra el motor. Aprobación editorial integral aún abierta.",
+      "engine": "51 pesukim con contexto registrado",
+      "scope": "1–51",
+      "source": "IMG_1485.png, IMG_1486.png, IMG_1487.png, IMG_1488.png",
+      "visualCoverageComplete": true,
+      "approved": false
+    },
+    {
+      "chapter": 19,
+      "hebrew": "Cobertura visual completa disponible. Cotejo registrado en REVISION_APP_017-020.html; marcas de esta tanda implementadas.",
+      "phonetic": "Regenerada y comprobada contra el motor. Aprobación editorial integral aún abierta.",
+      "engine": "15 pesukim con contexto registrado",
+      "scope": "1–15",
+      "source": "IMG_1489.png",
+      "visualCoverageComplete": true,
+      "approved": false
     },
     {
       "chapter": 20,
-      "hebrew": "Meteg cotejado e incorporado: 27 marcas. Nikud: cambios documentados.",
-      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
-      "engine": "Verificado por pasuk contra el master actualizado",
+      "hebrew": "Cobertura visual completa disponible. Cotejo registrado en REVISION_APP_017-020.html; marcas de esta tanda implementadas.",
+      "phonetic": "Regenerada y comprobada contra el motor. Aprobación editorial integral aún abierta.",
+      "engine": "10 pesukim con contexto registrado",
       "approved": false,
-      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "source": "IMG_1483.png",
+      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "scope": "1–10",
+      "visualCoverageComplete": true
     },
     {
       "chapter": 23,
@@ -339,8 +362,8 @@
     "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
     "sourceSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
     "pages": {
-      "137": 1,
-      "126": 2
+      "126": 2,
+      "137": 1
     },
     "metegConfirmed": {
       "126": 11,
