@@ -62,16 +62,6 @@
           ]
         },
         {
-          "ref": "9:19",
-          "word": "תִּקְוַת",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ק"
-          ]
-        },
-        {
           "ref": "9:20",
           "word": "יִשָּׁפְטוּ",
           "clusterIndices": [
@@ -145,15 +135,10 @@
           "beforeHebrew": "כִּי לֹא לָנֶצַח יִשָּׁכַח אֶבְיוֹן תִּקְוַת ענוים עֲנִיִּים תֹּאבַד לָעַד.",
           "afterHebrew": "כִּי לֹא לָנֶֽצַח יִשָּׁכַח אֶבְיוֹן תִּקְוַת עֲנִיִּים תֹּאבַד לָעַד.",
           "beforePhonetic": "Ki lo lanétsaj yishajaj evyón tikvat 'nvym 'aniyim tovad la'ad.",
-          "afterPhonetic": "Ki lo lanétsaj yishajaj evyón tikevat 'aniyim tovad la'ad.",
+          "afterPhonetic": "Ki lo lanétsaj yishajaj evyón tikvat 'aniyim tovad la'ad.",
           "changes": {
             "לנצח": {
               "stress": 1
-            },
-            "תקות": {
-              "vocalSheva": [
-                1
-              ]
             }
           }
         },
@@ -3009,13 +2994,13 @@
       "reason": "Revisar marcas pequeñas en ampliación más cercana."
     }
   ],
-  "propagatedIdenticalContext": [
+  "correctionsSincePreviousPublication": [
     {
-      "ref": "20:1",
-      "sourceRef": "13:1",
-      "reason": "Mismo encabezado completo con idéntico nikud; se sincroniza la salida, sin aprobar el resto de Tehilim 20.",
-      "beforePhonetic": "Lamnatséaj mizmor leDavid.",
-      "afterPhonetic": "Lamenatséaj mizmor leDavid."
+      "ref": "9:19",
+      "word": "תִּקְוַת",
+      "previousReading": "tikevat",
+      "correctedReading": "tikvat",
+      "reason": "La captura ampliada no muestra la rayita horizontal superior sobre ק; por lo tanto la ק lleva shevá נח. Se conserva el hebreo tal como está y se retira únicamente la anotación vocal shevá na."
     }
   ]
 }

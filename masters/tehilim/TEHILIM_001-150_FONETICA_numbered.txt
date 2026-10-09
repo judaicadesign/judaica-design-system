@@ -124,7 +124,7 @@ TEHILIM 9 · ט
 16	Tav'ú goyim beshájat 'asú beréshet zu tamanu nilkedá raglam.
 17	Nodá' Ad-nai mishpat 'asá vefó'al kapav nokesh rashá' higayón sela.
 18	Yashuvu resha'im lishola kol goyim shejejé Elohim.
-19	Ki lo lanétsaj yishajaj evyón tikevat 'aniyim tovad la'ad.
+19	Ki lo lanétsaj yishajaj evyón tikvat 'aniyim tovad la'ad.
 20	Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja.
 21	Shita Ad-nai morá lahem yede'ú goyim enosh hema sela.
 
@@ -293,7 +293,7 @@ TEHILIM 19 · יט
 15	Yihyú leratsón imré fi vehegyón libí lefaneja Ad-nai tsurí vegoalí.
 
 TEHILIM 20 · כ
-1	Lamenatséaj mizmor leDavid.
+1	Lamnatséaj mizmor leDavid.
 2	Ya'anjá Ad-nai beyom tsará yesagueveja Shem Elohé Ya'akov.
 3	Yishlaj 'ezrejá mikódesh umitsiyón yis'adeka.
 4	Yizkor kol minjoteja ve'olateja yedashené sela.
