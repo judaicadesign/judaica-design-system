@@ -3,13 +3,17 @@
   "chapters": [
     {
       "chapter": 1,
-      "hebrew": "10 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
-      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
-      "engine": "6 pesukim comprobados",
-      "approved": false,
+      "hebrew": "FINAL: seis pesukim cotejados íntegramente con ArtScroll; 10 meteg confirmados. ArtScroll prevalece sobre Wikisource.",
+      "phonetic": "FINAL: fonética cotejada independientemente con nikud, meteg y rayitas de ArtScroll.",
+      "engine": "6/6 pesukim y capítulo de corrido coinciden exactamente con la fonética final.",
+      "approved": true,
       "source": "IMG_1457.png",
-      "scope": "Captura completa disponible; marcas dudosas siguen pendientes",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "scope": "1–6 completos",
+      "secondReview": "Cierre editorial integral registrado en ARTSCROLL_001_REVISION.json.",
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-09",
+      "visualCoverageComplete": true
     },
     {
       "chapter": 2,

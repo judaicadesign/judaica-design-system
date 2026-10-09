@@ -4,12 +4,12 @@ Hebreo: Wikisource, edición con nikud. Fonética: generador JD con decisiones e
 Revisión visual de ArtScroll y acentos: en curso.
 
 TEHILIM 1 · א
-1:1  Ashré haísh asher lo halaj ba'atsat resha'im uvdérej jataím lo 'amad uvmoshav letsim lo yashav.
-1:2  Ki im beTorat Ad-nai jeftsó uvTorató yehgué yomam valayla.
-1:3  Vehayá ke'éts shatul 'al palgué máyim asher piryó yitén be'itó ve'alehu lo yibol vejol asher ya'asé yatslíaj.
-1:4  Lo jen haresha'im ki im kamots asher tidefenu rúaj.
+1:1  Ashré haísh asher lo halaj ba'atsat resha'im, uvdérej jataím lo 'amad, uvmoshav letsim lo yashav.
+1:2  Ki im beTorat Ad-nai jeftsó, uvTorató yehgué yomam valayla.
+1:3  Vehayá ke'éts shatul 'al palgué máyim, asher piryó yitén be'itó, ve'alehu lo yibol, vejol asher ya'asé yatslíaj.
+1:4  Lo jen haresha'im, ki im kamots asher tidefenu rúaj.
 1:5  'Al ken lo yakumu resha'im bamishpat vejataím ba'adat tsadikim.
-1:6  Ki yodea' Ad-nai dérej tsadikim vedérej resha'im toved.
+1:6  Ki yodea' Ad-nai dérej tsadikim, vedérej resha'im toved.
 
 TEHILIM 2 · ב
 2:1  Lama ragueshú goyim uleumim yehgú rik.

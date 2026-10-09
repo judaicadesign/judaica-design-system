@@ -6,33 +6,33 @@
     {
       "chapter": 1,
       "verse": 1,
-      "hebrew": "אַשְׁרֵי הָאִישׁ אֲשֶׁר לֹא הָלַךְ בַּעֲצַת רְשָׁעִים וּבְדֶֽרֶךְ חַטָּאִים לֹא עָמָד וּבְמוֹשַׁב לֵצִים לֹא יָשָׁב.",
-      "master": "Ashré haísh asher lo halaj ba'atsat resha'im uvdérej jataím lo 'amad uvmoshav letsim lo yashav.",
-      "generator": "Ashré haísh asher lo halaj ba'atsat resha'im uvdérej jataím lo 'amad uvmoshav letsim lo yashav.",
+      "hebrew": "אַשְׁרֵי הָאִישׁ אֲשֶׁר לֹא הָלַךְ בַּעֲצַת רְשָׁעִים, וּבְדֶֽרֶךְ חַטָּאִים לֹא עָמָד, וּבְמוֹשַׁב לֵצִים לֹא יָשָׁב.",
+      "master": "Ashré haísh asher lo halaj ba'atsat resha'im, uvdérej jataím lo 'amad, uvmoshav letsim lo yashav.",
+      "generator": "Ashré haísh asher lo halaj ba'atsat resha'im, uvdérej jataím lo 'amad, uvmoshav letsim lo yashav.",
       "matches": true
     },
     {
       "chapter": 1,
       "verse": 2,
-      "hebrew": "כִּי אִם בְּתוֹרַת יְהֹוָה חֶפְצוֹ וּבְתוֹרָתוֹ יֶהְגֶּה יוֹמָם וָלָֽיְלָה.",
-      "master": "Ki im beTorat Ad-nai jeftsó uvTorató yehgué yomam valayla.",
-      "generator": "Ki im beTorat Ad-nai jeftsó uvTorató yehgué yomam valayla.",
+      "hebrew": "כִּי אִם בְּתוֹרַת יהוה חֶפְצוֹ, וּבְתוֹרָתוֹ יֶהְגֶּה יוֹמָם וָלָֽיְלָה.",
+      "master": "Ki im beTorat Ad-nai jeftsó, uvTorató yehgué yomam valayla.",
+      "generator": "Ki im beTorat Ad-nai jeftsó, uvTorató yehgué yomam valayla.",
       "matches": true
     },
     {
       "chapter": 1,
       "verse": 3,
-      "hebrew": "וְהָיָה כְּעֵץ שָׁתוּל עַל פַּלְגֵי מָֽיִם אֲשֶׁר פִּרְיוֹ יִתֵּן בְּעִתּוֹ וְעָלֵֽהוּ לֹא יִבּוֹל וְכֹל אֲשֶׁר יַעֲשֶׂה יַצְלִֽיחַ.",
-      "master": "Vehayá ke'éts shatul 'al palgué máyim asher piryó yitén be'itó ve'alehu lo yibol vejol asher ya'asé yatslíaj.",
-      "generator": "Vehayá ke'éts shatul 'al palgué máyim asher piryó yitén be'itó ve'alehu lo yibol vejol asher ya'asé yatslíaj.",
+      "hebrew": "וְהָיָה כְּעֵץ שָׁתוּל עַל פַּלְגֵי מָֽיִם, אֲשֶׁר פִּרְיוֹ יִתֵּן בְּעִתּוֹ, וְעָלֵֽהוּ לֹא יִבּוֹל, וְכֹל אֲשֶׁר יַעֲשֶׂה יַצְלִֽיחַ.",
+      "master": "Vehayá ke'éts shatul 'al palgué máyim, asher piryó yitén be'itó, ve'alehu lo yibol, vejol asher ya'asé yatslíaj.",
+      "generator": "Vehayá ke'éts shatul 'al palgué máyim, asher piryó yitén be'itó, ve'alehu lo yibol, vejol asher ya'asé yatslíaj.",
       "matches": true
     },
     {
       "chapter": 1,
       "verse": 4,
-      "hebrew": "לֹא כֵן הָרְשָׁעִים כִּי אִם כַּֽמֹּץ אֲשֶׁר תִּדְּפֶֽנּוּ רוּחַ.",
-      "master": "Lo jen haresha'im ki im kamots asher tidefenu rúaj.",
-      "generator": "Lo jen haresha'im ki im kamots asher tidefenu rúaj.",
+      "hebrew": "לֹא כֵן הָרְשָׁעִים, כִּי אִם כַּֽמֹּץ אֲשֶׁר תִּדְּפֶֽנּוּ רוּחַ.",
+      "master": "Lo jen haresha'im, ki im kamots asher tidefenu rúaj.",
+      "generator": "Lo jen haresha'im, ki im kamots asher tidefenu rúaj.",
       "matches": true
     },
     {
@@ -46,9 +46,9 @@
     {
       "chapter": 1,
       "verse": 6,
-      "hebrew": "כִּי יוֹדֵעַ יְהֹוָה דֶּֽרֶךְ צַדִּיקִים וְדֶֽרֶךְ רְשָׁעִים תֹּאבֵד.",
-      "master": "Ki yodea' Ad-nai dérej tsadikim vedérej resha'im toved.",
-      "generator": "Ki yodea' Ad-nai dérej tsadikim vedérej resha'im toved.",
+      "hebrew": "כִּי יוֹדֵעַ יהוה דֶּֽרֶךְ צַדִּיקִים, וְדֶֽרֶךְ רְשָׁעִים תֹּאבֵד.",
+      "master": "Ki yodea' Ad-nai dérej tsadikim, vedérej resha'im toved.",
+      "generator": "Ki yodea' Ad-nai dérej tsadikim, vedérej resha'im toved.",
       "matches": true
     },
     {

@@ -4,6 +4,17 @@ Actualizado: 9 de octubre de 2026.
 
 Base de texto: Wikisource. ArtScroll es la referencia visual para nikud, dagesh, meteg y las rayitas de shevá na. No agregar marcas por inferencia. Un palito vertical debajo y un guion horizontal arriba son datos distintos; los asteriscos no son meteg.
 
+## Salmo 1 cerrado · 9 de octubre de 2026
+
+- Hebreo FINAL: seis pesukim cotejados palabra por palabra con `sources/ARTSCROLL_001.png` (la captura original `IMG_1457.png`). ArtScroll es el golden master; sus diferencias prevalecen sobre Wikisource.
+- Diez meteg confirmados. Rayitas de shevá na confirmadas en ר de הָרְשָׁעִים y ד de תִּדְּפֶֽנּוּ, ambas en 1:4. Los shevot iniciales se leen na sin exigir rayita; los asteriscos no son meteg.
+- El nikud de las palabras coincide con la base; el Nombre se deja sin nikud, יהוה, como en la captura. Se reproduce también la puntuación de ArtScroll.
+- Fonética FINAL: cotejada independientemente antes de ejecutar el motor. Se usa acentuación española, sin tildes redundantes.
+- Generador publicado: coincide exactamente en los seis pesukim y el capítulo de corrido. No hizo falta cambiar sus reglas.
+- Registro íntegro: `ARTSCROLL_001_REVISION.json`. Estado de ambos idiomas: aprobado/final en `REVISION_ESTADO.json` y `tehilim.json`.
+- Descargas específicas: `TEHILIM_001_HEBREO_FINAL_{continuous,numbered}.txt` y `TEHILIM_001_FONETICA_FINAL_{continuous,numbered}.txt`. Los TXT generales contienen también la versión final del Salmo 1; el resto del corpus conserva su estado de revisión.
+- Método para continuar: cerrar primero hebreo contra ArtScroll; después fonética independiente; finalmente comprobar el generador contra ese master.
+
 ## Trabajo de la tanda 17–20
 
 - Se cotejaron las capturas del final de 17, todo 18, todo 19 y la repetición de 20. También las repeticiones de 15–17.
