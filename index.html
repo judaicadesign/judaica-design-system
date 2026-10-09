@@ -1635,7 +1635,7 @@ function render6(){
  const issuedDate=window.jdLegalDates.today();
  const today=window.jdLegalDates.display(issuedDate);
  const asset=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,model:qModel.value,binding:p.bindings.length?qBind.value:'',size:qSize.value,eventType:document.getElementById('qEventType')?.value||'generic',role:'Mockup principal'});
- const background=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,eventType:document.getElementById('qEventType')?.value||'generic',role:'Fondo de evento'});
+ const background=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,size:qSize.value,eventType:document.getElementById('qEventType')?.value||'generic',role:'Fondo de evento'});
  const visualStatus=document.getElementById('jdEventVisualStatus');if(visualStatus){const eventType=document.getElementById('qEventType')?.value||'generic';visualStatus.textContent=eventType==='generic'?'':[(asset?.eventType===eventType?'Mockup del evento disponible':'Mockup del evento pendiente; se usa el general'),(background?.eventType===eventType?'Fondo del evento disponible':'Fondo del evento pendiente')].join(' · ');}
  const hero=(background?.data?'<img src="'+E(background.data)+'" class="jd-pdf-background" alt="">':'')+(asset?.data?'<img src="'+E(asset.data)+'" class="jd-pdf-product-img" data-mock-canvas="'+(asset.mockCanvas?'true':'false')+'">':'<div class="jd-mock-placeholder"><span>MOCKUP PRINCIPAL · 343 × 348 px de InDesign</span></div>');
  const et=jdEffectiveTechnical(p,v);
