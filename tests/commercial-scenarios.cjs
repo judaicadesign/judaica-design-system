@@ -57,15 +57,19 @@ async function scenarios(){
  brokenPreview.window.jdQuotePreviewSVG=async()=>'<svg class="jd-master-art"></svg>';await brokenPreview.window.jdRefreshQuoteArt();assert.ok(brokenPreview.window.document.querySelector('.jd-master-art'));assert.equal(brokenPreview.window.document.querySelector('.jd-preview-error'),null);brokenPreview.window.close();
  console.log('preview failure removes stale artwork, suppresses malformed HTML fallback and recovers cleanly passed');
 
- const eventRows=fixture();eventRows.find(r=>r.key==='jd_assets').value=[
+ const eventRows=fixture();eventRows.find(r=>r.key==='jd_catalog_v6').value[0].sizes.push('Grande · 14 × 18,5 cm');eventRows.find(r=>r.key==='jd_assets').value=[
   {id:'generic',product:product.name,role:'Mockup principal',data:'https://example.test/generic.png',mockCanvas:true},
   {id:'bar',product:product.name,role:'Mockup principal',eventType:'bar_mitzvah',binding:'Abrochado',data:'https://example.test/bar.png',mockCanvas:true},
   {id:'wedding',product:product.name,role:'Mockup principal',eventType:'wedding',data:'https://example.test/wedding.png'},
-  {id:'bar-bg',product:'Todos los productos',role:'Fondo de evento',eventType:'bar_mitzvah',data:'https://example.test/bar-bg.jpg'}
+  {id:'bar-bg-normal',product:product.name,role:'Fondo de evento',eventType:'bar_mitzvah',size:'Normal · 11,6 × 15,5 cm',data:'https://example.test/bar-bg-normal.jpg'},
+  {id:'bar-bg-large',product:product.name,role:'Fondo de evento',eventType:'bar_mitzvah',size:'Grande · 14 × 18,5 cm',data:'https://example.test/bar-bg-large.jpg'}
  ];
  const evApp=await boot(eventRows);evApp.w.document.getElementById('qClient').value='QA evento';
  const eventSelect=evApp.w.document.getElementById('qEventType');eventSelect.value='bar_mitzvah';eventSelect.dispatchEvent(new evApp.w.Event('change'));
- assert.match(evApp.w.document.querySelector('.jd-pdf-product-img').src,/bar.png/);assert.match(evApp.w.document.querySelector('.jd-pdf-background').src,/bar-bg.jpg/);
+ assert.match(evApp.w.document.querySelector('.jd-pdf-product-img').src,/bar.png/);assert.match(evApp.w.document.querySelector('.jd-pdf-background').src,/bar-bg-normal.jpg/);
+ const sizeSelect=evApp.w.document.getElementById('qSize');sizeSelect.value='Grande · 14 × 18,5 cm';sizeSelect.dispatchEvent(new evApp.w.Event('change',{bubbles:true}));
+ assert.match(evApp.w.document.querySelector('.jd-pdf-product-img').src,/bar.png/);assert.match(evApp.w.document.querySelector('.jd-pdf-background').src,/bar-bg-large.jpg/);
+ sizeSelect.value='Normal · 11,6 × 15,5 cm';sizeSelect.dispatchEvent(new evApp.w.Event('change',{bubbles:true}));
  assert.doesNotMatch(evApp.w.document.getElementById('quotePreview').textContent,/Tipo de evento|Bar Mitzvá/);
  const evSaved=await save(evApp);assert.equal(evSaved.eventType,'bar_mitzvah');
  evApp.w.document.getElementById('jdNewQuoteBtn').click();assert.equal(eventSelect.value,'generic');assert.match(evApp.w.document.querySelector('.jd-pdf-product-img').src,/generic.png/);
