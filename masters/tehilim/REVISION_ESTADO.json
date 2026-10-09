@@ -1,6 +1,87 @@
 {
-  "updated": "2026-10-08",
+  "updated": "2026-10-09",
   "chapters": [
+    {
+      "chapter": 1,
+      "hebrew": "10 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "6 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1457.png",
+      "scope": "Captura completa disponible; marcas dudosas siguen pendientes"
+    },
+    {
+      "chapter": 2,
+      "hebrew": "19 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "12 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1458.png",
+      "scope": "Captura completa disponible; marcas dudosas siguen pendientes"
+    },
+    {
+      "chapter": 3,
+      "hebrew": "16 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "9 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1459.png",
+      "scope": "Captura completa disponible; marcas dudosas siguen pendientes"
+    },
+    {
+      "chapter": 4,
+      "hebrew": "13 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "9 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1460.png",
+      "scope": "Captura completa disponible; marcas dudosas siguen pendientes"
+    },
+    {
+      "chapter": 5,
+      "hebrew": "24 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "13 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1462.png",
+      "scope": "Captura completa disponible; marcas dudosas siguen pendientes"
+    },
+    {
+      "chapter": 6,
+      "hebrew": "24 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "11 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1463.png",
+      "scope": "Captura completa disponible; marcas dudosas siguen pendientes"
+    },
+    {
+      "chapter": 7,
+      "hebrew": "24 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "18 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1464.png",
+      "scope": "Captura completa disponible; marcas dudosas siguen pendientes"
+    },
+    {
+      "chapter": 8,
+      "hebrew": "20 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "10 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1466.png",
+      "scope": "Captura completa disponible; marcas dudosas siguen pendientes"
+    },
+    {
+      "chapter": 9,
+      "hebrew": "26 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "engine": "16 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1467.png",
+      "scope": "1–16 solamente; falta final"
+    },
     {
       "chapter": 13,
       "hebrew": "Meteg cotejado e incorporado: 17 marcas. Nikud: cambios documentados.",
