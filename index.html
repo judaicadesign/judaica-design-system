@@ -11,7 +11,7 @@
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-tehilim-export.js?v=20261008" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
-<script src="assets/jd-asset-match.js?v=20261008-event-20261008-v3" defer></script>
+<script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
 <script src="assets/jd-orders.js?v=20261008-alternatives" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-quote-share.js?v=20261008-file-share" defer></script>
@@ -335,8 +335,8 @@ const assetsSec=document.getElementById('assets');
 function drawAssets(){
  if(!assetsSec)return;
  assetsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Biblioteca visual</div><h1>Assets</h1></div><button class="btn primary" id="jdAddAsset">+ Subir asset</button></div>'+
- '<div class="jd-note">Mockups: lienzo de <b>343 × 348 px de InDesign</b> (1429 × 1450 px a 300 ppp · 121 × 122,8 mm), preferentemente PNG transparente. Cada asset se etiqueta por <b>producto + función + variante + evento</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
- '<div class="product-grid" style="margin-top:16px">'+(assets.length?assets.map((a,i)=>'<div class="jd-asset-card">'+(a.data?'<img class="jd-thumb" src="'+a.data+'">':'<div class="product-visual">Sin preview</div>')+'<h3>'+esc3(a.name)+'</h3><div class="jd-asset-meta"><span class="tag">'+esc3(a.role)+'</span><span class="tag">'+esc3(a.product)+'</span>'+(a.variant?'<span class="tag">'+esc3(a.variant)+'</span>':'')+(a.eventType?'<span class="tag">'+esc3(window.jdAssetMatch.events.find(e=>e[0]===a.eventType)?.[1]||a.eventType)+'</span>':'')+'</div><p class="small muted">'+esc3([a.model,a.binding,a.size,a.notes].filter(Boolean).join(' · '))+'</p><div class="jd-toolbar"><button class="btn sm" data-ea="'+i+'">Editar</button><button class="btn sm" data-da="'+i+'">Eliminar</button></div></div>').join(''):'<div class="card"><p class="muted">Todavía no cargaste assets reales. Subilos acá y quedarán disponibles para el equipo y para los presupuestos.</p></div>')+'</div>';
+ '<div class="jd-note">Mockups: lienzo de <b>343 × 348 px de InDesign</b> (1429 × 1450 px a 300 ppp · 121 × 122,8 mm), preferentemente PNG transparente. Cada asset se etiqueta por <b>producto + función + variante + evento + textos</b>. Al armar un presupuesto, el sistema busca primero un asset específico que coincida con la configuración; si no encuentra, usa uno general de la familia.</div>'+
+ '<div class="product-grid" style="margin-top:16px">'+(assets.length?assets.map((a,i)=>'<div class="jd-asset-card">'+(a.data?'<img class="jd-thumb" src="'+a.data+'">':'<div class="product-visual">Sin preview</div>')+'<h3>'+esc3(a.name)+'</h3><div class="jd-asset-meta"><span class="tag">'+esc3(a.role)+'</span><span class="tag">'+esc3(a.product)+'</span>'+(a.variant?'<span class="tag">'+esc3(a.variant)+'</span>':'')+(a.eventType?'<span class="tag">'+esc3(window.jdAssetMatch.events.find(e=>e[0]===a.eventType)?.[1]||a.eventType)+'</span>':'')+'</div><p class="small muted">'+esc3([a.model,a.texts,a.binding,a.size,a.notes].filter(Boolean).join(' · '))+'</p><div class="jd-toolbar"><button class="btn sm" data-ea="'+i+'">Editar</button><button class="btn sm" data-da="'+i+'">Eliminar</button></div></div>').join(''):'<div class="card"><p class="muted">Todavía no cargaste assets reales. Subilos acá y quedarán disponibles para el equipo y para los presupuestos.</p></div>')+'</div>';
  document.getElementById('jdAddAsset').onclick=()=>editAsset(-1);
  assetsSec.querySelectorAll('[data-ea]').forEach(b=>b.onclick=()=>editAsset(+b.dataset.ea));
  assetsSec.querySelectorAll('[data-da]').forEach(b=>b.onclick=()=>{assets.splice(+b.dataset.da,1);SAVE3('jd_assets',assets);drawAssets()});
@@ -354,7 +354,7 @@ function editAsset(i){
  '<div class="jd-field"><label>Función</label><select id="jaRole">'+['Mockup principal','Índice','Interior','Tamaño comparativo','Canto abrochado','Canto binder','Fondo de evento'].map(x=>'<option '+(x===a.role?'selected':'')+'>'+x+'</option>').join('')+'</select></div>'+
  '<div class="jd-field"><label>Tipo de evento</label><select id="jaEventType">'+window.jdAssetMatch.events.map(([id,label])=>'<option value="'+id+'" '+((a.eventType||'generic')===id?'selected':'')+'>'+esc3(label)+'</option>').join('')+'</select></div>'+
  '<div class="jd-field"><label>Variante / criterio</label><input id="jaVar" value="'+esc3(a.variant)+'" placeholder="Ej. Classic · Solo Sefaradí · Abrochado"></div>'+
- '<div class="jd-field"><label>Modelo / formato</label><select id="jaModel"></select></div><div class="jd-field"><label>Encuadernación</label><select id="jaBinding"></select></div><div class="jd-field"><label>Tamaño</label><select id="jaSize"></select></div>'+
+ '<div class="jd-field"><label>Modelo / formato</label><select id="jaModel"></select></div><div class="jd-field"><label>Textos</label><select id="jaTexts"></select></div><div class="jd-field"><label>Encuadernación</label><select id="jaBinding"></select></div><div class="jd-field"><label>Tamaño</label><select id="jaSize"></select></div>'+
  '<div class="jd-field"><label style="display:flex;gap:8px"><input id="jaCanvas" type="checkbox" style="width:auto" '+((i<0||a.mockCanvas)?'checked':'')+'> Lienzo del presupuesto · 343 × 348 px de InDesign</label><small>PNG transparente, 1429 × 1450 px a 300 ppp · 121 × 122,8 mm. Se respeta el lienzo completo y su proporción; no se recorta ni se recentra el objeto.</small></div>'+
  '<div class="jd-field"><label>Imagen</label><input id="jaFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">'+(a.data?'<div class="small muted" style="margin-top:5px">Ya hay una imagen cargada. Elegí otra sólo si querés reemplazarla.</div>':'')+'</div>'+
  '<div class="jd-field"><label>Notas</label><input id="jaNotes" value="'+esc3(a.notes)+'"></div>'+
@@ -387,7 +387,7 @@ function editAsset(i){
        if(signed.error)throw signed.error;
        data=signed.data.signedUrl;
      }
-     const obj={...a,id:a.id||('asset-'+Date.now()),name,product:x.querySelector('#jaProd').value,role:x.querySelector('#jaRole').value,eventType:x.querySelector('#jaEventType').value,variant:x.querySelector('#jaVar').value.trim(),notes:x.querySelector('#jaNotes').value.trim(),model:x.querySelector('#jaModel').value,binding:x.querySelector('#jaBinding').value,size:x.querySelector('#jaSize').value,mockCanvas:x.querySelector('#jaCanvas').checked,data,storagePath};
+     const obj={...a,id:a.id||('asset-'+Date.now()),name,product:x.querySelector('#jaProd').value,role:x.querySelector('#jaRole').value,eventType:x.querySelector('#jaEventType').value,variant:x.querySelector('#jaVar').value.trim(),notes:x.querySelector('#jaNotes').value.trim(),model:x.querySelector('#jaModel').value,texts:x.querySelector('#jaTexts').value,binding:x.querySelector('#jaBinding').value,size:x.querySelector('#jaSize').value,mockCanvas:x.querySelector('#jaCanvas').checked,data,storagePath};
      await window.jdUpdateSharedState(['jd_assets'],state=>{const list=state.jd_assets||[];const current=list.find(item=>item.id===a.id);if(i>=0&&(!current||window.jdQuoteEditTools.fingerprint(current)!==assetBaseline))throw Error('La imagen cambió en otro dispositivo. Volvé a abrirla.');return {jd_assets:i>=0?list.map(item=>item.id===a.id?obj:item):[...list,obj]};});
      assets=LS3('jd_assets',[]);
      x.remove();
@@ -401,9 +401,9 @@ function editAsset(i){
    }
  });
  w.querySelector('#jaProd').value=a.product;
- const criteria=()=>{const p=cat.find(p=>p.name===w.querySelector('#jaProd').value);for(const [id,key] of [['jaModel','models'],['jaBinding','bindings'],['jaSize','sizes']]){const el=w.querySelector('#'+id),selected=el.value||a[key==='models'?'model':key==='bindings'?'binding':'size']||'';el.innerHTML='<option value="">Todas las variantes</option>'+(p?.[key]||[]).map(value=>'<option>'+esc3(value)+'</option>').join('');el.value=[...el.options].some(o=>o.value===selected)?selected:'';}};w.querySelector('#jaProd').addEventListener('change',criteria);criteria();
+ const criteria=()=>{const p=cat.find(p=>p.name===w.querySelector('#jaProd').value);for(const [id,key,assetKey] of [['jaModel','models','model'],['jaTexts','texts','texts'],['jaBinding','bindings','binding'],['jaSize','sizes','size']]){const el=w.querySelector('#'+id),selected=el.value||a[assetKey]||'';el.innerHTML='<option value="">Todas las variantes</option>'+(p?.[key]||[]).map(value=>'<option>'+esc3(value)+'</option>').join('');el.value=[...el.options].some(o=>o.value===selected)?selected:'';}};w.querySelector('#jaProd').addEventListener('change',criteria);criteria();
 }
-function findAsset(role){return window.jdAssetMatch.select(LS3('jd_assets',[]),{product:window.qProduct?.value,model:window.qModel?.value,binding:window.qBind?.value,size:window.qSize?.value,eventType:document.getElementById('qEventType')?.value||'generic',role});}
+function findAsset(role){return window.jdAssetMatch.select(LS3('jd_assets',[]),{product:window.qProduct?.value,model:window.qModel?.value,texts:window.qLang?.value,binding:window.qBind?.value,size:window.qSize?.value,eventType:document.getElementById('qEventType')?.value||'generic',role});}
 
 function applyQuoteAsset(){
  const m=findAsset('Mockup principal');const box=document.querySelector('#quotePreview .mock');if(box&&m?.data)box.innerHTML='<img src="'+m.data+'" style="width:100%;height:100%;object-fit:contain;border-radius:12px">';
@@ -1634,7 +1634,7 @@ function render6(){
  const icon=name=>'<img src="assets/quote-icons/'+name+'.svg" alt="" aria-hidden="true">';
  const issuedDate=window.jdLegalDates.today();
  const today=window.jdLegalDates.display(issuedDate);
- const asset=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,model:qModel.value,binding:p.bindings.length?qBind.value:'',size:qSize.value,eventType:document.getElementById('qEventType')?.value||'generic',role:'Mockup principal'});
+ const asset=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,model:qModel.value,texts:qLang.value,binding:p.bindings.length?qBind.value:'',size:qSize.value,eventType:document.getElementById('qEventType')?.value||'generic',role:'Mockup principal'});
  const background=window.jdAssetMatch.select(GET('jd_assets',[]),{product:p.name,size:qSize.value,eventType:document.getElementById('qEventType')?.value||'generic',role:'Fondo de evento'});
  const visualStatus=document.getElementById('jdEventVisualStatus');if(visualStatus){const eventType=document.getElementById('qEventType')?.value||'generic';visualStatus.textContent=eventType==='generic'?'':[(asset?.eventType===eventType?'Mockup del evento disponible':'Mockup del evento pendiente; se usa el general'),(background?.eventType===eventType?'Fondo del evento disponible':'Fondo del evento pendiente')].join(' · ');}
  const hero=(background?.data?'<img src="'+E(background.data)+'" class="jd-pdf-background" alt="">':'')+(asset?.data?'<img src="'+E(asset.data)+'" class="jd-pdf-product-img" data-mock-canvas="'+(asset.mockCanvas?'true':'false')+'">':'<div class="jd-mock-placeholder"><span>MOCKUP PRINCIPAL · 343 × 348 px de InDesign</span></div>');
