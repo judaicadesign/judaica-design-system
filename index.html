@@ -389,7 +389,7 @@ function editAsset(i){
      }
      const obj={...a,id:a.id||('asset-'+Date.now()),name,product:x.querySelector('#jaProd').value,role:x.querySelector('#jaRole').value,eventType:x.querySelector('#jaEventType').value,variant:x.querySelector('#jaVar').value.trim(),notes:x.querySelector('#jaNotes').value.trim(),model:x.querySelector('#jaModel').value,binding:x.querySelector('#jaBinding').value,size:x.querySelector('#jaSize').value,mockCanvas:x.querySelector('#jaCanvas').checked,data,storagePath};
      await window.jdUpdateSharedState(['jd_assets'],state=>{const list=state.jd_assets||[];const current=list.find(item=>item.id===a.id);if(i>=0&&(!current||window.jdQuoteEditTools.fingerprint(current)!==assetBaseline))throw Error('La imagen cambió en otro dispositivo. Volvé a abrirla.');return {jd_assets:i>=0?list.map(item=>item.id===a.id?obj:item):[...list,obj]};});
-     assets=GET('jd_assets',[]);
+     assets=LS3('jd_assets',[]);
      x.remove();
      drawAssets();
      applyQuoteAsset();window.renderQuote?.();
@@ -403,7 +403,7 @@ function editAsset(i){
  w.querySelector('#jaProd').value=a.product;
  const criteria=()=>{const p=cat.find(p=>p.name===w.querySelector('#jaProd').value);for(const [id,key] of [['jaModel','models'],['jaBinding','bindings'],['jaSize','sizes']]){const el=w.querySelector('#'+id),selected=el.value||a[key==='models'?'model':key==='bindings'?'binding':'size']||'';el.innerHTML='<option value="">Todas las variantes</option>'+(p?.[key]||[]).map(value=>'<option>'+esc3(value)+'</option>').join('');el.value=[...el.options].some(o=>o.value===selected)?selected:'';}};w.querySelector('#jaProd').addEventListener('change',criteria);criteria();
 }
-function findAsset(role){return window.jdAssetMatch.select(GET('jd_assets',[]),{product:window.qProduct?.value,model:window.qModel?.value,binding:window.qBind?.value,size:window.qSize?.value,eventType:document.getElementById('qEventType')?.value||'generic',role});}
+function findAsset(role){return window.jdAssetMatch.select(LS3('jd_assets',[]),{product:window.qProduct?.value,model:window.qModel?.value,binding:window.qBind?.value,size:window.qSize?.value,eventType:document.getElementById('qEventType')?.value||'generic',role});}
 
 function applyQuoteAsset(){
  const m=findAsset('Mockup principal');const box=document.querySelector('#quotePreview .mock');if(box&&m?.data)box.innerHTML='<img src="'+m.data+'" style="width:100%;height:100%;object-fit:contain;border-radius:12px">';
