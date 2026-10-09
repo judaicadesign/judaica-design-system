@@ -4,7 +4,7 @@
 
 - **Norma obligatoria Judaica Design (de producción):** en el hebreo de todos los Tehilim representar el Nombre exclusivamente como `יְיָ`; su fonética es siempre `Ad-nai`.
 - Esta convención editorial se aplica a las salidas de producción aun si la captura de ArtScroll utiliza otra representación del Nombre; para las demás letras, nikud, dagesh, meteg y rayitas de shevá na, ArtScroll sigue siendo el golden master.
-- **Pendiente de propagación:** actualizar el Salmo 1 ya aprobado y todo el corpus de 150 salmos, las exportaciones hebreas y las reglas de regeneración; comprobar el resultado antes de afirmar que los archivos publicados cumplen esta norma. No modificar ni reinterpretar otras marcas por esta sustitución.
+- **Estado de propagación:** capítulos 1 y 2 ya usan `יְיָ` en el texto canónico y las cuatro exportaciones finales de cada salmo; quedan pendientes los capítulos 3–150 y la revisión de las reglas de regeneración. No modificar otras marcas por esta sustitución.
 
 Actualizado: 9 de octubre de 2026.
 
