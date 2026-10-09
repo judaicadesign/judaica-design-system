@@ -4,7 +4,7 @@
   "source": "Wikisource / ניקוד",
   "chapters": 150,
   "verses": 2527,
-  "engineSha256": "4ed2885a313d2b3c06e37a1100ab117ebd0a304509bca85ceb9da99fc72380d0",
+  "engineSha256": "dc35ccb2766b6579c1dad8ae12bff8c77634b6bc8f9eef59759d344978271d57",
   "items": [
     {
       "chapter": 1,
@@ -385,8 +385,8 @@
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "יָגַֽעְתִּי בְּאַנְחָֽתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
-          "phonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé."
+          "hebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+          "phonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé."
         },
         {
           "verse": 8,

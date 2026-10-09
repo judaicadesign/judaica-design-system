@@ -1739,12 +1739,6 @@
         },
         {
           "ref": "6:7",
-          "word": "בְּאַנְחָֽתִי",
-          "clusterIndex": 3,
-          "letter": "ח"
-        },
-        {
-          "ref": "6:7",
           "word": "מִטָּֽתִי",
           "clusterIndex": 1,
           "letter": "ט"
@@ -2025,20 +2019,20 @@
         {
           "ref": "6:7",
           "beforeHebrew": "יָגַעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
-          "afterHebrew": "יָגַֽעְתִּי בְּאַנְחָֽתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+          "afterHebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
           "beforePhonetic": "Yaga'ti beanjatí asjé vejol layla mitatí bedim'atí 'arsí amsé.",
           "changes": {
             "יגעתי": {
               "stress": 1
             },
             "באנחתי": {
-              "stress": 3
+              "stress": 4
             },
             "מטתי": {
               "stress": 1
             }
           },
-          "afterPhonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé."
+          "afterPhonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé."
         },
         {
           "ref": "6:8",
@@ -3669,5 +3663,16 @@
         "status": "No primary mark transcribed; retain normal fallback pending exhaustive comparison"
       }
     ]
+  },
+  "silentShevaConfirmation": {
+    "date": "2026-10-09",
+    "confirmedByUser": "Sin rayita sobre ב en בִלְבַבְכֶם y מִשְׁכַּבְכֶם (4:5), ni sobre נ en בְּאַנְחָתִי (6:7).",
+    "visualRecheck": "IMG_1463.png: no hay meteg junto al kamatz de ח en בְּאַנְחָתִי. Se retiró la marca introducida erróneamente.",
+    "reading": "be-an-ja-TÍ → beanjatí",
+    "beforeHebrew": "יָגַֽעְתִּי בְּאַנְחָֽתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+    "afterHebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+    "beforePhonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé.",
+    "afterPhonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé.",
+    "scope": "Confirmación de palabras; no aprobación de los salmos completos."
   }
 }

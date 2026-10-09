@@ -1,6 +1,6 @@
 {
   "date": "2026-10-09",
-  "engineSha256": "4ed2885a313d2b3c06e37a1100ab117ebd0a304509bca85ceb9da99fc72380d0",
+  "engineSha256": "dc35ccb2766b6579c1dad8ae12bff8c77634b6bc8f9eef59759d344978271d57",
   "status": "All recorded verse outputs match; not global corpus approval",
   "cases": [
     {
@@ -446,9 +446,9 @@
     {
       "chapter": 6,
       "verse": 7,
-      "hebrew": "יָגַֽעְתִּי בְּאַנְחָֽתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
-      "master": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé.",
-      "generator": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé.",
+      "hebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+      "master": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé.",
+      "generator": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé.",
       "matches": true
     },
     {

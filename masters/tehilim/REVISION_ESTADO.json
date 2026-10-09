@@ -53,8 +53,8 @@
     },
     {
       "chapter": 6,
-      "hebrew": "21 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
-      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
+      "hebrew": "20 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
+      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta. 6:7: beanjatí confirmado, meteg falso en ח retirado.",
       "engine": "11 pesukim comprobados",
       "approved": false,
       "source": "IMG_1463.png",
@@ -320,5 +320,16 @@
       "16:2 Amart",
       "18:1,19:1,20:1 Lamenatséaj"
     ]
+  },
+  "silentShevaConfirmation": {
+    "date": "2026-10-09",
+    "confirmedByUser": "Sin rayita sobre ב en בִלְבַבְכֶם y מִשְׁכַּבְכֶם (4:5), ni sobre נ en בְּאַנְחָתִי (6:7).",
+    "visualRecheck": "IMG_1463.png: no hay meteg junto al kamatz de ח en בְּאַנְחָתִי. Se retiró la marca introducida erróneamente.",
+    "reading": "be-an-ja-TÍ → beanjatí",
+    "beforeHebrew": "יָגַֽעְתִּי בְּאַנְחָֽתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+    "afterHebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+    "beforePhonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé.",
+    "afterPhonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé.",
+    "scope": "Confirmación de palabras; no aprobación de los salmos completos."
   }
 }
