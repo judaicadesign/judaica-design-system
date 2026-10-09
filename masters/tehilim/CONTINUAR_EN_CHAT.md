@@ -1,5 +1,11 @@
 # Continuar la revisión de Tehilim
 
+## Regla editorial del Nombre · 9 de octubre de 2026
+
+- **Norma obligatoria Judaica Design (de producción):** en el hebreo de todos los Tehilim representar el Nombre exclusivamente como `יְיָ`; su fonética es siempre `Ad-nai`.
+- Esta convención editorial se aplica a las salidas de producción aun si la captura de ArtScroll utiliza otra representación del Nombre; para las demás letras, nikud, dagesh, meteg y rayitas de shevá na, ArtScroll sigue siendo el golden master.
+- **Pendiente de propagación:** actualizar el Salmo 1 ya aprobado y todo el corpus de 150 salmos, las exportaciones hebreas y las reglas de regeneración; comprobar el resultado antes de afirmar que los archivos publicados cumplen esta norma. No modificar ni reinterpretar otras marcas por esta sustitución.
+
 Actualizado: 9 de octubre de 2026.
 
 Base de texto: Wikisource. ArtScroll es la referencia visual para nikud, dagesh, meteg y las rayitas de shevá na. No agregar marcas por inferencia. Un palito vertical debajo y un guion horizontal arriba son datos distintos; los asteriscos no son meteg.
