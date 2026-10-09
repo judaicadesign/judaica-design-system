@@ -734,15 +734,6 @@
       "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
     },
     {
-      "ref": "9:20",
-      "word": "ישפטו",
-      "indices": [
-        2
-      ],
-      "source": "IMG_1468.png",
-      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
-    },
-    {
       "ref": "10:5",
       "word": "דרכו",
       "indices": [
@@ -1075,17 +1066,6 @@
       "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
       "kind": "reclassify",
       "pointedWord": "רְשָׁעִים"
-    },
-    {
-      "ref": "9:20",
-      "word": "ישפטו",
-      "indices": [
-        2
-      ],
-      "source": "IMG_1468.png",
-      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
-      "kind": "reclassify",
-      "pointedWord": "יִשָּׁפְטוּ"
     },
     {
       "ref": "10:5",
@@ -2266,12 +2246,6 @@
       "after": "Veyivtejú Veja yode'é Shemeja ki lo 'azavta Doresheja Ad-nai."
     },
     {
-      "ref": "9:20",
-      "hebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
-      "before": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja.",
-      "after": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al Paneja."
-    },
-    {
       "ref": "10:5",
       "hebrew": "יָחִֽילוּ דְרָכָו בְּכׇל עֵת מָרוֹם מִשְׁפָּטֶֽיךָ מִנֶּגְדּוֹ כׇּל צוֹרְרָיו יָפִֽיחַ בָּהֶם.",
       "before": "Yajilu derajav bejol 'et marom Mishepateja minegdó kol tsorerav yafíaj báhem.",
@@ -2445,5 +2419,357 @@
       "reading": "zeroa’",
       "reason": "Shevá inicial vocal por regla. No se certifica rayita de ArtScroll."
     }
-  ]
+  ],
+  "userCorrection": {
+    "date": "2026-10-09",
+    "error": "Se retiró erróneamente una rayita válida en 9:20; está encima de pe, por debajo de la altura máxima de shin vecina.",
+    "confirmed": [
+      {
+        "ref": "9:20",
+        "word": "יִשָּׁפְטוּ",
+        "phonetic": "yishafetú",
+        "vocalSheva": [
+          2
+        ]
+      },
+      {
+        "ref": "12:4",
+        "phonetic": "sifté",
+        "note": "Sin rayita; corrección mantenida"
+      },
+      {
+        "ref": "16:2",
+        "phonetic": "Amart",
+        "note": "Sin rayita; corrección mantenida"
+      }
+    ],
+    "rulesPhoto": "image(20261009-045029).png",
+    "headingPhoto": "image(20261009-044541).png",
+    "rules": "ArtScroll indica acento no final mediante meteg debajo; shevá na con rayita arriba, excepto shevá en primera letra de palabra, que es na sin rayita.",
+    "lamenatseaj": "Corrección de la misma forma apuntada en todas sus apariciones; 18:1 y 19:1 con meteg confirmado por el usuario; 20:1 ya estaba corregido.",
+    "edits": [
+      {
+        "ref": "9:20",
+        "beforeHebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
+        "afterHebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
+        "beforePhonetic": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al Paneja.",
+        "afterPhonetic": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja."
+      },
+      {
+        "ref": "18:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לְעֶבֶד יְהֹוָה לְדָוִד אֲשֶׁר דִּבֶּר לַיהֹוָה אֶת דִּבְרֵי הַשִּׁירָה הַזֹּאת בְּיוֹם הִצִּיל יְהֹוָה אוֹתוֹ מִכַּף כׇּל אֹיְבָיו וּמִיַּד שָׁאוּל.",
+        "afterHebrew": "לַמְנַצֵּֽחַ לְעֶבֶד יְהֹוָה לְדָוִד אֲשֶׁר דִּבֶּר לַיהֹוָה אֶת דִּבְרֵי הַשִּׁירָה הַזֹּאת בְּיוֹם הִצִּיל יְהֹוָה אוֹתוֹ מִכַּף כׇּל אֹיְבָיו וּמִיַּד שָׁאוּל.",
+        "beforePhonetic": "Lamnatséaj le'éved Ad-nai leDavid asher diber laAd-nai et divré hashira hazot beyom hitsil Ad-nai otó mikaf kol oyvav umiyad Shaúl.",
+        "afterPhonetic": "Lamenatséaj le'éved Ad-nai leDavid asher diber laAd-nai et divré hashira hazot beyom hitsil Ad-nai otó mikaf kol oyvav umiyad Shaúl."
+      },
+      {
+        "ref": "19:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj mizmor leDavid."
+      },
+      {
+        "ref": "21:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj mizmor leDavid."
+      },
+      {
+        "ref": "22:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל אַיֶּלֶת הַשַּׁחַר מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל אַיֶּלֶת הַשַּׁחַר מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj 'al ayélet hashajar mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj 'al ayélet hashajar mizmor leDavid."
+      },
+      {
+        "ref": "31:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj mizmor leDavid."
+      },
+      {
+        "ref": "36:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לְעֶבֶד יְהֹוָה לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ לְעֶבֶד יְהֹוָה לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj le'éved Ad-nai leDavid.",
+        "afterPhonetic": "Lamenatséaj le'éved Ad-nai leDavid."
+      },
+      {
+        "ref": "39:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לידיתון לִידוּתוּן מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ לידיתון לִידוּתוּן מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj lydytvn lidutún mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj lydytvn lidutún mizmor leDavid."
+      },
+      {
+        "ref": "40:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר.",
+        "afterHebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר.",
+        "beforePhonetic": "Lamnatséaj leDavid mizmor.",
+        "afterPhonetic": "Lamenatséaj leDavid mizmor."
+      },
+      {
+        "ref": "41:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj mizmor leDavid."
+      },
+      {
+        "ref": "42:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מַשְׂכִּיל לִבְנֵי קֹרַח.",
+        "afterHebrew": "לַמְנַצֵּחַ מַשְׂכִּיל לִבְנֵי קֹרַח.",
+        "beforePhonetic": "Lamnatséaj maskil livné Kóraj.",
+        "afterPhonetic": "Lamenatséaj maskil livné Kóraj."
+      },
+      {
+        "ref": "44:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מַשְׂכִּיל.",
+        "afterHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מַשְׂכִּיל.",
+        "beforePhonetic": "Lamnatséaj livné Kóraj maskil.",
+        "afterPhonetic": "Lamenatséaj livné Kóraj maskil."
+      },
+      {
+        "ref": "45:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל שֹׁשַׁנִּים לִבְנֵי קֹרַח מַשְׂכִּיל שִׁיר יְדִידֹת.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל שֹׁשַׁנִּים לִבְנֵי קֹרַח מַשְׂכִּיל שִׁיר יְדִידֹת.",
+        "beforePhonetic": "Lamnatséaj 'al shoshanim livné Kóraj maskil shir yedidot.",
+        "afterPhonetic": "Lamenatséaj 'al shoshanim livné Kóraj maskil shir yedidot."
+      },
+      {
+        "ref": "46:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח עַל עֲלָמוֹת שִׁיר.",
+        "afterHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח עַל עֲלָמוֹת שִׁיר.",
+        "beforePhonetic": "Lamnatséaj livné Kóraj 'al 'alamot shir.",
+        "afterPhonetic": "Lamenatséaj livné Kóraj 'al 'alamot shir."
+      },
+      {
+        "ref": "47:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
+        "afterHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
+        "beforePhonetic": "Lamnatséaj livné Kóraj mizmor.",
+        "afterPhonetic": "Lamenatséaj livné Kóraj mizmor."
+      },
+      {
+        "ref": "49:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
+        "afterHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
+        "beforePhonetic": "Lamnatséaj livné Kóraj mizmor.",
+        "afterPhonetic": "Lamenatséaj livné Kóraj mizmor."
+      },
+      {
+        "ref": "51:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj mizmor leDavid."
+      },
+      {
+        "ref": "52:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מַשְׂכִּיל לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ מַשְׂכִּיל לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj maskil leDavid.",
+        "afterPhonetic": "Lamenatséaj maskil leDavid."
+      },
+      {
+        "ref": "53:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל מָחֲלַת מַשְׂכִּיל לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל מָחֲלַת מַשְׂכִּיל לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj 'al majalat maskil leDavid.",
+        "afterPhonetic": "Lamenatséaj 'al majalat maskil leDavid."
+      },
+      {
+        "ref": "54:1",
+        "beforeHebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מַשְׂכִּיל לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מַשְׂכִּיל לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj binguinot maskil leDavid.",
+        "afterPhonetic": "Lamenatséaj binguinot maskil leDavid."
+      },
+      {
+        "ref": "55:1",
+        "beforeHebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מַשְׂכִּיל לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מַשְׂכִּיל לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj binguinot maskil leDavid.",
+        "afterPhonetic": "Lamenatséaj binguinot maskil leDavid."
+      },
+      {
+        "ref": "56:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל יוֹנַת אֵלֶם רְחֹקִים לְדָוִד מִכְתָּם בֶּאֱחֹז אוֹתוֹ פְלִשְׁתִּים בְּגַת.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל יוֹנַת אֵלֶם רְחֹקִים לְדָוִד מִכְתָּם בֶּאֱחֹז אוֹתוֹ פְלִשְׁתִּים בְּגַת.",
+        "beforePhonetic": "Lamnatséaj 'al yonat élem rejokim leDavid mijtam beejoz otó felishtim begat.",
+        "afterPhonetic": "Lamenatséaj 'al yonat élem rejokim leDavid mijtam beejoz otó felishtim begat."
+      },
+      {
+        "ref": "57:1",
+        "beforeHebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם בְּבׇרְחוֹ מִפְּנֵי שָׁאוּל בַּמְּעָרָה.",
+        "afterHebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם בְּבׇרְחוֹ מִפְּנֵי שָׁאוּל בַּמְּעָרָה.",
+        "beforePhonetic": "Lamnatséaj al tashjet leDavid mijtam bevorjó mipné Shaúl bame'ará.",
+        "afterPhonetic": "Lamenatséaj al tashjet leDavid mijtam bevorjó mipné Shaúl bame'ará."
+      },
+      {
+        "ref": "58:1",
+        "beforeHebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם.",
+        "afterHebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם.",
+        "beforePhonetic": "Lamnatséaj al tashjet leDavid mijtam.",
+        "afterPhonetic": "Lamenatséaj al tashjet leDavid mijtam."
+      },
+      {
+        "ref": "59:1",
+        "beforeHebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם בִּשְׁלֹחַ שָׁאוּל וַיִּשְׁמְרוּ אֶת הַבַּיִת לַהֲמִיתוֹ.",
+        "afterHebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם בִּשְׁלֹחַ שָׁאוּל וַיִּשְׁמְרוּ אֶת הַבַּיִת לַהֲמִיתוֹ.",
+        "beforePhonetic": "Lamnatséaj al tashjet leDavid mijtam bishlóaj Shaúl vayishmerú et habáyit lahamitó.",
+        "afterPhonetic": "Lamenatséaj al tashjet leDavid mijtam bishlóaj Shaúl vayishmerú et habáyit lahamitó."
+      },
+      {
+        "ref": "60:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל שׁוּשַׁן עֵדוּת מִכְתָּם לְדָוִד לְלַמֵּד.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל שׁוּשַׁן עֵדוּת מִכְתָּם לְדָוִד לְלַמֵּד.",
+        "beforePhonetic": "Lamnatséaj 'al shushán 'edut mijtam leDavid lelamed.",
+        "afterPhonetic": "Lamenatséaj 'al shushán 'edut mijtam leDavid lelamed."
+      },
+      {
+        "ref": "61:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל נְגִינַת לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל נְגִינַת לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj 'al neguinat leDavid.",
+        "afterPhonetic": "Lamenatséaj 'al neguinat leDavid."
+      },
+      {
+        "ref": "62:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל יְדוּתוּן מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל יְדוּתוּן מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj 'al yedutún mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj 'al yedutún mizmor leDavid."
+      },
+      {
+        "ref": "64:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj mizmor leDavid."
+      },
+      {
+        "ref": "65:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד שִׁיר.",
+        "afterHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד שִׁיר.",
+        "beforePhonetic": "Lamnatséaj mizmor leDavid shir.",
+        "afterPhonetic": "Lamenatséaj mizmor leDavid shir."
+      },
+      {
+        "ref": "66:1",
+        "beforeHebrew": "לַמְנַצֵּחַ שִׁיר מִזְמוֹר הָרִיעוּ לֵאלֹהִים כׇּל הָאָרֶץ.",
+        "afterHebrew": "לַמְנַצֵּחַ שִׁיר מִזְמוֹר הָרִיעוּ לֵאלֹהִים כׇּל הָאָרֶץ.",
+        "beforePhonetic": "Lamnatséaj shir mizmor hari'ú leLohim kol haarets.",
+        "afterPhonetic": "Lamenatséaj shir mizmor hari'ú leLohim kol haarets."
+      },
+      {
+        "ref": "67:1",
+        "beforeHebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מִזְמוֹר שִׁיר.",
+        "afterHebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מִזְמוֹר שִׁיר.",
+        "beforePhonetic": "Lamnatséaj binguinot mizmor shir.",
+        "afterPhonetic": "Lamenatséaj binguinot mizmor shir."
+      },
+      {
+        "ref": "68:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר שִׁיר.",
+        "afterHebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר שִׁיר.",
+        "beforePhonetic": "Lamnatséaj leDavid mizmor shir.",
+        "afterPhonetic": "Lamenatséaj leDavid mizmor shir."
+      },
+      {
+        "ref": "69:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל שׁוֹשַׁנִּים לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל שׁוֹשַׁנִּים לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj 'al shoshanim leDavid.",
+        "afterPhonetic": "Lamenatséaj 'al shoshanim leDavid."
+      },
+      {
+        "ref": "70:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לְדָוִד לְהַזְכִּיר.",
+        "afterHebrew": "לַמְנַצֵּחַ לְדָוִד לְהַזְכִּיר.",
+        "beforePhonetic": "Lamnatséaj leDavid lehazkir.",
+        "afterPhonetic": "Lamenatséaj leDavid lehazkir."
+      },
+      {
+        "ref": "75:1",
+        "beforeHebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת מִזְמוֹר לְאָסָף שִׁיר.",
+        "afterHebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת מִזְמוֹר לְאָסָף שִׁיר.",
+        "beforePhonetic": "Lamnatséaj al tashjet mizmor leasaf shir.",
+        "afterPhonetic": "Lamenatséaj al tashjet mizmor leasaf shir."
+      },
+      {
+        "ref": "76:1",
+        "beforeHebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מִזְמוֹר לְאָסָף שִׁיר.",
+        "afterHebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מִזְמוֹר לְאָסָף שִׁיר.",
+        "beforePhonetic": "Lamnatséaj binguinot mizmor leasaf shir.",
+        "afterPhonetic": "Lamenatséaj binguinot mizmor leasaf shir."
+      },
+      {
+        "ref": "77:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל יְדוּתוּן ידיתון לְאָסָף מִזְמוֹר.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל יְדוּתוּן ידיתון לְאָסָף מִזְמוֹר.",
+        "beforePhonetic": "Lamnatséaj 'al yedutún ydytvn leasaf mizmor.",
+        "afterPhonetic": "Lamenatséaj 'al yedutún ydytvn leasaf mizmor."
+      },
+      {
+        "ref": "80:1",
+        "beforeHebrew": "לַמְנַצֵּחַ אֶל שֹׁשַׁנִּים עֵדוּת לְאָסָף מִזְמוֹר.",
+        "afterHebrew": "לַמְנַצֵּחַ אֶל שֹׁשַׁנִּים עֵדוּת לְאָסָף מִזְמוֹר.",
+        "beforePhonetic": "Lamnatséaj el shoshanim 'edut leasaf mizmor.",
+        "afterPhonetic": "Lamenatséaj el shoshanim 'edut leasaf mizmor."
+      },
+      {
+        "ref": "81:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל הַגִּתִּית לְאָסָף.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל הַגִּתִּית לְאָסָף.",
+        "beforePhonetic": "Lamnatséaj 'al haguitit leasaf.",
+        "afterPhonetic": "Lamenatséaj 'al haguitit leasaf."
+      },
+      {
+        "ref": "84:1",
+        "beforeHebrew": "לַמְנַצֵּחַ עַל הַגִּתִּית לִבְנֵי קֹרַח מִזְמוֹר.",
+        "afterHebrew": "לַמְנַצֵּחַ עַל הַגִּתִּית לִבְנֵי קֹרַח מִזְמוֹר.",
+        "beforePhonetic": "Lamnatséaj 'al haguitit livné Kóraj mizmor.",
+        "afterPhonetic": "Lamenatséaj 'al haguitit livné Kóraj mizmor."
+      },
+      {
+        "ref": "85:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
+        "afterHebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
+        "beforePhonetic": "Lamnatséaj livné Kóraj mizmor.",
+        "afterPhonetic": "Lamenatséaj livné Kóraj mizmor."
+      },
+      {
+        "ref": "88:1",
+        "beforeHebrew": "שִׁיר מִזְמוֹר לִבְנֵי קֹרַח לַמְנַצֵּחַ עַל מָחֲלַת לְעַנּוֹת מַשְׂכִּיל לְהֵימָן הָאֶזְרָחִי.",
+        "afterHebrew": "שִׁיר מִזְמוֹר לִבְנֵי קֹרַח לַמְנַצֵּחַ עַל מָחֲלַת לְעַנּוֹת מַשְׂכִּיל לְהֵימָן הָאֶזְרָחִי.",
+        "beforePhonetic": "Shir mizmor livné Kóraj lamnatséaj 'al majalat le'anot maskil lehemán haezrají.",
+        "afterPhonetic": "Shir mizmor livné Kóraj lamenatséaj 'al majalat le'anot maskil lehemán haezrají."
+      },
+      {
+        "ref": "109:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר אֱלֹהֵי תְהִלָּתִי אַל תֶּחֱרַשׁ.",
+        "afterHebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר אֱלֹהֵי תְהִלָּתִי אַל תֶּחֱרַשׁ.",
+        "beforePhonetic": "Lamnatséaj leDavid mizmor Elohé tehilatí al tejerash.",
+        "afterPhonetic": "Lamenatséaj leDavid mizmor Elohé tehilatí al tejerash."
+      },
+      {
+        "ref": "139:1",
+        "beforeHebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר יְהֹוָה חֲקַרְתַּנִי וַתֵּדָע.",
+        "afterHebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר יְהֹוָה חֲקַרְתַּנִי וַתֵּדָע.",
+        "beforePhonetic": "Lamnatséaj leDavid mizmor Ad-nai jakartani vatedá'.",
+        "afterPhonetic": "Lamenatséaj leDavid mizmor Ad-nai jakartani vatedá'."
+      },
+      {
+        "ref": "140:1",
+        "beforeHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "afterHebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
+        "beforePhonetic": "Lamnatséaj mizmor leDavid.",
+        "afterPhonetic": "Lamenatséaj mizmor leDavid."
+      }
+    ]
+  }
 }

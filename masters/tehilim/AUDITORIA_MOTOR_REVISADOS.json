@@ -1,6 +1,6 @@
 {
   "date": "2026-10-09",
-  "engineSha256": "8ce4fbfa626b72e0758457293804a22fbb3f2d35c1b5242ecbe2e6b670aec644",
+  "engineSha256": "4ed2885a313d2b3c06e37a1100ab117ebd0a304509bca85ceb9da99fc72380d0",
   "status": "All recorded verse outputs match; not global corpus approval",
   "cases": [
     {
@@ -863,8 +863,8 @@
       "chapter": 9,
       "verse": 20,
       "hebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
-      "master": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al Paneja.",
-      "generator": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al Paneja.",
+      "master": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja.",
+      "generator": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja.",
       "matches": true
     },
     {

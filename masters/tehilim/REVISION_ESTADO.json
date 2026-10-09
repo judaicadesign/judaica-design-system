@@ -310,5 +310,15 @@
     "report": "SEGUNDO_COTEJO.html",
     "changedVerses": 40,
     "scope": "Veinte capturas 1–17, captura 23 y PDF disponibles; no nuevo cotejo de PDF original 126/137."
+  },
+  "userConfirmation20261009": {
+    "report": "ARTSCROLL_CONFIRMACION_20261009.json",
+    "scope": "Confirmación de palabras, no aprobación de salmos completos",
+    "confirmed": [
+      "9:20 yishafetú",
+      "12:4 sifté",
+      "16:2 Amart",
+      "18:1,19:1,20:1 Lamenatséaj"
+    ]
   }
 }

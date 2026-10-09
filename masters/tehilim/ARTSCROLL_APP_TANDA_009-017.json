@@ -60,6 +60,19 @@
           "letters": [
             "ד"
           ]
+        },
+        {
+          "ref": "9:20",
+          "word": "יִשָּׁפְטוּ",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "פ"
+          ],
+          "source": "IMG_1468.png",
+          "confirmedByUser": "2026-10-09",
+          "evidence": "Rayita aislada encima de pe, confirmada por el usuario y en nueva ampliación."
         }
       ],
       "textChanges": [
@@ -122,11 +135,16 @@
           "beforeHebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶיךָ.",
           "afterHebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
           "beforePhonetic": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al paneja.",
-          "afterPhonetic": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al Paneja.",
+          "afterPhonetic": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja.",
           "changes": {
             "פניך": {
               "stress": 1,
               "capital": true
+            },
+            "ישפטו": {
+              "vocalSheva": [
+                2
+              ]
             }
           }
         },

@@ -4,7 +4,7 @@
   "source": "Wikisource / ניקוד",
   "chapters": 150,
   "verses": 2527,
-  "engineSha256": "8ce4fbfa626b72e0758457293804a22fbb3f2d35c1b5242ecbe2e6b670aec644",
+  "engineSha256": "4ed2885a313d2b3c06e37a1100ab117ebd0a304509bca85ceb9da99fc72380d0",
   "items": [
     {
       "chapter": 1,
@@ -722,7 +722,7 @@
           "verse": 20,
           "label": "כ",
           "hebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
-          "phonetic": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al Paneja."
+          "phonetic": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja."
         },
         {
           "verse": 21,
@@ -1281,8 +1281,8 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "לַמְנַצֵּחַ לְעֶבֶד יְהֹוָה לְדָוִד אֲשֶׁר דִּבֶּר לַיהֹוָה אֶת דִּבְרֵי הַשִּׁירָה הַזֹּאת בְּיוֹם הִצִּיל יְהֹוָה אוֹתוֹ מִכַּף כׇּל אֹיְבָיו וּמִיַּד שָׁאוּל.",
-          "phonetic": "Lamnatséaj le'éved Ad-nai leDavid asher diber laAd-nai et divré hashira hazot beyom hitsil Ad-nai otó mikaf kol oyvav umiyad Shaúl."
+          "hebrew": "לַמְנַצֵּֽחַ לְעֶבֶד יְהֹוָה לְדָוִד אֲשֶׁר דִּבֶּר לַיהֹוָה אֶת דִּבְרֵי הַשִּׁירָה הַזֹּאת בְּיוֹם הִצִּיל יְהֹוָה אוֹתוֹ מִכַּף כׇּל אֹיְבָיו וּמִיַּד שָׁאוּל.",
+          "phonetic": "Lamenatséaj le'éved Ad-nai leDavid asher diber laAd-nai et divré hashira hazot beyom hitsil Ad-nai otó mikaf kol oyvav umiyad Shaúl."
         },
         {
           "verse": 2,
@@ -1595,8 +1595,8 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "hebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,
@@ -1770,7 +1770,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,
@@ -1862,7 +1862,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל אַיֶּלֶת הַשַּׁחַר מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj 'al ayélet hashajar mizmor leDavid."
+          "phonetic": "Lamenatséaj 'al ayélet hashajar mizmor leDavid."
         },
         {
           "verse": 2,
@@ -2714,7 +2714,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,
@@ -3408,7 +3408,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לְעֶבֶד יְהֹוָה לְדָוִד.",
-          "phonetic": "Lamnatséaj le'éved Ad-nai leDavid."
+          "phonetic": "Lamenatséaj le'éved Ad-nai leDavid."
         },
         {
           "verse": 2,
@@ -3888,7 +3888,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לידיתון לִידוּתוּן מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj lydytvn lidutún mizmor leDavid."
+          "phonetic": "Lamenatséaj lydytvn lidutún mizmor leDavid."
         },
         {
           "verse": 2,
@@ -3980,7 +3980,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר.",
-          "phonetic": "Lamnatséaj leDavid mizmor."
+          "phonetic": "Lamenatséaj leDavid mizmor."
         },
         {
           "verse": 2,
@@ -4096,7 +4096,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,
@@ -4188,7 +4188,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מַשְׂכִּיל לִבְנֵי קֹרַח.",
-          "phonetic": "Lamnatséaj maskil livné Kóraj."
+          "phonetic": "Lamenatséaj maskil livné Kóraj."
         },
         {
           "verse": 2,
@@ -4306,7 +4306,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מַשְׂכִּיל.",
-          "phonetic": "Lamnatséaj livné Kóraj maskil."
+          "phonetic": "Lamenatséaj livné Kóraj maskil."
         },
         {
           "verse": 2,
@@ -4476,7 +4476,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל שֹׁשַׁנִּים לִבְנֵי קֹרַח מַשְׂכִּיל שִׁיר יְדִידֹת.",
-          "phonetic": "Lamnatséaj 'al shoshanim livné Kóraj maskil shir yedidot."
+          "phonetic": "Lamenatséaj 'al shoshanim livné Kóraj maskil shir yedidot."
         },
         {
           "verse": 2,
@@ -4592,7 +4592,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח עַל עֲלָמוֹת שִׁיר.",
-          "phonetic": "Lamnatséaj livné Kóraj 'al 'alamot shir."
+          "phonetic": "Lamenatséaj livné Kóraj 'al 'alamot shir."
         },
         {
           "verse": 2,
@@ -4672,7 +4672,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
-          "phonetic": "Lamnatséaj livné Kóraj mizmor."
+          "phonetic": "Lamenatséaj livné Kóraj mizmor."
         },
         {
           "verse": 2,
@@ -4838,7 +4838,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
-          "phonetic": "Lamnatséaj livné Kóraj mizmor."
+          "phonetic": "Lamenatséaj livné Kóraj mizmor."
         },
         {
           "verse": 2,
@@ -5118,7 +5118,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,
@@ -5252,7 +5252,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מַשְׂכִּיל לְדָוִד.",
-          "phonetic": "Lamnatséaj maskil leDavid."
+          "phonetic": "Lamenatséaj maskil leDavid."
         },
         {
           "verse": 2,
@@ -5326,7 +5326,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל מָחֲלַת מַשְׂכִּיל לְדָוִד.",
-          "phonetic": "Lamnatséaj 'al majalat maskil leDavid."
+          "phonetic": "Lamenatséaj 'al majalat maskil leDavid."
         },
         {
           "verse": 2,
@@ -5376,7 +5376,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מַשְׂכִּיל לְדָוִד.",
-          "phonetic": "Lamnatséaj binguinot maskil leDavid."
+          "phonetic": "Lamenatséaj binguinot maskil leDavid."
         },
         {
           "verse": 2,
@@ -5438,7 +5438,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מַשְׂכִּיל לְדָוִד.",
-          "phonetic": "Lamnatséaj binguinot maskil leDavid."
+          "phonetic": "Lamenatséaj binguinot maskil leDavid."
         },
         {
           "verse": 2,
@@ -5590,7 +5590,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל יוֹנַת אֵלֶם רְחֹקִים לְדָוִד מִכְתָּם בֶּאֱחֹז אוֹתוֹ פְלִשְׁתִּים בְּגַת.",
-          "phonetic": "Lamnatséaj 'al yonat élem rejokim leDavid mijtam beejoz otó felishtim begat."
+          "phonetic": "Lamenatséaj 'al yonat élem rejokim leDavid mijtam beejoz otó felishtim begat."
         },
         {
           "verse": 2,
@@ -5682,7 +5682,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם בְּבׇרְחוֹ מִפְּנֵי שָׁאוּל בַּמְּעָרָה.",
-          "phonetic": "Lamnatséaj al tashjet leDavid mijtam bevorjó mipné Shaúl bame'ará."
+          "phonetic": "Lamenatséaj al tashjet leDavid mijtam bevorjó mipné Shaúl bame'ará."
         },
         {
           "verse": 2,
@@ -5762,7 +5762,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם.",
-          "phonetic": "Lamnatséaj al tashjet leDavid mijtam."
+          "phonetic": "Lamenatséaj al tashjet leDavid mijtam."
         },
         {
           "verse": 2,
@@ -5842,7 +5842,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת לְדָוִד מִכְתָּם בִּשְׁלֹחַ שָׁאוּל וַיִּשְׁמְרוּ אֶת הַבַּיִת לַהֲמִיתוֹ.",
-          "phonetic": "Lamnatséaj al tashjet leDavid mijtam bishlóaj Shaúl vayishmerú et habáyit lahamitó."
+          "phonetic": "Lamenatséaj al tashjet leDavid mijtam bishlóaj Shaúl vayishmerú et habáyit lahamitó."
         },
         {
           "verse": 2,
@@ -5958,7 +5958,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל שׁוּשַׁן עֵדוּת מִכְתָּם לְדָוִד לְלַמֵּד.",
-          "phonetic": "Lamnatséaj 'al shushán 'edut mijtam leDavid lelamed."
+          "phonetic": "Lamenatséaj 'al shushán 'edut mijtam leDavid lelamed."
         },
         {
           "verse": 2,
@@ -6050,7 +6050,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל נְגִינַת לְדָוִד.",
-          "phonetic": "Lamnatséaj 'al neguinat leDavid."
+          "phonetic": "Lamenatséaj 'al neguinat leDavid."
         },
         {
           "verse": 2,
@@ -6112,7 +6112,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל יְדוּתוּן מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj 'al yedutún mizmor leDavid."
+          "phonetic": "Lamenatséaj 'al yedutún mizmor leDavid."
         },
         {
           "verse": 2,
@@ -6278,7 +6278,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,
@@ -6352,7 +6352,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד שִׁיר.",
-          "phonetic": "Lamnatséaj mizmor leDavid shir."
+          "phonetic": "Lamenatséaj mizmor leDavid shir."
         },
         {
           "verse": 2,
@@ -6444,7 +6444,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ שִׁיר מִזְמוֹר הָרִיעוּ לֵאלֹהִים כׇּל הָאָרֶץ.",
-          "phonetic": "Lamnatséaj shir mizmor hari'ú leLohim kol haarets."
+          "phonetic": "Lamenatséaj shir mizmor hari'ú leLohim kol haarets."
         },
         {
           "verse": 2,
@@ -6572,7 +6572,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מִזְמוֹר שִׁיר.",
-          "phonetic": "Lamnatséaj binguinot mizmor shir."
+          "phonetic": "Lamenatséaj binguinot mizmor shir."
         },
         {
           "verse": 2,
@@ -6628,7 +6628,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר שִׁיר.",
-          "phonetic": "Lamnatséaj leDavid mizmor shir."
+          "phonetic": "Lamenatséaj leDavid mizmor shir."
         },
         {
           "verse": 2,
@@ -6852,7 +6852,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל שׁוֹשַׁנִּים לְדָוִד.",
-          "phonetic": "Lamnatséaj 'al shoshanim leDavid."
+          "phonetic": "Lamenatséaj 'al shoshanim leDavid."
         },
         {
           "verse": 2,
@@ -7082,7 +7082,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לְדָוִד לְהַזְכִּיר.",
-          "phonetic": "Lamnatséaj leDavid lehazkir."
+          "phonetic": "Lamenatséaj leDavid lehazkir."
         },
         {
           "verse": 2,
@@ -7728,7 +7728,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ אַל תַּשְׁחֵת מִזְמוֹר לְאָסָף שִׁיר.",
-          "phonetic": "Lamnatséaj al tashjet mizmor leasaf shir."
+          "phonetic": "Lamenatséaj al tashjet mizmor leasaf shir."
         },
         {
           "verse": 2,
@@ -7802,7 +7802,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ בִּנְגִינֹת מִזְמוֹר לְאָסָף שִׁיר.",
-          "phonetic": "Lamnatséaj binguinot mizmor leasaf shir."
+          "phonetic": "Lamenatséaj binguinot mizmor leasaf shir."
         },
         {
           "verse": 2,
@@ -7888,7 +7888,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל יְדוּתוּן ידיתון לְאָסָף מִזְמוֹר.",
-          "phonetic": "Lamnatséaj 'al yedutún ydytvn leasaf mizmor."
+          "phonetic": "Lamenatséaj 'al yedutún ydytvn leasaf mizmor."
         },
         {
           "verse": 2,
@@ -8548,7 +8548,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ אֶל שֹׁשַׁנִּים עֵדוּת לְאָסָף מִזְמוֹר.",
-          "phonetic": "Lamnatséaj el shoshanim 'edut leasaf mizmor."
+          "phonetic": "Lamenatséaj el shoshanim 'edut leasaf mizmor."
         },
         {
           "verse": 2,
@@ -8676,7 +8676,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל הַגִּתִּית לְאָסָף.",
-          "phonetic": "Lamnatséaj 'al haguitit leasaf."
+          "phonetic": "Lamenatséaj 'al haguitit leasaf."
         },
         {
           "verse": 2,
@@ -8972,7 +8972,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ עַל הַגִּתִּית לִבְנֵי קֹרַח מִזְמוֹר.",
-          "phonetic": "Lamnatséaj 'al haguitit livné Kóraj mizmor."
+          "phonetic": "Lamenatséaj 'al haguitit livné Kóraj mizmor."
         },
         {
           "verse": 2,
@@ -9058,7 +9058,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר.",
-          "phonetic": "Lamnatséaj livné Kóraj mizmor."
+          "phonetic": "Lamenatséaj livné Kóraj mizmor."
         },
         {
           "verse": 2,
@@ -9310,7 +9310,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "שִׁיר מִזְמוֹר לִבְנֵי קֹרַח לַמְנַצֵּחַ עַל מָחֲלַת לְעַנּוֹת מַשְׂכִּיל לְהֵימָן הָאֶזְרָחִי.",
-          "phonetic": "Shir mizmor livné Kóraj lamnatséaj 'al majalat le'anot maskil lehemán haezrají."
+          "phonetic": "Shir mizmor livné Kóraj lamenatséaj 'al majalat le'anot maskil lehemán haezrají."
         },
         {
           "verse": 2,
@@ -12198,7 +12198,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר אֱלֹהֵי תְהִלָּתִי אַל תֶּחֱרַשׁ.",
-          "phonetic": "Lamnatséaj leDavid mizmor Elohé tehilatí al tejerash."
+          "phonetic": "Lamenatséaj leDavid mizmor Elohé tehilatí al tejerash."
         },
         {
           "verse": 2,
@@ -15396,7 +15396,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ לְדָוִד מִזְמוֹר יְהֹוָה חֲקַרְתַּנִי וַתֵּדָע.",
-          "phonetic": "Lamnatséaj leDavid mizmor Ad-nai jakartani vatedá'."
+          "phonetic": "Lamenatséaj leDavid mizmor Ad-nai jakartani vatedá'."
         },
         {
           "verse": 2,
@@ -15548,7 +15548,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,
