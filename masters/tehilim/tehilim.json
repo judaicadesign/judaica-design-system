@@ -143,7 +143,17 @@
           "hebrew": "נַשְּׁקוּ בַר, פֶּן יֶאֱנַף וְתֹֽאבְדוּ דֶֽרֶךְ, כִּי יִבְעַר כִּמְעַט אַפּוֹ; אַשְׁרֵי כׇּל חוֹסֵי בוֹ.",
           "phonetic": "Nashekú var, pen yeenaf vetóvedu dérej, ki yiv'ar kim'at apó; ashré kol josé vo."
         }
-      ]
+      ],
+      "approved": true,
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-09",
+      "artscrollReview": {
+        "source": "IMG_1458.png · ArtScroll",
+        "sourceSha256": "1835b75e4f9435c8d764cc6d650292797148051f038bda7c8819665557c6c55c",
+        "date": "2026-10-09",
+        "goldenMaster": "ArtScroll"
+      }
     },
     {
       "chapter": 3,
