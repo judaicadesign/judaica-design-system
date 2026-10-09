@@ -1,6 +1,6 @@
 {
   "date": "2026-10-09",
-  "engineSha256": "dc35ccb2766b6579c1dad8ae12bff8c77634b6bc8f9eef59759d344978271d57",
+  "engineSha256": "d384c59755a6b8634edffd68c583fd5265406f41bd1a6563245879af2fe677cf",
   "status": "All recorded verse outputs match; not global corpus approval",
   "cases": [
     {
@@ -2103,8 +2103,8 @@
       "chapter": 126,
       "verse": 2,
       "hebrew": "אָז יִמָּלֵא שְׂחוֹק פִּֽינוּ וּלְשׁוֹנֵֽנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵֽלֶּה.",
-      "master": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
-      "generator": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
+      "master": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele.",
+      "generator": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele.",
       "matches": true
     },
     {
@@ -2127,8 +2127,8 @@
       "chapter": 126,
       "verse": 5,
       "hebrew": "הַזֹּרְעִים בְּדִמְעָה בְּרִנָּה יִקְצֹֽרוּ.",
-      "master": "Hazor'im bedim'á beriná yiktsoru.",
-      "generator": "Hazor'im bedim'á beriná yiktsoru.",
+      "master": "Hazore'im bedim'á beriná yiktsoru.",
+      "generator": "Hazore'im bedim'á beriná yiktsoru.",
       "matches": true
     },
     {

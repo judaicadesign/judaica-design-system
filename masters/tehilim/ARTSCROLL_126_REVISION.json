@@ -4,7 +4,71 @@
     "source": "ArtScroll Interlinear Benching · PDF page 2",
     "metegAdded": 11,
     "status": "Revisión fina",
-    "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval."
+    "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval.",
+    "recheck20261009": {
+      "date": "2026-10-09",
+      "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
+      "sourceSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
+      "pages": {
+        "137": 1,
+        "126": 2
+      },
+      "metegConfirmed": {
+        "126": 11,
+        "137": 19
+      },
+      "shevaConfirmed": [
+        {
+          "ref": "126:2",
+          "word": "יֹאמְרוּ",
+          "letter": "מ",
+          "vocal": true
+        },
+        {
+          "ref": "126:5",
+          "word": "הַזֹּרְעִים",
+          "letter": "ר",
+          "vocal": true
+        },
+        {
+          "ref": "126:2",
+          "word": "וּלְשׁוֹנֵנוּ",
+          "letter": "ל",
+          "vocal": false
+        },
+        {
+          "ref": "137:6",
+          "word": "אֶזְכְּרֵכִי",
+          "letter": "כ",
+          "vocal": true
+        },
+        {
+          "ref": "137:8",
+          "word": "הַשְּׁדוּדָה",
+          "letter": "ש",
+          "vocal": true
+        },
+        {
+          "ref": "137:8",
+          "word": "שֶׁיְשַׁלֶּם",
+          "letter": "י",
+          "vocal": true
+        }
+      ],
+      "phoneticChanges": [
+        {
+          "ref": "126:2",
+          "before": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
+          "after": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele."
+        },
+        {
+          "ref": "126:5",
+          "before": "Hazor'im bedim'á beriná yiktsoru.",
+          "after": "Hazore'im bedim'á beriná yiktsoru."
+        }
+      ],
+      "status": "Meteg y rayitas cotejados; aprobación editorial completa abierta."
+    }
   },
   "verses": [
     {
@@ -20,8 +84,8 @@
       "previousHebrew": "אָז יִמָּלֵא שְׂחוֹק פִּינוּ וּלְשׁוֹנֵנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵלֶּה.",
       "hebrew": "אָז יִמָּלֵא שְׂחוֹק פִּֽינוּ וּלְשׁוֹנֵֽנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵֽלֶּה.",
       "previousPhonetic": "Az yimalé sejok pinu ulshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
-      "phonetic": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
-      "afterPhonetic": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele."
+      "phonetic": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele.",
+      "afterPhonetic": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele."
     },
     {
       "verse": 3,
@@ -44,8 +108,8 @@
       "previousHebrew": "הַזֹּרְעִים בְּדִמְעָה בְּרִנָּה יִקְצֹרוּ.",
       "hebrew": "הַזֹּרְעִים בְּדִמְעָה בְּרִנָּה יִקְצֹֽרוּ.",
       "previousPhonetic": "Hazor'im bedim'á beriná yiktsorú.",
-      "phonetic": "Hazor'im bedim'á beriná yiktsoru.",
-      "afterPhonetic": "Hazor'im bedim'á beriná yiktsoru."
+      "phonetic": "Hazore'im bedim'á beriná yiktsoru.",
+      "afterPhonetic": "Hazore'im bedim'á beriná yiktsoru."
     },
     {
       "verse": 6,

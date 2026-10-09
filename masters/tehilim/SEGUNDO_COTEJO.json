@@ -1,6 +1,6 @@
 {
   "date": "2026-10-09",
-  "status": "Segundo cotejo de veinte capturas de salmos 1–17, captura del 23 y fuentes PDF disponibles. Aprobación editorial abierta; PDF original de Birkat 126/137 no disponible para nuevo cotejo.",
+  "status": "Segundo cotejo de veinte capturas de salmos 1–17, captura del 23 y fuentes PDF disponibles. Aprobación editorial abierta; PDF original de Birkat 126/137 recibido y nuevamente cotejado.",
   "cause": "Se ingresó vocalSheva para תקות sin rayita visible. Las pruebas replicaban esa anotación y no comprobaban la imagen.",
   "reviewedScreens": [
     "IMG_1457.png",
@@ -663,10 +663,6 @@
   ],
   "nikudChanges": [],
   "pending": [
-    {
-      "ref": "126,137",
-      "reason": "El PDF Interlinear Benching que originó estas revisiones no está entre los archivos disponibles en esta sesión; no declaro nuevo cotejo visual de estas fuentes."
-    },
     {
       "ref": "17:14–15",
       "reason": "La captura corta el 14 y no contiene el 15."
@@ -2791,5 +2787,69 @@
     "beforePhonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé.",
     "afterPhonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé.",
     "scope": "Confirmación de palabras; no aprobación de los salmos completos."
+  },
+  "benchingRecheck": {
+    "date": "2026-10-09",
+    "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
+    "sourceSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
+    "pages": {
+      "137": 1,
+      "126": 2
+    },
+    "metegConfirmed": {
+      "126": 11,
+      "137": 19
+    },
+    "shevaConfirmed": [
+      {
+        "ref": "126:2",
+        "word": "יֹאמְרוּ",
+        "letter": "מ",
+        "vocal": true
+      },
+      {
+        "ref": "126:5",
+        "word": "הַזֹּרְעִים",
+        "letter": "ר",
+        "vocal": true
+      },
+      {
+        "ref": "126:2",
+        "word": "וּלְשׁוֹנֵנוּ",
+        "letter": "ל",
+        "vocal": false
+      },
+      {
+        "ref": "137:6",
+        "word": "אֶזְכְּרֵכִי",
+        "letter": "כ",
+        "vocal": true
+      },
+      {
+        "ref": "137:8",
+        "word": "הַשְּׁדוּדָה",
+        "letter": "ש",
+        "vocal": true
+      },
+      {
+        "ref": "137:8",
+        "word": "שֶׁיְשַׁלֶּם",
+        "letter": "י",
+        "vocal": true
+      }
+    ],
+    "phoneticChanges": [
+      {
+        "ref": "126:2",
+        "before": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
+        "after": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele."
+      },
+      {
+        "ref": "126:5",
+        "before": "Hazor'im bedim'á beriná yiktsoru.",
+        "after": "Hazore'im bedim'á beriná yiktsoru."
+      }
+    ],
+    "status": "Meteg y rayitas cotejados; aprobación editorial completa abierta."
   }
 }

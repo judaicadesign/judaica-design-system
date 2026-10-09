@@ -4,7 +4,7 @@
   "source": "Wikisource / ניקוד",
   "chapters": 150,
   "verses": 2527,
-  "engineSha256": "dc35ccb2766b6579c1dad8ae12bff8c77634b6bc8f9eef59759d344978271d57",
+  "engineSha256": "d384c59755a6b8634edffd68c583fd5265406f41bd1a6563245879af2fe677cf",
   "items": [
     {
       "chapter": 1,
@@ -14524,7 +14524,7 @@
           "verse": 2,
           "label": "ב",
           "hebrew": "אָז יִמָּלֵא שְׂחוֹק פִּֽינוּ וּלְשׁוֹנֵֽנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵֽלֶּה.",
-          "phonetic": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele."
+          "phonetic": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele."
         },
         {
           "verse": 3,
@@ -14542,7 +14542,7 @@
           "verse": 5,
           "label": "ה",
           "hebrew": "הַזֹּרְעִים בְּדִמְעָה בְּרִנָּה יִקְצֹֽרוּ.",
-          "phonetic": "Hazor'im bedim'á beriná yiktsoru."
+          "phonetic": "Hazore'im bedim'á beriná yiktsoru."
         },
         {
           "verse": 6,

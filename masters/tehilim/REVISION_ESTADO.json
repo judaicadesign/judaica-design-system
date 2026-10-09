@@ -237,10 +237,11 @@
     {
       "chapter": 126,
       "hebrew": "Cotejado con ArtScroll",
-      "phonetic": "Revisada; coincide con el generador",
+      "phonetic": "Cambios de shevá aplicados; salida comprobada contra el motor. Aprobación editorial completa abierta.",
       "engine": "Verificado contra master: todos los pesukim coinciden",
       "approved": false,
-      "source": "ArtScroll Interlinear Benching · PDF page 2"
+      "source": "ArtScroll Interlinear Benching · PDF page 2",
+      "scope": "Página completa nuevamente cotejada del PDF original recibido el 9 de octubre; meteg y rayitas revisados."
     },
     {
       "chapter": 127,
@@ -263,10 +264,11 @@
     {
       "chapter": 137,
       "hebrew": "Cotejado con ArtScroll",
-      "phonetic": "Revisada; coincide con el generador",
+      "phonetic": "Cambios de shevá aplicados; salida comprobada contra el motor. Aprobación editorial completa abierta.",
       "engine": "Verificado contra master: todos los pesukim coinciden",
       "approved": false,
-      "source": "ArtScroll Interlinear Benching · PDF page 1"
+      "source": "ArtScroll Interlinear Benching · PDF page 1",
+      "scope": "Página completa nuevamente cotejada del PDF original recibido el 9 de octubre; meteg y rayitas revisados."
     },
     {
       "chapter": 142,
@@ -309,7 +311,7 @@
     "date": "2026-10-09",
     "report": "SEGUNDO_COTEJO.html",
     "changedVerses": 40,
-    "scope": "Veinte capturas 1–17, captura 23 y PDF disponibles; no nuevo cotejo de PDF original 126/137."
+    "scope": "Veinte capturas 1–17, captura 23 y PDF disponibles; PDF original 126/137 recibido y nuevamente cotejado."
   },
   "userConfirmation20261009": {
     "report": "ARTSCROLL_CONFIRMACION_20261009.json",
@@ -331,5 +333,69 @@
     "beforePhonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé.",
     "afterPhonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé.",
     "scope": "Confirmación de palabras; no aprobación de los salmos completos."
+  },
+  "benchingRecheck": {
+    "date": "2026-10-09",
+    "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
+    "sourceSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
+    "pages": {
+      "137": 1,
+      "126": 2
+    },
+    "metegConfirmed": {
+      "126": 11,
+      "137": 19
+    },
+    "shevaConfirmed": [
+      {
+        "ref": "126:2",
+        "word": "יֹאמְרוּ",
+        "letter": "מ",
+        "vocal": true
+      },
+      {
+        "ref": "126:5",
+        "word": "הַזֹּרְעִים",
+        "letter": "ר",
+        "vocal": true
+      },
+      {
+        "ref": "126:2",
+        "word": "וּלְשׁוֹנֵנוּ",
+        "letter": "ל",
+        "vocal": false
+      },
+      {
+        "ref": "137:6",
+        "word": "אֶזְכְּרֵכִי",
+        "letter": "כ",
+        "vocal": true
+      },
+      {
+        "ref": "137:8",
+        "word": "הַשְּׁדוּדָה",
+        "letter": "ש",
+        "vocal": true
+      },
+      {
+        "ref": "137:8",
+        "word": "שֶׁיְשַׁלֶּם",
+        "letter": "י",
+        "vocal": true
+      }
+    ],
+    "phoneticChanges": [
+      {
+        "ref": "126:2",
+        "before": "Az yimalé sejok pinu uleshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
+        "after": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele."
+      },
+      {
+        "ref": "126:5",
+        "before": "Hazor'im bedim'á beriná yiktsoru.",
+        "after": "Hazore'im bedim'á beriná yiktsoru."
+      }
+    ],
+    "status": "Meteg y rayitas cotejados; aprobación editorial completa abierta."
   }
 }
