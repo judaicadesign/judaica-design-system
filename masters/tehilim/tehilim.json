@@ -703,32 +703,32 @@
         {
           "verse": 17,
           "label": "יז",
-          "hebrew": "נוֹדַע יְהֹוָה מִשְׁפָּט עָשָׂה בְּפֹעַל כַּפָּיו נוֹקֵשׁ רָשָׁע הִגָּיוֹן סֶלָה.",
-          "phonetic": "Nodá' Ad-nai mishpat 'asá befó'al kapav nokesh rashá' higayón sela."
+          "hebrew": "נוֹדַע יְהֹוָה מִשְׁפָּט עָשָׂה בְפֹֽעַל כַּפָּיו נוֹקֵשׁ רָשָׁע הִגָּיוֹן סֶֽלָה.",
+          "phonetic": "Nodá' Ad-nai mishpat 'asá vefó'al kapav nokesh rashá' higayón sela."
         },
         {
           "verse": 18,
           "label": "יח",
-          "hebrew": "יָשׁוּבוּ רְשָׁעִים לִשְׁאוֹלָה כׇּל גּוֹיִם שְׁכֵחֵי אֱלֹהִים.",
+          "hebrew": "יָשׁוּֽבוּ רְשָׁעִים לִשְׁאֽוֹלָה כׇּל גּוֹיִם שְׁכֵחֵי אֱלֹהִים.",
           "phonetic": "Yashuvu resha'im lishola kol goyim shejejé Elohim."
         },
         {
           "verse": 19,
           "label": "יט",
-          "hebrew": "כִּי לֹא לָנֶצַח יִשָּׁכַח אֶבְיוֹן תִּקְוַת ענוים עֲנִיִּים תֹּאבַד לָעַד.",
-          "phonetic": "Ki lo lanétsaj yishajaj evyón tikvat 'nvym 'aniyim tovad la'ad."
+          "hebrew": "כִּי לֹא לָנֶֽצַח יִשָּׁכַח אֶבְיוֹן תִּקְוַת עֲנִיִּים תֹּאבַד לָעַד.",
+          "phonetic": "Ki lo lanétsaj yishajaj evyón tikevat 'aniyim tovad la'ad."
         },
         {
           "verse": 20,
           "label": "כ",
-          "hebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶיךָ.",
-          "phonetic": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al paneja."
+          "hebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
+          "phonetic": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja."
         },
         {
           "verse": 21,
           "label": "כא",
           "hebrew": "שִׁיתָה יְהֹוָה מוֹרָה לָהֶם יֵדְעוּ גוֹיִם אֱנוֹשׁ הֵמָּה סֶּלָה.",
-          "phonetic": "Shita Ad-nai morá lahem yed'ú goyim enosh hema sela."
+          "phonetic": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela."
         }
       ]
     },
@@ -747,13 +747,13 @@
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "בְּגַאֲוַת רָשָׁע יִדְלַק עָנִי יִתָּפְשׂוּ בִּמְזִמּוֹת זוּ חָשָׁבוּ.",
-          "phonetic": "Begaavat rashá' yidlak 'aní yitafsú bimzimot zu jashavú."
+          "hebrew": "בְּגַאֲוַת רָשָׁע יִדְלַק עָנִי יִתָּפְשׂוּ בִּמְזִמּוֹת זוּ חָשָֽׁבוּ.",
+          "phonetic": "Begaavat rashá' yidlak 'aní yitafesú bimzimot zu jashavu."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "כִּי הִלֵּל רָשָׁע עַל תַּאֲוַת נַפְשׁוֹ וּבֹצֵעַ בֵּרֵךְ נִאֵץ יְהֹוָה.",
+          "hebrew": "כִּי הִלֵּל רָשָׁע עַל תַּאֲוַת נַפְשׁוֹ וּבֹצֵֽעַ בֵּרֵךְ נִאֵץ יְהֹוָה.",
           "phonetic": "Ki hilel rashá' 'al taavat nafshó uvotsea' berej niéts Ad-nai."
         },
         {
@@ -765,8 +765,8 @@
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "יָחִילוּ דְרָכָו בְּכׇל עֵת מָרוֹם מִשְׁפָּטֶיךָ מִנֶּגְדּוֹ כׇּל צוֹרְרָיו יָפִיחַ בָּהֶם.",
-          "phonetic": "Yajilu derajav bejol 'et marom mishpateja minegdó kol tsorerav yafíaj bahem."
+          "hebrew": "יָחִֽילוּ דְרָכָו בְּכׇל עֵת מָרוֹם מִשְׁפָּטֶֽיךָ מִנֶּגְדּוֹ כׇּל צוֹרְרָיו יָפִֽיחַ בָּהֶם.",
+          "phonetic": "Yajilu derajav bejol 'et marom Mishepateja minegdó kol tsorerav yafíaj báhem."
         },
         {
           "verse": 6,
@@ -777,14 +777,14 @@
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "אָלָה פִּיהוּ מָלֵא וּמִרְמוֹת וָתֹךְ תַּחַת לְשׁוֹנוֹ עָמָל וָאָוֶן.",
+          "hebrew": "אָלָה פִּֽיהוּ מָלֵא וּמִרְמוֹת וָתֹךְ תַּֽחַת לְשׁוֹנוֹ עָמָל וָאָֽוֶן.",
           "phonetic": "Ala pihu malé umirmot vatoj tájat leshonó 'amal vaaven."
         },
         {
           "verse": 8,
           "label": "ח",
-          "hebrew": "יֵשֵׁב בְּמַאְרַב חֲצֵרִים בַּמִּסְתָּרִים יַהֲרֹג נָקִי עֵינָיו לְחֵלְכָה יִצְפֹּנוּ.",
-          "phonetic": "Yeshev bemarav jatserim bamistarim yaharog nakí 'enav lejeljá yitsponú."
+          "hebrew": "יֵשֵׁב בְּמַאְרַב חֲצֵרִים בַּמִּסְתָּרִים יַהֲרֹג נָקִי עֵינָיו לְחֵלְכָה יִצְפֹּֽנוּ.",
+          "phonetic": "Yeshev bemarav jatserim bamistarim yaharog nakí 'enav lejeljá yitsponu."
         },
         {
           "verse": 9,
@@ -795,20 +795,20 @@
         {
           "verse": 10,
           "label": "י",
-          "hebrew": "ודכה יִדְכֶּה יָשֹׁחַ וְנָפַל בַּעֲצוּמָיו חלכאים [חֵל כָּאִים].",
-          "phonetic": "Vdj yidké yashóaj venafal ba'atsumav jljym [jel kaím]."
+          "hebrew": "יִדְכֶּה יָשֹֽׁחַ וְנָפַל בַּעֲצוּמָיו חֵל כָּאִים.",
+          "phonetic": "Yideké yashóaj venafal ba'atsumav jel kaím."
         },
         {
           "verse": 11,
           "label": "יא",
-          "hebrew": "אָמַר בְּלִבּוֹ שָׁכַח אֵל הִסְתִּיר פָּנָיו בַּל רָאָה לָנֶצַח.",
+          "hebrew": "אָמַר בְּלִבּוֹ שָׁכַח אֵל הִסְתִּיר פָּנָיו בַּל רָאָה לָנֶֽצַח.",
           "phonetic": "Amar belibó shajaj El histir Panav bal raá lanétsaj."
         },
         {
           "verse": 12,
           "label": "יב",
-          "hebrew": "קוּמָה יְהֹוָה אֵל נְשָׂא יָדֶךָ אַל תִּשְׁכַּח עניים עֲנָוִים.",
-          "phonetic": "Kumá Ad-nai El nesá yadeja al tishkaj 'nyym 'anavim."
+          "hebrew": "קוּמָה יְהֹוָה אֵל נְשָׂא יָדֶֽךָ אַל תִּשְׁכַּח עֲנָוִים.",
+          "phonetic": "Kumá Ad-nai El nesá Yadeja al tishkaj 'anavim."
         },
         {
           "verse": 13,
@@ -819,31 +819,31 @@
         {
           "verse": 14,
           "label": "יד",
-          "hebrew": "רָאִתָה כִּי אַתָּה עָמָל וָכַעַס תַּבִּיט לָתֵת בְּיָדֶךָ עָלֶיךָ יַעֲזֹב חֵלֵכָה יָתוֹם אַתָּה הָיִיתָ עוֹזֵר.",
-          "phonetic": "Raíta ki atá 'amal vaja'as tabit latet beyadeja 'aleja ya'azov jeleja yatom atá hayita 'ozer."
+          "hebrew": "רָאִֽתָה כִּי אַתָּה עָמָל וָכַֽעַס תַּבִּיט לָתֵת בְּיָדֶֽךָ עָלֶֽיךָ יַעֲזֹב חֵלֵכָה יָתוֹם אַתָּה הָיִֽיתָ עוֹזֵר.",
+          "phonetic": "Raíta ki Atá 'amal vaja'as tabit latet Beyadeja 'Aleja ya'azov jeleja yatom Atá hayita 'ozer."
         },
         {
           "verse": 15,
           "label": "טו",
-          "hebrew": "שְׁבֹר זְרוֹעַ רָשָׁע וָרָע תִּדְרוֹשׁ רִשְׁעוֹ בַל תִּמְצָא.",
-          "phonetic": "Shevor zroa' rashá' vará' tidrosh rish'ó val timtsá."
+          "hebrew": "שְׁבֹר זְרוֹֽעַ רָשָׁע וָרָע תִּדְרוֹשׁ רִשְׁעוֹ בַל תִּמְצָא.",
+          "phonetic": "Shevor zeroa' rashá' vará' tidrosh rish'ó val timtsá."
         },
         {
           "verse": 16,
           "label": "טז",
-          "hebrew": "יְהֹוָה מֶלֶךְ עוֹלָם וָעֶד אָבְדוּ גוֹיִם מֵאַרְצוֹ.",
-          "phonetic": "Ad-nai Mélej 'olam va'ed avdú goyim meartsó."
+          "hebrew": "יְהֹוָה מֶֽלֶךְ עוֹלָם וָעֶד אָבְדוּ גוֹיִם מֵאַרְצוֹ.",
+          "phonetic": "Ad-nai Mélej 'olam va'ed avdú goyim Meartsó."
         },
         {
           "verse": 17,
           "label": "יז",
-          "hebrew": "תַּאֲוַת עֲנָוִים שָׁמַעְתָּ יְהֹוָה תָּכִין לִבָּם תַּקְשִׁיב אׇזְנֶךָ.",
-          "phonetic": "Taavat 'anavim shama'ta Ad-nai tajín libam takshiv ozneja."
+          "hebrew": "תַּאֲוַת עֲנָוִים שָׁמַֽעְתָּ יְהֹוָה תָּכִין לִבָּם תַּקְשִׁיב אׇזְנֶֽךָ.",
+          "phonetic": "Taavat 'anavim shama'ta Ad-nai tajín libam takshiv Ozneja."
         },
         {
           "verse": 18,
           "label": "יח",
-          "hebrew": "לִשְׁפֹּט יָתוֹם וָדָךְ בַּל יוֹסִיף עוֹד לַעֲרֹץ אֱנוֹשׁ מִן הָאָרֶץ.",
+          "hebrew": "לִשְׁפֹּט יָתוֹם וָדָךְ בַּל יוֹסִיף עוֹד לַעֲרֹץ אֱנוֹשׁ מִן הָאָֽרֶץ.",
           "phonetic": "Lishpot yatom vadaj bal yosif 'od la'aróts enosh min haarets."
         }
       ]
@@ -857,14 +857,14 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "לַמְנַצֵּחַ לְדָוִד בַּיהֹוָה חָסִיתִי אֵיךְ תֹּאמְרוּ לְנַפְשִׁי נודו נוּדִי הַרְכֶם צִפּוֹר.",
-          "phonetic": "Lamnatséaj leDavid baAd-nai jasiti ej tomrú lenafshí nvdv nudi harjem tsipor."
+          "hebrew": "לַמְנַצֵּֽחַ לְדָוִד בַּיהֹוָה חָסִֽיתִי אֵיךְ תֹּאמְרוּ לְנַפְשִׁי נוּֽדִי הַרְכֶם צִפּוֹר.",
+          "phonetic": "Lamenatséaj leDavid baAd-nai jasiti ej tomerú lenafshí nudi harjem tsipor."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "כִּי הִנֵּה הָרְשָׁעִים יִדְרְכוּן קֶשֶׁת כּוֹנְנוּ חִצָּם עַל יֶתֶר לִירוֹת בְּמוֹ אֹפֶל לְיִשְׁרֵי לֵב.",
-          "phonetic": "Ki hiné haresha'im yidrejún késhet konenú jitsam 'al yéter lirot bemó ófel leyishré lev."
+          "hebrew": "כִּי הִנֵּה הָרְשָׁעִים יִדְרְכוּן קֶֽשֶׁת כּוֹנְנוּ חִצָּם עַל יֶֽתֶר לִירוֹת בְּמוֹ אֹֽפֶל לְיִשְׁרֵי לֵב.",
+          "phonetic": "Ki hiné haresha'im yidrejún késhet konenú jitsam 'al yéter lirot bemó ófel leyisheré lev."
         },
         {
           "verse": 3,
@@ -875,14 +875,14 @@
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "יְהֹוָה בְּהֵיכַל קׇדְשׁוֹ יְהֹוָה בַּשָּׁמַיִם כִּסְאוֹ עֵינָיו יֶחֱזוּ עַפְעַפָּיו יִבְחֲנוּ בְּנֵי אָדָם.",
-          "phonetic": "Ad-nai behejal kodshó Ad-nai bashamáyim kisó 'enav yejezú 'af'apav yivjanú bené adam."
+          "hebrew": "יְהֹוָה בְּהֵיכַל קׇדְשׁוֹ יְהֹוָה בַּשָּׁמַֽיִם כִּסְאוֹ עֵינָיו יֶחֱזוּ עַפְעַפָּיו יִבְחֲנוּ בְּנֵי אָדָם.",
+          "phonetic": "Ad-nai behejal Kodeshó Ad-nai bashamáyim Kisó 'Enav yejezú 'Af'apav yivjanú bené adam."
         },
         {
           "verse": 5,
           "label": "ה",
           "hebrew": "יְהֹוָה צַדִּיק יִבְחָן וְרָשָׁע וְאֹהֵב חָמָס שָׂנְאָה נַפְשׁוֹ.",
-          "phonetic": "Ad-nai tsadik yivján verashá' veohev jamás saná nafshó."
+          "phonetic": "Ad-nai tsadik yivján verashá' veohev jamás saná Nafshó."
         },
         {
           "verse": 6,
@@ -893,7 +893,7 @@
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "כִּי צַדִּיק יְהֹוָה צְדָקוֹת אָהֵב יָשָׁר יֶחֱזוּ פָנֵימוֹ.",
+          "hebrew": "כִּי צַדִּיק יְהֹוָה צְדָקוֹת אָהֵב יָשָׁר יֶחֱזוּ פָנֵֽימוֹ.",
           "phonetic": "Ki tsadik Ad-nai tsedakot ahev yashar yejezú fanemo."
         }
       ]
@@ -907,50 +907,50 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "לַמְנַצֵּחַ עַל הַשְּׁמִינִית מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj 'al hasheminit mizmor leDavid."
+          "hebrew": "לַמְנַצֵּֽחַ עַל הַשְּׁמִינִית מִזְמוֹר לְדָוִד.",
+          "phonetic": "Lamenatséaj 'al hasheminit mizmor leDavid."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "הוֹשִׁיעָה יְהֹוָה כִּי גָמַר חָסִיד כִּי פַסּוּ אֱמוּנִים מִבְּנֵי אָדָם.",
+          "hebrew": "הוֹשִֽׁיעָה יְהֹוָה כִּי גָמַר חָסִיד כִּי פַֽסּוּ אֱמוּנִים מִבְּנֵי אָדָם.",
           "phonetic": "Hoshi'a Ad-nai ki gamar jasid ki fasu emunim mibné adam."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "שָׁוְא יְדַבְּרוּ אִישׁ אֶת רֵעֵהוּ שְׂפַת חֲלָקוֹת בְּלֵב וָלֵב יְדַבֵּרוּ.",
-          "phonetic": "Shav yedaberu ish et re'ehu sefat jalakot belev valev yedaberú."
+          "hebrew": "שָׁוְא יְדַבְּרוּ אִישׁ אֶת רֵעֵֽהוּ שְׂפַת חֲלָקוֹת בְּלֵב וָלֵב יְדַבֵּֽרוּ.",
+          "phonetic": "Shav yedaberu ish et re'ehu sefat jalakot belev valev yedaberu."
         },
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "יַכְרֵת יְהֹוָה כׇּל שִׂפְתֵי חֲלָקוֹת לָשׁוֹן מְדַבֶּרֶת גְּדֹלוֹת.",
-          "phonetic": "Yajret Ad-nai kol sifté jalakot lashón medabéret guedolot."
+          "hebrew": "יַכְרֵת יְהֹוָה כׇּל שִׂפְתֵי חֲלָקוֹת לָשׁוֹן מְדַבֶּֽרֶת גְּדֹלוֹת.",
+          "phonetic": "Yajret Ad-nai kol sifeté jalakot lashón medabéret guedolot."
         },
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "אֲשֶׁר אָמְרוּ לִלְשֹׁנֵנוּ נַגְבִּיר שְׂפָתֵינוּ אִתָּנוּ מִי אָדוֹן לָנוּ.",
-          "phonetic": "Asher amrú lilshonenu nagbir sefatenu itanu mi adón lanu."
+          "hebrew": "אֲשֶׁר אָמְרוּ לִלְשֹׁנֵֽנוּ נַגְבִּיר שְׂפָתֵֽינוּ אִתָּֽנוּ מִי אָדוֹן לָֽנוּ.",
+          "phonetic": "Asher amerú lileshonenu nagbir sefatenu itanu mi adón lanu."
         },
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "מִשֹּׁד עֲנִיִּים מֵאֶנְקַת אֶבְיוֹנִים עַתָּה אָקוּם יֹאמַר יְהֹוָה אָשִׁית בְּיֵשַׁע יָפִיחַ לוֹ.",
+          "hebrew": "מִשֹּׁד עֲנִיִּים מֵאֶנְקַת אֶבְיוֹנִים עַתָּה אָקוּם יֹאמַר יְהֹוָה אָשִׁית בְּיֵֽשַׁע יָפִֽיחַ לוֹ.",
           "phonetic": "Mishod 'aniyim meenkat evyonim 'atá akum yomar Ad-nai ashit beyesha' yafíaj lo."
         },
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "אִמְרוֹת יְהֹוָה אֲמָרוֹת טְהֹרוֹת כֶּסֶף צָרוּף בַּעֲלִיל לָאָרֶץ מְזֻקָּק שִׁבְעָתָיִם.",
+          "hebrew": "אִמְרוֹת יְהֹוָה אֲמָרוֹת טְהֹרוֹת כֶּֽסֶף צָרוּף בַּעֲלִיל לָאָֽרֶץ מְזֻקָּק שִׁבְעָתָֽיִם.",
           "phonetic": "Imrot Ad-nai amarot tehorot késef tsaruf ba'alil laarets mezukak shiv'atáyim."
         },
         {
           "verse": 8,
           "label": "ח",
-          "hebrew": "אַתָּה יְהֹוָה תִּשְׁמְרֵם תִּצְּרֶנּוּ מִן הַדּוֹר זוּ לְעוֹלָם.",
-          "phonetic": "Atá Ad-nai tishmerem titsrenu min hador zu le'olam."
+          "hebrew": "אַתָּה יְהֹוָה תִּשְׁמְרֵם תִּצְּרֶֽנּוּ מִן הַדּוֹר זוּ לְעוֹלָם.",
+          "phonetic": "Atá Ad-nai tishmerem titserenu min hador zu le'olam."
         },
         {
           "verse": 9,
@@ -970,7 +970,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,
@@ -1021,38 +1021,38 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "לַמְנַצֵּחַ לְדָוִד אָמַר נָבָל בְּלִבּוֹ אֵין אֱלֹהִים הִשְׁחִיתוּ הִתְעִיבוּ עֲלִילָה אֵין עֹשֵׂה טוֹב.",
-          "phonetic": "Lamnatséaj leDavid amar naval belibó en Elohim hishjitu hit'ivu 'alilá en 'osé tov."
+          "hebrew": "לַמְנַצֵּֽחַ לְדָוִד אָמַר נָבָל בְּלִבּוֹ אֵין אֱלֹהִים הִשְׁחִֽיתוּ הִתְעִֽיבוּ עֲלִילָה אֵין עֹֽשֵׂה טוֹב.",
+          "phonetic": "Lamenatséaj leDavid amar naval belibó en Elohim hishjitu hit'ivu 'alilá en 'ose tov."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "יְהֹוָה מִשָּׁמַיִם הִשְׁקִיף עַל בְּנֵי אָדָם לִרְאוֹת הֲיֵשׁ מַשְׂכִּיל דֹּרֵשׁ אֶת אֱלֹהִים.",
+          "hebrew": "יְהֹוָה מִשָּׁמַֽיִם הִשְׁקִיף עַל בְּנֵי אָדָם לִרְאוֹת הֲיֵשׁ מַשְׂכִּיל דֹּרֵשׁ אֶת אֱלֹהִים.",
           "phonetic": "Ad-nai mishamáyim hishkif 'al bené adam lirot hayesh maskil doresh et Elohim."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָחוּ אֵין עֹשֵׂה טוֹב אֵין גַּם אֶחָד.",
+          "hebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָֽחוּ אֵין עֹשֵׂה טוֹב אֵין גַּם אֶחָד.",
           "phonetic": "Hakol sar yajdav neelaju en 'osé tov en gam ejad."
         },
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "הֲלֹא יָדְעוּ כׇּל פֹּעֲלֵי אָוֶן אֹכְלֵי עַמִּי אָכְלוּ לֶחֶם יְהֹוָה לֹא קָרָאוּ.",
-          "phonetic": "Haló yad'u kol po'alé aven ojlé 'amí ajlú léjem Ad-nai lo karaú."
+          "hebrew": "הֲלֹא יָדְעוּ כׇּל פֹּֽעֲלֵי אָֽוֶן אֹכְלֵי עַמִּי אָֽכְלוּ לֶֽחֶם יְהֹוָה לֹא קָרָאוּ.",
+          "phonetic": "Haló yade'u kol pó'ale aven ojlé 'amí ajlu léjem Ad-nai lo karaú."
         },
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "שָׁם פָּחֲדוּ פָחַד כִּי אֱלֹהִים בְּדוֹר צַדִּיק.",
+          "hebrew": "שָׁם פָּחֲדוּ פָֽחַד כִּי אֱלֹהִים בְּדוֹר צַדִּיק.",
           "phonetic": "Sham pajadú fájad ki Elohim bedor tsadik."
         },
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "עֲצַת עָנִי תָבִישׁוּ כִּי יְהֹוָה מַחְסֵהוּ.",
-          "phonetic": "'Atsat 'aní tavishu ki Ad-nai majsehu."
+          "hebrew": "עֲצַת עָנִי תָבִֽישׁוּ כִּי יְהֹוָה מַחְסֵֽהוּ.",
+          "phonetic": "'Atsat 'aní tavishu ki Ad-nai majesehu."
         },
         {
           "verse": 7,
@@ -1071,31 +1071,31 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "מִזְמוֹר לְדָוִד יְהֹוָה מִי יָגוּר בְּאׇהֳלֶךָ מִי יִשְׁכֹּן בְּהַר קׇדְשֶׁךָ.",
-          "phonetic": "Mizmor leDavid Ad-nai mi yagur beoholeja mi yishkón behar kodsheja."
+          "hebrew": "מִזְמוֹר לְדָוִד יְהֹוָה מִי יָגוּר בְּאׇהֳלֶֽךָ מִי יִשְׁכֹּן בְּהַר קׇדְשֶֽׁךָ.",
+          "phonetic": "Mizmor leDavid Ad-nai mi yagur Beoholeja mi yishkón behar Kodesheja."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "הוֹלֵךְ תָּמִים וּפֹעֵל צֶדֶק וְדֹבֵר אֱמֶת בִּלְבָבוֹ.",
-          "phonetic": "Holej tamim ufo'el tsédek vedover emet bilvavó."
+          "hebrew": "הוֹלֵךְ תָּמִים וּפֹעֵל צֶֽדֶק וְדֹבֵר אֱמֶת בִּלְבָבוֹ.",
+          "phonetic": "Holej tamim ufo'el tsédek vedover émet bilvavó."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "לֹא רָגַל עַל לְשֹׁנוֹ לֹא עָשָׂה לְרֵעֵהוּ רָעָה וְחֶרְפָּה לֹא נָשָׂא עַל קְרֹבוֹ.",
+          "hebrew": "לֹא רָגַל עַל לְשֹׁנוֹ לֹא עָשָׂה לְרֵעֵֽהוּ רָעָה וְחֶרְפָּה לֹא נָשָׂא עַל קְרֹבוֹ.",
           "phonetic": "Lo ragal 'al leshonó lo 'asá lere'ehu ra'á vejerpá lo nasá 'al kerovó."
         },
         {
           "verse": 4,
           "label": "ד",
           "hebrew": "נִבְזֶה בְּעֵינָיו נִמְאָס וְאֶת יִרְאֵי יְהֹוָה יְכַבֵּד נִשְׁבַּע לְהָרַע וְלֹא יָמִר.",
-          "phonetic": "Nivzé be'enav nimás veet yiré Ad-nai yejabed nishbá' lehará' veló yamir."
+          "phonetic": "Nivzé be'enav nimás veet yiré Ad-nai yejabed nishebá' lehará' veló yamir."
         },
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "כַּסְפּוֹ לֹא נָתַן בְּנֶשֶׁךְ וְשֹׁחַד עַל נָקִי לֹא לָקָח עֹשֵׂה אֵלֶּה לֹא יִמּוֹט לְעוֹלָם.",
+          "hebrew": "כַּסְפּוֹ לֹא נָתַן בְּנֶֽשֶׁךְ וְשֹֽׁחַד עַל נָקִי לֹא לָקָח עֹשֵׂה אֵֽלֶּה לֹא יִמּוֹט לְעוֹלָם.",
           "phonetic": "Kaspó lo natán benéshej veshójad 'al nakí lo lakaj 'osé ele lo yimot le'olam."
         }
       ]
@@ -1109,68 +1109,68 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "מִכְתָּם לְדָוִד שׇׁמְרֵנִי אֵל כִּי חָסִיתִי בָךְ.",
-          "phonetic": "Mijtam leDavid shomreni El ki jasiti vaj."
+          "hebrew": "מִכְתָּם לְדָוִד שׇׁמְרֵֽנִי אֵל כִּי חָסִֽיתִי בָךְ.",
+          "phonetic": "Mijtam leDavid shomereni El ki jasiti Vaj."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "אָמַרְתְּ לַיהֹוָה אֲדֹנָי אָתָּה טוֹבָתִי בַּל עָלֶיךָ.",
-          "phonetic": "Amart laAd-nai Ad-nai ata tovatí bal 'aleja."
+          "hebrew": "אָמַרְתְּ לַיהֹוָה אֲדֹנָי אָֽתָּה טוֹבָתִי בַּל עָלֶֽיךָ.",
+          "phonetic": "Amaret laAd-nai Ad-nai Ata tovatí bal 'Aleja."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "לִקְדוֹשִׁים אֲשֶׁר בָּאָרֶץ הֵמָּה וְאַדִּירֵי כׇּל חֶפְצִי בָם.",
-          "phonetic": "Likdoshim asher baarets hema veadiré kol jeftsí vam."
+          "hebrew": "לִקְדוֹשִׁים אֲשֶׁר בָּאָרֶץ הֵֽמָּה וְאַדִּירֵי כׇּל חֶפְצִי בָם.",
+          "phonetic": "Likedoshim asher baarets hema veadiré kol jeftsí vam."
         },
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "יִרְבּוּ עַצְּבוֹתָם אַחֵר מָהָרוּ בַּל אַסִּיךְ נִסְכֵּיהֶם מִדָּם וּבַל אֶשָּׂא אֶת שְׁמוֹתָם עַל שְׂפָתָי.",
-          "phonetic": "Yirbú 'atsevotam ajer maharú bal asij niskehem midam uval esá et shemotam 'al sefatái."
+          "hebrew": "יִרְבּוּ עַצְּבוֹתָם אַחֵר מָהָֽרוּ בַּל אַסִּיךְ נִסְכֵּיהֶם מִדָּם וּבַל אֶשָּׂא אֶת שְׁמוֹתָם עַל שְׂפָתָי.",
+          "phonetic": "Yirbú 'atsevotam ajer maharu bal asij niskehem midam uval esa et shemotam 'al sefatái."
         },
         {
           "verse": 5,
           "label": "ה",
           "hebrew": "יְהֹוָה מְנָת חֶלְקִי וְכוֹסִי אַתָּה תּוֹמִיךְ גּוֹרָלִי.",
-          "phonetic": "Ad-nai menat jelkí vejosí atá tomij goralí."
+          "phonetic": "Ad-nai menat jelkí vejosí Atá tomij goralí."
         },
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "חֲבָלִים נָפְלוּ לִי בַּנְּעִמִים אַף נַחֲלָת שָׁפְרָה עָלָי.",
-          "phonetic": "Javalim naflú li bane'imim af najalat shafrá 'alái."
+          "hebrew": "חֲבָלִים נָֽפְלוּ לִי בַּנְּעִמִים אַף נַחֲלָת שָׁפְרָה עָלָי.",
+          "phonetic": "Javalim naflu li bane'imim af najalat shafrá 'alái."
         },
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "אֲבָרֵךְ אֶת יְהֹוָה אֲשֶׁר יְעָצָנִי אַף לֵילוֹת יִסְּרוּנִי כִלְיוֹתָי.",
-          "phonetic": "Avarej et Ad-nai asher ye'atsani af lelot yisruni jilyotái."
+          "hebrew": "אֲבָרֵךְ אֶת יְהֹוָה אֲשֶׁר יְעָצָֽנִי אַף לֵילוֹת יִסְּרוּֽנִי כִלְיוֹתָי.",
+          "phonetic": "Avarej et Ad-nai asher ye'atsani af lelot yiseruni jileyotái."
         },
         {
           "verse": 8,
           "label": "ח",
-          "hebrew": "שִׁוִּיתִי יְהֹוָה לְנֶגְדִּי תָמִיד כִּי מִימִינִי בַּל אֶמּוֹט.",
+          "hebrew": "שִׁוִּֽיתִי יְהֹוָה לְנֶגְדִּי תָמִיד כִּי מִימִינִי בַּל אֶמּוֹט.",
           "phonetic": "Shiviti Ad-nai lenegdí tamid ki miminí bal emot."
         },
         {
           "verse": 9,
           "label": "ט",
-          "hebrew": "לָכֵן שָׂמַח לִבִּי וַיָּגֶל כְּבוֹדִי אַף בְּשָׂרִי יִשְׁכֹּן לָבֶטַח.",
+          "hebrew": "לָכֵן שָׂמַח לִבִּי וַיָּגֶל כְּבוֹדִי אַף בְּשָׂרִי יִשְׁכֹּן לָבֶֽטַח.",
           "phonetic": "Lajén samaj libí vayáguel kevodí af besarí yishkón lavétaj."
         },
         {
           "verse": 10,
           "label": "י",
-          "hebrew": "כִּי לֹא תַעֲזֹב נַפְשִׁי לִשְׁאוֹל לֹא תִתֵּן חֲסִידְךָ לִרְאוֹת שָׁחַת.",
-          "phonetic": "Ki lo ta'azov nafshí lishol lo titén jasideja lirot shajat."
+          "hebrew": "כִּי לֹא תַעֲזֹב נַפְשִׁי לִשְׁאוֹל לֹא תִתֵּן חֲסִידְךָ לִרְאוֹת שָֽׁחַת.",
+          "phonetic": "Ki lo ta'azov nafshí lishol lo titén jasideja lirot shájat."
         },
         {
           "verse": 11,
           "label": "יא",
-          "hebrew": "תּוֹדִיעֵנִי אֹרַח חַיִּים שֹׂבַע שְׂמָחוֹת אֶת פָּנֶיךָ נְעִמוֹת בִּימִינְךָ נֶצַח.",
-          "phonetic": "Todi'eni óraj jayim sová' semajot et paneja ne'imot bimineja nétsaj."
+          "hebrew": "תּוֹדִיעֵֽנִי אֹֽרַח חַיִּים שֹׂבַע שְׂמָחוֹת אֶת פָּנֶֽיךָ נְעִמוֹת בִּימִינְךָ נֶֽצַח.",
+          "phonetic": "Todi'eni óraj jayim sová' semajot et Paneja ne'imot Bimineja nétsaj."
         }
       ]
     },
@@ -1183,68 +1183,68 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "תְּפִלָּה לְדָוִד שִׁמְעָה יְהֹוָה צֶדֶק הַקְשִׁיבָה רִנָּתִי הַאֲזִינָה תְפִלָּתִי בְּלֹא שִׂפְתֵי מִרְמָה.",
-          "phonetic": "Tefilá leDavid shim'á Ad-nai tsédek hakshiva rinatí haazina tefilatí beló sifté mirmá."
+          "hebrew": "תְּפִלָּה לְדָוִד שִׁמְעָה יְהֹוָה צֶֽדֶק הַקְשִׁיבָה רִנָּתִי הַאֲזִינָה תְפִלָּתִי בְּלֹא שִׂפְתֵי מִרְמָה.",
+          "phonetic": "Tefilá leDavid shim'á Ad-nai tsédek hakeshiva rinatí haazina tefilatí beló sifeté mirmá."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "מִלְּפָנֶיךָ מִשְׁפָּטִי יֵצֵא עֵינֶיךָ תֶּחֱזֶינָה מֵישָׁרִים.",
-          "phonetic": "Milefaneja mishpatí yetsé 'eneja tejezená mesharim."
+          "hebrew": "מִלְּפָנֶֽיךָ מִשְׁפָּטִי יֵצֵא עֵינֶֽיךָ תֶּחֱזֶֽינָה מֵישָׁרִים.",
+          "phonetic": "Milefaneja mishpatí yetsé 'Eneja tejezena mesharim."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "בָּחַנְתָּ לִבִּי פָּקַדְתָּ לַּיְלָה צְרַפְתַּנִי בַל תִּמְצָא זַמֹּתִי בַּל יַעֲבׇר פִּי.",
+          "hebrew": "בָּחַֽנְתָּ לִבִּי פָּקַֽדְתָּ לַּֽיְלָה צְרַפְתַּֽנִי בַל תִּמְצָא זַמֹּֽתִי בַּל יַעֲבׇר פִּי.",
           "phonetic": "Bajanta libí pakadta layla tseraftani val timtsá zamoti bal ya'avor pi."
         },
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "לִפְעֻלּוֹת אָדָם בִּדְבַר שְׂפָתֶיךָ אֲנִי שָׁמַרְתִּי אׇרְחוֹת פָּרִיץ.",
-          "phonetic": "Lif'ulot adam bidvar sefateja aní shamarti orjot paríts."
+          "hebrew": "לִפְעֻלּוֹת אָדָם בִּדְבַר שְׂפָתֶֽיךָ אֲנִי שָׁמַֽרְתִּי אׇרְחוֹת פָּרִיץ.",
+          "phonetic": "Lif'ulot adam bidvar Sefateja aní shamarti orjot paríts."
         },
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "תָּמֹךְ אֲשֻׁרַי בְּמַעְגְּלוֹתֶיךָ בַּל נָמוֹטּוּ פְעָמָי.",
-          "phonetic": "Tamoj ashurái bema'gueloteja bal namotú fe'amái."
+          "hebrew": "תָּמֹךְ אֲשֻׁרַי בְמַעְגְּלוֹתֶֽיךָ בַּל נָֽמוֹטּוּ פְעָמָי.",
+          "phonetic": "Tamoj ashurái Vema'gueloteja bal námotu fe'amái."
         },
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "אֲנִי קְרָאתִיךָ כִי תַעֲנֵנִי אֵל הַט אׇזְנְךָ לִי שְׁמַע אִמְרָתִי.",
-          "phonetic": "Aní keratija ji ta'aneni El hat oznejá li shemá' imratí."
+          "hebrew": "אֲנִי קְרָאתִֽיךָ כִי תַעֲנֵֽנִי אֵל הַט אׇזְנְךָ לִי שְׁמַע אִמְרָתִי.",
+          "phonetic": "Aní keratija ji ta'aneni El hat Oznejá li shemá' imratí."
         },
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "הַפְלֵה חֲסָדֶיךָ מוֹשִׁיעַ חוֹסִים מִמִּתְקוֹמְמִים בִּימִינֶךָ.",
-          "phonetic": "Haflé jasadeja moshía' josim mimitkomemim bimineja."
+          "hebrew": "הַפְלֵה חֲסָדֶֽיךָ מוֹשִׁיעַ חוֹסִים מִמִּתְקוֹמְמִים בִּימִינֶֽךָ.",
+          "phonetic": "Haflé Jasadeja moshía' josim mimitekomemim Bimineja."
         },
         {
           "verse": 8,
           "label": "ח",
-          "hebrew": "שׇׁמְרֵנִי כְּאִישׁוֹן בַּת עָיִן בְּצֵל כְּנָפֶיךָ תַּסְתִּירֵנִי.",
-          "phonetic": "Shomreni keishón bat 'ayín betsel kenafeja tastireni."
+          "hebrew": "שׇׁמְרֵֽנִי כְּאִישׁוֹן בַּת עָֽיִן בְּצֵל כְּנָפֶֽיךָ תַּסְתִּירֵֽנִי.",
+          "phonetic": "Shomereni keishón bat 'ayin betsel Kenafeja tastireni."
         },
         {
           "verse": 9,
           "label": "ט",
-          "hebrew": "מִפְּנֵי רְשָׁעִים זוּ שַׁדּוּנִי אֹיְבַי בְּנֶפֶשׁ יַקִּיפוּ עָלָי.",
+          "hebrew": "מִפְּנֵי רְשָׁעִים זוּ שַׁדּוּֽנִי אֹיְבַי בְּנֶפֶשׁ יַקִּיפוּ עָלָי.",
           "phonetic": "Mipné resha'im zu shaduni oyvái benéfesh yakifú 'alái."
         },
         {
           "verse": 10,
           "label": "י",
-          "hebrew": "חֶלְבָּמוֹ סָּגְרוּ פִּימוֹ דִּבְּרוּ בְגֵאוּת.",
-          "phonetic": "Jelbamó sagrú pimó dibrú vegueút."
+          "hebrew": "חֶלְבָּמוֹ סָּֽגְרוּ פִּֽימוֹ דִּבְּרוּֽ בְגֵאוּת.",
+          "phonetic": "Jelbamó sagru pimo diberú vegueút."
         },
         {
           "verse": 11,
           "label": "יא",
-          "hebrew": "אַשֻּׁרֵינוּ עַתָּה סבבוני סְבָבוּנוּ עֵינֵיהֶם יָשִׁיתוּ לִנְטוֹת בָּאָרֶץ.",
-          "phonetic": "Ashurenu 'atá svvvny sevavunu 'enehem yashitu lintot baarets."
+          "hebrew": "אַשֻּׁרֵֽינוּ עַתָּה סְבָבוּֽנוּ עֵינֵיהֶם יָשִׁיתוּ לִנְטוֹת בָּאָרֶץ.",
+          "phonetic": "Ashurenu 'atá sevavunu 'enehem yashitu lintot baarets."
         },
         {
           "verse": 12,
@@ -1255,8 +1255,8 @@
         {
           "verse": 13,
           "label": "יג",
-          "hebrew": "קוּמָה יְהֹוָה קַדְּמָה פָנָיו הַכְרִיעֵהוּ פַּלְּטָה נַפְשִׁי מֵרָשָׁע חַרְבֶּךָ.",
-          "phonetic": "Kumá Ad-nai kademá fanav hajri'ehu paletá nafshí merashá' jarbeja."
+          "hebrew": "קוּמָה יְהֹוָה קַדְּמָה פָנָיו הַכְרִיעֵֽהוּ פַּלְּטָה נַפְשִׁי מֵרָשָׁע חַרְבֶּֽךָ.",
+          "phonetic": "Kumá Ad-nai kademá fanav hajeri'ehu paletá nafshí merashá' Jarbeja."
         },
         {
           "verse": 14,
@@ -1694,7 +1694,7 @@
           "verse": 1,
           "label": "א",
           "hebrew": "לַמְנַצֵּֽחַ מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamnatséaj mizmor leDavid."
+          "phonetic": "Lamenatséaj mizmor leDavid."
         },
         {
           "verse": 2,

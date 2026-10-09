@@ -75,20 +75,84 @@
     },
     {
       "chapter": 9,
-      "hebrew": "25 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
-      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
-      "engine": "16 pesukim comprobados",
+      "hebrew": "Capturas cotejadas 9:17–21. 6 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "21 pesukim comprobados",
       "approved": false,
-      "source": "IMG_1467.png",
-      "scope": "1–16 solamente; falta final"
+      "source": "IMG_1468.png",
+      "scope": "Cobertura completa disponible; pendientes específicos en el informe"
+    },
+    {
+      "chapter": 10,
+      "hebrew": "Capturas cotejadas 10:1–18. 22 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "18 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1469.png, IMG_1470.png",
+      "scope": "Cobertura completa disponible; pendientes específicos en el informe"
+    },
+    {
+      "chapter": 11,
+      "hebrew": "Capturas cotejadas 11:1–7. 8 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "7 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1471.png",
+      "scope": "Cobertura completa disponible; pendientes específicos en el informe"
+    },
+    {
+      "chapter": 12,
+      "hebrew": "Capturas cotejadas 12:1–9. 16 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "9 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1472.png",
+      "scope": "Cobertura completa disponible; pendientes específicos en el informe"
     },
     {
       "chapter": 13,
-      "hebrew": "Meteg cotejado e incorporado: 17 marcas. Nikud: cambios documentados.",
-      "phonetic": "Acentos y referencias a Hashem revisados; texto disponible para revisión editorial final.",
-      "engine": "Verificado por pasuk contra el master actualizado",
+      "hebrew": "Capturas cotejadas 13:1–6. 0 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "6 pesukim comprobados",
       "approved": false,
-      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf"
+      "source": "IMG_1473.png",
+      "scope": "Cobertura completa disponible; pendientes específicos en el informe"
+    },
+    {
+      "chapter": 14,
+      "hebrew": "Capturas cotejadas 14:1–7. 13 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "7 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1474.png",
+      "scope": "Cobertura completa disponible; pendientes específicos en el informe"
+    },
+    {
+      "chapter": 15,
+      "hebrew": "Capturas cotejadas 15:1–5. 7 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "5 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1475.png",
+      "scope": "Cobertura completa disponible; pendientes específicos en el informe"
+    },
+    {
+      "chapter": 16,
+      "hebrew": "Capturas cotejadas 16:1–11. 16 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "11 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1477.png",
+      "scope": "Cobertura completa disponible; pendientes específicos en el informe"
+    },
+    {
+      "chapter": 17,
+      "hebrew": "Capturas cotejadas 17:1–13. 29 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
+      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
+      "engine": "13 pesukim comprobados",
+      "approved": false,
+      "source": "IMG_1478.png",
+      "scope": "1–13; falta 14–15"
     },
     {
       "chapter": 20,
