@@ -1,0 +1,2449 @@
+{
+  "date": "2026-10-09",
+  "status": "Segundo cotejo de veinte capturas de salmos 1–17, captura del 23 y fuentes PDF disponibles. Aprobación editorial abierta; PDF original de Birkat 126/137 no disponible para nuevo cotejo.",
+  "cause": "Se ingresó vocalSheva para תקות sin rayita visible. Las pruebas replicaban esa anotación y no comprobaban la imagen.",
+  "reviewedScreens": [
+    "IMG_1457.png",
+    "IMG_1458.png",
+    "IMG_1459.png",
+    "IMG_1460.png",
+    "IMG_1462.png",
+    "IMG_1463.png",
+    "IMG_1464.png",
+    "IMG_1465.png",
+    "IMG_1466.png",
+    "IMG_1467.png",
+    "IMG_1468.png",
+    "IMG_1469.png",
+    "IMG_1470.png",
+    "IMG_1471.png",
+    "IMG_1472.png",
+    "IMG_1473.png",
+    "IMG_1474.png",
+    "IMG_1475.png",
+    "IMG_1477.png",
+    "IMG_1478.png"
+  ],
+  "removedSheva": [
+    {
+      "ref": "4:5",
+      "word": "בלבבכם",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1460.png",
+      "reason": "La ampliación muestra el techo de ב, sin guion aislado por encima."
+    },
+    {
+      "ref": "4:5",
+      "word": "משכבכם",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1460.png",
+      "reason": "La ampliación muestra el techo de ב, sin guion aislado por encima."
+    },
+    {
+      "ref": "6:7",
+      "word": "באנחתי",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1463.png",
+      "reason": "No hay guion aislado sobre נ en la ampliación."
+    }
+  ],
+  "addedSheva": [
+    {
+      "ref": "2:1",
+      "word": "רגשו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1458.png",
+      "reason": "Rayita horizontal aislada sobre ג visible."
+    },
+    {
+      "ref": "2:7",
+      "word": "אספרה",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1458.png",
+      "reason": "Rayita horizontal aislada sobre פ visible."
+    },
+    {
+      "ref": "3:1",
+      "word": "מפני",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1459.png",
+      "reason": "Guion horizontal separado por blanco de la letra, confirmado en ampliación."
+    },
+    {
+      "ref": "3:3",
+      "word": "אמרים",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1459.png",
+      "reason": "Guion horizontal separado por blanco de la letra, confirmado en ampliación."
+    },
+    {
+      "ref": "3:6",
+      "word": "יסמכני",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1459.png",
+      "reason": "Guion horizontal separado por blanco de la letra, confirmado en ampliación."
+    },
+    {
+      "ref": "4:7",
+      "word": "אמרים",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1460.png",
+      "reason": "Guion horizontal separado por blanco de la letra, confirmado en ampliación."
+    },
+    {
+      "ref": "5:6",
+      "word": "יתיצבו",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal separado de la letra confirmado en ampliación."
+    },
+    {
+      "ref": "5:7",
+      "word": "דברי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal separado de la letra confirmado en ampliación."
+    },
+    {
+      "ref": "5:11",
+      "word": "יפלו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal separado de la letra confirmado en ampliación."
+    },
+    {
+      "ref": "6:1",
+      "word": "השמינית",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal separado de la letra confirmado en ampliación."
+    },
+    {
+      "ref": "7:1",
+      "word": "דברי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1464.png",
+      "reason": "Guion separado sobre la letra confirmado en ampliación."
+    },
+    {
+      "ref": "7:3",
+      "word": "יטרף",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1464.png",
+      "reason": "Guion separado sobre la letra confirmado en ampliación."
+    },
+    {
+      "ref": "7:8",
+      "word": "תסובבך",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1464.png",
+      "reason": "Guion separado sobre la letra confirmado en ampliación."
+    },
+    {
+      "ref": "4:5",
+      "word": "אמרו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1460.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "4:9",
+      "word": "אשכבה",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1460.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "5:9",
+      "word": "שוררי",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "5:12",
+      "word": "וישמחו",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "5:13",
+      "word": "תעטרנו",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "6:2",
+      "word": "באפך",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "6:2",
+      "word": "תיסרני",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "6:8",
+      "word": "צוררי",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "6:11",
+      "word": "איבי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "8:2",
+      "word": "הודך",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1466.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "8:3",
+      "word": "צורריך",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1466.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "9:11",
+      "word": "יודעי",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1468.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "9:11",
+      "word": "דרשיך",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1468.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "9:12",
+      "word": "זמרו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1468.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "9:16",
+      "word": "נלכדה",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1468.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+    },
+    {
+      "ref": "9:2",
+      "word": "נפלאותיך",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1467.png",
+      "reason": "Rayita horizontal aislada visible en ampliación."
+    },
+    {
+      "ref": "7:10",
+      "word": "וכליות",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1465.png",
+      "reason": "Rayita horizontal aislada visible en ampliación."
+    },
+    {
+      "ref": "17:2",
+      "word": "מלפניך",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "Rayita horizontal aislada visible en ampliación."
+    },
+    {
+      "ref": "17:7",
+      "word": "ממתקוממים",
+      "indices": [
+        5
+      ],
+      "source": "IMG_1478.png",
+      "reason": "Rayita horizontal aislada visible en ampliación."
+    },
+    {
+      "ref": "17:9",
+      "word": "מפני",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "Rayita horizontal aislada visible en ampliación."
+    },
+    {
+      "ref": "8:3",
+      "word": "וינקים",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1466.png",
+      "reason": "Rayita aislada encima de נ confirmada en ampliación."
+    },
+    {
+      "ref": "13:3",
+      "word": "איבי",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 1,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "13:5",
+      "word": "איבי",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 1,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "20:1",
+      "word": "למנצח",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 1,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "20:3",
+      "word": "עזרך",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "20:4",
+      "word": "ועולתך",
+      "indices": [
+        4
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "20:4",
+      "word": "ידשנה",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "20:5",
+      "word": "עצתך",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "20:6",
+      "word": "נרננה",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "20:7",
+      "word": "משמי",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "20:9",
+      "word": "כרעו",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "91:3",
+      "word": "יצילך",
+      "indices": [
+        3
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 3,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "91:7",
+      "word": "מצדך",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 3,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "91:14",
+      "word": "ואפלטהו",
+      "indices": [
+        3
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "91:14",
+      "word": "אשגבהו",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "91:15",
+      "word": "אחלצהו",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "91:15",
+      "word": "ואכבדהו",
+      "indices": [
+        3
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "112:1",
+      "word": "הללו",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "112:7",
+      "word": "משמועה",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 5,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "120:2",
+      "word": "משפת",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 6,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "120:6",
+      "word": "שכנה",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 6,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "127:1",
+      "word": "עמלו",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 6,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "127:2",
+      "word": "אכלי",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "127:4",
+      "word": "הנעורים",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "127:5",
+      "word": "ידברו",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "130:4",
+      "word": "הסליחה",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 8,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "130:5",
+      "word": "קותה",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 8,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "130:6",
+      "word": "משמרים",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 8,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "130:6",
+      "word": "שמרים",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 8,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+    },
+    {
+      "ref": "127:5",
+      "word": "אויבים",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita aislada comprobada visualmente en render ampliado."
+    },
+    {
+      "ref": "130:4",
+      "word": "עמך",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita aislada comprobada visualmente en render ampliado."
+    }
+  ],
+  "nikudChanges": [],
+  "pending": [
+    {
+      "ref": "126,137",
+      "reason": "El PDF Interlinear Benching que originó estas revisiones no está entre los archivos disponibles en esta sesión; no declaro nuevo cotejo visual de estas fuentes."
+    },
+    {
+      "ref": "17:14–15",
+      "reason": "La captura corta el 14 y no contiene el 15."
+    }
+  ],
+  "confirmedAbsentMeteg": [
+    {
+      "ref": "3:8",
+      "word": "קומה",
+      "action": "confirmedAbsent",
+      "source": "IMG_1459.png",
+      "reason": "No aparece palito vertical debajo de ק; el punto de ו es shuruk, no meteg.",
+      "note": "Ya estaban sin meteg en el máster; no se retiró ninguna marca ni se cambió el acento por este hallazgo."
+    },
+    {
+      "ref": "6:5",
+      "word": "שובה",
+      "action": "confirmedAbsent",
+      "source": "IMG_1463.png",
+      "reason": "La ampliación muestra shuruk pero no palito vertical bajo la consonante inicial.",
+      "note": "Ya estaban sin meteg en el máster; no se retiró ninguna marca ni se cambió el acento por este hallazgo."
+    },
+    {
+      "ref": "6:9",
+      "word": "סורו",
+      "action": "confirmedAbsent",
+      "source": "IMG_1463.png",
+      "reason": "La ampliación muestra shuruk pero no palito vertical bajo la consonante inicial.",
+      "note": "Ya estaban sin meteg en el máster; no se retiró ninguna marca ni se cambió el acento por este hallazgo."
+    },
+    {
+      "ref": "7:7",
+      "word": "קומה",
+      "action": "confirmedAbsent",
+      "source": "IMG_1464.png",
+      "reason": "No se distingue meteg bajo la consonante indicada; hay shuruk en ו.",
+      "note": "Ya estaban sin meteg en el máster; no se retiró ninguna marca ni se cambió el acento por este hallazgo."
+    },
+    {
+      "ref": "7:7",
+      "word": "ועורה",
+      "action": "confirmedAbsent",
+      "source": "IMG_1464.png",
+      "reason": "No se distingue meteg bajo la consonante indicada; hay shuruk en ו.",
+      "note": "Ya estaban sin meteg en el máster; no se retiró ninguna marca ni se cambió el acento por este hallazgo."
+    },
+    {
+      "ref": "7:8",
+      "word": "שובה",
+      "action": "confirmedAbsent",
+      "source": "IMG_1464.png",
+      "reason": "No se distingue meteg bajo la consonante indicada; hay shuruk en ו.",
+      "note": "Ya estaban sin meteg en el máster; no se retiró ninguna marca ni se cambió el acento por este hallazgo."
+    }
+  ],
+  "metegChanges": [],
+  "reclassifySheva": [
+    {
+      "ref": "9:18",
+      "word": "רשעים",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1468.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "9:20",
+      "word": "ישפטו",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1468.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "10:5",
+      "word": "דרכו",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "10:5",
+      "word": "משפטיך",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "10:7",
+      "word": "לשונו",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "10:8",
+      "word": "במארב",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "10:12",
+      "word": "נשא",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "10:14",
+      "word": "בידך",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "10:15",
+      "word": "שבר",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "10:15",
+      "word": "זרוע",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "11:4",
+      "word": "קדשו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1471.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "11:6",
+      "word": "רשעים",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1471.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "11:7",
+      "word": "צדקות",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1471.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "12:4",
+      "word": "שפתי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "12:5",
+      "word": "ללשננו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "12:5",
+      "word": "שפתינו",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "12:7",
+      "word": "טהרות",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "12:9",
+      "word": "רשעים",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "14:6",
+      "word": "מחסהו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1474.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "14:7",
+      "word": "ישועת",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1474.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "15:1",
+      "word": "קדשך",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1475.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "15:4",
+      "word": "נשבע",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1475.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "16:2",
+      "word": "אמרת",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "16:3",
+      "word": "לקדושים",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "16:5",
+      "word": "מנת",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "16:7",
+      "word": "כליותי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "16:11",
+      "word": "שמחות",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "17:1",
+      "word": "הקשיבה",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "17:1",
+      "word": "שפתי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "17:3",
+      "word": "צרפתני",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "17:4",
+      "word": "שפתיך",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "17:6",
+      "word": "קראתיך",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "17:7",
+      "word": "ממתקוממים",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    },
+    {
+      "ref": "17:13",
+      "word": "הכריעהו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene."
+    }
+  ],
+  "annotations": [
+    {
+      "ref": "4:5",
+      "word": "בלבבכם",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1460.png",
+      "reason": "La ampliación muestra el techo de ב, sin guion aislado por encima.",
+      "kind": "remove",
+      "pointedWord": "בִלְבַבְכֶם"
+    },
+    {
+      "ref": "4:5",
+      "word": "משכבכם",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1460.png",
+      "reason": "La ampliación muestra el techo de ב, sin guion aislado por encima.",
+      "kind": "remove",
+      "pointedWord": "מִשְׁכַּבְכֶם"
+    },
+    {
+      "ref": "6:7",
+      "word": "באנחתי",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1463.png",
+      "reason": "No hay guion aislado sobre נ en la ampliación.",
+      "kind": "remove",
+      "pointedWord": "בְּאַנְחָֽתִי"
+    },
+    {
+      "ref": "9:18",
+      "word": "רשעים",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1468.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "רְשָׁעִים"
+    },
+    {
+      "ref": "9:20",
+      "word": "ישפטו",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1468.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "יִשָּׁפְטוּ"
+    },
+    {
+      "ref": "10:5",
+      "word": "דרכו",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "דְרָכָו"
+    },
+    {
+      "ref": "10:5",
+      "word": "משפטיך",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "מִשְׁפָּטֶֽיךָ"
+    },
+    {
+      "ref": "10:7",
+      "word": "לשונו",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "לְשׁוֹנוֹ"
+    },
+    {
+      "ref": "10:8",
+      "word": "במארב",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "בְּמַאְרַב"
+    },
+    {
+      "ref": "10:12",
+      "word": "נשא",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "נְשָׂא"
+    },
+    {
+      "ref": "10:14",
+      "word": "בידך",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "בְּיָדֶֽךָ"
+    },
+    {
+      "ref": "10:15",
+      "word": "שבר",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "שְׁבֹר"
+    },
+    {
+      "ref": "10:15",
+      "word": "זרוע",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1470.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "זְרוֹֽעַ"
+    },
+    {
+      "ref": "11:4",
+      "word": "קדשו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1471.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "קׇדְשׁוֹ"
+    },
+    {
+      "ref": "11:6",
+      "word": "רשעים",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1471.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "רְשָׁעִים"
+    },
+    {
+      "ref": "11:7",
+      "word": "צדקות",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1471.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "צְדָקוֹת"
+    },
+    {
+      "ref": "12:4",
+      "word": "שפתי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "שִׂפְתֵי"
+    },
+    {
+      "ref": "12:5",
+      "word": "ללשננו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "לִלְשֹׁנֵֽנוּ"
+    },
+    {
+      "ref": "12:5",
+      "word": "שפתינו",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "שְׂפָתֵֽינוּ"
+    },
+    {
+      "ref": "12:7",
+      "word": "טהרות",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "טְהֹרוֹת"
+    },
+    {
+      "ref": "12:9",
+      "word": "רשעים",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1472.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "רְשָׁעִים"
+    },
+    {
+      "ref": "14:6",
+      "word": "מחסהו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1474.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "מַחְסֵֽהוּ"
+    },
+    {
+      "ref": "14:7",
+      "word": "ישועת",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1474.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "יְשׁוּעַת"
+    },
+    {
+      "ref": "15:1",
+      "word": "קדשך",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1475.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "קׇדְשֶֽׁךָ"
+    },
+    {
+      "ref": "15:4",
+      "word": "נשבע",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1475.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "נִשְׁבַּע"
+    },
+    {
+      "ref": "16:2",
+      "word": "אמרת",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "אָמַרְתְּ"
+    },
+    {
+      "ref": "16:3",
+      "word": "לקדושים",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "לִקְדוֹשִׁים"
+    },
+    {
+      "ref": "16:5",
+      "word": "מנת",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "מְנָת"
+    },
+    {
+      "ref": "16:7",
+      "word": "כליותי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "כִלְיוֹתָי"
+    },
+    {
+      "ref": "16:11",
+      "word": "שמחות",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1477.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "שְׂמָחוֹת"
+    },
+    {
+      "ref": "17:1",
+      "word": "הקשיבה",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "הַקְשִׁיבָה"
+    },
+    {
+      "ref": "17:1",
+      "word": "שפתי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "שִׂפְתֵי"
+    },
+    {
+      "ref": "17:3",
+      "word": "צרפתני",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "צְרַפְתַּֽנִי"
+    },
+    {
+      "ref": "17:4",
+      "word": "שפתיך",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "שְׂפָתֶֽיךָ"
+    },
+    {
+      "ref": "17:6",
+      "word": "קראתיך",
+      "indices": [
+        0
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "קְרָאתִֽיךָ"
+    },
+    {
+      "ref": "17:7",
+      "word": "ממתקוממים",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "מִמִּתְקוֹמְמִים"
+    },
+    {
+      "ref": "17:13",
+      "word": "הכריעהו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "No hay rayita aislada visible sobre esta letra. Retirar certificación visual; conservar lectura solamente si la regla del motor la obtiene.",
+      "kind": "reclassify",
+      "pointedWord": "הַכְרִיעֵֽהוּ"
+    },
+    {
+      "ref": "2:1",
+      "word": "רגשו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1458.png",
+      "reason": "Rayita horizontal aislada sobre ג visible.",
+      "kind": "add",
+      "pointedWord": "רָגְשׁוּ"
+    },
+    {
+      "ref": "2:7",
+      "word": "אספרה",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1458.png",
+      "reason": "Rayita horizontal aislada sobre פ visible.",
+      "kind": "add",
+      "pointedWord": "אֲסַפְּרָה"
+    },
+    {
+      "ref": "3:1",
+      "word": "מפני",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1459.png",
+      "reason": "Guion horizontal separado por blanco de la letra, confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "מִפְּנֵי"
+    },
+    {
+      "ref": "3:3",
+      "word": "אמרים",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1459.png",
+      "reason": "Guion horizontal separado por blanco de la letra, confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "אֹמְרִים"
+    },
+    {
+      "ref": "3:6",
+      "word": "יסמכני",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1459.png",
+      "reason": "Guion horizontal separado por blanco de la letra, confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "יִסְמְכֵֽנִי"
+    },
+    {
+      "ref": "4:7",
+      "word": "אמרים",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1460.png",
+      "reason": "Guion horizontal separado por blanco de la letra, confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "אֹמְרִים"
+    },
+    {
+      "ref": "5:6",
+      "word": "יתיצבו",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal separado de la letra confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "יִתְיַצְּבוּ"
+    },
+    {
+      "ref": "5:7",
+      "word": "דברי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal separado de la letra confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "דֹּבְרֵי"
+    },
+    {
+      "ref": "5:11",
+      "word": "יפלו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal separado de la letra confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "יִפְּלוּ"
+    },
+    {
+      "ref": "6:1",
+      "word": "השמינית",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal separado de la letra confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "הַשְּׁמִינִית"
+    },
+    {
+      "ref": "7:1",
+      "word": "דברי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1464.png",
+      "reason": "Guion separado sobre la letra confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "דִּבְרֵי"
+    },
+    {
+      "ref": "7:3",
+      "word": "יטרף",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1464.png",
+      "reason": "Guion separado sobre la letra confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "יִטְרֹף"
+    },
+    {
+      "ref": "7:8",
+      "word": "תסובבך",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1464.png",
+      "reason": "Guion separado sobre la letra confirmado en ampliación.",
+      "kind": "add",
+      "pointedWord": "תְּסוֹבְבֶֽךָּ"
+    },
+    {
+      "ref": "4:5",
+      "word": "אמרו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1460.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "אִמְרוּ"
+    },
+    {
+      "ref": "4:9",
+      "word": "אשכבה",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1460.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "אֶשְׁכְּבָה"
+    },
+    {
+      "ref": "5:9",
+      "word": "שוררי",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "שׁוֹרְרָי"
+    },
+    {
+      "ref": "5:12",
+      "word": "וישמחו",
+      "indices": [
+        3
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "וְיִשְׂמְחוּ"
+    },
+    {
+      "ref": "5:13",
+      "word": "תעטרנו",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1462.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "תַּעְטְרֶֽנּוּ"
+    },
+    {
+      "ref": "6:2",
+      "word": "באפך",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "בְּאַפְּךָ"
+    },
+    {
+      "ref": "6:2",
+      "word": "תיסרני",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "תְיַסְּרֵֽנִי"
+    },
+    {
+      "ref": "6:8",
+      "word": "צוררי",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "צוֹרְרָי"
+    },
+    {
+      "ref": "6:11",
+      "word": "איבי",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1463.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "אֹיְבָי"
+    },
+    {
+      "ref": "8:2",
+      "word": "הודך",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1466.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "הוֹדְךָ"
+    },
+    {
+      "ref": "8:3",
+      "word": "צורריך",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1466.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "צוֹרְרֶיךָ"
+    },
+    {
+      "ref": "9:11",
+      "word": "יודעי",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1468.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "יוֹדְעֵי"
+    },
+    {
+      "ref": "9:11",
+      "word": "דרשיך",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1468.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "דֹרְשֶׁיךָ"
+    },
+    {
+      "ref": "9:12",
+      "word": "זמרו",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1468.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "זַמְּרוּ"
+    },
+    {
+      "ref": "9:16",
+      "word": "נלכדה",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1468.png",
+      "reason": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada.",
+      "kind": "add",
+      "pointedWord": "נִלְכְּדָה"
+    },
+    {
+      "ref": "9:2",
+      "word": "נפלאותיך",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1467.png",
+      "reason": "Rayita horizontal aislada visible en ampliación.",
+      "kind": "add",
+      "pointedWord": "נִפְלְאוֹתֶֽיךָ"
+    },
+    {
+      "ref": "7:10",
+      "word": "וכליות",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1465.png",
+      "reason": "Rayita horizontal aislada visible en ampliación.",
+      "kind": "add",
+      "pointedWord": "וּכְלָיוֹת"
+    },
+    {
+      "ref": "17:2",
+      "word": "מלפניך",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "Rayita horizontal aislada visible en ampliación.",
+      "kind": "add",
+      "pointedWord": "מִלְּפָנֶֽיךָ"
+    },
+    {
+      "ref": "17:7",
+      "word": "ממתקוממים",
+      "indices": [
+        5
+      ],
+      "source": "IMG_1478.png",
+      "reason": "Rayita horizontal aislada visible en ampliación.",
+      "kind": "add",
+      "pointedWord": "מִמִּתְקוֹמְמִים"
+    },
+    {
+      "ref": "17:9",
+      "word": "מפני",
+      "indices": [
+        1
+      ],
+      "source": "IMG_1478.png",
+      "reason": "Rayita horizontal aislada visible en ampliación.",
+      "kind": "add",
+      "pointedWord": "מִפְּנֵי"
+    },
+    {
+      "ref": "8:3",
+      "word": "וינקים",
+      "indices": [
+        2
+      ],
+      "source": "IMG_1466.png",
+      "reason": "Rayita aislada encima de נ confirmada en ampliación.",
+      "kind": "add",
+      "pointedWord": "וְיֹנְקִים"
+    },
+    {
+      "ref": "13:3",
+      "word": "איבי",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 1,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "אֹיְבִי"
+    },
+    {
+      "ref": "13:5",
+      "word": "איבי",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 1,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "אֹיְבִי"
+    },
+    {
+      "ref": "20:1",
+      "word": "למנצח",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 1,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "לַמְנַצֵּֽחַ"
+    },
+    {
+      "ref": "20:3",
+      "word": "עזרך",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "עֶזְרְךָ"
+    },
+    {
+      "ref": "20:4",
+      "word": "ועולתך",
+      "indices": [
+        4
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "וְעוֹלָתְךָ"
+    },
+    {
+      "ref": "20:4",
+      "word": "ידשנה",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "יְדַשְּׁנֶה"
+    },
+    {
+      "ref": "20:5",
+      "word": "עצתך",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "עֲצָתְךָ"
+    },
+    {
+      "ref": "20:6",
+      "word": "נרננה",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "נְרַנְּנָה"
+    },
+    {
+      "ref": "20:7",
+      "word": "משמי",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "מִשְּׁמֵי"
+    },
+    {
+      "ref": "20:9",
+      "word": "כרעו",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 2,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "כָּרְעוּ"
+    },
+    {
+      "ref": "91:3",
+      "word": "יצילך",
+      "indices": [
+        3
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 3,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "יַצִּילְךָ"
+    },
+    {
+      "ref": "91:7",
+      "word": "מצדך",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 3,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "מִצִּדְּךָ"
+    },
+    {
+      "ref": "91:14",
+      "word": "ואפלטהו",
+      "indices": [
+        3
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "וַאֲפַלְּטֵֽהוּ"
+    },
+    {
+      "ref": "91:14",
+      "word": "אשגבהו",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "אֲשַׂגְּבֵֽהוּ"
+    },
+    {
+      "ref": "91:15",
+      "word": "אחלצהו",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "אֲחַלְּצֵֽהוּ"
+    },
+    {
+      "ref": "91:15",
+      "word": "ואכבדהו",
+      "indices": [
+        3
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "וַאֲכַבְּדֵֽהוּ"
+    },
+    {
+      "ref": "112:1",
+      "word": "הללו",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 4,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "הַלְלוּ"
+    },
+    {
+      "ref": "112:7",
+      "word": "משמועה",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 5,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "מִשְּׁמוּעָה"
+    },
+    {
+      "ref": "120:2",
+      "word": "משפת",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 6,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "מִשְּׂפַת"
+    },
+    {
+      "ref": "120:6",
+      "word": "שכנה",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 6,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "שָׁכְנָה"
+    },
+    {
+      "ref": "127:1",
+      "word": "עמלו",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 6,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "עָמְלוּ"
+    },
+    {
+      "ref": "127:2",
+      "word": "אכלי",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "אֹכְלֵי"
+    },
+    {
+      "ref": "127:4",
+      "word": "הנעורים",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "הַנְּעוּרִים"
+    },
+    {
+      "ref": "127:5",
+      "word": "ידברו",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "יְדַבְּרוּ"
+    },
+    {
+      "ref": "130:4",
+      "word": "הסליחה",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 8,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "הַסְּלִיחָה"
+    },
+    {
+      "ref": "130:5",
+      "word": "קותה",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 8,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "קִוְּתָה"
+    },
+    {
+      "ref": "130:6",
+      "word": "משמרים",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 8,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "מִשֹּׁמְרִים"
+    },
+    {
+      "ref": "130:6",
+      "word": "שמרים",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 8,
+      "reason": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente.",
+      "kind": "add",
+      "pointedWord": "שֹׁמְרִים"
+    },
+    {
+      "ref": "127:5",
+      "word": "אויבים",
+      "indices": [
+        2
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita aislada comprobada visualmente en render ampliado.",
+      "kind": "add",
+      "pointedWord": "אוֹיְבִים"
+    },
+    {
+      "ref": "130:4",
+      "word": "עמך",
+      "indices": [
+        1
+      ],
+      "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+      "page": 7,
+      "reason": "Rayita aislada comprobada visualmente en render ampliado.",
+      "kind": "add",
+      "pointedWord": "עִמְּךָ"
+    }
+  ],
+  "changed": [
+    {
+      "ref": "2:1",
+      "hebrew": "לָֽמָּה רָגְשׁוּ גוֹיִם וּלְאֻמִּים יֶהְגּוּ רִיק.",
+      "before": "Lama ragshú goyim uleumim yehgú rik.",
+      "after": "Lama ragueshú goyim uleumim yehgú rik."
+    },
+    {
+      "ref": "3:1",
+      "hebrew": "מִזְמוֹר לְדָוִד בְּבׇרְחוֹ מִפְּנֵי אַבְשָׁלוֹם בְּנוֹ.",
+      "before": "Mizmor leDavid bevorjó mipné Avshalom benó.",
+      "after": "Mizmor leDavid bevorjó mipené Avshalom benó."
+    },
+    {
+      "ref": "3:3",
+      "hebrew": "רַבִּים אֹמְרִים לְנַפְשִׁי אֵין יְשׁוּעָֽתָה לּוֹ בֵאלֹהִים סֶֽלָה.",
+      "before": "Rabim omrim lenafshí en yeshu'ata lo veElohim sela.",
+      "after": "Rabim omerim lenafshí en yeshu'ata lo veElohim sela."
+    },
+    {
+      "ref": "4:5",
+      "hebrew": "רִגְזוּ וְאַל תֶּחֱטָאוּ אִמְרוּ בִלְבַבְכֶם עַל מִשְׁכַּבְכֶם וְדֹֽמּוּ סֶֽלָה.",
+      "before": "Rigzú veal tejetaú imrú vilvavejem 'al mishkavejem vedomu sela.",
+      "after": "Rigzú veal tejetaú imerú vilvavjem 'al mishkavjem vedomu sela."
+    },
+    {
+      "ref": "4:7",
+      "hebrew": "רַבִּים אֹמְרִים מִי יַרְאֵֽנוּ טוֹב נְסָה עָלֵֽינוּ אוֹר פָּנֶיךָ יְהֹוָה.",
+      "before": "Rabim omrim mi yarenu tov nesá 'alenu or Paneja Ad-nai.",
+      "after": "Rabim omerim mi yarenu tov nesá 'alenu or Paneja Ad-nai."
+    },
+    {
+      "ref": "5:7",
+      "hebrew": "תְּאַבֵּד דֹּבְרֵי כָזָב אִישׁ דָּמִים וּמִרְמָה יְתָעֵב יְהֹוָה.",
+      "before": "Teabed dovré jazav ish damim umirmá yeta'ev Ad-nai.",
+      "after": "Teabed doveré jazav ish damim umirmá yeta'ev Ad-nai."
+    },
+    {
+      "ref": "5:11",
+      "hebrew": "הַאֲשִׁימֵם אֱלֹהִים יִפְּלוּ מִמֹּעֲצוֹתֵֽיהֶם בְּרֹב פִּשְׁעֵיהֶם הַדִּיחֵֽמוֹ כִּי מָרוּ בָךְ.",
+      "before": "Haashimem Elohim yiplú mimo'atsotéhem berov pish'ehem hadijemo ki marú vaj.",
+      "after": "Haashimem Elohim yipelú mimo'atsotéhem berov pish'ehem hadijemo ki marú vaj."
+    },
+    {
+      "ref": "6:2",
+      "hebrew": "יְהֹוָה אַל בְּאַפְּךָ תוֹכִיחֵֽנִי וְאַל בַּחֲמָתְךָ תְיַסְּרֵֽנִי.",
+      "before": "Ad-nai al Beapjá tojijeni veal Bajamateja teyasereni.",
+      "after": "Ad-nai al Beapejá tojijeni veal Bajamateja teyasereni."
+    },
+    {
+      "ref": "6:7",
+      "hebrew": "יָגַֽעְתִּי בְּאַנְחָֽתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+      "before": "Yaga'ti beanejati asjé vejol layla mitati bedim'atí 'arsí amsé.",
+      "after": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé."
+    },
+    {
+      "ref": "6:11",
+      "hebrew": "יֵבֹֽשׁוּ וְיִבָּהֲלוּ מְאֹד כׇּל אֹיְבָי יָשֻֽׁבוּ יֵבֹֽשׁוּ רָֽגַע.",
+      "before": "Yevoshu veyibahalú meod kol oyvái yashuvu yevoshu raga'.",
+      "after": "Yevoshu veyibahalú meod kol oyevái yashuvu yevoshu raga'."
+    },
+    {
+      "ref": "7:1",
+      "hebrew": "שִׁגָּיוֹן לְדָוִד אֲשֶׁר שָׁר לַיהֹוָה עַל דִּבְרֵי כוּשׁ בֶּן יְמִינִי.",
+      "before": "Shigayón leDavid asher shar laAd-nai 'al divré jush ben yeminí.",
+      "after": "Shigayón leDavid asher shar laAd-nai 'al diveré jush ben yeminí."
+    },
+    {
+      "ref": "7:3",
+      "hebrew": "פֶּן יִטְרֹף כְּאַרְיֵֽה נַפְשִׁי פֹּרֵק וְאֵין מַצִּיל.",
+      "before": "Pen yitrof kearyé nafshí porek veén matsil.",
+      "after": "Pen yiterof kearyé nafshí porek veén matsil."
+    },
+    {
+      "ref": "7:10",
+      "hebrew": "יִגְמׇר נָא רַע רְשָׁעִים וּתְכוֹנֵן צַדִּיק וּבֹחֵן לִבּוֹת וּכְלָיוֹת אֱלֹהִים צַדִּיק.",
+      "before": "Yigmor na ra' resha'im utjonén tsadik uvojén libot ujlayot Elohim tsadik.",
+      "after": "Yigmor na ra' resha'im utjonén tsadik uvojén libot ujelayot Elohim tsadik."
+    },
+    {
+      "ref": "8:3",
+      "hebrew": "מִפִּי עוֹלְלִים וְיֹנְקִים יִסַּֽדְתָּ עֹז לְמַֽעַן צוֹרְרֶיךָ לְהַשְׁבִּית אוֹיֵב וּמִתְנַקֵּם.",
+      "before": "Mipí 'olelim veyonkim yisadta 'oz lema'an tsorereja lehashbit oyev umitnakem.",
+      "after": "Mipí 'olelim veyonekim yisadta 'oz lema'an tsorereja lehashbit oyev umitnakem."
+    },
+    {
+      "ref": "9:11",
+      "hebrew": "וְיִבְטְחוּ בְךָ יוֹדְעֵי שְׁמֶךָ כִּי לֹא עָזַֽבְתָּ דֹרְשֶׁיךָ יְהֹוָה.",
+      "before": "Veyivtejú Veja yod'é Shemeja ki lo 'azavta Dorsheja Ad-nai.",
+      "after": "Veyivtejú Veja yode'é Shemeja ki lo 'azavta Doresheja Ad-nai."
+    },
+    {
+      "ref": "9:20",
+      "hebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
+      "before": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja.",
+      "after": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al Paneja."
+    },
+    {
+      "ref": "10:5",
+      "hebrew": "יָחִֽילוּ דְרָכָו בְּכׇל עֵת מָרוֹם מִשְׁפָּטֶֽיךָ מִנֶּגְדּוֹ כׇּל צוֹרְרָיו יָפִֽיחַ בָּהֶם.",
+      "before": "Yajilu derajav bejol 'et marom Mishepateja minegdó kol tsorerav yafíaj báhem.",
+      "after": "Yajilu derajav bejol 'et marom Mishpateja minegdó kol tsorerav yafíaj báhem."
+    },
+    {
+      "ref": "11:4",
+      "hebrew": "יְהֹוָה בְּהֵיכַל קׇדְשׁוֹ יְהֹוָה בַּשָּׁמַֽיִם כִּסְאוֹ עֵינָיו יֶחֱזוּ עַפְעַפָּיו יִבְחֲנוּ בְּנֵי אָדָם.",
+      "before": "Ad-nai behejal Kodeshó Ad-nai bashamáyim Kisó 'Enav yejezú 'Af'apav yivjanú bené adam.",
+      "after": "Ad-nai behejal Kodshó Ad-nai bashamáyim Kisó 'Enav yejezú 'Af'apav yivjanú bené adam."
+    },
+    {
+      "ref": "12:4",
+      "hebrew": "יַכְרֵת יְהֹוָה כׇּל שִׂפְתֵי חֲלָקוֹת לָשׁוֹן מְדַבֶּֽרֶת גְּדֹלוֹת.",
+      "before": "Yajret Ad-nai kol sifeté jalakot lashón medabéret guedolot.",
+      "after": "Yajret Ad-nai kol sifté jalakot lashón medabéret guedolot."
+    },
+    {
+      "ref": "12:5",
+      "hebrew": "אֲשֶׁר אָמְרוּ לִלְשֹׁנֵֽנוּ נַגְבִּיר שְׂפָתֵֽינוּ אִתָּֽנוּ מִי אָדוֹן לָֽנוּ.",
+      "before": "Asher amerú lileshonenu nagbir sefatenu itanu mi adón lanu.",
+      "after": "Asher amerú lilshonenu nagbir sefatenu itanu mi adón lanu."
+    },
+    {
+      "ref": "14:6",
+      "hebrew": "עֲצַת עָנִי תָבִֽישׁוּ כִּי יְהֹוָה מַחְסֵֽהוּ.",
+      "before": "'Atsat 'aní tavishu ki Ad-nai majesehu.",
+      "after": "'Atsat 'aní tavishu ki Ad-nai majsehu."
+    },
+    {
+      "ref": "15:1",
+      "hebrew": "מִזְמוֹר לְדָוִד יְהֹוָה מִי יָגוּר בְּאׇהֳלֶֽךָ מִי יִשְׁכֹּן בְּהַר קׇדְשֶֽׁךָ.",
+      "before": "Mizmor leDavid Ad-nai mi yagur Beoholeja mi yishkón behar Kodesheja.",
+      "after": "Mizmor leDavid Ad-nai mi yagur Beoholeja mi yishkón behar Kodsheja."
+    },
+    {
+      "ref": "15:4",
+      "hebrew": "נִבְזֶה בְּעֵינָיו נִמְאָס וְאֶת יִרְאֵי יְהֹוָה יְכַבֵּד נִשְׁבַּע לְהָרַע וְלֹא יָמִר.",
+      "before": "Nivzé be'enav nimás veet yiré Ad-nai yejabed nishebá' lehará' veló yamir.",
+      "after": "Nivzé be'enav nimás veet yiré Ad-nai yejabed nishbá' lehará' veló yamir."
+    },
+    {
+      "ref": "16:2",
+      "hebrew": "אָמַרְתְּ לַיהֹוָה אֲדֹנָי אָֽתָּה טוֹבָתִי בַּל עָלֶֽיךָ.",
+      "before": "Amaret laAd-nai Ad-nai Ata tovatí bal 'Aleja.",
+      "after": "Amart laAd-nai Ad-nai Ata tovatí bal 'Aleja."
+    },
+    {
+      "ref": "16:3",
+      "hebrew": "לִקְדוֹשִׁים אֲשֶׁר בָּאָרֶץ הֵֽמָּה וְאַדִּירֵי כׇּל חֶפְצִי בָם.",
+      "before": "Likedoshim asher baarets hema veadiré kol jeftsí vam.",
+      "after": "Likdoshim asher baarets hema veadiré kol jeftsí vam."
+    },
+    {
+      "ref": "16:7",
+      "hebrew": "אֲבָרֵךְ אֶת יְהֹוָה אֲשֶׁר יְעָצָֽנִי אַף לֵילוֹת יִסְּרוּֽנִי כִלְיוֹתָי.",
+      "before": "Avarej et Ad-nai asher ye'atsani af lelot yiseruni jileyotái.",
+      "after": "Avarej et Ad-nai asher ye'atsani af lelot yiseruni jilyotái."
+    },
+    {
+      "ref": "17:1",
+      "hebrew": "תְּפִלָּה לְדָוִד שִׁמְעָה יְהֹוָה צֶֽדֶק הַקְשִׁיבָה רִנָּתִי הַאֲזִינָה תְפִלָּתִי בְּלֹא שִׂפְתֵי מִרְמָה.",
+      "before": "Tefilá leDavid shim'á Ad-nai tsédek hakeshiva rinatí haazina tefilatí beló sifeté mirmá.",
+      "after": "Tefilá leDavid shim'á Ad-nai tsédek hakshiva rinatí haazina tefilatí beló sifté mirmá."
+    },
+    {
+      "ref": "17:7",
+      "hebrew": "הַפְלֵה חֲסָדֶֽיךָ מוֹשִׁיעַ חוֹסִים מִמִּתְקוֹמְמִים בִּימִינֶֽךָ.",
+      "before": "Haflé Jasadeja moshía' josim mimitekomemim Bimineja.",
+      "after": "Haflé Jasadeja moshía' josim mimitkomemim Bimineja."
+    },
+    {
+      "ref": "17:9",
+      "hebrew": "מִפְּנֵי רְשָׁעִים זוּ שַׁדּוּֽנִי אֹיְבַי בְּנֶפֶשׁ יַקִּיפוּ עָלָי.",
+      "before": "Mipné resha'im zu shaduni oyvái benéfesh yakifú 'alái.",
+      "after": "Mipené resha'im zu shaduni oyvái benéfesh yakifú 'alái."
+    },
+    {
+      "ref": "17:13",
+      "hebrew": "קוּמָה יְהֹוָה קַדְּמָה פָנָיו הַכְרִיעֵֽהוּ פַּלְּטָה נַפְשִׁי מֵרָשָׁע חַרְבֶּֽךָ.",
+      "before": "Kumá Ad-nai kademá fanav hajeri'ehu paletá nafshí merashá' Jarbeja.",
+      "after": "Kumá Ad-nai kademá fanav hajri'ehu paletá nafshí merashá' Jarbeja."
+    },
+    {
+      "ref": "20:9",
+      "hebrew": "הֵֽמָּה כָּרְעוּ וְנָפָֽלוּ וַאֲנַֽחְנוּ קַֽמְנוּ וַנִּתְעוֹדָד.",
+      "before": "Hema kar'ú venafalu vaanajnu kamnu vanit'odad.",
+      "after": "Hema kare'ú venafalu vaanajnu kamnu vanit'odad."
+    },
+    {
+      "ref": "91:7",
+      "hebrew": "יִפֹּל מִצִּדְּךָ אֶֽלֶף וּרְבָבָה מִימִינֶֽךָ אֵלֶֽיךָ לֹא יִגָּשׁ.",
+      "before": "Yipol mitsidjá élef urvavá mimineja eleja lo yigash.",
+      "after": "Yipol mitsidejá élef urvavá mimineja eleja lo yigash."
+    },
+    {
+      "ref": "120:6",
+      "hebrew": "רַבַּת שָׁכְנָה לָּהּ נַפְשִׁי עִם שׂוֹנֵא שָׁלוֹם.",
+      "before": "Rabat shajná lah nafshí 'im soné shalom.",
+      "after": "Rabat shajená lah nafshí 'im soné shalom."
+    },
+    {
+      "ref": "127:1",
+      "hebrew": "שִׁיר הַמַּעֲלוֹת לִשְׁלֹמֹה אִם יְהֹוָה לֹא יִבְנֶה בַֽיִת שָׁוְא עָמְלוּ בוֹנָיו בּוֹ אִם יְהֹוָה לֹא יִשְׁמׇר עִיר שָׁוְא שָׁקַד שׁוֹמֵר.",
+      "before": "Shir hama'alot lishlomó im Ad-nai lo yivné váyit shav 'amlú vonav bo im Ad-nai lo yishmor 'ir shav shakad shomer.",
+      "after": "Shir hama'alot lishlomó im Ad-nai lo yivné váyit shav 'amelú vonav bo im Ad-nai lo yishmor 'ir shav shakad shomer."
+    },
+    {
+      "ref": "127:2",
+      "hebrew": "שָׁוְא לָכֶם מַשְׁכִּֽימֵי קוּם מְאַֽחֲרֵי שֶֽׁבֶת אֹכְלֵי לֶֽחֶם הָעֲצָבִים כֵּן יִתֵּן לִידִידוֹ שֵׁנָא.",
+      "before": "Shav lájem mashkime kum meájare shévet ojlé léjem ha'atsavim ken yitén lididó shená.",
+      "after": "Shav lájem mashkime kum meájare shévet ojelé léjem ha'atsavim ken yitén lididó shená."
+    },
+    {
+      "ref": "127:5",
+      "hebrew": "אַשְׁרֵי הַגֶּֽבֶר אֲשֶׁר מִלֵּא אֶת אַשְׁפָּתוֹ מֵהֶם לֹא יֵבֹֽשׁוּ כִּי יְדַבְּרוּ אֶת אוֹיְבִים בַּשָּֽׁעַר.",
+      "before": "Ashré haguéver asher milé et ashpató méhem lo yevoshu ki yedaberu et oyvim bashá'ar.",
+      "after": "Ashré haguéver asher milé et ashpató méhem lo yevoshu ki yedaberu et oyevim bashá'ar."
+    },
+    {
+      "ref": "130:4",
+      "hebrew": "כִּי עִמְּךָ הַסְּלִיחָה לְמַֽעַן תִּוָּרֵא.",
+      "before": "Ki 'Imjá haselija lema'an tivaré.",
+      "after": "Ki 'Imejá haselija lema'an tivaré."
+    },
+    {
+      "ref": "130:6",
+      "hebrew": "נַפְשִׁי לַאדֹנָי מִשֹּׁמְרִים לַבֹּֽקֶר שֹׁמְרִים לַבֹּֽקֶר.",
+      "before": "Nafshí laAd-nai mishomrim labóker shomrim labóker.",
+      "after": "Nafshí laAd-nai mishomerim labóker shomerim labóker."
+    },
+    {
+      "ref": "13:3",
+      "hebrew": "עַד אָֽנָה אָשִׁית עֵצוֹת בְּנַפְשִׁי יָגוֹן בִּלְבָבִי יוֹמָם עַד אָֽנָה יָרוּם אֹיְבִי עָלָי.",
+      "before": "'Ad ana ashit 'etsot benafshí yagón bilvaví yomam 'ad ana yarum oyví 'alái.",
+      "after": "'Ad ana ashit 'etsot benafshí yagón bilvaví yomam 'ad ana yarum oyeví 'alái."
+    },
+    {
+      "ref": "13:5",
+      "hebrew": "פֶּן יֹאמַר אֹיְבִי יְכׇלְתִּיו צָרַי יָגִֽילוּ כִּי אֶמּוֹט.",
+      "before": "Pen yomar oyví yejoltiv tsarái yaguilu ki emot.",
+      "after": "Pen yomar oyeví yejoltiv tsarái yaguilu ki emot."
+    }
+  ],
+  "pdfReview": {
+    "sources": [
+      "tehillim-and-avinu-malkeinu-download-v3(1).pdf, páginas 1–8",
+      "Transliterated_Tehillim_Eretz_Yisrael(1).pdf, páginas 4–10"
+    ],
+    "chapters": [
+      13,
+      20,
+      83,
+      91,
+      112,
+      120,
+      121,
+      127,
+      130,
+      142
+    ],
+    "note": "Cotejo de marcas registradas y rayitas omitidas. El registro original era principalmente de meteg; no certificaba todas las shevot."
+  },
+  "grammarOnly": [
+    {
+      "ref": "10:15",
+      "word": "זְרוֹעַ",
+      "indices": [
+        0
+      ],
+      "reading": "zeroa’",
+      "reason": "Shevá inicial vocal por regla. No se certifica rayita de ArtScroll."
+    }
+  ]
+}

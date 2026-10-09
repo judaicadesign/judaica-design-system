@@ -167,7 +167,8 @@
           },
           "afterPhonetic": "Ki yodea' Ad-nai dérej tsadikim vedérej resha'im toved."
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 2,
@@ -341,6 +342,30 @@
           "clusters": [
             3
           ]
+        },
+        {
+          "ref": "2:1",
+          "word": "רָגְשׁוּ",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "ג"
+          ],
+          "source": "IMG_1458.png",
+          "evidence": "Rayita horizontal aislada sobre ג visible."
+        },
+        {
+          "ref": "2:7",
+          "word": "אֲסַפְּרָה",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "פ"
+          ],
+          "source": "IMG_1458.png",
+          "evidence": "Rayita horizontal aislada sobre פ visible."
         }
       ],
       "nikudChanges": [],
@@ -353,9 +378,14 @@
           "changes": {
             "למה": {
               "stress": 0
+            },
+            "רגשו": {
+              "vocalSheva": [
+                1
+              ]
             }
           },
-          "afterPhonetic": "Lama ragshú goyim uleumim yehgú rik."
+          "afterPhonetic": "Lama ragueshú goyim uleumim yehgú rik."
         },
         {
           "ref": "2:2",
@@ -455,6 +485,11 @@
           "changes": {
             "אתה": {
               "stress": 0
+            },
+            "אספרה": {
+              "vocalSheva": [
+                2
+              ]
             }
           },
           "afterPhonetic": "Asaperá el jok Ad-nai amar elái bení ata Aní hayom yelidtija."
@@ -542,7 +577,8 @@
           },
           "afterPhonetic": "Nashekú var pen yeenaf vetóvedu dérej ki yiv'ar kim'at apó ashré kol josé vo."
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 3,
@@ -643,6 +679,42 @@
           "clusters": [
             1
           ]
+        },
+        {
+          "ref": "3:1",
+          "word": "מִפְּנֵי",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "פ"
+          ],
+          "source": "IMG_1459.png",
+          "evidence": "Guion horizontal separado por blanco de la letra, confirmado en ampliación."
+        },
+        {
+          "ref": "3:3",
+          "word": "אֹמְרִים",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "מ"
+          ],
+          "source": "IMG_1459.png",
+          "evidence": "Guion horizontal separado por blanco de la letra, confirmado en ampliación."
+        },
+        {
+          "ref": "3:6",
+          "word": "יִסְמְכֵֽנִי",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "מ"
+          ],
+          "source": "IMG_1459.png",
+          "evidence": "Guion horizontal separado por blanco de la letra, confirmado en ampliación."
         }
       ],
       "nikudChanges": [],
@@ -652,8 +724,14 @@
           "beforeHebrew": "מִזְמוֹר לְדָוִד בְּבׇרְחוֹ מִפְּנֵי אַבְשָׁלוֹם בְּנוֹ.",
           "afterHebrew": "מִזְמוֹר לְדָוִד בְּבׇרְחוֹ מִפְּנֵי אַבְשָׁלוֹם בְּנוֹ.",
           "beforePhonetic": "Mizmor leDavid bevorjó mipné Avshalom benó.",
-          "changes": {},
-          "afterPhonetic": "Mizmor leDavid bevorjó mipné Avshalom benó."
+          "changes": {
+            "מפני": {
+              "vocalSheva": [
+                1
+              ]
+            }
+          },
+          "afterPhonetic": "Mizmor leDavid bevorjó mipené Avshalom benó."
         },
         {
           "ref": "3:2",
@@ -677,9 +755,14 @@
             },
             "באלהים": {
               "spelling": "veElohim"
+            },
+            "אמרים": {
+              "vocalSheva": [
+                1
+              ]
             }
           },
-          "afterPhonetic": "Rabim omrim lenafshí en yeshu'ata lo veElohim sela."
+          "afterPhonetic": "Rabim omerim lenafshí en yeshu'ata lo veElohim sela."
         },
         {
           "ref": "3:4",
@@ -725,7 +808,10 @@
               "stress": 3
             },
             "יסמכני": {
-              "stress": 3
+              "stress": 3,
+              "vocalSheva": [
+                2
+              ]
             }
           },
           "afterPhonetic": "Aní shajavti vaishana hekitsoti ki Ad-nai yismejeni."
@@ -784,7 +870,8 @@
           },
           "afterPhonetic": "LaAd-nai hayeshu'á 'al 'Amejá Virjateja sela."
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 4,
@@ -881,18 +968,40 @@
           ]
         },
         {
-          "ref": "4:5",
-          "word": "בלבבכם",
-          "clusters": [
-            3
-          ]
+          "ref": "4:7",
+          "word": "אֹמְרִים",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "מ"
+          ],
+          "source": "IMG_1460.png",
+          "evidence": "Guion horizontal separado por blanco de la letra, confirmado en ampliación."
         },
         {
           "ref": "4:5",
-          "word": "משכבכם",
-          "clusters": [
-            3
-          ]
+          "word": "אִמְרוּ",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "מ"
+          ],
+          "source": "IMG_1460.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "4:9",
+          "word": "אֶשְׁכְּבָה",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "כ"
+          ],
+          "source": "IMG_1460.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
         }
       ],
       "nikudChanges": [],
@@ -962,18 +1071,13 @@
             "סלה": {
               "stress": 0
             },
-            "בלבבכם": {
+            "אמרו": {
               "vocalSheva": [
-                3
-              ]
-            },
-            "משכבכם": {
-              "vocalSheva": [
-                3
+                1
               ]
             }
           },
-          "afterPhonetic": "Rigzú veal tejetaú imrú vilvavejem 'al mishkavejem vedomu sela."
+          "afterPhonetic": "Rigzú veal tejetaú imerú vilvavjem 'al mishkavjem vedomu sela."
         },
         {
           "ref": "4:6",
@@ -1001,9 +1105,14 @@
             },
             "פניך": {
               "capital": true
+            },
+            "אמרים": {
+              "vocalSheva": [
+                1
+              ]
             }
           },
-          "afterPhonetic": "Rabim omrim mi yarenu tov nesá 'alenu or Paneja Ad-nai."
+          "afterPhonetic": "Rabim omerim mi yarenu tov nesá 'alenu or Paneja Ad-nai."
         },
         {
           "ref": "4:8",
@@ -1027,11 +1136,17 @@
             },
             "אתה": {
               "capital": true
+            },
+            "אשכבה": {
+              "vocalSheva": [
+                2
+              ]
             }
           },
           "afterPhonetic": "Beshalom yajdav eshkevá veishán ki Atá Ad-nai levadad lavétaj toshiveni."
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 5,
@@ -1202,6 +1317,78 @@
           "clusters": [
             3
           ]
+        },
+        {
+          "ref": "5:6",
+          "word": "יִתְיַצְּבוּ",
+          "clusterIndices": [
+            3
+          ],
+          "letters": [
+            "צ"
+          ],
+          "source": "IMG_1462.png",
+          "evidence": "Guion horizontal separado de la letra confirmado en ampliación."
+        },
+        {
+          "ref": "5:7",
+          "word": "דֹּבְרֵי",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "ב"
+          ],
+          "source": "IMG_1462.png",
+          "evidence": "Guion horizontal separado de la letra confirmado en ampliación."
+        },
+        {
+          "ref": "5:11",
+          "word": "יִפְּלוּ",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "פ"
+          ],
+          "source": "IMG_1462.png",
+          "evidence": "Guion horizontal separado de la letra confirmado en ampliación."
+        },
+        {
+          "ref": "5:9",
+          "word": "שׁוֹרְרָי",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "ר"
+          ],
+          "source": "IMG_1462.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "5:12",
+          "word": "וְיִשְׂמְחוּ",
+          "clusterIndices": [
+            3
+          ],
+          "letters": [
+            "מ"
+          ],
+          "source": "IMG_1462.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "5:13",
+          "word": "תַּעְטְרֶֽנּוּ",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "ט"
+          ],
+          "source": "IMG_1462.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
         }
       ],
       "nikudChanges": [
@@ -1313,6 +1500,11 @@
             },
             "און": {
               "stress": 0
+            },
+            "יתיצבו": {
+              "vocalSheva": [
+                3
+              ]
             }
           },
           "afterPhonetic": "Lo yityatsevú holelim lenégued 'Eneja saneta kol po'alé aven."
@@ -1322,8 +1514,14 @@
           "beforeHebrew": "תְּאַבֵּד דֹּבְרֵי כָזָב אִישׁ דָּמִים וּמִרְמָה יְתָעֵב יְהֹוָה.",
           "afterHebrew": "תְּאַבֵּד דֹּבְרֵי כָזָב אִישׁ דָּמִים וּמִרְמָה יְתָעֵב יְהֹוָה.",
           "beforePhonetic": "Teabed dovré jazav ish damim umirmá yeta'ev Ad-nai.",
-          "changes": {},
-          "afterPhonetic": "Teabed dovré jazav ish damim umirmá yeta'ev Ad-nai."
+          "changes": {
+            "דברי": {
+              "vocalSheva": [
+                1
+              ]
+            }
+          },
+          "afterPhonetic": "Teabed doveré jazav ish damim umirmá yeta'ev Ad-nai."
         },
         {
           "ref": "5:8",
@@ -1370,6 +1568,11 @@
             },
             "דרכך": {
               "capital": true
+            },
+            "שוררי": {
+              "vocalSheva": [
+                2
+              ]
             }
           },
           "afterPhonetic": "Ad-nai nejeni Vetsidkateja lema'an shorerái hayeshar lefanái Darkeja."
@@ -1400,9 +1603,14 @@
             },
             "הדיחמו": {
               "stress": 3
+            },
+            "יפלו": {
+              "vocalSheva": [
+                1
+              ]
             }
           },
-          "afterPhonetic": "Haashimem Elohim yiplú mimo'atsotéhem berov pish'ehem hadijemo ki marú vaj."
+          "afterPhonetic": "Haashimem Elohim yipelú mimo'atsotéhem berov pish'ehem hadijemo ki marú vaj."
         },
         {
           "ref": "5:12",
@@ -1423,6 +1631,11 @@
             },
             "שמך": {
               "capital": true
+            },
+            "וישמחו": {
+              "vocalSheva": [
+                3
+              ]
             }
           },
           "afterPhonetic": "Veyismejú jol josé Vaj le'olam yeranenú vetasej 'alemo veya'letsú Veja ohavé Shemeja."
@@ -1437,7 +1650,10 @@
               "stress": 1
             },
             "תעטרנו": {
-              "stress": 3
+              "stress": 3,
+              "vocalSheva": [
+                2
+              ]
             },
             "אתה": {
               "capital": true
@@ -1445,7 +1661,8 @@
           },
           "afterPhonetic": "Ki Atá tevarej tsadik Ad-nai katsina ratsón ta'terenu."
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 6,
@@ -1598,13 +1815,6 @@
           ]
         },
         {
-          "ref": "6:7",
-          "word": "באנחתי",
-          "clusters": [
-            2
-          ]
-        },
-        {
           "ref": "6:8",
           "word": "עששה",
           "clusters": [
@@ -1617,6 +1827,66 @@
           "clusters": [
             1
           ]
+        },
+        {
+          "ref": "6:1",
+          "word": "הַשְּׁמִינִית",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "ש"
+          ],
+          "source": "IMG_1463.png",
+          "evidence": "Guion horizontal separado de la letra confirmado en ampliación."
+        },
+        {
+          "ref": "6:2",
+          "word": "בְּאַפְּךָ",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "פ"
+          ],
+          "source": "IMG_1463.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "6:2",
+          "word": "תְיַסְּרֵֽנִי",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "ס"
+          ],
+          "source": "IMG_1463.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "6:8",
+          "word": "צוֹרְרָי",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "ר"
+          ],
+          "source": "IMG_1463.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "6:11",
+          "word": "אֹיְבָי",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "י"
+          ],
+          "source": "IMG_1463.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
         }
       ],
       "nikudChanges": [
@@ -1639,6 +1909,11 @@
               "vocalSheva": [
                 1
               ]
+            },
+            "השמינית": {
+              "vocalSheva": [
+                1
+              ]
             }
           },
           "afterPhonetic": "Lamenatséaj binguinot 'al hasheminit mizmor leDavid."
@@ -1653,7 +1928,10 @@
               "stress": 4
             },
             "תיסרני": {
-              "stress": 3
+              "stress": 3,
+              "vocalSheva": [
+                2
+              ]
             },
             "בחמתך": {
               "vocalSheva": [
@@ -1662,10 +1940,13 @@
               "capital": true
             },
             "באפך": {
-              "capital": true
+              "capital": true,
+              "vocalSheva": [
+                2
+              ]
             }
           },
-          "afterPhonetic": "Ad-nai al Beapjá tojijeni veal Bajamateja teyasereni."
+          "afterPhonetic": "Ad-nai al Beapejá tojijeni veal Bajamateja teyasereni."
         },
         {
           "ref": "6:3",
@@ -1751,16 +2032,13 @@
               "stress": 1
             },
             "באנחתי": {
-              "stress": 3,
-              "vocalSheva": [
-                2
-              ]
+              "stress": 3
             },
             "מטתי": {
               "stress": 1
             }
           },
-          "afterPhonetic": "Yaga'ti beanejati asjé vejol layla mitati bedim'atí 'arsí amsé."
+          "afterPhonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé."
         },
         {
           "ref": "6:8",
@@ -1783,6 +2061,11 @@
             },
             "עיני": {
               "stress": "final"
+            },
+            "צוררי": {
+              "vocalSheva": [
+                2
+              ]
             }
           },
           "afterPhonetic": "'Asheshá mika'as 'ení 'ateká bejol tsorerái."
@@ -1824,11 +2107,17 @@
             },
             "רגע": {
               "stress": 0
+            },
+            "איבי": {
+              "vocalSheva": [
+                1
+              ]
             }
           },
-          "afterPhonetic": "Yevoshu veyibahalú meod kol oyvái yashuvu yevoshu raga'."
+          "afterPhonetic": "Yevoshu veyibahalú meod kol oyevái yashuvu yevoshu raga'."
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 7,
@@ -1980,6 +2269,54 @@
           "clusters": [
             3
           ]
+        },
+        {
+          "ref": "7:1",
+          "word": "דִּבְרֵי",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "ב"
+          ],
+          "source": "IMG_1464.png",
+          "evidence": "Guion separado sobre la letra confirmado en ampliación."
+        },
+        {
+          "ref": "7:3",
+          "word": "יִטְרֹף",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "ט"
+          ],
+          "source": "IMG_1464.png",
+          "evidence": "Guion separado sobre la letra confirmado en ampliación."
+        },
+        {
+          "ref": "7:8",
+          "word": "תְּסוֹבְבֶֽךָּ",
+          "clusterIndices": [
+            3
+          ],
+          "letters": [
+            "ב"
+          ],
+          "source": "IMG_1464.png",
+          "evidence": "Guion separado sobre la letra confirmado en ampliación."
+        },
+        {
+          "ref": "7:10",
+          "word": "וּכְלָיוֹת",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "כ"
+          ],
+          "source": "IMG_1465.png",
+          "evidence": "Rayita horizontal aislada visible en ampliación."
         }
       ],
       "nikudChanges": [],
@@ -1989,8 +2326,14 @@
           "beforeHebrew": "שִׁגָּיוֹן לְדָוִד אֲשֶׁר שָׁר לַיהֹוָה עַל דִּבְרֵי כוּשׁ בֶּן יְמִינִי.",
           "afterHebrew": "שִׁגָּיוֹן לְדָוִד אֲשֶׁר שָׁר לַיהֹוָה עַל דִּבְרֵי כוּשׁ בֶּן יְמִינִי.",
           "beforePhonetic": "Shigayón leDavid asher shar laAd-nai 'al divré jush ben yeminí.",
-          "changes": {},
-          "afterPhonetic": "Shigayón leDavid asher shar laAd-nai 'al divré jush ben yeminí."
+          "changes": {
+            "דברי": {
+              "vocalSheva": [
+                1
+              ]
+            }
+          },
+          "afterPhonetic": "Shigayón leDavid asher shar laAd-nai 'al diveré jush ben yeminí."
         },
         {
           "ref": "7:2",
@@ -2018,9 +2361,14 @@
           "changes": {
             "כאריה": {
               "stress": 3
+            },
+            "יטרף": {
+              "vocalSheva": [
+                1
+              ]
             }
           },
-          "afterPhonetic": "Pen yitrof kearyé nafshí porek veén matsil."
+          "afterPhonetic": "Pen yiterof kearyé nafshí porek veén matsil."
         },
         {
           "ref": "7:4",
@@ -2092,6 +2440,11 @@
           "changes": {
             "ועליה": {
               "stress": 2
+            },
+            "תסובבך": {
+              "vocalSheva": [
+                3
+              ]
             }
           },
           "afterPhonetic": "Va'adat leumim tesoveveka ve'aleha lamarom shuvá."
@@ -2116,8 +2469,14 @@
           "beforeHebrew": "יִגְמׇר נָא רַע רְשָׁעִים וּתְכוֹנֵן צַדִּיק וּבֹחֵן לִבּוֹת וּכְלָיוֹת אֱלֹהִים צַדִּיק.",
           "afterHebrew": "יִגְמׇר נָא רַע רְשָׁעִים וּתְכוֹנֵן צַדִּיק וּבֹחֵן לִבּוֹת וּכְלָיוֹת אֱלֹהִים צַדִּיק.",
           "beforePhonetic": "Yigmor na ra' resha'im utjonén tsadik uvojén libot ujlayot Elohim tsadik.",
-          "changes": {},
-          "afterPhonetic": "Yigmor na ra' resha'im utjonén tsadik uvojén libot ujlayot Elohim tsadik."
+          "changes": {
+            "וכליות": {
+              "vocalSheva": [
+                1
+              ]
+            }
+          },
+          "afterPhonetic": "Yigmor na ra' resha'im utjonén tsadik uvojén libot ujelayot Elohim tsadik."
         },
         {
           "ref": "7:11",
@@ -2216,7 +2575,8 @@
           "afterPhonetic": "Odé Ad-nai ketsidkó vaazamerá Shem Ad-nai 'elyón."
         }
       ],
-      "additionalSource": "IMG_1465.png"
+      "additionalSource": "IMG_1465.png",
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 8,
@@ -2395,6 +2755,42 @@
           "clusters": [
             2
           ]
+        },
+        {
+          "ref": "8:2",
+          "word": "הוֹדְךָ",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "ד"
+          ],
+          "source": "IMG_1466.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "8:3",
+          "word": "צוֹרְרֶיךָ",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "ר"
+          ],
+          "source": "IMG_1466.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "8:3",
+          "word": "וְיֹנְקִים",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "נ"
+          ],
+          "source": "IMG_1466.png",
+          "evidence": "Rayita aislada encima de נ confirmada en ampliación."
         }
       ],
       "nikudChanges": [],
@@ -2434,7 +2830,10 @@
               "capital": true
             },
             "הודך": {
-              "capital": true
+              "capital": true,
+              "vocalSheva": [
+                2
+              ]
             }
           },
           "afterPhonetic": "Ad-nai Adonenu ma adir Shimjá bejol haarets asher tená Hodeja 'al hashamáyim."
@@ -2455,9 +2854,19 @@
               "vocalSheva": [
                 2
               ]
+            },
+            "צורריך": {
+              "vocalSheva": [
+                2
+              ]
+            },
+            "וינקים": {
+              "vocalSheva": [
+                2
+              ]
             }
           },
-          "afterPhonetic": "Mipí 'olelim veyonkim yisadta 'oz lema'an tsorereja lehashbit oyev umitnakem."
+          "afterPhonetic": "Mipí 'olelim veyonekim yisadta 'oz lema'an tsorereja lehashbit oyev umitnakem."
         },
         {
           "ref": "8:4",
@@ -2590,7 +2999,8 @@
           },
           "afterPhonetic": "Ad-nai Adonenu ma adir Shimjá bejol haarets."
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 9,
@@ -2813,6 +3223,66 @@
           "clusters": [
             3
           ]
+        },
+        {
+          "ref": "9:11",
+          "word": "יוֹדְעֵי",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "ד"
+          ],
+          "source": "IMG_1468.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "9:11",
+          "word": "דֹרְשֶׁיךָ",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "ר"
+          ],
+          "source": "IMG_1468.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "9:12",
+          "word": "זַמְּרוּ",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "מ"
+          ],
+          "source": "IMG_1468.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "9:16",
+          "word": "נִלְכְּדָה",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "כ"
+          ],
+          "source": "IMG_1468.png",
+          "evidence": "Guion horizontal aislado por encima de la letra, confirmado en imagen ampliada."
+        },
+        {
+          "ref": "9:2",
+          "word": "נִפְלְאוֹתֶֽיךָ",
+          "clusterIndices": [
+            2
+          ],
+          "letters": [
+            "ל"
+          ],
+          "source": "IMG_1467.png",
+          "evidence": "Rayita horizontal aislada visible en ampliación."
         }
       ],
       "nikudChanges": [
@@ -2847,7 +3317,10 @@
           "changes": {
             "נפלאותיך": {
               "stress": 5,
-              "capital": true
+              "capital": true,
+              "vocalSheva": [
+                2
+              ]
             },
             "אספרה": {
               "vocalSheva": [
@@ -3015,17 +3488,31 @@
               "capital": true
             },
             "דרשיך": {
-              "capital": true
+              "capital": true,
+              "vocalSheva": [
+                1
+              ]
+            },
+            "יודעי": {
+              "vocalSheva": [
+                2
+              ]
             }
           },
-          "afterPhonetic": "Veyivtejú Veja yod'é Shemeja ki lo 'azavta Dorsheja Ad-nai."
+          "afterPhonetic": "Veyivtejú Veja yode'é Shemeja ki lo 'azavta Doresheja Ad-nai."
         },
         {
           "ref": "9:12",
           "beforeHebrew": "זַמְּרוּ לַיהֹוָה יֹשֵׁב צִיּוֹן הַגִּידוּ בָעַמִּים עֲלִילוֹתָיו.",
           "afterHebrew": "זַמְּרוּ לַיהֹוָה יֹשֵׁב צִיּוֹן הַגִּידוּ בָעַמִּים עֲלִילוֹתָיו.",
           "beforePhonetic": "Zamerú laAd-nai yoshev Tsiyón haguidú va'amim 'alilotav.",
-          "changes": {},
+          "changes": {
+            "זמרו": {
+              "vocalSheva": [
+                1
+              ]
+            }
+          },
           "afterPhonetic": "Zamerú laAd-nai yoshev Tsiyón haguidú va'amim 'alilotav."
         },
         {
@@ -3093,12 +3580,18 @@
             },
             "טמנו": {
               "stress": 1
+            },
+            "נלכדה": {
+              "vocalSheva": [
+                2
+              ]
             }
           },
           "afterPhonetic": "Tav'ú goyim beshájat 'asú beréshet zu tamanu nilkedá raglam."
         }
       ],
-      "visibleVerses": "1–16; end required for 17–21"
+      "visibleVerses": "1–16; end required for 17–21",
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     }
   ],
   "openReview": {

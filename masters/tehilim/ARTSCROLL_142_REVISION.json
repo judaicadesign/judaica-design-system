@@ -142,56 +142,64 @@
       "previousHebrew": "מַשְׂכִּיל לְדָוִד בִּהְיוֹתוֹ בַמְּעָרָה תְפִלָּה.",
       "hebrew": "מַשְׂכִּיל לְדָוִד בִּהְיוֹתוֹ בַמְּעָרָה תְפִלָּה.",
       "previousPhonetic": "Maskil leDavid bihyotó vame'ará tefilá.",
-      "phonetic": "Maskil leDavid bihyotó vame'ará tefilá."
+      "phonetic": "Maskil leDavid bihyotó vame'ará tefilá.",
+      "afterPhonetic": "Maskil leDavid bihyotó vame'ará tefilá."
     },
     {
       "verse": 2,
       "previousHebrew": "קוֹלִי אֶל יְהֹוָה אֶזְעָק קוֹלִי אֶל יְהֹוָה אֶתְחַנָּן.",
       "hebrew": "קוֹלִי אֶל יְהֹוָה אֶזְעָק קוֹלִי אֶל יְהֹוָה אֶתְחַנָּן.",
       "previousPhonetic": "Kolí el Ad-nai ez'ak kolí el Ad-nai etjanán.",
-      "phonetic": "Kolí el Ad-nai ez'ak kolí el Ad-nai etjanán."
+      "phonetic": "Kolí el Ad-nai ez'ak kolí el Ad-nai etjanán.",
+      "afterPhonetic": "Kolí el Ad-nai ez'ak kolí el Ad-nai etjanán."
     },
     {
       "verse": 3,
       "previousHebrew": "אֶשְׁפֹּךְ לְפָנָיו שִׂיחִי צָרָתִי לְפָנָיו אַגִּיד.",
       "hebrew": "אֶשְׁפֹּךְ לְפָנָיו שִׂיחִי צָרָתִי לְפָנָיו אַגִּיד.",
       "previousPhonetic": "Eshpoj lefanav sijí tsaratí lefanav aguid.",
-      "phonetic": "Eshpoj lefanav sijí tsaratí lefanav aguid."
+      "phonetic": "Eshpoj lefanav sijí tsaratí lefanav aguid.",
+      "afterPhonetic": "Eshpoj lefanav sijí tsaratí lefanav aguid."
     },
     {
       "verse": 4,
       "previousHebrew": "בְּהִתְעַטֵּף עָלַי רוּחִי וְאַתָּה יָדַעְתָּ נְתִיבָתִי בְּאֹרַח זוּ אֲהַלֵּךְ טָמְנוּ פַח לִי.",
       "hebrew": "בְּהִתְעַטֵּף עָלַי רוּחִי וְאַתָּה יָדַֽעְתָּ נְתִיבָתִי בְּאֹֽרַח זוּ אֲהַלֵּךְ טָמְנוּ פַח לִי.",
       "previousPhonetic": "Behit'atef 'alái rují veatá yada'ta netivatí beoraj zu ahalej tamnu faj li.",
-      "phonetic": "Behit'atef 'alái rují veAtá yada'ta netivatí beóraj zu ahalej tamnu faj li."
+      "phonetic": "Behit'atef 'alái rují veAtá yada'ta netivatí beóraj zu ahalej tamnu faj li.",
+      "afterPhonetic": "Behit'atef 'alái rují veAtá yada'ta netivatí beóraj zu ahalej tamnu faj li."
     },
     {
       "verse": 5,
       "previousHebrew": "הַבֵּיט יָמִין וּרְאֵה וְאֵין לִי מַכִּיר אָבַד מָנוֹס מִמֶּנִּי אֵין דּוֹרֵשׁ לְנַפְשִׁי.",
       "hebrew": "הַבֵּיט יָמִין וּרְאֵה וְאֵין לִי מַכִּיר אָבַד מָנוֹס מִמֶּֽנִּי אֵין דּוֹרֵשׁ לְנַפְשִׁי.",
       "previousPhonetic": "Habet yamín uré veén li makir avad manós mimeni en doresh lenafshí.",
-      "phonetic": "Habet yamín uré veén li makir avad manós mimeni en doresh lenafshí."
+      "phonetic": "Habet yamín uré veén li makir avad manós mimeni en doresh lenafshí.",
+      "afterPhonetic": "Habet yamín uré veén li makir avad manós mimeni en doresh lenafshí."
     },
     {
       "verse": 6,
       "previousHebrew": "זָעַקְתִּי אֵלֶיךָ יְהֹוָה אָמַרְתִּי אַתָּה מַחְסִי חֶלְקִי בְּאֶרֶץ הַחַיִּים.",
       "hebrew": "זָעַֽקְתִּי אֵלֶֽיךָ יְהֹוָה אָמַֽרְתִּי אַתָּה מַחְסִי חֶלְקִי בְּאֶֽרֶץ הַחַיִּים.",
       "previousPhonetic": "Za'akti eleja Ad-nai amarti atá majsí jelkí beerets hajayim.",
-      "phonetic": "Za'akti Eleja Ad-nai amarti Atá majsí jelkí beerets hajayim."
+      "phonetic": "Za'akti Eleja Ad-nai amarti Atá majsí jelkí beerets hajayim.",
+      "afterPhonetic": "Za'akti Eleja Ad-nai amarti Atá majsí jelkí beerets hajayim."
     },
     {
       "verse": 7,
       "previousHebrew": "הַקְשִׁיבָה אֶל רִנָּתִי כִּי דַלּוֹתִי מְאֹד הַצִּילֵנִי מֵרֹדְפַי כִּי אָמְצוּ מִמֶּנִּי.",
       "hebrew": "הַקְשִֽׁיבָה אֶל רִנָּתִי כִּי דַלּֽוֹתִי מְאֹד הַצִּילֵֽנִי מֵרֹדְפַי כִּי אָמְצוּ מִמֶּֽנִּי.",
       "previousPhonetic": "Hakshiva el rinatí ki daloti meod hatsileni merodfái ki amtsú mimeni.",
-      "phonetic": "Hakshiva el rinatí ki daloti meod hatsileni merodfái ki amtsú mimeni."
+      "phonetic": "Hakshiva el rinatí ki daloti meod hatsileni merodfái ki amtsú mimeni.",
+      "afterPhonetic": "Hakshiva el rinatí ki daloti meod hatsileni merodfái ki amtsú mimeni."
     },
     {
       "verse": 8,
       "previousHebrew": "הוֹצִיאָה מִמַּסְגֵּר נַפְשִׁי לְהוֹדוֹת אֶת שְׁמֶךָ בִּי יַכְתִּרוּ צַדִּיקִים כִּי תִגְמֹל עָלָי.",
       "hebrew": "הוֹצִֽיאָה מִמַּסְגֵּר נַפְשִׁי לְהוֹדוֹת אֶת שְׁמֶֽךָ בִּי יַכְתִּֽרוּ צַדִּיקִים כִּי תִגְמֹל עָלָי.",
       "previousPhonetic": "Hotsía mimasguer nafshí lehodot et shemeja bi yajtirú tsadikim ki tigmol 'alái.",
-      "phonetic": "Hotsía mimasguer nafshí lehodot et Shemeja bi yajtiru tsadikim ki tigmol 'alái."
+      "phonetic": "Hotsía mimasguer nafshí lehodot et Shemeja bi yajtiru tsadikim ki tigmol 'alái.",
+      "afterPhonetic": "Hotsía mimasguer nafshí lehodot et Shemeja bi yajtiru tsadikim ki tigmol 'alái."
     }
   ]
 }

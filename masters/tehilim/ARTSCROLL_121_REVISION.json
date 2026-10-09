@@ -124,56 +124,64 @@
       "previousHebrew": "שִׁיר לַמַּעֲלוֹת אֶשָּׂא עֵינַי אֶל הֶהָרִים מֵאַיִן יָבֹא עֶזְרִי.",
       "hebrew": "שִׁיר לַמַּעֲלוֹת אֶשָּׂא עֵינַי אֶל הֶהָרִים מֵאַֽיִן יָבֹא עֶזְרִי.",
       "previousPhonetic": "Shir lama'alot esá 'enái el heharim meayín yavó 'ezrí.",
-      "phonetic": "Shir lama'alot esá 'enái el heharim meayin yavó 'ezrí."
+      "phonetic": "Shir lama'alot esá 'enái el heharim meayin yavó 'ezrí.",
+      "afterPhonetic": "Shir lama'alot esá 'enái el heharim meayin yavó 'ezrí."
     },
     {
       "verse": 2,
       "previousHebrew": "עֶזְרִי מֵעִם יְהֹוָה עֹשֵׂה שָׁמַיִם וָאָרֶץ.",
       "hebrew": "עֶזְרִי מֵעִם יְהֹוָה עֹשֵׂה שָׁמַֽיִם וָאָֽרֶץ.",
       "previousPhonetic": "'Ezrí me'im Ad-nai 'osé shamáyim vaarets.",
-      "phonetic": "'Ezrí me'im Ad-nai 'osé shamáyim vaarets."
+      "phonetic": "'Ezrí me'im Ad-nai 'osé shamáyim vaarets.",
+      "afterPhonetic": "'Ezrí me'im Ad-nai 'osé shamáyim vaarets."
     },
     {
       "verse": 3,
       "previousHebrew": "אַל יִתֵּן לַמּוֹט רַגְלֶךָ אַל יָנוּם שֹׁמְרֶךָ.",
       "hebrew": "אַל יִתֵּן לַמּוֹט רַגְלֶֽךָ אַל יָנוּם שֹׁמְרֶֽךָ.",
       "previousPhonetic": "Al yitén lamot ragleja al yanum shomreja.",
-      "phonetic": "Al yitén lamot ragleja al yanum shomreja."
+      "phonetic": "Al yitén lamot ragleja al yanum shomreja.",
+      "afterPhonetic": "Al yitén lamot ragleja al yanum shomreja."
     },
     {
       "verse": 4,
       "previousHebrew": "הִנֵּה לֹא יָנוּם וְלֹא יִישָׁן שׁוֹמֵר יִשְׂרָאֵל.",
       "hebrew": "הִנֵּה לֹא יָנוּם וְלֹא יִישָׁן שׁוֹמֵר יִשְׂרָאֵל.",
       "previousPhonetic": "Hiné lo yanum veló yishán shomer Yisrael.",
-      "phonetic": "Hiné lo yanum veló yishán shomer Yisrael."
+      "phonetic": "Hiné lo yanum veló yishán shomer Yisrael.",
+      "afterPhonetic": "Hiné lo yanum veló yishán shomer Yisrael."
     },
     {
       "verse": 5,
       "previousHebrew": "יְהֹוָה שֹׁמְרֶךָ יְהֹוָה צִלְּךָ עַל יַד יְמִינֶךָ.",
       "hebrew": "יְהֹוָה שֹׁמְרֶֽךָ יְהֹוָה צִלְּךָ עַל יַד יְמִינֶךָ.",
       "previousPhonetic": "Ad-nai shomreja Ad-nai tsiljá 'al yad yemineja.",
-      "phonetic": "Ad-nai shomreja Ad-nai tsiljá 'al yad yemineja."
+      "phonetic": "Ad-nai shomreja Ad-nai tsiljá 'al yad yemineja.",
+      "afterPhonetic": "Ad-nai shomreja Ad-nai tsiljá 'al yad yemineja."
     },
     {
       "verse": 6,
       "previousHebrew": "יוֹמָם הַשֶּׁמֶשׁ לֹא יַכֶּכָּה וְיָרֵחַ בַּלָּיְלָה.",
       "hebrew": "יוֹמָם הַשֶּֽׁמֶשׁ לֹא יַכֶּֽכָּה וְיָרֵֽחַ בַּלָּֽיְלָה.",
       "previousPhonetic": "Yomam hashémesh lo yakeka veyaréaj balaylá.",
-      "phonetic": "Yomam hashémesh lo yakeka veyaréaj balayla."
+      "phonetic": "Yomam hashémesh lo yakeka veyaréaj balayla.",
+      "afterPhonetic": "Yomam hashémesh lo yakeka veyaréaj balayla."
     },
     {
       "verse": 7,
       "previousHebrew": "יְהֹוָה יִשְׁמׇרְךָ מִכׇּל רָע יִשְׁמֹר אֶת נַפְשֶׁךָ.",
       "hebrew": "יְהֹוָה יִשְׁמׇרְךָ מִכׇּל רָע יִשְׁמֹר אֶת נַפְשֶֽׁךָ.",
       "previousPhonetic": "Ad-nai yishmoreja mikol ra' yishmor et nafsheja.",
-      "phonetic": "Ad-nai yishmoreja mikol ra' yishmor et nafsheja."
+      "phonetic": "Ad-nai yishmoreja mikol ra' yishmor et nafsheja.",
+      "afterPhonetic": "Ad-nai yishmoreja mikol ra' yishmor et nafsheja."
     },
     {
       "verse": 8,
       "previousHebrew": "יְהֹוָה יִשְׁמׇר צֵאתְךָ וּבוֹאֶךָ מֵעַתָּה וְעַד עוֹלָם.",
       "hebrew": "יְהֹוָה יִשְׁמׇר צֵאתְךָ וּבוֹאֶֽךָ מֵעַתָּה וְעַד עוֹלָם.",
       "previousPhonetic": "Ad-nai yishmor tseteja uvoeja me'atá ve'ad 'olam.",
-      "phonetic": "Ad-nai yishmor tseteja uvoeja me'atá ve'ad 'olam."
+      "phonetic": "Ad-nai yishmor tseteja uvoeja me'atá ve'ad 'olam.",
+      "afterPhonetic": "Ad-nai yishmor tseteja uvoeja me'atá ve'ad 'olam."
     }
   ]
 }

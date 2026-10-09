@@ -52,26 +52,6 @@
       ],
       "vocalSheva": [
         {
-          "ref": "9:18",
-          "word": "רְשָׁעִים",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ר"
-          ]
-        },
-        {
-          "ref": "9:20",
-          "word": "יִשָּׁפְטוּ",
-          "clusterIndices": [
-            2
-          ],
-          "letters": [
-            "פ"
-          ]
-        },
-        {
           "ref": "9:21",
           "word": "יֵדְעוּ",
           "clusterIndices": [
@@ -122,11 +102,6 @@
             },
             "לשאולה": {
               "stress": 2
-            },
-            "רשעים": {
-              "vocalSheva": [
-                0
-              ]
             }
           }
         },
@@ -147,16 +122,11 @@
           "beforeHebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶיךָ.",
           "afterHebrew": "קוּמָה יְהֹוָה אַל יָעֹז אֱנוֹשׁ יִשָּׁפְטוּ גוֹיִם עַל פָּנֶֽיךָ.",
           "beforePhonetic": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al paneja.",
-          "afterPhonetic": "Kumá Ad-nai al ya'oz enosh yishafetú goyim 'al Paneja.",
+          "afterPhonetic": "Kumá Ad-nai al ya'oz enosh yishaftú goyim 'al Paneja.",
           "changes": {
             "פניך": {
               "stress": 1,
               "capital": true
-            },
-            "ישפטו": {
-              "vocalSheva": [
-                2
-              ]
             }
           }
         },
@@ -174,7 +144,8 @@
             }
           }
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 10,
@@ -337,52 +308,12 @@
         },
         {
           "ref": "10:5",
-          "word": "דְרָכָו",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ד"
-          ]
-        },
-        {
-          "ref": "10:5",
-          "word": "מִשְׁפָּטֶֽיךָ",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ש"
-          ]
-        },
-        {
-          "ref": "10:5",
           "word": "צוֹרְרָיו",
           "clusterIndices": [
             2
           ],
           "letters": [
             "ר"
-          ]
-        },
-        {
-          "ref": "10:7",
-          "word": "לְשׁוֹנוֹ",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ל"
-          ]
-        },
-        {
-          "ref": "10:8",
-          "word": "בְּמַאְרַב",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ב"
           ]
         },
         {
@@ -393,46 +324,6 @@
           ],
           "letters": [
             "ד"
-          ]
-        },
-        {
-          "ref": "10:12",
-          "word": "נְשָׂא",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "נ"
-          ]
-        },
-        {
-          "ref": "10:14",
-          "word": "בְּיָדֶֽךָ",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ב"
-          ]
-        },
-        {
-          "ref": "10:15",
-          "word": "שְׁבֹר",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ש"
-          ]
-        },
-        {
-          "ref": "10:15",
-          "word": "זְרוֹֽעַ",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ז"
           ]
         }
       ],
@@ -504,25 +395,17 @@
           "beforeHebrew": "יָחִילוּ דְרָכָו בְּכׇל עֵת מָרוֹם מִשְׁפָּטֶיךָ מִנֶּגְדּוֹ כׇּל צוֹרְרָיו יָפִיחַ בָּהֶם.",
           "afterHebrew": "יָחִֽילוּ דְרָכָו בְּכׇל עֵת מָרוֹם מִשְׁפָּטֶֽיךָ מִנֶּגְדּוֹ כׇּל צוֹרְרָיו יָפִֽיחַ בָּהֶם.",
           "beforePhonetic": "Yajilu derajav bejol 'et marom mishpateja minegdó kol tsorerav yafíaj bahem.",
-          "afterPhonetic": "Yajilu derajav bejol 'et marom Mishepateja minegdó kol tsorerav yafíaj báhem.",
+          "afterPhonetic": "Yajilu derajav bejol 'et marom Mishpateja minegdó kol tsorerav yafíaj báhem.",
           "changes": {
             "יחילו": {
               "stress": 1
             },
             "משפטיך": {
               "stress": 3,
-              "vocalSheva": [
-                1
-              ],
               "capital": true
             },
             "יפיח": {
               "stress": 1
-            },
-            "דרכו": {
-              "vocalSheva": [
-                0
-              ]
             },
             "צורריו": {
               "vocalSheva": [
@@ -554,11 +437,6 @@
             },
             "ואון": {
               "stress": 1
-            },
-            "לשונו": {
-              "vocalSheva": [
-                0
-              ]
             }
           }
         },
@@ -571,11 +449,6 @@
           "changes": {
             "יצפנו": {
               "stress": 2
-            },
-            "במארב": {
-              "vocalSheva": [
-                0
-              ]
             }
           }
         },
@@ -629,11 +502,6 @@
             "ידך": {
               "stress": 1,
               "capital": true
-            },
-            "נשא": {
-              "vocalSheva": [
-                0
-              ]
             }
           }
         },
@@ -660,9 +528,6 @@
             },
             "בידך": {
               "stress": 2,
-              "vocalSheva": [
-                0
-              ],
               "capital": true
             },
             "עליך": {
@@ -686,11 +551,6 @@
           "changes": {
             "זרוע": {
               "stress": 2,
-              "vocalSheva": [
-                0
-              ]
-            },
-            "שבר": {
               "vocalSheva": [
                 0
               ]
@@ -740,7 +600,8 @@
             }
           }
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 11,
@@ -862,36 +723,6 @@
           "letters": [
             "ש"
           ]
-        },
-        {
-          "ref": "11:4",
-          "word": "קׇדְשׁוֹ",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ד"
-          ]
-        },
-        {
-          "ref": "11:6",
-          "word": "רְשָׁעִים",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ר"
-          ]
-        },
-        {
-          "ref": "11:7",
-          "word": "צְדָקוֹת",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "צ"
-          ]
         }
       ],
       "textChanges": [
@@ -979,15 +810,12 @@
           "beforeHebrew": "יְהֹוָה בְּהֵיכַל קׇדְשׁוֹ יְהֹוָה בַּשָּׁמַיִם כִּסְאוֹ עֵינָיו יֶחֱזוּ עַפְעַפָּיו יִבְחֲנוּ בְּנֵי אָדָם.",
           "afterHebrew": "יְהֹוָה בְּהֵיכַל קׇדְשׁוֹ יְהֹוָה בַּשָּׁמַֽיִם כִּסְאוֹ עֵינָיו יֶחֱזוּ עַפְעַפָּיו יִבְחֲנוּ בְּנֵי אָדָם.",
           "beforePhonetic": "Ad-nai behejal kodshó Ad-nai bashamáyim kisó 'enav yejezú 'af'apav yivjanú bené adam.",
-          "afterPhonetic": "Ad-nai behejal Kodeshó Ad-nai bashamáyim Kisó 'Enav yejezú 'Af'apav yivjanú bené adam.",
+          "afterPhonetic": "Ad-nai behejal Kodshó Ad-nai bashamáyim Kisó 'Enav yejezú 'Af'apav yivjanú bené adam.",
           "changes": {
             "בשמים": {
               "stress": 2
             },
             "קדשו": {
-              "vocalSheva": [
-                1
-              ],
               "capital": true
             },
             "כסאו": {
@@ -1019,13 +847,7 @@
           "afterHebrew": "יַמְטֵר עַל רְשָׁעִים פַּחִים אֵשׁ וְגׇפְרִית וְרוּחַ זִלְעָפוֹת מְנָת כּוֹסָם.",
           "beforePhonetic": "Yamter 'al resha'im pajim esh vegofrit verúaj zil'afot menat kosam.",
           "afterPhonetic": "Yamter 'al resha'im pajim esh vegofrit verúaj zil'afot menat kosam.",
-          "changes": {
-            "רשעים": {
-              "vocalSheva": [
-                0
-              ]
-            }
-          }
+          "changes": {}
         },
         {
           "ref": "11:7",
@@ -1036,15 +858,11 @@
           "changes": {
             "פנימו": {
               "stress": 1
-            },
-            "צדקות": {
-              "vocalSheva": [
-                0
-              ]
             }
           }
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 12,
@@ -1186,16 +1004,6 @@
           ]
         },
         {
-          "ref": "12:4",
-          "word": "שִׂפְתֵי",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "פ"
-          ]
-        },
-        {
           "ref": "12:5",
           "word": "אָמְרוּ",
           "clusterIndices": [
@@ -1206,36 +1014,6 @@
           ]
         },
         {
-          "ref": "12:5",
-          "word": "לִלְשֹׁנֵֽנוּ",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ל"
-          ]
-        },
-        {
-          "ref": "12:5",
-          "word": "שְׂפָתֵֽינוּ",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ש"
-          ]
-        },
-        {
-          "ref": "12:7",
-          "word": "טְהֹרוֹת",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ט"
-          ]
-        },
-        {
           "ref": "12:8",
           "word": "תִּצְּרֶֽנּוּ",
           "clusterIndices": [
@@ -1243,16 +1021,6 @@
           ],
           "letters": [
             "צ"
-          ]
-        },
-        {
-          "ref": "12:9",
-          "word": "רְשָׁעִים",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ר"
           ]
         }
       ],
@@ -1318,15 +1086,10 @@
           "beforeHebrew": "יַכְרֵת יְהֹוָה כׇּל שִׂפְתֵי חֲלָקוֹת לָשׁוֹן מְדַבֶּרֶת גְּדֹלוֹת.",
           "afterHebrew": "יַכְרֵת יְהֹוָה כׇּל שִׂפְתֵי חֲלָקוֹת לָשׁוֹן מְדַבֶּֽרֶת גְּדֹלוֹת.",
           "beforePhonetic": "Yajret Ad-nai kol sifté jalakot lashón medabéret guedolot.",
-          "afterPhonetic": "Yajret Ad-nai kol sifeté jalakot lashón medabéret guedolot.",
+          "afterPhonetic": "Yajret Ad-nai kol sifté jalakot lashón medabéret guedolot.",
           "changes": {
             "מדברת": {
               "stress": 2
-            },
-            "שפתי": {
-              "vocalSheva": [
-                1
-              ]
             }
           }
         },
@@ -1335,19 +1098,13 @@
           "beforeHebrew": "אֲשֶׁר אָמְרוּ לִלְשֹׁנֵנוּ נַגְבִּיר שְׂפָתֵינוּ אִתָּנוּ מִי אָדוֹן לָנוּ.",
           "afterHebrew": "אֲשֶׁר אָמְרוּ לִלְשֹׁנֵֽנוּ נַגְבִּיר שְׂפָתֵֽינוּ אִתָּֽנוּ מִי אָדוֹן לָֽנוּ.",
           "beforePhonetic": "Asher amrú lilshonenu nagbir sefatenu itanu mi adón lanu.",
-          "afterPhonetic": "Asher amerú lileshonenu nagbir sefatenu itanu mi adón lanu.",
+          "afterPhonetic": "Asher amerú lilshonenu nagbir sefatenu itanu mi adón lanu.",
           "changes": {
             "ללשננו": {
-              "stress": 3,
-              "vocalSheva": [
-                1
-              ]
+              "stress": 3
             },
             "שפתינו": {
-              "stress": 2,
-              "vocalSheva": [
-                0
-              ]
+              "stress": 2
             },
             "אתנו": {
               "stress": 1
@@ -1392,11 +1149,6 @@
             },
             "שבעתים": {
               "stress": 3
-            },
-            "טהרות": {
-              "vocalSheva": [
-                0
-              ]
             }
           }
         },
@@ -1424,15 +1176,10 @@
           "afterHebrew": "סָבִיב רְשָׁעִים יִתְהַלָּכוּן כְּרֻם זֻלּוּת לִבְנֵי אָדָם.",
           "beforePhonetic": "Saviv resha'im yithalajún kerum zulut livné adam.",
           "afterPhonetic": "Saviv resha'im yithalajún kerum zulut livné adam.",
-          "changes": {
-            "רשעים": {
-              "vocalSheva": [
-                0
-              ]
-            }
-          }
+          "changes": {}
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 13,
@@ -1465,6 +1212,30 @@
           "letters": [
             "ד"
           ]
+        },
+        {
+          "ref": "13:3",
+          "word": "אֹיְבִי",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "י"
+          ],
+          "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+          "evidence": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
+        },
+        {
+          "ref": "13:5",
+          "word": "אֹיְבִי",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "י"
+          ],
+          "source": "ARTSCROLL - tehillim-and-avinu-malkeinu-download-v3(1).pdf",
+          "evidence": "Rayita visible en recorte de palabra renderizado a 4x; localización asistida por glifo rafe, comprobación visual independiente."
         }
       ],
       "textChanges": [],
@@ -1514,10 +1285,15 @@
           "beforeHebrew": "עַד אָֽנָה אָשִׁית עֵצוֹת בְּנַפְשִׁי יָגוֹן בִּלְבָבִי יוֹמָם עַד אָֽנָה יָרוּם אֹיְבִי עָלָי.",
           "afterHebrew": "עַד אָֽנָה אָשִׁית עֵצוֹת בְּנַפְשִׁי יָגוֹן בִּלְבָבִי יוֹמָם עַד אָֽנָה יָרוּם אֹיְבִי עָלָי.",
           "beforePhonetic": "'Ad ana ashit 'etsot benafshí yagón bilvaví yomam 'ad ana yarum oyví 'alái.",
-          "afterPhonetic": "'Ad ana ashit 'etsot benafshí yagón bilvaví yomam 'ad ana yarum oyví 'alái.",
+          "afterPhonetic": "'Ad ana ashit 'etsot benafshí yagón bilvaví yomam 'ad ana yarum oyeví 'alái.",
           "changes": {
             "אנה": {
               "stress": 0
+            },
+            "איבי": {
+              "vocalSheva": [
+                1
+              ]
             }
           }
         },
@@ -1547,10 +1323,15 @@
           "beforeHebrew": "פֶּן יֹאמַר אֹיְבִי יְכׇלְתִּיו צָרַי יָגִֽילוּ כִּי אֶמּוֹט.",
           "afterHebrew": "פֶּן יֹאמַר אֹיְבִי יְכׇלְתִּיו צָרַי יָגִֽילוּ כִּי אֶמּוֹט.",
           "beforePhonetic": "Pen yomar oyví yejoltiv tsarái yaguilu ki emot.",
-          "afterPhonetic": "Pen yomar oyví yejoltiv tsarái yaguilu ki emot.",
+          "afterPhonetic": "Pen yomar oyeví yejoltiv tsarái yaguilu ki emot.",
           "changes": {
             "יגילו": {
               "stress": 1
+            },
+            "איבי": {
+              "vocalSheva": [
+                1
+              ]
             }
           }
         },
@@ -1579,7 +1360,8 @@
             }
           }
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 14,
@@ -1691,26 +1473,6 @@
           "letters": [
             "ד"
           ]
-        },
-        {
-          "ref": "14:6",
-          "word": "מַחְסֵֽהוּ",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ח"
-          ]
-        },
-        {
-          "ref": "14:7",
-          "word": "יְשׁוּעַת",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "י"
-          ]
         }
       ],
       "textChanges": [],
@@ -1806,16 +1568,13 @@
           "beforeHebrew": "עֲצַת עָנִי תָבִישׁוּ כִּי יְהֹוָה מַחְסֵהוּ.",
           "afterHebrew": "עֲצַת עָנִי תָבִֽישׁוּ כִּי יְהֹוָה מַחְסֵֽהוּ.",
           "beforePhonetic": "'Atsat 'aní tavishu ki Ad-nai majsehu.",
-          "afterPhonetic": "'Atsat 'aní tavishu ki Ad-nai majesehu.",
+          "afterPhonetic": "'Atsat 'aní tavishu ki Ad-nai majsehu.",
           "changes": {
             "תבישו": {
               "stress": 1
             },
             "מחסהו": {
-              "stress": 2,
-              "vocalSheva": [
-                1
-              ]
+              "stress": 2
             }
           }
         },
@@ -1826,17 +1585,13 @@
           "beforePhonetic": "Mi yitén mitsiyón yeshu'at Yisrael beshuv Ad-nai shevut 'Amó yaguel Ya'akov yismaj Yisrael.",
           "afterPhonetic": "Mi yitén mitsiyón yeshu'at Yisrael beshuv Ad-nai shevut 'Amó yaguel Ya'akov yismaj Yisrael.",
           "changes": {
-            "ישועת": {
-              "vocalSheva": [
-                0
-              ]
-            },
             "עמו": {
               "capital": true
             }
           }
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 15,
@@ -1892,28 +1647,7 @@
           "letter": "א"
         }
       ],
-      "vocalSheva": [
-        {
-          "ref": "15:1",
-          "word": "קׇדְשֶֽׁךָ",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ד"
-          ]
-        },
-        {
-          "ref": "15:4",
-          "word": "נִשְׁבַּע",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ש"
-          ]
-        }
-      ],
+      "vocalSheva": [],
       "textChanges": [],
       "verses": [
         {
@@ -1921,7 +1655,7 @@
           "beforeHebrew": "מִזְמוֹר לְדָוִד יְהֹוָה מִי יָגוּר בְּאׇהֳלֶךָ מִי יִשְׁכֹּן בְּהַר קׇדְשֶׁךָ.",
           "afterHebrew": "מִזְמוֹר לְדָוִד יְהֹוָה מִי יָגוּר בְּאׇהֳלֶֽךָ מִי יִשְׁכֹּן בְּהַר קׇדְשֶֽׁךָ.",
           "beforePhonetic": "Mizmor leDavid Ad-nai mi yagur beoholeja mi yishkón behar kodsheja.",
-          "afterPhonetic": "Mizmor leDavid Ad-nai mi yagur Beoholeja mi yishkón behar Kodesheja.",
+          "afterPhonetic": "Mizmor leDavid Ad-nai mi yagur Beoholeja mi yishkón behar Kodsheja.",
           "changes": {
             "באהלך": {
               "stress": 3,
@@ -1929,9 +1663,6 @@
             },
             "קדשך": {
               "stress": 2,
-              "vocalSheva": [
-                1
-              ],
               "capital": true
             }
           }
@@ -1965,14 +1696,8 @@
           "beforeHebrew": "נִבְזֶה בְּעֵינָיו נִמְאָס וְאֶת יִרְאֵי יְהֹוָה יְכַבֵּד נִשְׁבַּע לְהָרַע וְלֹא יָמִר.",
           "afterHebrew": "נִבְזֶה בְּעֵינָיו נִמְאָס וְאֶת יִרְאֵי יְהֹוָה יְכַבֵּד נִשְׁבַּע לְהָרַע וְלֹא יָמִר.",
           "beforePhonetic": "Nivzé be'enav nimás veet yiré Ad-nai yejabed nishbá' lehará' veló yamir.",
-          "afterPhonetic": "Nivzé be'enav nimás veet yiré Ad-nai yejabed nishebá' lehará' veló yamir.",
-          "changes": {
-            "נשבע": {
-              "vocalSheva": [
-                1
-              ]
-            }
-          }
+          "afterPhonetic": "Nivzé be'enav nimás veet yiré Ad-nai yejabed nishbá' lehará' veló yamir.",
+          "changes": {}
         },
         {
           "ref": "15:5",
@@ -1992,7 +1717,8 @@
             }
           }
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 16,
@@ -2114,26 +1840,6 @@
           ]
         },
         {
-          "ref": "16:2",
-          "word": "אָמַרְתְּ",
-          "clusterIndices": [
-            2
-          ],
-          "letters": [
-            "ר"
-          ]
-        },
-        {
-          "ref": "16:3",
-          "word": "לִקְדוֹשִׁים",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ק"
-          ]
-        },
-        {
           "ref": "16:4",
           "word": "עַצְּבוֹתָם",
           "clusterIndices": [
@@ -2144,16 +1850,6 @@
           ]
         },
         {
-          "ref": "16:5",
-          "word": "מְנָת",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "מ"
-          ]
-        },
-        {
           "ref": "16:7",
           "word": "יִסְּרוּֽנִי",
           "clusterIndices": [
@@ -2161,26 +1857,6 @@
           ],
           "letters": [
             "ס"
-          ]
-        },
-        {
-          "ref": "16:7",
-          "word": "כִלְיוֹתָי",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ל"
-          ]
-        },
-        {
-          "ref": "16:11",
-          "word": "שְׂמָחוֹת",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ש"
           ]
         }
       ],
@@ -2212,7 +1888,7 @@
           "beforeHebrew": "אָמַרְתְּ לַיהֹוָה אֲדֹנָי אָתָּה טוֹבָתִי בַּל עָלֶיךָ.",
           "afterHebrew": "אָמַרְתְּ לַיהֹוָה אֲדֹנָי אָֽתָּה טוֹבָתִי בַּל עָלֶֽיךָ.",
           "beforePhonetic": "Amart laAd-nai Ad-nai ata tovatí bal 'aleja.",
-          "afterPhonetic": "Amaret laAd-nai Ad-nai Ata tovatí bal 'Aleja.",
+          "afterPhonetic": "Amart laAd-nai Ad-nai Ata tovatí bal 'Aleja.",
           "changes": {
             "אתה": {
               "stress": 0,
@@ -2221,11 +1897,6 @@
             "עליך": {
               "stress": 1,
               "capital": true
-            },
-            "אמרת": {
-              "vocalSheva": [
-                2
-              ]
             }
           }
         },
@@ -2234,15 +1905,10 @@
           "beforeHebrew": "לִקְדוֹשִׁים אֲשֶׁר בָּאָרֶץ הֵמָּה וְאַדִּירֵי כׇּל חֶפְצִי בָם.",
           "afterHebrew": "לִקְדוֹשִׁים אֲשֶׁר בָּאָרֶץ הֵֽמָּה וְאַדִּירֵי כׇּל חֶפְצִי בָם.",
           "beforePhonetic": "Likdoshim asher baarets hema veadiré kol jeftsí vam.",
-          "afterPhonetic": "Likedoshim asher baarets hema veadiré kol jeftsí vam.",
+          "afterPhonetic": "Likdoshim asher baarets hema veadiré kol jeftsí vam.",
           "changes": {
             "המה": {
               "stress": 0
-            },
-            "לקדושים": {
-              "vocalSheva": [
-                1
-              ]
             }
           }
         },
@@ -2270,11 +1936,6 @@
           "beforePhonetic": "Ad-nai menat jelkí vejosí atá tomij goralí.",
           "afterPhonetic": "Ad-nai menat jelkí vejosí Atá tomij goralí.",
           "changes": {
-            "מנת": {
-              "vocalSheva": [
-                0
-              ]
-            },
             "אתה": {
               "capital": true
             }
@@ -2297,18 +1958,13 @@
           "beforeHebrew": "אֲבָרֵךְ אֶת יְהֹוָה אֲשֶׁר יְעָצָנִי אַף לֵילוֹת יִסְּרוּנִי כִלְיוֹתָי.",
           "afterHebrew": "אֲבָרֵךְ אֶת יְהֹוָה אֲשֶׁר יְעָצָֽנִי אַף לֵילוֹת יִסְּרוּֽנִי כִלְיוֹתָי.",
           "beforePhonetic": "Avarej et Ad-nai asher ye'atsani af lelot yisruni jilyotái.",
-          "afterPhonetic": "Avarej et Ad-nai asher ye'atsani af lelot yiseruni jileyotái.",
+          "afterPhonetic": "Avarej et Ad-nai asher ye'atsani af lelot yiseruni jilyotái.",
           "changes": {
             "יעצני": {
               "stress": 2
             },
             "יסרוני": {
               "stress": 3,
-              "vocalSheva": [
-                1
-              ]
-            },
-            "כליותי": {
               "vocalSheva": [
                 1
               ]
@@ -2371,17 +2027,13 @@
             "נצח": {
               "stress": 0
             },
-            "שמחות": {
-              "vocalSheva": [
-                0
-              ]
-            },
             "בימינך": {
               "capital": true
             }
           }
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     },
     {
       "chapter": 17,
@@ -2571,46 +2223,6 @@
       ],
       "vocalSheva": [
         {
-          "ref": "17:1",
-          "word": "הַקְשִׁיבָה",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "ק"
-          ]
-        },
-        {
-          "ref": "17:1",
-          "word": "שִׂפְתֵי",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "פ"
-          ]
-        },
-        {
-          "ref": "17:3",
-          "word": "צְרַפְתַּֽנִי",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "צ"
-          ]
-        },
-        {
-          "ref": "17:4",
-          "word": "שְׂפָתֶֽיךָ",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ש"
-          ]
-        },
-        {
           "ref": "17:5",
           "word": "בְמַעְגְּלוֹתֶֽיךָ",
           "clusterIndices": [
@@ -2618,26 +2230,6 @@
           ],
           "letters": [
             "ג"
-          ]
-        },
-        {
-          "ref": "17:6",
-          "word": "קְרָאתִֽיךָ",
-          "clusterIndices": [
-            0
-          ],
-          "letters": [
-            "ק"
-          ]
-        },
-        {
-          "ref": "17:7",
-          "word": "מִמִּתְקוֹמְמִים",
-          "clusterIndices": [
-            2
-          ],
-          "letters": [
-            "ת"
           ]
         },
         {
@@ -2672,16 +2264,6 @@
         },
         {
           "ref": "17:13",
-          "word": "הַכְרִיעֵֽהוּ",
-          "clusterIndices": [
-            1
-          ],
-          "letters": [
-            "כ"
-          ]
-        },
-        {
-          "ref": "17:13",
           "word": "פַּלְּטָה",
           "clusterIndices": [
             1
@@ -2689,6 +2271,42 @@
           "letters": [
             "ל"
           ]
+        },
+        {
+          "ref": "17:2",
+          "word": "מִלְּפָנֶֽיךָ",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "ל"
+          ],
+          "source": "IMG_1478.png",
+          "evidence": "Rayita horizontal aislada visible en ampliación."
+        },
+        {
+          "ref": "17:9",
+          "word": "מִפְּנֵי",
+          "clusterIndices": [
+            1
+          ],
+          "letters": [
+            "פ"
+          ],
+          "source": "IMG_1478.png",
+          "evidence": "Rayita horizontal aislada visible en ampliación."
+        },
+        {
+          "ref": "17:7",
+          "word": "מִמִּתְקוֹמְמִים",
+          "clusterIndices": [
+            5
+          ],
+          "letters": [
+            "מ"
+          ],
+          "source": "IMG_1478.png",
+          "evidence": "Rayita horizontal aislada visible en ampliación."
         }
       ],
       "textChanges": [
@@ -2709,20 +2327,10 @@
           "beforeHebrew": "תְּפִלָּה לְדָוִד שִׁמְעָה יְהֹוָה צֶדֶק הַקְשִׁיבָה רִנָּתִי הַאֲזִינָה תְפִלָּתִי בְּלֹא שִׂפְתֵי מִרְמָה.",
           "afterHebrew": "תְּפִלָּה לְדָוִד שִׁמְעָה יְהֹוָה צֶֽדֶק הַקְשִׁיבָה רִנָּתִי הַאֲזִינָה תְפִלָּתִי בְּלֹא שִׂפְתֵי מִרְמָה.",
           "beforePhonetic": "Tefilá leDavid shim'á Ad-nai tsédek hakshiva rinatí haazina tefilatí beló sifté mirmá.",
-          "afterPhonetic": "Tefilá leDavid shim'á Ad-nai tsédek hakeshiva rinatí haazina tefilatí beló sifeté mirmá.",
+          "afterPhonetic": "Tefilá leDavid shim'á Ad-nai tsédek hakshiva rinatí haazina tefilatí beló sifté mirmá.",
           "changes": {
             "צדק": {
               "stress": 0
-            },
-            "הקשיבה": {
-              "vocalSheva": [
-                1
-              ]
-            },
-            "שפתי": {
-              "vocalSheva": [
-                1
-              ]
             }
           }
         },
@@ -2735,7 +2343,10 @@
           "changes": {
             "מלפניך": {
               "stress": 3,
-              "capital": true
+              "capital": true,
+              "vocalSheva": [
+                1
+              ]
             },
             "עיניך": {
               "stress": 2,
@@ -2763,10 +2374,7 @@
               "stress": 0
             },
             "צרפתני": {
-              "stress": 3,
-              "vocalSheva": [
-                0
-              ]
+              "stress": 3
             },
             "זמתי": {
               "stress": 1
@@ -2782,9 +2390,6 @@
           "changes": {
             "שפתיך": {
               "stress": 2,
-              "vocalSheva": [
-                0
-              ],
               "capital": true
             },
             "שמרתי": {
@@ -2819,10 +2424,7 @@
           "afterPhonetic": "Aní keratija ji ta'aneni El hat Oznejá li shemá' imratí.",
           "changes": {
             "קראתיך": {
-              "stress": 3,
-              "vocalSheva": [
-                0
-              ]
+              "stress": 3
             },
             "תענני": {
               "stress": 2
@@ -2837,7 +2439,7 @@
           "beforeHebrew": "הַפְלֵה חֲסָדֶיךָ מוֹשִׁיעַ חוֹסִים מִמִּתְקוֹמְמִים בִּימִינֶךָ.",
           "afterHebrew": "הַפְלֵה חֲסָדֶֽיךָ מוֹשִׁיעַ חוֹסִים מִמִּתְקוֹמְמִים בִּימִינֶֽךָ.",
           "beforePhonetic": "Haflé jasadeja moshía' josim mimitkomemim bimineja.",
-          "afterPhonetic": "Haflé Jasadeja moshía' josim mimitekomemim Bimineja.",
+          "afterPhonetic": "Haflé Jasadeja moshía' josim mimitkomemim Bimineja.",
           "changes": {
             "חסדיך": {
               "stress": 2,
@@ -2849,7 +2451,7 @@
             },
             "ממתקוממים": {
               "vocalSheva": [
-                2
+                5
               ]
             }
           }
@@ -2884,10 +2486,15 @@
           "beforeHebrew": "מִפְּנֵי רְשָׁעִים זוּ שַׁדּוּנִי אֹיְבַי בְּנֶפֶשׁ יַקִּיפוּ עָלָי.",
           "afterHebrew": "מִפְּנֵי רְשָׁעִים זוּ שַׁדּוּֽנִי אֹיְבַי בְּנֶפֶשׁ יַקִּיפוּ עָלָי.",
           "beforePhonetic": "Mipné resha'im zu shaduni oyvái benéfesh yakifú 'alái.",
-          "afterPhonetic": "Mipné resha'im zu shaduni oyvái benéfesh yakifú 'alái.",
+          "afterPhonetic": "Mipené resha'im zu shaduni oyvái benéfesh yakifú 'alái.",
           "changes": {
             "שדוני": {
               "stress": 2
+            },
+            "מפני": {
+              "vocalSheva": [
+                1
+              ]
             }
           }
         },
@@ -2940,13 +2547,10 @@
           "beforeHebrew": "קוּמָה יְהֹוָה קַדְּמָה פָנָיו הַכְרִיעֵהוּ פַּלְּטָה נַפְשִׁי מֵרָשָׁע חַרְבֶּךָ.",
           "afterHebrew": "קוּמָה יְהֹוָה קַדְּמָה פָנָיו הַכְרִיעֵֽהוּ פַּלְּטָה נַפְשִׁי מֵרָשָׁע חַרְבֶּֽךָ.",
           "beforePhonetic": "Kumá Ad-nai kademá fanav hajri'ehu paletá nafshí merashá' jarbeja.",
-          "afterPhonetic": "Kumá Ad-nai kademá fanav hajeri'ehu paletá nafshí merashá' Jarbeja.",
+          "afterPhonetic": "Kumá Ad-nai kademá fanav hajri'ehu paletá nafshí merashá' Jarbeja.",
           "changes": {
             "הכריעהו": {
-              "stress": 4,
-              "vocalSheva": [
-                1
-              ]
+              "stress": 4
             },
             "חרבך": {
               "stress": 2,
@@ -2964,7 +2568,8 @@
             }
           }
         }
-      ]
+      ],
+      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     }
   ],
   "openReview": [
