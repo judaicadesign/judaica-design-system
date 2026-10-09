@@ -353,8 +353,9 @@ function editAsset(i){
  '<div class="jd-field"><label>Producto</label><select id="jaProd">'+productOptions+'</select></div>'+
  '<div class="jd-field"><label>Función</label><select id="jaRole">'+['Mockup principal','Índice','Interior','Tamaño comparativo','Canto abrochado','Canto binder','Fondo de evento'].map(x=>'<option '+(x===a.role?'selected':'')+'>'+x+'</option>').join('')+'</select></div>'+
  '<div class="jd-field"><label>Tipo de evento</label><select id="jaEventType">'+window.jdAssetMatch.events.map(([id,label])=>'<option value="'+id+'" '+((a.eventType||'generic')===id?'selected':'')+'>'+esc3(label)+'</option>').join('')+'</select></div>'+
- '<div class="jd-field"><label>Variante / criterio</label><input id="jaVar" value="'+esc3(a.variant)+'" placeholder="Ej. Classic · Solo Sefaradí · Abrochado"></div>'+
- '<div class="jd-field"><label>Modelo / formato</label><select id="jaModel"></select></div><div class="jd-field"><label>Textos</label><select id="jaTexts"></select></div><div class="jd-field"><label>Encuadernación</label><select id="jaBinding"></select></div><div class="jd-field"><label>Tamaño</label><select id="jaSize"></select></div>'+
+ '<input id="jaVar" type="hidden" value="'+esc3(a.variant)+'">'+
+ '<div class="jd-field"><label>Textos</label><select id="jaTexts"></select></div>'+
+ '<div class="jd-field"><label>Modelo / formato</label><select id="jaModel"></select></div><div class="jd-field"><label>Encuadernación</label><select id="jaBinding"></select></div><div class="jd-field"><label>Tamaño</label><select id="jaSize"></select></div>'+
  '<div class="jd-field"><label style="display:flex;gap:8px"><input id="jaCanvas" type="checkbox" style="width:auto" '+((i<0||a.mockCanvas)?'checked':'')+'> Lienzo del presupuesto · 343 × 348 px de InDesign</label><small>PNG transparente, 1429 × 1450 px a 300 ppp · 121 × 122,8 mm. Se respeta el lienzo completo y su proporción; no se recorta ni se recentra el objeto.</small></div>'+
  '<div class="jd-field"><label>Imagen</label><input id="jaFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">'+(a.data?'<div class="small muted" style="margin-top:5px">Ya hay una imagen cargada. Elegí otra sólo si querés reemplazarla.</div>':'')+'</div>'+
  '<div class="jd-field"><label>Notas</label><input id="jaNotes" value="'+esc3(a.notes)+'"></div>'+
