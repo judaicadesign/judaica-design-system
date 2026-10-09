@@ -3,7 +3,7 @@
   "chapters": [
     {
       "chapter": 1,
-      "hebrew": "FINAL: seis pesukim cotejados íntegramente con ArtScroll; 10 meteg confirmados. ArtScroll prevalece sobre Wikisource.",
+      "hebrew": "FINAL: seis pesukim con meteg/nikkud ArtScroll, representación editorial del tetragrama יְיָ",
       "phonetic": "FINAL: fonética cotejada independientemente con nikud, meteg y rayitas de ArtScroll.",
       "engine": "6/6 pesukim y capítulo de corrido coinciden exactamente con la fonética final.",
       "approved": true,
@@ -17,13 +17,17 @@
     },
     {
       "chapter": 2,
-      "hebrew": "18 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
-      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
-      "engine": "12 pesukim comprobados",
-      "approved": false,
+      "hebrew": "FINAL: 12 pesukim cotejados íntegramente con ArtScroll, 21 meteg, rayitas de shevá y puntuación",
+      "phonetic": "FINAL: lectura cotejada y confirmada por usuario; יְיָ → Ad-nai",
+      "engine": "12/12 versículos y capítulo de corrido coinciden exactamente",
+      "approved": true,
       "source": "IMG_1458.png",
       "scope": "Captura completa disponible; marcas dudosas siguen pendientes",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "secondReview": "ARTSCROLL_002_REVISION.json · cierre editorial integral",
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-09",
+      "visualCoverageComplete": true
     },
     {
       "chapter": 3,
@@ -333,7 +337,7 @@
       "status": "Cotejo de meteg completado e incorporado; aprobación editorial final pendiente"
     }
   ],
-  "remaining": "Los otros capítulos no quedan aprobados por repetición de una palabra verificada.",
+  "remaining": "Solamente Tehilim 1 y 2 están aprobados y finales; los demás continúan en revisión.",
   "secondReview": {
     "date": "2026-10-09",
     "report": "SEGUNDO_COTEJO.html",

@@ -30,3 +30,7 @@ Motor 2026-10-08: los 21 pesukim cotejados de 23, 126 y 137 coinciden con los ma
 ## Salmo 1 · FINAL · 2026-10-09
 
 Hebreo y fonética cerrados por cotejo integral con ArtScroll como golden master. Diez meteg y dos rayitas de shevá na confirmados; Nombre sin nikud y puntuación como en la captura. El generador coincide exactamente con los seis pesukim y con el capítulo de corrido. Registro independiente: ARTSCROLL_001_REVISION.json; evidencia: sources/ARTSCROLL_001.png. Los cuatro TXT TEHILIM_001_*_FINAL_* son las versiones de producción. Los TXT generales y el JSON canónico también contienen este cierre; los demás capítulos siguen en revisión.
+
+## Salmo 2 · FINAL · 2026-10-09
+
+Hebreo y fonética cotejados con captura ArtScroll `IMG_1458.png` y confirmados por el usuario. 12 pesukim, 21 meteg, rayitas de shevá na diferenciadas; sin meteg en `אַפּוֹ` (2:12). Convención de producción `יְיָ` → `Ad-nai`. Motor `f8915d0`: coincide 12/12, Salmo 1 mantiene 6/6. Los cuatro archivos `TEHILIM_002_*_FINAL_*.txt` y los TXT generales están sincronizados. Los otros 148 capítulos siguen en revisión. La normalización del Nombre en los salmos no aprobados está pendiente, incluyendo formas prefijadas y especiales.

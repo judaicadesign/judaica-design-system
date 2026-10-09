@@ -1,0 +1,337 @@
+{
+  "chapter": 2,
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "source": {
+    "date": "2026-10-09",
+    "source": "IMG_1458.png · ArtScroll app · Tehilim 2",
+    "sourceSha256": "1835b75e4f9435c8d764cc6d650292797148051f038bda7c8819665557c6c55c",
+    "goldenMaster": "ArtScroll",
+    "scope": "All 12 verses; vowel points, dagesh, printed meteg and sheva-na bars visually checked",
+    "metegConfirmed": 21,
+    "sourceShevaRecords": 10,
+    "namePolicy": "JD production uses יְיָ, read Ad-nai",
+    "phoneticPolicy": "User confirmed special readings; explicit spelling moserotémo preserved"
+  },
+  "metegOccurrences": [
+    {
+      "ref": "2:1",
+      "word": "לָֽמָּה",
+      "clusterIndex": 0,
+      "letter": "ל"
+    },
+    {
+      "ref": "2:2",
+      "word": "יָֽחַד",
+      "clusterIndex": 0,
+      "letter": "י"
+    },
+    {
+      "ref": "2:2",
+      "word": "נֽוֹסְדוּ",
+      "clusterIndex": 0,
+      "letter": "נ"
+    },
+    {
+      "ref": "2:3",
+      "word": "מוֹסְרוֹתֵֽימוֹ",
+      "clusterIndex": 5,
+      "letter": "ת"
+    },
+    {
+      "ref": "2:3",
+      "word": "וְנַשְׁלִֽיכָה",
+      "clusterIndex": 3,
+      "letter": "ל"
+    },
+    {
+      "ref": "2:3",
+      "word": "עֲבֹתֵֽימוֹ",
+      "clusterIndex": 2,
+      "letter": "ת"
+    },
+    {
+      "ref": "2:4",
+      "word": "בַּשָּׁמַֽיִם",
+      "clusterIndex": 2,
+      "letter": "מ"
+    },
+    {
+      "ref": "2:4",
+      "word": "לָֽמוֹ",
+      "clusterIndex": 0,
+      "letter": "ל"
+    },
+    {
+      "ref": "2:5",
+      "word": "אֵלֵֽימוֹ",
+      "clusterIndex": 1,
+      "letter": "ל"
+    },
+    {
+      "ref": "2:5",
+      "word": "יְבַהֲלֵֽמוֹ",
+      "clusterIndex": 3,
+      "letter": "ל"
+    },
+    {
+      "ref": "2:6",
+      "word": "נָסַֽכְתִּי",
+      "clusterIndex": 1,
+      "letter": "ס"
+    },
+    {
+      "ref": "2:7",
+      "word": "אַֽתָּה",
+      "clusterIndex": 0,
+      "letter": "א"
+    },
+    {
+      "ref": "2:8",
+      "word": "מִמֶּֽנִּי",
+      "clusterIndex": 1,
+      "letter": "מ"
+    },
+    {
+      "ref": "2:8",
+      "word": "אָֽרֶץ",
+      "clusterIndex": 0,
+      "letter": "א"
+    },
+    {
+      "ref": "2:9",
+      "word": "בְּשֵֽׁבֶט",
+      "clusterIndex": 1,
+      "letter": "ש"
+    },
+    {
+      "ref": "2:10",
+      "word": "הַשְׂכִּֽילוּ",
+      "clusterIndex": 2,
+      "letter": "כ"
+    },
+    {
+      "ref": "2:10",
+      "word": "אָֽרֶץ",
+      "clusterIndex": 0,
+      "letter": "א"
+    },
+    {
+      "ref": "2:10",
+      "word": "שֹֽׁפְטֵי",
+      "clusterIndex": 0,
+      "letter": "ש"
+    },
+    {
+      "ref": "2:11",
+      "word": "וְגִֽילוּ",
+      "clusterIndex": 1,
+      "letter": "ג"
+    },
+    {
+      "ref": "2:12",
+      "word": "וְתֹֽאבְדוּ",
+      "clusterIndex": 1,
+      "letter": "ת"
+    },
+    {
+      "ref": "2:12",
+      "word": "דֶֽרֶךְ",
+      "clusterIndex": 0,
+      "letter": "ד"
+    }
+  ],
+  "vocalSheva": [
+    {
+      "ref": "2:2",
+      "word": "יתיצבו",
+      "clusters": [
+        3
+      ]
+    },
+    {
+      "ref": "2:2",
+      "word": "נוסדו",
+      "clusters": [
+        2
+      ]
+    },
+    {
+      "ref": "2:3",
+      "word": "ננתקה",
+      "clusters": [
+        2
+      ]
+    },
+    {
+      "ref": "2:3",
+      "word": "מוסרותימו",
+      "clusters": [
+        2
+      ]
+    },
+    {
+      "ref": "2:10",
+      "word": "הוסרו",
+      "clusters": [
+        2
+      ]
+    },
+    {
+      "ref": "2:10",
+      "word": "שפטי",
+      "clusters": [
+        1
+      ]
+    },
+    {
+      "ref": "2:12",
+      "word": "נשקו",
+      "clusters": [
+        1
+      ]
+    },
+    {
+      "ref": "2:12",
+      "word": "ותאבדו",
+      "clusters": [
+        3
+      ]
+    },
+    {
+      "ref": "2:1",
+      "word": "רָגְשׁוּ",
+      "clusterIndices": [
+        1
+      ],
+      "letters": [
+        "ג"
+      ],
+      "source": "IMG_1458.png",
+      "evidence": "Rayita horizontal aislada sobre ג visible."
+    },
+    {
+      "ref": "2:7",
+      "word": "אֲסַפְּרָה",
+      "clusterIndices": [
+        2
+      ],
+      "letters": [
+        "פ"
+      ],
+      "source": "IMG_1458.png",
+      "evidence": "Rayita horizontal aislada sobre פ visible."
+    }
+  ],
+  "confirmedAbsentMeteg": [
+    {
+      "ref": "2:12",
+      "word": "אַפּוֹ"
+    }
+  ],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "לָמָּה רָגְשׁוּ גוֹיִם וּלְאֻמִּים יֶהְגּוּ רִיק.",
+      "previousMasterHebrew": "לָֽמָּה רָגְשׁוּ גוֹיִם וּלְאֻמִּים יֶהְגּוּ רִיק.",
+      "hebrew": "לָֽמָּה רָגְשׁוּ גוֹיִם, וּלְאֻמִּים יֶהְגּוּ רִיק.",
+      "previousPhonetic": "Lama ragueshú goyim uleumim yehgú rik.",
+      "phonetic": "Lama ragueshú goyim, uleumim yehgú rik."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "יִתְיַצְּבוּ מַלְכֵי אֶרֶץ וְרוֹזְנִים נוֹסְדוּ יָחַד עַל יְהֹוָה וְעַל מְשִׁיחוֹ.",
+      "previousMasterHebrew": "יִתְיַצְּבוּ מַלְכֵי אֶרֶץ וְרוֹזְנִים נוֹסְדוּ יָֽחַד עַל יְהֹוָה וְעַל מְשִׁיחוֹ.",
+      "hebrew": "יִתְיַצְּבוּ מַלְכֵי אֶרֶץ, וְרוֹזְנִים נֽוֹסְדוּ יָֽחַד, עַל יְיָ וְעַל מְשִׁיחוֹ.",
+      "previousPhonetic": "Yityatsevú maljé erets veroznim nosedú yájad 'al Ad-nai ve'al meshijó.",
+      "phonetic": "Yitiatsevú maljé erets, veroznim nósedu yájad, 'al Ad-nai ve'al meshijó."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "נְנַתְּקָה אֶת מוֹסְרוֹתֵימוֹ וְנַשְׁלִיכָה מִמֶּנּוּ עֲבֹתֵימוֹ.",
+      "previousMasterHebrew": "נְנַתְּקָה אֶת מוֹסְרוֹתֵֽימוֹ וְנַשְׁלִֽיכָה מִמֶּנּוּ עֲבֹתֵֽימוֹ.",
+      "hebrew": "נְנַתְּקָה אֶת מוֹסְרוֹתֵֽימוֹ, וְנַשְׁלִֽיכָה מִמֶּנּוּ עֲבֹתֵֽימוֹ.",
+      "previousPhonetic": "Nenateká et moserotemo venashlija mimenu 'avotemo.",
+      "phonetic": "Nenateká et moserotémo, venashlija mimenu 'avotemo."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "יוֹשֵׁב בַּשָּׁמַיִם יִשְׂחָק אֲדֹנָי יִלְעַג לָמוֹ.",
+      "previousMasterHebrew": "יוֹשֵׁב בַּשָּׁמַֽיִם יִשְׂחָק אֲדֹנָי יִלְעַג לָֽמוֹ.",
+      "hebrew": "יוֹשֵׁב בַּשָּׁמַֽיִם יִשְׂחָק, אֲדֹנָי יִלְעַג לָֽמוֹ.",
+      "previousPhonetic": "Yoshev bashamáyim yisjak Ad-nai yil'ag lamo.",
+      "phonetic": "Yoshev bashamáyim yisjak, Ad-nai yil'ag lamo."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "אָז יְדַבֵּר אֵלֵימוֹ בְאַפּוֹ וּבַחֲרוֹנוֹ יְבַהֲלֵמוֹ.",
+      "previousMasterHebrew": "אָז יְדַבֵּר אֵלֵֽימוֹ בְאַפּוֹ וּבַחֲרוֹנוֹ יְבַהֲלֵֽמוֹ.",
+      "hebrew": "אָז יְדַבֵּר אֵלֵֽימוֹ בְאַפּוֹ, וּבַחֲרוֹנוֹ יְבַהֲלֵֽמוֹ.",
+      "previousPhonetic": "Az yedaber elemo veapó uvajaronó yevahalemo.",
+      "phonetic": "Az yedaber elemo veapó, uvajaronó yevahalemo."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "וַאֲנִי נָסַכְתִּי מַלְכִּי עַל צִיּוֹן הַר קׇדְשִׁי.",
+      "previousMasterHebrew": "וַאֲנִי נָסַֽכְתִּי מַלְכִּי עַל צִיּוֹן הַר קׇדְשִׁי.",
+      "hebrew": "וַאֲנִי נָסַֽכְתִּי מַלְכִּי, עַל צִיּוֹן הַר קׇדְשִׁי.",
+      "previousPhonetic": "Vaaní nasajti malkí 'al Tsiyón har kodshí.",
+      "phonetic": "Vaaní nasajti malkí, 'al Tsiyón har kodshí."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "אֲסַפְּרָה אֶל חֹק יְהֹוָה אָמַר אֵלַי בְּנִי אַתָּה אֲנִי הַיּוֹם יְלִדְתִּיךָ.",
+      "previousMasterHebrew": "אֲסַפְּרָה אֶל חֹק יְהֹוָה אָמַר אֵלַי בְּנִי אַֽתָּה אֲנִי הַיּוֹם יְלִדְתִּיךָ.",
+      "hebrew": "אֲסַפְּרָה אֶל חֹק, יְיָ אָמַר אֵלַי בְּנִי אַֽתָּה, אֲנִי הַיּוֹם יְלִדְתִּיךָ.",
+      "previousPhonetic": "Asaperá el jok Ad-nai amar elái bení ata Aní hayom yelidtija.",
+      "phonetic": "Asaperá el jok, Ad-nai amar elái bení ata, Aní hayom yelidtija."
+    },
+    {
+      "verse": 8,
+      "previousHebrew": "שְׁאַל מִמֶּנִּי וְאֶתְּנָה גוֹיִם נַחֲלָתֶךָ וַאֲחֻזָּתְךָ אַפְסֵי אָרֶץ.",
+      "previousMasterHebrew": "שְׁאַל מִמֶּֽנִּי וְאֶתְּנָה גוֹיִם נַחֲלָתֶךָ וַאֲחֻזָּתְךָ אַפְסֵי אָֽרֶץ.",
+      "hebrew": "שְׁאַל מִמֶּֽנִּי וְאֶתְּנָה גוֹיִם נַחֲלָתֶךָ, וַאֲחֻזָּתְךָ אַפְסֵי אָֽרֶץ.",
+      "previousPhonetic": "Sheal mimeni veetená goyim najalateja vaajuzateja afsé arets.",
+      "phonetic": "Sheal mimeni veetená goyim najalateja, vaajuzateja afsé arets."
+    },
+    {
+      "verse": 9,
+      "previousHebrew": "תְּרֹעֵם בְּשֵׁבֶט בַּרְזֶל כִּכְלִי יוֹצֵר תְּנַפְּצֵם.",
+      "previousMasterHebrew": "תְּרֹעֵם בְּשֵֽׁבֶט בַּרְזֶל כִּכְלִי יוֹצֵר תְּנַפְּצֵם.",
+      "hebrew": "תְּרֹעֵם בְּשֵֽׁבֶט בַּרְזֶל, כִּכְלִי יוֹצֵר תְּנַפְּצֵם.",
+      "previousPhonetic": "Tero'em beshévet barzel kijlí yotser tenapetsem.",
+      "phonetic": "Tero'em beshévet barzel, kijlí yotser tenapetsem."
+    },
+    {
+      "verse": 10,
+      "previousHebrew": "וְעַתָּה מְלָכִים הַשְׂכִּילוּ הִוָּסְרוּ שֹׁפְטֵי אָרֶץ.",
+      "previousMasterHebrew": "וְעַתָּה מְלָכִים הַשְׂכִּֽילוּ הִוָּסְרוּ שֹׁפְטֵי אָֽרֶץ.",
+      "hebrew": "וְעַתָּה מְלָכִים הַשְׂכִּֽילוּ, הִוָּסְרוּ שֹֽׁפְטֵי אָֽרֶץ.",
+      "previousPhonetic": "Ve'atá melajim haskilu hivaseru shofeté arets.",
+      "phonetic": "Ve'atá melajim haskilu, hivaserú shófete arets."
+    },
+    {
+      "verse": 11,
+      "previousHebrew": "עִבְדוּ אֶת יְהֹוָה בְּיִרְאָה וְגִילוּ בִּרְעָדָה.",
+      "previousMasterHebrew": "עִבְדוּ אֶת יְהֹוָה בְּיִרְאָה וְגִילוּ בִּרְעָדָה.",
+      "hebrew": "עִבְדוּ אֶת יְיָ בְּיִרְאָה, וְגִֽילוּ בִּרְעָדָה.",
+      "previousPhonetic": "'Ivdú et Ad-nai beyirá veguilú bir'adá.",
+      "phonetic": "'Ivdú et Ad-nai beyirá, veguilu bir'adá."
+    },
+    {
+      "verse": 12,
+      "previousHebrew": "נַשְּׁקוּ בַר פֶּן יֶאֱנַף וְתֹאבְדוּ דֶרֶךְ כִּי יִבְעַר כִּמְעַט אַפּוֹ אַשְׁרֵי כׇּל חוֹסֵי בוֹ.",
+      "previousMasterHebrew": "נַשְּׁקוּ בַר פֶּן יֶאֱנַף וְתֹֽאבְדוּ דֶֽרֶךְ כִּי יִבְעַר כִּמְעַט אַפּוֹ אַשְׁרֵי כׇּל חוֹסֵי בוֹ.",
+      "hebrew": "נַשְּׁקוּ בַר, פֶּן יֶאֱנַף וְתֹֽאבְדוּ דֶֽרֶךְ, כִּי יִבְעַר כִּמְעַט אַפּוֹ; אַשְׁרֵי כׇּל חוֹסֵי בוֹ.",
+      "previousPhonetic": "Nashekú var pen yeenaf vetóvedu dérej ki yiv'ar kim'at apó ashré kol josé vo.",
+      "phonetic": "Nashekú var, pen yeenaf vetóvedu dérej, ki yiv'ar kim'at apó; ashré kol josé vo."
+    }
+  ],
+  "verification": {
+    "engineRepository": "judaicadesign/fonetica-hebreo",
+    "engineCommit": "f8915d0fc181a4df517c2a2cf925bfebb0590b3d",
+    "exactVerseMatches": 12,
+    "psalm1RegressionMatches": 6
+  }
+}

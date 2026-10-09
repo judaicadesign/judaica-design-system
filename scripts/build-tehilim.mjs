@@ -45,6 +45,11 @@ for(const name of fs.readdirSync(path.join(root,'masters/tehilim')).filter(x=>/^
   chapters[chapter-1].approvedDate=review.source.date;
  }
 }
+// JD editorial divine-name convention applied to the chapters approved for production.
+// Extend to other chapters only after reviewing prefixed and special forms.
+for(const c of chapters.filter(c=>c.chapter===1||c.chapter===2)){
+ for(const v of c.verses)v.hebrew=v.hebrew.replace(/יְהֹוָה|יהוה/g,'יְיָ');
+}
 const count=chapters.reduce((a,c)=>a+c.verses.length,0);if(count!==2527)throw Error('Verse count '+count+' != 2527');
 const header='Judaica Design® · Tehilim 1–150\nEN REVISIÓN · No aprobado para producción\nHebreo: Wikisource, edición con nikud. Fonética: generador JD con decisiones editoriales disponibles.\nRevisión visual de ArtScroll y acentos: en curso.\n\n';
 for(const [lang,file] of [['hebrew','TEHILIM_001-150_HEBREO_EN_REVISION.txt'],['phonetic','TEHILIM_001-150_FONETICA_EN_REVISION.txt']]){

@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-08",
+  "version": "2026-10-09",
   "status": "Revisión fina",
   "source": "Wikisource / ניקוד",
   "chapters": 150,
@@ -21,7 +21,7 @@
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "כִּי אִם בְּתוֹרַת יהוה חֶפְצוֹ, וּבְתוֹרָתוֹ יֶהְגֶּה יוֹמָם וָלָֽיְלָה.",
+          "hebrew": "כִּי אִם בְּתוֹרַת יְיָ חֶפְצוֹ, וּבְתוֹרָתוֹ יֶהְגֶּה יוֹמָם וָלָֽיְלָה.",
           "phonetic": "Ki im beTorat Ad-nai jeftsó, uvTorató yehgué yomam valayla."
         },
         {
@@ -45,7 +45,7 @@
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "כִּי יוֹדֵעַ יהוה דֶּֽרֶךְ צַדִּיקִים, וְדֶֽרֶךְ רְשָׁעִים תֹּאבֵד.",
+          "hebrew": "כִּי יוֹדֵעַ יְיָ דֶּֽרֶךְ צַדִּיקִים, וְדֶֽרֶךְ רְשָׁעִים תֹּאבֵד.",
           "phonetic": "Ki yodea' Ad-nai dérej tsadikim, vedérej resha'im toved."
         }
       ],
@@ -74,74 +74,74 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "לָֽמָּה רָגְשׁוּ גוֹיִם וּלְאֻמִּים יֶהְגּוּ רִיק.",
-          "phonetic": "Lama ragueshú goyim uleumim yehgú rik."
+          "hebrew": "לָֽמָּה רָגְשׁוּ גוֹיִם, וּלְאֻמִּים יֶהְגּוּ רִיק.",
+          "phonetic": "Lama ragueshú goyim, uleumim yehgú rik."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "יִתְיַצְּבוּ מַלְכֵי אֶרֶץ וְרוֹזְנִים נוֹסְדוּ יָֽחַד עַל יְהֹוָה וְעַל מְשִׁיחוֹ.",
-          "phonetic": "Yityatsevú maljé erets veroznim nosedú yájad 'al Ad-nai ve'al meshijó."
+          "hebrew": "יִתְיַצְּבוּ מַלְכֵי אֶרֶץ, וְרוֹזְנִים נֽוֹסְדוּ יָֽחַד, עַל יְיָ וְעַל מְשִׁיחוֹ.",
+          "phonetic": "Yitiatsevú maljé erets, veroznim nósedu yájad, 'al Ad-nai ve'al meshijó."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "נְנַתְּקָה אֶת מוֹסְרוֹתֵֽימוֹ וְנַשְׁלִֽיכָה מִמֶּנּוּ עֲבֹתֵֽימוֹ.",
-          "phonetic": "Nenateká et moserotemo venashlija mimenu 'avotemo."
+          "hebrew": "נְנַתְּקָה אֶת מוֹסְרוֹתֵֽימוֹ, וְנַשְׁלִֽיכָה מִמֶּנּוּ עֲבֹתֵֽימוֹ.",
+          "phonetic": "Nenateká et moserotémo, venashlija mimenu 'avotemo."
         },
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "יוֹשֵׁב בַּשָּׁמַֽיִם יִשְׂחָק אֲדֹנָי יִלְעַג לָֽמוֹ.",
-          "phonetic": "Yoshev bashamáyim yisjak Ad-nai yil'ag lamo."
+          "hebrew": "יוֹשֵׁב בַּשָּׁמַֽיִם יִשְׂחָק, אֲדֹנָי יִלְעַג לָֽמוֹ.",
+          "phonetic": "Yoshev bashamáyim yisjak, Ad-nai yil'ag lamo."
         },
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "אָז יְדַבֵּר אֵלֵֽימוֹ בְאַפּוֹ וּבַחֲרוֹנוֹ יְבַהֲלֵֽמוֹ.",
-          "phonetic": "Az yedaber elemo veapó uvajaronó yevahalemo."
+          "hebrew": "אָז יְדַבֵּר אֵלֵֽימוֹ בְאַפּוֹ, וּבַחֲרוֹנוֹ יְבַהֲלֵֽמוֹ.",
+          "phonetic": "Az yedaber elemo veapó, uvajaronó yevahalemo."
         },
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "וַאֲנִי נָסַֽכְתִּי מַלְכִּי עַל צִיּוֹן הַר קׇדְשִׁי.",
-          "phonetic": "Vaaní nasajti malkí 'al Tsiyón har kodshí."
+          "hebrew": "וַאֲנִי נָסַֽכְתִּי מַלְכִּי, עַל צִיּוֹן הַר קׇדְשִׁי.",
+          "phonetic": "Vaaní nasajti malkí, 'al Tsiyón har kodshí."
         },
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "אֲסַפְּרָה אֶל חֹק יְהֹוָה אָמַר אֵלַי בְּנִי אַֽתָּה אֲנִי הַיּוֹם יְלִדְתִּיךָ.",
-          "phonetic": "Asaperá el jok Ad-nai amar elái bení ata Aní hayom yelidtija."
+          "hebrew": "אֲסַפְּרָה אֶל חֹק, יְיָ אָמַר אֵלַי בְּנִי אַֽתָּה, אֲנִי הַיּוֹם יְלִדְתִּיךָ.",
+          "phonetic": "Asaperá el jok, Ad-nai amar elái bení ata, Aní hayom yelidtija."
         },
         {
           "verse": 8,
           "label": "ח",
-          "hebrew": "שְׁאַל מִמֶּֽנִּי וְאֶתְּנָה גוֹיִם נַחֲלָתֶךָ וַאֲחֻזָּתְךָ אַפְסֵי אָֽרֶץ.",
-          "phonetic": "Sheal mimeni veetená goyim najalateja vaajuzateja afsé arets."
+          "hebrew": "שְׁאַל מִמֶּֽנִּי וְאֶתְּנָה גוֹיִם נַחֲלָתֶךָ, וַאֲחֻזָּתְךָ אַפְסֵי אָֽרֶץ.",
+          "phonetic": "Sheal mimeni veetená goyim najalateja, vaajuzateja afsé arets."
         },
         {
           "verse": 9,
           "label": "ט",
-          "hebrew": "תְּרֹעֵם בְּשֵֽׁבֶט בַּרְזֶל כִּכְלִי יוֹצֵר תְּנַפְּצֵם.",
-          "phonetic": "Tero'em beshévet barzel kijlí yotser tenapetsem."
+          "hebrew": "תְּרֹעֵם בְּשֵֽׁבֶט בַּרְזֶל, כִּכְלִי יוֹצֵר תְּנַפְּצֵם.",
+          "phonetic": "Tero'em beshévet barzel, kijlí yotser tenapetsem."
         },
         {
           "verse": 10,
           "label": "י",
-          "hebrew": "וְעַתָּה מְלָכִים הַשְׂכִּֽילוּ הִוָּסְרוּ שֹׁפְטֵי אָֽרֶץ.",
-          "phonetic": "Ve'atá melajim haskilu hivaseru shofeté arets."
+          "hebrew": "וְעַתָּה מְלָכִים הַשְׂכִּֽילוּ, הִוָּסְרוּ שֹֽׁפְטֵי אָֽרֶץ.",
+          "phonetic": "Ve'atá melajim haskilu, hivaserú shófete arets."
         },
         {
           "verse": 11,
           "label": "יא",
-          "hebrew": "עִבְדוּ אֶת יְהֹוָה בְּיִרְאָה וְגִילוּ בִּרְעָדָה.",
-          "phonetic": "'Ivdú et Ad-nai beyirá veguilú bir'adá."
+          "hebrew": "עִבְדוּ אֶת יְיָ בְּיִרְאָה, וְגִֽילוּ בִּרְעָדָה.",
+          "phonetic": "'Ivdú et Ad-nai beyirá, veguilu bir'adá."
         },
         {
           "verse": 12,
           "label": "יב",
-          "hebrew": "נַשְּׁקוּ בַר פֶּן יֶאֱנַף וְתֹֽאבְדוּ דֶֽרֶךְ כִּי יִבְעַר כִּמְעַט אַפּוֹ אַשְׁרֵי כׇּל חוֹסֵי בוֹ.",
-          "phonetic": "Nashekú var pen yeenaf vetóvedu dérej ki yiv'ar kim'at apó ashré kol josé vo."
+          "hebrew": "נַשְּׁקוּ בַר, פֶּן יֶאֱנַף וְתֹֽאבְדוּ דֶֽרֶךְ, כִּי יִבְעַר כִּמְעַט אַפּוֹ; אַשְׁרֵי כׇּל חוֹסֵי בוֹ.",
+          "phonetic": "Nashekú var, pen yeenaf vetóvedu dérej, ki yiv'ar kim'at apó; ashré kol josé vo."
         }
       ]
     },
@@ -16485,5 +16485,9 @@
     }
   ],
   "generatorRepository": "judaicadesign/fonetica-hebreo",
-  "generatorCommit": "02fbc2c66e2d1e7d5756335ae73eab80db2d255c"
+  "generatorCommit": "f8915d0fc181a4df517c2a2cf925bfebb0590b3d",
+  "approvedChapters": [
+    1,
+    2
+  ]
 }

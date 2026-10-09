@@ -14,12 +14,20 @@ Base de texto: Wikisource. ArtScroll es la referencia visual para nikud, dagesh,
 
 - Hebreo FINAL: seis pesukim cotejados palabra por palabra con `sources/ARTSCROLL_001.png` (la captura original `IMG_1457.png`). ArtScroll es el golden master; sus diferencias prevalecen sobre Wikisource.
 - Diez meteg confirmados. Rayitas de shevá na confirmadas en ר de הָרְשָׁעִים y ד de תִּדְּפֶֽנּוּ, ambas en 1:4. Los shevot iniciales se leen na sin exigir rayita; los asteriscos no son meteg.
-- El nikud de las palabras coincide con la base; el Nombre se deja sin nikud, יהוה, como en la captura. Se reproduce también la puntuación de ArtScroll.
+- El nikud de las palabras coincide con la base; la captura tiene el Nombre sin nikud; en la producción JD, יְיָ. Se reproduce también la puntuación de ArtScroll.
 - Fonética FINAL: cotejada independientemente antes de ejecutar el motor. Se usa acentuación española, sin tildes redundantes.
 - Generador publicado: coincide exactamente en los seis pesukim y el capítulo de corrido. No hizo falta cambiar sus reglas.
 - Registro íntegro: `ARTSCROLL_001_REVISION.json`. Estado de ambos idiomas: aprobado/final en `REVISION_ESTADO.json` y `tehilim.json`.
 - Descargas específicas: `TEHILIM_001_HEBREO_FINAL_{continuous,numbered}.txt` y `TEHILIM_001_FONETICA_FINAL_{continuous,numbered}.txt`. Los TXT generales contienen también la versión final del Salmo 1; el resto del corpus conserva su estado de revisión.
 - Método para continuar: cerrar primero hebreo contra ArtScroll; después fonética independiente; finalmente comprobar el generador contra ese master.
+
+## Salmo 2 cerrado · 9 de octubre de 2026
+
+- ArtScroll `IMG_1458.png`: hebreo y fonética FINAL, 12 pesukim, 21 meteg. Rayitas de shevá na registradas aparte; sin meteg en 2:12 אַפּוֹ.
+- Confirmados: 2:2 נֽוֹסְדוּ (nósedu), יִתְיַצְּבוּ (yitiatsevú); 2:3 מוֹסְרוֹתֵֽימוֹ (moserotémo), נְנַתְּקָה (nenateká); 2:10 שֹֽׁפְטֵי (shófete), הִוָּסְרוּ (hivaserú); 2:11 וְגִֽילוּ; 2:12 נַשְּׁקוּ, וְתֹֽאבְדוּ (vetóvedu).
+- Norma de escritura del Nombre ya aplicada a los salmos 1 y 2: יְיָ → Ad-nai. Pendiente de propagación y revisión contextual en los otros salmos.
+- Registro completo: `ARTSCROLL_002_REVISION.json`; cuatro `TEHILIM_002_*_FINAL_*.txt`, sin alterar la disposición de corrido / numerado.
+- Generador `f8915d0fc181a4df517c2a2cf925bfebb0590b3d`: 12/12 coinciden; regresión Salmo 1: 6/6.
 
 ## Trabajo de la tanda 17–20
 
