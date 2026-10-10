@@ -37,7 +37,10 @@
       "approved": false,
       "source": "IMG_1459.png",
       "scope": "Captura completa disponible; marcas dudosas siguen pendientes",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "lastFocusedReview": "2026-10-10",
+      "editorialNext": "3:2 רַבּוּ: confirmar ausencia/presencia de meteg · 3:9 לַיְיָ: aplicar la convención de prefijo y cotejar puntuación",
+      "visualEvidenceCurrentSession": "Captura IMG_1459.png accesible; cotejo integral pendiente"
     },
     {
       "chapter": 4,
@@ -47,7 +50,10 @@
       "approved": false,
       "source": "IMG_1460.png",
       "scope": "Captura completa disponible; marcas dudosas siguen pendientes",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "lastFocusedReview": "2026-10-10",
+      "editorialNext": "Imagen original IMG_1460.png requerida para cerrar cotejo integral; conservar confirmaciones previas de 4:5",
+      "visualEvidenceCurrentSession": "Basado en registros previos; captura original no accesible en esta sesión"
     },
     {
       "chapter": 5,
@@ -57,7 +63,10 @@
       "approved": false,
       "source": "IMG_1462.png",
       "scope": "Captura completa disponible; marcas dudosas siguen pendientes",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "lastFocusedReview": "2026-10-10",
+      "editorialNext": "5:4 וַאֲצַפֶּה: meteg o ausencia · 5:9 לְפָנַי: meteg o ausencia · Imagen original IMG_1462.png requerida",
+      "visualEvidenceCurrentSession": "Basado en registros previos; captura original no accesible en esta sesión"
     },
     {
       "chapter": 6,
@@ -67,7 +76,10 @@
       "approved": false,
       "source": "IMG_1463.png",
       "scope": "Captura completa disponible; marcas dudosas siguen pendientes",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "lastFocusedReview": "2026-10-10",
+      "editorialNext": "6:7 לַיְלָה: meteg o ausencia · Imagen original IMG_1463.png requerida; conservar 6:7 beanjatí",
+      "visualEvidenceCurrentSession": "Basado en registros previos; captura original no accesible en esta sesión"
     },
     {
       "chapter": 7,
@@ -77,7 +89,10 @@
       "approved": false,
       "source": "IMG_1464.png",
       "scope": "Captura completa disponible; marcas dudosas siguen pendientes",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "lastFocusedReview": "2026-10-10",
+      "editorialNext": "7:5 וָאֲחַלְּצָה: meteg o ausencia · 7:18 וַאֲזַמְּרָה: meteg o ausencia · Imagen original IMG_1464.png requerida",
+      "visualEvidenceCurrentSession": "Basado en registros previos; captura original no accesible en esta sesión"
     },
     {
       "chapter": 8,
@@ -428,5 +443,31 @@
       }
     ],
     "status": "Meteg y rayitas cotejados; aprobación editorial completa abierta."
+  },
+  "reviewBatch20261010": {
+    "chapters": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "report": "REVISION_003-007_PENDIENTES.md",
+    "finalClosed": 0,
+    "engineConsistency": {
+      "checkedVerses": 60,
+      "matchedVerses": 60,
+      "doesNotCertifyEditorialApproval": true
+    },
+    "originalCaptureAvailableNow": [
+      3
+    ],
+    "originalCaptureNeededForFinal": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "disclaimer": "Estado parcial: no se marcaron FINAL sin cotejo visual y fonético exhaustivo."
   }
 }
