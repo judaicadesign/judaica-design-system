@@ -65,7 +65,7 @@ Fuente canónica: `tehilim.json`, lote `ARTSCROLL_APP_TANDA_001-009.json`, `SEGU
 ## Próximos pasos, en el orden acordado
 
 1. Reunir capturas 4–7, sin pedir ninguna que ya esté accesible en el hilo.
-2. Resolver solo las cinco palabras genuinamente abiertas (3:2, 5:4, 5:9, 6:7, 7:5 y 7:18: **seis** apariciones), además de las diferencias completas de nikud/puntuación detectadas al cotejar las capturas.
+2. Resolver las seis palabras genuinamente abiertas (3:2, 5:4, 5:9, 6:7, 7:5 y 7:18), además de las diferencias completas de nikud/puntuación detectadas al cotejar las capturas.
 3. Una vez cerrado visualmente cada capítulo, aprobar hebreo; luego revisar fonética y aprobarla. Los dos estados se guardan separados en `REVISION_ESTADO.json`.
 4. No modificar la regla general del generador ni suponer un meteg por morfología solo para forzar coincidencia.
 
