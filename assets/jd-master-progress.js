@@ -81,7 +81,8 @@
    '<div class="jd-tp-details">'+
    (detail?'<p><b>Hebreo:</b> '+esc(detail.hebrewApproved===true?"Aprobado. "+(detail.hebrew||""):(detail.hebrew||"Aún sin aprobación integral."))+'</p>'+
     '<p><b>Fonética:</b> '+esc(detail.phoneticApproved===true?"Aprobada. "+(detail.phonetic||""):(detail.phonetic||"Pendiente."))+'</p>'+
-    (detail.source?'<p><b>Fuente registrada:</b> '+esc(detail.source)+'</p>':''):
+    (detail.source?'<p><b>Fuente registrada:</b> '+esc(detail.source)+'</p>':'')+
+    (detail.editorialNext?'<p><b>Próxima comprobación:</b> '+esc(detail.editorialNext)+'</p>':''):
     '<p>No hay cierre editorial registrado para este capítulo. No equivale a una revisión negativa.</p>')+
     '</div></details>').join("");
  }
@@ -98,6 +99,7 @@
    [["todos","Todos (150)"],["final","✅ Finales"],["hebreo","⚠️ Hebreo OK"],["revision","⏳ En revisión"],["pendiente","○ Pendientes"]]
    .map(([k,l])=>'<button type="button" class="jd-tp-filter" data-filter="'+k+'" aria-pressed="'+(k==="todos")+'">'+l+'</button>').join("")+
   '</div><div class="jd-tp-items" id="jd-tp-list">'+renderRows(rows,"todos")+'</div>'+
+  '<p class="jd-tp-help"><a href="https://github.com/judaicadesign/judaica-design-system/blob/main/masters/tehilim/REVISION_003-007_PENDIENTES.md" target="_blank" rel="noopener">Ver auditoría y preguntas de Tehilim 3–7</a></p>'+
   '<p class="jd-tp-help">Datos de REVISION_ESTADO.json · actualización consultada al abrir. Los capítulos sin registro se muestran como pendientes, no como errores.</p>';
   host.querySelectorAll("[data-filter]").forEach(btn=>btn.addEventListener("click",()=>{
     host.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
