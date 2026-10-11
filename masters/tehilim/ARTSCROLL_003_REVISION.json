@@ -1,0 +1,73 @@
+{
+  "chapter": 3,
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "date": "2026-10-10",
+  "source": {
+    "filename": "IMG_1459.png",
+    "sourceOfTruth": "ArtScroll"
+  },
+  "hebrewRule": "El Nombre editorial es יְיָ y לַיְיָ (prefijo) en lugar de otras grafías; ArtScroll para restantes signos.",
+  "observations": [
+    "Meteg ausente en 3:2 רַבּוּ, confirmado por el usuario",
+    "14 meteg inventariados",
+    "Rayitas separadas: מִפְּנֵי 3:1; אֹמְרִים 3:3; יִסְמְכֵֽנִי 3:6",
+    "Puntuación de ArtScroll agregada a 9 versículos",
+    "La coincidencia automática del generador no es requisito para aprobar los másters."
+  ],
+  "generatorDiscrepancy": {
+    "ref": "3:9",
+    "type": "capitalization",
+    "master": "'Amejá Virjateja",
+    "engine": "'amejá virjateja",
+    "blocker": false
+  },
+  "verses": [
+    {
+      "verse": 1,
+      "hebrew": "מִזְמוֹר לְדָוִד, בְּבׇרְחוֹ מִפְּנֵי אַבְשָׁלוֹם בְּנוֹ.",
+      "phonetic": "Mizmor leDavid, bevorjó mipené Avshalom benó."
+    },
+    {
+      "verse": 2,
+      "hebrew": "יְיָ, מָה רַבּוּ צָרָי, רַבִּים קָמִים עָלָי.",
+      "phonetic": "Ad-nai, ma rabú tsarái, rabim kamim 'alái."
+    },
+    {
+      "verse": 3,
+      "hebrew": "רַבִּים אֹמְרִים לְנַפְשִׁי, אֵין יְשׁוּעָֽתָה לּוֹ בֵאלֹהִים סֶֽלָה.",
+      "phonetic": "Rabim omerim lenafshí, en yeshu'ata lo veElohim sela."
+    },
+    {
+      "verse": 4,
+      "hebrew": "וְאַתָּה יְיָ מָגֵן בַּעֲדִי, כְּבוֹדִי וּמֵרִים רֹאשִׁי.",
+      "phonetic": "veAtá Ad-nai maguén ba'adí, kevodí umerim roshí."
+    },
+    {
+      "verse": 5,
+      "hebrew": "קוֹלִי אֶל יְיָ אֶקְרָא, וַיַּעֲנֵֽנִי מֵהַר קׇדְשׁוֹ סֶֽלָה.",
+      "phonetic": "Kolí el Ad-nai ekrá, vaya'aneni mehar kodshó sela."
+    },
+    {
+      "verse": 6,
+      "hebrew": "אֲנִי שָׁכַֽבְתִּי וָאִישָֽׁנָה, הֱקִיצֽוֹתִי כִּי יְיָ יִסְמְכֵֽנִי.",
+      "phonetic": "Aní shajavti vaishana, hekitsoti ki Ad-nai yismejeni."
+    },
+    {
+      "verse": 7,
+      "hebrew": "לֹא אִירָא מֵרִבְבוֹת עָם, אֲשֶׁר סָבִיב שָֽׁתוּ עָלָי.",
+      "phonetic": "Lo irá merivvot 'am, asher saviv shatu 'alái."
+    },
+    {
+      "verse": 8,
+      "hebrew": "קוּמָה יְיָ הוֹשִׁיעֵֽנִי אֱלֹהַי, כִּי הִכִּֽיתָ אֶת כׇּל אֹיְבַי לֶֽחִי, שִׁנֵּי רְשָׁעִים שִׁבַּֽרְתָּ.",
+      "phonetic": "Kumá Ad-nai hoshi'eni Elohái, ki hikita et kol oyvái leji, shiné resha'im shibarta."
+    },
+    {
+      "verse": 9,
+      "hebrew": "לַיְיָ הַיְשׁוּעָה, עַל עַמְּךָ בִרְכָתֶךָ סֶּֽלָה.",
+      "phonetic": "LaAd-nai hayeshu'á, 'al 'Amejá Virjateja sela."
+    }
+  ]
+}
