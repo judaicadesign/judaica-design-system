@@ -50,6 +50,20 @@ const fourteen=corpus.items.find(c=>c.chapter===14).verses[2];
 assert.ok(fourteen.hebrew.includes('עֹֽשֵׂה'),'14:3 user-confirmed meteg on ayin');
 assert.ok(fourteen.phonetic.includes("en 'ose tov"),'14:3 mil\u2019el corresponds to 14:1; no redundant accent');
 assert.ok(!fourteen.phonetic.includes("'osé"),'legacy wrong final stress must not return');
+
+assert.equal(fourteen.hebrew,'הַכֹּל סָר, יַחְדָּו נֶאֱלָֽחוּ; אֵין עֹֽשֵׂה טוֹב, אֵין גַּם אֶחָד.','14:3 ArtScroll punctuation exactly');
+assert.equal(fourteen.phonetic,"Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.",'14:3 phonetic commas and semicolon parallel Hebrew');
+for(const [filename,body] of [
+ ['TEHILIM_001-150_HEBREO_EN_REVISION.txt',fourteen.hebrew],
+ ['TEHILIM_001-150_FONETICA_EN_REVISION.txt',fourteen.phonetic],
+ ['TEHILIM_001-150_HEBREO_continuous.txt',fourteen.hebrew],
+ ['TEHILIM_001-150_FONETICA_continuous.txt',fourteen.phonetic],
+ ['TEHILIM_001-150_HEBREO_numbered.txt',fourteen.hebrew],
+ ['TEHILIM_001-150_FONETICA_numbered.txt',fourteen.phonetic]
+]) {
+ assert.ok(read('masters/tehilim/'+filename).includes(body),'14:3 not exported in '+filename);
+}
+
 // Ensure every protected FINAL has its four published production exports.
 for(const chapter of finals){
  const n=String(chapter).padStart(3,'0');
