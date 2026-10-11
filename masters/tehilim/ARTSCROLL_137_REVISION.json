@@ -96,6 +96,16 @@
         "result": "PASS",
         "note": "Global generator CI remains FAIL at stale historical 2:2 fixture, not at 126/137"
       }
+    },
+    "correctionBavel": {
+      "refs": [
+        "137:1",
+        "137:8"
+      ],
+      "before": "Bável",
+      "after": "Bavél",
+      "basis": "Masoretic revia on second bet: בָּבֶ֗ל. Stress on final syllable, confirmed by Hebrew dictionary.",
+      "date": "2026-10-11"
     }
   },
   "verses": [
@@ -104,8 +114,8 @@
       "previousHebrew": "עַל נַהֲרוֹת בָּבֶל שָׁם יָשַׁבְנוּ גַּם בָּכִינוּ בְּזׇכְרֵנוּ אֶת צִיּוֹן.",
       "hebrew": "עַל נַהֲרוֹת בָּבֶל, שָׁם יָשַֽׁבְנוּ, גַּם בָּכִֽינוּ, בְּזָכְרֵֽנוּ אֶת צִיּוֹן.",
       "previousPhonetic": "'Al naharot Bável sham yashavnu gam bajinu bezojrenu et Tsiyón.",
-      "phonetic": "'Al naharot Bável, sham yashavnu, gam bajinu, bezojrenu et Tsiyón.",
-      "afterPhonetic": "'Al naharot Bável, sham yashavnu, gam bajinu, bezojrenu et Tsiyón."
+      "phonetic": "'Al naharot Bavél, sham yashavnu, gam bajinu, bezojrenu et Tsiyón.",
+      "afterPhonetic": "'Al naharot Bavél, sham yashavnu, gam bajinu, bezojrenu et Tsiyón."
     },
     {
       "verse": 2,
@@ -160,8 +170,8 @@
       "previousHebrew": "בַּת בָּבֶל הַשְּׁדוּדָה אַשְׁרֵי שֶׁיְשַׁלֶּם לָךְ אֶת גְּמוּלֵךְ שֶׁגָּמַלְתְּ לָנוּ.",
       "hebrew": "בַּת בָּבֶל הַשְּׁדוּדָה, אַשְׁרֵי שֶׁיְשַׁלֶּם לָךְ אֶת גְּמוּלֵךְ שֶׁגָּמַלְתְּ לָֽנוּ.",
       "previousPhonetic": "Bat Bável hasheduda ashré sheyshálem laj et guemulej shegamalt lanu.",
-      "phonetic": "Bat Bável hashedudá, ashré sheyeshalem laj et guemulej shegamalt lanu.",
-      "afterPhonetic": "Bat Bável hashedudá, ashré sheyeshalem laj et guemulej shegamalt lanu."
+      "phonetic": "Bat Bavél hashedudá, ashré sheyeshalem laj et guemulej shegamalt lanu.",
+      "afterPhonetic": "Bat Bavél hashedudá, ashré sheyeshalem laj et guemulej shegamalt lanu."
     },
     {
       "verse": 9,
