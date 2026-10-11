@@ -1,3 +1,11 @@
+## CIERRE DE PUNTUACIÓN TEHILIM 14:3 · 2026-10-11 (posterior al registro anterior)
+
+- **IMG_1474.png RECUPERADA Y VISTA** desde la Biblioteca personal del proyecto. El seguimiento anterior que decía que faltaba la captura queda superado en 14:3.
+- Lectura hebrea cotejada: **`הַכֹּל סָר, יַחְדָּו נֶאֱלָֽחוּ; אֵין עֹֽשֵׂה טוֹב, אֵין גַּם אֶחָד.`** Dos comas después de סָר y טוֹב; punto y coma después de נֶאֱלָֽחוּ. Meteg en ע de עֹֽשֵׂה confirmado por usuario.
+- Fonética paralela de JD: **`Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.`** (Ó-se, sin tilde redundante). Ajustada en `tehilim.json` y las seis exportaciones generales, y anotada en `ARTSCROLL_014_CONFIRMACION_20261011.json`, `ARTSCROLL_APP_TANDA_009-017.json` y `REVISION_ESTADO.json`.
+- `tests/passage-link-regression.cjs` incluye ahora aserciones exactas de la puntuación y de las seis exportaciones. La marca de 14:3 está cerrada. **Tehilim 14 sigue NO FINAL** hasta cotejo global ArtScroll independiente.
+- La vinculación Birkat Hamazón ashkenazí ↔ Tehilim 137/126 se conserva con sus encabezados originales y CI de protección; no reabrir los nueve FINAL.
+
 ## VINCULACIÓN CANÓNICA y corrección 14:3 · 2026-10-11 (estado confirmado en GitHub)
 
 - **Implementado y publicado:** `assets/jd-passage-links.js` + `masters/compositions/BIRKAT_HAMAZON_ASHKENAZI.json` + integración en `index.html` (Masters → Birkat Hamazón → Ashkenazí → Hebreo/Fonética). Lee `tehilim.json` y `REVISION_ESTADO.json`, bloquea la composición cuando los capítulos enlazados no están FINAL. Resuelve salmos desde sus pesukim vigentes y preserva literalmente el contexto local fuera de los dos segmentos.
