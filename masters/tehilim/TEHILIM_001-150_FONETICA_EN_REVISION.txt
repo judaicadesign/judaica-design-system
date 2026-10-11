@@ -2494,12 +2494,12 @@ TEHILIM 125 · קכה
 125:5  Vehamatim 'akalkalotam yolijem Ad-nai et po'alé haaven shalom 'al Yisrael.
 
 TEHILIM 126 · קכו
-126:1  Shir hama'alot beshuv Ad-nai et shivat Tsiyón hayinu kejolmim.
-126:2  Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele.
-126:3  Higdil Ad-nai la'asot 'imanu hayinu semejim.
-126:4  Shuvá Ad-nai et shevitenu kaafikim baNéguev.
-126:5  Hazore'im bedim'á beriná yiktsoru.
-126:6  Haloj yelej uvajó nosé méshej hazara' bo yavó veriná nosé alumotav.
+126:1  Shir hama'alot, beshuv Ad-nai et shivat Tsiyón, hayinu kejolmim.
+126:2  Az yimalé sejok pinu, ulshonenu riná; az yomerú vagoyim: higdil Ad-nai la'asot 'im ele.
+126:3  Higdil Ad-nai la'asot 'imanu, hayinu semejim.
+126:4  Shuvá Ad-nai et shevitenu, kaafikim baNéguev.
+126:5  Hazore'im bedim'á, beriná yiktsoru.
+126:6  Haloj yelej uvajó, nosé méshej hazara'; bo yavó veriná, nosé alumotav.
 
 TEHILIM 127 · קכז
 127:1  Shir hama'alot lishlomó im Ad-nai lo yivné váyit shav 'amelú vonav bo im Ad-nai lo yishmor 'ir shav shakad shomer.
@@ -2623,14 +2623,14 @@ TEHILIM 136 · קלו
 136:26  Hodú leel hashamáyim ki le'olam jasdó.
 
 TEHILIM 137 · קלז
-137:1  'Al naharot Bável sham yashavnu gam bajinu bezojrenu et Tsiyón.
-137:2  'Al 'aravim betojah talinu kinorotenu.
-137:3  Ki sham sheelunu shovenu divré shir vetolalenu simjá shiru lanu mishir Tsiyón.
-137:4  Ej nashir et shir Ad-nai 'al admat nejar.
-137:5  Im eshkajej Yerushaláyim tishkaj yeminí.
-137:6  Tidbak leshoní lejikí im lo ezkereji im lo a'alé et Yerushaláyim 'al rosh simjatí.
-137:7  Zejor Ad-nai livné Edom et yom Yerushaláyim haomrim 'aru 'aru 'ad hayesod bah.
-137:8  Bat Bável hashedudá ashré sheyeshalem laj et guemulej shegamalt lanu.
+137:1  'Al naharot Bável, sham yashavnu, gam bajinu, bezojrenu et Tsiyón.
+137:2  'Al 'aravim betojah, talinu kinorotenu.
+137:3  Ki sham sheelunu shovenu divré shir vetolalenu simjá, shiru lanu mishir Tsiyón.
+137:4  Ej nashir et shir Ad-nai, 'al admat nejar.
+137:5  Im eshkajej Yerushaláyim, tishkaj yeminí.
+137:6  Tidbak leshoní lejikí, im lo ezkereji; im lo a'alé et Yerushaláyim 'al rosh simjatí.
+137:7  Zejor Ad-nai livné Edom et yom Yerushaláyim; haomrim 'aru 'aru, 'ad hayesod bah.
+137:8  Bat Bável hashedudá, ashré sheyeshalem laj et guemulej shegamalt lanu.
 137:9  Ashré sheyojez venipéts et 'olaláyij el hasala'.
 
 TEHILIM 138 · קלח
