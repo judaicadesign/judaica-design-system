@@ -239,7 +239,8 @@
       "approved": false,
       "source": "IMG_1474.png",
       "scope": "Cobertura completa disponible; pendientes específicos en el informe",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta."
+      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "editorialNext": "Pendiente comprobación visual en IMG_1474.png: 14:3 עֹשֵׂה, ¿lleva meteg en ע? 14:1 עֹֽשֵׂה no basta para inferirlo. No editar hasta evidencia."
     },
     {
       "chapter": 15,
@@ -604,5 +605,63 @@
     "source": "ArtScroll screenshots and matching original Benching PDF",
     "regression": "15/15 full verses, NFC+NFD PASS",
     "globalCI": "Prueba dirigida 126/137 PASS. Suite general falla en expectativas heredadas, 2:3 pendiente después de solucionar 2:2; no alterar masters FINAL para corregir tests."
+  },
+  "activeEditorialQueue20261011": {
+    "date": "2026-10-11",
+    "finalChapters": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      126,
+      137
+    ],
+    "finalCount": 9,
+    "finalExportFiles": 36,
+    "nextWholeChapter": "8",
+    "wholeChaptersAwaitingIndependentFinalReview": [
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "historicalQuestionsResolved": [
+      {
+        "ref": "9:21",
+        "words": [
+          "שִׁיתָה",
+          "הֵֽמָּה"
+        ],
+        "source": "ARTSCROLL_008-012_AVANCE_20261011.json"
+      },
+      {
+        "ref": "10:3",
+        "word": "בֵּרֵךְ",
+        "source": "ARTSCROLL_008-012_AVANCE_20261011.json"
+      },
+      {
+        "ref": "11:3",
+        "word": "פָּעָל",
+        "source": "ARTSCROLL_008-012_AVANCE_20261011.json"
+      }
+    ],
+    "openFocusedQuestions": [
+      {
+        "ref": "14:3",
+        "previousWord": "אֵין",
+        "word": "עֹשֵׂה",
+        "nextWord": "טוֹב",
+        "currentHebrew": "עֹשֵׂה",
+        "phoneticProvisional": "'osé",
+        "decisionNeeded": "Comprobar visualmente en IMG_1474.png si existe meteg en ע; no copiar 14:1 עֹֽשֵׂה",
+        "source": "ARTSCROLL_APP_TANDA_009-017.json",
+        "status": "pendiente de evidencia visual"
+      }
+    ],
+    "rules": "No alterar FINAL 1–7, 126 ni 137; hebreo FINAL y fonética FINAL requieren cotejo ArtScroll independiente, no solo coincidencia con motor."
   }
 }
