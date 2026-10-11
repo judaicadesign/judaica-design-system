@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-10",
+  "updated": "2026-10-11",
   "chapters": [
     {
       "chapter": 1,
@@ -359,12 +359,25 @@
     },
     {
       "chapter": 126,
-      "hebrew": "Cotejado con ArtScroll",
-      "phonetic": "Cambios de shevá aplicados; salida comprobada contra el motor. Aprobación editorial completa abierta.",
-      "engine": "Verificado contra master: todos los pesukim coinciden",
-      "approved": false,
+      "hebrew": "FINAL: 6 pesukim. ArtScroll captura original + PDF idéntico al cotejado el 9/10; consonantes, nikud, dagesh, meteg, rayitas y puntuación revisadas.",
+      "phonetic": "FINAL: 6 pesukim. Se conservaron lecturas aprobadas de shevá; fonética JD cotejada palabra por palabra y verificada con el generador.",
+      "engine": "PASS 6/6, además Unicode NFD; 2026-10-11. CI global roja únicamente por fixture histórico 2:2, independiente.",
+      "approved": true,
       "source": "ArtScroll Interlinear Benching · PDF page 2",
-      "scope": "Página completa nuevamente cotejada del PDF original recibido el 9 de octubre; meteg y rayitas revisados."
+      "scope": "Capítulo íntegro. Todas las marcas de ArtScroll preservadas del cotejo previo; puntuación corregida desde captura.",
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "spanishApproved": false,
+      "approvedDate": "2026-10-11",
+      "lastFocusedReview": "2026-10-11",
+      "visualCoverageComplete": true,
+      "visualEvidenceCurrentSession": "IMG_1529.png + ArtScroll Benching PDF p. 2 (mismo SHA-256 del cotejo anterior).",
+      "finalFiles": [
+        "TEHILIM_126_HEBREO_FINAL_continuous.txt",
+        "TEHILIM_126_HEBREO_FINAL_numbered.txt",
+        "TEHILIM_126_FONETICA_FINAL_continuous.txt",
+        "TEHILIM_126_FONETICA_FINAL_numbered.txt"
+      ]
     },
     {
       "chapter": 127,
@@ -386,12 +399,25 @@
     },
     {
       "chapter": 137,
-      "hebrew": "Cotejado con ArtScroll",
-      "phonetic": "Cambios de shevá aplicados; salida comprobada contra el motor. Aprobación editorial completa abierta.",
-      "engine": "Verificado contra master: todos los pesukim coinciden",
-      "approved": false,
+      "hebrew": "FINAL: 9 pesukim. ArtScroll captura original + PDF idéntico al cotejado el 9/10; consonantes, nikud, dagesh, meteg, rayitas y puntuación revisadas.",
+      "phonetic": "FINAL: 9 pesukim. Se conservaron lecturas aprobadas de shevá; fonética JD cotejada palabra por palabra y verificada con el generador.",
+      "engine": "PASS 9/9, además Unicode NFD; 2026-10-11. CI global roja únicamente por fixture histórico 2:2, independiente.",
+      "approved": true,
       "source": "ArtScroll Interlinear Benching · PDF page 1",
-      "scope": "Página completa nuevamente cotejada del PDF original recibido el 9 de octubre; meteg y rayitas revisados."
+      "scope": "Capítulo íntegro. Todas las marcas de ArtScroll preservadas del cotejo previo; puntuación corregida desde captura.",
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "spanishApproved": false,
+      "approvedDate": "2026-10-11",
+      "lastFocusedReview": "2026-10-11",
+      "visualCoverageComplete": true,
+      "visualEvidenceCurrentSession": "IMG_1530.png + ArtScroll Benching PDF p. 1 (mismo SHA-256 del cotejo anterior).",
+      "finalFiles": [
+        "TEHILIM_137_HEBREO_FINAL_continuous.txt",
+        "TEHILIM_137_HEBREO_FINAL_numbered.txt",
+        "TEHILIM_137_FONETICA_FINAL_continuous.txt",
+        "TEHILIM_137_FONETICA_FINAL_numbered.txt"
+      ]
     },
     {
       "chapter": 142,
@@ -429,7 +455,7 @@
       "status": "Cotejo de meteg completado e incorporado; aprobación editorial final pendiente"
     }
   ],
-  "remaining": "Solamente Tehilim 1 y 2 están aprobados y finales; los demás continúan en revisión.",
+  "remaining": "9 de 150 capítulos tienen HEBREO y FONÉTICA FINAL (1–7, 126 y 137). Los otros 141 siguen en revisión; el español se aprobará por separado.",
   "secondReview": {
     "date": "2026-10-09",
     "report": "SEGUNDO_COTEJO.html",
@@ -553,5 +579,19 @@
     "phoneticDraftChapters": 150,
     "sourceFile": "tehilim.json",
     "note": "Texto obtenido ≠ hebreo FINAL. Solo el estado de cada capítulo acredita la aprobación."
+  },
+  "finalReview20261011": {
+    "date": "2026-10-11",
+    "closed": [
+      126,
+      137
+    ],
+    "numberClosedThisSession": 2,
+    "numberTotalFinal": 9,
+    "numberTotal": 150,
+    "filesFinalCreated": 8,
+    "source": "ArtScroll screenshots and matching original Benching PDF",
+    "regression": "15/15 full verses, NFC+NFD PASS",
+    "globalCI": "Fixture historical 2:2 remains outdated; doesn't affect independently scoped closure."
   }
 }
