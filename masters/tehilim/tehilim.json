@@ -309,82 +309,97 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "לַמְנַצֵּֽחַ אֶל הַנְּחִילוֹת מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamenatséaj el hanejilot mizmor leDavid."
+          "hebrew": "לַמְנַצֵּֽחַ אֶל הַנְּחִילוֹת, מִזְמוֹר לְדָוִד.",
+          "phonetic": "Lamenatséaj el hanejilot, mizmor leDavid."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "אֲמָרַי הַאֲזִֽינָה יְיָ בִּֽינָה הֲגִיגִי.",
-          "phonetic": "Amarái haazina Ad-nai bina haguiguí."
+          "hebrew": "אֲמָרַי הַאֲזִֽינָה יְיָ, בִּֽינָה הֲגִיגִי.",
+          "phonetic": "Amarái haazina Ad-nai, bina haguiguí."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "הַקְשִֽׁיבָה לְקוֹל שַׁוְעִי מַלְכִּי וֵאלֹהָי כִּי אֵלֶֽיךָ אֶתְפַּלָּל.",
-          "phonetic": "Hakshiva lekol shav'í Malkí veLohái ki Eleja etpalal."
+          "hebrew": "הַקְשִֽׁיבָה לְקוֹל שַׁוְעִי, מַלְכִּי וֵאלֹהָי, כִּי אֵלֶֽיךָ אֶתְפַּלָּל.",
+          "phonetic": "Hakshiva lekol shav'í, Malkí veLohái, ki Eleja etpalal."
         },
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "יְיָ בֹּֽקֶר תִּשְׁמַע קוֹלִי בֹּֽקֶר אֶעֱרׇךְ לְךָ וַאֲצַפֶּה.",
-          "phonetic": "Ad-nai bóker tishmá' kolí bóker e'eroj Lejá vaatsape."
+          "hebrew": "יְיָ, בֹּֽקֶר תִּשְׁמַע קוֹלִי, בֹּֽקֶר אֶעֱרׇךְ לְךָ, וַאֲצַפֶּה.",
+          "phonetic": "Ad-nai, bóker tishmá' kolí, bóker e'eroj Lejá, vaatsape."
         },
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "כִּי לֹא אֵל חָפֵץ רֶשַׁע אָֽתָּה לֹא יְגֻרְךָ רָע.",
-          "phonetic": "Ki lo El jaféts resha' Ata lo yegureja ra'."
+          "hebrew": "כִּי לֹא אֵל חָפֵץ רֶשַׁע אָֽתָּה, לֹא יְגֻרְךָ רָע.",
+          "phonetic": "Ki lo El jaféts resha' Ata, lo yegureja ra'."
         },
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "לֹא יִתְיַצְּבוּ הוֹלְלִים לְנֶֽגֶד עֵינֶֽיךָ שָׂנֵֽאתָ כׇּל פֹּעֲלֵי אָֽוֶן.",
-          "phonetic": "Lo yityatsevú holelim lenégued 'Eneja saneta kol po'alé aven."
+          "hebrew": "לֹא יִתְיַצְּבוּ הוֹלְלִים לְנֶֽגֶד עֵינֶֽיךָ, שָׂנֵֽאתָ כׇּל פֹּעֲלֵי אָֽוֶן.",
+          "phonetic": "Lo yityatsevú holelim lenégued 'Eneja, saneta kol po'alé aven."
         },
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "תְּאַבֵּד דֹּבְרֵי כָזָב אִישׁ דָּמִים וּמִרְמָה יְתָעֵב יְיָ.",
-          "phonetic": "Teabed doveré jazav ish damim umirmá yeta'ev Ad-nai."
+          "hebrew": "תְּאַבֵּד דֹּבְרֵי כָזָב, אִישׁ דָּמִים וּמִרְמָה יְתָעֵב יְיָ.",
+          "phonetic": "Teabed doveré jazav, ish damim umirmá yeta'ev Ad-nai."
         },
         {
           "verse": 8,
           "label": "ח",
-          "hebrew": "וַאֲנִי בְּרֹב חַסְדְּךָ אָבוֹא בֵיתֶֽךָ אֶשְׁתַּחֲוֶה אֶל הֵיכַל קׇדְשְׁךָ בְּיִרְאָתֶךָ.",
-          "phonetic": "Vaaní berov Jasdejá avó Veteja eshtajave el hejal Kodshejá Beyirateja."
+          "hebrew": "וַאֲנִי בְּרֹב חַסְדְּךָ אָבוֹא בֵיתֶֽךָ, אֶשְׁתַּחֲוֶה אֶל הֵיכַל קׇדְשְׁךָ בְּיִרְאָתֶךָ.",
+          "phonetic": "Vaaní berov Jasdejá avó Veteja, eshtajave el hejal Kodshejá Beyirateja."
         },
         {
           "verse": 9,
           "label": "ט",
-          "hebrew": "יְיָ נְחֵֽנִי בְצִדְקָתֶךָ לְמַֽעַן שׁוֹרְרָי הַיְשַׁר לְפָנַי דַּרְכֶּךָ.",
-          "phonetic": "Ad-nai nejeni Vetsidkateja lema'an shorerái hayeshar lefanái Darkeja."
+          "hebrew": "יְיָ נְחֵֽנִי בְצִדְקָתֶךָ לְמַֽעַן שׁוֹרְרָי, הַיְשַׁר לְפָנַי דַּרְכֶּךָ.",
+          "phonetic": "Ad-nai nejeni Vetsidkateja lema'an shorerái, hayeshar lefanái Darkeja."
         },
         {
           "verse": 10,
           "label": "י",
-          "hebrew": "כִּי אֵין בְּפִיהוּ נְכֽוֹנָה קִרְבָּם הַוּוֹת קֶֽבֶר פָּתוּחַ גְּרֹנָם לְשׁוֹנָם יַחֲלִיקוּן.",
-          "phonetic": "Ki en befihu nejona kirbam havot kéver patúaj gueronam leshonam yajalikún."
+          "hebrew": "כִּי אֵין בְּפִיהוּ נְכֽוֹנָה, קִרְבָּם הַוּוֹת, קֶֽבֶר פָּתוּחַ גְּרֹנָם, לְשׁוֹנָם יַחֲלִיקוּן.",
+          "phonetic": "Ki en befihu nejona, kirbam havot, kéver patúaj gueronam, leshonam yajalikún."
         },
         {
           "verse": 11,
           "label": "יא",
-          "hebrew": "הַאֲשִׁימֵם אֱלֹהִים יִפְּלוּ מִמֹּעֲצוֹתֵֽיהֶם בְּרֹב פִּשְׁעֵיהֶם הַדִּיחֵֽמוֹ כִּי מָרוּ בָךְ.",
-          "phonetic": "Haashimem Elohim yipelú mimo'atsotéhem berov pish'ehem hadijemo ki marú vaj."
+          "hebrew": "הַאֲשִׁימֵם אֱלֹהִים, יִפְּלוּ מִמֹּעֲצוֹתֵֽיהֶם, בְּרֹב פִּשְׁעֵיהֶם הַדִּיחֵֽמוֹ, כִּי מָרוּ בָךְ.",
+          "phonetic": "Haashimem Elohim, yipelú mimo'atsotéhem, berov pish'ehem hadijemo, ki marú vaj."
         },
         {
           "verse": 12,
           "label": "יב",
-          "hebrew": "וְיִשְׂמְחוּ כׇל חוֹסֵי בָךְ לְעוֹלָם יְרַנֵּנוּ וְתָסֵךְ עָלֵֽימוֹ וְיַעְלְצוּ בְךָ אֹהֲבֵי שְׁמֶךָ.",
-          "phonetic": "Veyismejú jol josé Vaj le'olam yeranenú vetasej 'alemo veya'letsú Veja ohavé Shemeja."
+          "hebrew": "וְיִשְׂמְחוּ כׇל חוֹסֵי בָךְ, לְעוֹלָם יְרַנֵּנוּ, וְתָסֵךְ עָלֵֽימוֹ, וְיַעְלְצוּ בְךָ אֹהֲבֵי שְׁמֶךָ.",
+          "phonetic": "Veyismejú jol josé Vaj, le'olam yeranenú, vetasej 'alemo, veya'letsú Veja ohavé Shemeja."
         },
         {
           "verse": 13,
           "label": "יג",
-          "hebrew": "כִּי אַתָּה תְּבָרֵךְ צַדִּיק יְיָ כַּצִּֽנָּה רָצוֹן תַּעְטְרֶֽנּוּ.",
-          "phonetic": "Ki Atá tevarej tsadik Ad-nai katsina ratsón ta'terenu."
+          "hebrew": "כִּי אַתָּה תְּבָרֵךְ צַדִּיק יְיָ, כַּצִּֽנָּה רָצוֹן תַּעְטְרֶֽנּוּ.",
+          "phonetic": "Ki Atá tevarej tsadik Ad-nai, katsina ratsón ta'terenu."
         }
-      ]
+      ],
+      "approved": true,
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-10",
+      "artscrollReview": {
+        "source": "IMG_1462.png",
+        "meteg": 22,
+        "shevaMarks": 6,
+        "status": "final",
+        "userConfirmations": [
+          "5:4 וַאֲצַפֶּה sin meteg",
+          "5:9 לְפָנַי sin meteg"
+        ],
+        "paseqNote": "Los signos | impresos en ArtScroll se documentan como separadores Masoréticos, no transcritos como caracteres de lectura."
+      }
     },
     {
       "chapter": 6,
