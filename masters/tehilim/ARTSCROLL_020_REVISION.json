@@ -5,7 +5,8 @@
     "sha256": "dd23d2f784f4ae6f47130f597c4233ba299ad2f792227ecd1e98260ad69852dd",
     "metegAdded": 27,
     "scope": "Marcas de acento cotejadas con glifos del PDF y revisión visual ampliada. Wikisource conserva las consonantes y la escritura plena/defectiva. Se modificó el nikud solamente en los tres casos registrados. No se infiere acento final por ausencia de meteg; se mantiene el fallback salvo ocurrencias ya verificadas.",
-    "status": "Meteg incorporado; acento y mayúsculas revisados. Aprobación editorial final pendiente."
+    "status": "Meteg incorporado; acento y mayúsculas revisados. Aprobación editorial final pendiente.",
+    "note20261011": "20:10 הוֹשִֽׁיעָה: fonética hoshí'a, acento en שִׁ confirmado en 12:2; sin nueva aprobación final."
   },
   "metegOccurrences": [
     {
@@ -284,8 +285,8 @@
       "previousHebrew": "יְהֹוָה הוֹשִׁיעָה הַמֶּלֶךְ יַעֲנֵנוּ בְיוֹם קׇרְאֵנוּ.",
       "hebrew": "יְהֹוָה הוֹשִֽׁיעָה הַמֶּֽלֶךְ יַעֲנֵֽנוּ בְיוֹם קׇרְאֵֽנוּ.",
       "previousPhonetic": "Ad-nai hoshi'a haMélej ya'anenu veyom korenu.",
-      "phonetic": "Ad-nai hoshi'a haMélej ya'anenu veyom korenu.",
-      "afterPhonetic": "Ad-nai hoshi'a haMélej ya'anenu veyom korenu."
+      "phonetic": "Ad-nai hoshí'a haMélej ya'anenu veyom korenu.",
+      "afterPhonetic": "Ad-nai hoshí'a haMélej ya'anenu veyom korenu."
     }
   ]
 }
