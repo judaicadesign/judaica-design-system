@@ -14653,8 +14653,15 @@
         "date": "2026-10-08",
         "source": "ArtScroll Interlinear Benching · PDF page 2",
         "metegAdded": 11,
-        "status": "Revisión fina",
-        "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval."
+        "status": "HEBREO_FINAL_FONETICA_FINAL",
+        "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval.",
+        "historicalStatus": "Revisión fina",
+        "finalDate": "2026-10-11",
+        "sourceAppScreenshot": "IMG_1529.png",
+        "sourcePdfSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
+        "punctuation": "Cotejada ArtScroll app 2026-10-11",
+        "finalPublished": true,
+        "spanishApproved": false
       }
     },
     {
@@ -15424,8 +15431,15 @@
         "date": "2026-10-08",
         "source": "ArtScroll Interlinear Benching · PDF page 1",
         "metegAdded": 19,
-        "status": "Revisión fina",
-        "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval."
+        "status": "HEBREO_FINAL_FONETICA_FINAL",
+        "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval.",
+        "historicalStatus": "Revisión fina",
+        "finalDate": "2026-10-11",
+        "sourceAppScreenshot": "IMG_1530.png",
+        "sourcePdfSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
+        "punctuation": "Cotejada ArtScroll app 2026-10-11",
+        "finalPublished": true,
+        "spanishApproved": false
       }
     },
     {
