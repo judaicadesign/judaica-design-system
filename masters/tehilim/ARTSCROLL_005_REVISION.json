@@ -1,0 +1,113 @@
+{
+  "chapter": 5,
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "date": "2026-10-10",
+  "source": "ArtScroll IMG_1462.png",
+  "metegCount": 22,
+  "editorialNotes": [
+    "5:4 וַאֲצַפֶּה sin meteg: usuario confirmó.",
+    "5:9 לְפָנַי sin meteg: usuario confirmó.",
+    "Separadores verticales masoréticos impresos no se agregaron como caracteres de lectura."
+  ],
+  "explicitSheva": [
+    [
+      "5:6",
+      "יִתְיַצְּבוּ",
+      "צ"
+    ],
+    [
+      "5:7",
+      "דֹּבְרֵי",
+      "ב"
+    ],
+    [
+      "5:9",
+      "שׁוֹרְרָי",
+      "ר"
+    ],
+    [
+      "5:11",
+      "יִפְּלוּ",
+      "פ"
+    ],
+    [
+      "5:12",
+      "וְיִשְׂמְחוּ",
+      "מ"
+    ],
+    [
+      "5:13",
+      "תַּעְטְרֶֽנּוּ",
+      "ט"
+    ]
+  ],
+  "verses": [
+    {
+      "verse": 1,
+      "hebrew": "לַמְנַצֵּֽחַ אֶל הַנְּחִילוֹת, מִזְמוֹר לְדָוִד.",
+      "phonetic": "Lamenatséaj el hanejilot, mizmor leDavid."
+    },
+    {
+      "verse": 2,
+      "hebrew": "אֲמָרַי הַאֲזִֽינָה יְיָ, בִּֽינָה הֲגִיגִי.",
+      "phonetic": "Amarái haazina Ad-nai, bina haguiguí."
+    },
+    {
+      "verse": 3,
+      "hebrew": "הַקְשִֽׁיבָה לְקוֹל שַׁוְעִי, מַלְכִּי וֵאלֹהָי, כִּי אֵלֶֽיךָ אֶתְפַּלָּל.",
+      "phonetic": "Hakshiva lekol shav'í, Malkí veLohái, ki Eleja etpalal."
+    },
+    {
+      "verse": 4,
+      "hebrew": "יְיָ, בֹּֽקֶר תִּשְׁמַע קוֹלִי, בֹּֽקֶר אֶעֱרׇךְ לְךָ, וַאֲצַפֶּה.",
+      "phonetic": "Ad-nai, bóker tishmá' kolí, bóker e'eroj Lejá, vaatsape."
+    },
+    {
+      "verse": 5,
+      "hebrew": "כִּי לֹא אֵל חָפֵץ רֶשַׁע אָֽתָּה, לֹא יְגֻרְךָ רָע.",
+      "phonetic": "Ki lo El jaféts resha' Ata, lo yegureja ra'."
+    },
+    {
+      "verse": 6,
+      "hebrew": "לֹא יִתְיַצְּבוּ הוֹלְלִים לְנֶֽגֶד עֵינֶֽיךָ, שָׂנֵֽאתָ כׇּל פֹּעֲלֵי אָֽוֶן.",
+      "phonetic": "Lo yityatsevú holelim lenégued 'Eneja, saneta kol po'alé aven."
+    },
+    {
+      "verse": 7,
+      "hebrew": "תְּאַבֵּד דֹּבְרֵי כָזָב, אִישׁ דָּמִים וּמִרְמָה יְתָעֵב יְיָ.",
+      "phonetic": "Teabed doveré jazav, ish damim umirmá yeta'ev Ad-nai."
+    },
+    {
+      "verse": 8,
+      "hebrew": "וַאֲנִי בְּרֹב חַסְדְּךָ אָבוֹא בֵיתֶֽךָ, אֶשְׁתַּחֲוֶה אֶל הֵיכַל קׇדְשְׁךָ בְּיִרְאָתֶךָ.",
+      "phonetic": "Vaaní berov Jasdejá avó Veteja, eshtajave el hejal Kodshejá Beyirateja."
+    },
+    {
+      "verse": 9,
+      "hebrew": "יְיָ נְחֵֽנִי בְצִדְקָתֶךָ לְמַֽעַן שׁוֹרְרָי, הַיְשַׁר לְפָנַי דַּרְכֶּךָ.",
+      "phonetic": "Ad-nai nejeni Vetsidkateja lema'an shorerái, hayeshar lefanái Darkeja."
+    },
+    {
+      "verse": 10,
+      "hebrew": "כִּי אֵין בְּפִיהוּ נְכֽוֹנָה, קִרְבָּם הַוּוֹת, קֶֽבֶר פָּתוּחַ גְּרֹנָם, לְשׁוֹנָם יַחֲלִיקוּן.",
+      "phonetic": "Ki en befihu nejona, kirbam havot, kéver patúaj gueronam, leshonam yajalikún."
+    },
+    {
+      "verse": 11,
+      "hebrew": "הַאֲשִׁימֵם אֱלֹהִים, יִפְּלוּ מִמֹּעֲצוֹתֵֽיהֶם, בְּרֹב פִּשְׁעֵיהֶם הַדִּיחֵֽמוֹ, כִּי מָרוּ בָךְ.",
+      "phonetic": "Haashimem Elohim, yipelú mimo'atsotéhem, berov pish'ehem hadijemo, ki marú vaj."
+    },
+    {
+      "verse": 12,
+      "hebrew": "וְיִשְׂמְחוּ כׇל חוֹסֵי בָךְ, לְעוֹלָם יְרַנֵּנוּ, וְתָסֵךְ עָלֵֽימוֹ, וְיַעְלְצוּ בְךָ אֹהֲבֵי שְׁמֶךָ.",
+      "phonetic": "Veyismejú jol josé Vaj, le'olam yeranenú, vetasej 'alemo, veya'letsú Veja ohavé Shemeja."
+    },
+    {
+      "verse": 13,
+      "hebrew": "כִּי אַתָּה תְּבָרֵךְ צַדִּיק יְיָ, כַּצִּֽנָּה רָצוֹן תַּעְטְרֶֽנּוּ.",
+      "phonetic": "Ki Atá tevarej tsadik Ad-nai, katsina ratsón ta'terenu."
+    }
+  ]
+}
