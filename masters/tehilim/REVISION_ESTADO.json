@@ -469,5 +469,12 @@
       7
     ],
     "disclaimer": "Estado parcial: no se marcaron FINAL sin cotejo visual y fonético exhaustivo."
+  },
+  "corpus": {
+    "hebrewWikisourceChapters": 150,
+    "hebrewWikisourceVerses": 2527,
+    "phoneticDraftChapters": 150,
+    "sourceFile": "tehilim.json",
+    "note": "Texto obtenido ≠ hebreo FINAL. Solo el estado de cada capítulo acredita la aprobación."
   }
 }
