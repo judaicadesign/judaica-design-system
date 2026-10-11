@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "documentId": "birkat_hamazon_ashkenazi",
+  "title": "Birkat Hamazón — nusaj ashkenazí",
+  "principles": [
+    "Tehilim es la única fuente textual de los salmos citados.",
+    "Los encabezados y el resto litúrgico siguen perteneciendo a Birkat Hamazón.",
+    "No reescribir ni volver a aprobar automáticamente másters o documentos finales."
+  ],
+  "languages": {
+    "hebrew": {
+      "source": "masters/bircat-hamazon/ASHKENAZ_HEBREO_METEG_EN_REVISION.txt",
+      "contextNote": "Conservar los encabezados originales en hebreo hasta revisión independiente; no sustituir 'בימות החול' por otra condición sin aprobación.",
+      "references": [
+        {
+          "passageId": "tehilim:137:1-9",
+          "chapter": 137,
+          "start": "עַל נַהֲרוֹת",
+          "endAt": "בשבת, יום טוב ובסעודת מצוה",
+          "label": "Al Naharot · encabezado local: בימות החול"
+        },
+        {
+          "passageId": "tehilim:126:1-6",
+          "chapter": 126,
+          "start": "שִׁיר הַמַּעֲלוֹת",
+          "endAt": "תְּהִלַּת יְיָ",
+          "label": "Shir HaMa'alot · encabezado local: בשבת, יום טוב ובסעודת מצוה"
+        }
+      ]
+    },
+    "phonetic": {
+      "source": "masters/bircat-hamazon/ASHKENAZ_FONETICA_EN_REVISION.txt",
+      "headingNormalize": [
+        {
+          "before": "en días que se dice tajanún",
+          "after": "En días que se dice tajanún:"
+        }
+      ],
+      "references": [
+        {
+          "passageId": "tehilim:137:1-9",
+          "chapter": 137,
+          "start": "'Al naharot",
+          "endAt": "En Shabat, Yom Tov y en una comida de mitsvá",
+          "label": "Al Naharot · En días que se dice tajanún:"
+        },
+        {
+          "passageId": "tehilim:126:1-6",
+          "chapter": 126,
+          "start": "Shir hama'alot",
+          "endAt": "Tehilat Ad-nai",
+          "label": "Shir HaMa'alot · En Shabat, Yom Tov y en una comida de mitsvá"
+        }
+      ]
+    }
+  },
+  "documentation": "Esta manifestación vincula solo las composiciones finales verificadas Tehilim 126/137 y no afecta los másters originales ni las publicaciones anteriores. Para extender a otro rezo se añade una referencia con anclas de contexto, fuente y estado editorial."
+}
