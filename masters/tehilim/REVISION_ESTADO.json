@@ -107,15 +107,15 @@
     },
     {
       "chapter": 6,
-      "hebrew": "20 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
-      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta. 6:7: beanjatí confirmado, meteg falso en ח retirado.",
-      "engine": "11 pesukim comprobados",
-      "approved": false,
+      "hebrew": "FINAL: 11 pesukim, 21 meteg, incluido 6:7 לַֽיְלָה. Nikud y puntuación cotejados.",
+      "phonetic": "FINAL: 11 pesukim cotejados; 6:7 beanjatí sin meteg en ח ni rayita en נ, confirmado.",
+      "engine": "11/11 pesukim coinciden con el generador tras incorporar la puntuación.",
+      "approved": true,
       "source": "IMG_1463.png",
       "scope": "Captura(s) originales accesibles; revisión final por pasuk pendiente.",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "secondReview": "Meteg 6:7 en primera ל confirmado por usuario; 5 rayitas de shevá na documentadas, ausencia de marca en בְּאַנְחָתִי confirmada.",
       "lastFocusedReview": "2026-10-10",
-      "editorialNext": "Seis preguntas originales respondidas. Revisar nikud y puntuación íntegros; después fonética por pasuk. No volver a preguntar estas marcas.",
+      "editorialNext": "Ninguno: ambos másters FINAL.",
       "visualEvidenceCurrentSession": "Imágenes ArtScroll recuperadas: IMG_1463.png. Cotejo integral por pasuk aún no certificado.",
       "userConfirmations20261010": [
         {
@@ -126,7 +126,11 @@
           "date": "2026-10-10",
           "source": "user+ArtScroll image"
         }
-      ]
+      ],
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-10",
+      "visualCoverageComplete": true
     },
     {
       "chapter": 7,
