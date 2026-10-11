@@ -14662,7 +14662,11 @@
         "punctuation": "Cotejada ArtScroll app 2026-10-11",
         "finalPublished": true,
         "spanishApproved": false
-      }
+      },
+      "approved": true,
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-11"
     },
     {
       "chapter": 127,
@@ -15440,7 +15444,11 @@
         "punctuation": "Cotejada ArtScroll app 2026-10-11",
         "finalPublished": true,
         "spanishApproved": false
-      }
+      },
+      "approved": true,
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-11"
     },
     {
       "chapter": 138,
@@ -16585,6 +16593,13 @@
   "generatorCommit": "f8915d0fc181a4df517c2a2cf925bfebb0590b3d",
   "approvedChapters": [
     1,
-    2
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    126,
+    137
   ]
 }
