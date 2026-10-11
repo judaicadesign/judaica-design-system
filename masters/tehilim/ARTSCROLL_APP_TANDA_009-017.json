@@ -1469,6 +1469,13 @@
           "word": "מַחְסֵֽהוּ",
           "clusterIndex": 2,
           "letter": "ס"
+        },
+        {
+          "ref": "14:3",
+          "word": "עֹֽשֵׂה",
+          "clusterIndex": 0,
+          "letter": "ע",
+          "confirmation": "user 2026-10-11"
         }
       ],
       "vocalSheva": [
@@ -1534,12 +1541,16 @@
         {
           "ref": "14:3",
           "beforeHebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָחוּ אֵין עֹשֵׂה טוֹב אֵין גַּם אֶחָד.",
-          "afterHebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָֽחוּ אֵין עֹשֵׂה טוֹב אֵין גַּם אֶחָד.",
+          "afterHebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָֽחוּ אֵין עֹֽשֵׂה טוֹב אֵין גַּם אֶחָד.",
           "beforePhonetic": "Hakol sar yajdav neelaju en 'osé tov en gam ejad.",
-          "afterPhonetic": "Hakol sar yajdav neelaju en 'osé tov en gam ejad.",
+          "afterPhonetic": "Hakol sar yajdav neelaju en 'ose tov en gam ejad.",
           "changes": {
             "נאלחו": {
               "stress": 2
+            },
+            "עשה": {
+              "stress": 0,
+              "source": "confirmed meteg on ע at 14:3; no extra tilde in phonetic"
             }
           }
         },
@@ -2590,13 +2601,7 @@
       "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
     }
   ],
-  "openReview": [
-    {
-      "ref": "14:3",
-      "word": "עֹשֵׂה",
-      "reason": "Confirmar la presencia del meteg; no extender el de 14:1 automáticamente."
-    }
-  ],
+  "openReview": [],
   "correctionsSincePreviousPublication": [
     {
       "ref": "9:19",
@@ -2637,6 +2642,14 @@
       "resolution": "Confirmación del usuario 11/10/2026: SIN meteg, conservar pa'al. Registrado en ARTSCROLL_008-012_AVANCE_20261011.json.",
       "date": "2026-10-11",
       "source": "ARTSCROLL_008-012_AVANCE_20261011.json"
+    },
+    {
+      "ref": "14:3",
+      "word": "עֹשֵׂה",
+      "reason": "Meteg on ayin uncertain",
+      "resolution": "User confirmed meteg on initial ע; changed to עֹֽשֵׂה, phonetic from 'osé to 'ose (mil'el without redundant Spanish accent), 2026-10-11. ArtScroll punctuation remains a separate unresolved check.",
+      "date": "2026-10-11",
+      "source": "ARTSCROLL_014_CONFIRMACION_20261011.json"
     }
   ],
   "historicalOpenReviewBefore20261011": [
@@ -2663,14 +2676,13 @@
   ],
   "activeReviewReconciled20261011": {
     "date": "2026-10-11",
-    "activeCount": 1,
-    "activeRefs": [
-      "14:3"
-    ],
+    "activeCount": 0,
+    "activeRefs": [],
     "closedHistoricalRefs": [
       "9:21",
       "10:3",
-      "11:3"
+      "11:3",
+      "14:3"
     ],
     "newEditorialFinals": 0,
     "guardedFinalChapters": [
@@ -2685,6 +2697,14 @@
       137
     ],
     "sourceOfTruth": "REVISION_ESTADO.json",
-    "note": "Esta conciliación actualiza estados con evidencia ya aprobada; no modifica el corpus, las exportaciones FINAL ni aprueba nuevos capítulos. 14:3 עֹשֵׂה sigue pendiente de una inspección visual de IMG_1474.png."
-  }
+    "note": "All four historic word-level questions resolved. New punctuation-specific 14:3 review remains OPEN, and whole-chapter editorial approval remains pending."
+  },
+  "openPunctuationReview": [
+    {
+      "ref": "14:3",
+      "source": "IMG_1474.png",
+      "status": "PENDIENTE_COTEJO_VISUAL",
+      "reason": "En la revisión histórica faltó incorporar comas y demás puntuación de ArtScroll. No añadir signos inferidos."
+    }
+  ]
 }
