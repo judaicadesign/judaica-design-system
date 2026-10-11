@@ -21,7 +21,7 @@ async function boot(rows=fixture(),fetchResult){
  const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'https://example.test/',runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc});
  const w=dom.window;
  w.Headers=Headers;w.Request=Request;w.Response=Response;w.structuredClone=structuredClone;w.scrollTo=()=>{};w.URL.createObjectURL=()=> 'blob:fixture';w.URL.revokeObjectURL=()=>{};w.alert=message=>alerts.push(message);w.confirm=()=>true;
- w.fetch=async()=>fetchResult||{ok:false,status:503,json:async()=>({ok:false,error:'Proveedor sin conexión'}),text:async()=>''};
+ w.fetch=async(...args)=>(typeof fetchResult==='function'?fetchResult(...args):fetchResult)||{ok:false,status:503,json:async()=>({ok:false,error:'Proveedor sin conexión'}),text:async()=>''};
  const session=()=>({data:{session:expired?null:{access_token:'fixture-only'}}});
  const client={auth:{getSession:async()=>session(),getUser:async()=>({data:{user:{email:'qa@example.test'}}}),onAuthStateChange:()=>{},signOut:async()=>({})},storage:{from:()=>({createSignedUrl:async()=>({data:{signedUrl:'https://example.test/fixture.pdf'}})})},from:table=>({
   select:()=>table==='jd_team_access'?{eq:async()=>({data:[{email:'qa@example.test'}]})}:Object.assign(Promise.resolve({data:structuredClone(remote)}),{in:async(_,keys)=>({data:structuredClone(remote.filter(row=>keys.includes(row.key)))})}),
@@ -450,6 +450,28 @@ app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
  liveRows.find(x=>x.key==='jd_pricing_rules_v4').value[0].product=p.name;liveRows.find(x=>x.key==='jd_pricing_rules_v4').value[0].variant='Díptico';
  const live=await boot(liveRows);live.w.document.getElementById('qClient').value='Proveedor fuera de línea';await sleep(100);await save(live);assert.equal(live.get('jd_saved_quotes_v6').length,0);assert.match(live.alerts.at(-1),/B612/);live.close();
  console.log('B612 offline passed');
+ const quadRows=structuredClone(liveRows);const qp=quadRows[0].value[0];qp.models=['Cuadríptico'];qp.variants[0].model='Cuadríptico';qp.technical={...qp.technical,openWidthMm:391,openHeightMm:190,closedWidthMm:100,closedHeightMm:190};
+ quadRows.find(x=>x.key==='jd_pricing_rules_v4').value[0].variant='Cuadríptico';
+ const calls=[];
+ const quad=await boot(quadRows,async(url,init)=>{
+   assert.equal(new Headers(init.headers).get('Authorization'),'Bearer fixture-only');
+   const payload=JSON.parse(init.body);calls.push(payload);
+   return {ok:true,json:async()=>({ok:true,net:100000+payload.models*1000,vat:21210,gross:122210,models:payload.models,folds:3,supplierCategory:'Postales con doblez',fetchedAt:'2026-10-11T10:00:00Z',sourceUrl:'https://www.graficab612.com/cotizador-postales-con-doblez.htm',sheet:{postures:1},productionQty:payload.qty,lines:[{code:'DOBX3',quantity:payload.qty}]})};
+ });
+ quad.w.document.getElementById('qClient').value='Prueba cuadríptico';quad.w.qs6=[50];quad.w.renderQuote();await sleep(120);
+ assert.ok(calls.some(c=>c.format==='Cuadríptico'&&c.openWidthMm===391&&c.openHeightMm===190&&c.models===1));
+ assert.ok(!quad.w.document.getElementById('qB612ModelsField').classList.contains('jd-hidden'));
+ const designs=quad.w.document.getElementById('qB612Models');designs.value='2';designs.dispatchEvent(new quad.w.Event('input'));await sleep(120);
+ const cq=quad.w.jdCollectQuote();assert.equal(cq.b612Models,2);assert.equal(cq.quantities[0].cost,102000);assert.equal(cq.quantities[0].price,215000,'net / divisor + shipping with existing $5,000 rounding; do not use gross or old costs');assert.equal(cq.quantities[0].costReference.b612.folds,3);assert.equal(cq.quantities[0].costReference.b612.models,2);
+ await save(quad);assert.equal(quad.get('jd_saved_quotes_v6').at(-1).b612Models,2);
+ designs.value='1';quad.w.go('savedQuotes');quad.w.document.querySelector('[data-edit-qid]').click();await sleep(120);assert.equal(designs.value,'2','saved designs must restore');
+ const priorCalls=calls.length;quad.w.document.getElementById('jdRefreshB612').click();await sleep(120);assert.ok(calls.length>priorCalls,'refresh must get fresh supplier prices');
+ quad.w.document.getElementById('jdAddAlternative').click();designs.value='1';designs.dispatchEvent(new quad.w.Event('input'));await sleep(120);quad.w.document.querySelector('#jdAlternatives [data-alternative="0"]').click();assert.equal(designs.value,'2','design counts belong to each alternative');assert.deepEqual(Array.from(quad.w.jdCollectQuote().alternatives,a=>a.b612Models),[2,1]);
+ designs.value='0';designs.dispatchEvent(new quad.w.Event('input'));await save(quad);assert.match(quad.alerts.at(-1),/diseños B612/);assert.equal(quad.get('jd_saved_quotes_v6').length,1);
+ quad.close();
+ const quadOffline=await boot(quadRows);quadOffline.w.document.getElementById('qClient').value='Cuadríptico sin conexión';await sleep(120);await save(quadOffline);assert.equal(quadOffline.get('jd_saved_quotes_v6').length,0);assert.match(quadOffline.alerts.at(-1),/B612/);quadOffline.close();
+ console.log('Cuadríptico live net pricing, authenticated fetch, design cache, saved reload and offline blocking passed');
+
 }
 scenarios().catch(error=>{console.error(error);process.exit(1)});
 

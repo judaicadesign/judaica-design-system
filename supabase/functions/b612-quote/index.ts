@@ -25,6 +25,7 @@ function json(body: unknown, status=200, origin: string|null=null) {
 }
 async function getJson(path: string) {
   const r = await fetch(BASE + path, {
+    signal: AbortSignal.timeout(20000),
     headers: {
       "accept":"application/json,text/plain,*/*",
       "user-agent":"Mozilla/5.0 (compatible; JudaicaDesignQuoteBot/1.0; +https://judaicadesign.github.io/)"
@@ -87,13 +88,20 @@ Deno.serve(async (req: Request) => {
 
     const format=String(payload.format ?? "Tríptico");
     const qty=Number(payload.qty);
-    const isTrip=/tr[ií]ptico/i.test(format);
-    const isDip=/d[ií]ptico/i.test(format);
-    if(!isTrip && !isDip) return json({ok:false,error:"B612 en vivo está habilitado para Díptico y Tríptico."},422,origin);
+    const isTrip=/^tr[ií]ptico$/i.test(format);
+    const isQuad=/^cuadr[ií]ptico$/i.test(format);
+    const isDip=/^d[ií]ptico$/i.test(format);
+    if(!isTrip && !isDip && !isQuad) return json({ok:false,error:"B612 en vivo está habilitado para Díptico, Tríptico y Cuadríptico."},422,origin);
 
-    const cfg=isTrip
+    const cfg=isQuad
+      ? {label:"Cuadríptico",categoryId:105,cotId:80,sourcePath:"/cotizador-postales-con-doblez.htm",defaultWidth:391,defaultHeight:190,defaultClosedWidth:100,defaultClosedHeight:190}
+      : isTrip
       ? {label:"Tríptico",categoryId:23,cotId:14,sourcePath:"/cotizador-tripticos.htm",defaultWidth:290,defaultHeight:140,defaultClosedWidth:100,defaultClosedHeight:140}
       : {label:"Díptico",categoryId:8,cotId:4,sourcePath:"/cotizador-dipticos.htm",defaultWidth:200,defaultHeight:140,defaultClosedWidth:100,defaultClosedHeight:140};
+
+    const models=Number(payload.models ?? 1);
+    if(!Number.isSafeInteger(models) || models<1 || models>20)
+      return json({ok:false,error:"La cantidad de diseños debe ser un entero de 1 a 20."},422,origin);
 
     const width=Number(payload.openWidthMm ?? cfg.defaultWidth);
     const height=Number(payload.openHeightMm ?? cfg.defaultHeight);
@@ -118,7 +126,8 @@ Deno.serve(async (req: Request) => {
     const stageArrays=await Promise.all(stageIds.map((id:number)=>getJson("/api/cotizador/etapa/"+categoryId+"/"+id)));
     const all=stageArrays.flat();
 
-    const paper = all.find((x:any)=>x?.articulo?.codigoInterno==="COMBO-FC300-SA3DF" && !x?.fijo);
+    const paper = all.find((x:any)=>x?.articulo?.codigoInterno==="COMBO-FC300-SA3DF" && !x?.fijo)
+      ?? (isQuad ? all.find((x:any)=>x?.articulo?.codigoInterno==="COMBO-FC300-SA3SF" && !x?.fijo && x?.dobleFaz) : null);
     if(!paper) throw new Error("No se encontró Ilustración 300 g, full color doble faz en B612.");
 
     const paperSheetId=Number(paper?.articulo?.articuloPapel?.id ?? cot?.articuloPapel?.id ?? 3);
@@ -141,40 +150,48 @@ Deno.serve(async (req: Request) => {
     // Ej.: 100 pedidos con 3 posturas por pliego => 102 unidades producidas.
     const productionQty=Math.ceil(qty/postures)*postures;
 
-    const lines:any[]=[];
-    const add=async(item:any, actualQty:number, label?:string)=>{
-      const ln=await pricedLine(item,actualQty,label);
-      if(ln){ lines.push(ln); return ln.total; }
-      return 0;
+    // Consultar precios en paralelo: no bloquear la pantalla con una cadena de consultas.
+    const pending:any[]=[];
+    const add=(item:any, actualQty:number, label?:string)=>{
+      if(actualQty>0) pending.push({item,actualQty,label});
     };
 
-    const paperQty=amountFor(Number(paper?.articuloMultiplicaPor?.id),productionQty,postures,paper?.multiplicador,1);
-    await add({articulo:resolvedPaper},paperQty,"Ilustración 300 g · full color · doble faz");
+    const paperQty=amountFor(Number(paper?.articuloMultiplicaPor?.id),productionQty,postures,paper?.multiplicador,models);
+    add({articulo:resolvedPaper},paperQty,"Ilustración 300 g · full color · doble faz");
 
-    for(const child of all.filter((x:any)=>!x?.fijo && parentMatches(x,Number(paper.articulo.id)))){
+    for(const child of all.filter((x:any)=>!x?.fijo && parentMatches(x,Number(paper.dobleFaz ?? paper.articulo.id)))){
       let item=child;
       if(child?.dobleFaz != null && String(child.dobleFaz)!=="null" && Number(child.dobleFaz)!==Number(child?.articulo?.id)){
         const a=await getJson("/api/articulo/"+child.dobleFaz);
         item={...child,articulo:a.articulo};
       }
-      const q=amountFor(Number(child?.articuloMultiplicaPor?.id),productionQty,postures,child?.multiplicador,1);
-      await add(item,q);
+      const q=amountFor(Number(child?.articuloMultiplicaPor?.id),productionQty,postures,child?.multiplicador,models);
+      add(item,q);
     }
 
     for(const fixed of all.filter((x:any)=>x?.fijo===true)){
-      const q=amountFor(Number(fixed?.articuloMultiplicaPor?.id),productionQty,postures,fixed?.multiplicador,1);
-      if(q>0) await add(fixed,q);
+      const q=amountFor(Number(fixed?.articuloMultiplicaPor?.id),productionQty,postures,fixed?.multiplicador,models);
+      if(q>0) add(fixed,q);
     }
 
     const term = all.find((x:any)=>x?.articulo?.codigoInterno==="COMBO-LAM3-MATEDF" && !x?.fijo);
     if(!term) throw new Error("No se encontró Laminado Mate Doble Faz en B612.");
-    const termQty=amountFor(Number(term?.articuloMultiplicaPor?.id),productionQty,postures,term?.multiplicador,1);
-    await add(term,termQty,"Laminado mate · doble faz");
+    const termQty=amountFor(Number(term?.articuloMultiplicaPor?.id),productionQty,postures,term?.multiplicador,models);
+    add(term,termQty,"Laminado mate · doble faz");
     for(const child of all.filter((x:any)=>!x?.fijo && Number(x?.articuloPadre?.id)===Number(term.articulo.id))){
-      const q=amountFor(Number(child?.articuloMultiplicaPor?.id),productionQty,postures,child?.multiplicador,1);
-      await add(child,q);
+      const q=amountFor(Number(child?.articuloMultiplicaPor?.id),productionQty,postures,child?.multiplicador,models);
+      add(child,q);
     }
 
+    if(isQuad){
+      const fold=all.find((x:any)=>!x?.fijo && x?.articulo?.codigoInterno==="DOBX3" && !x?.articuloPadre);
+      if(!fold) throw new Error("B612 no devolvió Doblado x 3; no se puede cotizar el cuadríptico.");
+      add(fold,amountFor(Number(fold.articuloMultiplicaPor?.id),productionQty,postures,fold.multiplicador,models),"Doblado x 3");
+      for(const child of all.filter((x:any)=>!x?.fijo && parentMatches(x,Number(fold.articulo.id)))){
+        add(child,amountFor(Number(child.articuloMultiplicaPor?.id),productionQty,postures,child.multiplicador,models));
+      }
+    }
+    const lines=(await Promise.all(pending.map(({item,actualQty,label})=>pricedLine(item,actualQty,label)))).filter(Boolean);
     const componentNet=lines.reduce((s,l)=>s+Number(l.total||0),0);
     // El precio web es la suma de los mismos artículos que calcula el cotizador.
     // No aplicar factores/calibraciones: los precios unitarios se consultan en vivo a B612.
@@ -183,8 +200,8 @@ Deno.serve(async (req: Request) => {
     return json({
       ok:true,supplier:"Gráfica B612",live:true,source:"B612 live",
       sourceUrl:BASE+cfg.sourcePath,fetchedAt:new Date().toISOString(),
-      format:cfg.label,requestedQty:qty,productionQty,
-      specs:{openWidthMm:width,openHeightMm:height,closedWidthMm:closedWidth,closedHeightMm:closedHeight,paper:"Papel ilustración",weightGsm:300,lamination:"Laminado mate",print:"Full color",sides:"Doble faz",finish:"Doblez"},
+      format:cfg.label,requestedQty:qty,productionQty,models,supplierCategory:cot.nombre,folds:isQuad?3:isTrip?2:1,
+      specs:{openWidthMm:width,openHeightMm:height,closedWidthMm:closedWidth,closedHeightMm:closedHeight,paper:"Papel ilustración",weightGsm:300,lamination:"Laminado mate",print:"Full color",sides:"Doble faz",finish:isQuad?"Doblado x 3":"Doblez"},
       sheet:{id:paperSheetId,postures,printedSheets:paperQty,coveragePercent:grid?.porcentajeCobertura ?? null},
       componentNet:Number(componentNet.toFixed(2)),net:Number(net.toFixed(2)),vat:Number(vat.toFixed(2)),gross:Number((net+vat).toFixed(2)),lines
     },200,origin);

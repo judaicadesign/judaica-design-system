@@ -1,0 +1,3913 @@
+{
+  "/api/cotizador/get?idCategoria=105": [
+    {
+      "id": 80,
+      "nombre": "Postales con doblez",
+      "nombreLegible": "Postales con doblez",
+      "categoria": {
+        "id": 105,
+        "nombre": "Postales con doblez",
+        "activo": true
+      },
+      "articuloPapel": {
+        "id": 3,
+        "nombre": "SA3",
+        "alto": 457,
+        "ancho": 311
+      },
+      "rubro": {
+        "id": 68
+      },
+      "espaciado": 3,
+      "margenSuperior": 4,
+      "margenInferior": 4,
+      "margenIzquierdo": 4,
+      "margenDerecho": 4,
+      "activo": true
+    }
+  ],
+  "/api/cotizador/80/etapas": [
+    {
+      "id": 329,
+      "articuloEtapa": {
+        "id": 1,
+        "nombre": "ARMADO",
+        "activo": true
+      },
+      "nombre": "armado",
+      "activo": true
+    },
+    {
+      "id": 330,
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "nombre": "Corte",
+      "activo": true
+    },
+    {
+      "id": 331,
+      "articuloEtapa": {
+        "id": 3,
+        "nombre": "EMPAQUE",
+        "activo": true
+      },
+      "nombre": "Empaque",
+      "activo": true
+    },
+    {
+      "id": 332,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "nombre": "Impresion",
+      "activo": true
+    },
+    {
+      "id": 333,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "nombre": "Terminacion Previa",
+      "activo": true
+    }
+  ],
+  "/api/cotizador/etapa/105/1": [
+    {
+      "articulo": {
+        "id": 3536,
+        "nombre": "Revision Postales",
+        "nombreLegible": "Revision Postales",
+        "codigoInterno": "REVISION-POSTALES",
+        "rubro": {
+          "id": 115
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 1,
+        "nombre": "ARMADO",
+        "activo": true
+      },
+      "fijo": true,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    }
+  ],
+  "/api/cotizador/etapa/105/6": [
+    {
+      "articulo": {
+        "id": 3602,
+        "nombre": "COMBO-Laminado Mate A3 - Simple Faz",
+        "nombreLegible": "Laminado Mate - Simple Faz",
+        "codigoInterno": "COMBO-LAM3-MATESF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3604,
+        "nombre": "COMBO - Laminado Brillante A3 - Simple Faz",
+        "nombreLegible": "Laminado Brillante - Simple Faz",
+        "codigoInterno": "COMBO-LAM3-BRILLOSF",
+        "rubro": {
+          "id": 154
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 392,
+        "nombre": "Doblado",
+        "nombreLegible": "Doblado",
+        "codigoInterno": "DOB",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7626,
+        "nombre": "Doblado x 2",
+        "nombreLegible": "Doblado x 2",
+        "codigoInterno": "DOBX2",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3606,
+        "nombre": "COMBO - Laminado Brillante A3 - Doble Faz",
+        "nombreLegible": "Laminado Brillante - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-BRILLO-DF",
+        "rubro": {
+          "id": 154
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3599,
+        "nombre": "COMBO - Laminado Mate A3 - Doble Faz",
+        "nombreLegible": "Laminado Mate - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-MATEDF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7627,
+        "nombre": "Doblado x 3",
+        "nombreLegible": "Doblado x 3",
+        "codigoInterno": "DOBX3",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 1890,
+        "nombre": "Puntas Redondeadas",
+        "nombreLegible": "Puntas Redondeadas",
+        "codigoInterno": "PUNTASRED",
+        "rubro": {
+          "id": 118
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7628,
+        "nombre": "Doblado x 4",
+        "nombreLegible": "Doblado x 4",
+        "codigoInterno": "DOBX4",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7629,
+        "nombre": "Doblado x 5",
+        "nombreLegible": "Doblado x 5",
+        "codigoInterno": "DOBX5",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7630,
+        "nombre": "Doblado x 6",
+        "nombreLegible": "Doblado x 6",
+        "codigoInterno": "DOBX6",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3004,
+        "nombre": "Desperdicio Laminado",
+        "nombreLegible": "Desperdicio Laminado",
+        "codigoInterno": "LAMDESP",
+        "rubro": {
+          "id": 98
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3602,
+        "nombre": "COMBO-Laminado Mate A3 - Simple Faz",
+        "nombreLegible": "Laminado Mate - Simple Faz",
+        "codigoInterno": "COMBO-LAM3-MATESF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3004,
+        "nombre": "Desperdicio Laminado",
+        "nombreLegible": "Desperdicio Laminado",
+        "codigoInterno": "LAMDESP",
+        "rubro": {
+          "id": 98
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3606,
+        "nombre": "COMBO - Laminado Brillante A3 - Doble Faz",
+        "nombreLegible": "Laminado Brillante - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-BRILLO-DF",
+        "rubro": {
+          "id": 154
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7692,
+        "nombre": "Laminado - Fijo Laminado",
+        "nombreLegible": null,
+        "codigoInterno": "L1",
+        "rubro": {
+          "id": 251
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3606,
+        "nombre": "COMBO - Laminado Brillante A3 - Doble Faz",
+        "nombreLegible": "Laminado Brillante - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-BRILLO-DF",
+        "rubro": {
+          "id": 154
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7692,
+        "nombre": "Laminado - Fijo Laminado",
+        "nombreLegible": null,
+        "codigoInterno": "L1",
+        "rubro": {
+          "id": 251
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3602,
+        "nombre": "COMBO-Laminado Mate A3 - Simple Faz",
+        "nombreLegible": "Laminado Mate - Simple Faz",
+        "codigoInterno": "COMBO-LAM3-MATESF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3004,
+        "nombre": "Desperdicio Laminado",
+        "nombreLegible": "Desperdicio Laminado",
+        "codigoInterno": "LAMDESP",
+        "rubro": {
+          "id": 98
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3599,
+        "nombre": "COMBO - Laminado Mate A3 - Doble Faz",
+        "nombreLegible": "Laminado Mate - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-MATEDF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3004,
+        "nombre": "Desperdicio Laminado",
+        "nombreLegible": "Desperdicio Laminado",
+        "codigoInterno": "LAMDESP",
+        "rubro": {
+          "id": 98
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3604,
+        "nombre": "COMBO - Laminado Brillante A3 - Simple Faz",
+        "nombreLegible": "Laminado Brillante - Simple Faz",
+        "codigoInterno": "COMBO-LAM3-BRILLOSF",
+        "rubro": {
+          "id": 154
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 485,
+        "nombre": "Corte - Fijo Manual",
+        "nombreLegible": "Corte - Fijo Manual",
+        "codigoInterno": "C2",
+        "rubro": {
+          "id": 101
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 7626,
+        "nombre": "Doblado x 2",
+        "nombreLegible": "Doblado x 2",
+        "codigoInterno": "DOBX2",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 485,
+        "nombre": "Corte - Fijo Manual",
+        "nombreLegible": "Corte - Fijo Manual",
+        "codigoInterno": "C2",
+        "rubro": {
+          "id": 101
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 7628,
+        "nombre": "Doblado x 4",
+        "nombreLegible": "Doblado x 4",
+        "codigoInterno": "DOBX4",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 485,
+        "nombre": "Corte - Fijo Manual",
+        "nombreLegible": "Corte - Fijo Manual",
+        "codigoInterno": "C2",
+        "rubro": {
+          "id": 101
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 7627,
+        "nombre": "Doblado x 3",
+        "nombreLegible": "Doblado x 3",
+        "codigoInterno": "DOBX3",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 485,
+        "nombre": "Corte - Fijo Manual",
+        "nombreLegible": "Corte - Fijo Manual",
+        "codigoInterno": "C2",
+        "rubro": {
+          "id": 101
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 392,
+        "nombre": "Doblado",
+        "nombreLegible": "Doblado",
+        "codigoInterno": "DOB",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 1871,
+        "nombre": "Cinta Bi faz 12mm x 30Mts",
+        "nombreLegible": "Cinta Bi faz 12mm x 30Mts",
+        "codigoInterno": "BIFAZ12",
+        "rubro": {
+          "id": 237
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": 15,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7692,
+        "nombre": "Laminado - Fijo Laminado",
+        "nombreLegible": null,
+        "codigoInterno": "L1",
+        "rubro": {
+          "id": 251
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3599,
+        "nombre": "COMBO - Laminado Mate A3 - Doble Faz",
+        "nombreLegible": "Laminado Mate - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-MATEDF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7692,
+        "nombre": "Laminado - Fijo Laminado",
+        "nombreLegible": null,
+        "codigoInterno": "L1",
+        "rubro": {
+          "id": 251
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3604,
+        "nombre": "COMBO - Laminado Brillante A3 - Simple Faz",
+        "nombreLegible": "Laminado Brillante - Simple Faz",
+        "codigoInterno": "COMBO-LAM3-BRILLOSF",
+        "rubro": {
+          "id": 154
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 485,
+        "nombre": "Corte - Fijo Manual",
+        "nombreLegible": "Corte - Fijo Manual",
+        "codigoInterno": "C2",
+        "rubro": {
+          "id": 101
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 1890,
+        "nombre": "Puntas Redondeadas",
+        "nombreLegible": "Puntas Redondeadas",
+        "codigoInterno": "PUNTASRED",
+        "rubro": {
+          "id": 118
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 6,
+        "nombre": "TERMINACION PREVIA",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    }
+  ],
+  "/api/cotizador/etapa/105/2": [
+    {
+      "articulo": {
+        "id": 7691,
+        "nombre": "Doblado - Fijo Doblado",
+        "nombreLegible": null,
+        "codigoInterno": "D1",
+        "rubro": {
+          "id": 250
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 7626,
+        "nombre": "Doblado x 2",
+        "nombreLegible": "Doblado x 2",
+        "codigoInterno": "DOBX2",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 484,
+        "nombre": "Corte - Fijo Guillotina",
+        "nombreLegible": "Corte - Fijo Guillotina",
+        "codigoInterno": "C1",
+        "rubro": {
+          "id": 100
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "fijo": true,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7691,
+        "nombre": "Doblado - Fijo Doblado",
+        "nombreLegible": null,
+        "codigoInterno": "D1",
+        "rubro": {
+          "id": 250
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 7627,
+        "nombre": "Doblado x 3",
+        "nombreLegible": "Doblado x 3",
+        "codigoInterno": "DOBX3",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7691,
+        "nombre": "Doblado - Fijo Doblado",
+        "nombreLegible": null,
+        "codigoInterno": "D1",
+        "rubro": {
+          "id": 250
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 7630,
+        "nombre": "Doblado x 6",
+        "nombreLegible": "Doblado x 6",
+        "codigoInterno": "DOBX6",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 38,
+        "nombre": "Corte Refilado - (Por Posturas)",
+        "nombreLegible": "Refilado",
+        "codigoInterno": "CR",
+        "rubro": {
+          "id": 104
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "fijo": true,
+      "articuloMultiplicaPor": {
+        "id": 1,
+        "nombre": "UNIDAD",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7691,
+        "nombre": "Doblado - Fijo Doblado",
+        "nombreLegible": null,
+        "codigoInterno": "D1",
+        "rubro": {
+          "id": 250
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 392,
+        "nombre": "Doblado",
+        "nombreLegible": "Doblado",
+        "codigoInterno": "DOB",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7691,
+        "nombre": "Doblado - Fijo Doblado",
+        "nombreLegible": null,
+        "codigoInterno": "D1",
+        "rubro": {
+          "id": 250
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 7628,
+        "nombre": "Doblado x 4",
+        "nombreLegible": "Doblado x 4",
+        "codigoInterno": "DOBX4",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 7691,
+        "nombre": "Doblado - Fijo Doblado",
+        "nombreLegible": null,
+        "codigoInterno": "D1",
+        "rubro": {
+          "id": 250
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 7629,
+        "nombre": "Doblado x 5",
+        "nombreLegible": "Doblado x 5",
+        "codigoInterno": "DOBX5",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 2,
+        "nombre": "CORTE",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    }
+  ],
+  "/api/cotizador/etapa/105/3": [
+    {
+      "articulo": {
+        "id": 7602,
+        "nombre": "Variante Postales",
+        "nombreLegible": null,
+        "codigoInterno": "VARIANTE-POSTALES",
+        "rubro": {
+          "id": 159
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 3,
+        "nombre": "EMPAQUE",
+        "activo": true
+      },
+      "fijo": true,
+      "articuloMultiplicaPor": {
+        "id": 5,
+        "nombre": "VARIANTE",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    }
+  ],
+  "/api/cotizador/etapa/105/4": [
+    {
+      "articulo": {
+        "id": 2752,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 300grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "COMBO-FC300-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 2752,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2753,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3662,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 350grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 350grs.",
+        "codigoInterno": "COMBO-FC350-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 3662,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 3663,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2720,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 200grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 200grs.",
+        "codigoInterno": "COMBO-FC200-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 2720,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2721,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2665,
+        "nombre": "Combo Impresión Color SA3 - Obra 120grs. - Doble Faz",
+        "nombreLegible": "Obra 120grs.",
+        "codigoInterno": "COMBO-FC120-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 2664,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2665,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3625,
+        "nombre": "Combo Impresión Color SA3 - Ilustracion 115grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 115grs.",
+        "codigoInterno": "COMBO-FC115-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 3625,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 3626,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3671,
+        "nombre": "Combo Impresión Color SA3 - Texturado 250grs. - Doble Faz",
+        "nombreLegible": "Texturado 250grs.",
+        "codigoInterno": "COMBO-FCTEXTURADO250-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 3670,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 3671,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2736,
+        "nombre": "Combo Impresión Color SA3 - Opalina 240grs. - Simple Faz",
+        "nombreLegible": "Opalina 240grs.",
+        "codigoInterno": "COMBO-FC240-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 2736,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2737,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3314,
+        "nombre": "Impresión Color SA3 - Misionero 220grs. - Simple Faz",
+        "nombreLegible": "Misionero 220grs.",
+        "codigoInterno": "42-FCMIS220-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 3314,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2801,
+        "nombre": "Combo Impresión Color SA3 - Cartulina Triplex 325grs. - Simple Faz",
+        "nombreLegible": "Cartulina Triplex 325grs.",
+        "codigoInterno": "COMBO-FCTRIPLEX325-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 2801,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2688,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 150grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 150grs.",
+        "codigoInterno": "COMBO-FC150-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": null,
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 2,
+        "nombre": "PLIEGO",
+        "activo": true
+      },
+      "multiplicador": null,
+      "simpleFaz": 2688,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2689,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2684,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 150grs. - Simple Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Ilustración 150grs. - Simple Faz",
+        "codigoInterno": "CORTE-FC150-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 2688,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 150grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 150grs.",
+        "codigoInterno": "COMBO-FC150-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 2684,
+      "articuloPadreSimpleFaz": {
+        "id": 2688,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 150grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 150grs.",
+        "codigoInterno": "COMBO-FC150-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2717,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 200grs. - Doble Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Ilustración 200grs. - Doble Faz",
+        "codigoInterno": "CORTE-FC200-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 2721,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 200grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 200grs.",
+        "codigoInterno": "COMBO-FC200-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2717,
+      "articuloPadreDobleFaz": {
+        "id": 2721,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 200grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 200grs.",
+        "codigoInterno": "COMBO-FC200-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 3659,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 350grs. - Doble Faz",
+        "nombreLegible": null,
+        "codigoInterno": "CORTE-FC350-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 3663,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 350grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 350grs.",
+        "codigoInterno": "COMBO-FC350-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 3659,
+      "articuloPadreDobleFaz": {
+        "id": 3663,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 350grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 350grs.",
+        "codigoInterno": "COMBO-FC350-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 3658,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 350grs. - Simple Faz",
+        "nombreLegible": null,
+        "codigoInterno": "CORTE-FC350-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3662,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 350grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 350grs.",
+        "codigoInterno": "COMBO-FC350-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 3658,
+      "articuloPadreSimpleFaz": {
+        "id": 3662,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 350grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 350grs.",
+        "codigoInterno": "COMBO-FC350-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2941,
+        "nombre": "Hoja Corte Color SA3 - Misionero 220grs. - Simple Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Misionero 220grs. - Simple Faz",
+        "codigoInterno": "CORTE-FCMIS220-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 2943,
+        "nombre": "Combo Impresión Color SA3 - Misionero 220grs. - Simple Faz",
+        "nombreLegible": "Misionero 220grs.",
+        "codigoInterno": "COMBO-FCMIS220-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 2941,
+      "articuloPadreSimpleFaz": {
+        "id": 2943,
+        "nombre": "Combo Impresión Color SA3 - Misionero 220grs. - Simple Faz",
+        "nombreLegible": "Misionero 220grs.",
+        "codigoInterno": "COMBO-FCMIS220-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2800,
+        "nombre": "Hoja Corte Color SA3 - Cartulina Triplex 325grs. - Doble Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Cartulina Triplex 325grs. - Doble Faz",
+        "codigoInterno": "CORTE-FCTRIPLEX325-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 2802,
+        "nombre": "Combo Impresión Color SA3 - Cartulina Triplex 325grs. - Doble Faz",
+        "nombreLegible": "Cartulina Triplex 325grs.",
+        "codigoInterno": "COMBO-FCTRIPLEX325-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2800,
+      "articuloPadreDobleFaz": {
+        "id": 2802,
+        "nombre": "Combo Impresión Color SA3 - Cartulina Triplex 325grs. - Doble Faz",
+        "nombreLegible": "Cartulina Triplex 325grs.",
+        "codigoInterno": "COMBO-FCTRIPLEX325-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 2685,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 150grs. - Doble Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Ilustración 150grs. - Doble Faz",
+        "codigoInterno": "CORTE-FC150-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 2689,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 150grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 150grs.",
+        "codigoInterno": "COMBO-FC150-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2685,
+      "articuloPadreDobleFaz": {
+        "id": 2689,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 150grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 150grs.",
+        "codigoInterno": "COMBO-FC150-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 2716,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 200grs. - Simple Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Ilustración 200grs. - Simple Faz",
+        "codigoInterno": "CORTE-FC200-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 2720,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 200grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 200grs.",
+        "codigoInterno": "COMBO-FC200-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 2716,
+      "articuloPadreSimpleFaz": {
+        "id": 2720,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 200grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 200grs.",
+        "codigoInterno": "COMBO-FC200-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2733,
+        "nombre": "Hoja Corte Color SA3 - Opalina 240grs. - Doble Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Opalina 240grs. - Doble Faz",
+        "codigoInterno": "CORTE-FC240-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 2737,
+        "nombre": "Combo Impresión Color SA3 - Opalina 240grs. - Doble Faz",
+        "nombreLegible": "Opalina 240grs.",
+        "codigoInterno": "COMBO-FC240-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2733,
+      "articuloPadreDobleFaz": {
+        "id": 2737,
+        "nombre": "Combo Impresión Color SA3 - Opalina 240grs. - Doble Faz",
+        "nombreLegible": "Opalina 240grs.",
+        "codigoInterno": "COMBO-FC240-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 3669,
+        "nombre": "Hoja Corte Color SA3 - Texturado 250grs. - Doble Faz",
+        "nombreLegible": null,
+        "codigoInterno": "CORTE-FCTEXTURADO250-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 3671,
+        "nombre": "Combo Impresión Color SA3 - Texturado 250grs. - Doble Faz",
+        "nombreLegible": "Texturado 250grs.",
+        "codigoInterno": "COMBO-FCTEXTURADO250-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 3669,
+      "articuloPadreDobleFaz": {
+        "id": 3671,
+        "nombre": "Combo Impresión Color SA3 - Texturado 250grs. - Doble Faz",
+        "nombreLegible": "Texturado 250grs.",
+        "codigoInterno": "COMBO-FCTEXTURADO250-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 2749,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 300grs. - Doble Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Ilustración 300grs. - Doble Faz",
+        "codigoInterno": "CORTE-FC300-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 2753,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 300grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "COMBO-FC300-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2749,
+      "articuloPadreDobleFaz": {
+        "id": 2753,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 300grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "COMBO-FC300-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 2732,
+        "nombre": "Hoja Corte Color SA3 - Opalina 240grs. - Simple Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Opalina 240grs. - Simple Faz",
+        "codigoInterno": "CORTE-FC240-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 2736,
+        "nombre": "Combo Impresión Color SA3 - Opalina 240grs. - Simple Faz",
+        "nombreLegible": "Opalina 240grs.",
+        "codigoInterno": "COMBO-FC240-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 2732,
+      "articuloPadreSimpleFaz": {
+        "id": 2736,
+        "nombre": "Combo Impresión Color SA3 - Opalina 240grs. - Simple Faz",
+        "nombreLegible": "Opalina 240grs.",
+        "codigoInterno": "COMBO-FC240-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2661,
+        "nombre": "Hoja Corte Color SA3 - Obra 120grs. - Doble Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Obra 120grs. - Doble Faz",
+        "codigoInterno": "CORTE-FC120-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 2665,
+        "nombre": "Combo Impresión Color SA3 - Obra 120grs. - Doble Faz",
+        "nombreLegible": "Obra 120grs.",
+        "codigoInterno": "COMBO-FC120-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 2661,
+      "articuloPadreDobleFaz": {
+        "id": 2665,
+        "nombre": "Combo Impresión Color SA3 - Obra 120grs. - Doble Faz",
+        "nombreLegible": "Obra 120grs.",
+        "codigoInterno": "COMBO-FC120-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 3622,
+        "nombre": "Hoja Corte Color SA3 - Ilustracion 115grs. - Doble Faz",
+        "nombreLegible": null,
+        "codigoInterno": "CORTE-FC115-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloPadre": {
+        "id": 3626,
+        "nombre": "Combo Impresión Color SA3 - Ilustracion 115grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 115grs.",
+        "codigoInterno": "COMBO-FC115-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": null,
+      "articuloPadreSimpleFaz": null,
+      "dobleFaz": 3622,
+      "articuloPadreDobleFaz": {
+        "id": 3626,
+        "nombre": "Combo Impresión Color SA3 - Ilustracion 115grs. - Doble Faz",
+        "nombreLegible": "Ilustracion 115grs.",
+        "codigoInterno": "COMBO-FC115-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      }
+    },
+    {
+      "articulo": {
+        "id": 3621,
+        "nombre": "Hoja Corte Color SA3 - Ilustracion 115grs. - Simple Faz",
+        "nombreLegible": null,
+        "codigoInterno": "CORTE-FC115-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3625,
+        "nombre": "Combo Impresión Color SA3 - Ilustracion 115grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 115grs.",
+        "codigoInterno": "COMBO-FC115-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 3621,
+      "articuloPadreSimpleFaz": {
+        "id": 3625,
+        "nombre": "Combo Impresión Color SA3 - Ilustracion 115grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 115grs.",
+        "codigoInterno": "COMBO-FC115-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2660,
+        "nombre": "Hoja Corte Color SA3 - Obra 120grs. - Simple Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Obra 120grs. - Simple Faz",
+        "codigoInterno": "CORTE-FC120-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 2664,
+        "nombre": "Combo Impresión Color SA3 - Obra 120grs. - Simple Faz",
+        "nombreLegible": "Obra 120grs.",
+        "codigoInterno": "COMBO-FC120-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 2660,
+      "articuloPadreSimpleFaz": {
+        "id": 2664,
+        "nombre": "Combo Impresión Color SA3 - Obra 120grs. - Simple Faz",
+        "nombreLegible": "Obra 120grs.",
+        "codigoInterno": "COMBO-FC120-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 3668,
+        "nombre": "Hoja Corte Color SA3 - Texturado 250grs. - Simple Faz",
+        "nombreLegible": null,
+        "codigoInterno": "CORTE-FCTEXTURADO250-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 3670,
+        "nombre": "Combo Impresión Color SA3 - Texturado 250grs. - Simple Faz",
+        "nombreLegible": "Texturado 250grs.",
+        "codigoInterno": "COMBO-FCTEXTURADO250-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 3668,
+      "articuloPadreSimpleFaz": {
+        "id": 3670,
+        "nombre": "Combo Impresión Color SA3 - Texturado 250grs. - Simple Faz",
+        "nombreLegible": "Texturado 250grs.",
+        "codigoInterno": "COMBO-FCTEXTURADO250-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2799,
+        "nombre": "Hoja Corte Color SA3 - Cartulina Triplex 325grs. - Simple Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Cartulina Triplex 325grs. - Simple Faz",
+        "codigoInterno": "CORTE-FCTRIPLEX325-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 2801,
+        "nombre": "Combo Impresión Color SA3 - Cartulina Triplex 325grs. - Simple Faz",
+        "nombreLegible": "Cartulina Triplex 325grs.",
+        "codigoInterno": "COMBO-FCTRIPLEX325-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 2799,
+      "articuloPadreSimpleFaz": {
+        "id": 2801,
+        "nombre": "Combo Impresión Color SA3 - Cartulina Triplex 325grs. - Simple Faz",
+        "nombreLegible": "Cartulina Triplex 325grs.",
+        "codigoInterno": "COMBO-FCTRIPLEX325-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    },
+    {
+      "articulo": {
+        "id": 2748,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 300grs. - Simple Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Ilustración 300grs. - Simple Faz",
+        "codigoInterno": "CORTE-FC300-SA3SF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloPadre": {
+        "id": 2752,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 300grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "COMBO-FC300-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "articuloEtapa": {
+        "id": 4,
+        "nombre": "IMPRESION",
+        "activo": true
+      },
+      "fijo": false,
+      "articuloMultiplicaPor": {
+        "id": 4,
+        "nombre": "FIJO",
+        "activo": true
+      },
+      "multiplicador": 1,
+      "simpleFaz": 2748,
+      "articuloPadreSimpleFaz": {
+        "id": 2752,
+        "nombre": "Combo Impresión Color SA3 - Ilustración 300grs. - Simple Faz",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "COMBO-FC300-SA3SF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "dobleFaz": null,
+      "articuloPadreDobleFaz": null
+    }
+  ],
+  "/api/articulo/Ilustracion%20300grs./3?simpleFaz=false&esCombo=false&rubroPapel=68": {
+    "articulo": {
+      "id": 3266,
+      "nombre": "SA3-COLOR-Ilustracion 300 grs. - DOBLE FAZ",
+      "nombreLegible": "Ilustracion 300grs.",
+      "codigoInterno": "06-FC300-SA3DF",
+      "rubro": {
+        "id": 68
+      },
+      "articuloPapel": {
+        "id": 3,
+        "nombre": "SA3",
+        "alto": 457,
+        "ancho": 311
+      },
+      "categoria": null,
+      "alto": null,
+      "ancho": null,
+      "simpleFaz": false
+    }
+  },
+  "/api/grilla/190/391?articuloPapel=3&espaciado=3&margenSuperior=4&margenInferior=4&margenIzquierdo=4&margenDerecho=4": {
+    "totalElementos": 1,
+    "porcentajeCobertura": 54.60612876432409
+  },
+  "/api/articulo/2749/precio/1": {
+    "articuloCantidad": {
+      "id": 128223,
+      "articulo": {
+        "id": 2749,
+        "nombre": "Hoja Corte Color SA3 - Ilustración 300grs. - Doble Faz",
+        "nombreLegible": "Hoja Corte Color SA3 - Ilustración 300grs. - Doble Faz",
+        "codigoInterno": "CORTE-FC300-SA3DF",
+        "rubro": {
+          "id": 143
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 1,
+      "precio": 557.96
+    }
+  },
+  "/api/articulo/7692/precio/1": {
+    "articuloCantidad": {
+      "id": 360246,
+      "articulo": {
+        "id": 7692,
+        "nombre": "Laminado - Fijo Laminado",
+        "nombreLegible": null,
+        "codigoInterno": "L1",
+        "rubro": {
+          "id": 251
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 1,
+      "precio": 1100
+    }
+  },
+  "/api/articulo/7627/precio/50": {
+    "articuloCantidad": {
+      "id": 357355,
+      "articulo": {
+        "id": 7627,
+        "nombre": "Doblado x 3",
+        "nombreLegible": "Doblado x 3",
+        "codigoInterno": "DOBX3",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 50,
+      "precio": 66
+    }
+  },
+  "/api/articulo/7691/precio/1": {
+    "articuloCantidad": {
+      "id": 360199,
+      "articulo": {
+        "id": 7691,
+        "nombre": "Doblado - Fijo Doblado",
+        "nombreLegible": null,
+        "codigoInterno": "D1",
+        "rubro": {
+          "id": 250
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 1,
+      "precio": 1600
+    }
+  },
+  "/api/articulo/3599/precio/50": {
+    "articuloCantidad": {
+      "id": 168177,
+      "articulo": {
+        "id": 3599,
+        "nombre": "COMBO - Laminado Mate A3 - Doble Faz",
+        "nombreLegible": "Laminado Mate - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-MATEDF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 50,
+      "precio": 628.51
+    }
+  },
+  "/api/articulo/3004/precio/1": {
+    "articuloCantidad": {
+      "id": 139344,
+      "articulo": {
+        "id": 3004,
+        "nombre": "Desperdicio Laminado",
+        "nombreLegible": "Desperdicio Laminado",
+        "codigoInterno": "LAMDESP",
+        "rubro": {
+          "id": 98
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 1,
+      "precio": 970
+    }
+  },
+  "/api/articulo/3536/precio/1": {
+    "articuloCantidad": {
+      "id": 165183,
+      "articulo": {
+        "id": 3536,
+        "nombre": "Revision Postales",
+        "nombreLegible": "Revision Postales",
+        "codigoInterno": "REVISION-POSTALES",
+        "rubro": {
+          "id": 115
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 1,
+      "precio": 8500
+    }
+  },
+  "/api/articulo/484/precio/1": {
+    "articuloCantidad": {
+      "id": 21710,
+      "articulo": {
+        "id": 484,
+        "nombre": "Corte - Fijo Guillotina",
+        "nombreLegible": "Corte - Fijo Guillotina",
+        "codigoInterno": "C1",
+        "rubro": {
+          "id": 100
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 1,
+      "precio": 2200
+    }
+  },
+  "/api/articulo/3266/precio/50": {
+    "articuloCantidad": {
+      "id": 151668,
+      "articulo": {
+        "id": 3266,
+        "nombre": "SA3-COLOR-Ilustracion 300 grs. - DOBLE FAZ",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "06-FC300-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 50,
+      "precio": 1666.79
+    }
+  },
+  "/api/articulo/485/precio/1": {
+    "articuloCantidad": {
+      "id": 21757,
+      "articulo": {
+        "id": 485,
+        "nombre": "Corte - Fijo Manual",
+        "nombreLegible": "Corte - Fijo Manual",
+        "codigoInterno": "C2",
+        "rubro": {
+          "id": 101
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 1,
+      "precio": 2400
+    }
+  },
+  "/api/articulo/38/precio/50": {
+    "articuloCantidad": {
+      "id": 988,
+      "articulo": {
+        "id": 38,
+        "nombre": "Corte Refilado - (Por Posturas)",
+        "nombreLegible": "Refilado",
+        "codigoInterno": "CR",
+        "rubro": {
+          "id": 104
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 50,
+      "precio": 18
+    }
+  },
+  "/api/articulo/3599/precio/75": {
+    "articuloCantidad": {
+      "id": 168179,
+      "articulo": {
+        "id": 3599,
+        "nombre": "COMBO - Laminado Mate A3 - Doble Faz",
+        "nombreLegible": "Laminado Mate - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-MATEDF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 70,
+      "precio": 605.65
+    }
+  },
+  "/api/articulo/38/precio/75": {
+    "articuloCantidad": {
+      "id": 990,
+      "articulo": {
+        "id": 38,
+        "nombre": "Corte Refilado - (Por Posturas)",
+        "nombreLegible": "Refilado",
+        "codigoInterno": "CR",
+        "rubro": {
+          "id": 104
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 70,
+      "precio": 18
+    }
+  },
+  "/api/articulo/7627/precio/75": {
+    "articuloCantidad": {
+      "id": 357357,
+      "articulo": {
+        "id": 7627,
+        "nombre": "Doblado x 3",
+        "nombreLegible": "Doblado x 3",
+        "codigoInterno": "DOBX3",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 70,
+      "precio": 66
+    }
+  },
+  "/api/articulo/3266/precio/75": {
+    "articuloCantidad": {
+      "id": 151670,
+      "articulo": {
+        "id": 3266,
+        "nombre": "SA3-COLOR-Ilustracion 300 grs. - DOBLE FAZ",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "06-FC300-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 70,
+      "precio": 1553.56
+    }
+  },
+  "/api/articulo/3266/precio/100": {
+    "articuloCantidad": {
+      "id": 151673,
+      "articulo": {
+        "id": 3266,
+        "nombre": "SA3-COLOR-Ilustracion 300 grs. - DOBLE FAZ",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "06-FC300-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 100,
+      "precio": 1383.71
+    }
+  },
+  "/api/articulo/7627/precio/100": {
+    "articuloCantidad": {
+      "id": 357360,
+      "articulo": {
+        "id": 7627,
+        "nombre": "Doblado x 3",
+        "nombreLegible": "Doblado x 3",
+        "codigoInterno": "DOBX3",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 100,
+      "precio": 66
+    }
+  },
+  "/api/articulo/38/precio/100": {
+    "articuloCantidad": {
+      "id": 993,
+      "articulo": {
+        "id": 38,
+        "nombre": "Corte Refilado - (Por Posturas)",
+        "nombreLegible": "Refilado",
+        "codigoInterno": "CR",
+        "rubro": {
+          "id": 104
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 100,
+      "precio": 18
+    }
+  },
+  "/api/articulo/3599/precio/100": {
+    "articuloCantidad": {
+      "id": 168182,
+      "articulo": {
+        "id": 3599,
+        "nombre": "COMBO - Laminado Mate A3 - Doble Faz",
+        "nombreLegible": "Laminado Mate - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-MATEDF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 100,
+      "precio": 571.35
+    }
+  },
+  "/api/articulo/3599/precio/150": {
+    "articuloCantidad": {
+      "id": 168183,
+      "articulo": {
+        "id": 3599,
+        "nombre": "COMBO - Laminado Mate A3 - Doble Faz",
+        "nombreLegible": "Laminado Mate - Doble Faz",
+        "codigoInterno": "COMBO-LAM3-MATEDF",
+        "rubro": {
+          "id": 153
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 150,
+      "precio": 561.82
+    }
+  },
+  "/api/articulo/38/precio/150": {
+    "articuloCantidad": {
+      "id": 994,
+      "articulo": {
+        "id": 38,
+        "nombre": "Corte Refilado - (Por Posturas)",
+        "nombreLegible": "Refilado",
+        "codigoInterno": "CR",
+        "rubro": {
+          "id": 104
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 150,
+      "precio": 17.05
+    }
+  },
+  "/api/articulo/7627/precio/150": {
+    "articuloCantidad": {
+      "id": 357361,
+      "articulo": {
+        "id": 7627,
+        "nombre": "Doblado x 3",
+        "nombreLegible": "Doblado x 3",
+        "codigoInterno": "DOBX3",
+        "rubro": {
+          "id": 110
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 150,
+      "precio": 64.26
+    }
+  },
+  "/api/articulo/3266/precio/150": {
+    "articuloCantidad": {
+      "id": 151674,
+      "articulo": {
+        "id": 3266,
+        "nombre": "SA3-COLOR-Ilustracion 300 grs. - DOBLE FAZ",
+        "nombreLegible": "Ilustracion 300grs.",
+        "codigoInterno": "06-FC300-SA3DF",
+        "rubro": {
+          "id": 68
+        },
+        "articuloPapel": {
+          "id": 3,
+          "nombre": "SA3",
+          "alto": 457,
+          "ancho": 311
+        },
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": false
+      },
+      "cantidad": 150,
+      "precio": 1363.49
+    }
+  },
+  "/api/articulo/7602/precio/1": {
+    "articuloCantidad": {
+      "id": 356170,
+      "articulo": {
+        "id": 7602,
+        "nombre": "Variante Postales",
+        "nombreLegible": null,
+        "codigoInterno": "VARIANTE-POSTALES",
+        "rubro": {
+          "id": 159
+        },
+        "articuloPapel": null,
+        "categoria": null,
+        "alto": null,
+        "ancho": null,
+        "simpleFaz": true
+      },
+      "cantidad": 1,
+      "precio": 5950
+    }
+  }
+}
