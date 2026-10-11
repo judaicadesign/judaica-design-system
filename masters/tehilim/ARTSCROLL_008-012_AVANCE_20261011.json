@@ -3,7 +3,7 @@
   "date": "2026-10-11",
   "sourceOfTruth": "ArtScroll screenshot, Wikisource digital base, previous ArtScroll review batch and second cotejo",
   "doNotReplaceGoldenMasters": true,
-  "stage": "Hebreo y fonética 8–12 EN REVISIÓN. Ninguna aprobación final nueva.",
+  "stage": "Confirmaciones 9:21,10:3,11:3 incorporadas; salmos 8–12 todavía EN REVISIÓN.",
   "screenShots": [
     {
       "chapter": 8,
@@ -110,9 +110,10 @@
         "IMG_1467.png",
         "IMG_1468.png"
       ],
-      "approval": "PENDIENTE",
+      "approval": "CONFIRMADO_20261011",
       "generatorActualWord": "Shita",
-      "generatorActualVerse": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela."
+      "generatorActualVerse": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela.",
+      "sourceOfConfirmation": "user"
     },
     {
       "ref": "9:21",
@@ -128,9 +129,10 @@
         "IMG_1467.png",
         "IMG_1468.png"
       ],
-      "approval": "PENDIENTE",
+      "approval": "CONFIRMADO_20261011",
       "generatorActualWord": "hema",
-      "generatorActualVerse": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela."
+      "generatorActualVerse": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela.",
+      "sourceOfConfirmation": "user"
     },
     {
       "ref": "10:3",
@@ -146,9 +148,10 @@
         "IMG_1469.png",
         "IMG_1470.png"
       ],
-      "approval": "PENDIENTE",
+      "approval": "CONFIRMADO_20261011",
       "generatorActualWord": "berej",
-      "generatorActualVerse": "Ki hilel rashá' 'al taavat nafshó uvotsea' berej niéts Ad-nai."
+      "generatorActualVerse": "Ki hilel rashá' 'al taavat nafshó uvotsea' berej niéts Ad-nai.",
+      "sourceOfConfirmation": "user"
     },
     {
       "ref": "11:3",
@@ -163,9 +166,10 @@
       "source": [
         "IMG_1471.png"
       ],
-      "approval": "PENDIENTE",
+      "approval": "CONFIRMADO_20261011",
       "generatorActualWord": "pa'al",
-      "generatorActualVerse": "Ki hashatot yeharesún tsadik ma pa'al."
+      "generatorActualVerse": "Ki hashatot yeharesún tsadik ma pa'al.",
+      "sourceOfConfirmation": "user"
     }
   ],
   "masterCount": {
@@ -230,5 +234,66 @@
     },
     "note": "Equality to provisional corpus is NOT GOLDEN ArtScroll linguistic approval"
   },
-  "nextStep": "Continuar cotejo minucioso del resto de palabras, puntuación y discrepancias generador para aprobación independiente de hebreo/fonética."
+  "nextStep": "Continuar cotejo minucioso del resto de palabras, puntuación y discrepancias generador para aprobación independiente de hebreo/fonética.",
+  "resolutions20261011": [
+    {
+      "ref": "9:21",
+      "word": "שִׁיתָה",
+      "meteg": false,
+      "confirmedBy": "user",
+      "phonetic": "Shitá",
+      "evidence": "Radak: שיתה מלרע",
+      "status": "RESUELTO"
+    },
+    {
+      "ref": "9:21",
+      "word": "הֵֽמָּה",
+      "meteg": {
+        "letter": "ה",
+        "index": 0
+      },
+      "confirmedBy": "user",
+      "phonetic": "hema",
+      "phoneticStress": "HE-ma",
+      "status": "RESUELTO",
+      "accentNote": "Tilde española no necesaria en palabra llana terminada en vocal"
+    },
+    {
+      "ref": "10:3",
+      "word": "בֵּרֵךְ",
+      "meteg": false,
+      "confirmedBy": "user",
+      "phonetic": "berej",
+      "status": "RESUELTO"
+    },
+    {
+      "ref": "11:3",
+      "word": "פָּעָל",
+      "meteg": false,
+      "confirmedBy": "user",
+      "phonetic": "pa'al",
+      "status": "RESUELTO"
+    },
+    {
+      "ref": "12:2",
+      "word": "הוֹשִֽׁיעָה",
+      "meteg": {
+        "letter": "ש",
+        "index": 2
+      },
+      "phonetic": "Hoshí'a",
+      "status": "CORREGIDO_EN_CORPUS",
+      "notes": "Meteg ArtScroll y cantilación en שׁ; marca de acento explícita."
+    },
+    {
+      "ref": "20:10",
+      "word": "הוֹשִֽׁיעָה",
+      "meteg": {
+        "letter": "ש",
+        "index": 2
+      },
+      "phonetic": "hoshí'a",
+      "status": "CORREGIDO_EN_CORPUS"
+    }
+  ]
 }
