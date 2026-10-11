@@ -240,13 +240,25 @@
       "source": "IMG_1474.png",
       "scope": "Cobertura completa disponible; pendientes específicos en el informe",
       "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
-      "editorialNext": "14:3 עֹֽשֵׂה (meteg sobre ע) confirmado por usuario e incorporado a corpus + 6 exportaciones; fonética 'ose (Ó-se) sin tilde redundante. PENDIENTE: cotejo de comas/puntuación ArtScroll en IMG_1474.png antes de FINAL.",
+      "editorialNext": "14:3 resuelto contra ArtScroll IMG_1474.png: עֹֽשֵׂה (meteg en ע), fonética 'ose (Ó-se), comas después de סָר y טוֹב, punto y coma después de נֶאֱלָֽחוּ. Falta cotejo integral 14:1–7 antes de FINAL.",
       "confirmations20261011": [
         {
           "ref": "14:3",
           "hebrew": "עֹֽשֵׂה",
           "phonetic": "'ose",
           "source": "user + ArtScroll screenshot IMG_1474.png",
+          "status": "confirmed",
+          "record": "ARTSCROLL_014_CONFIRMACION_20261011.json"
+        },
+        {
+          "ref": "14:3",
+          "kind": "punctuation",
+          "marks": [
+            "סָר,",
+            "נֶאֱלָֽחוּ;",
+            "טוֹב,"
+          ],
+          "source": "IMG_1474.png visual (Library)",
           "status": "confirmed",
           "record": "ARTSCROLL_014_CONFIRMACION_20261011.json"
         }
@@ -662,17 +674,14 @@
         "ref": "14:3",
         "word": "עֹֽשֵׂה",
         "source": "ARTSCROLL_014_CONFIRMACION_20261011.json"
-      }
-    ],
-    "openFocusedQuestions": [
+      },
       {
         "ref": "14:3",
-        "type": "punctuation",
-        "status": "pending_visual",
-        "source": "IMG_1474.png",
-        "note": "Word/meteg resolved; full ArtScroll punctuation in verse still pending. Not editorial FINAL."
+        "kind": "punctuation",
+        "source": "ARTSCROLL_014_CONFIRMACION_20261011.json"
       }
     ],
+    "openFocusedQuestions": [],
     "rules": "No alterar FINAL 1–7, 126 ni 137; hebreo FINAL y fonética FINAL requieren cotejo ArtScroll independiente, no solo coincidencia con motor.",
     "linkedCompositions": {
       "date": "2026-10-11",
