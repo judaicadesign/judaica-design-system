@@ -3,6 +3,9 @@ name: Canonical passage links
 on:
   push:
     paths:
+      - 'index.html'
+      - 'package.json'
+      - 'tests/tehilim-masters.cjs'
       - 'assets/jd-passage-links.js'
       - 'masters/tehilim/**'
       - 'masters/bircat-hamazon/**'
