@@ -56,6 +56,32 @@ for(const name of fs.readdirSync(path.join(root,'masters/tehilim')).filter(x=>/^
 for(const c of chapters.filter(c=>c.approved===true)){
  for(const v of c.verses)v.hebrew=v.hebrew.replace(/לַיהֹוָה/g,'לַיְיָ').replace(/יְהֹוָה|יהוה/g,'יְיָ');
 }
+// SEGURIDAD EDITORIAL JD: nunca sobrescribir ni degradar un corpus existente
+// al regenerar Wikisource o actualizar el motor. Las marcas de ArtScroll y la
+// fonética revisada de salmos todavía no FINAL son igualmente irremplazables.
+// Exigir conciliación manual/versionada ANTES de escribir cualquier exportación.
+const existingMasterPath=path.join(root,'masters/tehilim/tehilim.json');
+if(fs.existsSync(existingMasterPath)){
+ const previous=JSON.parse(fs.readFileSync(existingMasterPath,'utf8'));
+ const conflicts=[];
+ for(const old of previous.items||[]){
+  const proposed=chapters[old.chapter-1];
+  if(!proposed||old.verses.length!==proposed.verses.length){
+   conflicts.push(old.chapter+': numeración/cantidad');continue;
+  }
+  for(let i=0;i<old.verses.length;i++){
+   for(const key of ['hebrew','phonetic']){
+    if(old.verses[i][key]!==proposed.verses[i][key])
+     conflicts.push(old.chapter+':'+old.verses[i].verse+':'+key);
+   }
+  }
+ }
+ if(conflicts.length)throw Error(
+  'BLOQUEADO: el rebuild reemplazaría '+conflicts.length+
+  ' lecturas editoriales existentes ('+conflicts.slice(0,15).join(', ')+
+  '). Guardar respaldo, registrar parches ArtScroll y conciliar antes de regenerar. No se escribió ningún archivo.'
+ );
+}
 const count=chapters.reduce((a,c)=>a+c.verses.length,0);if(count!==2527)throw Error('Verse count '+count+' != 2527');
 const header='Judaica Design® · Tehilim 1–150\nEN REVISIÓN · No aprobado para producción\nHebreo: Wikisource, edición con nikud. Fonética: generador JD con decisiones editoriales disponibles.\nRevisión visual de ArtScroll y acentos: en curso.\n\n';
 for(const [lang,file] of [['hebrew','TEHILIM_001-150_HEBREO_EN_REVISION.txt'],['phonetic','TEHILIM_001-150_FONETICA_EN_REVISION.txt']]){
