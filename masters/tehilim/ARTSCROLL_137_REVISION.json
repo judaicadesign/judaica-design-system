@@ -3,7 +3,7 @@
     "date": "2026-10-08",
     "source": "ArtScroll Interlinear Benching · PDF page 1",
     "metegAdded": 19,
-    "status": "Revisión fina",
+    "status": "HEBREO Y FONÉTICA FINAL 2026-10-11; español no revisado",
     "scope": "Meteg and visible Hebrew compared against rendered page. Known phonetic errors corrected; final phonetic approval pending, including silent alef/sheva and qamats cases. No global engine approval.",
     "recheck20261009": {
       "date": "2026-10-09",
@@ -89,7 +89,13 @@
       "noNewMetegInvented": true,
       "punctuationAlignedWithApp": true,
       "metegPreservedFromPdfPriorReview": 19,
-      "currentStatus": "Awaiting new whole-verse generator regression prior to FINAL declaration"
+      "currentStatus": "FINAL: Hebrew and phonetic independently approved after screenshot/PDF source and 15/15 generator regressions",
+      "generatorRegression": {
+        "execution": "https://github.com/judaicadesign/fonetica-hebreo/actions/runs/38118815765",
+        "scope": "Tehilim 126/137 15 complete verses, Unicode NFC+NFD, no divergent words",
+        "result": "PASS",
+        "note": "Global generator CI remains FAIL at stale historical 2:2 fixture, not at 126/137"
+      }
     }
   },
   "verses": [
@@ -166,7 +172,15 @@
       "afterPhonetic": "Ashré sheyojez venipéts et 'olaláyij el hasala'."
     }
   ],
-  "approved": false,
-  "hebrewApproved": false,
-  "phoneticApproved": false
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "spanishApproved": false,
+  "approvedDate": "2026-10-11",
+  "finalExports": [
+    "TEHILIM_137_HEBREO_FINAL_continuous.txt",
+    "TEHILIM_137_HEBREO_FINAL_numbered.txt",
+    "TEHILIM_137_FONETICA_FINAL_continuous.txt",
+    "TEHILIM_137_FONETICA_FINAL_numbered.txt"
+  ]
 }
