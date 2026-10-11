@@ -32,7 +32,7 @@ for(const language of ['hebrew','phonetic']){
   assert.ok(out.text.includes('Tehilat Ad-nai yedaber pi.'),'post-Psalm prayers retained');
   assert.ok(out.text.includes('Rabotái nevarej'),'zimun retained');
   assert.ok(out.text.includes('En Janucá y Purim se agrega:'),'liturgical conditions retained');
-  assert.ok(out.references.some(r=>r.replacedCopyWasDifferent),'legacy copy is outdated and must be flagged');
+  assert.ok(out.references.every(r=>!r.replacedCopyWasDifferent),'checked-in working copies now match canonical FINAL');
  }else{
   assert.ok(out.text.includes('בימות החול– עַל נַהֲרוֹת'),'Hebrew opening context unchanged');
   assert.ok(out.text.includes('בשבת, יום טוב ובסעודת מצוה– שִׁיר'),'Hebrew Shabat context unchanged');
@@ -45,6 +45,38 @@ for(const language of ['hebrew','phonetic']){
  const broken={...states,chapters:states.chapters.map(c=>c.chapter===137?{...c,phoneticApproved:false}:c)};
  assert.throws(()=>linked.compose({body:src,language,spec:cfg,corpus,states:broken}),/no tiene las dos aprobaciones FINAL/);
  assert.throws(()=>linked.compose({body:src.replace(cfg.references[0].start,'FALTANTE'),language,spec:cfg,corpus,states}),/No se encontró/);
+}
+// A browser may retain a complete OLD Tehilim draft. The displayed FINAL verses
+// are always projected from the canonical corpus while edits to 141 non-FINAL
+// chapters remain byte-for-byte untouched. No implicit localStorage overwrite.
+for (const language of ['hebrew','phonetic']){
+ const file='masters/tehilim/TEHILIM_001-150_'+(language==='hebrew'?'HEBREO':'FONETICA')+'_EN_REVISION.txt';
+ const source=read(file);
+ const clean=linked.overlayFinalVerses({body:source,language,corpus,states});
+ assert.equal(clean.text,source,'current GitHub matrix text must be canonical for FINAL '+language);
+ assert.equal(clean.changedVerses,0,'no changes on an already-current projection');
+ assert.deepEqual(clean.finalChapters,finals,'project only approved chapters');
+ const canonical137=corpus.items[136].verses[0][language];
+ const old137=language==='phonetic'?canonical137.replace('Bavél','Bável'):canonical137.replace('בָּבֶל,','בָּבֶל');
+ assert.notEqual(old137,canonical137);
+ const stale=source.replace('137:1  '+canonical137,'137:1  '+old137)
+   .replace('8:1  ','8:1  EDICIÓN LOCAL ');
+ const projection=linked.overlayFinalVerses({body:stale,language,corpus,states});
+ assert.equal(projection.changedVerses,1,'stale 137 must be repaired from canonical');
+ assert.equal(projection.text,source.replace('8:1  ','8:1  EDICIÓN LOCAL '),'non-FINAL local changes must survive');
+ assert.ok(projection.text.includes('137:1  '+canonical137));
+ assert.throws(()=>linked.overlayFinalVerses({body:stale.replace('137:8  ','XXX:8  '),language,corpus,states}),/incompleto/,'never silently export incomplete FINAL chapters');
+}
+// Deliberately out-of-date Birkat copies are still corrected via references;
+// headings and local material outside the Psalm slots remain unchanged.
+{
+ const src=read(manifest.languages.phonetic.source);
+ const stale=src.replaceAll('Bavél','Bável');
+ const live=linked.compose({body:stale,language:'phonetic',spec:manifest.languages.phonetic,corpus,states});
+ assert.ok(!live.text.includes('Bável'));
+ assert.ok(live.text.includes('En días que se dice tajanún:'));
+ assert.ok(live.text.includes('En Janucá y Purim se agrega:'));
+ assert.ok(live.references.some(r=>r.replacedCopyWasDifferent),'stale historical copy flagged');
 }
 const fourteen=corpus.items.find(c=>c.chapter===14).verses[2];
 assert.ok(fourteen.hebrew.includes('עֹֽשֵׂה'),'14:3 user-confirmed meteg on ayin');
