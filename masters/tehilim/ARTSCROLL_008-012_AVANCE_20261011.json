@@ -1,0 +1,181 @@
+{
+  "project": "Judaica Design® / Tehilim",
+  "date": "2026-10-11",
+  "sourceOfTruth": "ArtScroll screenshot, Wikisource digital base, previous ArtScroll review batch and second cotejo",
+  "doNotReplaceGoldenMasters": true,
+  "stage": "Hebreo y fonética 8–12 EN REVISIÓN. Ninguna aprobación final nueva.",
+  "screenShots": [
+    {
+      "chapter": 8,
+      "files": [
+        "IMG_1466.png"
+      ],
+      "visibleComplete": true,
+      "verses": 10
+    },
+    {
+      "chapter": 9,
+      "files": [
+        "IMG_1467.png",
+        "IMG_1468.png"
+      ],
+      "visibleComplete": true,
+      "verses": 21
+    },
+    {
+      "chapter": 10,
+      "files": [
+        "IMG_1469.png",
+        "IMG_1470.png"
+      ],
+      "visibleComplete": true,
+      "verses": 18
+    },
+    {
+      "chapter": 11,
+      "files": [
+        "IMG_1471.png"
+      ],
+      "visibleComplete": true,
+      "verses": 7
+    },
+    {
+      "chapter": 12,
+      "files": [
+        "IMG_1472.png"
+      ],
+      "visibleComplete": true,
+      "verses": 9
+    }
+  ],
+  "changes": [
+    {
+      "ref": "8:6",
+      "kind": "dagesh",
+      "before": "מְּעַט",
+      "corrected": "מְעַט",
+      "reason": "ArtScroll IMG_1466.png muestra una mem con sheva sin dagesh."
+    },
+    {
+      "ref": "8–12",
+      "kind": "nombre",
+      "before": "יְהֹוָה (incluidos prefijos)",
+      "corrected": "יְיָ (manteniendo prefijos)",
+      "reason": "Aplicación de la política editorial JD; 24 versos ajustados.",
+      "affectedVerses": [
+        "8:2",
+        "8:10",
+        "9:2",
+        "9:8",
+        "9:10",
+        "9:11",
+        "9:12",
+        "9:14",
+        "9:17",
+        "9:20",
+        "9:21",
+        "10:1",
+        "10:3",
+        "10:12",
+        "10:16",
+        "10:17",
+        "11:4",
+        "11:5",
+        "11:7",
+        "12:2",
+        "12:4",
+        "12:6",
+        "12:7",
+        "12:8"
+      ]
+    }
+  ],
+  "resolvedFromPreviousAudits": [
+    "9:19 תִּקְוַת = tikvat, sin rayita visible en ק",
+    "9:20 יִשָּׁפְטוּ rayita en פ ya confirmada",
+    "10:15 זְרוֹעַ lectura zeroa’ por shevá inicial, no rayita visiblemente certificada"
+  ],
+  "questions": [
+    {
+      "ref": "9:21",
+      "word": "שִׁיתָה",
+      "kind": "meteg/acentuación",
+      "detail": "Reexaminar marca diminuta de ArtScroll; no atribuir asterisco a meteg.",
+      "previousWord": "— inicio de pasuk",
+      "nextWord": "יְיָ",
+      "phoneticVerseInCorpus": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela.",
+      "phoneticProvisionalWord": "Shita",
+      "wordIndex": 0,
+      "source": [
+        "IMG_1467.png",
+        "IMG_1468.png"
+      ],
+      "approval": "PENDIENTE"
+    },
+    {
+      "ref": "9:21",
+      "word": "הֵמָּה",
+      "kind": "meteg/acentuación",
+      "detail": "Reexaminar marca diminuta de ArtScroll; no presumir meteg.",
+      "previousWord": "אֱנוֹשׁ",
+      "nextWord": "סֶּלָה",
+      "phoneticVerseInCorpus": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela.",
+      "phoneticProvisionalWord": "hema",
+      "wordIndex": 7,
+      "source": [
+        "IMG_1467.png",
+        "IMG_1468.png"
+      ],
+      "approval": "PENDIENTE"
+    },
+    {
+      "ref": "10:3",
+      "word": "בֵּרֵךְ",
+      "kind": "meteg",
+      "detail": "Segundo cotejo 2026-10-09 dejó pendiente ubicación/presencia exacta en ampliación.",
+      "previousWord": "וּבֹצֵֽעַ",
+      "nextWord": "נִאֵץ",
+      "phoneticVerseInCorpus": "Ki hilel rashá' 'al taavat nafshó uvotsea' berej niéts Ad-nai.",
+      "phoneticProvisionalWord": "berej",
+      "wordIndex": 7,
+      "source": [
+        "IMG_1469.png",
+        "IMG_1470.png"
+      ],
+      "approval": "PENDIENTE"
+    },
+    {
+      "ref": "11:3",
+      "word": "פָּעָל",
+      "kind": "meteg",
+      "detail": "Segundo cotejo 2026-10-09 dejó pendiente ubicación exacta del posible meteg.",
+      "previousWord": "מַה",
+      "nextWord": "— fin de pasuk",
+      "phoneticVerseInCorpus": "Ki hashatot yeharesún tsadik ma pa'al.",
+      "phoneticProvisionalWord": "pa'al",
+      "wordIndex": 5,
+      "source": [
+        "IMG_1471.png"
+      ],
+      "approval": "PENDIENTE"
+    }
+  ],
+  "masterCount": {
+    "final": 7,
+    "total": 150
+  },
+  "filesUpdated": [
+    "masters/tehilim/tehilim.json",
+    "masters/tehilim/TEHILIM_001-150_HEBREO_EN_REVISION.txt",
+    "masters/tehilim/TEHILIM_001-150_HEBREO_continuous.txt",
+    "masters/tehilim/TEHILIM_001-150_HEBREO_numbered.txt"
+  ],
+  "engine": {
+    "repository": "judaicadesign/fonetica-hebreo",
+    "issue": "7:1 דִּבְרֵי actualmente en prueba corregida por contexto del Nombre prefijado",
+    "generatorCommit": "0fbcb64ca5536dbd7d953704765c2da81adbc5c3",
+    "newTestStatus": "PASS en GitHub Actions 38115629249",
+    "fullSuiteStatus": "FAIL en caso preexistente 2:2; no cambiar master aprobado"
+  },
+  "nextStep": "Continuar cotejo minucioso del resto de palabras, puntuación y discrepancias generador para aprobación independiente de hebreo/fonética."
+}
