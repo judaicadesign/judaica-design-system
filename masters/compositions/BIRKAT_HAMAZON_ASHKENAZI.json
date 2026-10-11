@@ -24,7 +24,10 @@
           "chapter": 126,
           "start": "שִׁיר הַמַּעֲלוֹת",
           "endAt": "תְּהִלַּת יְיָ",
-          "label": "Shir HaMa'alot · encabezado local: בשבת, יום טוב ובסעודת מצוה"
+          "label": "Shir HaMa'alot · encabezado local: בשבת, יום טוב ובסעודת מצוה",
+          "startAlternatives": [
+            "שִׁיר הַמַּעֲלוֹת"
+          ]
         }
       ]
     },
