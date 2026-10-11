@@ -1389,7 +1389,7 @@
           "sha256": "4501d8acb083355de93a962514806302e693a272ba9c31bcb7a2b850d8ffc76a"
         }
       ],
-      "approved": false,
+      "approved": true,
       "scope": "14:1–7",
       "metegOccurrences": [
         {
@@ -1505,9 +1505,9 @@
         {
           "ref": "14:1",
           "beforeHebrew": "לַמְנַצֵּחַ לְדָוִד אָמַר נָבָל בְּלִבּוֹ אֵין אֱלֹהִים הִשְׁחִיתוּ הִתְעִיבוּ עֲלִילָה אֵין עֹשֵׂה טוֹב.",
-          "afterHebrew": "לַמְנַצֵּֽחַ לְדָוִד אָמַר נָבָל בְּלִבּוֹ אֵין אֱלֹהִים הִשְׁחִֽיתוּ הִתְעִֽיבוּ עֲלִילָה אֵין עֹֽשֵׂה טוֹב.",
+          "afterHebrew": "לַמְנַצֵּֽחַ לְדָוִד; אָמַר נָבָל בְּלִבּוֹ אֵין אֱלֹהִים, הִשְׁחִֽיתוּ הִתְעִֽיבוּ עֲלִילָה, אֵין עֹֽשֵׂה טוֹב.",
           "beforePhonetic": "Lamnatséaj leDavid amar naval belibó en Elohim hishjitu hit'ivu 'alilá en 'osé tov.",
-          "afterPhonetic": "Lamenatséaj leDavid amar naval belibó en Elohim hishjitu hit'ivu 'alilá en 'ose tov.",
+          "afterPhonetic": "Lamenatséaj leDavid; amar naval belibó en Elohim, hishjitu hit'ivu 'alilá, en 'ose tov.",
           "changes": {
             "למנצח": {
               "stress": 3,
@@ -1529,9 +1529,9 @@
         {
           "ref": "14:2",
           "beforeHebrew": "יְהֹוָה מִשָּׁמַיִם הִשְׁקִיף עַל בְּנֵי אָדָם לִרְאוֹת הֲיֵשׁ מַשְׂכִּיל דֹּרֵשׁ אֶת אֱלֹהִים.",
-          "afterHebrew": "יְהֹוָה מִשָּׁמַֽיִם הִשְׁקִיף עַל בְּנֵי אָדָם לִרְאוֹת הֲיֵשׁ מַשְׂכִּיל דֹּרֵשׁ אֶת אֱלֹהִים.",
+          "afterHebrew": "יְיָ מִשָּׁמַֽיִם הִשְׁקִיף עַל בְּנֵי אָדָם, לִרְאוֹת הֲיֵשׁ מַשְׂכִּיל דֹּרֵשׁ אֶת אֱלֹהִים.",
           "beforePhonetic": "Ad-nai mishamáyim hishkif 'al bené adam lirot hayesh maskil doresh et Elohim.",
-          "afterPhonetic": "Ad-nai mishamáyim hishkif 'al bené adam lirot hayesh maskil doresh et Elohim.",
+          "afterPhonetic": "Ad-nai mishamáyim hishkif 'al bené adam, lirot hayesh maskil doresh et Elohim.",
           "changes": {
             "משמים": {
               "stress": 2
@@ -1565,9 +1565,9 @@
         {
           "ref": "14:4",
           "beforeHebrew": "הֲלֹא יָדְעוּ כׇּל פֹּעֲלֵי אָוֶן אֹכְלֵי עַמִּי אָכְלוּ לֶחֶם יְהֹוָה לֹא קָרָאוּ.",
-          "afterHebrew": "הֲלֹא יָדְעוּ כׇּל פֹּֽעֲלֵי אָֽוֶן אֹכְלֵי עַמִּי אָֽכְלוּ לֶֽחֶם יְהֹוָה לֹא קָרָאוּ.",
+          "afterHebrew": "הֲלֹא יָדְעוּ כׇּל פֹּֽעֲלֵי אָֽוֶן; אֹכְלֵי עַמִּי אָֽכְלוּ לֶֽחֶם, יְיָ לֹא קָרָאוּ.",
           "beforePhonetic": "Haló yad'u kol po'alé aven ojlé 'amí ajlú léjem Ad-nai lo karaú.",
-          "afterPhonetic": "Haló yade'u kol pó'ale aven ojlé 'amí ajlu léjem Ad-nai lo karaú.",
+          "afterPhonetic": "Haló yade'u kol pó'ale aven; ojlé 'amí ajlu léjem, Ad-nai lo karaú.",
           "changes": {
             "פעלי": {
               "stress": 0
@@ -1591,9 +1591,9 @@
         {
           "ref": "14:5",
           "beforeHebrew": "שָׁם פָּחֲדוּ פָחַד כִּי אֱלֹהִים בְּדוֹר צַדִּיק.",
-          "afterHebrew": "שָׁם פָּחֲדוּ פָֽחַד כִּי אֱלֹהִים בְּדוֹר צַדִּיק.",
+          "afterHebrew": "שָׁם פָּחֲדוּ פָֽחַד, כִּי אֱלֹהִים בְּדוֹר צַדִּיק.",
           "beforePhonetic": "Sham pajadú fájad ki Elohim bedor tsadik.",
-          "afterPhonetic": "Sham pajadú fájad ki Elohim bedor tsadik.",
+          "afterPhonetic": "Sham pajadú fájad, ki Elohim bedor tsadik.",
           "changes": {
             "פחד": {
               "stress": 0
@@ -1603,9 +1603,9 @@
         {
           "ref": "14:6",
           "beforeHebrew": "עֲצַת עָנִי תָבִישׁוּ כִּי יְהֹוָה מַחְסֵהוּ.",
-          "afterHebrew": "עֲצַת עָנִי תָבִֽישׁוּ כִּי יְהֹוָה מַחְסֵֽהוּ.",
+          "afterHebrew": "עֲצַת עָנִי תָבִֽישׁוּ, כִּי יְיָ מַחְסֵֽהוּ.",
           "beforePhonetic": "'Atsat 'aní tavishu ki Ad-nai majsehu.",
-          "afterPhonetic": "'Atsat 'aní tavishu ki Ad-nai majsehu.",
+          "afterPhonetic": "'Atsat 'aní tavishu, ki Ad-nai majsehu.",
           "changes": {
             "תבישו": {
               "stress": 1
@@ -1618,9 +1618,9 @@
         {
           "ref": "14:7",
           "beforeHebrew": "מִי יִתֵּן מִצִּיּוֹן יְשׁוּעַת יִשְׂרָאֵל בְּשׁוּב יְהֹוָה שְׁבוּת עַמּוֹ יָגֵל יַעֲקֹב יִשְׂמַח יִשְׂרָאֵל.",
-          "afterHebrew": "מִי יִתֵּן מִצִּיּוֹן יְשׁוּעַת יִשְׂרָאֵל בְּשׁוּב יְהֹוָה שְׁבוּת עַמּוֹ יָגֵל יַעֲקֹב יִשְׂמַח יִשְׂרָאֵל.",
+          "afterHebrew": "מִי יִתֵּן מִצִּיּוֹן יְשׁוּעַת יִשְׂרָאֵל; בְּשׁוּב יְיָ שְׁבוּת עַמּוֹ, יָגֵל יַעֲקֹב יִשְׂמַח יִשְׂרָאֵל.",
           "beforePhonetic": "Mi yitén mitsiyón yeshu'at Yisrael beshuv Ad-nai shevut 'Amó yaguel Ya'akov yismaj Yisrael.",
-          "afterPhonetic": "Mi yitén mitsiyón yeshu'at Yisrael beshuv Ad-nai shevut 'Amó yaguel Ya'akov yismaj Yisrael.",
+          "afterPhonetic": "Mi yitén mitsiyón yeshu'at Yisrael; beshuv Ad-nai shevut 'Amó, yaguel Ya'akov yismaj Yisrael.",
           "changes": {
             "עמו": {
               "capital": true
@@ -1628,7 +1628,12 @@
           }
         }
       ],
-      "secondReview": "2026-10-09: se separan rayitas observadas de lecturas por regla; ver SEGUNDO_COTEJO.json"
+      "secondReview": "Cierre completo de hebreo, fonética, puntuación, 14 meteg y dos shevá na, contraste 7/7 generador. Ver ARTSCROLL_014_REVISION.json.",
+      "finalDate": "2026-10-11",
+      "finalReview": "ARTSCROLL_014_REVISION.json",
+      "latestScreenshot": "IMG_1547.png",
+      "finalExportCount": 4,
+      "visualCoverageComplete": true
     },
     {
       "chapter": 15,
