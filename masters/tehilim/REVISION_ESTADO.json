@@ -417,7 +417,18 @@
         "TEHILIM_137_HEBREO_FINAL_numbered.txt",
         "TEHILIM_137_FONETICA_FINAL_continuous.txt",
         "TEHILIM_137_FONETICA_FINAL_numbered.txt"
-      ]
+      ],
+      "postFinalAccentCorrection": {
+        "date": "2026-10-11",
+        "verses": [
+          1,
+          8
+        ],
+        "before": "Bável",
+        "corrected": "Bavél",
+        "reason": "Revia on second bet of בָּבֶ֗ל: stress final; targeted regression passed",
+        "masterFinal": true
+      }
     },
     {
       "chapter": 142,
