@@ -395,70 +395,81 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "לַמְנַצֵּֽחַ בִּנְגִינוֹת עַל הַשְּׁמִינִית מִזְמוֹר לְדָוִד.",
-          "phonetic": "Lamenatséaj binguinot 'al hasheminit mizmor leDavid."
+          "hebrew": "לַמְנַצֵּֽחַ בִּנְגִינוֹת עַל הַשְּׁמִינִית, מִזְמוֹר לְדָוִד.",
+          "phonetic": "Lamenatséaj binguinot 'al hasheminit, mizmor leDavid."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "יְיָ אַל בְּאַפְּךָ תוֹכִיחֵֽנִי וְאַל בַּחֲמָתְךָ תְיַסְּרֵֽנִי.",
-          "phonetic": "Ad-nai al Beapejá tojijeni veal Bajamateja teyasereni."
+          "hebrew": "יְיָ אַל בְּאַפְּךָ תוֹכִיחֵֽנִי, וְאַל בַּחֲמָתְךָ תְיַסְּרֵֽנִי.",
+          "phonetic": "Ad-nai al Beapejá tojijeni, veal Bajamateja teyasereni."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "חׇנֵּֽנִי יְיָ כִּי אֻמְלַל אָֽנִי רְפָאֵֽנִי יְיָ כִּי נִבְהֲלוּ עֲצָמָי.",
-          "phonetic": "Joneni Ad-nai ki umlal ani refaeni Ad-nai ki nivhalu 'atsamái."
+          "hebrew": "חׇנֵּֽנִי יְיָ כִּי אֻמְלַל אָֽנִי, רְפָאֵֽנִי יְיָ כִּי נִבְהֲלוּ עֲצָמָי.",
+          "phonetic": "Joneni Ad-nai ki umlal ani, refaeni Ad-nai ki nivhalu 'atsamái."
         },
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "וְנַפְשִׁי נִבְהֲלָה מְאֹד וְאַתָּה יְיָ עַד מָתָי.",
-          "phonetic": "Venafshí nivhalá meod veAtá Ad-nai 'ad matái."
+          "hebrew": "וְנַפְשִׁי נִבְהֲלָה מְאֹד, וְאַתָּה יְיָ עַד מָתָי.",
+          "phonetic": "Venafshí nivhalá meod, veAtá Ad-nai 'ad matái."
         },
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "שׁוּבָה יְיָ חַלְּצָה נַפְשִׁי הוֹשִׁיעֵֽנִי לְמַֽעַן חַסְדֶּֽךָ.",
-          "phonetic": "Shuvá Ad-nai jaletsá nafshí hoshi'eni lema'an Jasdeja."
+          "hebrew": "שׁוּבָה יְיָ חַלְּצָה נַפְשִׁי, הוֹשִׁיעֵֽנִי לְמַֽעַן חַסְדֶּֽךָ.",
+          "phonetic": "Shuvá Ad-nai jaletsá nafshí, hoshi'eni lema'an Jasdeja."
         },
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "כִּי אֵין בַּמָּֽוֶת זִכְרֶֽךָ בִּשְׁאוֹל מִי יוֹדֶה לָּךְ.",
-          "phonetic": "Ki en bamávet Zijreja bishol mi yodé Laj."
+          "hebrew": "כִּי אֵין בַּמָּֽוֶת זִכְרֶֽךָ, בִּשְׁאוֹל מִי יוֹדֶה לָּךְ.",
+          "phonetic": "Ki en bamávet Zijreja, bishol mi yodé Laj."
         },
         {
           "verse": 7,
           "label": "ז",
-          "hebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַֽיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
-          "phonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé."
+          "hebrew": "יָגַֽעְתִּי בְּאַנְחָתִי, אַשְׂחֶה בְכׇל לַֽיְלָה מִטָּֽתִי, בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+          "phonetic": "Yaga'ti beanjatí, asjé vejol layla mitati, bedim'atí 'arsí amsé."
         },
         {
           "verse": 8,
           "label": "ח",
-          "hebrew": "עָשְׁשָׁה מִכַּֽעַס עֵינִי עָתְקָה בְּכׇל צוֹרְרָי.",
-          "phonetic": "'Asheshá mika'as 'ení 'ateká bejol tsorerái."
+          "hebrew": "עָשְׁשָׁה מִכַּֽעַס עֵינִי, עָתְקָה בְּכׇל צוֹרְרָי.",
+          "phonetic": "'Asheshá mika'as 'ení, 'ateká bejol tsorerái."
         },
         {
           "verse": 9,
           "label": "ט",
-          "hebrew": "סוּרוּ מִמֶּֽנִּי כׇּל פֹּעֲלֵי אָֽוֶן כִּי שָׁמַע יְיָ קוֹל בִּכְיִי.",
-          "phonetic": "Surú mimeni kol po'alé aven ki shamá' Ad-nai kol bijyí."
+          "hebrew": "סוּרוּ מִמֶּֽנִּי כׇּל פֹּעֲלֵי אָֽוֶן, כִּי שָׁמַע יְיָ קוֹל בִּכְיִי.",
+          "phonetic": "Surú mimeni kol po'alé aven, ki shamá' Ad-nai kol bijyí."
         },
         {
           "verse": 10,
           "label": "י",
-          "hebrew": "שָׁמַע יְיָ תְּחִנָּתִי יְיָ תְּפִלָּתִי יִקָּח.",
-          "phonetic": "Shamá' Ad-nai tejinatí Ad-nai tefilatí yikaj."
+          "hebrew": "שָׁמַע יְיָ תְּחִנָּתִי, יְיָ תְּפִלָּתִי יִקָּח.",
+          "phonetic": "Shamá' Ad-nai tejinatí, Ad-nai tefilatí yikaj."
         },
         {
           "verse": 11,
           "label": "יא",
-          "hebrew": "יֵבֹֽשׁוּ וְיִבָּהֲלוּ מְאֹד כׇּל אֹיְבָי יָשֻֽׁבוּ יֵבֹֽשׁוּ רָֽגַע.",
-          "phonetic": "Yevoshu veyibahalú meod kol oyevái yashuvu yevoshu raga'."
+          "hebrew": "יֵבֹֽשׁוּ וְיִבָּהֲלוּ מְאֹד כׇּל אֹיְבָי, יָשֻֽׁבוּ יֵבֹֽשׁוּ רָֽגַע.",
+          "phonetic": "Yevoshu veyibahalú meod kol oyevái, yashuvu yevoshu raga'."
         }
-      ]
+      ],
+      "approved": true,
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-10",
+      "artscrollReview": {
+        "source": "IMG_1463.png",
+        "meteg": 21,
+        "shevaMarks": 5,
+        "status": "final",
+        "userConfirmed": "6:7 לַֽיְלָה primera lamed"
+      }
     },
     {
       "chapter": 7,
