@@ -34,6 +34,14 @@
         {
           "before": "ברכת המזון · נוסח אשכנזברכת המזון · נוסח אשכנז",
           "after": "ברכת המזון · נוסח אשכנז"
+        },
+        {
+          "before": "בַּמָּּרוֹם",
+          "after": "בַּמָּרוֹם"
+        },
+        {
+          "before": "הַנֹֹּּפָֽלֶת",
+          "after": "הַנֹּפָֽלֶת"
         }
       ]
     },
@@ -63,5 +71,5 @@
       ]
     }
   },
-  "documentation": "Esta manifestación vincula solo las composiciones finales verificadas Tehilim 126/137 y no afecta los másters originales ni las publicaciones anteriores. Para extender a otro rezo se añade una referencia con anclas de contexto, fuente y estado editorial."
+  "documentation": "Esta manifestación vincula solo las composiciones finales verificadas Tehilim 126/137 y no afecta los másters originales ni las publicaciones anteriores. Para extender a otro rezo se añade una referencia con anclas de contexto, fuente y estado editorial. Las correcciones de codificación Unicode en texto local se aplican solo a secuencias idénticas; títulos y contenido litúrgico se preservan."
 }
