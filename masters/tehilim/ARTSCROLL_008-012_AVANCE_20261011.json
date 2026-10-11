@@ -110,7 +110,9 @@
         "IMG_1467.png",
         "IMG_1468.png"
       ],
-      "approval": "PENDIENTE"
+      "approval": "PENDIENTE",
+      "generatorActualWord": "Shita",
+      "generatorActualVerse": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela."
     },
     {
       "ref": "9:21",
@@ -126,7 +128,9 @@
         "IMG_1467.png",
         "IMG_1468.png"
       ],
-      "approval": "PENDIENTE"
+      "approval": "PENDIENTE",
+      "generatorActualWord": "hema",
+      "generatorActualVerse": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela."
     },
     {
       "ref": "10:3",
@@ -142,7 +146,9 @@
         "IMG_1469.png",
         "IMG_1470.png"
       ],
-      "approval": "PENDIENTE"
+      "approval": "PENDIENTE",
+      "generatorActualWord": "berej",
+      "generatorActualVerse": "Ki hilel rashá' 'al taavat nafshó uvotsea' berej niéts Ad-nai."
     },
     {
       "ref": "11:3",
@@ -157,7 +163,9 @@
       "source": [
         "IMG_1471.png"
       ],
-      "approval": "PENDIENTE"
+      "approval": "PENDIENTE",
+      "generatorActualWord": "pa'al",
+      "generatorActualVerse": "Ki hashatot yeharesún tsadik ma pa'al."
     }
   ],
   "masterCount": {
@@ -172,10 +180,55 @@
   ],
   "engine": {
     "repository": "judaicadesign/fonetica-hebreo",
-    "issue": "7:1 דִּבְרֵי actualmente en prueba corregida por contexto del Nombre prefijado",
-    "generatorCommit": "0fbcb64ca5536dbd7d953704765c2da81adbc5c3",
-    "newTestStatus": "PASS en GitHub Actions 38115629249",
-    "fullSuiteStatus": "FAIL en caso preexistente 2:2; no cambiar master aprobado"
+    "generatorHead": "8abeb47346146458967d8d122fc448f62fd2be68",
+    "verifiedThroughGitHubActionsRun": "https://github.com/judaicadesign/fonetica-hebreo/actions/runs/38115902015",
+    "snapshotStep": "Snapshot exact generator output for ArtScroll 8–12",
+    "snapshotStepStatus": "success",
+    "versesCompared": 65,
+    "discrepanciesPerChapter": {
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "11": 0,
+      "12": 0
+    },
+    "pendingQuestionsActualOutput": [
+      {
+        "ref": "9:21",
+        "word": "שִׁיתָה",
+        "generatorWord": "Shita",
+        "generatorVerse": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela."
+      },
+      {
+        "ref": "9:21",
+        "word": "הֵמָּה",
+        "generatorWord": "hema",
+        "generatorVerse": "Shita Ad-nai morá lahem yede'ú goyim enosh hema sela."
+      },
+      {
+        "ref": "10:3",
+        "word": "בֵּרֵךְ",
+        "generatorWord": "berej",
+        "generatorVerse": "Ki hilel rashá' 'al taavat nafshó uvotsea' berej niéts Ad-nai."
+      },
+      {
+        "ref": "11:3",
+        "word": "פָּעָל",
+        "generatorWord": "pa'al",
+        "generatorVerse": "Ki hashatot yeharesún tsadik ma pa'al."
+      }
+    ],
+    "reviewed7_1": {
+      "finalWord": "diveré",
+      "testStatus": "success",
+      "independent137_3": "divré"
+    },
+    "fullSuite": {
+      "status": "failure",
+      "source": "historical fixture tests/fixtures/artscroll-app-partial-1-9.json still has pre-FINAL 2:2 (Yityatsevú / nosedú) while current 2:2 FINAL reads Yitiatsevú / nósedu",
+      "noMasterChanged": true
+    },
+    "note": "Equality to provisional corpus is NOT GOLDEN ArtScroll linguistic approval"
   },
   "nextStep": "Continuar cotejo minucioso del resto de palabras, puntuación y discrepancias generador para aprobación independiente de hebreo/fonética."
 }
