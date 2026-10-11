@@ -2592,6 +2592,55 @@
   ],
   "openReview": [
     {
+      "ref": "14:3",
+      "word": "עֹשֵׂה",
+      "reason": "Confirmar la presencia del meteg; no extender el de 14:1 automáticamente."
+    }
+  ],
+  "correctionsSincePreviousPublication": [
+    {
+      "ref": "9:19",
+      "word": "תִּקְוַת",
+      "previousReading": "tikevat",
+      "correctedReading": "tikvat",
+      "reason": "La captura ampliada no muestra la rayita horizontal superior sobre ק; por lo tanto la ק lleva shevá נח. Se conserva el hebreo tal como está y se retira únicamente la anotación vocal shevá na."
+    }
+  ],
+  "resolved": [
+    {
+      "ref": "17:14–15",
+      "word": "",
+      "reason": "Falta la continuación: 17:14 se corta y 17:15 no aparece.",
+      "resolution": "Continuación recibida y cotejada; ver ARTSCROLL_APP_TANDA_017-020.json",
+      "date": "2026-10-09"
+    },
+    {
+      "ref": "9:21",
+      "word": "שִׁיתָה / הֵֽמָּה",
+      "reason": "Dudas sobre meteg y acentuación en la revisión histórica.",
+      "resolution": "Confirmación del usuario 11/10/2026: שִׁיתָה sin meteg, Shitá; הֵֽמָּה con meteg en ה, fonética hema (HE-ma), sin tilde redundante. Incorporado al corpus y al generador, según ARTSCROLL_008-012_AVANCE_20261011.json y CONTINUAR_EN_CHAT.md.",
+      "date": "2026-10-11",
+      "source": "ARTSCROLL_008-012_AVANCE_20261011.json"
+    },
+    {
+      "ref": "10:3",
+      "word": "בֵּרֵךְ",
+      "reason": "Meteg marcado como dudoso en esta revisión histórica.",
+      "resolution": "Confirmación del usuario 11/10/2026: SIN meteg, conservar berej. Registrado en ARTSCROLL_008-012_AVANCE_20261011.json.",
+      "date": "2026-10-11",
+      "source": "ARTSCROLL_008-012_AVANCE_20261011.json"
+    },
+    {
+      "ref": "11:3",
+      "word": "פָּעָל",
+      "reason": "Meteg marcado como dudoso en esta revisión histórica.",
+      "resolution": "Confirmación del usuario 11/10/2026: SIN meteg, conservar pa'al. Registrado en ARTSCROLL_008-012_AVANCE_20261011.json.",
+      "date": "2026-10-11",
+      "source": "ARTSCROLL_008-012_AVANCE_20261011.json"
+    }
+  ],
+  "historicalOpenReviewBefore20261011": [
+    {
       "ref": "10:3",
       "word": "בֵּרֵךְ",
       "reason": "Revisar ubicación/presencia del meteg en ampliación más cercana."
@@ -2612,22 +2661,30 @@
       "reason": "Revisar marcas pequeñas en ampliación más cercana."
     }
   ],
-  "correctionsSincePreviousPublication": [
-    {
-      "ref": "9:19",
-      "word": "תִּקְוַת",
-      "previousReading": "tikevat",
-      "correctedReading": "tikvat",
-      "reason": "La captura ampliada no muestra la rayita horizontal superior sobre ק; por lo tanto la ק lleva shevá נח. Se conserva el hebreo tal como está y se retira únicamente la anotación vocal shevá na."
-    }
-  ],
-  "resolved": [
-    {
-      "ref": "17:14–15",
-      "word": "",
-      "reason": "Falta la continuación: 17:14 se corta y 17:15 no aparece.",
-      "resolution": "Continuación recibida y cotejada; ver ARTSCROLL_APP_TANDA_017-020.json",
-      "date": "2026-10-09"
-    }
-  ]
+  "activeReviewReconciled20261011": {
+    "date": "2026-10-11",
+    "activeCount": 1,
+    "activeRefs": [
+      "14:3"
+    ],
+    "closedHistoricalRefs": [
+      "9:21",
+      "10:3",
+      "11:3"
+    ],
+    "newEditorialFinals": 0,
+    "guardedFinalChapters": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      126,
+      137
+    ],
+    "sourceOfTruth": "REVISION_ESTADO.json",
+    "note": "Esta conciliación actualiza estados con evidencia ya aprobada; no modifica el corpus, las exportaciones FINAL ni aprueba nuevos capítulos. 14:3 עֹשֵׂה sigue pendiente de una inspección visual de IMG_1474.png."
+  }
 }
