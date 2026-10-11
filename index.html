@@ -551,7 +551,7 @@ function editMasterCell(it,n,l){
  const k=cellKey(it.name,n,l),c=masterCells[k];
  const linked=window.JDPassageLinks?.isSupportedMaster(it.name,n,l)===true;
  const w=modal3(it.name+' · '+n+' · '+l,
- (it.name==='Birkat Hamazón'&&n==='Ashkenazí'&&l==='Hebreo'?'<p class="small">Base corregida: <a href="masters/bircat-hamazon/ASHKENAZ_HEBREO_METEG_EN_REVISION.txt" download>Hebreo con 242 meteg de ArtScroll</a>. Las ediciones propias se conservan.</p>':'')+
+ (it.name==='Birkat Hamazón'&&n==='Ashkenazí'&&l==='Hebreo'?'<p class="small">Los 242 meteg ya incorporados se conservan. Para preparar una nueva edición usá <b>Descargar TXT vinculado</b> más abajo: toma Tehilim 137 y 126 directamente del máster FINAL y conserva las instrucciones propias de Birkat Hamazón. <b>Hebreo completo: EN REVISIÓN.</b> No usar la copia local heredada como fuente de nuevos salmos.</p>':'')+
  '<div class="jd-grid"><div class="jd-field"><label>Estado</label><select id="mcStatus">'+jdMasterStageOptions(l,c.status)+'</select></div><div class="jd-field"><label>Referencia</label><input id="mcRef" value="'+esc3(c.ref)+'" placeholder="ArtScroll / Tehilat Hashem / Simchón..."></div><div class="jd-field" style="grid-column:1/-1"><label>Texto Master (copia local protegida)</label><textarea id="mcBody" style="min-height:280px">'+esc3(c.body)+'</textarea></div></div>'+
  (linked?'<div id="jdLinkedPassages"></div>':''),
  'Guardar Master',box=>{
