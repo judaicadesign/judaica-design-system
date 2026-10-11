@@ -10,22 +10,26 @@
   if(!pending||force)pending=fetch(endpoint,{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("HTTP "+r.status);return r.json()}).catch(e=>{pending=null;throw e});
   return pending;
  }
- function classify(ch){
+ function classify(ch,hasHebrewSource){
   if(ch?.hebrewApproved===true&&ch?.phoneticApproved===true&&ch?.approved===true)return "final";
   if(ch?.hebrewApproved===true)return "hebreo";
-  if(ch)return "revision";
-  return "pendiente";
+  return hasHebrewSource?"obtenido":"sinTexto";
  }
  function inventory(data){
   const known=new Map((data.chapters||[]).map(c=>[Number(c.chapter),c]));
+  const fromWikisource=Number(data.corpus?.hebrewWikisourceChapters||0);
   return Array.from({length:TOTAL},(_,i)=>{
-    const chapter=i+1,detail=known.get(chapter)||null;
-    return {chapter,detail,status:classify(detail)};
+   const chapter=i+1,detail=known.get(chapter)||null;
+   const hasHebrewSource=chapter<=fromWikisource || !!detail;
+   return {chapter,detail,hasHebrewSource,status:classify(detail,hasHebrewSource)};
   });
  }
  function stats(rows){
-  const counts={final:0,hebreo:0,revision:0,pendiente:0};
-  for(const item of rows)counts[item.status]++;
+  const counts={final:0,hebreo:0,obtenido:0,sinTexto:0,reviewing:0};
+  for(const item of rows){
+    counts[item.status]++;
+    if(item.detail && item.status==="obtenido")counts.reviewing++;
+  }
   return counts;
  }
  function style(){
@@ -49,14 +53,14 @@
   .jd-tp-item summary::-webkit-details-marker{display:none}
   .jd-tp-item summary b{font-size:14px}
   .jd-tp-label{font-size:12px;text-align:right}
-  .jd-tp-final{color:#087348}.jd-tp-hebreo{color:#a45d04}.jd-tp-revision{color:#936a00}.jd-tp-pendiente{color:#62716e}
+  .jd-tp-final{color:#087348}.jd-tp-hebreo{color:#a45d04}.jd-tp-obtenido{color:#936a00}.jd-tp-sinTexto{color:#62716e}
   .jd-tp-details{color:inherit;font-size:13px;line-height:1.5;margin-top:9px;border-top:1px solid #e8eeea;padding-top:8px}
   .jd-tp-details p{margin:5px 0}
   @media(min-width:720px){.jd-tp-summary{grid-template-columns:repeat(4,minmax(0,1fr))}}
   `;
   document.head.appendChild(tag);
  }
- const captions={final:"✅ Hebreo y fonética FINAL",hebreo:"⚠️ Hebreo OK · falta fonética",revision:"⏳ En revisión · hebreo sin cierre",pendiente:"○ Aún sin aprobación registrada"};
+ const captions={final:"✅ Hebreo y fonética FINAL",hebreo:"⚠️ Hebreo FINAL · falta fonética",obtenido:"🟡 Hebreo obtenido · falta cotejo",sinTexto:"○ Aún no existe texto hebreo"};
  function progress(rows){
   const s=stats(rows),percent=(100*s.final/TOTAL).toFixed(2);
   return {s,percent};
@@ -70,7 +74,7 @@
    const {s,percent}=progress(inventory(data));
    el.innerHTML='<div class="jd-tp-stat"><strong>'+s.final+'/'+TOTAL+'</strong> Tehilim FINAL ✅</div>'+
     '<div class="jd-tp-bar" role="progressbar" aria-label="Tehilim terminados" aria-valuemin="0" aria-valuemax="150" aria-valuenow="'+s.final+'"><span style="width:'+percent+'%"></span></div>'+
-    '<p class="jd-tp-help">'+s.revision+' en revisión · '+s.hebreo+' con hebreo aprobado y fonética pendiente</p>';
+    '<p class="jd-tp-help">'+(TOTAL-s.sinTexto)+' con hebreo base · '+s.reviewing+' cotejos abiertos · '+s.hebreo+' con hebreo FINAL y fonética pendiente</p>';
   }).catch(()=>{if(el.isConnected)el.textContent="No se pudo consultar el progreso. Tocá «Ver avance» para reintentar."});
  }
  function renderRows(rows,filter){
@@ -83,24 +87,24 @@
     '<p><b>Fonética:</b> '+esc(detail.phoneticApproved===true?"Aprobada. "+(detail.phonetic||""):(detail.phonetic||"Pendiente."))+'</p>'+
     (detail.source?'<p><b>Fuente registrada:</b> '+esc(detail.source)+'</p>':'')+
     (detail.editorialNext?'<p><b>Próxima comprobación:</b> '+esc(detail.editorialNext)+'</p>':''):
-    '<p>No hay cierre editorial registrado para este capítulo. No equivale a una revisión negativa.</p>')+
+    '<p>'+ (status==="obtenido"?"Hebreo base extraído de Wikisource; no hay aprobación editorial integral registrada.":"Todavía no hay texto hebreo registrado.")+'</p>')+
     '</div></details>').join("");
  }
  function renderModal(data,host){
   const rows=inventory(data),{s,percent}=progress(rows);
   host.innerHTML='<div class="jd-tp-stat"><strong>'+s.final+'/'+TOTAL+'</strong> salmos terminados ✅</div>'+
   '<div class="jd-tp-bar" role="progressbar" aria-label="Tehilim FINAL" aria-valuenow="'+s.final+'" aria-valuemin="0" aria-valuemax="150"><span style="width:'+percent+'%"></span></div>'+
-  '<p class="jd-tp-help">Solo cuenta como FINAL cuando hebreo y fonética están aprobados. El generador y el español llevan seguimientos independientes.</p>'+
+  '<p class="jd-tp-help">'+(TOTAL-s.sinTexto)+'/150 ya tienen hebreo extraído de Wikisource. El cotejo integral, la fonética FINAL y el generador son etapas distintas.</p>'+
   '<div class="jd-tp-summary"><div><b>✅ '+s.final+'</b><div class="jd-tp-help">Ambos másters listos</div></div>'+
   '<div><b>⚠️ '+s.hebreo+'</b><div class="jd-tp-help">Hebreo aprobado</div></div>'+
-  '<div><b>⏳ '+s.revision+'</b><div class="jd-tp-help">Revisión abierta</div></div>'+
-  '<div><b>○ '+s.pendiente+'</b><div class="jd-tp-help">Sin cierre registrado</div></div></div>'+
+  '<div><b>🟡 '+s.obtenido+'</b><div class="jd-tp-help">Hebreo obtenido</div></div>'+
+  '<div><b>○ '+s.sinTexto+'</b><div class="jd-tp-help">Sin texto hebreo</div></div></div>'+
   '<div class="jd-tp-tools" aria-label="Filtrar Tehilim">'+
-   [["todos","Todos (150)"],["final","✅ Finales"],["hebreo","⚠️ Hebreo OK"],["revision","⏳ En revisión"],["pendiente","○ Pendientes"]]
+   [["todos","Todos (150)"],["final","✅ Finales"],["hebreo","⚠️ Hebreo FINAL"],["obtenido","🟡 Obtenidos"],["sinTexto","○ Sin texto"]]
    .map(([k,l])=>'<button type="button" class="jd-tp-filter" data-filter="'+k+'" aria-pressed="'+(k==="todos")+'">'+l+'</button>').join("")+
   '</div><div class="jd-tp-items" id="jd-tp-list">'+renderRows(rows,"todos")+'</div>'+
   '<p class="jd-tp-help"><a href="https://github.com/judaicadesign/judaica-design-system/blob/main/masters/tehilim/REVISION_003-007_PENDIENTES.md" target="_blank" rel="noopener">Ver auditoría y preguntas de Tehilim 3–7</a></p>'+
-  '<p class="jd-tp-help">Datos de REVISION_ESTADO.json · actualización consultada al abrir. Los capítulos sin registro se muestran como pendientes, no como errores.</p>';
+  '<p class="jd-tp-help">Datos de REVISION_ESTADO.json · actualización consultada al abrir. Los capítulos sin cotejo aprobado pero con base Wikisource figuran como «obtenidos», no como finales.</p>';
   host.querySelectorAll("[data-filter]").forEach(btn=>btn.addEventListener("click",()=>{
     host.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
     host.querySelector("#jd-tp-list").innerHTML=renderRows(rows,btn.dataset.filter);
