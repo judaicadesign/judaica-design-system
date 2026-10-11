@@ -1,6 +1,6 @@
 # Tehilim 3–7 · revisión editorial por etapas
 
-**Fecha:** 10/10/2026 · **Estado:** trabajo parcial documentado, NO aprobación de estos cinco salmos.
+**Fecha:** 10/10/2026 · **Estado:** seis respuestas resueltas e incorporadas al texto canónico. Cotejo final y aprobación fonética independientes pendientes.
 
 ## Regla de cierre
 
@@ -80,3 +80,15 @@ La muestra aporta evidencias **visuales etiquetadas** (meteg presente/ausente, r
 - Mantener como procesos separados el máster hebreo, máster fonético, motor y futura traducción al español. Las traducciones se postergan.
 
 **Este documento es avance de auditoría, no certificación de cierre.**
+
+
+## Confirmaciones del usuario, 10/10/2026 (resueltas)
+
+- **3:2** רַבּוּ: sin meteg. **Confirmado**, no volver a preguntar.
+- **5:4** וַאֲצַפֶּה: sin meteg. **Confirmado**, no volver a preguntar.
+- **5:9** לְפָנַי: sin meteg. **Confirmado**, no volver a preguntar.
+- **6:7** לַֽיְלָה: meteg en la primera ל. **Confirmado**, no volver a preguntar.
+- **7:5** וָאֲחַלְּצָה: sin meteg. **Confirmado**, no volver a preguntar.
+- **7:18** וַאֲזַמְּרָה: sin meteg. **Confirmado**, no volver a preguntar.
+
+Imágenes de Biblioteca recuperadas: IMG_1459, IMG_1460, IMG_1462, IMG_1463, IMG_1464 e IMG_1465. Las consultas nuevas deberán contener palabra anterior, siguiente y fonética que produce el generador. Evitar flechas entre hebreo por bidi.
