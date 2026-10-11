@@ -1,3 +1,15 @@
+## Actualización editorial · 11/10/2026 (confirmaciones y Tehilim 126/137)
+
+- **CIERRE 9:21:** שִׁיתָה SIN meteg, fonética **Shitá** (milrá, Radak). הֵֽמָּה CON meteg en ה, fonética **hema** (HE-ma; tilde española innecesaria). Ambas decisiones dadas por el usuario y guardadas en corpus/generador.
+- **CIERRE 10:3:** בֵּרֵךְ sin meteg, conservar berej.
+- **CIERRE 11:3:** פָּעָל sin meteg, conservar pa'al.
+- **12:2 y 20:10:** הוֹשִֽׁיעָה → **Hoshí'a / hoshí'a**; salida del generador corregida, corpus y exportaciones sincronizados.
+- **126 y 137:** segundas revisiones ArtScroll PDF de 09/10 preservadas, 11+19 meteg previos, shevá na registrado; nombres editoriales יְיָ normalizados en 126:1–4 y 137:4,7. Ninguna fonética previa modificada en estos 15 pasukim.
+- **Prueba real exitosa** en el generador: 126 = 6/6, 137 = 9/9 pesukim completos, también Unicode NFD. Confirmadas también 9:21, 12:2, 20:10 y 7:1 diveré frente a 137:3 divré: https://github.com/judaicadesign/fonetica-hebreo/actions/runs/38116804259
+- Informe permanente palabra por palabra: [COTEJO_126_137_20261011.md](COTEJO_126_137_20261011.md). Dudas 9:21, 10:3 y 11:3 de la entrada anterior **resueltas: NO REPREGUNTAR**.
+- **Aprobación:** todavía 7/150 FINAL; 8–12, 126 y 137 continúan EN REVISIÓN por falta de aprobación editorial integral. La imagen del PDF 126/137 no pudo renderizarse de nuevo desde Biblioteca en este chat; no fingir nuevo cotejo visual.
+- GitHub Pages del generador desplegó; CI completa todavía FALLA por fixture histórico 2:2 (`Yityatsevú / nosedú`) en vez del máster aprobado (`Yitiatsevú / nósedu`). No cambiar jamás el máster para satisfacer ese fixture.
+
 ## Continuidad verificada · 2026-10-11 (chat normal)
 
 - Conservados 7/150 FINAL (salmos 1–7). `REVISION_ESTADO.json` intacto; 8–12 siguen SIN FINAL.
