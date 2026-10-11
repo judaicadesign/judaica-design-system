@@ -31,15 +31,15 @@
     },
     {
       "chapter": 3,
-      "hebrew": "14 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
-      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
-      "engine": "9 pesukim comprobados",
-      "approved": false,
+      "hebrew": "FINAL: 9 pesukim, 14 meteg. ArtScroll cotejado y puntuación corregida; convención יְיָ aplicada.",
+      "phonetic": "FINAL: 9 pesukim cotejados por palabra y shevá na; puntuación correspondiente; se conserva la capitalización editorial de 3:9.",
+      "engine": "Comparación por pasuk realizada: 8/9 iguales en texto; en 3:9 hay diferencias de capitalización editorial para 'Amejá Virjateja. Seguimiento del generador independiente.",
+      "approved": true,
       "source": "IMG_1459.png",
       "scope": "Captura(s) originales accesibles; revisión final por pasuk pendiente.",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "secondReview": "Registro de 3 rayitas explícitas (3:1 מִפְּנֵי, 3:3 אֹמְרִים, 3:6 יִסְמְכֵֽנִ) y confirmación de 3:2 רַבּוּ sin meteg.",
       "lastFocusedReview": "2026-10-10",
-      "editorialNext": "Seis preguntas originales respondidas. Revisar nikud y puntuación íntegros; después fonética por pasuk. No volver a preguntar estas marcas.",
+      "editorialNext": "Ninguno. Hebreo y fonética FINAL. Cualquier divergencia tipográfica del generador se revisa por separado.",
       "visualEvidenceCurrentSession": "Imágenes ArtScroll recuperadas: IMG_1459.png. Cotejo integral por pasuk aún no certificado.",
       "userConfirmations20261010": [
         {
@@ -50,7 +50,11 @@
           "date": "2026-10-10",
           "source": "user+ArtScroll image"
         }
-      ]
+      ],
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-10",
+      "visualCoverageComplete": true
     },
     {
       "chapter": 4,
