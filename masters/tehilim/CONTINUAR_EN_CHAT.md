@@ -1,10 +1,23 @@
 # Continuar la revisión de Tehilim
 
+## Cierre 3–7 · 10 de octubre de 2026
+
+- **Tehilim 1–7: hebreo FINAL + fonética FINAL**, 7 de 150 capítulos aprobados. Cada uno tiene exportación individual de corrido y por pasuk, y ficha `ARTSCROLL_00N_REVISION.json`.
+- **Tehilim 3:** 9 pesukim, 14 meteg, 3 rayitas explícitas; `רַבּוּ` (3:2) sin meteg. Puntuación de ArtScroll sincronizada. El motor difiere solamente en mayúsculas editoriales de 3:9.
+- **Tehilim 4:** 9 pesukim, 13 meteg, 3 rayitas; se mantiene ausencia de rayita en las ב de 4:5.
+- **Tehilim 5:** 13 pesukim, 22 meteg, 6 rayitas; `וַאֲצַפֶּה` (5:4) y `לְפָנַי` (5:9) sin meteg, confirmados. Los pasek verticales son signos de la edición y no se añaden como sílabas.
+- **Tehilim 6:** 11 pesukim, **21 meteg**, incluido `לַֽיְלָה` (6:7), primera ל, confirmado por el usuario; 5 rayitas. Fonética "layla".
+- **Tehilim 7:** 18 pesukim, 19 meteg, 4 rayitas; `וָאֲחַלְּצָה` (7:5) y `וַאֲזַמְּרָה` (7:18) sin meteg, confirmados. El motor da `divré` para 7:1 `דִּבְרֵי` después de la puntuación, pero **la fonética MASTER es `diveré`** por shevá na explícito sobre ב. Registrado como pendiente independiente de motor en Supabase.
+- Capturas recuperadas de la Biblioteca: `IMG_1459.png`, `IMG_1460.png`, `IMG_1462.png`, `IMG_1463.png`, `IMG_1464.png`, `IMG_1465.png`. No volver a pedirlas.
+- Regeneración adaptada: `scripts/build-tehilim.mjs` preserva fichas FINAL 003–007 además de 001–002 y aplica `יְיָ` a todos los aprobados. No ejecutar una regeneración sin validar las pruebas de regresión.
+- **Próximo salmo: Tehilim 8.** Para preguntas, siempre presentar pasuk, palabra anterior, consultada, siguiente y fonética que arroja el generador; usar etiquetas Antes/Corregido, nunca flechas bidi.
+- Los másters Hebrew y fonética se aprueban independientemente del motor. El español se revisará en otra fase.
+
 ## Regla editorial del Nombre · 9 de octubre de 2026
 
 - **Norma obligatoria Judaica Design (de producción):** en el hebreo de todos los Tehilim representar el Nombre exclusivamente como `יְיָ`; su fonética es siempre `Ad-nai`.
 - Esta convención editorial se aplica a las salidas de producción aun si la captura de ArtScroll utiliza otra representación del Nombre; para las demás letras, nikud, dagesh, meteg y rayitas de shevá na, ArtScroll sigue siendo el golden master.
-- **Estado de propagación:** capítulos 1 y 2 ya usan `יְיָ` en el texto canónico y las cuatro exportaciones finales de cada salmo; quedan pendientes los capítulos 3–150 y la revisión de las reglas de regeneración. No modificar otras marcas por esta sustitución.
+- **Estado de propagación:** capítulos 1 y 2 ya usan `יְיָ` en el texto canónico y las cuatro exportaciones finales de cada salmo; quedan pendientes los capítulos 8–150 y la revisión de las reglas de regeneración. No modificar otras marcas por esta sustitución.
 
 Actualizado: 9 de octubre de 2026.
 
