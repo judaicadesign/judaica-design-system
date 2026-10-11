@@ -1,0 +1,86 @@
+{
+  "chapter": 4,
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "date": "2026-10-10",
+  "source": "ArtScroll IMG_1460.png",
+  "metegCount": 13,
+  "explicitSheva": [
+    {
+      "verse": 5,
+      "word": "אִמְרוּ",
+      "letter": "מ"
+    },
+    {
+      "verse": 7,
+      "word": "אֹמְרִים",
+      "letter": "מ"
+    },
+    {
+      "verse": 9,
+      "word": "אֶשְׁכְּבָה",
+      "letter": "כ"
+    }
+  ],
+  "confirmedNoSheva": [
+    {
+      "verse": 5,
+      "word": "בִלְבַבְכֶם",
+      "letter": "ב"
+    },
+    {
+      "verse": 5,
+      "word": "מִשְׁכַּבְכֶם",
+      "letter": "ב"
+    }
+  ],
+  "comment": "Puntuación de ArtScroll cotejada completa. Nombre editorial יְיָ, fonética Ad-nai.",
+  "verses": [
+    {
+      "verse": 1,
+      "hebrew": "לַמְנַצֵּֽחַ בִּנְגִינוֹת, מִזְמוֹר לְדָוִד.",
+      "phonetic": "Lamenatséaj binguinot, mizmor leDavid."
+    },
+    {
+      "verse": 2,
+      "hebrew": "בְּקׇרְאִי עֲנֵֽנִי אֱלֹהֵי צִדְקִי, בַּצָּר הִרְחַֽבְתָּ לִּי, חׇנֵּֽנִי וּשְׁמַע תְּפִלָּתִי.",
+      "phonetic": "Bekorí 'aneni Elohé tsidkí, batsar hirjavta li, joneni ushmá' tefilatí."
+    },
+    {
+      "verse": 3,
+      "hebrew": "בְּנֵי אִישׁ, עַד מֶה כְבוֹדִי לִכְלִמָּה, תֶּאֱהָבוּן רִיק, תְּבַקְשׁוּ כָזָב סֶֽלָה.",
+      "phonetic": "Bené ish, 'ad me jevodí lijlimá, teehavún rik, tevakshú jazav sela."
+    },
+    {
+      "verse": 4,
+      "hebrew": "וּדְעוּ כִּי הִפְלָה יְיָ חָסִיד לוֹ, יְיָ יִשְׁמַע בְּקׇרְאִי אֵלָיו.",
+      "phonetic": "Ud'ú ki hiflá Ad-nai jasid lo, Ad-nai yishmá' bekorí elav."
+    },
+    {
+      "verse": 5,
+      "hebrew": "רִגְזוּ וְאַל תֶּחֱטָאוּ, אִמְרוּ בִלְבַבְכֶם עַל מִשְׁכַּבְכֶם, וְדֹֽמּוּ סֶֽלָה.",
+      "phonetic": "Rigzú veal tejetaú, imerú vilvavjem 'al mishkavjem, vedomu sela."
+    },
+    {
+      "verse": 6,
+      "hebrew": "זִבְחוּ זִבְחֵי צֶֽדֶק, וּבִטְחוּ אֶל יְיָ.",
+      "phonetic": "Zivjú zivjé tsédek, uvitjú el Ad-nai."
+    },
+    {
+      "verse": 7,
+      "hebrew": "רַבִּים אֹמְרִים: מִי יַרְאֵֽנוּ טוֹב, נְסָה עָלֵֽינוּ אוֹר פָּנֶיךָ, יְיָ.",
+      "phonetic": "Rabim omerim: mi yarenu tov, nesá 'alenu or Paneja, Ad-nai."
+    },
+    {
+      "verse": 8,
+      "hebrew": "נָתַֽתָּה שִׂמְחָה בְלִבִּי, מֵעֵת דְּגָנָם וְתִירוֹשָׁם רָבּוּ.",
+      "phonetic": "Natata simjá velibí, me'et deganam vetirosham rabú."
+    },
+    {
+      "verse": 9,
+      "hebrew": "בְּשָׁלוֹם יַחְדָּו אֶשְׁכְּבָה וְאִישָׁן, כִּי אַתָּה יְיָ לְבָדָד לָבֶֽטַח תּוֹשִׁיבֵֽנִי.",
+      "phonetic": "Beshalom yajdav eshkevá veishán, ki Atá Ad-nai levadad lavétaj toshiveni."
+    }
+  ]
+}
