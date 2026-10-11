@@ -523,14 +523,21 @@ async function openTehilimMaster(language,mode='review'){
  };
  try{
   if(!tehilimTextCache.has(language)){
-   const response=await fetch(url);if(!response.ok)throw Error('No se pudo cargar el TXT');
+   const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error('No se pudo cargar el TXT');
    tehilimTextCache.set(language,await response.text());
   }
-  const stored=masterCells[key]?.body;baseText=refreshReviewedTehilim(stored??tehilimTextCache.get(language),language);
-  if(stored!==undefined&&baseText!==stored){masterCells[key]={...masterCells[key],body:baseText,status:'Revisión fina'};SAVE3('jd_master_cells',masterCells)}
+  const stored=masterCells[key]?.body;
+  const savedDraft=refreshReviewedTehilim(stored??tehilimTextCache.get(language),language);
+  // Even if a browser saved a months-old 150-chapter draft, every approved FINAL
+  // verse must be read from the current canonical corpus, with its ArtScroll punctuation.
+  const {corpus,states}=await window.JDPassageLinks.load();
+  const projection=window.JDPassageLinks.overlayFinalVerses({body:savedDraft,language,corpus,states});
+  baseText=projection.text;
   field.value=window.JDTehilimExport.format(baseText,language,mode).text;
   field.disabled=false;loaded=true;
-  state.textContent=mode==='review'?(masterCells[key]?'Edición guardada. Podés seguir corrigiendo.':'Base publicada. Guardar conserva tus correcciones.'):'Vista del master. Editar texto base actualiza las dos versiones de este idioma.';
+  state.textContent=projection.changedVerses
+    ?'Se actualizaron '+projection.changedVerses+' pesukim FINAL desde GitHub en esta vista. Tus ediciones de salmos NO FINAL permanecen; tu copia guardada solo cambia si pulsás Guardar Master.'
+    :(mode==='review'?'Texto alineado con los salmos FINAL. Guardar conserva tus correcciones.':'Vista vinculada al corpus canónico FINAL; las demás ediciones se conservan.');
  }catch(error){state.textContent='No se pudo cargar el texto. Volvé a abrirlo.';}
 }
 
