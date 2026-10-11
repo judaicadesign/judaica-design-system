@@ -1541,9 +1541,9 @@
         {
           "ref": "14:3",
           "beforeHebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָחוּ אֵין עֹשֵׂה טוֹב אֵין גַּם אֶחָד.",
-          "afterHebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָֽחוּ אֵין עֹֽשֵׂה טוֹב אֵין גַּם אֶחָד.",
+          "afterHebrew": "הַכֹּל סָר, יַחְדָּו נֶאֱלָֽחוּ; אֵין עֹֽשֵׂה טוֹב, אֵין גַּם אֶחָד.",
           "beforePhonetic": "Hakol sar yajdav neelaju en 'osé tov en gam ejad.",
-          "afterPhonetic": "Hakol sar yajdav neelaju en 'ose tov en gam ejad.",
+          "afterPhonetic": "Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.",
           "changes": {
             "נאלחו": {
               "stress": 2
@@ -1551,6 +1551,14 @@
             "עשה": {
               "stress": 0,
               "source": "confirmed meteg on ע at 14:3; no extra tilde in phonetic"
+            },
+            "punctuation": {
+              "source": "ArtScroll IMG_1474.png recovered from Library 2026-10-11",
+              "commasAfter": [
+                "סָר",
+                "טוֹב"
+              ],
+              "semicolonAfter": "נֶאֱלָֽחוּ"
             }
           }
         },
@@ -2650,6 +2658,14 @@
       "resolution": "User confirmed meteg on initial ע; changed to עֹֽשֵׂה, phonetic from 'osé to 'ose (mil'el without redundant Spanish accent), 2026-10-11. ArtScroll punctuation remains a separate unresolved check.",
       "date": "2026-10-11",
       "source": "ARTSCROLL_014_CONFIRMACION_20261011.json"
+    },
+    {
+      "ref": "14:3",
+      "word": "puntuación completa",
+      "reason": "El texto original no tenía comas ArtScroll",
+      "resolution": "Cotejo visual directo de IMG_1474.png. Confirmadas dos comas tras סָר / טוֹב y punto y coma tras נֶאֱלָֽחוּ. Corpus, fonética y seis exportaciones generales sincronizados.",
+      "date": "2026-10-11",
+      "source": "ARTSCROLL_014_CONFIRMACION_20261011.json"
     }
   ],
   "historicalOpenReviewBefore20261011": [
@@ -2697,14 +2713,7 @@
       137
     ],
     "sourceOfTruth": "REVISION_ESTADO.json",
-    "note": "All four historic word-level questions resolved. New punctuation-specific 14:3 review remains OPEN, and whole-chapter editorial approval remains pending."
+    "note": "Las cuatro dudas léxicas y la puntuación de 14:3 ya están resueltas. Falta revisión integral 14:1–7 antes de FINAL."
   },
-  "openPunctuationReview": [
-    {
-      "ref": "14:3",
-      "source": "IMG_1474.png",
-      "status": "PENDIENTE_COTEJO_VISUAL",
-      "reason": "En la revisión histórica faltó incorporar comas y demás puntuación de ArtScroll. No añadir signos inferidos."
-    }
-  ]
+  "openPunctuationReview": []
 }
