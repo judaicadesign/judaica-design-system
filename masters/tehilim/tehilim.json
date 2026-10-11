@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-09",
+  "version": "2026-10-11",
   "status": "Revisión fina",
   "source": "Wikisource / ניקוד",
   "chapters": 150,
@@ -16590,7 +16590,7 @@
     }
   ],
   "generatorRepository": "judaicadesign/fonetica-hebreo",
-  "generatorCommit": "f8915d0fc181a4df517c2a2cf925bfebb0590b3d",
+  "generatorCommit": "4e142bcd240e87618375d5f55cbe26a77caaf728",
   "approvedChapters": [
     1,
     2,
@@ -16599,6 +16599,7 @@
     5,
     6,
     7,
+    14,
     126,
     137
   ]
