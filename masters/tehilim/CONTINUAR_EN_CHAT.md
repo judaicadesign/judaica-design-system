@@ -1,3 +1,15 @@
+## Continuidad verificada · 2026-10-11 (chat normal)
+
+- Conservados 7/150 FINAL (salmos 1–7). `REVISION_ESTADO.json` intacto; 8–12 siguen SIN FINAL.
+- Capturas ArtScroll recuperadas y abiertas desde Biblioteca: 8 = IMG_1466; 9 = IMG_1467–1468; 10 = IMG_1469–1470; 11 = IMG_1471; 12 = IMG_1472 (65 versículos con cobertura visual).
+- En `tehilim.json` y tres exportaciones generales de **hebreo**: normalización editorial del Nombre (24 versículos) y corrección **8:6 מְּעַט → מְעַט**; ningún aprobado 1–7 modificado.
+- Auditoría automática REAL en generador contra los 65 versículos de 8–12: **0 diferencias** respecto de la fonética provisional guardada. Ejecutada en https://github.com/judaicadesign/fonetica-hebreo/actions/runs/38115902015 ; esto NO certifica pronunciación ArtScroll.
+- Generador 7:1 דִּבְרֵי: prueba **diveré** PASÓ sin cambiar la forma histórica 137:3 divré.
+- Protección anti-sobreescritura añadida a `scripts/build-tehilim.mjs`. Toda regeneración que difiera del corpus existente se bloquea para conciliación editorial; no eliminar ese seguro.
+- Cuatro dudas de marcas pequeñas: 9:21 שִׁיתָה; 9:21 הֵמָּה; 10:3 בֵּרֵךְ; 11:3 פָּעָל. Preguntas con entorno, salida actual de motor y fuente en `ARTSCROLL_008-012_AVANCE_20261011.json`.
+- CI completa del generador aún roja por test HISTÓRICO de 2:2 que espera la fonética antigua; el máster FINAL 2:2 **no** debe cambiarse para satisfacer ese fixture.
+- Pendiente: cotejo exhaustivo de puntuación, marcas y acentos en 8–12, más aprobación independiente de hebreo y fonética; solo entonces publicar FINAL.
+
 # Continuar la revisión de Tehilim
 
 ## Cierre 3–7 · 10 de octubre de 2026
