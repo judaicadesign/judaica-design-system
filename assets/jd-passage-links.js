@@ -44,16 +44,19 @@
     const references = [];
     for (let i = 0; i < spec.references.length; i++) {
       const ref = spec.references[i];
-      const start = original.indexOf(ref.start, cursor);
-      ensure(start >= cursor && start >= 0, 'No se encontró el inicio del pasaje ' + ref.passageId + '. No se cambió el documento.');
-      ensure(original.indexOf(ref.start, start + ref.start.length) < 0 ||
-        original.indexOf(ref.start, start + ref.start.length) > original.indexOf(ref.endAt,start),
+      const starts = [ref.start, ...(ref.startAlternatives || [])]
+        .map(marker => ({marker, position:original.indexOf(marker,cursor)}))
+        .filter(v=>v.position>=cursor).sort((a,b)=>a.position-b.position);
+      ensure(starts.length, 'No se encontró el inicio del pasaje ' + ref.passageId + '. No se cambió el documento.');
+      const start=starts[0].position;
+      const end = original.indexOf(ref.endAt, start + starts[0].marker.length);
+      ensure(!starts.some(v=>v.position>start && v.position<end),
         'Inicio ambiguo de ' + ref.passageId + '. Revisión manual necesaria.');
-      const end = original.indexOf(ref.endAt, start + ref.start.length);
       ensure(end > start, 'Falta delimitador de contexto después de ' + ref.passageId + '. No se cambió el documento.');
       const next = spec.references[i+1];
       if(next) {
-        const nextStart = original.indexOf(next.start,end);
+        const nextStart=[next.start,...(next.startAlternatives || [])]
+          .map(marker=>original.indexOf(marker,end)).filter(i=>i>=0).sort((a,b)=>a-b)[0];
         ensure(nextStart > end, 'Se alteró el orden del documento antes de ' + next.passageId + '.');
       }
       const selected = approvedChapter(corpus,states,ref.chapter,language);
