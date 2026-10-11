@@ -1,5 +1,7 @@
 # Tehilim 3–7 · revisión editorial por etapas
 
+**CIERRE EDITORIAL · 10/10/2026:** los Salmos **3, 4, 5, 6 y 7 están FINAL en hebreo y fonética**. Se recuperaron todas las capturas de ArtScroll, se incorporaron las seis respuestas del usuario, se cotejaron los pesukim completos y la puntuación, y se publicaron los archivos individuales. El listado histórico que sigue documenta dudas anteriores al cierre y **no debe usarse como lista vigente de pendientes**. Para ver el estado actual: `REVISION_ESTADO.json` y `ARTSCROLL_003_REVISION.json` ... `ARTSCROLL_007_REVISION.json`. Motor independiente: `7:1 דִּבְרֵי` debe dar `diveré`; el generador con puntuación nueva da `divré`. Ese ajuste está registrado en Supabase.
+
 **Fecha:** 10/10/2026 · **Estado:** seis respuestas resueltas e incorporadas al texto canónico. Cotejo final y aprobación fonética independientes pendientes.
 
 ## Regla de cierre
@@ -10,7 +12,7 @@
 4. Representación JD del Nombre: **יְיָ**; fonética **Ad-nai**. Verificar también prefijos como לַיְיָ en su contexto.
 5. Los asteriscos en la app de ArtScroll **no son meteg**. No inventar rayitas ni meteg donde no se ven.
 
-## Resultado comprobado
+## Resultado histórico, ANTERIOR al cierre FINAL
 
 | Salmo | Pesukim | Meteg hoy en texto canónico | Hebreo FINAL | Fonética FINAL | Coincidencia generador con versión ACTUAL |
 |---|---:|---:|---|---|---|
