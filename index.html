@@ -458,6 +458,25 @@ let contentItems=LS3('jd_content_items',[
 ]);
 let masterCells=LS3('jd_master_cells',{});
 function cellKey(item,n,l){return item+'||'+n+'||'+l}
+function jdMasterStageCaption(cell,language){
+ const status=cell?.status||'Falta crear';
+ if(status==='Falta crear')return '0 · Sin texto';
+ if(status==='Aprobado')return '2 · '+(language==='Hebreo'?'Hebreo FINAL':language==='Fonética'?'Fonética FINAL':'Español FINAL')+' ✅';
+ if(status==='Texto obtenido')return '1 · Texto obtenido';
+ if(status==='Borrador fonético')return '1 · Fonética base';
+ if(status==='Traducción obtenida')return '1 · Traducción base';
+ if(status==='Revisión fina')return '1 · En cotejo';
+ return status;
+}
+function jdMasterStageOptions(language,current){
+ const choices=language==='Hebreo'
+  ? [['Falta crear','0 · Sin texto'],['Texto obtenido','1 · Texto obtenido'],['Revisión fina','1 · En cotejo'],['Aprobado','2 · Hebreo FINAL']]
+  :language==='Fonética'
+  ? [['Falta crear','0 · Sin texto'],['Borrador fonético','1 · Fonética base'],['Revisión fina','1 · En cotejo'],['Aprobado','2 · Fonética FINAL']]
+  : [['Falta crear','0 · Sin texto'],['Traducción obtenida','1 · Traducción base'],['Revisión fina','1 · En cotejo'],['Aprobado','2 · Español FINAL']];
+ if(current&&!choices.some(x=>x[0]===current))choices.splice(1,0,[current,current]);
+ return choices.map(([status,label])=>'<option value="'+esc3(status)+'" '+(status===current?'selected':'')+'>'+esc3(label)+'</option>').join('');
+}
 function ensureCells(item){item.nusajim.forEach(n=>item.langs.forEach(l=>{const k=cellKey(item.name,n,l);if(!masterCells[k])masterCells[k]={status:'Falta crear',ref:'',body:''}}));SAVE3('jd_master_cells',masterCells)}
 contentItems.forEach(ensureCells);
 const mastersSec3=document.getElementById('masters');
@@ -523,13 +542,13 @@ function editContentItem(i){
 }
 function openMatrix(i){
  const it=contentItems[i];let rows='';
- it.nusajim.forEach(n=>{rows+='<tr><th>'+esc3(n)+'</th>'+it.langs.map(l=>{const c=masterCells[cellKey(it.name,n,l)];return '<td><button class="btn sm" data-cell="'+encodeURIComponent(n)+'|'+encodeURIComponent(l)+'">'+esc3(c.status)+'</button></td>'}).join('')+'</tr>'});
- const w=modal3(it.name,'<div class="jd-panel"><table class="jd-matrix"><thead><tr><th>Nusaj</th>'+it.langs.map(l=>'<th>'+esc3(l)+'</th>').join('')+'</tr></thead><tbody>'+rows+'</tbody></table></div>','Cerrar',x=>x.remove());
+ it.nusajim.forEach(n=>{rows+='<tr><th>'+esc3(n)+'</th>'+it.langs.map(l=>{const c=masterCells[cellKey(it.name,n,l)];return '<td><button class="btn sm" data-cell="'+encodeURIComponent(n)+'|'+encodeURIComponent(l)+'" title="'+esc3(c.ref||'')+'">'+esc3(jdMasterStageCaption(c,l))+'</button></td>'}).join('')+'</tr>'});
+ const w=modal3(it.name,'<div class="jd-panel jd-master-matrix-wrap"><table class="jd-matrix"><thead><tr><th>Nusaj</th>'+it.langs.map(l=>'<th>'+esc3(l)+'</th>').join('')+'</tr></thead><tbody>'+rows+'</tbody></table></div>','Cerrar',x=>x.remove());
  w.querySelectorAll('[data-cell]').forEach(b=>b.onclick=()=>{const [n,l]=b.dataset.cell.split('|').map(decodeURIComponent);w.remove();editMasterCell(it,n,l)});
 }
 function editMasterCell(it,n,l){
  const k=cellKey(it.name,n,l),c=masterCells[k];
- modal3(it.name+' · '+n+' · '+l,(it.name==='Birkat Hamazón'&&n==='Ashkenazí'&&l==='Hebreo'?'<p class="small">Base corregida: <a href="masters/bircat-hamazon/ASHKENAZ_HEBREO_METEG_EN_REVISION.txt" download>Hebreo con 242 meteg de ArtScroll</a>. Las ediciones propias se conservan.</p>':'')+'<div class="jd-grid"><div class="jd-field"><label>Estado</label><select id="mcStatus">'+['Falta crear','Revisión fina','Aprobado'].map(x=>'<option '+(x===c.status?'selected':'')+'>'+x+'</option>').join('')+'</select></div><div class="jd-field"><label>Referencia</label><input id="mcRef" value="'+esc3(c.ref)+'" placeholder="ArtScroll / Tehilat Hashem / Simchón..."></div><div class="jd-field" style="grid-column:1/-1"><label>Texto Master</label><textarea id="mcBody" style="min-height:280px">'+esc3(c.body)+'</textarea></div></div>','Guardar Master',w=>{masterCells[k]={status:w.querySelector('#mcStatus').value,ref:w.querySelector('#mcRef').value,body:w.querySelector('#mcBody').value};SAVE3('jd_master_cells',masterCells);w.remove();drawMasters3()});
+ modal3(it.name+' · '+n+' · '+l,(it.name==='Birkat Hamazón'&&n==='Ashkenazí'&&l==='Hebreo'?'<p class="small">Base corregida: <a href="masters/bircat-hamazon/ASHKENAZ_HEBREO_METEG_EN_REVISION.txt" download>Hebreo con 242 meteg de ArtScroll</a>. Las ediciones propias se conservan.</p>':'')+'<div class="jd-grid"><div class="jd-field"><label>Estado</label><select id="mcStatus">'+jdMasterStageOptions(l,c.status)+'</select></div><div class="jd-field"><label>Referencia</label><input id="mcRef" value="'+esc3(c.ref)+'" placeholder="ArtScroll / Tehilat Hashem / Simchón..."></div><div class="jd-field" style="grid-column:1/-1"><label>Texto Master</label><textarea id="mcBody" style="min-height:280px">'+esc3(c.body)+'</textarea></div></div>','Guardar Master',w=>{masterCells[k]={status:w.querySelector('#mcStatus').value,ref:w.querySelector('#mcRef').value,body:w.querySelector('#mcBody').value};SAVE3('jd_master_cells',masterCells);w.remove();drawMasters3()});
 }
 drawMasters3();
 
