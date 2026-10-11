@@ -50,4 +50,4 @@ for(const [ch,v,target] of [[3,2,'רַבּוּ'],[5,4,'וַאֲצַפֶּה'],[5
 }
 assert.match(corpus.items[6].verses[0].phonetic,/diveré/);
 assert.doesNotMatch(corpus.items[6].verses[0].phonetic,/divré/);
-console.log('PASS Tehilim FINAL 1–7: 7 chapters, 113 pesukim, review/status/export agreement and confirmed meteg/shevá');
+console.log('PASS Tehilim FINAL 1–7: 7 chapters, 78 pesukim, review/status/export agreement and confirmed meteg/shevá');
