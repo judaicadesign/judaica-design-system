@@ -1,0 +1,29 @@
+name: Canonical passage links
+
+on:
+  push:
+    paths:
+      - 'assets/jd-passage-links.js'
+      - 'masters/tehilim/**'
+      - 'masters/bircat-hamazon/**'
+      - 'masters/compositions/**'
+      - 'tests/passage-link-regression.cjs'
+      - '.github/workflows/canonical-passage-links.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check browser composer syntax
+        run: node --check assets/jd-passage-links.js
+      - name: Check canonical linked Psalm references and contexts
+        run: node tests/passage-link-regression.cjs
