@@ -1,3 +1,14 @@
+## TEHILIM 14 FINAL · 2026-10-11 · ArtScroll IMG_1547.png
+
+- **Hebreo + fonética FINAL (7/7)**, español todavía pendiente. Cotejo visual con captura ArtScroll Siddur Wasserman Edition `IMG_1547.png` (SHA256 `359728ac44c15eccd38fd2a769b5ed18ed6ddd0a20fd97036aa7cd627fc44798`), y referencias anteriores `IMG_1474.png` / `ARTSCROLL_APP_TANDA_009-017.json`.
+- **Puntuación nueva**: 10 marcas impresas de ArtScroll, calcadas en hebreo y fonética. 14:1 = punto y coma después de `לְדָוִד`, comas después de `אֱלֹהִים` y `עֲלִילָה`; 14:2 coma después de `אָדָם`; 14:4 punto y coma después de `אָֽוֶן` y coma después de `לֶֽחֶם`; 14:5 coma después de `פָֽחַד`; 14:6 coma después de `תָבִֽישׁוּ`; 14:7 punto y coma después de primera `יִשְׂרָאֵל`, coma después de `עַמּוֹ`. 14:3 mantenido con puntuación y meteg aprobados anteriormente.
+- **Nikud, dagesh y meteg:** no se realizaron otros cambios sustantivos de nikud o dagesh en esta pasada; 14 marcas meteg aprobadas en el conjunto, shevá na explícito en 14:1 `לַמְנַצֵּֽחַ` (מ) y 14:4 `יָדְעוּ` (ד). Nombre editorial del tetragrama unificado a `יְיָ` en 14:2, 14:4, 14:6, 14:7 y `Ad-nai` en la fonética.
+- **Generador:** auditoría REAL de 7/7 palabras-en-contexto, no estimación, `judaicadesign/fonetica-hebreo` commit `4e142bcd`, run https://github.com/judaicadesign/fonetica-hebreo/actions/runs/38151154742 . Primera corrida 6/7 por `14:3 עֹֽשֵׂה` → `'osé` incorrecto; corregido el motor para `'ose`, segunda corrida **7/7 idénticos**. Test permanente `tests/psalm-14-live-audit.mjs` falla al detectar diferencias.
+- **Suite global del generador:** conserva fixture histórico desactualizado de Tehilim 2 (primero 2:3, luego 2:10). No confundir falla de ese test con el cotejo 14 aprobado; los casos históricos se resolverán separadamente, sin cambiar másters FINAL por expectativa de fixture.
+- **Salmo 14 guardado en `masters/tehilim/ARTSCROLL_014_REVISION.json`** y `REVISION_ESTADO.json` con 4 artefactos `TEHILIM_014_...FINAL_...`; sincronizadas las 6 exportaciones generales y `tehilim.json`, 10 salmos FINAL acumulados [1–7,14,126,137]. Nueve FINAL anteriores permanecen intactos.
+
+---
+
 ## CORRECCIÓN CRÍTICA DE VISTAS: BAVÉL + COMPOSICIONES + Unicode · 2026-10-11
 
 **Motivo real:** aunque el corpus Tehilim FINAL ya contenía `Bavél` (137:1 y 137:8), en las capturas del usuario seguían visibles copias con `Bável`: la matriz Tehilim priorizaba un texto integral antiguo de `jd_master_cells` sobre los FINAL GitHub, y el campo superior de Birkat Hamazón mostraba la copia local anterior aun cuando un panel separado componía bien el texto. El bug era la **prioridad de las copias locales en la interfaz**, no falta de corrección en `tehilim.json`.
