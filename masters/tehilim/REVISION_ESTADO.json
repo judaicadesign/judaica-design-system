@@ -240,7 +240,17 @@
       "source": "IMG_1474.png",
       "scope": "Cobertura completa disponible; pendientes específicos en el informe",
       "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
-      "editorialNext": "Pendiente comprobación visual en IMG_1474.png: 14:3 עֹשֵׂה, ¿lleva meteg en ע? 14:1 עֹֽשֵׂה no basta para inferirlo. No editar hasta evidencia."
+      "editorialNext": "14:3 עֹֽשֵׂה (meteg sobre ע) confirmado por usuario e incorporado a corpus + 6 exportaciones; fonética 'ose (Ó-se) sin tilde redundante. PENDIENTE: cotejo de comas/puntuación ArtScroll en IMG_1474.png antes de FINAL.",
+      "confirmations20261011": [
+        {
+          "ref": "14:3",
+          "hebrew": "עֹֽשֵׂה",
+          "phonetic": "'ose",
+          "source": "user + ArtScroll screenshot IMG_1474.png",
+          "status": "confirmed",
+          "record": "ARTSCROLL_014_CONFIRMACION_20261011.json"
+        }
+      ]
     },
     {
       "chapter": 15,
@@ -647,21 +657,39 @@
         "ref": "11:3",
         "word": "פָּעָל",
         "source": "ARTSCROLL_008-012_AVANCE_20261011.json"
+      },
+      {
+        "ref": "14:3",
+        "word": "עֹֽשֵׂה",
+        "source": "ARTSCROLL_014_CONFIRMACION_20261011.json"
       }
     ],
     "openFocusedQuestions": [
       {
         "ref": "14:3",
-        "previousWord": "אֵין",
-        "word": "עֹשֵׂה",
-        "nextWord": "טוֹב",
-        "currentHebrew": "עֹשֵׂה",
-        "phoneticProvisional": "'osé",
-        "decisionNeeded": "Comprobar visualmente en IMG_1474.png si existe meteg en ע; no copiar 14:1 עֹֽשֵׂה",
-        "source": "ARTSCROLL_APP_TANDA_009-017.json",
-        "status": "pendiente de evidencia visual"
+        "type": "punctuation",
+        "status": "pending_visual",
+        "source": "IMG_1474.png",
+        "note": "Word/meteg resolved; full ArtScroll punctuation in verse still pending. Not editorial FINAL."
       }
     ],
-    "rules": "No alterar FINAL 1–7, 126 ni 137; hebreo FINAL y fonética FINAL requieren cotejo ArtScroll independiente, no solo coincidencia con motor."
+    "rules": "No alterar FINAL 1–7, 126 ni 137; hebreo FINAL y fonética FINAL requieren cotejo ArtScroll independiente, no solo coincidencia con motor.",
+    "linkedCompositions": {
+      "date": "2026-10-11",
+      "manifest": "masters/compositions/BIRKAT_HAMAZON_ASHKENAZI.json",
+      "runtime": "assets/jd-passage-links.js",
+      "ui": "Masters → Birkat Hamazón → Ashkenazí → Hebreo/Fonética",
+      "chapters": [
+        137,
+        126
+      ],
+      "headerContexts": [
+        "En días que se dice tajanún:",
+        "En Shabat, Yom Tov y en una comida de mitsvá"
+      ],
+      "safeguards": "Source FINAL checked against REVISION_ESTADO; read-only composition and explicit staging only. Existing master and printed final not rewritten automatically.",
+      "test": "tests/passage-link-regression.cjs",
+      "statuses": "Tests added to CI; verify run before claiming PASS."
+    }
   }
 }
