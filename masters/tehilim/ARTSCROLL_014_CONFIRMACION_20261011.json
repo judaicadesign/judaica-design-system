@@ -16,19 +16,36 @@
       "word": "עֹשֵׂה",
       "evidence": "El usuario confirmó expresamente: Meteg en ע.",
       "previousHebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָֽחוּ אֵין עֹשֵׂה טוֹב אֵין גַּם אֶחָד.",
-      "correctedHebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָֽחוּ אֵין עֹֽשֵׂה טוֹב אֵין גַּם אֶחָד.",
+      "correctedHebrew": "הַכֹּל סָר, יַחְדָּו נֶאֱלָֽחוּ; אֵין עֹֽשֵׂה טוֹב, אֵין גַּם אֶחָד.",
       "previousPhonetic": "Hakol sar yajdav neelaju en 'osé tov en gam ejad.",
-      "correctedPhonetic": "Hakol sar yajdav neelaju en 'ose tov en gam ejad.",
+      "correctedPhonetic": "Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.",
       "stress": "ó-se, mil'el; 'ose se escribe sin tilde redundante por la regla española de palabras llanas terminadas en vocal.",
       "comparison": "14:1 ya tenía עֹֽשֵׂה y 'ose, ahora ambas ocurrencias siguen lectura consistente.",
-      "status": "CORREGIDO_EN_CORPUS_Y_SEIS_EXPORTACIONES"
+      "status": "CORREGIDO_EN_CORPUS_Y_SEIS_EXPORTACIONES",
+      "punctuationChangeFromUserLibrary": "Cotejo visual ArtScroll IMG_1474.png realizado 2026-10-11"
     }
   ],
   "punctuation": {
     "ref": "14:3",
-    "status": "PENDIENTE_COTEJO_POR_FALTA_DE_CAPTURA_VISIBLE_EN_ESTA_SESION",
-    "reason": "La transcripción provisional mantenía la puntuación de la base digital; no se hizo un cotejo integral de las comas ArtScroll para 14:3.",
-    "note": "La fuente es IMG_1474.png; no inventar ni añadir comas por intuición y no marcar FINAL hasta cotejo visual."
+    "status": "COTEJADO_VISUAL_20261011",
+    "source": "IMG_1474.png recuperada de Biblioteca personal, página fotografiada de Tehilim 14 ArtScroll",
+    "confirmedMarks": [
+      {
+        "after": "סָר",
+        "mark": ","
+      },
+      {
+        "after": "נֶאֱלָֽחוּ",
+        "mark": ";"
+      },
+      {
+        "after": "טוֹב",
+        "mark": ","
+      }
+    ],
+    "correctedHebrew": "הַכֹּל סָר, יַחְדָּו נֶאֱלָֽחוּ; אֵין עֹֽשֵׂה טוֹב, אֵין גַּם אֶחָד.",
+    "correctedPhonetic": "Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.",
+    "note": "Solo el 14:3 está puntuado por prueba visual en esta tanda. El capítulo 14 continúa NO FINAL hasta revisión completa independiente."
   },
   "protectedFinals": [
     1,
