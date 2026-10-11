@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "documentId": "birkat_hamazon_ashkenazi",
+  "updated": "2026-10-11",
+  "productionPriority": "critical: vendido semanalmente; Tehilim 1–150 es un proyecto independiente",
+  "source": {
+    "title": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
+    "pages": 19,
+    "pageCoverage": "Se visualizaron las 19 páginas del PDF en este chat, sin cotejo aún letra por letra de todas las secciones.",
+    "previouslyRecordedSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
+    "shaQualification": "Hash citado en CONTINUAR_EN_CHAT.md del original cotejado previamente; la copia de Biblioteca no pudo materializarse para recalcular su hash en esta sesión.",
+    "referencePriority": "ArtScroll (nikud, meteg, puntuación y marcas editoriales); producción JD escribe el Nombre como יְיָ"
+  },
+  "flow": [
+    "Vinculación canónica por pasuk desde Tehilim",
+    "Hebreo ashkenazí auditado y aprobado FINAL",
+    "Fonética ashkenazí auditada y aprobada FINAL",
+    "Generador contrastado con la fonética FINAL"
+  ],
+  "linkedPassages": [
+    {
+      "id": "tehilim:137:1-9",
+      "chapter": 137,
+      "sourceStatus": "hebrew+phonetic FINAL",
+      "verses": 9,
+      "localContextHebrew": "בימות החול",
+      "localContextPhonetic": "En días que se dice tajanún:",
+      "note": "Los contextos no son parte del salmo, pertenecen a Birkat Hamazón."
+    },
+    {
+      "id": "tehilim:126:1-6",
+      "chapter": 126,
+      "sourceStatus": "hebrew+phonetic FINAL",
+      "verses": 6,
+      "localContextHebrew": "בשבת, יום טוב ובסעודת מצוה",
+      "localContextPhonetic": "En Shabat, Yom Tov y en una comida de mitsvá"
+    }
+  ],
+  "implementation": {
+    "status": "COMPOSICION_VINCULADA_IMPLEMENTADA",
+    "module": "assets/jd-passage-links.js",
+    "manifest": "masters/compositions/BIRKAT_HAMAZON_ASHKENAZI.json",
+    "cli": "node scripts/export-linked-master.cjs --language hebrew --check",
+    "test": "tests/passage-link-regression.cjs",
+    "linkedHebrewReview": "masters/bircat-hamazon/ASHKENAZ_HEBREO_VINCULADO_EN_REVISION.txt",
+    "masterLegacyHebrew": "masters/bircat-hamazon/ASHKENAZ_HEBREO_METEG_EN_REVISION.txt",
+    "safeguards": "No cambiar textos locales guardados, no sobrescribir ediciones impresas y no marcar un documento FINAL por la aprobación de los salmos."
+  },
+  "hebrew": {
+    "status": "EN_REVISION",
+    "approved": false,
+    "reviewCopyGenerated": true,
+    "highConfidenceCorrections": [
+      {
+        "ref": "título",
+        "issue": "Repetición exacta y consecutiva del encabezado en la base anterior.",
+        "resolution": "Se normaliza a una sola aparición en la composición vinculada; original inalterado.",
+        "verifiedInGitHub": true
+      },
+      {
+        "ref": "salmos 137/126",
+        "issue": "Copias independientes tenían puntuación/nikud con divergencias respecto de Tehilim FINAL.",
+        "resolution": "Se sustituyen únicamente los segmentos de los salmos en la composición enlazada; se preservan los encabezados y las oraciones posteriores.",
+        "verifiedInGitHub": true
+      }
+    ],
+    "sourceValidatedPreviously": {
+      "metegCount": 242,
+      "accordingTo": "masters/bircat-hamazon/README.md, cotejo de 2026-10-07",
+      "status": "Registro histórico, no constituye aprobación global de hebreo."
+    },
+    "pending": [
+      {
+        "id": "HE-1",
+        "priority": "alta",
+        "detail": "Cotejo visual exhaustivo de las secciones propias de Birkat Hamazón: consonantes, nikud, dagesh, meteg, rayitas, signos y títulos en el PDF de 19 páginas."
+      },
+      {
+        "id": "HE-2",
+        "priority": "alta",
+        "detail": "Resolver con política editorial uniforme el rótulo hebreo בימות החול frente al contexto de fonética En días que se dice tajanún:. No confundir rótulos con el texto canónico del Salmo 137."
+      },
+      {
+        "id": "HE-3",
+        "priority": "alta",
+        "detail": "Verificar zimún para Sheva Berajot y material adicional del archivo local no certificado por las 19 páginas del PDF de ArtScroll; conservarlo por ahora y exigir fuente adicional o aprobación específica."
+      },
+      {
+        "id": "HE-4",
+        "priority": "alta",
+        "detail": "Aprobar de forma independiente el hebreo completo ANTES de cerrar fonética o comparar el generador."
+      }
+    ]
+  },
+  "phonetic": {
+    "status": "EN_REVISION",
+    "approved": false,
+    "next": "Cerrar únicamente después del hebreo FINAL.",
+    "notRewrittenThisTurn": true
+  },
+  "generator": {
+    "status": "PENDIENTE",
+    "next": "Comparar solo después de aprobar fonética FINAL; un resultado del motor no prueba la corrección de ArtScroll."
+  },
+  "commercialSafety": {
+    "legacyMasterPreserved": true,
+    "existingPrintEditionsPreserved": true,
+    "newLinkedFile": "REVISIÓN, no arte final ni PDF listo para vender",
+    "noUnreviewedAutomaticPromotion": true
+  }
+}
