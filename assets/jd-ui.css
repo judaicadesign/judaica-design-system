@@ -232,3 +232,9 @@
  .jd-master-matrix-wrap .jd-matrix th,
  .jd-master-matrix-wrap .jd-matrix td{padding:6px 3px;font-size:clamp(10px,2.8vw,12px)}
 }
+
+
+/* Three editorial states: green verified, amber sourced/in-review, neutral missing. */
+.jd-master-stage-bar{display:flex;align-items:stretch;width:100%;height:9px;background:#e7e8e4;border-radius:100px;overflow:hidden;margin-top:10px}
+.jd-master-stage-bar .jd-master-stage-final{display:block;height:100%;background:#178451}
+.jd-master-stage-bar .jd-master-stage-base{display:block;height:100%;background:#cfac66}
