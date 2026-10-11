@@ -12,7 +12,7 @@ assert.deepEqual([...heb.matchAll(/^(\d+:\d+)  /gm)].map(m=>m[1]),[...phon.match
 assert.equal(data.items[22].verses.reduce((n,v)=>n+(v.hebrew.match(/ֽ/g)||[]).length,0),16);assert.match(phon,/23:4 .*Atá .*Shivtejá uMish'anteja/);assert.match(phon,/23:6 .*veshavtí/);
 assert.match(phon,/37:20 .*yovedu/i);assert.match(phon,/47:2 .*harí'u/i);
 const dom=new JSDOM('<section id="masters"></section>',{url:'https://example.test/',runScripts:'outside-only'}),w=dom.window;
-w.JDTehilimExport=require('../assets/jd-tehilim-export.js');let downloaded;w.Blob=Blob;w.URL.createObjectURL=b=>{downloaded=b;return 'blob:test'};w.URL.revokeObjectURL=()=>{};w.HTMLAnchorElement.prototype.click=function(){assert.match(this.download,/TEHILIM_001-150_/)};
+w.JDTehilimExport=require('../assets/jd-tehilim-export.js');w.JDPassageLinks={...require('../assets/jd-passage-links.js'),load:async()=>({corpus:data,states:JSON.parse(fs.readFileSync('masters/tehilim/REVISION_ESTADO.json','utf8'))})};let downloaded;w.Blob=Blob;w.URL.createObjectURL=b=>{downloaded=b;return 'blob:test'};w.URL.revokeObjectURL=()=>{};w.HTMLAnchorElement.prototype.click=function(){assert.match(this.download,/TEHILIM_001-150_/)};
 w.fetch=async url=>({ok:true,text:async()=>fs.readFileSync(url,'utf8')});
 w.eval(`const esc3=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');const LS3=(k,d)=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));const SAVE3=(k,v)=>localStorage.setItem(k,JSON.stringify(v));`+modal+block);
 async function main(){
