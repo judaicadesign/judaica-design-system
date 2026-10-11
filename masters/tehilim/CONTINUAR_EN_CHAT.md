@@ -1,3 +1,12 @@
+## Corrección de acento Tehilim 137 · 2026-10-11
+
+- **137:1 y 137:8: בָּבֶ֗ל = Bavél, NO Bável.** Reviá masorético sobre la segunda ב, acento principal final (milrá). En fonética JD lleva tilde sobre la é por ser aguda terminada en l.
+- La fonética Bável de la primera aprobación fue un error; ni el nikud por sí mismo ni un meteg justificaban el acento inicial. **Hebreo inalterado.**
+- Corrección aplicada a tehilim.json, ARTSCROLL_137_REVISION.json, los 2 finales fonéticos del 137 y las 3 exportaciones generales de fonética. Informe COTEJO_126_137_20261011.md también corregido.
+- Generador corregido específicamente en 137:1 y 137:8, con prueba de regresión en tests/artscroll-126-137-20261011.mjs, PASS en paso dirigido de GitHub Actions (run 38121073125).
+- **Se conservan 9/150 capítulos FINAL.** No reabrir el hebreo; corrección posterior a FINAL de fonética verificada por evidencia masorética.
+- La prueba completa del generador sigue roja por fixture anterior 2:3, NO por 137.
+
 ## CIERRE FINAL 126 + 137 · 2026-10-11
 
 **AVANCE CONFIRMADO: 9/150 Tehilim con HEBREO FINAL y FONÉTICA FINAL**: 1–7, 126 y 137. Los 141 restantes no están FINAL. Español independiente queda pendiente.
