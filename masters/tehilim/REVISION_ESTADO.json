@@ -361,7 +361,7 @@
       "chapter": 126,
       "hebrew": "FINAL: 6 pesukim. ArtScroll captura original + PDF idéntico al cotejado el 9/10; consonantes, nikud, dagesh, meteg, rayitas y puntuación revisadas.",
       "phonetic": "FINAL: 6 pesukim. Se conservaron lecturas aprobadas de shevá; fonética JD cotejada palabra por palabra y verificada con el generador.",
-      "engine": "PASS 6/6, además Unicode NFD; 2026-10-11. CI global roja únicamente por fixture histórico 2:2, independiente.",
+      "engine": "PASS 6/6 versículos, Unicode NFC y NFD. La suite global todavía contiene expectativas históricas anteriores en 2:3 y posiblemente otros; no corresponde a 126.",
       "approved": true,
       "source": "ArtScroll Interlinear Benching · PDF page 2",
       "scope": "Capítulo íntegro. Todas las marcas de ArtScroll preservadas del cotejo previo; puntuación corregida desde captura.",
@@ -401,7 +401,7 @@
       "chapter": 137,
       "hebrew": "FINAL: 9 pesukim. ArtScroll captura original + PDF idéntico al cotejado el 9/10; consonantes, nikud, dagesh, meteg, rayitas y puntuación revisadas.",
       "phonetic": "FINAL: 9 pesukim. Se conservaron lecturas aprobadas de shevá; fonética JD cotejada palabra por palabra y verificada con el generador.",
-      "engine": "PASS 9/9, además Unicode NFD; 2026-10-11. CI global roja únicamente por fixture histórico 2:2, independiente.",
+      "engine": "PASS 9/9 versículos, Unicode NFC y NFD. La suite global todavía contiene expectativas históricas anteriores en 2:3 y posiblemente otros; no corresponde a 137.",
       "approved": true,
       "source": "ArtScroll Interlinear Benching · PDF page 1",
       "scope": "Capítulo íntegro. Todas las marcas de ArtScroll preservadas del cotejo previo; puntuación corregida desde captura.",
@@ -592,6 +592,6 @@
     "filesFinalCreated": 8,
     "source": "ArtScroll screenshots and matching original Benching PDF",
     "regression": "15/15 full verses, NFC+NFD PASS",
-    "globalCI": "Fixture historical 2:2 remains outdated; doesn't affect independently scoped closure."
+    "globalCI": "Prueba dirigida 126/137 PASS. Suite general falla en expectativas heredadas, 2:3 pendiente después de solucionar 2:2; no alterar masters FINAL para corregir tests."
   }
 }
