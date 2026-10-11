@@ -34,7 +34,13 @@ let next=1;await Promise.all(Array.from({length:1},async()=>{while(next<=150)awa
 for(const name of fs.readdirSync(path.join(root,'masters/tehilim')).filter(x=>/^ARTSCROLL_\d{3}_REVISION\.json$/.test(x))){
  const review=JSON.parse(fs.readFileSync(path.join(root,'masters/tehilim',name),'utf8')),chapter=Number(name.match(/\d{3}/)[0]);
  for(const patch of review.verses){const verse=chapters[chapter-1].verses[patch.verse-1];
-  if(verse.hebrew!==patch.previousHebrew)throw Error('Wikisource '+chapter+':'+patch.verse+' changed; review patch before rebuilding');
+  if(patch.previousHebrew!==undefined){
+   if(verse.hebrew!==patch.previousHebrew)throw Error('Wikisource '+chapter+':'+patch.verse+' changed; review patch before rebuilding');
+  }else if(review.approved!==true){
+   throw Error('ArtScroll '+chapter+':'+patch.verse+' missing previousHebrew in unapproved review');
+  }
+  if(typeof patch.hebrew!=='string'||typeof patch.phonetic!=='string'||patch.verse!==verse.verse)
+   throw Error('Invalid ArtScroll patch '+chapter+':'+patch.verse);
   verse.hebrew=patch.hebrew;verse.phonetic=patch.phonetic;
  }
  chapters[chapter-1].artscrollReview=review.source;
@@ -42,13 +48,13 @@ for(const name of fs.readdirSync(path.join(root,'masters/tehilim')).filter(x=>/^
   chapters[chapter-1].approved=true;
   chapters[chapter-1].hebrewApproved=review.hebrewApproved===true;
   chapters[chapter-1].phoneticApproved=review.phoneticApproved===true;
-  chapters[chapter-1].approvedDate=review.source.date;
+  chapters[chapter-1].approvedDate=review.approvedDate||review.date||review.source?.date;
  }
 }
-// JD editorial divine-name convention applied to the chapters approved for production.
-// Extend to other chapters only after reviewing prefixed and special forms.
-for(const c of chapters.filter(c=>c.chapter===1||c.chapter===2)){
- for(const v of c.verses)v.hebrew=v.hebrew.replace(/יְהֹוָה|יהוה/g,'יְיָ');
+// Regla editorial JD: aplicar יְיָ solo en capítulos aprobados y mantener los prefijos.
+// Los capítulos 3–7 se preservan mediante sus ARTSCROLL_###_REVISION.json completos.
+for(const c of chapters.filter(c=>c.approved===true)){
+ for(const v of c.verses)v.hebrew=v.hebrew.replace(/לַיהֹוָה/g,'לַיְיָ').replace(/יְהֹוָה|יהוה/g,'יְיָ');
 }
 const count=chapters.reduce((a,c)=>a+c.verses.length,0);if(count!==2527)throw Error('Verse count '+count+' != 2527');
 const header='Judaica Design® · Tehilim 1–150\nEN REVISIÓN · No aprobado para producción\nHebreo: Wikisource, edición con nikud. Fonética: generador JD con decisiones editoriales disponibles.\nRevisión visual de ArtScroll y acentos: en curso.\n\n';
