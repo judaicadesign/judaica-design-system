@@ -10,8 +10,8 @@
       "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
       "sourceSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
       "pages": {
-        "137": 1,
-        "126": 2
+        "126": 2,
+        "137": 1
       },
       "metegConfirmed": {
         "126": 11,
@@ -68,13 +68,23 @@
         }
       ],
       "status": "Meteg y rayitas cotejados; aprobación editorial completa abierta."
+    },
+    "continuation20261011": {
+      "date": "2026-10-11",
+      "focus": "Continuidad editorial 126 y 137",
+      "changes": [
+        "Normalización del Nombre editorial יְיָ en los versos, sin alterar marcas ArtScroll ni lecturas fonéticas"
+      ],
+      "reviewBasis": "Cotejo del 9/10 registrado con PDF pages 2 (126) and 1 (137)",
+      "finalApproved": false,
+      "note": "No hay nuevo cotejo visual completo de PDF en esta sesión; se conserva el cotejo previamente registrado."
     }
   },
   "verses": [
     {
       "verse": 1,
       "previousHebrew": "שִׁיר הַמַּעֲלוֹת בְּשׁוּב יְהֹוָה אֶת שִׁיבַת צִיּוֹן הָיִינוּ כְּחֹלְמִים.",
-      "hebrew": "שִׁיר הַמַּעֲלוֹת בְּשׁוּב יְהֹוָה אֶת שִׁיבַת צִיּוֹן הָיִֽינוּ כְּחֹלְמִים.",
+      "hebrew": "שִׁיר הַמַּעֲלוֹת בְּשׁוּב יְיָ אֶת שִׁיבַת צִיּוֹן הָיִֽינוּ כְּחֹלְמִים.",
       "previousPhonetic": "Shir hama'alot beshuv Ad-nai et shivat Tsiyón hayinu kejolmim.",
       "phonetic": "Shir hama'alot beshuv Ad-nai et shivat Tsiyón hayinu kejolmim.",
       "afterPhonetic": "Shir hama'alot beshuv Ad-nai et shivat Tsiyón hayinu kejolmim."
@@ -82,7 +92,7 @@
     {
       "verse": 2,
       "previousHebrew": "אָז יִמָּלֵא שְׂחוֹק פִּינוּ וּלְשׁוֹנֵנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵלֶּה.",
-      "hebrew": "אָז יִמָּלֵא שְׂחוֹק פִּֽינוּ וּלְשׁוֹנֵֽנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִם אֵֽלֶּה.",
+      "hebrew": "אָז יִמָּלֵא שְׂחוֹק פִּֽינוּ וּלְשׁוֹנֵֽנוּ רִנָּה אָז יֹאמְרוּ בַגּוֹיִם הִגְדִּיל יְיָ לַעֲשׂוֹת עִם אֵֽלֶּה.",
       "previousPhonetic": "Az yimalé sejok pinu ulshonenu riná az yomrú vagoyim higdil Ad-nai la'asot 'im ele.",
       "phonetic": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele.",
       "afterPhonetic": "Az yimalé sejok pinu ulshonenu riná az yomerú vagoyim higdil Ad-nai la'asot 'im ele."
@@ -90,7 +100,7 @@
     {
       "verse": 3,
       "previousHebrew": "הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִמָּנוּ הָיִינוּ שְׂמֵחִים.",
-      "hebrew": "הִגְדִּיל יְהֹוָה לַעֲשׂוֹת עִמָּֽנוּ הָיִֽינוּ שְׂמֵחִים.",
+      "hebrew": "הִגְדִּיל יְיָ לַעֲשׂוֹת עִמָּֽנוּ הָיִֽינוּ שְׂמֵחִים.",
       "previousPhonetic": "Higdil Ad-nai la'asot 'imanu hayinu semejim.",
       "phonetic": "Higdil Ad-nai la'asot 'imanu hayinu semejim.",
       "afterPhonetic": "Higdil Ad-nai la'asot 'imanu hayinu semejim."
@@ -98,7 +108,7 @@
     {
       "verse": 4,
       "previousHebrew": "שׁוּבָה יְהֹוָה אֶת שְׁבִיתֵנוּ שבותנו כַּאֲפִיקִים בַּנֶּגֶב.",
-      "hebrew": "שׁוּבָה יְהֹוָה אֶת שְׁבִיתֵֽנוּ כַּאֲפִיקִים בַּנֶּֽגֶב.",
+      "hebrew": "שׁוּבָה יְיָ אֶת שְׁבִיתֵֽנוּ כַּאֲפִיקִים בַּנֶּֽגֶב.",
       "previousPhonetic": "Shuvá Ad-nai et shevitenu shvvtnv kaafikim baNéguev.",
       "phonetic": "Shuvá Ad-nai et shevitenu kaafikim baNéguev.",
       "afterPhonetic": "Shuvá Ad-nai et shevitenu kaafikim baNéguev."
@@ -119,5 +129,8 @@
       "phonetic": "Haloj yelej uvajó nosé méshej hazara' bo yavó veriná nosé alumotav.",
       "afterPhonetic": "Haloj yelej uvajó nosé méshej hazara' bo yavó veriná nosé alumotav."
     }
-  ]
+  ],
+  "approved": false,
+  "hebrewApproved": false,
+  "phoneticApproved": false
 }
