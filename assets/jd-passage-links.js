@@ -109,11 +109,12 @@
     return {text,changedVerses:changed,finalChapters:[...finals.keys()]};
   }
   async function fetchJson(path) {
-    const response = await fetch(path, {cache:'no-store'});
+    const response = await fetch(path+'?revision='+Date.now(), {cache:'no-store'});
     if(!response.ok) throw new Error('No se pudo cargar ' + path + ' (HTTP ' + response.status + ')');
     return response.json();
   }
-  function load() {
+  function load({fresh=false}={}) {
+    if(fresh)cachedResources=null;
     if(!cachedResources) {
       cachedResources=Promise.all([
         fetchJson(BASE+'tehilim.json'),

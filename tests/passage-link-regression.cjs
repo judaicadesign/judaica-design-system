@@ -130,3 +130,9 @@ const workingHebrew=linked.compose({body:read(manifest.languages.hebrew.source),
 assert.equal(read('masters/bircat-hamazon/ASHKENAZ_HEBREO_VINCULADO_EN_REVISION.txt'),workingHebrew,'linked Hebrew working copy must never drift from Tehilim FINAL');
 assert.equal(workingHebrew.split('ברכת המזון · נוסח אשכנז').length-1,1,'duplicate title removed only from linked review copy');
 assert.ok(workingHebrew.includes('זימון לשבע ברכות'),'additional liturgical material preserved for separate ArtScroll review');
+
+// The old standalone download must agree with the canonical master too.
+const extracted=read('masters/bircat-hamazon/SALMOS_126_137_FONETICA_EN_REVISION.txt');
+for(const chapter of [126,137])assert.ok(extracted.includes(corpus.items[chapter-1].verses.map(v=>v.phonetic).join(' ')));
+assert.ok(!extracted.includes('Bável'));
+for(const v of corpus.items[13].verses)assert.deepEqual(v.phonetic.match(/[,;.]/g),v.hebrew.match(/[,;.]/g),'14:'+v.verse+' punctuation must mirror Hebrew');

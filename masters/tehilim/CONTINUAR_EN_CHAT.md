@@ -1,3 +1,11 @@
+## Reparación técnica · 11/10/2026
+
+La captura del usuario mostró una vista fonética de Tehilim 14 desactualizada. Los archivos canónicos contenían comas y puntos y coma, pero la sesión podía retener recursos anteriores. El editor renueva ahora el corpus y el estado al abrir cada vista; pruebas reproducen un borrador guardado sin puntuación en 14 y comprueban edición, continuo, numerado y descarga sin perder cambios de capítulos pendientes. No inferir aprobación editorial nueva de una prueba técnica.
+
+Se alinearon las expectativas históricas 2:10, 2:11 y 14:3 con los másters aprobados, sin modificar el motor para satisfacerlas. El TXT aislado 126/137 ahora coincide con la fuente canónica. Los informes de cotejos anteriores son evidencia histórica, no fuentes para nuevas ediciones. Fuente vigente: tehilim.json + REVISION_ESTADO.json y exports FINAL.
+
+Comercial: Sin legales respeta el vacío explícito; el adicional Deluxe se edita en la ficha del producto y se guarda atómicamente con su regla; el presupuesto Deluxe permite Canciones, Rosh Hashaná y simanim, y Janucá mediante casillas, sin contenido libre. Selecciones conservadas al guardar/reabrir y entre alternativas.
+
 ## TEHILIM 14 FINAL · 2026-10-11 · ArtScroll IMG_1547.png
 
 - **Hebreo + fonética FINAL (7/7)**, español todavía pendiente. Cotejo visual con captura ArtScroll Siddur Wasserman Edition `IMG_1547.png` (SHA256 `359728ac44c15eccd38fd2a769b5ed18ed6ddd0a20fd97036aa7cd627fc44798`), y referencias anteriores `IMG_1474.png` / `ARTSCROLL_APP_TANDA_009-017.json`.

@@ -17,7 +17,7 @@ assert.match(phon,/37:20 .*yovedu/i);assert.match(phon,/47:2 .*harí'u/i);
 const dom=new JSDOM('<section id="masters"></section>',{url:'https://example.test/',runScripts:'outside-only'}),w=dom.window;
 w.JDTehilimExport=require('../assets/jd-tehilim-export.js');w.JDPassageLinks={...require('../assets/jd-passage-links.js'),load:async()=>({corpus:data,states:JSON.parse(fs.readFileSync('masters/tehilim/REVISION_ESTADO.json','utf8'))})};let downloaded;w.Blob=Blob;w.URL.createObjectURL=b=>{downloaded=b;return 'blob:test'};w.URL.revokeObjectURL=()=>{};w.HTMLAnchorElement.prototype.click=function(){assert.match(this.download,/TEHILIM_001-150_/)};
 w.fetch=async url=>({ok:true,text:async()=>fs.readFileSync(url,'utf8')});
-w.eval(`const esc3=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');const LS3=(k,d)=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));const SAVE3=(k,v)=>localStorage.setItem(k,JSON.stringify(v));`+modal+block);
+w.eval(`const esc3=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');const LS3=(k,d)=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));const SAVE3=(k,v)=>localStorage.setItem(k,JSON.stringify(v));`+modal+block+`;window.setStoredDraft=()=>{masterCells=LS3('jd_master_cells',{})};`);
 async function main(){
  for(const [language,expected,dir]of [['hebrew',heb,'rtl'],['phonetic',phon,'ltr']]){
   await w.openTehilimMaster(language);const field=w.document.getElementById('jdTehilimText');assert.equal(field.value,expected);assert.equal(field.dir,dir);assert.equal(field.readOnly,false);
@@ -29,6 +29,25 @@ async function main(){
    w.document.getElementById('jdTehilimDownload').click();assert.equal(await downloaded.text(),view.value);w.document.getElementById('jdTehilimEdit').click();await new Promise(r=>setTimeout(r,0));assert.equal(w.document.getElementById('jdTehilimText').readOnly,false);w.document.querySelector('.modal .jd-x').click();
   }
  }
+ // Reproduce the mobile report: a saved full draft has no Psalm 14 commas,
+ // and a canonical resource was already loaded before the chapter was closed.
+ const stalePhon=phon.split('\n').map(line=>/^14:/.test(line)?line.replace(/[,;]/g,''):line).join('\n');
+ const staleOther=stalePhon.replace('8:1  ','8:1  EDICIÓN LOCAL ');
+ w.localStorage.setItem('jd_master_cells',JSON.stringify({'Tehilim 1–150||General||Fonética':{body:staleOther}}));
+ w.setStoredDraft();
+ const originalLoad=w.JDPassageLinks.load;let freshRequests=0;
+ w.JDPassageLinks.load=async options=>{assert.equal(options?.fresh,true,'reopening must renew canonical source');freshRequests++;return originalLoad();};
+ for(const mode of ['review','continuous','numbered']){
+  await w.openTehilimMaster('phonetic',mode);
+  const text=w.document.getElementById('jdTehilimText').value;
+  const expected=mode==='review'?phon.replace('8:1  ','8:1  EDICIÓN LOCAL '):w.JDTehilimExport.format(phon.replace('8:1  ','8:1  EDICIÓN LOCAL '),'phonetic',mode).text;
+  assert.equal(text,expected,'14 punctuation must reach '+mode+' while preserving non-FINAL edits');
+  assert.ok(text.includes("Lamenatséaj leDavid; amar naval belibó en Elohim,"));
+  assert.ok(text.includes("Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad."));
+  w.document.getElementById('jdTehilimDownload').click();assert.equal(await downloaded.text(),text);
+  w.document.querySelector('.modal .jd-x').click();
+ }
+ assert.equal(freshRequests,3);assert.equal(JSON.parse(w.localStorage.getItem('jd_master_cells'))['Tehilim 1–150||General||Fonética'].body,staleOther,'viewing never overwrites saved edits');
  const wrong=heb.replace('בְמַעְגְּלֵי','בְּמַעְגְּלֵי');assert.equal(w.refreshReviewedTehilim(wrong,'hebrew'),heb,'Retract our erroneous dagesh in saved copies');assert.equal(w.refreshReviewedTehilim(wrong.replace('23:3  ','23:3  EDICIÓN '),'hebrew'),wrong.replace('23:3  ','23:3  EDICIÓN '),'Preserve user-modified lines');
  assert.equal(JSON.parse(w.localStorage.getItem('jd_content_items')||'null'),null);
  console.log('PASS: four matrix views, editable shared bases, live downloads, saved-copy correction and custom-edit preservation');dom.window.close();
