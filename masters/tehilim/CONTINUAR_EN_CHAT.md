@@ -1,3 +1,17 @@
+## CIERRE FINAL 126 + 137 · 2026-10-11
+
+**AVANCE CONFIRMADO: 9/150 Tehilim con HEBREO FINAL y FONÉTICA FINAL**: 1–7, 126 y 137. Los 141 restantes no están FINAL. Español independiente queda pendiente.
+
+- Fuente golden visual: **IMG_1529.png (126)** y **IMG_1530.png (137)**. PDF ArtScroll Interlinear Benching subido de nuevo en la misma sesión, SHA-256 **f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7**, exactamente el mismo original cotejado el 9/10, páginas **2 y 1** respectivamente.
+- Cotejo: los 15 pesukim visualmente contrastados con capturas y PDF. Se preservaron los anteriores **11 meteg (126)** y **19 meteg (137)**, rayitas de shevá na, nikud, dagesh, palabras y excepciones fonéticas. Asteriscos de la app NO son meteg.
+- Cambio editorial final: transcripción fiel de **puntuación** (comas, punto y coma y dos puntos) ArtScroll en 14 pesukim de 126/137; fonética con puntuación paralela.
+- Regresión automática **PASS 15/15** versos en forma Unicode normal y NFD en https://github.com/judaicadesign/fonetica-hebreo/actions/runs/38118815765. No hay divergencias del generador en 126/137.
+- **OCHO ARCHIVOS PUBLICADOS, VERIFICADOS:** `TEHILIM_126_{HEBREO,FONETICA}_FINAL_{continuous,numbered}.txt` y `TEHILIM_137_{HEBREO,FONETICA}_FINAL_{continuous,numbered}.txt`; su contenido se releyó desde GitHub y se cotejó byte a byte con los 15 versículos del corpus.
+- `ARTSCROLL_126_REVISION.json` y `ARTSCROLL_137_REVISION.json` aprobados; `REVISION_ESTADO.json` actualizado; `tehilim.json` anota FINAL sin alterar su texto; las seis exportaciones generales se sincronizaron; `COTEJO_126_137_20261011.md` contiene informe final y los textos por pasuk.
+- Fonética histórica específica **137:3 divré** se mantiene, a diferencia de **7:1 diveré**.
+- La CI global del generador sigue fallando en **fixtures históricos 2:3 y posiblemente más**; se corrigió la entrada antigua 2:2 sin tocar el máster. No confundir esa deuda de pruebas generales con el **PASS 126/137**.
+- Las notas de continuidad anteriores que expresan "7/150" o "126/137 NO FINAL" son HISTÓRICAS y quedan reemplazadas por este encabezado. **No volver a abrir los dos capítulos salvo evidencia concreta de error.**
+
 ## Actualización editorial · 11/10/2026 (confirmaciones y Tehilim 126/137)
 
 - **CIERRE 9:21:** שִׁיתָה SIN meteg, fonética **Shitá** (milrá, Radak). הֵֽמָּה CON meteg en ה, fonética **hema** (HE-ma; tilde española innecesaria). Ambas decisiones dadas por el usuario y guardadas en corpus/generador.
