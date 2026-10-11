@@ -10,7 +10,7 @@ const corpus=j('masters/tehilim/tehilim.json');
 const states=j('masters/tehilim/REVISION_ESTADO.json');
 const manifest=j('masters/compositions/BIRKAT_HAMAZON_ASHKENAZI.json');
 const finals=states.chapters.filter(x=>x.approved&&x.hebrewApproved&&x.phoneticApproved).map(x=>x.chapter);
-assert.deepEqual(finals,[1,2,3,4,5,6,7,126,137],'approval count protected');
+assert.deepEqual(finals,[1,2,3,4,5,6,7,14,126,137],'approval count protected');
 assert.deepEqual(corpus.approvedChapters,finals,'canonical approval metadata must match review state');
 for(const language of ['hebrew','phonetic']){
  const cfg=manifest.languages[language],src=read(cfg.source);
@@ -47,7 +47,7 @@ for(const language of ['hebrew','phonetic']){
  assert.throws(()=>linked.compose({body:src.replace(cfg.references[0].start,'FALTANTE'),language,spec:cfg,corpus,states}),/No se encontró/);
 }
 // A browser may retain a complete OLD Tehilim draft. The displayed FINAL verses
-// are always projected from the canonical corpus while edits to 141 non-FINAL
+// are always projected from the canonical corpus while edits to 140 non-FINAL
 // chapters remain byte-for-byte untouched. No implicit localStorage overwrite.
 for (const language of ['hebrew','phonetic']){
  const file='masters/tehilim/TEHILIM_001-150_'+(language==='hebrew'?'HEBREO':'FONETICA')+'_EN_REVISION.txt';
@@ -96,6 +96,24 @@ for(const [filename,body] of [
  assert.ok(read('masters/tehilim/'+filename).includes(body),'14:3 not exported in '+filename);
 }
 
+// Psalm 14 screenshot-close: ArtScroll punctuation on all seven verses, both languages.
+const punc=s=>[...s].filter(ch=>',.;:!?'.includes(ch)).join('');
+const chapter14=corpus.items.find(c=>c.chapter===14).verses;
+assert.equal(chapter14.length,7);
+const marks=[';,,.',' ,.'.replace(' ',''),',;,.',';,.',',.',',.',';,.'];
+for(let i=0;i<chapter14.length;i++){
+ const v=chapter14[i];
+ assert.equal(punc(v.hebrew),punc(v.phonetic),'Psalm 14 punctuation mismatch verse '+v.verse);
+ assert.equal(punc(v.hebrew),marks[i],'Psalm 14 ArtScroll screenshot punctuation '+v.verse);
+ for(const lang of ['HEBREO','FONETICA']){
+  const name=lang==='HEBREO'?'hebrew':'phonetic';
+  const text=v[name];
+  for(const mode of ['continuous','numbered'])
+   assert.ok(read('masters/tehilim/TEHILIM_014_'+lang+'_FINAL_'+mode+'.txt').includes(text));
+ }
+}
+assert.equal(chapter14.reduce((n,v)=>n+(v.hebrew.match(/ֽ/g)||[]).length,0),14,'meteg evidence ArtScroll 14');
+
 // Ensure every protected FINAL has its four published production exports.
 for(const chapter of finals){
  const n=String(chapter).padStart(3,'0');
@@ -105,7 +123,7 @@ for(const chapter of finals){
    assert.ok(fs.existsSync(f),'missing production artifact: '+path.basename(f));
   }
 }
-console.log('PASS canonical links: Birkat 137/126 + contexts, Bavél, punctuation, 14:3, fail-closed approvals, 36 protected FINAL exports');
+console.log('PASS canonical links: Birkat 137/126 + contexts, Bavél, punctuation, 14:3, fail-closed approvals, 40 protected FINAL exports');
 
 // Snapshot for editorial review must be byte-identical to canonical composition.
 const workingHebrew=linked.compose({body:read(manifest.languages.hebrew.source),language:'hebrew',spec:{...manifest.languages.hebrew,documentId:manifest.documentId},corpus,states}).text;
