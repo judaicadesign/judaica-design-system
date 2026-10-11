@@ -1796,6 +1796,14 @@
           "word": "אָֽנִי",
           "clusterIndex": 0,
           "letter": "א"
+        },
+        {
+          "ref": "6:7",
+          "word": "לַֽיְלָה",
+          "clusterIndex": 0,
+          "letter": "ל",
+          "source": "IMG_1463.png",
+          "status": "confirmedByUser"
         }
       ],
       "vocalSheva": [
@@ -2031,7 +2039,7 @@
         {
           "ref": "6:7",
           "beforeHebrew": "יָגַעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
-          "afterHebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
+          "afterHebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַֽיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
           "beforePhonetic": "Yaga'ti beanjatí asjé vejol layla mitatí bedim'atí 'arsí amsé.",
           "changes": {
             "יגעתי": {
@@ -2042,6 +2050,11 @@
             },
             "מטתי": {
               "stress": 1
+            },
+            "לילה": {
+              "meteg": "primera ל",
+              "source": "Usuario + ArtScroll IMG_1463.png",
+              "date": "2026-10-10"
             }
           },
           "afterPhonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé."
@@ -3686,5 +3699,55 @@
     "beforePhonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé.",
     "afterPhonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé.",
     "scope": "Confirmación de palabras; no aprobación de los salmos completos."
-  }
+  },
+  "userConfirmations20261010": [
+    {
+      "ref": "3:2",
+      "word": "רַבּוּ",
+      "meteg": "absent",
+      "status": "confirmedByUser",
+      "date": "2026-10-10",
+      "source": "user+ArtScroll image"
+    },
+    {
+      "ref": "5:4",
+      "word": "וַאֲצַפֶּה",
+      "meteg": "absent",
+      "status": "confirmedByUser",
+      "date": "2026-10-10",
+      "source": "user+ArtScroll image"
+    },
+    {
+      "ref": "5:9",
+      "word": "לְפָנַי",
+      "meteg": "absent",
+      "status": "confirmedByUser",
+      "date": "2026-10-10",
+      "source": "user+ArtScroll image"
+    },
+    {
+      "ref": "6:7",
+      "word": "לַֽיְלָה",
+      "meteg": "firstLamed",
+      "status": "confirmedByUser",
+      "date": "2026-10-10",
+      "source": "user+ArtScroll image"
+    },
+    {
+      "ref": "7:5",
+      "word": "וָאֲחַלְּצָה",
+      "meteg": "absent",
+      "status": "confirmedByUser",
+      "date": "2026-10-10",
+      "source": "user+ArtScroll image"
+    },
+    {
+      "ref": "7:18",
+      "word": "וַאֲזַמְּרָה",
+      "meteg": "absent",
+      "status": "confirmedByUser",
+      "date": "2026-10-10",
+      "source": "user+ArtScroll image"
+    }
+  ]
 }
