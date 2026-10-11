@@ -23,6 +23,16 @@ Actualizado: 9 de octubre de 2026.
 
 Base de texto: Wikisource. ArtScroll es la referencia visual para nikud, dagesh, meteg y las rayitas de shevá na. No agregar marcas por inferencia. Un palito vertical debajo y un guion horizontal arriba son datos distintos; los asteriscos no son meteg.
 
+## Tehilim 3–7 cerrados · 10 de octubre de 2026
+
+- **Siete salmos FINAL acumulados: Tehilim 1–7.** Salmos 3–7: hebreo y fonética aprobados por cotejo visual de ArtScroll (capturas `IMG_1459.png`, `IMG_1460.png`, `IMG_1462.png`, `IMG_1463.png`, y para Salmo 7 `IMG_1464.png` + `IMG_1465.png`). Son **60 pesukim** adicionales: 9 + 9 + 13 + 11 + 18.
+- Documentos de aprobación: `ARTSCROLL_003_REVISION.json` a `ARTSCROLL_007_REVISION.json`; los 20 TXT finales individuales existen (hebreo/fonética × continuo/numerado) y fueron verificados contra los 60 registros canónicos.
+- Confirmaciones del usuario: **3:2 רַבּוּ** sin meteg; **5:4 וַאֲצַפֶּה** sin meteg; **5:9 לְפָנַי** sin meteg; **6:7 לַֽיְלָה** con meteg en primera ל; **7:5 וָאֲחַלְּצָה** y **7:18 וַאֲזַמְּרָה** sin meteg. Estas seis dudas están resueltas: NO volver a preguntar.
+- El motor se corrige aparte del máster: **7:1 דִּבְרֵי** debe producir `diveré` en vez de `divré` (shevá na marcado); **3:9** tiene una diferencia de mayúsculas en `'Amejá Virjateja`. Ambas incidencias figuran en Supabase `jd_fonetica_diferencias` como pendientes. No modificar los másters FINAL para acomodarlos al generador.
+- **Formato obligatorio de próximas consultas:** pasuk, palabra anterior + palabra consultada + palabra siguiente (hebreo), fonética ACTUAL exacta que arroja el motor y pregunta sobre meteg, shevá na o nikud. Nunca presentar flechas entre variantes en hebreo, por problemas de direccionalidad; usar rótulos «Antes» y «Corregido».
+- ArtScroll sigue siendo la referencia editorial y **יְיָ / Ad-nai** la norma JD. El español se deja para su fase editorial posterior.
+- Atención: el informe `REVISION_003-007_PENDIENTES.md` contiene dudas históricas ya cerradas; su encabezado actualizado prevalece sobre las preguntas antiguas.
+
 ## Salmo 1 cerrado · 9 de octubre de 2026
 
 - Hebreo FINAL: seis pesukim cotejados palabra por palabra con `sources/ARTSCROLL_001.png` (la captura original `IMG_1457.png`). ArtScroll es el golden master; sus diferencias prevalecen sobre Wikisource.
