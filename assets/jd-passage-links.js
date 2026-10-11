@@ -161,6 +161,8 @@
     const save=root.querySelector('.jd-s');
     const originalSave=save?.onclick;
     field.readOnly=true;
+    // Avoid flashing an old Bável from browser storage while Tehilim loads.
+    field.style.visibility='hidden';
     if(save)save.disabled=true;
     let current=null, resources=null;
     // Guardar nunca persiste una copia divergente de los salmos FINAL.
@@ -201,10 +203,14 @@
       field.value=current.text;
       refresh();
       field.readOnly=false;
+      field.style.visibility='';
       if(save)save.disabled=false;
       stage.hidden=true;
       if(wasOutdated)impact.textContent='Salmos 137 y 126 actualizados desde Tehilim FINAL en esta vista. El contexto litúrgico se conserva. Tu copia guardada no se modifica hasta elegir Guardar Master.';
-    }).catch(err=>{label.textContent='No se pudo cargar Tehilim: '+err.message;});
+    }).catch(err=>{
+      field.style.visibility=''; // recover readable old copy, but never enable save
+      label.textContent='No se pudo cargar Tehilim. Copia local ANTIGUA, NO USAR para producción: '+err.message;
+    });
     return true;
   }
   return {compose,overlayFinalVerses,load,isSupportedMaster,mountForMaster,approvedChapter};
