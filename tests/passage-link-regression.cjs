@@ -74,3 +74,9 @@ for(const chapter of finals){
   }
 }
 console.log('PASS canonical links: Birkat 137/126 + contexts, Bavél, punctuation, 14:3, fail-closed approvals, 36 protected FINAL exports');
+
+// Snapshot for editorial review must be byte-identical to canonical composition.
+const workingHebrew=linked.compose({body:read(manifest.languages.hebrew.source),language:'hebrew',spec:{...manifest.languages.hebrew,documentId:manifest.documentId},corpus,states}).text;
+assert.equal(read('masters/bircat-hamazon/ASHKENAZ_HEBREO_VINCULADO_EN_REVISION.txt'),workingHebrew,'linked Hebrew working copy must never drift from Tehilim FINAL');
+assert.equal(workingHebrew.split('ברכת המזון · נוסח אשכנז').length-1,1,'duplicate title removed only from linked review copy');
+assert.ok(workingHebrew.includes('זימון לשבע ברכות'),'additional liturgical material preserved for separate ArtScroll review');
