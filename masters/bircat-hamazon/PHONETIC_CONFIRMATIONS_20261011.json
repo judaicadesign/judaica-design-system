@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-11",
+  "source": "User reading of ArtScroll Birkat Hamazon ashkenaz; supplied in this conversation. No claim of independent image inspection.",
+  "approvedGlobally": false,
+  "readings": {
+    "בֵיתְךָ": "betejá",
+    "נַעַר": "ná'ar",
+    "שֶׁהִנְחַלְתָּ": "shehinjalta",
+    "הַלְלוּיָהּ": "haleluYah",
+    "עַבְדָּךְ": "'avdaj",
+    "וּרְחָבָה": "urjavá",
+    "וְרַחֵם": "verajem"
+  },
+  "sentenceOnlyCapitals": [
+    "בִּרְשׁוּת",
+    "חֻקֵּי",
+    "עָלֵינוּ",
+    "תְּהִלַּת",
+    "וְזַרְעוֹ"
+  ],
+  "editorialTerms": {
+    "יוֹמָא": "Yomá",
+    "טָבָא": "Tavá"
+  },
+  "masterPatches": [
+    [
+      "En Purim– Bimé Mordejái veEster beShushán habirá, keshe'amad 'alehem Hamán harashá', bikesh lehashmid laharog ulabed et kol hayehudim, mina'ar ve'ad zakén, taf venashim beyom ejad, bishloshá 'asar lejódesh sheném 'asar, hu jódesh Adar, ushlalam lavoz. VeAtá berajameja harabim hefarta et 'atsató, vekilkalta et majashavtó, vahashevota lo guemuló beroshó, vetalú otó veet banav 'al ha'ets.",
+      "En Purim– Bimé Mordejái veEster beShushán habirá, keshe'amad 'alehem Hamán harashá', bikesh lehashmid laharog ulabed et kol hayehudim, miná'ar ve'ad zakén, taf venashim beyom ejad, bishloshá 'asar lejódesh sheném 'asar, hu jódesh Adar, ushlalam lavoz. VeAtá berajameja harabim hefarta et 'atsató, vekilkalta et majashavtó, vahashevota lo guemuló beroshó, vetalú otó veet banav 'al ha'ets."
+    ],
+    [
+      "Yirú et Ad-nai kedoshav ki en majsor lireav. Kefirim rashú vera'evú vedoreshé Ad-nai lo yajserú kol tov. Hodú laAd-nai ki tov, ki le'olam jasdó. Potéaj et yadeja umasbía' lejol jay ratsón. Baruj haguéver asher yivtaj baAd-nai vehayá Ad-nai mivtajó. Na'ar hayíti gam zakanti veló raíti tsadik ne'ezav vezar'ó mevakesh lájem. Ad-nai 'oz le'amó yitén Ad-nai yevarej et 'amó vashalom.",
+      "Yirú et Ad-nai kedoshav ki en majsor lireav. Kefirim rashú vera'evú vedoreshé Ad-nai lo yajserú kol tov. Hodú laAd-nai ki tov, ki le'olam jasdó. Potéaj et yadeja umasbía' lejol jay ratsón. Baruj haguéver asher yivtaj baAd-nai vehayá Ad-nai mivtajó. Ná'ar hayíti gam zakanti veló raíti tsadik ne'ezav vezar'ó mevakesh lájem. Ad-nai 'oz le'amó yitén Ad-nai yevarej et 'amó vashalom."
+    ]
+  ],
+  "distinctSourceFormsPending": [
+    {
+      "reported": "בֵיתְךָ",
+      "workingHebrew": "בֵּיתֶֽךָ",
+      "workingPhonetic": "beteja",
+      "action": "Retain segol source until independently reconciled; generator applies betejá only to supplied sheva form."
+    },
+    {
+      "reported": "עַבְדָּךְ",
+      "workingHebrew": "עַבְדֶֽךָ",
+      "workingPhonetic": "'avdeja",
+      "action": "Retain segol source; do not apply qamats reading to a different pointed form."
+    }
+  ],
+  "unansweredConflicts": [
+    "הַמֶּלֶךְ",
+    "אֶלָּא"
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs && node tests/tehilim-finals-003-007.cjs && node tests/passage-link-regression.cjs && node tests/tehilim-masters.cjs && node tests/b612-quote.cjs && node tests/generator-canonical.cjs"
+    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs && node tests/tehilim-finals-003-007.cjs && node tests/passage-link-regression.cjs && node tests/tehilim-masters.cjs && node tests/b612-quote.cjs && node tests/generator-canonical.cjs && node tests/user-phonetic-confirmations.cjs"
   },
   "devDependencies": {
     "hyphen": "^1.14.1",
