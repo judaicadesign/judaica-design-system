@@ -27,3 +27,7 @@ jobs:
         run: node --check assets/jd-passage-links.js
       - name: Check canonical linked Psalm references and contexts
         run: node tests/passage-link-regression.cjs
+      - name: Install project dependencies
+        run: npm ci
+      - name: Run existing master and commercial regression suite
+        run: npm test
