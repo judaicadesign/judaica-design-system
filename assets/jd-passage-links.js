@@ -94,7 +94,7 @@
     ensure(finals.size>0,'No hay capítulos FINAL verificados; no se actualizó el texto.');
     const seen=new Map([...finals.keys()].map(k=>[k,new Set()]));
     let changed=0;
-    const text=String(body).replace(/^(\\d+):(\\d+)([ \\t]{2})(.*)$/gm,(line,chapterNumber,verseNumber,separator,oldText)=>{
+    const text=String(body).replace(/^(\d+):(\d+)([ \t]{2})(.*)$/gm,(line,chapterNumber,verseNumber,separator,oldText)=>{
       const chapter=+chapterNumber,verse=+verseNumber,source=finals.get(chapter);
       if(!source)return line;
       ensure(verse>=1 && verse<=source.length,'Versículo fuera del máster FINAL: '+chapter+':'+verse);
