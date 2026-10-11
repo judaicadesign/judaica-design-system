@@ -233,14 +233,14 @@
     },
     {
       "chapter": 14,
-      "hebrew": "Capturas cotejadas 14:1–7. 13 marcas transcritas en esta tanda. Casos pendientes documentados en el informe.",
-      "phonetic": "Regenerada con los datos visuales y comprobada contra el motor; aprobación editorial abierta.",
-      "engine": "7 pesukim comprobados",
-      "approved": false,
-      "source": "IMG_1474.png",
-      "scope": "Cobertura completa disponible; pendientes específicos en el informe",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
-      "editorialNext": "14:3 resuelto contra ArtScroll IMG_1474.png: עֹֽשֵׂה (meteg en ע), fonética 'ose (Ó-se), comas después de סָר y טוֹב, punto y coma después de נֶאֱלָֽחוּ. Falta cotejo integral 14:1–7 antes de FINAL.",
+      "hebrew": "FINAL: 7 pesukim, 14 meteg, nikud/dagesh cotejados ArtScroll IMG_1547.png (segunda revisión con IMG_1474.png); 10 signos de puntuación completados y cuatro grafías del Nombre normalizadas יְיָ.",
+      "phonetic": "FINAL: 7/7 pesukim, comas, punto y coma y puntos calcados de la capa hebrea; shevá na explícito en 14:1 מ y 14:4 ד; 14:3 עֹֽשֵׂה → 'ose confirmado.",
+      "engine": "PASS 7/7 pasukim contra fonetica-hebreo commit 4e142bcd; auditoría GitHub Actions 38151154742. Suite global tiene fixture histórico independiente 2:3 pendiente.",
+      "approved": true,
+      "source": "IMG_1547.png · ArtScroll Siddur Wasserman Edition (SHA256 359728ac44c15eccd38fd2a769b5ed18ed6ddd0a20fd97036aa7cd627fc44798)",
+      "scope": "14:1–7 completos, cotejo visual ArtScroll con puntuación y marcas revisadas.",
+      "secondReview": "ARTSCROLL_014_REVISION.json · cierre independiente del texto hebreo y fonética.",
+      "editorialNext": "Ninguno para hebreo y fonética (FINAL). Español pendiente de revisión independiente.",
       "confirmations20261011": [
         {
           "ref": "14:3",
@@ -262,6 +262,18 @@
           "status": "confirmed",
           "record": "ARTSCROLL_014_CONFIRMACION_20261011.json"
         }
+      ],
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "spanishApproved": false,
+      "approvedDate": "2026-10-11",
+      "visualCoverageComplete": true,
+      "visualEvidenceCurrentSession": "IMG_1547.png adjuntada por usuario 11/10/2026; todos los versículos visibles.",
+      "finalFiles": [
+        "TEHILIM_014_HEBREO_FINAL_continuous.txt",
+        "TEHILIM_014_HEBREO_FINAL_numbered.txt",
+        "TEHILIM_014_FONETICA_FINAL_continuous.txt",
+        "TEHILIM_014_FONETICA_FINAL_numbered.txt"
       ]
     },
     {
@@ -638,11 +650,12 @@
       5,
       6,
       7,
+      14,
       126,
       137
     ],
-    "finalCount": 9,
-    "finalExportFiles": 36,
+    "finalCount": 10,
+    "finalExportFiles": 40,
     "nextWholeChapter": "8",
     "wholeChaptersAwaitingIndependentFinalReview": [
       8,
@@ -699,6 +712,7 @@
       "safeguards": "Source FINAL checked against REVISION_ESTADO; read-only composition and explicit staging only. Existing master and printed final not rewritten automatically.",
       "test": "tests/passage-link-regression.cjs",
       "statuses": "Tests added to CI; verify run before claiming PASS."
-    }
+    },
+    "note": "Se incorporó Salmo 14 como FINAL tras cotejo IMG_1547.png y auditoría del generador. Los nueve FINAL previos se conservan."
   }
 }
