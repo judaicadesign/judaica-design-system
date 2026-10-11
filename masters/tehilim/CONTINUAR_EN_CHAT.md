@@ -1,3 +1,17 @@
+## CORRECCIÓN CRÍTICA DE VISTAS: BAVÉL + COMPOSICIONES + Unicode · 2026-10-11
+
+**Motivo real:** aunque el corpus Tehilim FINAL ya contenía `Bavél` (137:1 y 137:8), en las capturas del usuario seguían visibles copias con `Bável`: la matriz Tehilim priorizaba un texto integral antiguo de `jd_master_cells` sobre los FINAL GitHub, y el campo superior de Birkat Hamazón mostraba la copia local anterior aun cuando un panel separado componía bien el texto. El bug era la **prioridad de las copias locales en la interfaz**, no falta de corrección en `tehilim.json`.
+
+**Cambios realmente implementados:**
+- `assets/jd-passage-links.js`: `overlayFinalVerses` inserta en la matriz las 93 líneas por pasuk de los nueve capítulos FINAL desde `tehilim.json`/ `REVISION_ESTADO.json`, validando cobertura completa; conserva sin modificar los 141 capítulos no aprobados ni sus ediciones locales. La vista corrige `Bável` antiguo; no escribe `localStorage` sin que el usuario guarde. Si falta un capítulo FINAL completo, bloquea la exportación.
+- El editor ashkenazí superior pasa a exhibir la composición **canónica** tras cargar los datos; oculto mientras carga para evitar flashes de copia vieja. Solo el texto compuesto puede guardarse, tras acción explícita; hasta entonces no se cambia la copia local. El panel y el TXT vinculado también leen el corpus. Se mantienen los títulos/condiciones locales: hebreo `בימות החול` para 137, fonética `En días que se dice tajanún:`, y Shabat/Yom Tov/seudat mitzvá para 126. No se sustituyen decisiones litúrgicas de ArtScroll español por el PDF inglés.
+- TXT de trabajo ashkenazí `ASHKENAZ_HEBREO_METEG_EN_REVISION.txt` y `ASHKENAZ_FONETICA_EN_REVISION.txt` y seed de nuevos usuarios en `index.html`: 137 y 126 sincronizados directamente con sus versiones FINAL (acentos, comas, punto y coma, signos), sin reescribir el resto del rezo. Texto hebreo de composición enlazada también actualizado. Se quitaron duplicaciones exactas `בַּמָּּרוֹם` → `בַּמָּרוֹם`, `הַנֹֹּּפָֽלֶת` → `הַנֹּפָֽלֶת`, y encabezado duplicado. Las antiguas grafías defectuosas de Jerusalén en 137 se sustituyeron **únicamente** por el texto canónico del mismo salmo. **242 meteg hebreos conservados; 0 clusters con marcas duplicadas, 0 U+200D, un solo título.**
+- `tests/passage-link-regression.cjs` prueba un navegador con `Bável` desactualizado y preservación del Salmo 8 (NO FINAL); `tests/tehilim-masters.cjs` vuelve a probar las cuatro vistas reales de la matriz; `package.json` / workflow incorporan ambas pruebas.
+- **CI y GitHub Pages PASS al commit `f99ac8d1`:** https://github.com/judaicadesign/judaica-design-system/actions/runs/38148858573 y https://github.com/judaicadesign/judaica-design-system/actions/runs/38148858292. La variante `Bável` no se debe volver a mostrar en las vistas canónicas. Si el navegador conserva la página vieja abierta, **recargar la web**, pero NO borrar datos/almacenamiento local.
+- `masters/bircat-hamazon/REVISION_ASHKENAZ_ESTADO.json` registra todos los cambios exactos. **Birkat Hamazón ashkenazí hebreo permanece EN REVISIÓN (≈99 % listo, no declarar FINAL); luego fonética y después generador**. Nueve Tehilim FINAL intactos; Tehilim 14 sigue NO FINAL (14:3 corrección puntual ya aprobada).
+
+---
+
 ## CIERRE DE PUNTUACIÓN TEHILIM 14:3 · 2026-10-11 (posterior al registro anterior)
 
 - **IMG_1474.png RECUPERADA Y VISTA** desde la Biblioteca personal del proyecto. El seguimiento anterior que decía que faltaba la captura queda superado en 14:3.
