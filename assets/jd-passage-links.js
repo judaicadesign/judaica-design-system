@@ -16,7 +16,7 @@
   function normalizedBody(raw, cfg) {
     let text = String(raw || '');
     for (const rule of cfg.headingNormalize || []) {
-      if (!text.includes(rule.after) && text.includes(rule.before))
+      if (text.includes(rule.before))
         text = text.replace(rule.before, rule.after);
     }
     return text;
