@@ -9,7 +9,7 @@
     "pageCoverage": "Se visualizaron las 19 páginas del PDF en este chat, sin cotejo aún letra por letra de todas las secciones.",
     "previouslyRecordedSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
     "shaQualification": "Hash citado en CONTINUAR_EN_CHAT.md del original cotejado previamente; la copia de Biblioteca no pudo materializarse para recalcular su hash en esta sesión.",
-    "referencePriority": "ArtScroll (nikud, meteg, puntuación y marcas editoriales); producción JD escribe el Nombre como יְיָ"
+    "referencePriority": "ArtScroll edición española usada para el birkón vendido = GOLDEN principal; PDF ArtScroll Interlinear Benching (inglés, 19 págs.) = cotejo secundario; producción JD escribe el Nombre יְיָ. Una variante en inglés no se corrige automáticamente."
   },
   "flow": [
     "Vinculación canónica por pasuk desde Tehilim",
@@ -43,8 +43,11 @@
     "cli": "node scripts/export-linked-master.cjs --language hebrew --check",
     "test": "tests/passage-link-regression.cjs",
     "linkedHebrewReview": "masters/bircat-hamazon/ASHKENAZ_HEBREO_VINCULADO_EN_REVISION.txt",
-    "masterLegacyHebrew": "masters/bircat-hamazon/ASHKENAZ_HEBREO_METEG_EN_REVISION.txt",
-    "safeguards": "No cambiar textos locales guardados, no sobrescribir ediciones impresas y no marcar un documento FINAL por la aprobación de los salmos."
+    "safeguards": "No cambiar textos locales guardados, no sobrescribir ediciones impresas y no marcar un documento FINAL por la aprobación de los salmos.",
+    "uiProjection": "La matriz Tehilim proyecta solo los capítulos FINAL sobre copias antiguas del navegador al abrir; Birkat ashkenazí muestra en el editor principal la composición canónica 137/126 y conserva los contextos. Ningún guardado local previo se sobrescribe automáticamente.",
+    "legacyBackup": "El historial de Git conserva la base anterior; los TXT actuales de trabajo se actualizaron como composiciones canonizadas, NO se modificaron PDFs impresos.",
+    "currentHebrewMaster": "masters/bircat-hamazon/ASHKENAZ_HEBREO_METEG_EN_REVISION.txt",
+    "currentPhoneticDraft": "masters/bircat-hamazon/ASHKENAZ_FONETICA_EN_REVISION.txt"
   },
   "hebrew": {
     "status": "EN_REVISION",
@@ -54,13 +57,31 @@
       {
         "ref": "título",
         "issue": "Repetición exacta y consecutiva del encabezado en la base anterior.",
-        "resolution": "Se normaliza a una sola aparición en la composición vinculada; original inalterado.",
+        "resolution": "Se eliminó el título duplicado tanto de la composición enlazada como del TXT de trabajo y del seed para nuevos usuarios; el historial de commits conserva la versión anterior.",
         "verifiedInGitHub": true
       },
       {
         "ref": "salmos 137/126",
         "issue": "Copias independientes tenían puntuación/nikud con divergencias respecto de Tehilim FINAL.",
-        "resolution": "Se sustituyen únicamente los segmentos de los salmos en la composición enlazada; se preservan los encabezados y las oraciones posteriores.",
+        "resolution": "Ambos salmos 137/126 se sustituyeron exclusivamente desde Tehilim FINAL en los TXT de revisión; el sistema los resuelve en vivo y preserva los encabezados y el resto de Birkat Hamazón.",
+        "verifiedInGitHub": true
+      },
+      {
+        "ref": "במרום",
+        "issue": "Dagesh duplicado en מ de בַּמָּּרוֹם.",
+        "resolution": "Normalizado a בַּמָּרוֹם (se quitó solo un signo U+05BC reiterado).",
+        "verifiedInGitHub": true
+      },
+      {
+        "ref": "סוכות",
+        "issue": "Nikud y dagesh repetidos en הַנֹֹּּפָֽלֶת.",
+        "resolution": "Normalizado a הַנֹּפָֽלֶת retirando exclusivamente duplicados; se preserva el meteg.",
+        "verifiedInGitHub": true
+      },
+      {
+        "ref": "Jerusalén 137:5,6,7",
+        "issue": "Presencia de secuencias con marcas combinantes y unión de ancho cero en la copia antigua.",
+        "resolution": "Las tres ocurrencias se leen de Tehilim 137 FINAL mediante composición canónica. No se tocaron usos ajenos al salmo.",
         "verifiedInGitHub": true
       }
     ],
@@ -96,16 +117,18 @@
     "status": "EN_REVISION",
     "approved": false,
     "next": "Cerrar únicamente después del hebreo FINAL.",
-    "notRewrittenThisTurn": true
+    "notRewrittenThisTurn": false,
+    "note": "Los salmos 126/137 del TXT provisional se proyectaron desde fonética FINAL de Tehilim, incluyendo Bavél y puntuación ArtScroll. El resto de Birkat permanece en revisión; esto NO constituye aprobación de fonética."
   },
   "generator": {
     "status": "PENDIENTE",
     "next": "Comparar solo después de aprobar fonética FINAL; un resultado del motor no prueba la corrección de ArtScroll."
   },
   "commercialSafety": {
-    "legacyMasterPreserved": true,
+    "legacyMasterPreserved": false,
     "existingPrintEditionsPreserved": true,
-    "newLinkedFile": "REVISIÓN, no arte final ni PDF listo para vender",
-    "noUnreviewedAutomaticPromotion": true
+    "newLinkedFile": "Texto hebreo vinculado EN REVISIÓN y actualizado, no FINAL",
+    "noUnreviewedAutomaticPromotion": true,
+    "legacyMasterPreservationDetail": "El estado anterior puede recuperarse desde GitHub; los archivos TXT de trabajo se sanearon explícitamente a pedido. Ninguna edición enviada o PDF impreso fue reescrito."
   }
 }
