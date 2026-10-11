@@ -126,7 +126,7 @@
   const result=[];
   for(const item of items)for(const paragraph of String(item).split('\n')){
    const words=paragraph.trim().match(/- Full color|Full color|\S+/gi)||[];let runs=[],used=0;
-   for(let i=0;i<words.length;i++){const font=i===0&&/^(Tapa|Interior):$/i.test(words[i])?'bold':'text';let value=(runs.length?' ':'')+words[i],size=width(pdf,value,6,font);
+   for(let i=0;i<words.length;i++){const font=i===0&&/^(Tapa|Interior|Papel|Terminación|Impresión|Acabado):$/i.test(words[i])?'bold':'text';let value=(runs.length?' ':'')+words[i],size=width(pdf,value,6,font);
     if(runs.length&&used+size>117.8){result.push(runs);runs=[];used=0;value=words[i];size=width(pdf,value,6,font)}
     runs.push({text:value,font});used+=size;
    }if(runs.length)result.push(runs);
@@ -173,6 +173,6 @@
  root.jdQuotePreviewSVG=svgPreview;
 
  async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v9'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={version:'20261008-master-v9',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,iconDimensions,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ root.jdNativeQuote={version:'20261011-master-v10',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,iconDimensions,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);
