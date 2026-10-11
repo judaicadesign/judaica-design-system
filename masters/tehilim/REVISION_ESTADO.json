@@ -138,15 +138,15 @@
     },
     {
       "chapter": 7,
-      "hebrew": "19 meteg incorporados en los pesukim visibles. Rayitas de shevá registradas por separado. Cotejo exhaustivo pendiente.",
-      "phonetic": "Actualizada y comprobada contra el motor; revisión editorial abierta.",
-      "engine": "18 pesukim comprobados",
-      "approved": false,
+      "hebrew": "FINAL: 18 pesukim cotejados en ambas capturas de ArtScroll, 19 meteg, puntuación corregida.",
+      "phonetic": "FINAL: 18 pesukim cotejados; 7:1 דִּבְרֵי = diveré por shevá na visual. 7:5 y 7:18 sin meteg confirmados.",
+      "engine": "17/18 coinciden con el generador; 7:1 diveré vs divré es tarea pendiente del motor, no del máster.",
+      "approved": true,
       "source": "IMG_1464.png",
       "scope": "Captura(s) originales accesibles; revisión final por pasuk pendiente.",
-      "secondReview": "Segundo cotejo registrado. Ver SEGUNDO_COTEJO.html; aprobación editorial abierta.",
+      "secondReview": "Cuatro rayitas explícitas registradas (7:1, 7:3, 7:8, 7:10); ausencia meteg en 7:5 y 7:18 confirmada.",
       "lastFocusedReview": "2026-10-10",
-      "editorialNext": "Seis preguntas originales respondidas. Revisar nikud y puntuación íntegros; después fonética por pasuk. No volver a preguntar estas marcas.",
+      "editorialNext": "Ninguno para los dos másters. Corregir generador 7:1 דִּבְרֵי independientemente.",
       "visualEvidenceCurrentSession": "Imágenes ArtScroll recuperadas: IMG_1464.png + IMG_1465.png. Cotejo integral por pasuk aún no certificado.",
       "userConfirmations20261010": [
         {
@@ -165,7 +165,11 @@
           "date": "2026-10-10",
           "source": "user+ArtScroll image"
         }
-      ]
+      ],
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-10-10",
+      "visualCoverageComplete": true
     },
     {
       "chapter": 8,
