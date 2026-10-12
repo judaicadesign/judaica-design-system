@@ -1,0 +1,396 @@
+{
+  "date": "2026-10-12",
+  "previousPendingContexts": 0,
+  "initialPendingContexts": 28,
+  "resolvedContexts": 21,
+  "confirmedVocalContexts": 20,
+  "redundantContexts": 1,
+  "remainingPendingContexts": 7,
+  "decisions": [
+    {
+      "ref": "23:5",
+      "word": "צֹרְרָי",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "tsorerái",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1333(1).png",
+      "sourceSha256": "550c35e92d81dc4e6843dc4635f7807ab544c54e97d7b6cd4b25c3268548b6cf"
+    },
+    {
+      "ref": "83:10",
+      "word": "כְּסִיסְרָא",
+      "shevaIndices": [
+        3
+      ],
+      "expectedRaw": "kesisrá",
+      "decision": "remove-redundant-hold",
+      "source": "Structural lexical syllable metadata already retains Sisra",
+      "sourceSha256": null
+    },
+    {
+      "ref": "3:7",
+      "word": "מֵרִבְבוֹת",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "merivevot",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1459.png",
+      "sourceSha256": "fba6bf205653be4b9f9a1d51e9d5fccc5f1a6c920686512a45e8d5467066adf5"
+    },
+    {
+      "ref": "3:8",
+      "word": "אֹיְבַי",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "oyevái",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1459.png",
+      "sourceSha256": "fba6bf205653be4b9f9a1d51e9d5fccc5f1a6c920686512a45e8d5467066adf5"
+    },
+    {
+      "ref": "7:2",
+      "word": "רֹדְפַי",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "rodefái",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1464.png",
+      "sourceSha256": "c7e34792e717e6fad08fa5cd42bb799ed847434eee589dfb3618a47f6c74904b"
+    },
+    {
+      "ref": "7:5",
+      "word": "שׁוֹלְמִי",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "sholemí",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1464.png",
+      "sourceSha256": "c7e34792e717e6fad08fa5cd42bb799ed847434eee589dfb3618a47f6c74904b"
+    },
+    {
+      "ref": "7:14",
+      "word": "לְדֹלְקִים",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "ledolekim",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1465.png",
+      "sourceSha256": "9c1074df565bcdaa8e7d8e3232d3c696397e7fcebe09076eca9b32d2cf3d8065"
+    },
+    {
+      "ref": "9:4",
+      "word": "אוֹיְבַי",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "oyevái",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1467.png",
+      "sourceSha256": "eedadce879f5c637016684f9c49d348dd0af9f758b06f789a07a9c7b1afd04b0"
+    },
+    {
+      "ref": "9:14",
+      "word": "מִשֹּׂנְאָי",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "misoneái",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1468.png",
+      "sourceSha256": "a0af560ff99ac122e6dea3e8421be0fcbee9e6c116637a6ffb340df8a032f840"
+    },
+    {
+      "ref": "9:16",
+      "word": "טָבְעוּ",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "tave'ú",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1468.png",
+      "sourceSha256": "a0af560ff99ac122e6dea3e8421be0fcbee9e6c116637a6ffb340df8a032f840"
+    },
+    {
+      "ref": "10:8",
+      "word": "לְחֵלְכָה",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "lejelejá",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1469.png",
+      "sourceSha256": "32b0277909bfa2b68caa3432b480cb64a430beb345a63775264d14fa75532850"
+    },
+    {
+      "ref": "10:16",
+      "word": "אָבְדוּ",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "avedú",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1470.png",
+      "sourceSha256": "024ce8ea2f3c4c496d0a7f73ff00d895fe99f0ec4b2d9b50b0c9b650840fdce4"
+    },
+    {
+      "ref": "12:2",
+      "word": "מִבְּנֵי",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "mibené",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1472.png",
+      "sourceSha256": "48a57b6b67c7a687121a5a4c6d0ad901a9b859456938583e621ea68798aa2b57"
+    },
+    {
+      "ref": "14:4",
+      "word": "אֹכְלֵי",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "ojelé",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1474.png",
+      "sourceSha256": "4501d8acb083355de93a962514806302e693a272ba9c31bcb7a2b850d8ffc76a"
+    },
+    {
+      "ref": "17:9",
+      "word": "אֹיְבַי",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "oyevái",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1478.png",
+      "sourceSha256": "d325f52946067d932b3b08b55ecd58ae2404df3d4782027e7da30b6d92cb0634"
+    },
+    {
+      "ref": "18:16",
+      "word": "מוֹסְדוֹת",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "mosedot",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1486.png",
+      "sourceSha256": "ed702d5cf98469e4ddd9280a6a86f344da6cb1292edad4b5720a89f05679bd40"
+    },
+    {
+      "ref": "18:39",
+      "word": "יִפְּלוּ",
+      "shevaIndices": [
+        1
+      ],
+      "expectedRaw": "yipelú",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1487.png",
+      "sourceSha256": "7b280db12df392b6de19b48eb95ca0416f1e09aa6c328cf5b5ed19c5a0a390f8"
+    },
+    {
+      "ref": "18:49",
+      "word": "מֵאֹיְבָי",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "meoyevái",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1488.png",
+      "sourceSha256": "9b31fe943cea29c7717ed60604d42962b5f4cfca1d1f58d324d6749d95e125b1"
+    },
+    {
+      "ref": "126:1",
+      "word": "כְּחֹלְמִים",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "kejolemim",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching(2).pdf",
+      "sourceSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
+      "pdfPage": 2
+    },
+    {
+      "ref": "137:7",
+      "word": "הָאֹמְרִים",
+      "shevaIndices": [
+        2
+      ],
+      "expectedRaw": "haomerim",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching(2).pdf",
+      "sourceSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
+      "pdfPage": 1
+    },
+    {
+      "ref": "2:2",
+      "word": "וְרוֹזְנִים",
+      "shevaIndices": [
+        3
+      ],
+      "expectedRaw": "verozenim",
+      "decision": "confirmed-vocal-by-ArtScroll-helper",
+      "source": "IMG_1458.png",
+      "sourceSha256": "1835b75e4f9435c8d764cc6d650292797148051f038bda7c8819665557c6c55c"
+    }
+  ],
+  "pendingRefs": [
+    "83:3",
+    "83:5",
+    "83:13",
+    "83:19",
+    "121:3",
+    "121:5",
+    "142:7"
+  ],
+  "masterChanges": [
+    {
+      "ref": "2:2",
+      "hebrew": "יִתְיַצְּבוּ מַלְכֵי אֶרֶץ, וְרוֹזְנִים נֽוֹסְדוּ יָֽחַד, עַל יְיָ וְעַל מְשִׁיחוֹ.",
+      "before": "Yitiatsevú maljé erets, veroznim nósedu yájad, 'al Ad-nai ve'al meshijó.",
+      "after": "Yitiatsevú maljé erets, verozenim nósedu yájad, 'al Ad-nai ve'al meshijó.",
+      "source": "IMG_1458.png"
+    },
+    {
+      "ref": "3:7",
+      "hebrew": "לֹא אִירָא מֵרִבְבוֹת עָם, אֲשֶׁר סָבִיב שָֽׁתוּ עָלָי.",
+      "before": "Lo irá merivvot 'am, asher saviv shatu 'alái.",
+      "after": "Lo irá merivevot 'am, asher saviv shatu 'alái.",
+      "source": "IMG_1459.png"
+    },
+    {
+      "ref": "3:8",
+      "hebrew": "קוּמָה יְיָ הוֹשִׁיעֵֽנִי אֱלֹהַי, כִּי הִכִּֽיתָ אֶת כׇּל אֹיְבַי לֶֽחִי, שִׁנֵּי רְשָׁעִים שִׁבַּֽרְתָּ.",
+      "before": "Kumá Ad-nai hoshi'eni Elohái, ki hikita et kol oyvái leji, shiné resha'im shibarta.",
+      "after": "Kumá Ad-nai hoshi'eni Elohái, ki hikita et kol oyevái leji, shiné resha'im shibarta.",
+      "source": "IMG_1459.png"
+    },
+    {
+      "ref": "7:2",
+      "hebrew": "יְיָ אֱלֹהַי בְּךָ חָסִֽיתִי, הוֹשִׁיעֵֽנִי מִכׇּל רֹדְפַי וְהַצִּילֵֽנִי.",
+      "before": "Ad-nai Elohái beja jasiti, hoshi'eni mikol rodfái vehatsileni.",
+      "after": "Ad-nai Elohái beja jasiti, hoshi'eni mikol rodefái vehatsileni.",
+      "source": "IMG_1464.png"
+    },
+    {
+      "ref": "7:5",
+      "hebrew": "אִם גָּמַֽלְתִּי שׁוֹלְמִי רָע, וָאֲחַלְּצָה צוֹרְרִי רֵיקָם.",
+      "before": "Im gamalti sholmí ra', vaajaletsá tsorerí rekam.",
+      "after": "Im gamalti sholemí ra', vaajaletsá tsorerí rekam.",
+      "source": "IMG_1464.png"
+    },
+    {
+      "ref": "7:14",
+      "hebrew": "וְלוֹ הֵכִין כְּלֵי מָֽוֶת, חִצָּיו לְדֹלְקִים יִפְעָל.",
+      "before": "Veló hejín kelé mávet, jitsav ledolkim yif'al.",
+      "after": "Veló hejín kelé mávet, jitsav ledolekim yif'al.",
+      "source": "IMG_1465.png"
+    },
+    {
+      "ref": "9:4",
+      "hebrew": "בְּשׁוּב אוֹיְבַי אָחוֹר יִכָּשְׁלוּ וְיֹֽאבְדוּ מִפָּנֶֽיךָ.",
+      "before": "Beshuv oyvái ajor yikashelú veyóvedu Mipaneja.",
+      "after": "Beshuv oyevái ajor yikashelú veyóvedu Mipaneja.",
+      "source": "IMG_1467.png"
+    },
+    {
+      "ref": "9:14",
+      "hebrew": "חָנְנֵֽנִי יְיָ רְאֵה עׇנְיִי מִשֹּׂנְאָי מְרוֹמְמִי מִשַּׁעֲרֵי מָֽוֶת.",
+      "before": "Janeneni Ad-nai reé 'onyí misonái meromemí misha'aré mávet.",
+      "after": "Janeneni Ad-nai reé 'onyí misoneái meromemí misha'aré mávet.",
+      "source": "IMG_1468.png"
+    },
+    {
+      "ref": "9:16",
+      "hebrew": "טָבְעוּ גוֹיִם בְּשַֽׁחַת עָשׂוּ בְּרֶֽשֶׁת זוּ טָמָֽנוּ נִלְכְּדָה רַגְלָם.",
+      "before": "Tav'ú goyim beshájat 'asú beréshet zu tamanu nilkedá raglam.",
+      "after": "Tave'ú goyim beshájat 'asú beréshet zu tamanu nilkedá raglam.",
+      "source": "IMG_1468.png"
+    },
+    {
+      "ref": "10:8",
+      "hebrew": "יֵשֵׁב בְּמַאְרַב חֲצֵרִים בַּמִּסְתָּרִים יַהֲרֹג נָקִי עֵינָיו לְחֵלְכָה יִצְפֹּֽנוּ.",
+      "before": "Yeshev bemarav jatserim bamistarim yaharog nakí 'enav lejeljá yitsponu.",
+      "after": "Yeshev bemarav jatserim bamistarim yaharog nakí 'enav lejelejá yitsponu.",
+      "source": "IMG_1469.png"
+    },
+    {
+      "ref": "10:16",
+      "hebrew": "יְיָ מֶֽלֶךְ עוֹלָם וָעֶד אָבְדוּ גוֹיִם מֵאַרְצוֹ.",
+      "before": "Ad-nai Mélej 'olam va'ed avdú goyim Meartsó.",
+      "after": "Ad-nai Mélej 'olam va'ed avedú goyim Meartsó.",
+      "source": "IMG_1470.png"
+    },
+    {
+      "ref": "12:2",
+      "hebrew": "הוֹשִֽׁיעָה יְיָ כִּי גָמַר חָסִיד כִּי פַֽסּוּ אֱמוּנִים מִבְּנֵי אָדָם.",
+      "before": "Hoshí'a Ad-nai ki gamar jasid ki fasu emunim mibné adam.",
+      "after": "Hoshí'a Ad-nai ki gamar jasid ki fasu emunim mibené adam.",
+      "source": "IMG_1472.png"
+    },
+    {
+      "ref": "14:4",
+      "hebrew": "הֲלֹא יָדְעוּ כׇּל פֹּֽעֲלֵי אָֽוֶן; אֹכְלֵי עַמִּי אָֽכְלוּ לֶֽחֶם, יְיָ לֹא קָרָאוּ.",
+      "before": "Haló yade'u kol pó'ale aven; ojlé 'amí ajlu léjem, Ad-nai lo karaú.",
+      "after": "Haló yade'u kol pó'ale aven; ojelé 'amí ajlu léjem, Ad-nai lo karaú.",
+      "source": "IMG_1474.png"
+    },
+    {
+      "ref": "17:9",
+      "hebrew": "מִפְּנֵי רְשָׁעִים זוּ שַׁדּוּֽנִי אֹיְבַי בְּנֶפֶשׁ יַקִּיפוּ עָלָי.",
+      "before": "Mipené resha'im zu shaduni oyvái benéfesh yakifú 'alái.",
+      "after": "Mipené resha'im zu shaduni oyevái benéfesh yakifú 'alái.",
+      "source": "IMG_1478.png"
+    },
+    {
+      "ref": "18:16",
+      "hebrew": "וַיֵּרָאוּ אֲפִיקֵי מַֽיִם וַיִּגָּלוּ מוֹסְדוֹת תֵּבֵל מִגַּעֲרָתְךָ יְהֹוָה מִנִּשְׁמַת רֽוּחַ אַפֶּךָ.",
+      "before": "Vayeraú afiké máyim vayigalú mosdot tevel Miga'arateja Ad-nai minishmat rúaj Apeja.",
+      "after": "Vayeraú afiké máyim vayigalú mosedot tevel Miga'arateja Ad-nai minishmat rúaj Apeja.",
+      "source": "IMG_1486.png"
+    },
+    {
+      "ref": "18:39",
+      "hebrew": "אֶמְחָצֵם וְלֹא יֻֽכְלוּ קוּם יִפְּלוּ תַֽחַת רַגְלָי.",
+      "before": "Emjatsem veló yújelu kum yiplú tájat raglái.",
+      "after": "Emjatsem veló yújelu kum yipelú tájat raglái.",
+      "source": "IMG_1487.png"
+    },
+    {
+      "ref": "18:49",
+      "hebrew": "מְפַלְּטִי מֵאֹיְבָי אַף מִן קָמַי תְּרוֹמְמֵֽנִי מֵאִישׁ חָמָס תַּצִּילֵֽנִי.",
+      "before": "Mefaletí meoyvái af min kamái teromemeni meísh jamás tatsileni.",
+      "after": "Mefaletí meoyevái af min kamái teromemeni meísh jamás tatsileni.",
+      "source": "IMG_1488.png"
+    },
+    {
+      "ref": "23:5",
+      "hebrew": "תַּעֲרֹךְ לְפָנַי שֻׁלְחָן נֶֽגֶד צֹרְרָי דִּשַּֽׁנְתָּ בַשֶּֽׁמֶן רֹאשִׁי כּוֹסִי רְוָיָה.",
+      "before": "Ta'aroj lefanái shulján négued tsorrái dishanta vashemen roshí kosí revayá.",
+      "after": "Ta'aroj lefanái shulján négued tsorerái dishanta vashemen roshí kosí revayá.",
+      "source": "IMG_1333(1).png"
+    },
+    {
+      "ref": "126:1",
+      "hebrew": "שִׁיר הַמַּעֲלוֹת, בְּשׁוּב יְיָ אֶת שִׁיבַת צִיּוֹן, הָיִֽינוּ כְּחֹלְמִים.",
+      "before": "Shir hama'alot, beshuv Ad-nai et shivat Tsiyón, hayinu kejolmim.",
+      "after": "Shir hama'alot, beshuv Ad-nai et shivat Tsiyón, hayinu kejolemim.",
+      "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching(2).pdf"
+    },
+    {
+      "ref": "137:7",
+      "hebrew": "זְכֹר יְיָ לִבְנֵי אֱדוֹם אֵת יוֹם יְרוּשָׁלָֽיִם; הָאֹמְרִים עָֽרוּ עָֽרוּ, עַד הַיְסוֹד בָּהּ.",
+      "before": "Zejor Ad-nai livné Edom et yom Yerushaláyim; haomrim 'aru 'aru, 'ad hayesod bah.",
+      "after": "Zejor Ad-nai livné Edom et yom Yerushaláyim; haomerim 'aru 'aru, 'ad hayesod bah.",
+      "source": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching(2).pdf"
+    }
+  ],
+  "scope": "Exact word-helper marks visually checked; no Hebrew, nikud, meteg, punctuation or global approval changes. Transliterated Linear PDF supplies stress/nikud but is not used as proof of missing sheva-na markers. Current source cases resolved; delivered jobs remain frozen."
+}

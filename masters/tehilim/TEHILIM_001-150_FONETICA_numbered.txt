@@ -11,7 +11,7 @@ TEHILIM 1 · א
 
 TEHILIM 2 · ב
 1	Lama ragueshú goyim, uleumim yehgú rik.
-2	Yitiatsevú maljé erets, veroznim nósedu yájad, 'al Ad-nai ve'al meshijó.
+2	Yitiatsevú maljé erets, verozenim nósedu yájad, 'al Ad-nai ve'al meshijó.
 3	Nenateká et moserotémo, venashlija mimenu 'avotemo.
 4	Yoshev bashamáyim yisjak, Ad-nai yil'ag lamo.
 5	Az yedaber elemo veapó, uvajaronó yevahalemo.
@@ -30,8 +30,8 @@ TEHILIM 3 · ג
 ד	veAtá Ad-nai maguén ba'adí, kevodí umerim roshí.
 ה	Kolí el Ad-nai ekrá, vaya'aneni mehar kodshó sela.
 ו	Aní shajavti vaishana, hekitsoti ki Ad-nai yismejeni.
-ז	Lo irá merivvot 'am, asher saviv shatu 'alái.
-ח	Kumá Ad-nai hoshi'eni Elohái, ki hikita et kol oyvái leji, shiné resha'im shibarta.
+ז	Lo irá merivevot 'am, asher saviv shatu 'alái.
+ח	Kumá Ad-nai hoshi'eni Elohái, ki hikita et kol oyevái leji, shiné resha'im shibarta.
 ט	LaAd-nai hayeshu'á, 'al 'Amejá Virjateja sela.
 
 TEHILIM 4 · ד
@@ -75,10 +75,10 @@ TEHILIM 6 · ו
 
 TEHILIM 7 · ז
 א	Shigayón leDavid; asher shar laAd-nai, 'al diveré jush ben yeminí.
-ב	Ad-nai Elohái beja jasiti, hoshi'eni mikol rodfái vehatsileni.
+ב	Ad-nai Elohái beja jasiti, hoshi'eni mikol rodefái vehatsileni.
 ג	Pen yiterof kearyé nafshí, porek veén matsil.
 ד	Ad-nai Elohái, im 'asiti zot, im yesh 'ável bejapái.
-ה	Im gamalti sholmí ra', vaajaletsá tsorerí rekam.
+ה	Im gamalti sholemí ra', vaajaletsá tsorerí rekam.
 ו	Yiradof oyev nafshí veyaseg, veyirmós laarets jayái, ujvodí le'afar yashkén sela.
 ז	Kumá Ad-nai Beapeja, hinasé be'avrot tsorerái, ve'urá elái mishpat tsivita.
 ח	Va'adat leumim tesoveveka, ve'aleha lamarom shuvá.
@@ -87,7 +87,7 @@ TEHILIM 7 · ז
 יא	Maguiní 'al Elohim, moshía' yishré lev.
 יב	Elohim shofet tsadik, veel zo'em bejol yom.
 יג	Im lo yashuv, jarbó yiltosh, kashtó daraj vaijoneneha.
-יד	Veló hejín kelé mávet, jitsav ledolkim yif'al.
+יד	Veló hejín kelé mávet, jitsav ledolekim yif'al.
 טו	Hiné yejábel aven, vehará 'amal veyalad sháker.
 טז	Bor kará vayajperehu, vayipol beshájat yif'al.
 יז	Yashuv 'amaló veroshó, ve'al kodkodó jamasó yered.
@@ -109,7 +109,7 @@ TEHILIM 9 · ט
 1	Lamenatséaj 'al mut labén mizmor leDavid.
 2	Odé Ad-nai bejol libí asaperá kol Nifleoteja.
 3	Esmejá vee'eletsá Vaj azamerá Shimjá 'elyón.
-4	Beshuv oyvái ajor yikashelú veyóvedu Mipaneja.
+4	Beshuv oyevái ajor yikashelú veyóvedu Mipaneja.
 5	Ki 'asita mishpatí vediní yashavta lejisé shofet tsédek.
 6	Ga'arta goyim ibadta rashá' shemam majita le'olam va'ed.
 7	Haoyev tamu joravot lanétsaj ve'arim natashta avad zijram hema.
@@ -119,9 +119,9 @@ TEHILIM 9 · ט
 11	Veyivtejú Veja yode'é Shemeja ki lo 'azavta Doresheja Ad-nai.
 12	Zamerú laAd-nai yoshev Tsiyón haguidú va'amim 'alilotav.
 13	Ki doresh damim otam zajar lo shajaj tsa'akat 'anavim.
-14	Janeneni Ad-nai reé 'onyí misonái meromemí misha'aré mávet.
+14	Janeneni Ad-nai reé 'onyí misoneái meromemí misha'aré mávet.
 15	Lema'an asaperá kol Tehilateja besha'aré vat Tsiyón aguila Bishu'ateja.
-16	Tav'ú goyim beshájat 'asú beréshet zu tamanu nilkedá raglam.
+16	Tave'ú goyim beshájat 'asú beréshet zu tamanu nilkedá raglam.
 17	Nodá' Ad-nai mishpat 'asá vefó'al kapav nokesh rashá' higayón sela.
 18	Yashuvu resha'im lishola kol goyim shejejé Elohim.
 19	Ki lo lanétsaj yishajaj evyón tikvat 'aniyim tovad la'ad.
@@ -136,7 +136,7 @@ TEHILIM 10 · י
 5	Yajilu derajav bejol 'et marom Mishpateja minegdó kol tsorerav yafíaj báhem.
 6	Amar belibó bal emot ledor vador asher lo verá'.
 7	Ala pihu malé umirmot vatoj tájat leshonó 'amal vaaven.
-8	Yeshev bemarav jatserim bamistarim yaharog nakí 'enav lejeljá yitsponu.
+8	Yeshev bemarav jatserim bamistarim yaharog nakí 'enav lejelejá yitsponu.
 9	Yeerov bamistar kearyé vesukó yeerov lajatof 'aní yajtof 'aní bemoshjó verishtó.
 10	Yideké yashóaj venafal ba'atsumav jel kaím.
 11	Amar belibó shajaj El histir Panav bal raá lanétsaj.
@@ -144,7 +144,7 @@ TEHILIM 10 · י
 13	'Al me niéts rashá' Elohim amar belibó lo tidrosh.
 14	Raíta ki Atá 'amal vaja'as tabit latet Beyadeja 'Aleja ya'azov jeleja yatom Atá hayita 'ozer.
 15	Shevor zeroa' rashá' vará' tidrosh rish'ó val timtsá.
-16	Ad-nai Mélej 'olam va'ed avdú goyim Meartsó.
+16	Ad-nai Mélej 'olam va'ed avedú goyim Meartsó.
 17	Taavat 'anavim shama'ta Ad-nai tajín libam takshiv Ozneja.
 18	Lishpot yatom vadaj bal yosif 'od la'aróts enosh min haarets.
 
@@ -159,7 +159,7 @@ TEHILIM 11 · יא
 
 TEHILIM 12 · יב
 1	Lamenatséaj 'al hasheminit mizmor leDavid.
-2	Hoshí'a Ad-nai ki gamar jasid ki fasu emunim mibné adam.
+2	Hoshí'a Ad-nai ki gamar jasid ki fasu emunim mibené adam.
 3	Shav yedaberu ish et re'ehu sefat jalakot belev valev yedaberu.
 4	Yajret Ad-nai kol sifté jalakot lashón medabéret guedolot.
 5	Asher amerú lilshonenu nagbir sefatenu itanu mi adón lanu.
@@ -180,7 +180,7 @@ TEHILIM 14 · יד
 1	Lamenatséaj leDavid; amar naval belibó en Elohim, hishjitu hit'ivu 'alilá, en 'ose tov.
 2	Ad-nai mishamáyim hishkif 'al bené adam, lirot hayesh maskil doresh et Elohim.
 3	Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.
-4	Haló yade'u kol pó'ale aven; ojlé 'amí ajlu léjem, Ad-nai lo karaú.
+4	Haló yade'u kol pó'ale aven; ojelé 'amí ajlu léjem, Ad-nai lo karaú.
 5	Sham pajadú fájad, ki Elohim bedor tsadik.
 6	'Atsat 'aní tavishu, ki Ad-nai majsehu.
 7	Mi yitén mitsiyón yeshu'at Yisrael; beshuv Ad-nai shevut 'Amó, yaguel Ya'akov yismaj Yisrael.
@@ -214,7 +214,7 @@ TEHILIM 17 · יז
 6	Aní keratija ji ta'aneni El hat Oznejá li shemá' imratí.
 7	Haflé Jasadeja moshía' josim mimitkomemim Bimineja.
 8	Shomereni keishón bat 'ayin betsel Kenafeja tastireni.
-9	Mipené resha'im zu shaduni oyvái benéfesh yakifú 'alái.
+9	Mipené resha'im zu shaduni oyevái benéfesh yakifú 'alái.
 10	Jelbamó sagru pimo diberú vegueút.
 11	Ashurenu 'atá sevavunu 'enehem yashitu lintot baarets.
 12	Dimyonó kearyé yijsof litrof vejijfir yoshev bemistarim.
@@ -238,7 +238,7 @@ TEHILIM 18 · יח
 13	Minógah Negdó 'avav 'averú barad vegájale esh.
 14	Vayar'em bashamáyim Ad-nai Ve'elyón yitén Koló barad vegájale esh.
 15	Vayishlaj jitsav vaifitsem uvrakim rav vaihumem.
-16	Vayeraú afiké máyim vayigalú mosdot tevel Miga'arateja Ad-nai minishmat rúaj Apeja.
+16	Vayeraú afiké máyim vayigalú mosedot tevel Miga'arateja Ad-nai minishmat rúaj Apeja.
 17	Yishlaj mimarom yikajeni yamsheni mimáyim rabim.
 18	Yatsileni meoyeví 'az umisoneái ki ametsú mimeni.
 19	Yekademuni veyom edí vayehí Ad-nai lemish'án li.
@@ -261,7 +261,7 @@ TEHILIM 18 · יח
 36	Vatiten li maguén Yish'eja Viminejá tis'adeni Ve'anvateja tarbeni.
 37	Tarjiv tsa'adí tajtái veló ma'adú karsulái.
 38	Erdof oyevái veasiguem veló ashuv 'ad kalotam.
-39	Emjatsem veló yújelu kum yiplú tájat raglái.
+39	Emjatsem veló yújelu kum yipelú tájat raglái.
 40	Vateazereni jáyil lamiljamá tajría' kamái tajtái.
 41	Veoyevái natata li 'óref umesaneái atsmitem.
 42	Yeshave'ú veén moshía' 'al Ad-nai veló 'anam.
@@ -271,7 +271,7 @@ TEHILIM 18 · יח
 46	Bené nejar yibolu veyajregú mimisguerotehem.
 47	Jay Ad-nai uvaruj Tsurí veyarum Elohé Yish'í.
 48	HaEl hanotén nekamot li vayadber 'amim tajtái.
-49	Mefaletí meoyvái af min kamái teromemeni meísh jamás tatsileni.
+49	Mefaletí meoyevái af min kamái teromemeni meísh jamás tatsileni.
 50	'Al ken odejá vagoyim Ad-nai Ulshimjá azamera.
 51	Magdil yeshu'ot malkó ve'ose jésed limshijó leDavid ulzar'ó 'ad 'olam.
 
@@ -359,7 +359,7 @@ TEHILIM 23 · כג
 2	Binot deshe yarbitseni 'al me menujot yenahaleni.
 3	Nafshí yeshovev yanjeni vema'guelé tsédek lema'an Shemó.
 4	Gam ki elej begué tsalmávet lo irá ra' ki Atá 'imadí Shivtejá uMish'anteja hema yenajamuni.
-5	Ta'aroj lefanái shulján négued tsorrái dishanta vashemen roshí kosí revayá.
+5	Ta'aroj lefanái shulján négued tsorerái dishanta vashemen roshí kosí revayá.
 6	Aj tov vajésed yirdefuni kol yemé jayái veshavtí bevet Ad-nai leórej yamim.
 
 TEHILIM 24 · כד
@@ -2492,7 +2492,7 @@ TEHILIM 125 · קכה
 5	Vehamatim 'akalkalotam yolijem Ad-nai et po'alé haaven shalom 'al Yisrael.
 
 TEHILIM 126 · קכו
-1	Shir hama'alot, beshuv Ad-nai et shivat Tsiyón, hayinu kejolmim.
+1	Shir hama'alot, beshuv Ad-nai et shivat Tsiyón, hayinu kejolemim.
 2	Az yimalé sejok pinu, ulshonenu riná; az yomerú vagoyim: higdil Ad-nai la'asot 'im ele.
 3	Higdil Ad-nai la'asot 'imanu, hayinu semejim.
 4	Shuvá Ad-nai et shevitenu, kaafikim baNéguev.
@@ -2627,7 +2627,7 @@ TEHILIM 137 · קלז
 4	Ej nashir et shir Ad-nai, 'al admat nejar.
 5	Im eshkajej Yerushaláyim, tishkaj yeminí.
 6	Tidbak leshoní lejikí, im lo ezkereji; im lo a'alé et Yerushaláyim 'al rosh simjatí.
-7	Zejor Ad-nai livné Edom et yom Yerushaláyim; haomrim 'aru 'aru, 'ad hayesod bah.
+7	Zejor Ad-nai livné Edom et yom Yerushaláyim; haomerim 'aru 'aru, 'ad hayesod bah.
 8	Bat Bavél hashedudá, ashré sheyeshalem laj et guemulej shegamalt lanu.
 9	Ashré sheyojez venipéts et 'olaláyij el hasala'.
 
