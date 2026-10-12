@@ -1,6 +1,45 @@
 # Judaica Design® — arquitectura de textos canónicos reutilizables
 
-**Propuesta técnica — 11/10/2026.** Documento de diseño, **NO implementado aún**. No reemplaza archivos, no autoriza cambios automáticos en másters FINAL ni en documentos impresos.
+**Actualización — 12/10/2026.** El núcleo general y su integración en el catálogo de másters de hebreo/fonética están implementados. Los esquemas de bloques siguientes se conservan como diseño evolutivo, no como descripción de un formato ya almacenado. La implementación vigente usa plantillas locales con referencias explícitas, vistas de borrador actuales e instantáneas de ediciones aprobadas. No reemplaza archivos entregados ni autoriza modificaciones silenciosas de FINAL.
+
+## Función central implementada
+
+- `assets/jd-passage-links.js`: resolución por salmo o rango, requisitos de aprobación, composición, registro inverso de usos y protección de instantáneas.
+- `assets/jd-passage-library-ui.js`: editor genérico disponible en **cualquier ítem/nusaj** del catálogo cuyo idioma sea Hebreo o Fonética. No requiere programar una excepción por rezo.
+- `assets/jd-tehilim-export.js`: presentaciones de libro corridas y exportación RTF con estilo de carácter `JD Pasuk`. Las letras grises/pequeñas son metadatos de presentación; no alteran el texto canónico.
+- Persistencia: `jd_master_cells` conserva `composition.template`, idioma, snapshot cuando se aprueba y `editions` para las ediciones aprobadas anteriores. No hay colección/base paralela ni otro corpus de salmos.
+
+Una plantilla de rezo puede ser:
+
+```text
+Encabezado propio del rezo
+Condición litúrgica propia
+{{tehilim:23:1-6}}
+Texto local posterior
+```
+
+`{{tehilim:23}}` incorpora el capítulo completo. Las referencias resuelven versículos en un único párrafo, sin letras de numeración. El editor permite escoger capítulo/rango, ver la fuente y consultar usos guardados. En Birkat Hamazón ashkenazí se ofrece convertir los dos slots heredados 137/126 a esta misma sintaxis; no se alteran sus encabezados ni las condiciones.
+
+### Borrador frente a edición aprobada
+
+- Un borrador con referencias toma el corpus vigente al abrir, actualizar fuentes o descargar su composición EN REVISIÓN. No almacena una copia del salmo dentro de su plantilla.
+- Un capítulo EN REVISIÓN se puede insertar y previsualizar, pero impide aprobar la composición. Tehilim 23 conserva su estado existente; no se declara FINAL para permitir el ejemplo de Kidush.
+- Al aprobar una composición, se guarda su texto resuelto y la evidencia textual de las referencias en una instantánea. Abrir una edición aprobada no la vuelve a resolver ni la modifica.
+- `Crear nueva revisión` es una decisión explícita. Al guardar se conserva la edición aprobada anterior en `editions`. La vista puede indicar una actualización disponible, pero no sustituye el texto aprobado.
+- Los PDF/documentos ya entregados no son accesados ni reescritos por este módulo. El registro de usos cubre referencias guardadas en el catálogo, no pretende reconstruir dependencias de cualquier archivo externo histórico.
+- La capa española, variantes editoriales por edición/nusaj, condiciones ejecutables que oculten automáticamente secciones, y un historial de PDF de impresión con hashes son futuras extensiones. Hoy los encabezados y condiciones son **texto local conservado**, no decisiones litúrgicas automáticas.
+
+### Maquetación del libro
+
+`Abrir matriz` → `Libro · corrido con letras de pasuk`: un párrafo por capítulo, 2.527 marcas independientes, gris y menor tamaño. `Descargar RTF · estilo JD Pasuk` conserva un estilo de carácter separado que puede modificarse al maquetar; el TXT no tiene estilos. La base técnica de revisión continúa con identificadores capítulo:pasuk para no perder trazabilidad. Las dos presentaciones salen de esa misma base.
+
+### Contrato para nuevos consumidores
+
+Usar `resolveMasterCell({cell,language,corpus,states,allowDraft})`, no imprimir directamente una plantilla con `{{tehilim:...}}`. Este servicio devuelve el texto congelado para `status: Aprobado`, o resuelve referencias para borradores. `makeSnapshot` bloquea fuentes no FINAL. El mecanismo es común a todos los contenidos; incorporar un nuevo uso requiere declarar una referencia, no copiar el texto ni añadir otra función de composición.
+
+Pruebas: `tests/reusable-passage-library.cjs` cubre 137/126, 23 en distintos contextos, rangos, referencias repetidas, datos incompletos, Unicode, borradores actuales, ediciones congeladas, aprobación, caída de fuente, persistencia y las marcas/estilo del libro. Las suites previas siguen validando los salmos FINAL y la seguridad comercial.
+
+## Diseño evolutivo original (11/10/2026)
 
 ## El problema concreto
 

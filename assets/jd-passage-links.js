@@ -66,6 +66,7 @@
       result += i === spec.references.length - 1 ? '\n' : '\n\n';
       references.push({
         passageId:ref.passageId,chapter:ref.chapter,label:ref.label,
+        startPosition:start,endPosition:end,
         verses:selected.count,approvedDate:selected.status.approvedDate || '',
         replacedCopyWasDifferent: squash(previous) !== squash(selected.text),
         canonicalText:selected.text,previousText:previous
@@ -126,93 +127,86 @@
     return cachedResources;
   }
   function isSupportedMaster(item,nusaj,lang) {
-    return item==='Birkat Hamazón' && nusaj==='Ashkenazí' && (lang==='Hebreo' || lang==='Fonética');
+    return typeof item==='string' && !!item.trim() && typeof nusaj==='string' &&
+      (lang==='Hebreo' || lang==='Fonética');
   }
-  function makeDownload(text, language) {
-    const blob = new Blob([text],{type:'text/plain;charset=utf-8'});
-    const url = URL.createObjectURL(blob);
-    const link=document.createElement('a');
-    link.href=url;link.download='BIRKAT_HAMAZON_ASHKENAZI_'+(language==='hebrew'?'HEBREO':'FONETICA')+'_VINCULADO.txt';
-    document.body.appendChild(link);link.click();link.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  function hasReferences(body){return /\{\{tehilim:/i.test(String(body||''));}
+  function referenceToken(chapter,from=1,to){
+    ensure(Number.isInteger(chapter)&&chapter>=1&&chapter<=150,'Salmo inválido (1–150).');
+    ensure(Number.isInteger(from)&&from>=1,'Inicio de pasaje inválido.');
+    ensure(to===undefined || Number.isInteger(to)&&to>=from,'Fin de pasaje inválido.');
+    return '{{tehilim:'+chapter+(to===undefined&&from===1?'':':'+from+'-'+(to??from))+'}}';
   }
-  function mountForMaster({root, item, nusaj, lang, status}) {
-    if(!isSupportedMaster(item,nusaj,lang)) return false;
-    const holder=root.querySelector('#jdLinkedPassages');
-    const field=root.querySelector('#mcBody');
-    if(!holder || !field) return false;
-    holder.innerHTML=
-      '<div class="jd-panel" style="margin:12px 0;padding:14px">'+
-      '<h3>Composición vinculada a Tehilim</h3>'+
-      '<p class="small muted">Tehilim es la fuente única del texto de cada salmo. Los encabezados (tajanún / Shabat y Yom Tov) y el resto de Birkat Hamazón se conservan como texto local. La vista y el TXT siempre usan el máster actual.</p>'+
-      '<p class="small" data-jd-linkstatus role="status">Comprobando capítulos FINAL…</p>'+
-      '<p class="small" data-jd-impact></p>'+
-      '<textarea readonly data-jd-linkedpreview style="width:100%;min-height:240px;line-height:1.65" aria-label="Texto compuesto con referencias canónicas"></textarea>'+
-      '<p><button type="button" class="btn sm" data-jd-down disabled>Descargar TXT vinculado</button> '+
-      '<button type="button" class="btn sm" data-jd-stage disabled>Pasar esta composición al editor (requiere revisión)</button></p>'+
-      '<p class="small muted">La copia anterior y cualquier publicación FINAL permanecen intactas. Guardar una nueva composición es una decisión editorial explícita; no se modifican PDFs ya entregados.</p>'+
-      '</div>';
-    const label=holder.querySelector('[data-jd-linkstatus]');
-    const impact=holder.querySelector('[data-jd-impact]');
-    const preview=holder.querySelector('[data-jd-linkedpreview]');
-    const down=holder.querySelector('[data-jd-down]');
-    const stage=holder.querySelector('[data-jd-stage]');
-    const language=lang==='Hebreo'?'hebrew':'phonetic';
-    preview.dir=language==='hebrew'?'rtl':'ltr';
-    const save=root.querySelector('.jd-s');
-    const originalSave=save?.onclick;
-    field.readOnly=true;
-    // Avoid flashing an old Bável from browser storage while Tehilim loads.
-    field.style.visibility='hidden';
-    if(save)save.disabled=true;
-    let current=null, resources=null;
-    // Guardar nunca persiste una copia divergente de los salmos FINAL.
-    if(save && originalSave)save.onclick=()=>{if(!current)return;field.value=current.text;originalSave();};
-    function refresh() {
-      if(!resources)return;
-      try {
-        const spec=resources.manifest.languages[language];
-        current=compose({...resources,body:field.value,language,
-          spec:{...spec,documentId:resources.manifest.documentId}});
-        preview.value=current.text;
-        label.textContent=current.references.map(r=>'Tehilim '+r.chapter+' · '+r.verses+' pesukim · FINAL').join('  |  ');
-        impact.textContent=current.oldCopiesDiffer
-          ?'La copia incorporada difiere del máster de Tehilim. La vista vinculada usa la versión canónica y deja el resto del rezo intacto.'
-          :'Los pasajes incorporados coinciden con Tehilim; se conserva el contexto litúrgico.';
-        down.disabled=false; stage.disabled=false;
-      } catch(err) {
-        current=null;preview.value='';down.disabled=true;stage.disabled=true;
-        label.textContent='Vinculación bloqueada: '+err.message;
-        impact.textContent='Revisá las delimitaciones del texto original; no se perdió ni se reemplazó contenido.';
-      }
-    }
-    down.onclick=()=>{if(current) makeDownload(current.text,language);};
-    stage.onclick=()=>{
-      if(!current || !window.confirm('¿Copiar el texto vinculado al editor como REVISIÓN FINA? Los capítulos Tehilim FINAL no cambian y el master original no se guarda hasta pulsar Guardar Master.'))return;
-      field.value=current.text;
-      const s=root.querySelector('#mcStatus');if(s) s.value='Revisión fina';
-      refresh();
-    };
-    field.addEventListener('input',refresh);
-    load().then(data=>{
-      resources=data;
-      refresh();
-      if(!current)return;
-      const wasOutdated=current.oldCopiesDiffer;
-      // Show canonical verses in the TOP editor too, not only far below it.
-      // Local storage is not touched until the user explicitly clicks Guardar Master.
-      field.value=current.text;
-      refresh();
-      field.readOnly=false;
-      field.style.visibility='';
-      if(save)save.disabled=false;
-      stage.hidden=true;
-      if(wasOutdated)impact.textContent='Salmos 137 y 126 actualizados desde Tehilim FINAL en esta vista. El contexto litúrgico se conserva. Tu copia guardada no se modifica hasta elegir Guardar Master.';
-    }).catch(err=>{
-      field.style.visibility=''; // recover readable old copy, but never enable save
-      label.textContent='No se pudo cargar Tehilim. Copia local ANTIGUA, NO USAR para producción: '+err.message;
+  /** All catalog consumers use the same reference syntax; no copied Psalm in a draft. */
+  function resolveTemplate({template,language,corpus,states,allowDraft=false}){
+    ensure(language==='hebrew'||language==='phonetic','Idioma aún no disponible en la biblioteca: '+language);
+    const source=String(template||''),references=[];
+    const text=source.replace(/\{\{tehilim:([^{}]*)\}\}/gi,(token,id)=>{
+      const m=id.match(/^(\d{1,3})(?::(\d{1,3})-(\d{1,3}))?$/);
+      ensure(m,'Referencia Tehilim inválida: '+token);
+      const chapter=+m[1],from=m[2]?+m[2]:1;
+      const item=(corpus.items||[]).find(c=>c.chapter===chapter);
+      ensure(item&&Array.isArray(item.verses),'Falta Tehilim '+chapter+' en la biblioteca.');
+      const to=m[3]?+m[3]:item.verses.length;
+      ensure(chapter>=1&&chapter<=150&&from>=1&&to>=from&&to<=item.verses.length,'Rango fuera de Tehilim '+chapter+'.');
+      const state=(states.chapters||[]).find(c=>c.chapter===chapter);
+      const approved=!!(state?.approved===true&&state.hebrewApproved===true&&state.phoneticApproved===true&&state.visualCoverageComplete===true);
+      if(!allowDraft)approvedChapter(corpus,states,chapter,language);
+      const verses=item.verses.slice(from-1,to);
+      ensure(verses.length===to-from+1&&verses.every((v,i)=>v.verse===from+i&&typeof v[language]==='string'&&v[language].trim()),'Pasaje incompleto: '+token);
+      const canonicalText=verses.map(v=>v[language]).join(' ');
+      references.push({passageId:'tehilim:'+chapter+':'+from+'-'+to,chapter,from,to,
+        verses:verses.length,approved,approvedDate:state?.approvedDate||'',canonicalText});
+      return canonicalText;
     });
-    return true;
+    ensure(!/\{\{tehilim:/i.test(text),'Referencia Tehilim incompleta; no se exportó el documento.');
+    return {text,references,allApproved:references.every(r=>r.approved),language};
   }
-  return {compose,overlayFinalVerses,load,isSupportedMaster,mountForMaster,approvedChapter};
+  /** Adapter for the two existing anchored slots. Run only by explicit editorial choice. */
+  function legacyToTemplate({body,language,spec,corpus,states}){
+    const result=compose({body,language,spec,corpus,states});
+    let template=normalizedBody(body,spec);
+    for(const ref of [...result.references].reverse()){
+      const old=template.slice(ref.startPosition,ref.endPosition);
+      const trailing=old.slice(old.trimEnd().length);
+      template=template.slice(0,ref.startPosition)+referenceToken(ref.chapter)+trailing+template.slice(ref.endPosition);
+    }
+    return template;
+  }
+  function makeSnapshot({template,language,corpus,states,createdAt=new Date().toISOString()}){
+    const resolved=resolveTemplate({template,language,corpus,states});
+    return Object.freeze({schemaVersion:1,createdAt,language,text:resolved.text,
+      references:Object.freeze(resolved.references.map(r=>Object.freeze({...r})))});
+  }
+  function resolveMasterCell({cell,language,corpus,states,allowDraft=false}){
+    // Approved/released text is an edition, not a live pointer. Never re-resolve it.
+    if(cell.status==='Aprobado')return {text:cell.body||'',references:cell.composition?.snapshot?.references||[],frozen:true};
+    const template=cell.composition?.template??cell.body??'';
+    return {...resolveTemplate({template,language,corpus,states,allowDraft}),frozen:false};
+  }
+  function listUsages({cells,chapter,manifest}){
+    const usages=[];
+    for(const [key,active]of Object.entries(cells||{})){
+      const [item,nusaj,lang]=key.split('||');
+     for(const [edition,cell]of [[null,active],...(active.editions||[]).map((c,i)=>[i,c])]){
+      const source=cell.composition?.template??cell.body??'';
+      let ranges=[...String(source).matchAll(/\{\{tehilim:(\d{1,3})(?::(\d{1,3})-(\d{1,3}))?\}\}/gi)]
+        .map(m=>({chapter:+m[1],from:m[2]?+m[2]:1,to:m[3]?+m[3]:null}));
+      if(!ranges.length&&item==='Birkat Hamazón'&&nusaj==='Ashkenazí'){
+        const cfg=manifest?.languages?.[lang==='Hebreo'?'hebrew':lang==='Fonética'?'phonetic':'unsupported'];
+        ranges=(cfg?.references||[]).filter(r=>[r.start,...(r.startAlternatives||[])].some(s=>String(source).includes(s))).map(r=>({chapter:r.chapter,from:1,to:null}));
+      }
+      for(const range of ranges)if(chapter===undefined||chapter===range.chapter)usages.push({key,item,nusaj,lang,...range,status:cell.status,frozen:cell.status==='Aprobado',historical:edition!==null,edition});
+     }
+    }
+    return usages;
+  }
+  function mountForMaster(options){
+    if(!isSupportedMaster(options.item,options.nusaj,options.lang))return false;
+    if(typeof window!=='undefined'&&window.JDPassageLibraryUI)return window.JDPassageLibraryUI.mount({...options,api});
+    return false; // Fail closed if the generic editor did not load.
+  }
+  const api={compose,overlayFinalVerses,load,isSupportedMaster,mountForMaster,approvedChapter,
+    referenceToken,hasReferences,resolveTemplate,legacyToTemplate,makeSnapshot,resolveMasterCell,listUsages};
+  return api;
 });

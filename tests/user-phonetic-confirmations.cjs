@@ -17,4 +17,14 @@ assert.match(current,/lidvir beteja,/);assert.match(current,/David 'avdeja,/);
 const corpus=JSON.parse(fs.readFileSync('masters/tehilim/tehilim.json'));const v=corpus.items[36].verses[24];assert.match(v.phonetic,/^Ná'ar hayíti/);
 for(const f of ['TEHILIM_001-150_FONETICA_EN_REVISION.txt','TEHILIM_001-150_FONETICA_numbered.txt','TEHILIM_001-150_FONETICA_continuous.txt'])assert.ok(fs.readFileSync('masters/tehilim/'+f,'utf8').includes(v.phonetic),f);
 assert.equal(record.approvedGlobally,false,'No global FINAL promotion');
+const october12=JSON.parse(fs.readFileSync('masters/bircat-hamazon/PHONETIC_CONFIRMATIONS_20261012.json'));
+for(const [old,line]of october12.masterPatches){
+ assert.ok(current.includes(line));assert.ok(!current.includes(old));
+ assert.ok(fresh.includes(line),'Correct seed for new users');
+ const review=boot({[key]:{body:old,status:'Revisión fina'}})[key];
+ assert.equal(review.body,line);assert.equal(review.editions.at(-1).body,old);
+ assert.equal(boot({[key]:{body:old,status:'Aprobado'}})[key].body,old,'Never rewrite approved edition');
+ assert.equal(boot({[key]:{body:old+' EDICIÓN LOCAL',status:'Revisión fina'}})[key].body,old+' EDICIÓN LOCAL');
+ assert.equal(boot({[key]:review})[key].editions.length,review.editions.length,'No repeated archival');
+}
 console.log('PASS source confirmations, corpus exports, new-user seed, exact-paragraph migration and custom-copy preservation');

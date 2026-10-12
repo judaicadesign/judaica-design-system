@@ -7,10 +7,13 @@ on:
       - 'package.json'
       - 'tests/tehilim-masters.cjs'
       - 'assets/jd-passage-links.js'
+      - 'assets/jd-passage-library-ui.js'
+      - 'assets/jd-tehilim-export.js'
       - 'masters/tehilim/**'
       - 'masters/bircat-hamazon/**'
       - 'masters/compositions/**'
       - 'tests/passage-link-regression.cjs'
+      - 'tests/reusable-passage-library.cjs'
       - '.github/workflows/canonical-passage-links.yml'
   workflow_dispatch:
 
@@ -27,7 +30,10 @@ jobs:
         with:
           node-version: '22'
       - name: Check browser composer syntax
-        run: node --check assets/jd-passage-links.js
+        run: |
+          node --check assets/jd-passage-links.js
+          node --check assets/jd-passage-library-ui.js
+          node --check assets/jd-tehilim-export.js
       - name: Check canonical linked Psalm references and contexts
         run: node tests/passage-link-regression.cjs
       - name: Install project dependencies
