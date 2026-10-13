@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ArtScroll · Archivo privado | Judaica Design®</title>
+<style>
+:root{color-scheme:light;--teal:#166a6c;--ink:#242d31;--muted:#617078;--line:#d5dfdc;--paper:#fcfdfb}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f6f4;color:var(--ink)}
+main{max-width:690px;margin:28px auto;padding:0 16px 44px}
+header{margin-bottom:20px}
+h1{font-size:1.5rem;line-height:1.22;margin:0 0 8px}
+h2{font-size:1.08rem;margin:0 0 12px}
+p{margin:0 0 14px}
+small,.hint{font-size:.84rem;color:var(--muted)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:15px}
+.brand{letter-spacing:.09em;font-weight:800;color:var(--teal);font-size:.8rem;margin-bottom:8px}
+label{font-weight:600;display:block;margin:0 0 7px}
+input[type=email],input[type=password]{width:100%;padding:12px;border:1px solid #bccdc9;border-radius:9px;font:inherit;margin-bottom:13px}
+input[type=file]{display:block;width:100%;padding:12px;border:1px dashed #9fbcb4;border-radius:9px;background:var(--paper)}
+button{border:0;border-radius:10px;background:var(--teal);color:white;font:inherit;font-weight:700;padding:13px 18px;cursor:pointer;min-height:46px}
+button.secondary{background:#e9efed;color:#245257}
+button:disabled{opacity:.55;cursor:wait}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+#status{white-space:pre-wrap;line-height:1.55;font-size:.93rem}
+#status[data-kind="ok"]{color:#176c47}
+#status[data-kind="error"]{color:#9c3434}
+#status[data-kind="loading"]{color:#315871}
+#list{margin:12px 0 0;padding-left:20px;word-break:break-word}
+[hidden]{display:none !important}
+a{color:var(--teal)}
+.progress{width:100%;accent-color:var(--teal);margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="brand">JUDAICA DESIGN®</div>
+<h1>Guardar ArtScroll en Supabase</h1>
+<p class="hint">Carga segura de PDF y PNG al archivo privado. No se modifican los másters ni el generador.</p>
+</header>
+<section class="card" id="login">
+<h2>Ingresar a tu cuenta</h2>
+<p class="hint">Usá el mismo correo y contraseña de Judaica Design®.</p>
+<form id="loginForm">
+<label for="email">Correo</label><input id="email" type="email" autocomplete="email" required>
+<label for="password">Contraseña</label><input id="password" type="password" autocomplete="current-password" required>
+<button type="submit" id="signIn">Ingresar</button>
+</form>
+</section>
+<section class="card" id="upload" hidden>
+<h2>Archivos de ArtScroll</h2>
+<p>Elegí el PDF que acabás de enviar o varios PNG desde <strong>Archivos</strong> de tu celular.</p>
+<label for="files">Seleccionar PDF / PNG</label>
+<input id="files" type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg" multiple>
+<ol id="list"></ol>
+<div class="actions">
+<button type="button" id="send">Subir y verificar</button>
+<button type="button" class="secondary" id="signOut">Cerrar sesión</button>
+</div>
+<progress id="progress" class="progress" max="100" value="0" hidden></progress>
+</section>
+<section class="card">
+<div id="status" role="status" aria-live="polite">Comprobando acceso…</div>
+<p class="hint" style="margin:12px 0 0">Destino: bucket privado <code>jd-artscroll-evidence</code>. Solo el equipo autorizado puede abrir los originales desde Supabase.</p>
+</section>
+<p class="hint"><a href="./">Volver al sistema Judaica Design®</a></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(async()=>{
+"use strict";
+const URL="https://athiruoimehofqzrplnl.supabase.co";
+const KEY="sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP";
+const BUCKET="jd-artscroll-evidence";
+const $=id=>document.getElementById(id);
+const status=(s,kind="info")=>{$("status").textContent=s;$("status").dataset.kind=kind};
+if(!window.supabase){status("No se cargó Supabase. Comprobá la conexión y recargá la página.","error");return;}
+const db=supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+let user=null,busy=false;
+async function check(){
+try{
+const {data:session,error}=await db.auth.getUser();
+if(error||!session?.user){user=null;$("login").hidden=false;$("upload").hidden=true;status("Iniciá sesión para subir archivos.");return;}
+const email=(session.user.email||"").toLowerCase();
+const {data:rows,error:accessError}=await db.from("jd_team_access").select("email").eq("email",email).limit(1);
+if(accessError||!rows?.length)throw new Error("Tu cuenta no está autorizada para los archivos de Judaica Design®.");
+user=session.user;$("login").hidden=true;$("upload").hidden=false;status("Acceso autorizado. Elegí el archivo para subirlo.","ok");
+}catch(e){user=null;$("login").hidden=false;$("upload").hidden=true;status(e.message||String(e),"error");}
+}
+$("loginForm").onsubmit=async e=>{
+e.preventDefault();$("signIn").disabled=true;status("Ingresando…","loading");
+try{const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});$("password").value="";if(error)throw error;await check();}
+catch(e){status(e.message||String(e),"error");}finally{$("signIn").disabled=false;}
+};
+$("signOut").onclick=async()=>{await db.auth.signOut();await check()};
+$("files").onchange=()=>{
+const all=[...$("files").files];$("list").replaceChildren();
+for(const f of all){const li=document.createElement("li");li.textContent=f.name+" · "+Math.round(f.size/1024)+" KB";$("list").append(li);}
+};
+function baseName(name){
+const clean=name.normalize("NFC").replace(/[\\/]/g,"_").replace(/[\u0000-\u001f]/g,"").trim();
+if(!clean||clean.length>230||clean==="."||clean==="..")throw new Error("Nombre de archivo no permitido");
+return clean;
+}
+function folder(name,mime){
+const n=name.toLowerCase();
+if(mime==="application/pdf"){
+ if(n.includes("bircat")||n.includes("birkat")||n.includes("bench"))return "birkat-hamazon/pdf";
+ return "tehilim/pdf";
+}
+return "tehilim/png";
+}
+function mimeFor(file){
+const n=file.name.toLowerCase();
+if(n.endsWith(".pdf"))return "application/pdf";
+if(n.endsWith(".png"))return "image/png";
+if(n.endsWith(".jpg")||n.endsWith(".jpeg"))return "image/jpeg";
+throw new Error("Solo se aceptan archivos PDF, PNG y JPG.");
+}
+async function hash(blob){
+const input=await blob.arrayBuffer();
+const digest=await crypto.subtle.digest("SHA-256",input);
+return [...new Uint8Array(digest)].map(n=>n.toString(16).padStart(2,"0")).join("");
+}
+async function uploadFile(file){
+const mime=mimeFor(file),name=baseName(file.name);
+if(file.size===0||file.size>50*1024*1024)throw new Error("El archivo está vacío o supera los 50 MB.");
+const path=folder(name,mime)+"/"+name;
+const before=await hash(file);
+const store=db.storage.from(BUCKET);
+const result=await store.upload(path,file,{upsert:false,contentType:mime,cacheControl:"3600"});
+if(result.error&&!(/already exists|duplicate|409/i.test(result.error.message||"")))throw result.error;
+const {data:copy,error:downloadError}=await store.download(path);
+if(downloadError||!copy)throw new Error("No se pudo descargar el archivo para verificarlo: "+(downloadError?.message||"sin datos"));
+const after=await hash(copy);
+if(before!==after)throw new Error("Error: el archivo almacenado no coincide con el original. Avisá antes de reintentar.");
+const id="artscroll:"+name.toLowerCase();
+const {data:existing,error:readError}=await db.from("jd_editorial_evidence").select("evidence_id,original_filename,source_sha256_claims,reference_claims,associated_psalms").eq("evidence_id",id).maybeSingle();
+if(readError)throw new Error("El PDF ya está almacenado y verificado, pero falló la consulta del inventario: "+readError.message);
+const common={storage_bucket:BUCKET,storage_path:path,storage_status:"verified",hash_verified:true,updated_at:new Date().toISOString(),notes:"Original privado verificado por SHA-256 tras descarga de Supabase Storage; archivo cargado desde dispositivo autenticado."};
+if(existing){
+ const claims=[...new Set([...(existing.source_sha256_claims||[]),before])];
+ const {error}=await db.from("jd_editorial_evidence").update({...common,source_sha256_claims:claims}).eq("evidence_id",id);
+ if(error)throw new Error("Archivo almacenado y verificado; error al actualizar inventario: "+error.message);
+}else{
+ const ps=/bircat|birkat|bench/i.test(name)?[126,137]:[];
+ const {error}=await db.from("jd_editorial_evidence").insert({...common,evidence_id:id,original_filename:name,media_type:mime==="application/pdf"?"pdf":"image",collection:"ArtScroll Judaica Design",associated_psalms:ps,source_sha256_claims:[before],reference_claims:[{origin:"Carga manual verificada",uploadedBy:user?.email||"equipo JD"}]});
+ if(error)throw new Error("Archivo almacenado y verificado; error al registrar en inventario: "+error.message);
+}
+return {path,sha256:before};
+}
+$("send").onclick=async()=>{
+if(busy)return;
+const files=[...$("files").files];
+if(!files.length){status("Primero seleccioná un PDF o PNG.","error");return;}
+busy=true;$("send").disabled=true;$("progress").hidden=false;$("progress").value=0;
+let ok=0;const summary=[];
+for(let i=0;i<files.length;i++){
+ status("Subiendo y verificando "+(i+1)+" de "+files.length+": "+files[i].name,"loading");
+ try{const r=await uploadFile(files[i]);ok++;summary.push("✓ "+files[i].name+"\n   Guardado y verificado: "+r.path);}
+ catch(e){summary.push("✕ "+files[i].name+"\n   "+(e.message||String(e)));}
+ $("progress").value=100*(i+1)/files.length;
+}
+status(ok+" de "+files.length+" archivos guardados y verificados.\n\n"+summary.join("\n\n"),ok===files.length?"ok":"error");
+busy=false;$("send").disabled=false;
+};
+await check();
+})();
+</script>
+</body>
+</html>
