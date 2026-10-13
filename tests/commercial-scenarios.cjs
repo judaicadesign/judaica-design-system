@@ -39,7 +39,7 @@ async function boot(rows=fixture(),fetchResult){
  w.supabase={createClient:()=>client};
  w.jdNativeQuote={version:'20261011-master-v10'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
- for(const file of ['jd-ui.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  await sleep(450);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
@@ -50,6 +50,50 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+ 
+ const clientRows=fixture();
+ clientRows.find(r=>r.key==='jd_clients').value.push({id:'client-erik',name:'Erik Laham',firstName:'Erik',lastName:'Laham',address:'Av. Siempreviva 345',phone:'5491122233333',status:'Esperando respuesta',quoteIds:[],history:[{at:'2026-08-15T10:00:00Z',type:'Contacto',text:'Consulta original'}]});
+ const linked=await boot(clientRows);
+ linked.w.go('clients');
+ const find=linked.w.document.getElementById('jdCrmSearch');
+ assert.ok(find,'The CRM needs a search field');
+ find.value='eri';find.dispatchEvent(new linked.w.Event('input',{bubbles:true}));
+ assert.equal([...linked.w.document.querySelectorAll('#clients tbody tr[data-ci]')].filter(row=>row.style.display!=='none').length,1);
+ find.value='siempreviva';find.dispatchEvent(new linked.w.Event('input',{bubbles:true}));
+ assert.equal([...linked.w.document.querySelectorAll('#clients tbody tr[data-ci]')].filter(row=>row.style.display!=='none').length,1);
+ linked.w.go('quotes');
+ const inp=linked.w.document.getElementById('qClient');
+ inp.value='eri';inp.dispatchEvent(new linked.w.Event('input',{bubbles:true}));
+ const option=[...linked.w.document.querySelectorAll('.jd-client-pick-option')].find(el=>el.textContent.includes('Erik Laham'));
+ assert.ok(option,'Typing eri should suggest Erik Laham');option.click();
+ assert.equal(inp.value,'Erik Laham');assert.equal(linked.w.JDClientDirectory.selectedId(inp),'client-erik');
+ assert.match(linked.w.document.querySelector('.jd-client-pick-detail').textContent,/Siempreviva/);
+ await save(linked);
+ assert.equal(linked.get('jd_saved_quotes_v6')[0].clientId,'client-erik');
+ assert.equal(linked.get('jd_clients').length,2,'existing clients must not be cloned');
+ const savedErik=linked.get('jd_clients').find(c=>c.id==='client-erik');
+ assert.equal(savedErik.phone,'5491122233333');assert.equal(savedErik.address,'Av. Siempreviva 345');assert.equal(savedErik.history.length,1);
+ linked.close();console.log('CRM search + linked quote autocomplete passed');
+
+ const school=await boot();
+ school.w.go('clients');school.w.document.getElementById('jdNewClient').click();
+ school.w.document.getElementById('crmFirst').value='Colegio Maimónides';
+ school.w.document.getElementById('crmAddress').value='Calle de la escuela 500';
+ school.w.document.getElementById('crmPhone').value='5491166677788';
+ await school.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
+ const schoolCard=school.get('jd_clients').find(c=>c.name==='Colegio Maimónides');
+ assert.ok(schoolCard);assert.equal(schoolCard.lastName,'');
+ assert.equal(schoolCard.address,'Calle de la escuela 500');
+ school.w.go('quotes');
+ const qSchool=school.w.document.getElementById('qClient');
+ qSchool.value='Colegio Mai';qSchool.dispatchEvent(new school.w.Event('input',{bubbles:true}));
+ assert.ok(school.w.document.querySelector('.jd-client-pick-list').textContent.includes('Colegio Maimónides'));
+ school.w.document.querySelector('.jd-client-pick-option').click();
+ await save(school);
+ assert.equal(school.get('jd_clients').filter(c=>c.name==='Colegio Maimónides').length,1);
+ assert.equal(school.get('jd_saved_quotes_v6')[0].clientId,schoolCard.id);
+ school.close();console.log('Institution with no surname and WhatsApp preserved passed');
+
  const repairRows=fixture();repairRows[0].value[0].models=['Deluxe'];repairRows[0].value[0].variants[0].model='Deluxe';repairRows[0].value[0].variants[0].content=['Birkat Hamazón','Hasta 16 páginas para contenido adicional a elección'];
  repairRows.find(r=>r.key==='jd_pricing_rules_v4').value[0].variant='Deluxe';repairRows.find(r=>r.key==='jd_cost_quotes_v2').value.forEach(r=>r.variant='Deluxe');
  const repair=await boot(repairRows);repair.w.go('products');repair.w.document.querySelector('[data-pedit="0"]').click();repair.w.document.getElementById('pdeluxeExtra6').value='80000';repair.w.document.getElementById('plegal6').value='';
