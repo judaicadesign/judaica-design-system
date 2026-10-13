@@ -1851,7 +1851,7 @@ async function save6(silent=false){
    else quote.revision=Math.max(0,...saved.filter(q=>(q.quoteFamily||q.id)===quote.quoteFamily).map(q=>Number(q.revision||1)))+1;
    const directory=window.JDClientDirectory, norm=directory.norm;
    let ci=clients.findIndex(c=>quote.clientId&&directory.stableId(c)===quote.clientId);
-   if(ci<0)ci=clients.findIndex(c=>norm(directory.nameOf(c))===norm(quote.client)||!!c.org&&norm(c.org)===norm(quote.client));
+   if(ci<0)ci=clients.findIndex(c=>norm(directory.nameOf(c))===norm(quote.client));
    // El nombre libre puede ser una institución: no inventar apellidos separando palabras.
    const clientObj=ci>=0?{...clients[ci]}:{
      id:'client-'+crypto.randomUUID(),name:quote.client,firstName:quote.client,lastName:'',
