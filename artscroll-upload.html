@@ -127,8 +127,17 @@ return [...new Uint8Array(digest)].map(n=>n.toString(16).padStart(2,"0")).join("
 async function uploadFile(file){
 const mime=mimeFor(file),name=baseName(file.name);
 if(file.size===0||file.size>50*1024*1024)throw new Error("El archivo está vacío o supera los 50 MB.");
-const path=folder(name,mime)+"/"+name;
 const before=await hash(file);
+// A PDF with suffix (2) or (3) can be byte-identical to the original ArtScroll.
+// If the historical evidence already has this SHA-256, reuse its canonical record.
+const {data:matching,error:matchError}=await db.from("jd_editorial_evidence")
+  .select("evidence_id,original_filename,source_sha256_claims,associated_psalms")
+  .contains("source_sha256_claims",[before]).limit(20);
+if(matchError)throw new Error("No se pudo cotejar el archivo con el registro de ArtScroll: "+matchError.message);
+const canonical=(matching||[]).find(x=>! /\\(\\d+\\)\\.(pdf|png|jpe?g)$/i.test(x.original_filename))
+ ||(matching||[])[0]||null;
+const targetName=canonical?.original_filename||name;
+const path=folder(targetName,mime)+"/"+targetName;
 const store=db.storage.from(BUCKET);
 const result=await store.upload(path,file,{upsert:false,contentType:mime,cacheControl:"3600"});
 if(result.error&&!(/already exists|duplicate|409/i.test(result.error.message||"")))throw result.error;
@@ -136,17 +145,27 @@ const {data:copy,error:downloadError}=await store.download(path);
 if(downloadError||!copy)throw new Error("No se pudo descargar el archivo para verificarlo: "+(downloadError?.message||"sin datos"));
 const after=await hash(copy);
 if(before!==after)throw new Error("Error: el archivo almacenado no coincide con el original. Avisá antes de reintentar.");
-const id="artscroll:"+name.toLowerCase();
-const {data:existing,error:readError}=await db.from("jd_editorial_evidence").select("evidence_id,original_filename,source_sha256_claims,reference_claims,associated_psalms").eq("evidence_id",id).maybeSingle();
+const id=canonical?.evidence_id||"artscroll:"+name.toLowerCase();
+const {data:existing,error:readError}=await db.from("jd_editorial_evidence")
+  .select("evidence_id,original_filename,source_sha256_claims,reference_claims,associated_psalms")
+  .eq("evidence_id",id).maybeSingle();
 if(readError)throw new Error("El PDF ya está almacenado y verificado, pero falló la consulta del inventario: "+readError.message);
-const common={storage_bucket:BUCKET,storage_path:path,storage_status:"verified",hash_verified:true,updated_at:new Date().toISOString(),notes:"Original privado verificado por SHA-256 tras descarga de Supabase Storage; archivo cargado desde dispositivo autenticado."};
+const common={
+ storage_bucket:BUCKET,storage_path:path,storage_status:"verified",hash_verified:true,
+ updated_at:new Date().toISOString(),
+ notes:"Original privado verificado por SHA-256 tras descargarlo de Supabase Storage. Archivo seleccionado: "+name+"."
+};
 if(existing){
  const claims=[...new Set([...(existing.source_sha256_claims||[]),before])];
  const {error}=await db.from("jd_editorial_evidence").update({...common,source_sha256_claims:claims}).eq("evidence_id",id);
  if(error)throw new Error("Archivo almacenado y verificado; error al actualizar inventario: "+error.message);
 }else{
  const ps=/bircat|birkat|bench/i.test(name)?[126,137]:[];
- const {error}=await db.from("jd_editorial_evidence").insert({...common,evidence_id:id,original_filename:name,media_type:mime==="application/pdf"?"pdf":"image",collection:"ArtScroll Judaica Design",associated_psalms:ps,source_sha256_claims:[before],reference_claims:[{origin:"Carga manual verificada",uploadedBy:user?.email||"equipo JD"}]});
+ const {error}=await db.from("jd_editorial_evidence").insert({
+   ...common,evidence_id:id,original_filename:name,media_type:mime==="application/pdf"?"pdf":"image",
+   collection:"ArtScroll Judaica Design",associated_psalms:ps,source_sha256_claims:[before],
+   reference_claims:[{origin:"Carga manual verificada",uploadedBy:user?.email||"equipo JD"}]
+ });
  if(error)throw new Error("Archivo almacenado y verificado; error al registrar en inventario: "+error.message);
 }
 return {path,sha256:before};
