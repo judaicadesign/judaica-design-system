@@ -1833,7 +1833,7 @@ function collectSingleQuote6(){
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
  if(badQty)throw new Error('No se puede guardar este presupuesto: '+badQty.r.reason);
  quote.quantities.forEach(x=>{const r=calcQty(x.qty),price=price6(r,x.qty,discount);if(!price.ok)throw new Error(price.reason);Object.assign(x,{price:price.price,basePrice:price.basePrice,rushAmount:price.rushAmount,priceBeforeDiscount:price.priceBeforeDiscount,discountAmount:price.discountAmount,manualPrice:price.manualPrice,calculatedPrice:price.calculatedPrice});x.shipping=Number(r.shipping||0);x.profit=Math.round((x.price-x.cost-x.shipping)*100)/100;x.marginPct=x.profit/x.price*100;});
- const parent=GET('jd_saved_quotes_v6',[]).find(q=>q.id===window.jdQuoteParent&&q.client===quote.client);
+ const parent=GET('jd_saved_quotes_v6',[]).find(q=>q.id===window.jdQuoteParent&&(q.clientId&&quote.clientId?q.clientId===quote.clientId:q.client===quote.client));
  if(parent){quote.parentQuoteId=parent.id;quote.quoteFamily=parent.quoteFamily||parent.id;quote.revision=Number(parent.revision||1)+1;}else{quote.quoteFamily=quote.id;quote.revision=1;}
  return quote;
 }
@@ -1966,10 +1966,16 @@ window.renderQuote=render6;
    return signed.data.signedUrl;
  }
  function getOrAskPhone(q){
-   let arr=get('jd_clients',[]);
+   const arr=get('jd_clients',[]);
    let i=arr.findIndex(c=>q.clientId&&window.JDClientDirectory?.stableId(c)===q.clientId);
    if(i<0)i=arr.findIndex(c=>norm(c.name)===norm(q.client));
-   if(i<0){window.jdUpsertClientFromQuote(q,false);arr=get('jd_clients',[]);i=arr.findIndex(c=>q.clientId&&window.JDClientDirectory?.stableId(c)===q.clientId||norm(c.name)===norm(q.client));}
+   if(i<0){
+     const raw=prompt('No tenemos el WhatsApp de '+q.client+'. Escribilo para guardarlo y enviar el presupuesto:','');
+     const phone=normalizePhone(raw);
+     if(!phone)return '';
+     window.jdUpsertClientFromQuote({...q,phone:raw.trim()},false);
+     return phone;
+   }
    let phone=normalizePhone(arr[i]?.phone||'');
    if(!phone){
      const raw=prompt('No tenemos el WhatsApp de '+q.client+'. Escribilo para guardarlo y enviar el presupuesto:','');
@@ -2190,11 +2196,9 @@ window.renderQuote=render6;
    if(x.paid===true&&!x.paymentStatus)x.paymentStatus='Pagado';
    if(!x.paymentStatus)x.paymentStatus=x.paid?'Pagado':'Pendiente';
    if(!x.name)x.name=[x.firstName,x.lastName].filter(Boolean).join(' ').trim();
-   const parts=String(x.name||'').trim().split(/\s+/);
-   if(!(x.org===x.name&&!x.firstName&&!x.lastName)){
-     if(!x.firstName)x.firstName=parts.shift()||'';
-     if(!x.lastName)x.lastName=parts.join(' ');
-   }
+   // No se puede deducir un apellido separando palabras: "Kehilá Or Mizrah"
+   // y "Colegio Maimónides" son nombres institucionales válidos.
+   if(!x.firstName&&!x.lastName&&x.name&&x.org!==x.name)x.firstName=x.name;
    if(!Array.isArray(x.history))x.history=[];
    return x;
  }
@@ -2355,6 +2359,7 @@ window.renderQuote=render6;
    let i=arr.findIndex(c=>q.clientId&&window.JDClientDirectory.stableId(c)===q.clientId);
    if(i<0)i=arr.findIndex(c=>norm(c.name)===norm(q.client));
    let c=i>=0?arr[i]:{id:'client-'+crypto.randomUUID(),name:q.client,firstName:q.client,lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()};
+   if(q.phone&&!c.phone)c.phone=String(q.phone).trim();
    c.ask=[q.product,q.model,q.nusaj].filter(Boolean).join(' · ');
    const target=sent?'Presupuesto enviado':'Presupuesto listo para enviar';
    if(c.status!==target){const prev=c.status;c.status=target;addHistory(c,'Presupuesto',(sent?'Presupuesto enviado':'Presupuesto guardado y listo para enviar')+(prev?' · estado anterior: '+prev:''));}
