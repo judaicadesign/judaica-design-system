@@ -6,7 +6,7 @@
  const stableId=c=>c?.id||'legacy-'+encodeURIComponent([c?.name||[c?.firstName,c?.lastName].filter(Boolean).join(' '),c?.org||'',c?.created||''].join('|'));
  const clients=()=>{try{const a=JSON.parse(localStorage.getItem('jd_clients')||'[]');return Array.isArray(a)?a:[]}catch(_){return []}};
  const findById=id=>clients().find(c=>stableId(c)===id);
- const exact=(value)=>clients().find(c=>norm(nameOf(c))===norm(value)||norm(c.org)===norm(value));
+ const exact=(value)=>clients().find(c=>norm(nameOf(c))===norm(value));
  const digits=s=>String(s||'').replace(/\D/g,'').replace(/^00/,'');
  const matches=(c,q)=>{
    const hay=norm([nameOf(c),c.firstName,c.lastName,c.org,c.phone,c.address,c.city].filter(Boolean).join(' '));
