@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/jd-base.css?v=20261008-adjustment">
 <link rel="stylesheet" href="assets/jd-ui.css?v=20261010-warning-yellow">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
+<script src="assets/jd-client-directory.js?v=20261012-crm-search" defer></script>
 <script src="assets/jd-tehilim-export.js?v=20261012-library" defer></script>
 <script src="assets/jd-passage-links.js?v=20261012-library" defer></script>
 <script src="assets/jd-passage-library-ui.js?v=20261012-library" defer></script>
@@ -331,7 +332,7 @@ function loadSavedQuoteV6(id,preservePrices=false){
  set('qBind',q.binding||q.bind,true);
  const ev=document.getElementById('qEvent');if(ev)ev.value=q.event||'';
  const dl=document.getElementById('qDeadline');if(dl)dl.value=q.deadline||'';
- const cl=document.getElementById('qClient');if(cl)cl.value=q.client||'';
+ const cl=document.getElementById('qClient');if(cl){cl.value=q.client||'';window.JDClientDirectory?.restore(cl,q.clientId,q.client||'');}
  for(const id of ['qDeluxeSongs','qDeluxeRH','qDeluxeJanuca']){const el=document.getElementById(id);if(el)el.checked=!!q.deluxeOptions?.[id];}
  const rush=document.getElementById('qRush');if(rush)rush.checked=!!q.rushPercent;const showRush=document.getElementById('qRushShow');if(showRush)showRush.checked=!!q.rushShow;const leafletContent=document.getElementById('qLeafletContent');if(leafletContent&&q.product==='Birkón · Folleto')leafletContent.value=(q.content||[]).join('\n');set('qDiscount',q.discount||0,false);set('qDiscountWhy',q.discountWhy||'',false);set('qInternal',q.internal||'',false);
  window.jdManualPrices=preservePrices?Object.fromEntries((q.quantities||[]).filter(x=>Number.isFinite(Number(x.price))&&Number(x.price)>0).map(x=>[x.qty,String(x.basePrice??((x.priceBeforeDiscount??(Number(x.price)+Number(q.discount||0)))/(1+Number(q.rushPercent||0)/100)))])):{};
@@ -1594,6 +1595,7 @@ function buildQuote(){
  qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn" id="previewPdf6">Vista previa PDF</button> <button class="btn primary" id="sendWa6">Enviar por WhatsApp</button></div></div>'+
  '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div id="jdAlternatives"></div><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" placeholder="Nombre y apellido" autocomplete="name"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field jd-hidden" id="qB612ModelsField"><label>Diseños distintos · interno B612</label><input id="qB612Models" type="number" min="1" max="20" step="1" value="1"><small class="muted">1 para un único diseño; 2 si la tirada incluye dos diseños, etc. La cantidad solicitada es el total de unidades.</small></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Tipo de evento · interno</label><select id="qEventType">'+window.jdAssetMatch.events.map(([id,label])=>'<option value="'+id+'">'+E(label)+'</option>').join('')+'</select><small id="jdEventVisualStatus" class="muted"></small></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
  qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
+ window.JDClientDirectory?.bindQuote();
  qDiscount.min='0';qDiscount.step='0.01';qDiscount.previousElementSibling.textContent='Descuento ($)';qDiscount.insertAdjacentHTML('afterend','<small class="muted">Se resta una vez al total de cada cantidad cotizada. Para subir un precio, usá el precio manual.</small>');
  window.qs6=GET('jd_quote_qtys_v6',[60,100]);
  document.getElementById('qB612Models').addEventListener('input',()=>{window.jdManualPrices={};drawQty6();render6()});
@@ -1798,18 +1800,18 @@ window.jdResetAlternatives=()=>{alternatives=[];activeAlternative=0};
 window.jdLoadAlternatives=(quote,preservePrices)=>{
  alternatives=[];activeAlternative=0;
  if(!quote.alternatives?.length)return;
- const shared={client:qClient.value,event:qEvent.value,deadline:qDeadline.value};
+ const shared={client:qClient.value,clientId:window.JDClientDirectory?.selectedId(qClient)||null,event:qEvent.value,deadline:qDeadline.value};
  try{
    alternatives=quote.alternatives.map(a=>({quote:structuredClone(a),state:{fields:{...a.deluxeOptions,qRush:!!a.rushPercent,qRushShow:!!a.rushShow,qLeafletContent:(a.content||[]).join('\n'),qProduct:a.product,qModel:a.model||'',qLang:a.texts||'',qNusaj:a.nusaj||'',qSize:a.size||'',qBind:a.binding||'',qB612Models:String(a.b612Models||1),qDiscount:String(a.discount||0),qDiscountWhy:a.discountWhy||'',qInternal:a.internal||''},quantities:a.quantities.map(q=>q.qty),manualPrices:preservePrices?Object.fromEntries(a.quantities.map(q=>[q.qty,String(q.basePrice??((q.priceBeforeDiscount??(q.price+Number(a.discount||0)))/(1+Number(a.rushPercent||0)/100)))])):{}}}));
    for(let i=0;i<alternatives.length;i++){activeAlternative=i;applyAlternative(alternatives[i].state);alternatives[i].html=quotePreview.querySelector('.jd-pdf-sheet')?.outerHTML||'';}
    activeAlternative=0;applyAlternative(alternatives[0].state);
  }catch(error){alert(error.message)}
- qClient.value=shared.client;qEvent.value=shared.event;qDeadline.value=shared.deadline;
+ qClient.value=shared.client;window.JDClientDirectory?.restore(qClient,shared.clientId,shared.client);qEvent.value=shared.event;qDeadline.value=shared.deadline;
 };
 function collectQuote6(){
  const current=captureAlternative();
  if(alternatives.length<=1){if(window.jdQuoteEdit)current.alternatives=[];return current;}
- const shared={client:current.client,eventType:current.eventType,event:current.event,deadline:current.deadline,issuedDate:current.issuedDate,created:current.created};
+ const shared={client:current.client,clientId:current.clientId,eventType:current.eventType,event:current.event,deadline:current.deadline,issuedDate:current.issuedDate,created:current.created};
  const quotes=alternatives.map((a,i)=>{
    if(!a.quote)throw Error('Completá la alternativa '+(i+1));
    const q={...structuredClone(a.quote),...shared};delete q.alternatives;return q;
@@ -1825,8 +1827,8 @@ function collectSingleQuote6(){
  const p=activeProduct(),v=selectedVariant(p);
  const issuedDate=window.jdLegalDates.today();
  const legalSet=jdLegalSet(p.legalSetId??((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
- const quote={id:'q-'+uid(),client:qClient.value.trim(),productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,b612Models:jdIsB612Live(p)?jdB612Models():undefined,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live,b612:r.b612?{sourceUrl:r.b612.sourceUrl,fetchedAt:r.b612.fetchedAt,models:r.b612.models,folds:r.b612.folds,supplierCategory:r.b612.supplierCategory,net:r.b612.net,vat:r.b612.vat,gross:r.b612.gross,productionQty:r.b612.productionQty,sheet:r.b612.sheet,lines:r.b612.lines}:undefined}:null}}),eventType:document.getElementById('qEventType')?.value||'generic',event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',rushPercent:document.getElementById('qRush')?.checked?30:0,rushShow:!!document.getElementById('qRushShow')?.checked,discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,deluxeOptions:p.name==='Birkón · Librito'&&qModel.value==='Deluxe'?Object.fromEntries(['qDeluxeSongs','qDeluxeRH','qDeluxeJanuca'].map(id=>[id,!!document.getElementById(id)?.checked])):undefined,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
- if(!quote.client)throw new Error('Falta el nombre y apellido del cliente.');
+ const quote={id:'q-'+uid(),client:qClient.value.trim(),clientId:window.JDClientDirectory?.selectedId(qClient)||null,productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,b612Models:jdIsB612Live(p)?jdB612Models():undefined,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live,b612:r.b612?{sourceUrl:r.b612.sourceUrl,fetchedAt:r.b612.fetchedAt,models:r.b612.models,folds:r.b612.folds,supplierCategory:r.b612.supplierCategory,net:r.b612.net,vat:r.b612.vat,gross:r.b612.gross,productionQty:r.b612.productionQty,sheet:r.b612.sheet,lines:r.b612.lines}:undefined}:null}}),eventType:document.getElementById('qEventType')?.value||'generic',event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',rushPercent:document.getElementById('qRush')?.checked?30:0,rushShow:!!document.getElementById('qRushShow')?.checked,discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,deluxeOptions:p.name==='Birkón · Librito'&&qModel.value==='Deluxe'?Object.fromEntries(['qDeluxeSongs','qDeluxeRH','qDeluxeJanuca'].map(id=>[id,!!document.getElementById(id)?.checked])):undefined,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
+ if(!quote.client)throw new Error('Falta el nombre del cliente o institución.');
  if(p.name==='Birkón · Librito' && !quote.pages)throw new Error('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
  if(badQty)throw new Error('No se puede guardar este presupuesto: '+badQty.r.reason);
@@ -1847,20 +1849,26 @@ async function save6(silent=false){
    const saved=state.jd_saved_quotes_v6,clients=state.jd_clients.map(c=>({...c}));
    if(editing){quote=window.jdQuoteEditTools.replace(saved.find(q=>q.id===editing.id),quote,editing.baseline)}
    else quote.revision=Math.max(0,...saved.filter(q=>(q.quoteFamily||q.id)===quote.quoteFamily).map(q=>Number(q.revision||1)))+1;
-   const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-   const parts=quote.client.trim().split(/\s+/);
-   const firstName=parts.shift()||quote.client.trim(),lastName=parts.join(' ');
-   let ci=clients.findIndex(x=>norm([x.firstName,x.lastName].filter(Boolean).join(' ')||x.name)===norm(quote.client));
-   const clientObj=ci>=0?{...clients[ci]}:{name:quote.client,firstName,lastName,org:'',phone:'',paid:false,quoteIds:[]};
-   clientObj.name=quote.client;
-   if(!(clientObj.org===quote.client&&!clientObj.firstName&&!clientObj.lastName)){clientObj.firstName=clientObj.firstName||firstName;clientObj.lastName=clientObj.lastName||lastName;}
+   const directory=window.JDClientDirectory, norm=directory.norm;
+   let ci=clients.findIndex(c=>quote.clientId&&directory.stableId(c)===quote.clientId);
+   if(ci<0)ci=clients.findIndex(c=>norm(directory.nameOf(c))===norm(quote.client)||!!c.org&&norm(c.org)===norm(quote.client));
+   // El nombre libre puede ser una institución: no inventar apellidos separando palabras.
+   const clientObj=ci>=0?{...clients[ci]}:{
+     id:'client-'+crypto.randomUUID(),name:quote.client,firstName:quote.client,lastName:'',
+     org:'',address:'',phone:'',paid:false,quoteIds:[],created:new Date().toISOString()
+   };
+   quote.clientId=directory.stableId(clientObj);
+   if(Array.isArray(quote.alternatives))quote.alternatives.forEach(a=>{a.clientId=quote.clientId;});
    clientObj.ask=[quote.product,quote.model,quote.nusaj].filter(Boolean).join(' · ');
-   if(!editing||!/diseño|aprobado|imprenta|entregado|pago realizado/i.test(clientObj.status||'')){clientObj.status='Presupuesto listo';clientObj.next='enviar presupuesto'}
+   if(!editing||!/diseño|aprobado|imprenta|entregado|pago realizado/i.test(clientObj.status||'')){clientObj.status='Presupuesto listo';clientObj.next='enviar presupuesto';}
    clientObj.quoteIds=Array.from(new Set([...(clientObj.quoteIds||[]),quote.id]));
    if(ci>=0)clients[ci]=clientObj;else clients.push(clientObj);
    if(editing){
      const index=saved.findIndex(q=>q.id===editing.id),previous=saved[index];saved[index]=quote;
-     if(norm(previous.client)!==norm(quote.client))clients.filter(c=>norm(c.name)===norm(previous.client)).forEach(c=>{if(Array.isArray(c.quoteIds))c.quoteIds=c.quoteIds.filter(id=>id!==quote.id)});
+     if(previous&&((previous.clientId&&previous.clientId!==quote.clientId)||(!previous.clientId&&norm(previous.client)!==norm(quote.client)))){
+       clients.filter(c=>previous.clientId?directory.stableId(c)===previous.clientId:norm(directory.nameOf(c))===norm(previous.client))
+         .forEach(c=>{if(Array.isArray(c.quoteIds))c.quoteIds=c.quoteIds.filter(id=>id!==quote.id);});
+     }
    }
    return {jd_saved_quotes_v6:editing?saved:[quote,...saved],jd_clients:clients};
 
@@ -1959,8 +1967,9 @@ window.renderQuote=render6;
  }
  function getOrAskPhone(q){
    let arr=get('jd_clients',[]);
-   let i=arr.findIndex(c=>norm(c.name)===norm(q.client));
-   if(i<0){window.jdUpsertClientFromQuote(q,false);arr=get('jd_clients',[]);i=arr.findIndex(c=>norm(c.name)===norm(q.client))}
+   let i=arr.findIndex(c=>q.clientId&&window.JDClientDirectory?.stableId(c)===q.clientId);
+   if(i<0)i=arr.findIndex(c=>norm(c.name)===norm(q.client));
+   if(i<0){window.jdUpsertClientFromQuote(q,false);arr=get('jd_clients',[]);i=arr.findIndex(c=>q.clientId&&window.JDClientDirectory?.stableId(c)===q.clientId||norm(c.name)===norm(q.client));}
    let phone=normalizePhone(arr[i]?.phone||'');
    if(!phone){
      const raw=prompt('No tenemos el WhatsApp de '+q.client+'. Escribilo para guardarlo y enviar el presupuesto:','');
@@ -2121,6 +2130,7 @@ window.renderQuote=render6;
  const SB_URL='https://athiruoimehofqzrplnl.supabase.co';
  const SB_KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
  const CLIENT_KEY='jd_clients';
+  let crmSearchTerm='';
  const statuses=[
   'Consulta recibida',
   'Definiendo pedido',
@@ -2228,6 +2238,7 @@ window.renderQuote=render6;
    sec.innerHTML=
     '<div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><div class="jd-crm-toolbar"><button class="btn primary" id="jdNewClient">+ Nueva consulta</button></div></div>'+
     '<div class="notice"><b>Seguimiento operativo:</b> cada cambio de estado, contacto, presupuesto, pago, diseño, imprenta o entrega queda registrado en la historia del cliente.</div>'+
+    '<div class="jd-crm-search"><label for="jdCrmSearch">Buscar cliente, institución, WhatsApp o dirección</label><input id="jdCrmSearch" type="search" placeholder="Ej. Erik, Laham, colegio, kehila…" value="'+esc(crmSearchTerm)+'" autocomplete="off"><div id="jdCrmSearchCount" class="jd-crm-search-count"></div></div>'+
     '<div class="jd-panel"><table class="table jd-crm-table"><thead><tr><th>Cliente</th><th>Pedido / consulta</th><th>Estado</th><th>Último movimiento</th><th>Próxima acción</th><th>Pago</th><th></th></tr></thead><tbody>'+
     (arr.length?arr.map((c,i)=>{
       const ev=lastEvent(c),ph=phoneDigits(c.phone);
@@ -2243,6 +2254,19 @@ window.renderQuote=render6;
       '</tr>';
     }).join(''):'<tr><td colspan="7" class="muted">Todavía no hay clientes registrados.</td></tr>')+
     '</tbody></table></div>';
+   const search=sec.querySelector('#jdCrmSearch');
+   const filterClients=()=>{
+     crmSearchTerm=search.value;
+     let shown=0;
+     sec.querySelectorAll('tbody tr[data-ci]').forEach(row=>{
+       const c=arr[Number(row.dataset.ci)],visible=!!c&&window.JDClientDirectory.matches(c,crmSearchTerm);
+       row.style.display=visible?'':'none';
+       if(visible)shown++;
+     });
+     sec.querySelector('#jdCrmSearchCount').textContent=crmSearchTerm.trim()?shown+' de '+arr.length+' clientes':arr.length+' clientes registrados';
+   };
+   search.addEventListener('input',filterClients);
+   filterClients();
    sec.querySelector('#jdNewClient').onclick=()=>openClient(-1);
    sec.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openClient(+b.dataset.open));
    sec.querySelectorAll('[data-status]').forEach(sel=>sel.onchange=async()=>{
@@ -2265,13 +2289,13 @@ window.renderQuote=render6;
    const body=
     '<div class="jd-crm-body">'+
      '<div class="jd-crm-panel"><div class="jd-crm-form">'+
-      '<div class="jd-crm-field"><label>Nombre</label><input id="crmFirst" value="'+esc(c.firstName||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Apellido</label><input id="crmLast" value="'+esc(c.lastName||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Institución</label><input id="crmOrg" value="'+esc(c.org||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Nombre o institución</label><input id="crmFirst" placeholder="Persona, kehila, templo, colegio…" value="'+esc(c.firstName||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Apellido (opcional)</label><input id="crmLast" value="'+esc(c.lastName||'')+'"></div>'+
+      '<div class="jd-crm-field"><label>Institución relacionada (opcional)</label><input id="crmOrg" value="'+esc(c.org||'')+'"></div>'+
       '<div class="jd-crm-field"><label>WhatsApp</label><input id="crmPhone" value="'+esc(c.phone||'')+'"></div>'+
       '<div class="jd-crm-field"><label>Correo electrónico</label><input id="crmEmail" type="email" autocomplete="email" value="'+esc(c.email||'')+'"></div>'+
       '<div class="jd-crm-field"><label>Destinatario de la entrega</label><input id="crmRecipient" value="'+esc(c.deliveryRecipient||'')+'" placeholder="Persona o institución que recibe"></div>'+
-      '<div class="jd-crm-field jd-crm-span2"><label>Dirección de entrega · calle, número y piso</label><input id="crmAddress" autocomplete="street-address" value="'+esc(c.address||'')+'"></div>'+
+      '<div class="jd-crm-field jd-crm-span2"><label>Dirección · calle, número y piso</label><input id="crmAddress" autocomplete="street-address" value="'+esc(c.address||'')+'"></div>'+
       '<div class="jd-crm-field"><label>Localidad / provincia</label><input id="crmCity" value="'+esc(c.city||'')+'"></div>'+
       '<div class="jd-crm-field"><label>Código postal</label><input id="crmPostal" autocomplete="postal-code" value="'+esc(c.postalCode||'')+'"></div>'+
       '<div class="jd-crm-field"><label>País</label><input id="crmCountry" autocomplete="country-name" value="'+esc(c.country||'')+'"></div>'+
@@ -2328,9 +2352,9 @@ window.renderQuote=render6;
  // Quote-driven client upsert: quote and WhatsApp actions also become timeline events.
  window.jdUpsertClientFromQuote=function(q,sent){
    const arr=get().map(migrate);
-   let i=arr.findIndex(c=>norm(c.name)===norm(q.client));
-   let c=i>=0?arr[i]:{name:q.client,firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()};
-   if(!c.firstName&&c.org!==q.client){const pp=String(q.client||'').trim().split(/\s+/);c.firstName=pp.shift()||'';c.lastName=pp.join(' ')}
+   let i=arr.findIndex(c=>q.clientId&&window.JDClientDirectory.stableId(c)===q.clientId);
+   if(i<0)i=arr.findIndex(c=>norm(c.name)===norm(q.client));
+   let c=i>=0?arr[i]:{id:'client-'+crypto.randomUUID(),name:q.client,firstName:q.client,lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()};
    c.ask=[q.product,q.model,q.nusaj].filter(Boolean).join(' · ');
    const target=sent?'Presupuesto enviado':'Presupuesto listo para enviar';
    if(c.status!==target){const prev=c.status;c.status=target;addHistory(c,'Presupuesto',(sent?'Presupuesto enviado':'Presupuesto guardado y listo para enviar')+(prev?' · estado anterior: '+prev:''));}
