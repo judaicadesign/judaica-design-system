@@ -265,8 +265,8 @@
       "previousHebrew": "כִּי הִנֵּה אוֹיְבֶיךָ יֶהֱמָיוּן וּמְשַׂנְאֶיךָ נָשְׂאוּ רֹאשׁ.",
       "hebrew": "כִּי הִנֵּה אוֹיְֿבֶֽיךָ יֶהֱמָיוּן, וּמְשַׂנְאֶֽיךָ נָֽשְֿׂאוּ רֹאשׁ.",
       "previousPhonetic": "Ki hiné oyveja yehemaún umesaneja nasú rosh.",
-      "phonetic": "Ki hiné oyveja yehemayún, umsaneja nasú rosh.",
-      "afterPhonetic": "Ki hiné oyveja yehemayún, umsaneja nasú rosh."
+      "phonetic": "Ki hiné oiveja yehemayún, umsaneja nasú rosh.",
+      "afterPhonetic": "Ki hiné oiveja yehemayún, umsaneja nasú rosh."
     },
     {
       "verse": 4,
@@ -280,9 +280,9 @@
       "verse": 5,
       "previousHebrew": "אָמְרוּ לְכוּ וְנַכְחִידֵם מִגּוֹי וְלֹא יִזָּכֵר שֵׁם יִשְׂרָאֵל עוֹד.",
       "hebrew": "אָמְֿרוּ: לְכוּ וְנַכְחִידֵם מִגּוֹי, וְלֹא יִזָּכֵר שֵׁם יִשְׂרָאֵל עוֹד.",
-      "previousPhonetic": "Amrú lejú venajjidem migó veló yizajer shem Yisrael 'od.",
-      "phonetic": "Amrú: lejú venajjidem migó, veló yizajer shem Yisrael 'od.",
-      "afterPhonetic": "Amrú: lejú venajjidem migó, veló yizajer shem Yisrael 'od."
+      "previousPhonetic": "Amrú lejú venajjidem migoy veló yizajer shem Yisrael 'od.",
+      "phonetic": "Amrú: lejú venajjidem migoy, veló yizajer shem Yisrael 'od.",
+      "afterPhonetic": "Amrú: lejú venajjidem migoy, veló yizajer shem Yisrael 'od."
     },
     {
       "verse": 6,

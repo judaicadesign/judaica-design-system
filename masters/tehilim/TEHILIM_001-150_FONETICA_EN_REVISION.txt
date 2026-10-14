@@ -5,7 +5,7 @@ Revisión visual de ArtScroll y acentos: en curso.
 
 TEHILIM 1 · א
 1:1  Ashré haísh asher lo halaj ba'atsat resha'im, uvdérej jataím lo 'amad, uvmoshav letsim lo yashav.
-1:2  Ki im beTorat Ad-nai jeftsó, uvTorató yehgué yomam valayla.
+1:2  Ki im beTorat Ad-nai jeftsó, uvTorató yehgué yomam valaila.
 1:3  Vehayá ke'éts shatul 'al palgué máyim, asher piryó yitén be'itó, ve'alehu lo yibol, vejol asher ya'asé yatslíaj.
 1:4  Lo jen haresha'im, ki im kamots asher tidefenu rúaj.
 1:5  'Al ken lo yakumu resha'im bamishpat vejataím ba'adat tsadikim.
@@ -69,7 +69,7 @@ TEHILIM 6 · ו
 6:4  Venafshí nivhalá meod, veAtá Ad-nai 'ad matái.
 6:5  Shuvá Ad-nai jaletsá nafshí, hoshi'eni lema'an Jasdeja.
 6:6  Ki en bamávet Zijreja, bishol mi yodé Laj.
-6:7  Yaga'ti beanjatí, asjé vejol layla mitati, bedim'atí 'arsí amsé.
+6:7  Yaga'ti beanjatí, asjé vejol laila mitati, bedim'atí 'arsí amsé.
 6:8  'Asheshá mika'as 'ení, 'ateká bejol tsorerái.
 6:9  Surú mimeni kol po'alé aven, ki shamá' Ad-nai kol bijyí.
 6:10  Shamá' Ad-nai tejinatí, Ad-nai tefilatí yikaj.
@@ -500,7 +500,7 @@ TEHILIM 32 · לב
 32:1  LeDavid maskil ashré nesuy pesha' kesuy jataá.
 32:2  Ashré adam lo yajshov Ad-nai lo 'aón veén berujó remiyá.
 32:3  Ki hejerashti balú 'atsamái beshaagatí kol hayom.
-32:4  Ki yomam valayla tijbad 'alái yadeja nehpaj leshadí bejarvoné kayíts sela.
+32:4  Ki yomam valaila tijbad 'alái yadeja nehpaj leshadí bejarvoné kayíts sela.
 32:5  Jatati odi'aja va'aoni lo jisiti amarti odé 'alé fesha'ái laAd-nai veatá nasata 'aón jatati sela.
 32:6  'Al zot yitpalel kol jasid eleja le'et metsó rak leshétef máyim rabim elav lo yagui'ú.
 32:7  Atá séter li mitsar titsreni roné falet tesoveveni sela.
@@ -726,7 +726,7 @@ TEHILIM 42 · מב
 42:1  Lamenatséaj maskil livné Kóraj.
 42:2  Keayal ta'arog 'al afiké máyim ken nafshí ta'arog eleja Elohim.
 42:3  Tsamá nafshí leLohim leel jai matái avó veerae pené Elohim.
-42:4  Hayeta li dim'atí léjem yomam valayla beemor elái kol hayom ayé Eloheja.
+42:4  Hayeta li dim'atí léjem yomam valaila beemor elái kol hayom ayé Eloheja.
 42:5  Ele ezkerá veeshpejá 'alái nafshí ki e'evor basaj edadem 'ad bet Elohim bekol riná vetodá hamón jogueg.
 42:6  Ma tishtojají nafshí vatehemí 'alái hojilí leLohim ki 'od odenu yeshu'ot Panav.
 42:7  Elohái 'alái nafshí tishtojaj 'al ken ezkoreja meérets yardén vejermonim mehar mits'ar.
@@ -1359,7 +1359,7 @@ TEHILIM 76 · עו
 76:9  Mishamáyim hishma'ta din, érets yareá veshakata.
 76:10  Bekum lamishpat Elohim, lehoshía' kol 'anvé érets sela.
 76:11  Ki jamat adam todeka, sheerit jemot tajgor.
-76:12  Nidru veshalemu laAd-nai elohejem; kol sevivav, yovilu shay lamorá.
+76:12  Nidru veshalemu laAd-nai elohejem; kol sevivav, yovilu shai lamorá.
 76:13  Yivtsor rúaj neguidim, norá lemaljé árets.
 
 TEHILIM 77 · עז
@@ -1528,9 +1528,9 @@ TEHILIM 82 · פב
 TEHILIM 83 · פג
 83:1  Shir mizmor leasaf.
 83:2  Elohim, al domí Laj; al tejerash veal tishkot, El.
-83:3  Ki hiné oyveja yehemayún, umsaneja nasú rosh.
+83:3  Ki hiné oiveja yehemayún, umsaneja nasú rosh.
 83:4  'Al 'amejá ya'arimu sod, veyitya'atsú 'al tsefuneja.
-83:5  Amrú: lejú venajjidem migó, veló yizajer shem Yisrael 'od.
+83:5  Amrú: lejú venajjidem migoy, veló yizajer shem Yisrael 'od.
 83:6  Ki no'atsú lev yajdav, 'Aleja berit yijrotu.
 83:7  Oholé Edom veYishme'elim, Moav veHagrim.
 83:8  Gueval ve'Amón va'Amalek, Peléshet 'im yósheve Tsor.
@@ -1549,7 +1549,7 @@ TEHILIM 83 · פג
 TEHILIM 84 · פד
 84:1  Lamenatséaj 'al haguitit, livné Kóraj mizmor.
 84:2  Ma yedidot mishkenoteja, Ad-nai tsevaot.
-84:3  Nijsefá vegam kaleta nafshí lejatsrot Ad-nai; libí uvsarí yeranenu el El jay.
+84:3  Nijsefá vegam kaleta nafshí lejatsrot Ad-nai; libí uvsarí yeranenu el El jai.
 84:4  Gam tsipor mátsea váyit, udror ken lah asher shata efrojeha; et mizbejoteja Ad-nai tsevaot, malkí vElohái.
 84:5  Ashré yoshevé veteja, 'od yehaleluja sela.
 84:6  Ashré adam 'oz lo vaj, mesilot bilvavam.

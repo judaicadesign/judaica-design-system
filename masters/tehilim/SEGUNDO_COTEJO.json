@@ -2206,8 +2206,8 @@
     {
       "ref": "6:7",
       "hebrew": "יָגַֽעְתִּי בְּאַנְחָֽתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
-      "before": "Yaga'ti beanejati asjé vejol layla mitati bedim'atí 'arsí amsé.",
-      "after": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé."
+      "before": "Yaga'ti beanejati asjé vejol laila mitati bedim'atí 'arsí amsé.",
+      "after": "Yaga'ti beanjati asjé vejol laila mitati bedim'atí 'arsí amsé."
     },
     {
       "ref": "6:11",
@@ -2779,8 +2779,8 @@
     "reading": "be-an-ja-TÍ → beanjatí",
     "beforeHebrew": "יָגַֽעְתִּי בְּאַנְחָֽתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
     "afterHebrew": "יָגַֽעְתִּי בְּאַנְחָתִי אַשְׂחֶה בְכׇל לַיְלָה מִטָּֽתִי בְּדִמְעָתִי עַרְשִׂי אַמְסֶה.",
-    "beforePhonetic": "Yaga'ti beanjati asjé vejol layla mitati bedim'atí 'arsí amsé.",
-    "afterPhonetic": "Yaga'ti beanjatí asjé vejol layla mitati bedim'atí 'arsí amsé.",
+    "beforePhonetic": "Yaga'ti beanjati asjé vejol laila mitati bedim'atí 'arsí amsé.",
+    "afterPhonetic": "Yaga'ti beanjatí asjé vejol laila mitati bedim'atí 'arsí amsé.",
     "scope": "Confirmación de palabras; no aprobación de los salmos completos."
   },
   "benchingRecheck": {

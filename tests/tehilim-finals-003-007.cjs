@@ -42,7 +42,7 @@ for (const [chapter,meteg] of metegExpected) {
 }
 const c6=corpus.items[5].verses[6];
 assert.match(c6.hebrew,/לַֽיְלָה/);
-assert.match(c6.phonetic,/layla/);
+assert.match(c6.phonetic,/laila/); // diptongo con i (decisión 14/10)
 for(const [ch,v,target] of [[3,2,'רַבּוּ'],[5,4,'וַאֲצַפֶּה'],[5,9,'לְפָנַי'],[7,5,'וָאֲחַלְּצָה'],[7,18,'וַאֲזַמְּרָה']]){
  const word=corpus.items[ch-1].verses[v-1].hebrew.split(/[\s,.]/).find(x=>x===target);
  assert.ok(word,'confirmed word missing '+ch+':'+v);
