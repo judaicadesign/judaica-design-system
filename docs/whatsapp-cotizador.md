@@ -39,10 +39,10 @@ Para la futura salida, guardar el token temporal en `JD_WA_ACCESS_TOKEN` y el n�
 ## Pendiente para completar el circuito
 
 1. La autorización de despliegue fue recibida y se aplicó la migración `jd_whatsapp_inbox_signed_events`. `whatsapp-webhook` versión 1 está ACTIVE. Verificado: RLS=true, anon/authenticated sin SELECT, service_role con INSERT, 0 mensajes; el endpoint real devuelve 503 `Webhook not configured` mientras faltan Secrets.
-   Generación de token: Meta abrió consentimiento con la cuenta Hache Plus. Auto-review rechazó continuar por permisos continuos de administración y mensajería WhatsApp que requieren autorización explícita. No se generó token ni se cargaron secretos.
-2. Cargar App Secret y token de verificación en Supabase Secrets; verificar GET real y suscribir `messages` en Meta.
-3. Confirmar y verificar el WhatsApp de la persona aprobadora como destinatario de prueba.
-4. Elegir IA y obtener autorización del costo antes de activarla. Interpretación estructurada contra IDs del catálogo; ningún precio, regla o envío puede ser inventado por el modelo.
+   Generación de token: Meta abrió consentimiento con la cuenta Hache Plus. Auto-review rechazó continuar por permisos continuos de administración y mensajería WhatsApp que requieren autorización explícita. Posteriormente el usuario autorizó los permisos y Meta Business Tools: token temporal generado y guardado en Supabase Secrets. Ya están guardados JD_WA_ACCESS_TOKEN, JD_WA_VERIFY_TOKEN, JD_WA_WABA_ID, JD_WA_PHONE_NUMBER_ID, JD_WA_APPROVER_NUMBER y JD_META_APP_SECRET.
+2. COMPLETADO: Meta verificó y guardó el callback. `messages` está Suscrito v26.0. El endpoint responde 403 sin verificación válida (ya no 503 por falta de Secrets).
+3. COMPLETADO: destinatario de prueba verificado. Recepción real de PRUEBA JD pendiente; no afirmar prueba de punta a punta.
+4. Adapter `whatsapp-extract.mjs` preparado con GPT-5.4 Mini, JSON Schema estricto, sin precios en la salida, store=false y 500 tokens de salida. Desactivado por defecto y sin credencial OpenAI. Solo tests mock, ninguna llamada paga. Se propone un piloto pago con autorización previa; falta integrar worker/B612/salida y medir consumo real. Interpretación estructurada contra IDs del catálogo; ningún precio, regla o envío puede ser inventado por el modelo.
 5. Reutilizar lógica `b612-quote` en servidor sin permitir service-role por bypass de sesión pública. Consultar costo neto en vivo solo cuando la ficha técnica es compatible; demás casos requieren revisión explícita.
 6. Releer `jd_whatsapp_pricing_v1` para cada cotización nueva y aplicar la implementación compartida `supabase/functions/_shared/jd-whatsapp-pricing.js`. Conservar la regla aplicada junto al presupuesto. No aplicar el motor de margen sobre venta ni el envío a este flujo.
 7. Entregar borrador exclusivamente a la persona aprobadora. No incluir envío automático al cliente, tampoco al aprobar un borrador.
