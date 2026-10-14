@@ -183,8 +183,8 @@
       "chapter": 3,
       "verse": 5,
       "hebrew": "קוֹלִי אֶל יְהֹוָה אֶקְרָא וַיַּעֲנֵֽנִי מֵהַר קׇדְשׁוֹ סֶֽלָה.",
-      "master": "Kolí el Ad-nai ekrá vaya'aneni mehar kodshó sela.",
-      "generator": "Kolí el Ad-nai ekrá vaya'aneni mehar kodshó sela.",
+      "master": "Kolí el Ad-nai ekrá vaya'aneni mehar Kodshó sela.",
+      "generator": "Kolí el Ad-nai ekrá vaya'aneni mehar Kodshó sela.",
       "matches": true
     },
     {
@@ -575,8 +575,8 @@
       "chapter": 7,
       "verse": 12,
       "hebrew": "אֱלֹהִים שׁוֹפֵט צַדִּיק וְאֵל זֹעֵם בְּכׇל יוֹם.",
-      "master": "Elohim shofet tsadik veel zo'em bejol yom.",
-      "generator": "Elohim shofet tsadik veel zo'em bejol yom.",
+      "master": "Elohim shofet tsadik veEl zo'em bejol yom.",
+      "generator": "Elohim shofet tsadik veEl zo'em bejol yom.",
       "matches": true
     },
     {
@@ -2191,8 +2191,8 @@
       "chapter": 83,
       "verse": 5,
       "hebrew": "אָמְרוּ לְכוּ וְנַכְחִידֵם מִגּוֹי וְלֹא יִזָּכֵר שֵׁם יִשְׂרָאֵל עוֹד.",
-      "master": "Amrú lejú venajjidem migó veló yizajer Shem Yisrael 'od.",
-      "generator": "Amrú lejú venajjidem migó veló yizajer Shem Yisrael 'od.",
+      "master": "Amrú lejú venajjidem migó veló yizajer shem Yisrael 'od.",
+      "generator": "Amrú lejú venajjidem migó veló yizajer shem Yisrael 'od.",
       "matches": true
     },
     {

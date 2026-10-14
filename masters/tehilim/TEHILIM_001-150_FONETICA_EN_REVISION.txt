@@ -30,7 +30,7 @@ TEHILIM 3 · ג
 3:2  Ad-nai, ma rabú tsarái, rabim kamim 'alái.
 3:3  Rabim omerim lenafshí, en yeshu'ata lo veElohim sela.
 3:4  veAtá Ad-nai maguén ba'adí, kevodí umerim roshí.
-3:5  Kolí el Ad-nai ekrá, vaya'aneni mehar kodshó sela.
+3:5  Kolí el Ad-nai ekrá, vaya'aneni mehar Kodshó sela.
 3:6  Aní shajavti vaishana, hekitsoti ki Ad-nai yismejeni.
 3:7  Lo irá merivevot 'am, asher saviv shatu 'alái.
 3:8  Kumá Ad-nai hoshi'eni Elohái, ki hikita et kol oyevái leji, shiné resha'im shibarta.
@@ -87,7 +87,7 @@ TEHILIM 7 · ז
 7:9  Ad-nai yadín 'amim; shofeteni Ad-nai, ketsidkí ujtumí 'alái.
 7:10  Yigmor na ra' resha'im, utjonén tsadik, uvojén libot ujelayot Elohim tsadik.
 7:11  Maguiní 'al Elohim, moshía' yishré lev.
-7:12  Elohim shofet tsadik, veel zo'em bejol yom.
+7:12  Elohim shofet tsadik, veEl zo'em bejol yom.
 7:13  Im lo yashuv, jarbó yiltosh, kashtó daraj vaijoneneha.
 7:14  Veló hejín kelé mávet, jitsav ledolekim yif'al.
 7:15  Hiné yejábel aven, vehará 'amal veyalad sháker.
@@ -1349,7 +1349,7 @@ TEHILIM 75 · עה
 
 TEHILIM 76 · עו
 76:1  Lamenatséaj binguinot, mizmor leasaf shir.
-76:2  Nodá' biHudá Elohim, beYisrael gadol shemó.
+76:2  Nodá' biHudá Elohim, beYisrael gadol Shemó.
 76:3  Vaihí veshalem sukó, um'onató veTsiyón.
 76:4  Shama shibar rishfé káshet, maguén vejérev umiljamá sela.
 76:5  Naor atá, adir méharere táref.
@@ -1530,7 +1530,7 @@ TEHILIM 83 · פג
 83:2  Elohim, al domí Laj; al tejerash veal tishkot, El.
 83:3  Ki hiné oyveja yehemayún, umsaneja nasú rosh.
 83:4  'Al 'amejá ya'arimu sod, veyitya'atsú 'al tsefuneja.
-83:5  Amrú: lejú venajjidem migó, veló yizajer Shem Yisrael 'od.
+83:5  Amrú: lejú venajjidem migó, veló yizajer shem Yisrael 'od.
 83:6  Ki no'atsú lev yajdav, 'Aleja berit yijrotu.
 83:7  Oholé Edom veYishme'elim, Moav veHagrim.
 83:8  Gueval ve'Amón va'Amalek, Peléshet 'im yósheve Tsor.

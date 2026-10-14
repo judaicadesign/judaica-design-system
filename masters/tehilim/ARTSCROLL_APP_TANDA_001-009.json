@@ -793,7 +793,7 @@
           "ref": "3:5",
           "beforeHebrew": "קוֹלִי אֶל יְהֹוָה אֶקְרָא וַיַּעֲנֵנִי מֵהַר קׇדְשׁוֹ סֶלָה.",
           "afterHebrew": "קוֹלִי אֶל יְהֹוָה אֶקְרָא וַיַּעֲנֵֽנִי מֵהַר קׇדְשׁוֹ סֶֽלָה.",
-          "beforePhonetic": "Kolí el Ad-nai ekrá vaya'aneni mehar kodshó sela.",
+          "beforePhonetic": "Kolí el Ad-nai ekrá vaya'aneni mehar Kodshó sela.",
           "changes": {
             "ויענני": {
               "stress": 3
@@ -802,7 +802,7 @@
               "stress": 0
             }
           },
-          "afterPhonetic": "Kolí el Ad-nai ekrá vaya'aneni mehar kodshó sela."
+          "afterPhonetic": "Kolí el Ad-nai ekrá vaya'aneni mehar Kodshó sela."
         },
         {
           "ref": "3:6",
@@ -2513,9 +2513,9 @@
           "ref": "7:12",
           "beforeHebrew": "אֱלֹהִים שׁוֹפֵט צַדִּיק וְאֵל זֹעֵם בְּכׇל יוֹם.",
           "afterHebrew": "אֱלֹהִים שׁוֹפֵט צַדִּיק וְאֵל זֹעֵם בְּכׇל יוֹם.",
-          "beforePhonetic": "Elohim shofet tsadik veel zo'em bejol yom.",
+          "beforePhonetic": "Elohim shofet tsadik veEl zo'em bejol yom.",
           "changes": {},
-          "afterPhonetic": "Elohim shofet tsadik veel zo'em bejol yom."
+          "afterPhonetic": "Elohim shofet tsadik veEl zo'em bejol yom."
         },
         {
           "ref": "7:13",
