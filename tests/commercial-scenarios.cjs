@@ -37,6 +37,7 @@ async function boot(rows=fixture(),fetchResult){
    return {data:updates,error:null};
  };
  w.supabase={createClient:()=>client};
+ w.eval(fs.readFileSync(root+'/supabase/functions/_shared/jd-whatsapp-pricing.js','utf8'));
  w.jdNativeQuote={version:'20261011-master-v10'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
  for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
@@ -51,6 +52,27 @@ async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
  
+ const wa=await boot();
+ const beforePricing=JSON.stringify(wa.remote);
+ wa.w.document.getElementById('jdEditWhatsAppPricing').click();
+ assert.match(wa.w.document.getElementById('jdWaRuleExample').textContent,/124.200/);
+ wa.w.document.getElementById('jdWaMarkupPct').value='30';
+ wa.w.document.getElementById('jdWaNetStep').value='1000';
+ wa.w.document.getElementById('jdWaFinalStep').value='500';
+ wa.fail(true);await wa.w.document.querySelector('.modal.open .ss').onclick();
+ assert.equal(JSON.stringify(wa.remote),beforePricing,'failed setting save preserves all data');
+ wa.fail(false);await wa.w.document.querySelector('.modal.open .ss').onclick();
+ assert.equal(wa.get('jd_whatsapp_pricing_v1').markupPct,30);
+ assert.equal(wa.get('jd_whatsapp_pricing_v1').netRoundStep,1000);
+ assert.equal(wa.get('jd_whatsapp_pricing_v1').finalRoundStep,500);
+ assert.equal(JSON.stringify(wa.remote.filter(r=>r.key!=='jd_whatsapp_pricing_v1')),beforePricing,'existing product rules and supplier shipping are preserved');
+ const reloadedWa=await boot(wa.remote);
+ reloadedWa.w.document.getElementById('jdEditWhatsAppPricing').click();
+ assert.equal(reloadedWa.w.document.getElementById('jdWaMarkupPct').value,'30');
+ reloadedWa.w.document.getElementById('jdWaMarkupPct').value='-1';
+ await reloadedWa.w.document.querySelector('.modal.open .ss').onclick();
+ assert.equal(reloadedWa.get('jd_whatsapp_pricing_v1').markupPct,30);
+ reloadedWa.close();wa.close();console.log('WhatsApp pricing: editable steps and percentage, correct example, persistence, retry and preservation passed');
  const clientRows=fixture();
  clientRows.find(r=>r.key==='jd_clients').value.push({id:'client-erik',name:'Erik Laham',firstName:'Erik',lastName:'Laham',address:'Av. Siempreviva 345',phone:'5491122233333',status:'Esperando respuesta',quoteIds:[],history:[{at:'2026-08-15T10:00:00Z',type:'Contacto',text:'Consulta original'}]});
  const linked=await boot(clientRows);

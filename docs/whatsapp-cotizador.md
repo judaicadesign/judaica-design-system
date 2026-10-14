@@ -7,7 +7,9 @@
 - WABA de prueba `1103365929264394`, Phone Number ID `1341871429015169`.
 - Número de prueba `+1 (555) 673-7237`. App en desarrollo.
 - Catálogo remoto: 21 productos. Función existente `b612-quote` versión 8.
-- Reglas comerciales remotas: librito 36%, díptico/tríptico 50%, cuadríptico 40%, imán 69% de margen objetivo. Fórmula y redondeo se deben reutilizar desde el sistema; la IA no calcula importes.
+- Regla confirmada para solicitudes B612 reenviadas por WhatsApp: neto sin IVA redondeado arriba a $500, multiplicado por 1,26, resultado redondeado arriba a $100. Ese resultado es el precio final al cliente, sin envío ni margen adicional. Ejemplo: $98.325 → $98.500 → $124.110 → $124.200.
+- El porcentaje (26) y ambos pasos de redondeo (500/100) son editables en Precios por producto → Cotizador por WhatsApp · B612. Se guardan como `jd_whatsapp_pricing_v1` mediante el mecanismo de escritura compartida existente. No sobrescribe las reglas de productos ni los envíos de proveedores. Las cotizaciones anteriores deben conservar su snapshot de regla y precio.
+- La IA interpreta solicitudes, pero no calcula importes.
 - No existe una fila remota `jd_supplier_settings_v1` en el estado consultado: el panel utiliza sus defaults existentes ($20.000 Zloto / $10.000 B612). No presentar estos defaults como ajustes remotos personalizados.
 
 ## Preparado, todavía SIN desplegar
@@ -41,7 +43,7 @@ Para la futura salida, guardar el token temporal en `JD_WA_ACCESS_TOKEN` y el n�
 3. Confirmar y verificar el WhatsApp de la persona aprobadora como destinatario de prueba.
 4. Elegir IA y obtener autorización del costo antes de activarla. Interpretación estructurada contra IDs del catálogo; ningún precio, regla o envío puede ser inventado por el modelo.
 5. Reutilizar lógica `b612-quote` en servidor sin permitir service-role por bypass de sesión pública. Consultar costo neto en vivo solo cuando la ficha técnica es compatible; demás casos requieren revisión explícita.
-6. Releer reglas/envíos y usar `assets/jd-price.js`, incluidos redondeo y recargo de prioridad.
+6. Releer `jd_whatsapp_pricing_v1` para cada cotización nueva y aplicar la implementación compartida `supabase/functions/_shared/jd-whatsapp-pricing.js`. Conservar la regla aplicada junto al presupuesto. No aplicar el motor de margen sobre venta ni el envío a este flujo.
 7. Entregar borrador exclusivamente a la persona aprobadora. No incluir envío automático al cliente, tampoco al aprobar un borrador.
 8. Prueba real de ingreso, deduplicación, interpretación, B612 en vivo, costo neto, reglas y recepción por WhatsApp. El sistema NO está funcionando de punta a punta hasta completar esta prueba.
 
