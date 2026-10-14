@@ -265,8 +265,8 @@
       "previousHebrew": "כִּי הִנֵּה אוֹיְבֶיךָ יֶהֱמָיוּן וּמְשַׂנְאֶיךָ נָשְׂאוּ רֹאשׁ.",
       "hebrew": "כִּי הִנֵּה אוֹיְֿבֶֽיךָ יֶהֱמָיוּן, וּמְשַׂנְאֶֽיךָ נָֽשְֿׂאוּ רֹאשׁ.",
       "previousPhonetic": "Ki hiné oyveja yehemaún umesaneja nasú rosh.",
-      "phonetic": "Ki hiné oyeveja yehemayún, umsaneja nasú rosh.",
-      "afterPhonetic": "Ki hiné oyeveja yehemayún, umsaneja nasú rosh."
+      "phonetic": "Ki hiné oyeveja yehemayún, umsaneja náseu rosh.",
+      "afterPhonetic": "Ki hiné oyeveja yehemayún, umsaneja náseu rosh."
     },
     {
       "verse": 4,
@@ -281,8 +281,8 @@
       "previousHebrew": "אָמְרוּ לְכוּ וְנַכְחִידֵם מִגּוֹי וְלֹא יִזָּכֵר שֵׁם יִשְׂרָאֵל עוֹד.",
       "hebrew": "אָמְֿרוּ: לְכוּ וְנַכְחִידֵם מִגּוֹי, וְלֹא יִזָּכֵר שֵׁם יִשְׂרָאֵל עוֹד.",
       "previousPhonetic": "Amrú lejú venajjidem migoy veló yizajer shem Yisrael 'od.",
-      "phonetic": "Amrú: lejú venajjidem migoy, veló yizajer shem Yisrael 'od.",
-      "afterPhonetic": "Amrú: lejú venajjidem migoy, veló yizajer shem Yisrael 'od."
+      "phonetic": "Amerú: lejú venajjidem migoy, veló yizajer shem Yisrael 'od.",
+      "afterPhonetic": "Amerú: lejú venajjidem migoy, veló yizajer shem Yisrael 'od."
     },
     {
       "verse": 6,
@@ -345,8 +345,8 @@
       "previousHebrew": "אֲשֶׁר אָמְרוּ נִירְשָׁה לָּנוּ אֵת נְאוֹת אֱלֹהִים.",
       "hebrew": "אֲשֶׁר אָמְֿרוּ: נִֽירְֿשָׁה לָּֽנוּ, אֵת נְאוֹת אֱלֹהִים.",
       "previousPhonetic": "Asher amrú nirshá lanu et neot Elohim.",
-      "phonetic": "Asher amrú: níresha lanu, et neot Elohim.",
-      "afterPhonetic": "Asher amrú: níresha lanu, et neot Elohim."
+      "phonetic": "Asher amerú: níresha lanu, et neot Elohim.",
+      "afterPhonetic": "Asher amerú: níresha lanu, et neot Elohim."
     },
     {
       "verse": 14,
@@ -393,8 +393,8 @@
       "previousHebrew": "וְיֵדְעוּ כִּי אַתָּה שִׁמְךָ יְהֹוָה לְבַדֶּךָ עֶלְיוֹן עַל כׇּל הָאָרֶץ.",
       "hebrew": "וְיֵדְֿעוּ כִּי אַתָּה שִׁמְךָ יְיָ לְבַדֶּֽךָ, עֶלְיוֹן עַל כׇּל הָאָֽרֶץ.",
       "previousPhonetic": "Veyed'ú ki atá Shimjá Ad-nai levadeja 'elyón 'al kol haarets.",
-      "phonetic": "Veyed'ú ki Atá Shimjá Ad-nai levadeja, 'elyón 'al kol haárets.",
-      "afterPhonetic": "Veyed'ú ki Atá Shimjá Ad-nai levadeja, 'elyón 'al kol haárets."
+      "phonetic": "Veyede'ú ki Atá Shimjá Ad-nai levadeja, 'elyón 'al kol haárets.",
+      "afterPhonetic": "Veyede'ú ki Atá Shimjá Ad-nai levadeja, 'elyón 'al kol haárets."
     }
   ]
 }
