@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict');
+const api=require('../assets/jd-message-request.js');
+const technical={paper:'Papel ilustración',weightGsm:300,lamination:'Laminado mate',sides:'Doble faz',print:'Full color',openWidthMm:391,openHeightMm:190,closedWidthMm:100,closedHeightMm:190};
+const catalog=[{id:'birkon-folleto',name:'Birkón · Folleto',status:'Activo',supplier:'Gráfica B612',models:['Cuadríptico','Tríptico'],technical,variants:[{model:'Cuadríptico',technical:{}},{model:'Tríptico',technical:{openWidthMm:300,openHeightMm:140,closedWidthMm:100,closedHeightMm:140}}]}];
+let request=api.extract('Abi: 50 cuadrípticos de birkón, 2 diseños. Abierto 39,1 × 19 cm; cerrado 10 x 19 cm.',catalog);
+assert.equal(request.productId,'birkon-folleto');assert.equal(request.format,'Cuadríptico');assert.deepEqual(request.quantities,[50]);assert.equal(request.models,2);assert.equal(request.spec.openWidthMm,391);assert.equal(api.validate(request,catalog).spec.weightGsm,300);
+request=api.extract('Necesito un diseño de birkon tríptico. Cantidades: 50, 75 y 100. Fecha 15/11/2026. Tel 5491155512345',catalog);assert.deepEqual(request.quantities,[50,75,100]);assert.equal(request.models,1);
+assert.equal(api.extract('Birkón cuadríptico con 2 nusajim para el 14/10',catalog).models,null,'Nusaj and dates are not design counts');
+assert.deepEqual(api.extract('Birkón cuadríptico. Abierto 391 x 190 mm',catalog).quantities,[],'Dimensions are not quantities');
+assert.equal(api.extract('50 trípticos y 100 cuadrípticos, 1 diseño',catalog).format,'','Mixed formats require review');
+assert.throws(()=>api.validate({...request,quantities:[200]},catalog),/Cantidades/);
+for(const message of ['50 cuadrípticos Birkón un diseño, papel obra 120 g','50 cuadrípticos Birkón un diseño, sin laminado','50 cuadrípticos Birkón un diseño, blanco y negro','50 cuadrípticos Birkón un diseño, simple faz'])assert.throws(()=>api.validate(api.extract(message,catalog),catalog),/conexión actual/);
+assert.throws(()=>api.extract(''),/Pegá/);
+console.log('PASS message extraction: explicit counts/designs/dimensions, catalog defaults, ambiguous formats and unsupported materials require review. No AI or paid requests.');

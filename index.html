@@ -17,6 +17,8 @@
 <script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
 <script src="assets/jd-orders.js?v=20261008-alternatives" defer></script>
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
+<script src="assets/jd-message-request.js?v=20261014-b612" defer></script>
+<script src="assets/jd-message-quote.js?v=20261014-b612" defer></script>
 <script src="assets/jd-quote-share.js?v=20261008-file-share" defer></script>
 <script src="assets/jd-price.js?v=20261008-rush" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
@@ -47,6 +49,7 @@
     <button class="active" data-screen="dashboard">Inicio</button>
     <div class="jd-nav-group"><div class="sep">Comercial</div>
     <button data-screen="quotes">Nuevo presupuesto</button>
+    <button data-screen="b612Assistant">Cotizador B612</button>
     <button data-screen="clients">Clientes & seguimiento</button>
     </div>
     <div class="jd-nav-group"><div class="sep">Catálogo</div>
@@ -95,6 +98,7 @@
 </section>
 
 <section class="screen" id="quotes"><div class="jd-screen-loading small muted">Cargando…</div></section>
+<section class="screen" id="b612Assistant"><div class="topbar"><div><div class="eyebrow">Imprenta · etapa de validación</div><h1>Cotizador B612</h1></div></div><div id="jdMessageQuoteTool"></div></section>
 
 <section class="screen" id="products"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
@@ -1910,6 +1914,8 @@ async function save6(silent=false){
    alert('No se pudo guardar el presupuesto: '+(err.message||err));return null;
  }
 }
+window.jdB612Assistant={catalog:()=>structuredClone(catalog)};
+window.jdMessageQuoteUI?.mount();
 window.jdSaveQuote=()=>save6(true);
 buildQuote();
 window.renderQuote=render6;
