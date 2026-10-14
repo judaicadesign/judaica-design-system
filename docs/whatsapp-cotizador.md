@@ -12,7 +12,7 @@
 - La IA interpreta solicitudes, pero no calcula importes.
 - No existe una fila remota `jd_supplier_settings_v1` en el estado consultado: el panel utiliza sus defaults existentes ($20.000 Zloto / $10.000 B612). No presentar estos defaults como ajustes remotos personalizados.
 
-## Preparado, todavía SIN desplegar
+## Webhook desplegado el 14/10/2026, pendiente de Secrets y conexión Meta
 
 `whatsapp-webhook` recibe eventos firmados y guarda mensajes en una bandeja interna nueva. No toca `app_state`, clientes, presupuestos, costos ni catálogo. No contiene cliente de IA ni cliente de envío.
 
@@ -38,7 +38,8 @@ Para la futura salida, guardar el token temporal en `JD_WA_ACCESS_TOKEN` y el n�
 
 ## Pendiente para completar el circuito
 
-1. Autorización para generar token temporal y aplicar la tabla/callback al proyecto existente.
+1. La autorización de despliegue fue recibida y se aplicó la migración `jd_whatsapp_inbox_signed_events`. `whatsapp-webhook` versión 1 está ACTIVE. Verificado: RLS=true, anon/authenticated sin SELECT, service_role con INSERT, 0 mensajes; el endpoint real devuelve 503 `Webhook not configured` mientras faltan Secrets.
+   Generación de token: Meta abrió consentimiento con la cuenta Hache Plus. Auto-review rechazó continuar por permisos continuos de administración y mensajería WhatsApp que requieren autorización explícita. No se generó token ni se cargaron secretos.
 2. Cargar App Secret y token de verificación en Supabase Secrets; verificar GET real y suscribir `messages` en Meta.
 3. Confirmar y verificar el WhatsApp de la persona aprobadora como destinatario de prueba.
 4. Elegir IA y obtener autorización del costo antes de activarla. Interpretación estructurada contra IDs del catálogo; ningún precio, regla o envío puede ser inventado por el modelo.
