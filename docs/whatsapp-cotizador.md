@@ -12,7 +12,7 @@
 - La IA interpreta solicitudes, pero no calcula importes.
 - No existe una fila remota `jd_supplier_settings_v1` en el estado consultado: el panel utiliza sus defaults existentes ($20.000 Zloto / $10.000 B612). No presentar estos defaults como ajustes remotos personalizados.
 
-## Webhook desplegado el 14/10/2026, pendiente de Secrets y conexión Meta
+## Webhook desplegado y conectado el 14/10/2026
 
 `whatsapp-webhook` recibe eventos firmados y guarda mensajes en una bandeja interna nueva. No toca `app_state`, clientes, presupuestos, costos ni catálogo. No contiene cliente de IA ni cliente de envío.
 
@@ -56,3 +56,14 @@ Para la futura salida, guardar el token temporal en `JD_WA_ACCESS_TOKEN` y el n�
 - `node tests/commercial-scenarios.cjs`: precios, PDF, pedidos, persistencia y conflictos.
 
 Fuentes de implementación: documentación oficial Supabase de autenticación de Edge Functions y ejemplo oficial `fbsamples/whatsapp-api-examples/signature-validation-with-webhooks-payloads/app.py`.
+
+## Preparación adicional del circuito
+
+- `b612-core.ts` reutiliza la lógica existente sin duplicarla. El endpoint público `b612-quote` conserva la autenticación de usuario y la lista de equipo, sin bypass de service-role. Refactor preparado en rama; no desplegado a producción.
+- Consulta real a los endpoints públicos de B612: 50 cuadrípticos, 2 diseños, abierto 391 × 190 mm / cerrado 100 × 190 mm; neto sin IVA $142.779,81, fetchedAt 2026-10-14T11:18:43.894Z. Es una comprobación del proveedor, no una prueba completa de WhatsApp o IA.
+- `whatsapp-draft.mjs` prepara borradores con catálogo vigente y ficha técnica inequívoca, acepta solamente el remitente aprobador y ventana de 24 horas. Los formatos o materiales no compatibles requieren revisión. Conserva snapshot de regla por alternativas; ningún cliente de envío ni activación automática.
+- El adapter de IA valida nuevamente tipos, campos exactos y enum luego de la respuesta. Incluye impresión para evitar presupuestar full color cuando el pedido especifica blanco y negro.
+- Falta el worker durable con reserva atómica de presupuesto, deduplicación de procesamiento, persistencia de borradores y envío con recuperación segura ante timeouts. No habilitar IA ni envíos antes de implementar esos controles y obtener autorización de gasto.
+- Último control de recepción: 0 mensajes. Falta que el usuario envíe PRUEBA JD desde su WhatsApp al número de prueba.
+- Web pública: página de acceso visible y nueva regla publicada; panel privado aún no verificado con sesión real.
+- Tests nuevos: `tests/whatsapp-extract.mjs` y `tests/whatsapp-draft.mjs` con respuestas simuladas, sin llamadas pagas ni mensajes enviados.
