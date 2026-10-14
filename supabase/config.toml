@@ -1,0 +1,3 @@
+# Meta authenticates this new callback with HMAC; existing functions are unchanged.
+[functions.whatsapp-webhook]
+verify_jwt = false

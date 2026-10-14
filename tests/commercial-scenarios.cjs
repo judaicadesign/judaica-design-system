@@ -40,7 +40,7 @@ async function boot(rows=fixture(),fetchResult){
  w.jdNativeQuote={version:'20261011-master-v10'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
  for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
- await sleep(450);
+ for(let attempt=0;attempt<40&&!w.document.getElementById('jdCrmSearch');attempt++)await sleep(50);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
  const get=key=>remote.find(row=>row.key===key)?.value;
