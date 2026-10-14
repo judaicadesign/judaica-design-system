@@ -539,5 +539,6 @@ app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
  console.log('Cuadríptico live net pricing, authenticated fetch, design cache, saved reload and offline blocking passed');
 
 }
-scenarios().catch(error=>{console.error(error);process.exit(1)});
+module.exports={boot,fixture};
+if(require.main===module)scenarios().catch(error=>{console.error(error);process.exit(1)});
 

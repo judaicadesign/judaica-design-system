@@ -5,6 +5,9 @@ on:
     paths:
       - 'index.html'
       - 'package.json'
+      - 'assets/jd-message-*.js'
+      - 'tests/message-*.cjs'
+      - 'tests/commercial-scenarios.cjs'
       - 'tests/tehilim-masters.cjs'
       - 'assets/jd-passage-links.js'
       - 'assets/jd-passage-library-ui.js'
