@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {createExtractor,requestSchema} from '../supabase/functions/_shared/whatsapp-extract.mjs';
+let calls=0;
+const config={JD_WA_AI_ENABLED:'true',JD_OPENAI_API_KEY:'fixture-only'};
+const request={productId:'leaflet',format:'Tríptico',quantities:[100],openWidthMm:300,openHeightMm:140,closedWidthMm:100,closedHeightMm:140,paper:'ilustración',weightGsm:300,lamination:'mate',sides:'doble faz',models:1,missing:[]};
+let result={status:'completed',output:[{content:[{type:'output_text',text:JSON.stringify(request)}]}],usage:{input_tokens:2000,output_tokens:300}};
+const extract=createExtractor({env:k=>config[k],fetch:async(url,init)=>{calls++;assert.equal(url,'https://api.openai.com/v1/responses');const payload=JSON.parse(init.body);assert.equal(payload.store,false);assert.equal(payload.reasoning.effort,'none');assert.equal(payload.max_output_tokens,500);assert.deepEqual(payload.text.format.schema,requestSchema);assert.doesNotMatch(payload.instructions,/124200/);return Response.json(result);}});
+const catalog=[{id:'leaflet',name:'Birkón · Folleto',supplier:'Gráfica B612',models:['Tríptico']}];
+assert.equal((await extract('100 trípticos 300 x 140 mm',catalog)).request.quantities[0],100);
+config.JD_WA_AI_ENABLED='false';await assert.rejects(()=>extract('pedido',catalog),/activada/);assert.equal(calls,1);config.JD_WA_AI_ENABLED='true';
+result.status='incomplete';await assert.rejects(()=>extract('pedido',catalog),/incompleta/);result.status='completed';
+result.output[0].content[0].text=JSON.stringify({...request,productId:'invented'});await assert.rejects(()=>extract('pedido',catalog),/catálogo/);
+result.output[0].content[0].text=JSON.stringify({...request,quantities:[100,100]});await assert.rejects(()=>extract('pedido',catalog),/Cantidades/);
+console.log('PASS prepared AI adapter: disabled by default, no price fields, catalog IDs, bounded tokens, refusal/incomplete handling. Mock tests only; no paid API request.');

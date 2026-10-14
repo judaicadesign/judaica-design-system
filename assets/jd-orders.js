@@ -14,7 +14,11 @@
     const quantities=(existing?[existing.quantity]:alternatives.flatMap((a,i)=>(a.quantities||[]).map(q=>({...q,alternativeIndex:i,alternativeLabel:alternatives.length>1?'Alternativa '+(i+1)+' · '+[a.product,a.model,a.texts].filter(Boolean).join(' · '):''})))).filter(q=>Number.isSafeInteger(Number(q.qty))&&q.qty>0&&Number.isFinite(Number(q.price))&&q.price>0);
     if(!quantities.length){alert('Este presupuesto no tiene cantidades válidas.');return}
     const original=existing?JSON.stringify(existing):null;
-    const client=read('jd_clients').find(c=>c.name===quote.client);
+    const normalizeName=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase().replace(/\s+/g,' ');
+    const clients=read('jd_clients');
+    const client=quote.clientId
+      ?clients.find(c=>c.id===quote.clientId)
+      :clients.find(c=>normalizeName(c.name)===normalizeName(quote.client));
     const panel=document.createElement('div');panel.className='jd-crm-modal';
     panel.innerHTML='<div class="jd-crm-card"><div class="jd-crm-head"><div><div class="eyebrow">PEDIDO</div><h2>'+esc(quote.client)+'</h2><p>'+esc(quote.product)+'</p></div><button class="btn" data-close>Cerrar</button></div><div class="jd-crm-panel"><div class="jd-crm-form">'+
       '<div class="jd-crm-field"><label>Cantidad aceptada</label><select id="jdOrderQty" '+(existing?'disabled':'')+'>'+quantities.map((q,i)=>'<option value="'+i+'">'+esc(q.alternativeLabel?q.alternativeLabel+' · ':'')+q.qty+' u. · '+money(q.price)+'</option>').join('')+'</select></div>'+

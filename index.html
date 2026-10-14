@@ -30,6 +30,7 @@
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
+<script src="supabase/functions/_shared/jd-whatsapp-pricing.js?v=20261014"></script>
 <script src="assets/jd-auth.js?v=20261007-pricing-config" defer></script>
 <section class="jd-login" id="jdLogin">
 <img src="assets/jd-logo-black.svg" alt="Judaica Design®" style="width:180px">
@@ -773,9 +774,35 @@ function drawRulesV4(){
  '<div class="jd-note" style="margin-bottom:14px">Las reglas están <b>vinculadas</b> al producto y, cuando corresponde, a una variante. No son texto libre: el presupuesto las aplica automáticamente.</div>'+
  '<table class="table"><thead><tr><th>Producto</th><th>Variante</th><th>Ganancia objetivo</th><th>Fórmula interna</th><th>Envío</th><th>Adicional fijo</th><th></th></tr></thead><tbody>'+
  priceRules.map((r,i)=>{const pct=r.marginPct!=null?Number(r.marginPct):Number(((1-Number(r.divisor))*100).toFixed(2)),div=(1-pct/100),p=ruleProducts().find(p=>p.name===r.product),supplier=p?.supplier||'';return '<tr><td><b>'+E(r.product)+'</b></td><td>'+E(r.variant==='*'?'Todas':r.variant)+'</td><td><b>'+pct.toLocaleString('es-AR')+'%</b> del precio</td><td class="small muted">Costo ÷ '+String(Number(div.toFixed(4))).replace('.',',')+'</td><td>'+(supplier?M(window.jdSupplierShipping(p))+'<div class="small muted">'+E(supplier)+'</div><button class="btn sm" data-rule-supplier="'+E(supplier)+'">Editar envío</button>':'Sin proveedor fijo')+'</td><td>'+M(Number(r.extra||0))+'</td><td><button class="btn sm" data-pr="'+i+'">Editar</button></td></tr>'}).join('')+'</tbody></table>';
+ if(window.jdWhatsAppPrice){
+  const cfg=window.jdWhatsAppPrice.rule(GET(window.jdWhatsAppPrice.KEY,window.jdWhatsAppPrice.defaults));
+  const card=document.createElement('div');card.className='card';card.style.marginBottom='16px';
+  card.innerHTML='<h2>Cotizador por WhatsApp · B612</h2><p>Precio sin IVA → redondear arriba a $ '+cfg.netRoundStep.toLocaleString('es-AR')+' → sumar '+cfg.markupPct.toLocaleString('es-AR')+'% sobre ese importe → redondear arriba a $ '+cfg.finalRoundStep.toLocaleString('es-AR')+'. <b>Sin envío.</b></p><p class="small muted">Este resultado es el precio final para reenviar. La integración WhatsApp está pendiente de activar.</p><button class="btn" id="jdEditWhatsAppPricing">Editar regla de WhatsApp</button>';
+  rulesSec.querySelector('.jd-note').after(card);
+  card.querySelector('button').onclick=editWhatsAppPricing;
+ }
  document.getElementById('nr4').onclick=()=>editRule(-1);
  rulesSec.querySelectorAll('[data-pr]').forEach(b=>b.onclick=()=>editRule(+b.dataset.pr));
  rulesSec.querySelectorAll('[data-rule-supplier]').forEach(b=>b.onclick=()=>editSupplier(b.dataset.ruleSupplier));
+}
+function editWhatsAppPricing(){
+ const api=window.jdWhatsAppPrice,key=api.KEY;
+ const cfg=api.rule(GET(key,api.defaults));
+ const baseline=JSON.stringify(window.jdConfirmedState(key));
+ const w=popup('Regla de WhatsApp · B612','<div class="jd-formgrid"><div><label>Porcentaje sobre el precio sin IVA redondeado (%)</label><input id="jdWaMarkupPct" type="number" min="0" max="1000" step="0.01" value="'+cfg.markupPct+'"></div><div><label>Primer redondeo hacia arriba ($)</label><input id="jdWaNetStep" type="number" min="1" max="1000000" step="1" value="'+cfg.netRoundStep+'"></div><div><label>Redondeo final hacia arriba ($)</label><input id="jdWaFinalStep" type="number" min="1" max="1000000" step="1" value="'+cfg.finalRoundStep+'"></div><p class="span2">Sin envío. Los cambios se aplican a las próximas cotizaciones; los presupuestos anteriores conservan su precio.</p><p class="span2" id="jdWaRuleExample" role="status"></p></div>',async x=>{
+  const btn=x.querySelector('.ss');
+  try{
+   const settings=read();btn.disabled=true;
+   await window.jdUpdateSharedState([key],state=>{
+    if(JSON.stringify(state[key]??null)!==baseline)throw Error('La regla cambió en otro dispositivo. Volvé a abrirla.');
+    return {[key]:settings};
+   });
+   x.remove();drawRulesV4();
+  }catch(error){alert(error.message||'No se pudo guardar la regla.');btn.disabled=false;}
+ });
+ function read(){return api.rule({markupPct:w.querySelector('#jdWaMarkupPct').value,netRoundStep:w.querySelector('#jdWaNetStep').value,finalRoundStep:w.querySelector('#jdWaFinalStep').value});}
+ const preview=()=>{try{const result=api.calculate(98325,read());w.querySelector('#jdWaRuleExample').textContent='Ejemplo con B612 $98.325 sin IVA: '+M(result.roundedNet)+' → '+M(result.multiplied)+' → precio final '+M(result.price);}catch(error){w.querySelector('#jdWaRuleExample').textContent=error.message;}};
+ w.querySelectorAll('input').forEach(input=>input.oninput=preview);preview();
 }
 window.jdRefreshRules=drawRulesV4;
 function editRule(i){
