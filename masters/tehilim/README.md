@@ -34,3 +34,7 @@ Hebreo y fonética cerrados por cotejo integral con ArtScroll como golden master
 ## Salmo 2 · FINAL · 2026-10-09
 
 Hebreo y fonética cotejados con captura ArtScroll `IMG_1458.png` y confirmados por el usuario. 12 pesukim, 21 meteg, rayitas de shevá na diferenciadas; sin meteg en `אַפּוֹ` (2:12). Convención de producción `יְיָ` → `Ad-nai`. Motor `f8915d0`: coincide 12/12, Salmo 1 mantiene 6/6. Los cuatro archivos `TEHILIM_002_*_FINAL_*.txt` y los TXT generales están sincronizados. Los otros 148 capítulos siguen en revisión. La normalización del Nombre en los salmos no aprobados está pendiente, incluyendo formas prefijadas y especiales.
+
+## Salmos 11, 14, 16, 63, 76, 83, 84 y 130 · FINAL · 2026-10-14
+
+Hebreo reconstruido desde capturas de ArtScroll (nikud, dagesh, rafé sobre shevá na, meteg, paseq, puntuación; `יהוה` → `יְיָ`) y fonética generada por reglas con `fonetica-hebreo` 063b125. Detalle en `CONTINUAR_EN_CHAT.md` y en los `ARTSCROLL_NNN_REVISION.json`.

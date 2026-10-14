@@ -1,0 +1,125 @@
+{
+  "source": {
+    "primary": "ArtScroll Siddur/Tehillim · captura fotografiada por el usuario",
+    "date": "2026-10-14",
+    "generatorCommit": "063b12527ea93a8ca61d92c03e7a8cd9ab59e198",
+    "note": "Hebreo reconstruido desde la captura: nikud, dagesh, rafé (U+05BF) sobre shevá na, meteg, paseq, puntuación y יי donde ArtScroll imprime el Nombre. Fonética generada por reglas."
+  },
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "spanishApproved": false,
+  "approvedDate": "2026-10-14",
+  "finalExports": [
+    "TEHILIM_084_HEBREO_FINAL_continuous.txt",
+    "TEHILIM_084_HEBREO_FINAL_numbered.txt",
+    "TEHILIM_084_FONETICA_FINAL_continuous.txt",
+    "TEHILIM_084_FONETICA_FINAL_numbered.txt"
+  ],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "לַמְנַצֵּחַ עַל הַגִּתִּית לִבְנֵי קֹרַח מִזְמוֹר.",
+      "hebrew": "לַמְֿנַצֵּֽחַ עַל הַגִּתִּית, לִבְנֵי קֹֽרַח מִזְמוֹר.",
+      "previousPhonetic": "Lamenatséaj 'al haguitit livné Kóraj mizmor.",
+      "phonetic": "Lamenatséaj 'al haguitit, livné Kóraj mizmor.",
+      "afterPhonetic": "Lamenatséaj 'al haguitit, livné Kóraj mizmor."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "מַה יְּדִידוֹת מִשְׁכְּנוֹתֶיךָ יְהֹוָה צְבָאוֹת.",
+      "hebrew": "מַה יְּדִידוֹת מִשְׁכְּֿנוֹתֶֽיךָ, יְיָ צְבָאוֹת.",
+      "previousPhonetic": "Ma yedidot mishkenoteja Ad-nai tsevaot.",
+      "phonetic": "Ma yedidot mishkenoteja, Ad-nai tsevaot.",
+      "afterPhonetic": "Ma yedidot mishkenoteja, Ad-nai tsevaot."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "נִכְסְפָה וְגַם כָּלְתָה נַפְשִׁי לְחַצְרוֹת יְהֹוָה לִבִּי וּבְשָׂרִי יְרַנְּנוּ אֶל אֵל חָי.",
+      "hebrew": "נִכְסְֿפָה וְגַם כָּלְֿתָה נַפְשִׁי לְחַצְרוֹת יְיָ; לִבִּי וּבְשָׂרִי יְרַנְּֿנוּ אֶל אֵל חָי.",
+      "previousPhonetic": "Nijsefá vegam kalta nafshí lejatsrot Ad-nai libí uvsarí yeranenu el El jai.",
+      "phonetic": "Nijsefá vegam kaleta nafshí lejatsrot Ad-nai; libí uvsarí yeranenu el El jay.",
+      "afterPhonetic": "Nijsefá vegam kaleta nafshí lejatsrot Ad-nai; libí uvsarí yeranenu el El jay."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "גַּם צִפּוֹר מָצְאָה בַיִת וּדְרוֹר קֵן לָהּ אֲשֶׁר שָׁתָה אֶפְרֹחֶיהָ אֶת מִזְבְּחוֹתֶיךָ יְהֹוָה צְבָאוֹת מַלְכִּי וֵאלֹהָי.",
+      "hebrew": "גַּם צִפּוֹר מָֽצְֿאָה בַֽיִת, וּדְרוֹר קֵן לָהּ אֲשֶׁר שָֽׁתָה אֶפְרֹחֶֽיהָ; אֶת מִזְבְּֿחוֹתֶֽיךָ יְיָ צְבָאוֹת, מַלְכִּי וֵאלֹהָי.",
+      "previousPhonetic": "Gam tsipor matsá vayit udror ken lah asher shata efrojehá et mizbejoteja Ad-nai tsevaot malkí veLohái.",
+      "phonetic": "Gam tsipor mátsea váyit, udror ken lah asher shata efrojeha; et mizbejoteja Ad-nai tsevaot, malkí vElohái.",
+      "afterPhonetic": "Gam tsipor mátsea váyit, udror ken lah asher shata efrojeha; et mizbejoteja Ad-nai tsevaot, malkí vElohái."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "אַשְׁרֵי יוֹשְׁבֵי בֵיתֶךָ עוֹד יְהַלְלוּךָ סֶּלָה.",
+      "hebrew": "אַשְׁרֵי יוֹשְֿׁבֵי בֵיתֶֽךָ, עוֹד יְהַלְֿלֽוּךָ סֶּֽלָה.",
+      "previousPhonetic": "Ashré yoshvé veteja 'od yehalluja sela.",
+      "phonetic": "Ashré yoshevé veteja, 'od yehaleluja sela.",
+      "afterPhonetic": "Ashré yoshevé veteja, 'od yehaleluja sela."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "אַשְׁרֵי אָדָם עוֹז לוֹ בָךְ מְסִלּוֹת בִּלְבָבָם.",
+      "hebrew": "אַשְׁרֵי אָדָם עוֹז לוֹ בָךְ, מְסִלּוֹת בִּלְבָבָם.",
+      "previousPhonetic": "Ashré adam 'oz lo vaj mesilot bilvavam.",
+      "phonetic": "Ashré adam 'oz lo vaj, mesilot bilvavam.",
+      "afterPhonetic": "Ashré adam 'oz lo vaj, mesilot bilvavam."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "עֹבְרֵי בְּעֵמֶק הַבָּכָא מַעְיָן יְשִׁיתוּהוּ גַּם בְּרָכוֹת יַעְטֶה מוֹרֶה.",
+      "hebrew": "עֹבְֿרֵי בְּעֵמֶֽק הַבָּכָא מַעְיָן יְשִׁיתֽוּהוּ, גַּם בְּרָכוֹת יַעְטֶה מוֹרֶה.",
+      "previousPhonetic": "'Ovré be'émek habajá ma'yán yeshituhu gam berajot ya'té moré.",
+      "phonetic": "'Overé be'émek habajá ma'yán yeshituhu, gam berajot ya'té moré.",
+      "afterPhonetic": "'Overé be'émek habajá ma'yán yeshituhu, gam berajot ya'té moré."
+    },
+    {
+      "verse": 8,
+      "previousHebrew": "יֵלְכוּ מֵחַיִל אֶל חָיִל יֵרָאֶה אֶל אֱלֹהִים בְּצִיּוֹן.",
+      "hebrew": "יֵלְֿכוּ מֵחַֽיִל אֶל חָֽיִל, יֵרָאֶה אֶל אֱלֹהִים בְּצִיּוֹן.",
+      "previousPhonetic": "Yeljú mejayil el jáyil yerae el Elohim betsiyón.",
+      "phonetic": "Yelejú mejáyil el jáyil, yeraé el Elohim beTsiyón.",
+      "afterPhonetic": "Yelejú mejáyil el jáyil, yeraé el Elohim beTsiyón."
+    },
+    {
+      "verse": 9,
+      "previousHebrew": "יְהֹוָה אֱלֹהִים צְבָאוֹת שִׁמְעָה תְפִלָּתִי הַאֲזִינָה אֱלֹהֵי יַעֲקֹב סֶלָה.",
+      "hebrew": "יְיָ אֱלֹהִים צְבָאוֹת שִׁמְעָה תְפִלָּתִי, הַאֲזִֽינָה אֱלֹהֵי יַעֲקֹב סֶֽלָה.",
+      "previousPhonetic": "Ad-nai Elohim tsevaot shim'á tefilatí haazina Elohé Ya'akov sela.",
+      "phonetic": "Ad-nai Elohim tsevaot shim'á tefilatí, haazina Elohé Ya'akov sela.",
+      "afterPhonetic": "Ad-nai Elohim tsevaot shim'á tefilatí, haazina Elohé Ya'akov sela."
+    },
+    {
+      "verse": 10,
+      "previousHebrew": "מָגִנֵּנוּ רְאֵה אֱלֹהִים וְהַבֵּט פְּנֵי מְשִׁיחֶךָ.",
+      "hebrew": "מָגִנֵּֽנוּ רְאֵה, אֱלֹהִים; וְהַבֵּט פְּנֵי מְשִׁיחֶֽךָ.",
+      "previousPhonetic": "Maguinenu reé Elohim vehabet pené meshijeja.",
+      "phonetic": "Maguinenu reé, Elohim; vehabet pené meshijeja.",
+      "afterPhonetic": "Maguinenu reé, Elohim; vehabet pené meshijeja."
+    },
+    {
+      "verse": 11,
+      "previousHebrew": "כִּי טוֹב יוֹם בַּחֲצֵרֶיךָ מֵאָלֶף בָּחַרְתִּי הִסְתּוֹפֵף בְּבֵית אֱלֹהַי מִדּוּר בְּאׇהֳלֵי רֶשַׁע.",
+      "hebrew": "כִּי טוֹב יוֹם בַּחֲצֵרֶֽיךָ מֵאָֽלֶף; בָּחַֽרְתִּי הִסְתּוֹפֵף בְּבֵית אֱלֹהַי, מִדּוּר בְּאׇֽהֳלֵי רֶֽשַׁע.",
+      "previousPhonetic": "Ki tov yom bajatsereja meálef bajarti histofef bevet Elohái midur beoholé resha'.",
+      "phonetic": "Ki tov yom bajatsereja meálef; bajarti histofef bevet Elohái, midur beóhole resha'.",
+      "afterPhonetic": "Ki tov yom bajatsereja meálef; bajarti histofef bevet Elohái, midur beóhole resha'."
+    },
+    {
+      "verse": 12,
+      "previousHebrew": "כִּי שֶׁמֶשׁ וּמָגֵן יְהֹוָה אֱלֹהִים חֵן וְכָבוֹד יִתֵּן יְהֹוָה לֹא יִמְנַע טוֹב לַהֹלְכִים בְּתָמִים.",
+      "hebrew": "כִּי שֶׁמֶֽשׁ וּמָגֵן יְיָ אֱלֹהִים; חֵן וְכָבוֹד יִתֵּן יְיָ, לֹא יִמְנַע טוֹב לַהֹלְֿכִים בְּתָמִים.",
+      "previousPhonetic": "Ki shémesh umaguén Ad-nai Elohim jen vejavod yitén Ad-nai lo yimná' tov laholjim betamim.",
+      "phonetic": "Ki shémesh umaguén Ad-nai Elohim; jen vejavod yitén Ad-nai, lo yimná' tov laholejim betamim.",
+      "afterPhonetic": "Ki shémesh umaguén Ad-nai Elohim; jen vejavod yitén Ad-nai, lo yimná' tov laholejim betamim."
+    },
+    {
+      "verse": 13,
+      "previousHebrew": "יְהֹוָה צְבָאוֹת אַשְׁרֵי אָדָם בֹּטֵחַ בָּךְ.",
+      "hebrew": "יְיָ צְבָאוֹת, אַשְׁרֵי אָדָם בֹּטֵֽחַ בָּךְ.",
+      "previousPhonetic": "Ad-nai tsevaot ashré adam botéaj baj.",
+      "phonetic": "Ad-nai tsevaot, ashré adam botéaj Baj.",
+      "afterPhonetic": "Ad-nai tsevaot, ashré adam botéaj Baj."
+    }
+  ]
+}

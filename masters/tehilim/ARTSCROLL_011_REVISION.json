@@ -1,0 +1,77 @@
+{
+  "source": {
+    "primary": "ArtScroll Siddur/Tehillim · captura fotografiada por el usuario",
+    "date": "2026-10-14",
+    "generatorCommit": "063b12527ea93a8ca61d92c03e7a8cd9ab59e198",
+    "note": "Hebreo reconstruido desde la captura: nikud, dagesh, rafé (U+05BF) sobre shevá na, meteg, paseq, puntuación y יי donde ArtScroll imprime el Nombre. Fonética generada por reglas."
+  },
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "spanishApproved": false,
+  "approvedDate": "2026-10-14",
+  "finalExports": [
+    "TEHILIM_011_HEBREO_FINAL_continuous.txt",
+    "TEHILIM_011_HEBREO_FINAL_numbered.txt",
+    "TEHILIM_011_FONETICA_FINAL_continuous.txt",
+    "TEHILIM_011_FONETICA_FINAL_numbered.txt"
+  ],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "לַמְנַצֵּחַ לְדָוִד בַּיהֹוָה חָסִיתִי אֵיךְ תֹּאמְרוּ לְנַפְשִׁי נודו נוּדִי הַרְכֶם צִפּוֹר.",
+      "hebrew": "לַמְֿנַצֵּֽחַ לְדָוִד; בַּיְיָ חָסִֽיתִי, אֵיךְ תֹּאמְֿרוּ לְנַפְשִׁי, נוּֽדִי הַרְכֶם צִפּוֹר.",
+      "previousPhonetic": "Lamenatséaj leDavid baAd-nai jasiti ej tomerú lenafshí nudi harjem tsipor.",
+      "phonetic": "Lamenatséaj leDavid; baAd-nai jasiti, ej tomerú lenafshí, nudi harjem tsipor.",
+      "afterPhonetic": "Lamenatséaj leDavid; baAd-nai jasiti, ej tomerú lenafshí, nudi harjem tsipor."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "כִּי הִנֵּה הָרְשָׁעִים יִדְרְכוּן קֶשֶׁת כּוֹנְנוּ חִצָּם עַל יֶתֶר לִירוֹת בְּמוֹ אֹפֶל לְיִשְׁרֵי לֵב.",
+      "hebrew": "כִּי הִנֵּה הָרְֿשָׁעִים יִדְרְֿכוּן קֶֽשֶׁת, כּוֹנְֿנוּ חִצָּם עַל יֶֽתֶר, לִירוֹת בְּמוֹ אֹֽפֶל לְיִשְׁרֵי לֵב.",
+      "previousPhonetic": "Ki hiné haresha'im yidrejún késhet konenú jitsam 'al yéter lirot bemó ófel leyisheré lev.",
+      "phonetic": "Ki hiné haresha'im yidrejún késhet, konenú jitsam 'al yéter, lirot bemó ófel leyisheré lev.",
+      "afterPhonetic": "Ki hiné haresha'im yidrejún késhet, konenú jitsam 'al yéter, lirot bemó ófel leyisheré lev."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "כִּי הַשָּׁתוֹת יֵהָרֵסוּן צַדִּיק מַה פָּעָל.",
+      "hebrew": "כִּי הַשָּׁתוֹת יֵהָרֵסוּן, צַדִּיק מַה פָּעָל.",
+      "previousPhonetic": "Ki hashatot yeharesún tsadik ma pa'al.",
+      "phonetic": "Ki hashatot yeharesún, tsadik ma pa'al.",
+      "afterPhonetic": "Ki hashatot yeharesún, tsadik ma pa'al."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "יְהֹוָה בְּהֵיכַל קׇדְשׁוֹ יְהֹוָה בַּשָּׁמַיִם כִּסְאוֹ עֵינָיו יֶחֱזוּ עַפְעַפָּיו יִבְחֲנוּ בְּנֵי אָדָם.",
+      "hebrew": "יְיָ בְּהֵיכַל קׇדְשׁוֹ, יְיָ בַּשָּׁמַֽיִם כִּסְאוֹ; עֵינָיו יֶחֱזוּ, עַפְעַפָּיו יִבְחֲנוּ בְּנֵי אָדָם.",
+      "previousPhonetic": "Ad-nai behejal Kodshó Ad-nai bashamáyim Kisó 'Enav yejezú 'Af'apav yivjanú bené adam.",
+      "phonetic": "Ad-nai beHejal Kodshó, Ad-nai bashamáyim Kisó; 'Enav yejezú, 'Af'apav yivjanú bené adam.",
+      "afterPhonetic": "Ad-nai beHejal Kodshó, Ad-nai bashamáyim Kisó; 'Enav yejezú, 'Af'apav yivjanú bené adam."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "יְהֹוָה צַדִּיק יִבְחָן וְרָשָׁע וְאֹהֵב חָמָס שָׂנְאָה נַפְשׁוֹ.",
+      "hebrew": "יְיָ צַדִּיק יִבְחָן, וְרָשָׁע וְאֹהֵב חָמָס שָׂנְֿאָה נַפְשׁוֹ.",
+      "previousPhonetic": "Ad-nai tsadik yivján verashá' veohev jamás saná Nafshó.",
+      "phonetic": "Ad-nai tsadik yivján, verashá' veohev jamás saneá nafshó.",
+      "afterPhonetic": "Ad-nai tsadik yivján, verashá' veohev jamás saneá nafshó."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "יַמְטֵר עַל רְשָׁעִים פַּחִים אֵשׁ וְגׇפְרִית וְרוּחַ זִלְעָפוֹת מְנָת כּוֹסָם.",
+      "hebrew": "יַמְטֵר עַל רְשָׁעִים פַּחִים; אֵשׁ וְגׇפְרִית וְרֽוּחַ זִלְעָפוֹת מְנָת כּוֹסָם.",
+      "previousPhonetic": "Yamter 'al resha'im pajim esh vegofrit verúaj zil'afot menat kosam.",
+      "phonetic": "Yamter 'al resha'im pajim; esh vegofrit verúaj zil'afot menat kosam.",
+      "afterPhonetic": "Yamter 'al resha'im pajim; esh vegofrit verúaj zil'afot menat kosam."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "כִּי צַדִּיק יְהֹוָה צְדָקוֹת אָהֵב יָשָׁר יֶחֱזוּ פָנֵימוֹ.",
+      "hebrew": "כִּי צַדִּיק יְיָ, צְדָקוֹת אָהֵב, יָשָׁר יֶחֱזוּ פָנֵֽימוֹ.",
+      "previousPhonetic": "Ki tsadik Ad-nai tsedakot ahev yashar yejezú fanemo.",
+      "phonetic": "Ki tsadik Ad-nai, tsedakot ahev, yashar yejezú fanemo.",
+      "afterPhonetic": "Ki tsadik Ad-nai, tsedakot ahev, yashar yejezú fanemo."
+    }
+  ]
+}

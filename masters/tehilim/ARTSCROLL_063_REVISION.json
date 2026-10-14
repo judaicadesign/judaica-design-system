@@ -1,0 +1,117 @@
+{
+  "source": {
+    "primary": "ArtScroll Siddur/Tehillim · captura fotografiada por el usuario",
+    "date": "2026-10-14",
+    "generatorCommit": "063b12527ea93a8ca61d92c03e7a8cd9ab59e198",
+    "note": "Hebreo reconstruido desde la captura: nikud, dagesh, rafé (U+05BF) sobre shevá na, meteg, paseq, puntuación y יי donde ArtScroll imprime el Nombre. Fonética generada por reglas."
+  },
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "spanishApproved": false,
+  "approvedDate": "2026-10-14",
+  "finalExports": [
+    "TEHILIM_063_HEBREO_FINAL_continuous.txt",
+    "TEHILIM_063_HEBREO_FINAL_numbered.txt",
+    "TEHILIM_063_FONETICA_FINAL_continuous.txt",
+    "TEHILIM_063_FONETICA_FINAL_numbered.txt"
+  ],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "מִזְמוֹר לְדָוִד בִּהְיוֹתוֹ בְּמִדְבַּר יְהוּדָה.",
+      "hebrew": "מִזְמוֹר לְדָוִד, בִּהְיוֹתוֹ בְּמִדְבַּר יְהוּדָה.",
+      "previousPhonetic": "Mizmor leDavid bihyotó bemidbar yehudá.",
+      "phonetic": "Mizmor leDavid, bihyotó bemidbar Yehudá.",
+      "afterPhonetic": "Mizmor leDavid, bihyotó bemidbar Yehudá."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "אֱלֹהִים אֵלִי אַתָּה אֲשַׁחֲרֶךָּ צָמְאָה לְךָ נַפְשִׁי כָּמַהּ לְךָ בְשָׂרִי בְּאֶרֶץ צִיָּה וְעָיֵף בְּלִי מָיִם.",
+      "hebrew": "אֱלֹהִים אֵלִי ׀ אַתָּה, אֲשַׁחֲרֶֽךָּ; צָמְֿאָה לְךָ נַפְשִׁי, כָּמַהּ לְךָ בְשָׂרִי, בְּאֶֽרֶץ צִיָּה וְעָיֵף בְּלִי מָֽיִם.",
+      "previousPhonetic": "Elohim elí atá ashajareka tsamá lejá nafshí kamah lejá vesarí beerets tsiyá ve'ayef belí máyim.",
+      "phonetic": "Elohim elí Atá, ashajareka; tsameá Lejá nafshí, kamáh Lejá vesarí, beérets tsiyá ve'ayef belí máyim.",
+      "afterPhonetic": "Elohim elí Atá, ashajareka; tsameá Lejá nafshí, kamáh Lejá vesarí, beérets tsiyá ve'ayef belí máyim."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "כֵּן בַּקֹּדֶשׁ חֲזִיתִךָ לִרְאוֹת עֻזְּךָ וּכְבוֹדֶךָ.",
+      "hebrew": "כֵּן בַּקֹּֽדֶשׁ חֲזִיתִֽךָ, לִרְאוֹת עֻזְּֿךָ וּכְבוֹדֶֽךָ.",
+      "previousPhonetic": "Ken bakódesh jazitija lirot 'uzjá ujvodeja.",
+      "phonetic": "Ken bakódesh jazitija, lirot 'uzeja ujvodeja.",
+      "afterPhonetic": "Ken bakódesh jazitija, lirot 'uzeja ujvodeja."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "כִּי טוֹב חַסְדְּךָ מֵחַיִּים שְׂפָתַי יְשַׁבְּחוּנְךָ.",
+      "hebrew": "כִּי טוֹב חַסְדְּֿךָ מֵחַיִּים, שְׂפָתַי יְשַׁבְּֿחֽוּנְֿךָ.",
+      "previousPhonetic": "Ki tov jasdejá mejayim sefatái yeshabejuneja.",
+      "phonetic": "Ki tov jasdejá mejayim, sefatái yeshabejúneja.",
+      "afterPhonetic": "Ki tov jasdejá mejayim, sefatái yeshabejúneja."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "כֵּן אֲבָרֶכְךָ בְחַיָּי בְּשִׁמְךָ אֶשָּׂא כַפָּי.",
+      "hebrew": "כֵּן אֲבָרֶכְֿךָ בְחַיָּי, בְּשִׁמְךָ אֶשָּׂא כַפָּי.",
+      "previousPhonetic": "Ken avarejeja vejayái beshimjá esá japái.",
+      "phonetic": "Ken avarejeja vejayái, beshimjá esá japái.",
+      "afterPhonetic": "Ken avarejeja vejayái, beshimjá esá japái."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "כְּמוֹ חֵלֶב וָדֶשֶׁן תִּשְׂבַּע נַפְשִׁי וְשִׂפְתֵי רְנָנוֹת יְהַלֶּל פִּי.",
+      "hebrew": "כְּמוֹ חֵֽלֶב וָדֶֽשֶׁן תִּשְׂבַּע נַפְשִׁי, וְשִׂפְתֵי רְנָנוֹת יְהַלֶּל פִּי.",
+      "previousPhonetic": "Kemó jélev vadeshen tisbá' nafshí vesifté renanot yehálel pi.",
+      "phonetic": "Kemó jélev vadeshen tisbá' nafshí, vesifté renanot yehálel pi.",
+      "afterPhonetic": "Kemó jélev vadeshen tisbá' nafshí, vesifté renanot yehálel pi."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "אִם זְכַרְתִּיךָ עַל יְצוּעָי בְּאַשְׁמֻרוֹת אֶהְגֶּה בָּךְ.",
+      "hebrew": "אִם זְכַרְתִּֽיךָ עַל יְצוּעָי, בְּאַשְׁמֻרוֹת אֶהְגֶּה בָּךְ.",
+      "previousPhonetic": "Im zejartija 'al yetsu'ái beashmurot ehgué baj.",
+      "phonetic": "Im zejartija 'al yetsu'ái, beashmurot ehgué baj.",
+      "afterPhonetic": "Im zejartija 'al yetsu'ái, beashmurot ehgué baj."
+    },
+    {
+      "verse": 8,
+      "previousHebrew": "כִּי הָיִיתָ עֶזְרָתָה לִּי וּבְצֵל כְּנָפֶיךָ אֲרַנֵּן.",
+      "hebrew": "כִּי הָיִיתָ עֶזְרָֽתָה לִּי, וּבְצֵל כְּנָפֶֽיךָ אֲרַנֵּן.",
+      "previousPhonetic": "Ki hayita 'ezrata li uvtsel kenafeja aranén.",
+      "phonetic": "Ki hayita 'ezrata li, uvtsel kenafeja aranén.",
+      "afterPhonetic": "Ki hayita 'ezrata li, uvtsel kenafeja aranén."
+    },
+    {
+      "verse": 9,
+      "previousHebrew": "דָּבְקָה נַפְשִׁי אַחֲרֶיךָ בִּי תָּמְכָה יְמִינֶךָ.",
+      "hebrew": "דָּבְֿקָה נַפְשִׁי אַחֲרֶֽיךָ, בִּי תָּמְֿכָה יְמִינֶֽךָ.",
+      "previousPhonetic": "Davká nafshí ajareja bi tamjá yemineja.",
+      "phonetic": "Daveká nafshí ajareja, bi tamejá yemineja.",
+      "afterPhonetic": "Daveká nafshí ajareja, bi tamejá yemineja."
+    },
+    {
+      "verse": 10,
+      "previousHebrew": "וְהֵמָּה לְשׁוֹאָה יְבַקְשׁוּ נַפְשִׁי יָבֹאוּ בְּתַחְתִּיּוֹת הָאָרֶץ.",
+      "hebrew": "וְהֵֽמָּה לְשׁוֹאָה יְבַקְשׁוּ נַפְשִׁי, יָבֹֽאוּ בְּתַחְתִּיּוֹת הָאָֽרֶץ.",
+      "previousPhonetic": "Vehemá leshoá yevakshú nafshí yavou betajtiyot haarets.",
+      "phonetic": "Vehema leshoá yevakshú nafshí, yavou betajtiyot haárets.",
+      "afterPhonetic": "Vehema leshoá yevakshú nafshí, yavou betajtiyot haárets."
+    },
+    {
+      "verse": 11,
+      "previousHebrew": "יַגִּירֻהוּ עַל יְדֵי חָרֶב מְנָת שֻׁעָלִים יִהְיוּ.",
+      "hebrew": "יַגִּירֻֽהוּ עַל יְדֵי חָֽרֶב, מְנָת שֻׁעָלִים יִהְיוּ.",
+      "previousPhonetic": "Yaguiruhu 'al yedé járev menat shu'alim yihyú.",
+      "phonetic": "Yaguiruhu 'al yedé járev, menat shu'alim yihyú.",
+      "afterPhonetic": "Yaguiruhu 'al yedé járev, menat shu'alim yihyú."
+    },
+    {
+      "verse": 12,
+      "previousHebrew": "וְהַמֶּלֶךְ יִשְׂמַח בֵּאלֹהִים יִתְהַלֵּל כׇּל הַנִּשְׁבָּע בּוֹ כִּי יִסָּכֵר פִּי דוֹבְרֵי שָׁקֶר.",
+      "hebrew": "וְהַמֶּֽלֶךְ יִשְׂמַח בֵּאלֹהִים; יִתְהַלֵּל כׇּל הַנִּשְׁבָּע בּוֹ, כִּי יִסָּכֵר פִּי דֽוֹבְֿרֵי שָֽׁקֶר.",
+      "previousPhonetic": "Vehamélej yismaj beLohim yithalel kol hanishbá' bo ki yisajer pi dovré sháker.",
+      "phonetic": "Vehamélej yismaj bElohim; yithalel kol hanishbá' bo, ki yisajer pi dóvere sháker.",
+      "afterPhonetic": "Vehamélej yismaj bElohim; yithalel kol hanishbá' bo, ki yisajer pi dóvere sháker."
+    }
+  ]
+}

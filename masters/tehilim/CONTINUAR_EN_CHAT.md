@@ -174,3 +174,13 @@ Consultar `ARTSCROLL_APP_TANDA_009-017.json`: siguen abiertos 10:3 בֵּרֵך�
 - Motor: https://judaicadesign.github.io/fonetica-hebreo/
 
 En Chat, el análisis y las capturas pueden continuar, pero editar y publicar el generador requiere acceso efectivo al repositorio. No afirmar que un cambio está implementado sin comprobar archivos y publicación.
+
+## Lote ArtScroll 14/10/2026 · salmos 11, 14, 16, 63, 76, 83, 84 y 130 (FINAL)
+
+- Hebreo reconstruido desde las capturas de ArtScroll: nikud, dagesh, rafé (U+05BF) sobre cada consonante con shevá na confirmado, meteg, paseq (׀) y puntuación; donde ArtScroll imprime el Nombre se escribe `יְיָ` / `לַיְיָ` (fonética `Ad-nai`).
+- Fonética generada por reglas con `fonetica-hebreo` commit `063b125`; no hay excepciones por palabra. Nueva regla: ו con jolam tras consonante con vocal plena o jatáf es consonántica (`עֲוֹנוֹתָיו` = 'avonot).
+- Estos salmos pasaron directo a FINAL por decisión editorial del dueño del proyecto; solo se consultan las dudas reales, en lista.
+- Registros: `ARTSCROLL_011/014/016/063/076/083/084/130_REVISION.json` (con `previousHebrew` de Wikisource, para que `scripts/build-tehilim.mjs` los reaplique), `REVISION_ESTADO.json` y 32 `TEHILIM_NNN_*_FINAL_*.txt`.
+- El 14 se rehízo (ya era FINAL): ahora incluye rafé y los `יי` normalizados.
+- FINAL totales: 1–7, 11, 14, 16, 63, 76, 83, 84, 126, 130, 137 (17 de 150).
+- El paseq no aparece en la fonética (pendiente de decidir).

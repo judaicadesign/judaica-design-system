@@ -1,0 +1,109 @@
+{
+  "source": {
+    "primary": "ArtScroll Siddur/Tehillim · captura fotografiada por el usuario",
+    "date": "2026-10-14",
+    "generatorCommit": "063b12527ea93a8ca61d92c03e7a8cd9ab59e198",
+    "note": "Hebreo reconstruido desde la captura: nikud, dagesh, rafé (U+05BF) sobre shevá na, meteg, paseq, puntuación y יי donde ArtScroll imprime el Nombre. Fonética generada por reglas."
+  },
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "spanishApproved": false,
+  "approvedDate": "2026-10-14",
+  "finalExports": [
+    "TEHILIM_016_HEBREO_FINAL_continuous.txt",
+    "TEHILIM_016_HEBREO_FINAL_numbered.txt",
+    "TEHILIM_016_FONETICA_FINAL_continuous.txt",
+    "TEHILIM_016_FONETICA_FINAL_numbered.txt"
+  ],
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "מִכְתָּם לְדָוִד שׇׁמְרֵנִי אֵל כִּי חָסִיתִי בָךְ.",
+      "hebrew": "מִכְתָּם לְדָוִד, שׇׁמְרֵֽנִי אֵל כִּי חָסִֽיתִי בָךְ.",
+      "previousPhonetic": "Mijtam leDavid shomereni El ki jasiti Vaj.",
+      "phonetic": "Mijtam leDavid, shomereni El ki jasiti Vaj.",
+      "afterPhonetic": "Mijtam leDavid, shomereni El ki jasiti Vaj."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "אָמַרְתְּ לַיהֹוָה אֲדֹנָי אָתָּה טוֹבָתִי בַּל עָלֶיךָ.",
+      "hebrew": "אָמַרְתְּ לַיְיָ, אֲדֹנָי אָֽתָּה, טוֹבָתִי בַּל עָלֶֽיךָ.",
+      "previousPhonetic": "Amart laAd-nai Ad-nai Ata tovatí bal 'Aleja.",
+      "phonetic": "Amart laAd-nai, Ad-nai Ata, tovatí bal 'Aleja.",
+      "afterPhonetic": "Amart laAd-nai, Ad-nai Ata, tovatí bal 'Aleja."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "לִקְדוֹשִׁים אֲשֶׁר בָּאָרֶץ הֵמָּה וְאַדִּירֵי כׇּל חֶפְצִי בָם.",
+      "hebrew": "לִקְדוֹשִׁים אֲשֶׁר בָּאָֽרֶץ הֵֽמָּה, וְאַדִּירֵי כׇּל חֶפְצִי בָם.",
+      "previousPhonetic": "Likdoshim asher baarets hema veadiré kol jeftsí vam.",
+      "phonetic": "Likdoshim asher baárets hema, veadiré kol jeftsí vam.",
+      "afterPhonetic": "Likdoshim asher baárets hema, veadiré kol jeftsí vam."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "יִרְבּוּ עַצְּבוֹתָם אַחֵר מָהָרוּ בַּל אַסִּיךְ נִסְכֵּיהֶם מִדָּם וּבַל אֶשָּׂא אֶת שְׁמוֹתָם עַל שְׂפָתָי.",
+      "hebrew": "יִרְבּוּ עַצְּֿבוֹתָם אַחֵר מָהָֽרוּ; בַּל אַסִּיךְ נִסְכֵּיהֶם מִדָּם, וּבַל אֶשָּׂא אֶת שְׁמוֹתָם עַל שְׂפָתָי.",
+      "previousPhonetic": "Yirbú 'atsevotam ajer maharu bal asij niskehem midam uval esa et shemotam 'al sefatái.",
+      "phonetic": "Yirbú 'atsevotam ajer maharu; bal asij niskehem midam, uval esá et shemotam 'al sefatái.",
+      "afterPhonetic": "Yirbú 'atsevotam ajer maharu; bal asij niskehem midam, uval esá et shemotam 'al sefatái."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "יְהֹוָה מְנָת חֶלְקִי וְכוֹסִי אַתָּה תּוֹמִיךְ גּוֹרָלִי.",
+      "hebrew": "יְיָ מְנָת חֶלְקִי וְכוֹסִי, אַתָּה תּוֹמִיךְ גּוֹרָלִי.",
+      "previousPhonetic": "Ad-nai menat jelkí vejosí Atá tomij goralí.",
+      "phonetic": "Ad-nai menat jelkí vejosí, Atá tomij goralí.",
+      "afterPhonetic": "Ad-nai menat jelkí vejosí, Atá tomij goralí."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "חֲבָלִים נָפְלוּ לִי בַּנְּעִמִים אַף נַחֲלָת שָׁפְרָה עָלָי.",
+      "hebrew": "חֲבָלִים נָֽפְֿלוּ לִי בַּנְּֿעִמִים, אַף נַחֲלָת שָׁפְֿרָה עָלָי.",
+      "previousPhonetic": "Javalim naflu li bane'imim af najalat shafrá 'alái.",
+      "phonetic": "Javalim náfelu li bane'imim, af najalat shaferá 'alái.",
+      "afterPhonetic": "Javalim náfelu li bane'imim, af najalat shaferá 'alái."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "אֲבָרֵךְ אֶת יְהֹוָה אֲשֶׁר יְעָצָנִי אַף לֵילוֹת יִסְּרוּנִי כִלְיוֹתָי.",
+      "hebrew": "אֲבָרֵךְ אֶת יְיָ אֲשֶׁר יְעָצָֽנִי, אַף לֵילוֹת יִסְּֿרֽוּנִי כִלְיוֹתָי.",
+      "previousPhonetic": "Avarej et Ad-nai asher ye'atsani af lelot yiseruni jilyotái.",
+      "phonetic": "Avarej et Ad-nai asher ye'atsani, af lelot yiseruni jilyotái.",
+      "afterPhonetic": "Avarej et Ad-nai asher ye'atsani, af lelot yiseruni jilyotái."
+    },
+    {
+      "verse": 8,
+      "previousHebrew": "שִׁוִּיתִי יְהֹוָה לְנֶגְדִּי תָמִיד כִּי מִימִינִי בַּל אֶמּוֹט.",
+      "hebrew": "שִׁוִּֽיתִי יְיָ לְנֶגְדִּי תָמִיד, כִּי מִימִינִי, בַּל אֶמּוֹט.",
+      "previousPhonetic": "Shiviti Ad-nai lenegdí tamid ki miminí bal emot.",
+      "phonetic": "Shiviti Ad-nai lenegdí tamid, ki miminí, bal emot.",
+      "afterPhonetic": "Shiviti Ad-nai lenegdí tamid, ki miminí, bal emot."
+    },
+    {
+      "verse": 9,
+      "previousHebrew": "לָכֵן שָׂמַח לִבִּי וַיָּגֶל כְּבוֹדִי אַף בְּשָׂרִי יִשְׁכֹּן לָבֶטַח.",
+      "hebrew": "לָכֵן שָׂמַח לִבִּי וַיָּֽגֶל כְּבוֹדִי, אַף בְּשָׂרִי יִשְׁכֹּן לָבֶֽטַח.",
+      "previousPhonetic": "Lajén samaj libí vayáguel kevodí af besarí yishkón lavétaj.",
+      "phonetic": "Lajén samaj libí vayáguel kevodí, af besarí yishkón lavétaj.",
+      "afterPhonetic": "Lajén samaj libí vayáguel kevodí, af besarí yishkón lavétaj."
+    },
+    {
+      "verse": 10,
+      "previousHebrew": "כִּי לֹא תַעֲזֹב נַפְשִׁי לִשְׁאוֹל לֹא תִתֵּן חֲסִידְךָ לִרְאוֹת שָׁחַת.",
+      "hebrew": "כִּי לֹא תַעֲזֹב נַפְשִׁי לִשְׁאוֹל, לֹא תִתֵּן חֲסִידְֿךָ לִרְאוֹת שָֽׁחַת.",
+      "previousPhonetic": "Ki lo ta'azov nafshí lishol lo titén jasideja lirot shájat.",
+      "phonetic": "Ki lo ta'azov nafshí liShol, lo titén jasideja lirot shájat.",
+      "afterPhonetic": "Ki lo ta'azov nafshí liShol, lo titén jasideja lirot shájat."
+    },
+    {
+      "verse": 11,
+      "previousHebrew": "תּוֹדִיעֵנִי אֹרַח חַיִּים שֹׂבַע שְׂמָחוֹת אֶת פָּנֶיךָ נְעִמוֹת בִּימִינְךָ נֶצַח.",
+      "hebrew": "תּוֹדִיעֵֽנִי אֹֽרַח חַיִּים, שֹֽׂבַע שְׂמָחוֹת אֶת פָּנֶֽיךָ, נְעִמוֹת בִּימִינְֿךָ נֶֽצַח.",
+      "previousPhonetic": "Todi'eni óraj jayim sová' semajot et Paneja ne'imot Bimineja nétsaj.",
+      "phonetic": "Todi'eni óraj jayim, sova' semajot et Paneja, ne'imot biMineja nétsaj.",
+      "afterPhonetic": "Todi'eni óraj jayim, sova' semajot et Paneja, ne'imot biMineja nétsaj."
+    }
+  ]
+}

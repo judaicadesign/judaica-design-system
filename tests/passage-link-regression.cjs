@@ -10,7 +10,7 @@ const corpus=j('masters/tehilim/tehilim.json');
 const states=j('masters/tehilim/REVISION_ESTADO.json');
 const manifest=j('masters/compositions/BIRKAT_HAMAZON_ASHKENAZI.json');
 const finals=states.chapters.filter(x=>x.approved&&x.hebrewApproved&&x.phoneticApproved).map(x=>x.chapter);
-assert.deepEqual(finals,[1,2,3,4,5,6,7,14,126,137],'approval count protected');
+assert.deepEqual(finals,[1,2,3,4,5,6,7,11,14,16,63,76,83,84,126,130,137],'approval count protected');
 assert.deepEqual(corpus.approvedChapters,finals,'canonical approval metadata must match review state');
 for(const language of ['hebrew','phonetic']){
  const cfg=manifest.languages[language],src=read(cfg.source);
@@ -123,7 +123,7 @@ for(const chapter of finals){
    assert.ok(fs.existsSync(f),'missing production artifact: '+path.basename(f));
   }
 }
-console.log('PASS canonical links: Birkat 137/126 + contexts, Bavél, punctuation, 14:3, fail-closed approvals, 40 protected FINAL exports');
+console.log('PASS canonical links: Birkat 137/126 + contexts, Bavél, punctuation, 14:3, fail-closed approvals, '+finals.length*4+' protected FINAL exports');
 
 // Snapshot for editorial review must be byte-identical to canonical composition.
 const workingHebrew=linked.compose({body:read(manifest.languages.hebrew.source),language:'hebrew',spec:{...manifest.languages.hebrew,documentId:manifest.documentId},corpus,states}).text;

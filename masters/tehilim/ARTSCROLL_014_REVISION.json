@@ -1,163 +1,196 @@
 {
-  "chapter": 14,
-  "title": "Judaica Design® · Tehilim 14 · Cierre editorial ArtScroll",
-  "approval": {
-    "hebrewApproved": true,
-    "phoneticApproved": true,
-    "spanishApproved": false,
-    "chapterFinal": true,
-    "approvedDate": "2026-10-11"
-  },
   "source": {
-    "primary": "ArtScroll Siddur Wasserman Edition · Tehilim 14 (página fotografiada en captura del usuario)",
-    "screen": "IMG_1547.png",
-    "sha256": "359728ac44c15eccd38fd2a769b5ed18ed6ddd0a20fd97036aa7cd627fc44798",
-    "size": "1170×2532",
-    "previous": "IMG_1474.png · meteg, shevá na y 14:3 ya revisados"
+    "primary": "ArtScroll Siddur/Tehillim · captura fotografiada por el usuario",
+    "date": "2026-10-14",
+    "generatorCommit": "063b12527ea93a8ca61d92c03e7a8cd9ab59e198",
+    "note": "Hebreo reconstruido desde la captura: nikud, dagesh, rafé (U+05BF) sobre shevá na, meteg, paseq, puntuación y יי donde ArtScroll imprime el Nombre. Fonética generada por reglas."
   },
-  "normalization": "Nombre editorial del tetragrama: יְיָ en hebreo, Ad-nai en fonética. No se reproduce la grafía del Nombre del PDF.",
-  "editorialComparison": {
-    "punctuationChanges": [
-      {
-        "ref": "14:1",
-        "changes": [
-          "punto y coma después de לְדָוִד",
-          "coma después de אֱלֹהִים",
-          "coma después de עֲלִילָה"
-        ]
-      },
-      {
-        "ref": "14:2",
-        "changes": [
-          "coma después de אָדָם"
-        ]
-      },
-      {
-        "ref": "14:3",
-        "changes": [],
-        "prior": "Puntuación y meteg en ע de עֹֽשֵׂה ya confirmados; queda idéntico"
-      },
-      {
-        "ref": "14:4",
-        "changes": [
-          "punto y coma después de אָֽוֶן",
-          "coma después de לֶֽחֶם"
-        ]
-      },
-      {
-        "ref": "14:5",
-        "changes": [
-          "coma después de פָֽחַד"
-        ]
-      },
-      {
-        "ref": "14:6",
-        "changes": [
-          "coma después de תָבִֽישׁוּ"
-        ]
-      },
-      {
-        "ref": "14:7",
-        "changes": [
-          "punto y coma después de la primera aparición de יִשְׂרָאֵל",
-          "coma después de עַמּוֹ"
-        ]
-      }
-    ],
-    "punctuationChangesCount": 10,
-    "nikudDageshChanges": "Ninguna nueva corrección sustantiva de nikud/dagesh en esta última pasada. Se conservan 14 meteg transcritos en el cotejo anterior (13 iniciales + confirmación 14:3).",
-    "nameChanges": "4 ocurrencias de יְהֹוָה normalizadas como יְיָ en el corpus (14:2, 14:4, 14:6, 14:7). Es convención editorial, no variante de pronunciación.",
-    "vocalSheva": [
-      {
-        "ref": "14:1",
-        "word": "לַמְנַצֵּֽחַ",
-        "letter": "מ",
-        "reading": "Lamenatséaj"
-      },
-      {
-        "ref": "14:4",
-        "word": "יָדְעוּ",
-        "letter": "ד",
-        "reading": "yade'u"
-      }
-    ],
-    "metegCount": 14,
-    "matchingPunctuationHebrewPhonetic": true
-  },
-  "generator": {
-    "repository": "judaicadesign/fonetica-hebreo",
-    "commit": "4e142bcd240e87618375d5f55cbe26a77caaf728",
-    "run": "https://github.com/judaicadesign/fonetica-hebreo/actions/runs/38151154742",
-    "verses": 7,
-    "matched": 7,
-    "differences": 0,
-    "previousMismatch": {
-      "ref": "14:3",
-      "generatorBefore": "'osé",
-      "master": "'ose",
-      "fix": "Contexto ArtScroll 14:3 registrado con meteg en ע y stress 0"
-    },
-    "scope": "Comparación de siete versículos; la suite global del generador conserva un fixture previo desactualizado en 2:3 y no se confunde con aprobación del capítulo"
-  },
-  "verses": [
-    {
-      "verse": 1,
-      "hebrew": "לַמְנַצֵּֽחַ לְדָוִד; אָמַר נָבָל בְּלִבּוֹ אֵין אֱלֹהִים, הִשְׁחִֽיתוּ הִתְעִֽיבוּ עֲלִילָה, אֵין עֹֽשֵׂה טוֹב.",
-      "phonetic": "Lamenatséaj leDavid; amar naval belibó en Elohim, hishjitu hit'ivu 'alilá, en 'ose tov.",
-      "punctuation": ";,,."
-    },
-    {
-      "verse": 2,
-      "hebrew": "יְיָ מִשָּׁמַֽיִם הִשְׁקִיף עַל בְּנֵי אָדָם, לִרְאוֹת הֲיֵשׁ מַשְׂכִּיל דֹּרֵשׁ אֶת אֱלֹהִים.",
-      "phonetic": "Ad-nai mishamáyim hishkif 'al bené adam, lirot hayesh maskil doresh et Elohim.",
-      "punctuation": ",."
-    },
-    {
-      "verse": 3,
-      "hebrew": "הַכֹּל סָר, יַחְדָּו נֶאֱלָֽחוּ; אֵין עֹֽשֵׂה טוֹב, אֵין גַּם אֶחָד.",
-      "phonetic": "Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.",
-      "punctuation": ",;,."
-    },
-    {
-      "verse": 4,
-      "hebrew": "הֲלֹא יָדְעוּ כׇּל פֹּֽעֲלֵי אָֽוֶן; אֹכְלֵי עַמִּי אָֽכְלוּ לֶֽחֶם, יְיָ לֹא קָרָאוּ.",
-      "phonetic": "Haló yade'u kol pó'ale aven; ojelé 'amí ajlu léjem, Ad-nai lo karaú.",
-      "punctuation": ";,."
-    },
-    {
-      "verse": 5,
-      "hebrew": "שָׁם פָּחֲדוּ פָֽחַד, כִּי אֱלֹהִים בְּדוֹר צַדִּיק.",
-      "phonetic": "Sham pajadú fájad, ki Elohim bedor tsadik.",
-      "punctuation": ",."
-    },
-    {
-      "verse": 6,
-      "hebrew": "עֲצַת עָנִי תָבִֽישׁוּ, כִּי יְיָ מַחְסֵֽהוּ.",
-      "phonetic": "'Atsat 'aní tavishu, ki Ad-nai majsehu.",
-      "punctuation": ",."
-    },
-    {
-      "verse": 7,
-      "hebrew": "מִי יִתֵּן מִצִּיּוֹן יְשׁוּעַת יִשְׂרָאֵל; בְּשׁוּב יְיָ שְׁבוּת עַמּוֹ, יָגֵל יַעֲקֹב יִשְׂמַח יִשְׂרָאֵל.",
-      "phonetic": "Mi yitén mitsiyón yeshu'at Yisrael; beshuv Ad-nai shevut 'Amó, yaguel Ya'akov yismaj Yisrael.",
-      "punctuation": ";,."
-    }
-  ],
-  "finalFiles": [
+  "approved": true,
+  "hebrewApproved": true,
+  "phoneticApproved": true,
+  "spanishApproved": false,
+  "approvedDate": "2026-10-14",
+  "finalExports": [
     "TEHILIM_014_HEBREO_FINAL_continuous.txt",
     "TEHILIM_014_HEBREO_FINAL_numbered.txt",
     "TEHILIM_014_FONETICA_FINAL_continuous.txt",
     "TEHILIM_014_FONETICA_FINAL_numbered.txt"
   ],
-  "protectedFinalsExisting": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    126,
-    137
+  "previousReview": {
+    "chapter": 14,
+    "title": "Judaica Design® · Tehilim 14 · Cierre editorial ArtScroll",
+    "approval": {
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "spanishApproved": false,
+      "chapterFinal": true,
+      "approvedDate": "2026-10-11"
+    },
+    "source": {
+      "primary": "ArtScroll Siddur Wasserman Edition · Tehilim 14 (página fotografiada en captura del usuario)",
+      "screen": "IMG_1547.png",
+      "sha256": "359728ac44c15eccd38fd2a769b5ed18ed6ddd0a20fd97036aa7cd627fc44798",
+      "size": "1170×2532",
+      "previous": "IMG_1474.png · meteg, shevá na y 14:3 ya revisados"
+    },
+    "normalization": "Nombre editorial del tetragrama: יְיָ en hebreo, Ad-nai en fonética. No se reproduce la grafía del Nombre del PDF.",
+    "editorialComparison": {
+      "punctuationChanges": [
+        {
+          "ref": "14:1",
+          "changes": [
+            "punto y coma después de לְדָוִד",
+            "coma después de אֱלֹהִים",
+            "coma después de עֲלִילָה"
+          ]
+        },
+        {
+          "ref": "14:2",
+          "changes": [
+            "coma después de אָדָם"
+          ]
+        },
+        {
+          "ref": "14:3",
+          "changes": [],
+          "prior": "Puntuación y meteg en ע de עֹֽשֵׂה ya confirmados; queda idéntico"
+        },
+        {
+          "ref": "14:4",
+          "changes": [
+            "punto y coma después de אָֽוֶן",
+            "coma después de לֶֽחֶם"
+          ]
+        },
+        {
+          "ref": "14:5",
+          "changes": [
+            "coma después de פָֽחַד"
+          ]
+        },
+        {
+          "ref": "14:6",
+          "changes": [
+            "coma después de תָבִֽישׁוּ"
+          ]
+        },
+        {
+          "ref": "14:7",
+          "changes": [
+            "punto y coma después de la primera aparición de יִשְׂרָאֵל",
+            "coma después de עַמּוֹ"
+          ]
+        }
+      ],
+      "punctuationChangesCount": 10,
+      "nikudDageshChanges": "Ninguna nueva corrección sustantiva de nikud/dagesh en esta última pasada. Se conservan 14 meteg transcritos en el cotejo anterior (13 iniciales + confirmación 14:3).",
+      "nameChanges": "4 ocurrencias de יְהֹוָה normalizadas como יְיָ en el corpus (14:2, 14:4, 14:6, 14:7). Es convención editorial, no variante de pronunciación.",
+      "vocalSheva": [
+        {
+          "ref": "14:1",
+          "word": "לַמְנַצֵּֽחַ",
+          "letter": "מ",
+          "reading": "Lamenatséaj"
+        },
+        {
+          "ref": "14:4",
+          "word": "יָדְעוּ",
+          "letter": "ד",
+          "reading": "yade'u"
+        }
+      ],
+      "metegCount": 14,
+      "matchingPunctuationHebrewPhonetic": true
+    },
+    "generator": {
+      "repository": "judaicadesign/fonetica-hebreo",
+      "commit": "4e142bcd240e87618375d5f55cbe26a77caaf728",
+      "run": "https://github.com/judaicadesign/fonetica-hebreo/actions/runs/38151154742",
+      "verses": 7,
+      "matched": 7,
+      "differences": 0,
+      "previousMismatch": {
+        "ref": "14:3",
+        "generatorBefore": "'osé",
+        "master": "'ose",
+        "fix": "Contexto ArtScroll 14:3 registrado con meteg en ע y stress 0"
+      },
+      "scope": "Comparación de siete versículos; la suite global del generador conserva un fixture previo desactualizado en 2:3 y no se confunde con aprobación del capítulo"
+    },
+    "finalFiles": [
+      "TEHILIM_014_HEBREO_FINAL_continuous.txt",
+      "TEHILIM_014_HEBREO_FINAL_numbered.txt",
+      "TEHILIM_014_FONETICA_FINAL_continuous.txt",
+      "TEHILIM_014_FONETICA_FINAL_numbered.txt"
+    ],
+    "protectedFinalsExisting": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      126,
+      137
+    ]
+  },
+  "verses": [
+    {
+      "verse": 1,
+      "previousHebrew": "לַמְנַצֵּחַ לְדָוִד אָמַר נָבָל בְּלִבּוֹ אֵין אֱלֹהִים הִשְׁחִיתוּ הִתְעִיבוּ עֲלִילָה אֵין עֹשֵׂה טוֹב.",
+      "hebrew": "לַמְֿנַצֵּֽחַ לְדָוִד; אָמַר נָבָל בְּלִבּוֹ אֵין אֱלֹהִים, הִשְׁחִֽיתוּ הִתְעִֽיבוּ עֲלִילָה, אֵין עֹֽשֵׂה טוֹב.",
+      "previousPhonetic": "Lamenatséaj leDavid; amar naval belibó en Elohim, hishjitu hit'ivu 'alilá, en 'ose tov.",
+      "phonetic": "Lamenatséaj leDavid; amar naval belibó en Elohim, hishjitu hit'ivu 'alilá, en 'ose tov.",
+      "afterPhonetic": "Lamenatséaj leDavid; amar naval belibó en Elohim, hishjitu hit'ivu 'alilá, en 'ose tov."
+    },
+    {
+      "verse": 2,
+      "previousHebrew": "יְהֹוָה מִשָּׁמַיִם הִשְׁקִיף עַל בְּנֵי אָדָם לִרְאוֹת הֲיֵשׁ מַשְׂכִּיל דֹּרֵשׁ אֶת אֱלֹהִים.",
+      "hebrew": "יְיָ מִשָּׁמַֽיִם הִשְׁקִיף עַל בְּנֵי אָדָם, לִרְאוֹת הֲיֵשׁ מַשְׂכִּיל דֹּרֵשׁ אֶת אֱלֹהִים.",
+      "previousPhonetic": "Ad-nai mishamáyim hishkif 'al bené adam, lirot hayesh maskil doresh et Elohim.",
+      "phonetic": "Ad-nai mishamáyim hishkif 'al bené adam, lirot hayesh maskil doresh et Elohim.",
+      "afterPhonetic": "Ad-nai mishamáyim hishkif 'al bené adam, lirot hayesh maskil doresh et Elohim."
+    },
+    {
+      "verse": 3,
+      "previousHebrew": "הַכֹּל סָר יַחְדָּו נֶאֱלָחוּ אֵין עֹשֵׂה טוֹב אֵין גַּם אֶחָד.",
+      "hebrew": "הַכֹּל סָר, יַחְדָּו נֶאֱלָֽחוּ; אֵין עֹֽשֵׂה טוֹב, אֵין גַּם אֶחָד.",
+      "previousPhonetic": "Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.",
+      "phonetic": "Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad.",
+      "afterPhonetic": "Hakol sar, yajdav neelaju; en 'ose tov, en gam ejad."
+    },
+    {
+      "verse": 4,
+      "previousHebrew": "הֲלֹא יָדְעוּ כׇּל פֹּעֲלֵי אָוֶן אֹכְלֵי עַמִּי אָכְלוּ לֶחֶם יְהֹוָה לֹא קָרָאוּ.",
+      "hebrew": "הֲלֹא יָדְֿעוּ כׇּל פֹּֽעֲלֵי אָֽוֶן; אֹכְֿלֵי עַמִּי אָֽכְֿלוּ לֶֽחֶם, יְיָ לֹא קָרָאוּ.",
+      "previousPhonetic": "Haló yade'u kol pó'ale aven; ojelé 'amí ajlu léjem, Ad-nai lo karaú.",
+      "phonetic": "Haló yade'u kol pó'ale aven; ojelé 'amí ájelu léjem, Ad-nai lo karaú.",
+      "afterPhonetic": "Haló yade'u kol pó'ale aven; ojelé 'amí ájelu léjem, Ad-nai lo karaú."
+    },
+    {
+      "verse": 5,
+      "previousHebrew": "שָׁם פָּחֲדוּ פָחַד כִּי אֱלֹהִים בְּדוֹר צַדִּיק.",
+      "hebrew": "שָׁם פָּחֲדוּ פָֽחַד, כִּי אֱלֹהִים בְּדוֹר צַדִּיק.",
+      "previousPhonetic": "Sham pajadú fájad, ki Elohim bedor tsadik.",
+      "phonetic": "Sham pajadú fájad, ki Elohim bedor tsadik.",
+      "afterPhonetic": "Sham pajadú fájad, ki Elohim bedor tsadik."
+    },
+    {
+      "verse": 6,
+      "previousHebrew": "עֲצַת עָנִי תָבִישׁוּ כִּי יְהֹוָה מַחְסֵהוּ.",
+      "hebrew": "עֲצַת עָנִי תָבִֽישׁוּ, כִּי יְיָ מַחְסֵֽהוּ.",
+      "previousPhonetic": "'Atsat 'aní tavishu, ki Ad-nai majsehu.",
+      "phonetic": "'Atsat 'aní tavishu, ki Ad-nai majsehu.",
+      "afterPhonetic": "'Atsat 'aní tavishu, ki Ad-nai majsehu."
+    },
+    {
+      "verse": 7,
+      "previousHebrew": "מִי יִתֵּן מִצִּיּוֹן יְשׁוּעַת יִשְׂרָאֵל בְּשׁוּב יְהֹוָה שְׁבוּת עַמּוֹ יָגֵל יַעֲקֹב יִשְׂמַח יִשְׂרָאֵל.",
+      "hebrew": "מִי יִתֵּן מִצִּיּוֹן יְשׁוּעַת יִשְׂרָאֵל; בְּשׁוּב יְיָ שְׁבוּת עַמּוֹ, יָגֵל יַעֲקֹב יִשְׂמַח יִשְׂרָאֵל.",
+      "previousPhonetic": "Mi yitén mitsiyón yeshu'at Yisrael; beshuv Ad-nai shevut 'Amó, yaguel Ya'akov yismaj Yisrael.",
+      "phonetic": "Mi yitén miTsiyón yeshu'at Yisrael; beshuv Ad-nai shevut 'amó, yaguel Ya'akov yismaj Yisrael.",
+      "afterPhonetic": "Mi yitén miTsiyón yeshu'at Yisrael; beshuv Ad-nai shevut 'amó, yaguel Ya'akov yismaj Yisrael."
+    }
   ]
 }
