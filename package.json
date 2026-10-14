@@ -1,9 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs && node tests/tehilim-finals-003-007.cjs && node tests/passage-link-regression.cjs && node tests/tehilim-masters.cjs && node tests/b612-quote.cjs && node tests/generator-canonical.cjs && node tests/user-phonetic-confirmations.cjs && node tests/reusable-passage-library.cjs && node tests/whatsapp-webhook.mjs && node tests/b612-base.mjs && node tests/whatsapp-extract.mjs && node tests/whatsapp-draft.mjs"
+    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs && node tests/tehilim-finals-003-007.cjs && node tests/passage-link-regression.cjs && node tests/tehilim-masters.cjs && node tests/b612-quote.cjs && node tests/generator-canonical.cjs && node tests/user-phonetic-confirmations.cjs && node tests/reusable-passage-library.cjs && node tests/whatsapp-webhook.mjs && node tests/b612-base.mjs && node tests/whatsapp-extract.mjs && node tests/whatsapp-draft.mjs && node tests/whatsapp-worker.mjs && node tests/whatsapp-worker-sql.mjs"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.9",
     "hyphen": "^1.14.1",
     "jsdom": "26.1.0",
     "jspdf": "^2.5.2",

@@ -5,6 +5,12 @@ on:
     paths:
       - 'index.html'
       - 'package.json'
+      - 'package-lock.json'
+      - 'supabase/functions/**'
+      - 'security/whatsapp-*.sql'
+      - 'tests/whatsapp-*.mjs'
+      - 'tests/b612-*.mjs'
+      - 'tests/b612-quote.cjs'
       - 'tests/tehilim-masters.cjs'
       - 'assets/jd-passage-links.js'
       - 'assets/jd-passage-library-ui.js'

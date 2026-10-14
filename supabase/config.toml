@@ -1,3 +1,7 @@
 # Meta authenticates this new callback with HMAC; existing functions are unchanged.
 [functions.whatsapp-webhook]
 verify_jwt = false
+
+# New internal worker: private 32+ character bearer secret, no browser access.
+[functions.whatsapp-worker]
+verify_jwt = false

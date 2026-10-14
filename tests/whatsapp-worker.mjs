@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {createWorker} from '../supabase/functions/whatsapp-worker/handler.mjs';
+import {createApproverSender} from '../supabase/functions/whatsapp-worker/adapters.mjs';
+const now=Date.now();
+const config={JD_WA_WORKER_TOKEN:'fixture-only-private-key-32-characters',JD_WA_AI_ENABLED:'true',JD_OPENAI_API_KEY:'fixture-only',JD_WA_ACCESS_TOKEN:'fixture-only',JD_WA_APPROVER_NUMBER:'54111555512345',JD_WA_PHONE_NUMBER_ID:'123456789',JD_WA_WABA_ID:'987654321'};
+const message={message_id:'fixture',sender_wa_id:'5491155512345',waba_id:config.JD_WA_WABA_ID,phone_number_id:config.JD_WA_PHONE_NUMBER_ID,message_timestamp:Math.floor(now/1000),message_type:'text',body_text:'50 birkon cuadrípticos, un diseño'};
+const request={productId:'leaflet',format:'Cuadríptico',quantities:[50],models:1};
+const technical={paper:'Papel ilustración',weightGsm:300,lamination:'Laminado mate',sides:'Doble faz',print:'Full color',openWidthMm:391,openHeightMm:190,closedWidthMm:100,closedHeightMm:190};
+const settings={rule:{markupPct:26,netRoundStep:500,finalRoundStep:100},catalog:[{id:'leaflet',name:'Birkón · Folleto',status:'Activo',supplier:'Gráfica B612',models:['Cuadríptico'],technical,variants:[{model:'Cuadríptico'}]}]};
+function boot({failAI=false,failSend=false,wrongSender=false,expired=false,budget='claimed',failSave=false,hold=null}={}){
+ let job=null;const counters={ai:0,send:0,reservations:0};
+ const store={getMessage:async id=>({...message,message_id:id,sender_wa_id:wrongSender?'541199999999':message.sender_wa_id,message_timestamp:message.message_timestamp-(expired?86401:0)}),getSettings:async()=>settings,claim:async()=>{if(job)return {status:'duplicate'};if(budget!=='claimed')return {status:budget};job={state:'processing'};counters.reservations++;return {status:'claimed'};},transition:async(id,expected,patch)=>{if(failSave&&patch.state==='draft')throw Error('unavailable');if(expected&&job?.state!==expected)return false;Object.assign(job,patch);return true;}};
+ const worker=createWorker({env:k=>config[k],store,now:()=>now,extract:async()=>{counters.ai++;if(hold)await hold;if(failAI)throw Error('timeout');return {request,usage:{input_tokens:2000,output_tokens:300}};},quoteB612:async p=>({status:200,body:{ok:true,live:true,supplier:'Gráfica B612',net:98325,requestedQty:p.qty,models:p.models,sourceUrl:'https://www.graficab612.com',fetchedAt:new Date(now).toISOString()}}),send:async body=>{counters.send++;assert.match(body,/124.200/);if(failSend)throw Error('timeout');return 'wamid.fixture';}});
+ const run=async(authorized=true,payload={messageId:'fixture'})=>{const response=await worker(new Request('https://worker.test',{method:'POST',headers:{Authorization:authorized?'Bearer '+config.JD_WA_WORKER_TOKEN:'Bearer invalid'},body:JSON.stringify(payload)}));return {status:response.status,body:await response.json()};};
+ return {run,counters,get job(){return job;}};
+}
+const valid=boot();assert.equal((await valid.run()).body.status,'sent_to_approver');assert.equal(valid.job.state,'sent');assert.equal(valid.job.draft.prices[0].pricing.price,124200);assert.equal((await valid.run()).body.status,'duplicate');assert.deepEqual(valid.counters,{ai:1,send:1,reservations:1});
+const unauth=boot();assert.equal((await unauth.run(false)).status,401);assert.equal(unauth.counters.ai,0);
+config.JD_WA_AI_ENABLED='false';const disabled=boot();assert.equal((await disabled.run()).body.status,'disabled');assert.equal(disabled.counters.reservations,0);config.JD_WA_AI_ENABLED='true';
+for(const options of [{wrongSender:true},{expired:true},{budget:'budget_exhausted'},{budget:'disabled'}]){const denied=boot(options);await denied.run();assert.equal(denied.counters.ai,0);assert.equal(denied.counters.send,0);}
+for(const options of [{failAI:true},{failSave:true}]){const failed=boot(options);assert.equal((await failed.run()).body.status,'needs_review');assert.equal(failed.job.state,'needs_review');assert.equal(failed.counters.send,0);await failed.run();assert.equal(failed.counters.ai,1);}
+const uncertain=boot({failSend:true});assert.equal((await uncertain.run()).body.status,'delivery_uncertain');assert.equal(uncertain.job.state,'delivery_uncertain');await uncertain.run();assert.equal(uncertain.counters.send,1,'Unknown delivery is never automatically sent twice');
+let release;const held=new Promise(resolve=>release=resolve),concurrent=boot({hold:held});const first=concurrent.run();while(concurrent.counters.ai===0)await new Promise(resolve=>setImmediate(resolve));assert.equal((await concurrent.run()).body.status,'duplicate');release();await first;assert.equal(concurrent.counters.ai,1);assert.equal(concurrent.counters.send,1);
+const invalid=boot();assert.equal((await invalid.run(true,{messageId:'fixture',to:'customer'})).status,400);
+assert.equal((await invalid.run(true,null)).status,400);
+const send=createApproverSender({env:k=>config[k],fetch:async(url,init)=>{assert.equal(url,'https://graph.facebook.com/v26.0/123456789/messages');const body=JSON.parse(init.body);assert.equal(body.to,config.JD_WA_APPROVER_NUMBER);assert.equal(body.text.body,'Borrador');return Response.json({messages:[{id:'wamid.fixture'}]});}});assert.equal(await send('Borrador'),'wamid.fixture');
+console.log('PASS worker: private auth, disabled gates, budget denial, saved draft before outbound, approver-only sender, concurrent duplicate claims, no retry after AI/outbound timeout. Mock adapters; SQL atomicity and real delivery still require deployed verification.');

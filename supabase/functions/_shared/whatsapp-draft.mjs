@@ -8,14 +8,17 @@ const phone=value=>digits(value).replace(/^549(?=\d{10}$)/,'54').replace(/^54111
 const dims=['openWidthMm','openHeightMm','closedWidthMm','closedHeightMm'];
 const supported=new Set(['Díptico','Tríptico','Cuadríptico']);
 const quantities=new Set([50,75,100,150]);
-
-// Preparation only: the authenticated worker must persist/claim the message and
-// reserve its AI budget before invoking this function. It has no outbound client.
-export async function buildDraft({message,approver,catalog,settings,extract,quoteB612,now=Date.now()}){
+export function checkApproverMessage(message,approver,now=Date.now()){
  if(!/^\d{6,20}$/.test(phone(approver))||phone(message.sender_wa_id)!==phone(approver))throw Error('Solo se cotizan pedidos reenviados por la persona aprobadora.');
  const age=now-Number(message.message_timestamp)*1000;
  if(!Number.isFinite(age)||age< -60000||age>=24*60*60*1000)throw Error('El pedido necesita un nuevo mensaje para abrir la ventana de respuesta.');
  if(message.message_type!=='text'||!message.body_text?.trim())throw Error('El pedido requiere revisión de su archivo o imagen.');
+}
+
+// Preparation only: the authenticated worker must persist/claim the message and
+// reserve its AI budget before invoking this function. It has no outbound client.
+export async function buildDraft({message,approver,catalog,settings,extract,quoteB612,now=Date.now()}){
+ checkApproverMessage(message,approver,now);
  const active=catalog.filter(p=>p.status==='Activo');
  const {request,usage}=await extract(message.body_text,active);
  const product=active.find(p=>p.id===request.productId);

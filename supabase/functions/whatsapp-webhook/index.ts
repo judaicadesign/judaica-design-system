@@ -11,5 +11,19 @@ Deno.serve(createHandler({
       body:JSON.stringify(rows)
     });
     if(!result.ok)throw new Error('Inbox persistence failed');
+    if(Deno.env.get('JD_WA_AI_ENABLED')==='true'){
+      const workerToken=Deno.env.get('JD_WA_WORKER_TOKEN');
+      if(workerToken)EdgeRuntime.waitUntil((async()=>{
+        // Sequential dispatch avoids flooding the test worker. Durable claim in
+        // Postgres handles duplicate webhook deliveries; no paid retries here.
+        for(const row of rows){
+          try{await fetch(url+'/functions/v1/whatsapp-worker',{
+            method:'POST',signal:AbortSignal.timeout(120000),
+            headers:{Authorization:'Bearer '+workerToken,'Content-Type':'application/json'},
+            body:JSON.stringify({messageId:row.message_id})
+          });}catch{/* Inbox is durable. Recover explicitly after checking job state. */}
+        }
+      })());
+    }
   }
 }));
