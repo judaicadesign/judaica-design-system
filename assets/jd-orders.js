@@ -7,14 +7,15 @@
   const money=n=>'$ '+Number(n||0).toLocaleString('es-AR',{maximumFractionDigits:2});
   window.jdOpenOrder=function(quoteId){
     const W=window.JDWorkflow,quote=read('jd_saved_quotes_v6').find(q=>q.id===quoteId);
-    const existing=read(KEY).find(o=>o.quoteId===quoteId);
+    const confirmedOrders=window.jdConfirmedState?.(KEY);
+    const existing=(Array.isArray(confirmedOrders)?confirmedOrders:read(KEY)).find(o=>o.quoteId===quoteId);
     if(!quote&&!existing)return;
     const source=quote||existing.quoteSnapshot, alternatives=source.alternatives?.length?source.alternatives:[source];
     const quantities=(existing?[existing.quantity]:alternatives.flatMap((a,i)=>(a.quantities||[]).map(q=>({...q,alternativeIndex:i,alternativeLabel:alternatives.length>1?'Alternativa '+(i+1)+' · '+[a.product,a.model,a.texts].filter(Boolean).join(' · '):''})))).filter(q=>Number.isSafeInteger(Number(q.qty))&&q.qty>0&&Number.isFinite(Number(q.price))&&q.price>0);
     if(!quantities.length){alert('Este presupuesto no tiene cantidades válidas.');return}
     const original=existing?JSON.stringify(existing):null;
     const client=read('jd_clients').find(c=>W.linked(source,c));
-    const workBaseline=read('jd_jobs_v1').find(j=>(j.quoteIds||[]).includes(quoteId))||null,currentWork=W.jobs().find(j=>(j.quoteIds||[]).includes(quoteId));
+    const workBaseline=(window.jdConfirmedState?.('jd_jobs_v1')||read('jd_jobs_v1')).find(j=>(j.quoteIds||[]).includes(quoteId))||null,currentWork=W.jobs().find(j=>(j.quoteIds||[]).includes(quoteId));
     let ledger=structuredClone(W.payments(existing));
     const panel=document.createElement('div');panel.className='jd-crm-modal jd-work-modal';
     panel.innerHTML='<div class="jd-crm-card"><div class="jd-crm-head"><div><div class="eyebrow">PEDIDO Y COBROS</div><h2>'+esc(source.client)+'</h2></div><button class="btn" data-close>Cerrar</button></div><div class="jd-work-content"><div class="jd-work-grid">'+
