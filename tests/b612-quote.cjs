@@ -27,11 +27,16 @@ function boot({mutate=()=>{},denied=false,fail=false}={}){
    const line=code=>d.lines.filter(l=>l.code===code);assert.equal(line('DOBX3').length,1);assert.equal(line('DOBX3')[0].quantity,qty);assert.equal(line('D1').length,1);assert.equal(line('C2').length,1);
    assert.equal(line('VARIANTE-POSTALES').length,models-1);assert.equal(line('CORTE-FC300-SA3DF').length,1);assert.equal(line('CORTE-FC300-SA3SF').length,0);assert.equal(line('DOBX2').length,0);
  }
+ // Simulated extra price tiers verify quantity routing; these are not supplier quotes.
+ for(const qty of [200,300]){
+  const variable=boot({mutate:data=>{for(const [key,value] of Object.entries({...data}))if(/\/precio\/150$/.test(key))data[key.replace(/150$/,String(qty))]=structuredClone(value);}});
+  const result=await variable.quote({format:'Cuadríptico',qty,models:1});assert.equal(result.status,200);assert.equal(result.data.requestedQty,qty);assert.equal(result.data.productionQty,qty);assert.equal(result.data.lines.find(l=>l.code==='DOBX3').quantity,qty);assert.ok(variable.calls.some(p=>p.endsWith('/precio/'+qty)));
+ }
  const reference=(await boot().quote({format:'Cuadríptico',qty:50,models:2})).data;
  assert.equal(reference.net,142242.96,'B612 PDF 1291996 exact net');assert.equal(reference.gross,172113.98,'B612 PDF 1291996 exact VAT total');
  const unauth=boot();assert.equal((await unauth.quote({format:'Cuadríptico',qty:50},false)).status,401);assert.equal(unauth.calls.length,0);
  assert.equal((await boot({denied:true}).quote({format:'Cuadríptico',qty:50})).status,403);
- for(const payload of [{format:'Cuadríptico',qty:49},{format:'Postal',qty:50},{format:'Cuadríptico',qty:50,models:0},{format:'Cuadríptico',qty:50,models:1.5},{format:'Cuadríptico',qty:50,openWidthMm:0}])assert.equal((await boot().quote(payload)).status,422);
+ for(const payload of [{format:'Cuadríptico',qty:0},{format:'Cuadríptico',qty:40001},{format:'Cuadríptico',qty:150.5},{format:'Tríptico',qty:200,paper:'Papel obra',weightGsm:120,print:'Blanco y negro'},{format:'Postal',qty:50},{format:'Cuadríptico',qty:50,models:0},{format:'Cuadríptico',qty:50,models:1.5},{format:'Cuadríptico',qty:50,openWidthMm:0}])assert.equal((await boot().quote(payload)).status,422);
  const missing=boot({mutate:data=>{data['/api/cotizador/etapa/105/6']=data['/api/cotizador/etapa/105/6'].filter(x=>x.articulo.codigoInterno!=='DOBX3')}});
  const failure=await missing.quote({format:'Cuadríptico',qty:50});assert.equal(failure.status,502);assert.match(failure.data.error,/Doblado x 3/);
  assert.equal((await boot({fail:true}).quote({format:'Cuadríptico',qty:50})).status,502);
