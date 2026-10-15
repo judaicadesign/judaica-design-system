@@ -2228,6 +2228,7 @@ window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
    });
  }
  function quoteFollowClients(){
+   if(window.JDWorkflow){const ids=new Set(window.JDWorkflow.activeJobs().filter(j=>window.JDWorkflow.stages.indexOf(window.JDWorkflow.stageOf(j.stage))<=5).map(j=>j.clientId));return get('jd_clients',[]).filter(c=>ids.has(window.JDClientDirectory.stableId(c)));}
    const statuses=/presupuesto|esperando respuesta|pago pendiente|esperando pago/i;
    return get('jd_clients',[]).filter(c=>!c.archivedAt&&!c.deletedAt&&statuses.test(c.status||'')&&!/rechaz/i.test(c.status||'')&&!c.paid);
  }
