@@ -15,7 +15,7 @@
 <script src="assets/jd-passage-library-ui.js?v=20261012-library" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
 <script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
-<script src="assets/jd-workflow.js?v=20261015-workflow-v3" defer></script>
+<script src="assets/jd-workflow.js?v=20261015-workflow-v4" defer></script>
 <script src="assets/jd-orders.js?v=20261015-workflow-v3" defer></script>
 <link rel="stylesheet" href="assets/jd-workflow.css?v=20261015-workflow">
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
@@ -2228,6 +2228,7 @@ window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
    });
  }
  function quoteFollowClients(){
+   if(window.JDWorkflow){const ids=new Set(window.JDWorkflow.activeJobs().filter(j=>window.JDWorkflow.stages.indexOf(window.JDWorkflow.stageOf(j.stage))<=5).map(j=>j.clientId));return get('jd_clients',[]).filter(c=>ids.has(window.JDClientDirectory.stableId(c)));}
    const statuses=/presupuesto|esperando respuesta|pago pendiente|esperando pago/i;
    return get('jd_clients',[]).filter(c=>!c.archivedAt&&!c.deletedAt&&statuses.test(c.status||'')&&!/rechaz/i.test(c.status||'')&&!c.paid);
  }
