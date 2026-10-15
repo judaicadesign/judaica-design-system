@@ -3,7 +3,7 @@ const {stripTypeScriptTypes}=require('node:module');
 const root=path.resolve(__dirname,'..');
 // Public B612 API responses captured 2026-10-11; no account, customer or order data.
 const fixture=JSON.parse(fs.readFileSync(path.join(__dirname,'fixtures/b612-quadriptico-api.json'),'utf8'));
-const source=stripTypeScriptTypes(fs.readFileSync(root+'/supabase/functions/b612-quote/index.ts','utf8').replace(/^import .*;$/m,''));
+const source=stripTypeScriptTypes(fs.readFileSync(root+'/supabase/functions/b612-quote/index.ts','utf8').replace(/^import .*;$/gm,''));
 function boot({mutate=()=>{},denied=false,fail=false}={}){
  let handler;const calls=[],data=structuredClone(fixture);mutate(data);
  vm.runInNewContext(source,{Request,Response,URL,AbortSignal,Deno:{serve:f=>handler=f,env:{get:k=>k==='SUPABASE_URL'?'https://auth.test':'fixture-only'}},fetch:async(url)=>{

@@ -1,5 +1,6 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import {quotePrintRequest} from "../_shared/b612-general.mjs";
 
 const BASE = "https://www.graficab612.com";
 const ALLOWED_ORIGINS = new Set([
@@ -120,6 +121,7 @@ Deno.serve(async (req: Request) => {
     if(req.method==="POST") payload=await req.json().catch(()=>({}));
     else payload=Object.fromEntries(new URL(req.url).searchParams.entries());
 
+    if(payload.action==="quote-request"){const cache=new Map<string,Promise<any>>();const read=(path:string)=>{if(!cache.has(path))cache.set(path,getJson(path));return cache.get(path)!;};return json(await quotePrintRequest(payload.request,read),200,origin);}
     if(payload.action==="assess-request")return json(await assessRequest(payload.request),200,origin);
 
     const format=String(payload.format ?? "Tríptico");
