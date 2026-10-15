@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs && node tests/tehilim-finals-003-007.cjs && node tests/passage-link-regression.cjs && node tests/tehilim-masters.cjs && node tests/b612-quote.cjs && node tests/generator-canonical.cjs && node tests/user-phonetic-confirmations.cjs && node tests/reusable-passage-library.cjs && node tests/message-request.cjs && node tests/message-quote.cjs && node tests/print-request.cjs && node tests/print-request-ui.cjs && node tests/print-assessment.cjs && node tests/print-costs.mjs && node tests/print-flow.cjs && node tests/print-polish.cjs && node tests/print-cards.cjs"
+    "test": "node tests/auth-bootstrap.cjs && node tests/commercial-scenarios.cjs && node tests/tehilim-finals-003-007.cjs && node tests/passage-link-regression.cjs && node tests/tehilim-masters.cjs && node tests/b612-quote.cjs && node tests/generator-canonical.cjs && node tests/user-phonetic-confirmations.cjs && node tests/reusable-passage-library.cjs && node tests/message-request.cjs && node tests/message-quote.cjs && node tests/print-request.cjs && node tests/print-request-ui.cjs && node tests/print-assessment.cjs && node tests/print-costs.mjs && node tests/print-flow.cjs && node tests/print-polish.cjs && node tests/print-cards.cjs && node tests/workflow.cjs"
   },
   "devDependencies": {
     "hyphen": "^1.14.1",

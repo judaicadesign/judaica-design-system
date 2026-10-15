@@ -40,7 +40,7 @@ async function boot(rows=fixture(),fetchResult){
  w.eval(fs.readFileSync(root+'/supabase/functions/_shared/jd-whatsapp-pricing.js','utf8'));
  w.jdNativeQuote={version:'20261011-master-v10'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
- for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-inflation.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-inflation.js','jd-workflow.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  for(let attempt=0;attempt<40&&!w.document.getElementById('jdCrmSearch');attempt++)await sleep(50);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
@@ -80,9 +80,9 @@ async function scenarios(){
  const find=linked.w.document.getElementById('jdCrmSearch');
  assert.ok(find,'The CRM needs a search field');
  find.value='eri';find.dispatchEvent(new linked.w.Event('input',{bubbles:true}));
- assert.equal([...linked.w.document.querySelectorAll('#clients tbody tr[data-ci]')].filter(row=>row.style.display!=='none').length,1);
+ assert.equal([...linked.w.document.querySelectorAll('#clients tbody tr[data-client]')].filter(row=>!row.hidden).length,1);
  find.value='siempreviva';find.dispatchEvent(new linked.w.Event('input',{bubbles:true}));
- assert.equal([...linked.w.document.querySelectorAll('#clients tbody tr[data-ci]')].filter(row=>row.style.display!=='none').length,1);
+ assert.equal([...linked.w.document.querySelectorAll('#clients tbody tr[data-client]')].filter(row=>!row.hidden).length,1);
  linked.w.go('quotes');
  const inp=linked.w.document.getElementById('qClient');
  inp.value='eri';inp.dispatchEvent(new linked.w.Event('input',{bubbles:true}));
@@ -122,15 +122,15 @@ async function scenarios(){
  await repair.w.document.querySelector('.modal .s6').onclick(new repair.w.Event('click'));await sleep(350);
  assert.equal(repair.get('jd_pricing_rules_v4').find(r=>r.variant==='Deluxe').extra,80000);assert.equal(repair.get('jd_catalog_v6')[0].legalSetId,'');
  repair.w.document.getElementById('qClient').value='Prueba Deluxe';repair.w.qs6=[100];repair.w.document.getElementById('qDeluxeSongs').checked=true;repair.w.document.getElementById('qDeluxeRH').checked=true;repair.w.renderQuote();
- const repairedQuote=repair.w.jdCollectQuote();assert.ok(!repairedQuote.legalClauses.length,'explicit no-legals must not restore fallback');assert.ok(repairedQuote.content.includes('Canciones'));assert.ok(repairedQuote.content.includes('Rosh Hashaná y simanim'));assert.ok(!repairedQuote.content.includes('Janucá'));assert.ok(!repairedQuote.content.some(s=>/a elección/.test(s)));assert.equal(repairedQuote.quantities[0].price,450000);
+ const repairedQuote=repair.w.jdCollectQuote();assert.ok(!repairedQuote.legalClauses.length,'explicit no-legals must not restore fallback');assert.ok(repairedQuote.content.some(s=>/a elección/.test(s)));assert.equal(repairedQuote.deluxeOptions.qDeluxeSongs,true);assert.equal(repairedQuote.deluxeOptions.qDeluxeRH,true);assert.equal(repairedQuote.quantities[0].price,450000);
  await save(repair);const savedRepair=repair.get('jd_saved_quotes_v6').at(-1);repair.w.document.getElementById('qDeluxeSongs').checked=false;repair.w.go('savedQuotes');repair.w.document.querySelector('[data-edit-qid]').click();assert.equal(repair.w.document.getElementById('qDeluxeSongs').checked,true);assert.equal(repair.w.document.getElementById('qDeluxeRH').checked,true);
- await sleep(80);repair.close();console.log('Deluxe editable surcharge, closed optional content, saved reload and explicit no-legals passed');
+ await sleep(80);repair.close();console.log('Deluxe editable surcharge, full catalog content and internal choices, saved reload and explicit no-legals passed');
  const brokenPreview=new JSDOM('<div id="quotePreview"><div class="jd-master-sheet jd-has-art"><div class="jd-full-legal">Texto auxiliar</div><svg class="jd-master-art"></svg></div></div>',{runScripts:'outside-only'});
  brokenPreview.window.jdNativeQuote={readSheet:()=>({})};brokenPreview.window.jdQuotePreviewSVG=async()=>{throw Error('Fallo de render de prueba')};brokenPreview.window.eval(fs.readFileSync(root+'/assets/jd-quote-fit.js','utf8'));
  await sleep(30);await brokenPreview.window.jdRefreshQuoteArt();assert.equal(brokenPreview.window.document.querySelector('.jd-master-art'),null);assert.equal(brokenPreview.window.document.querySelector('.jd-preview-error').textContent,'Fallo de render de prueba');
- assert.ok(fs.readFileSync(root+'/assets/jd-quote-layout.css','utf8').includes('.jd-master-sheet>*:not(.jd-master-art):not(.jd-preview-error){visibility:hidden!important}'));
+ assert.ok(fs.readFileSync(root+'/assets/jd-quote-layout.css','utf8').includes('.jd-master-sheet.jd-has-art>*:not(.jd-master-art):not(.jd-preview-error){visibility:hidden!important}'));
  brokenPreview.window.jdQuotePreviewSVG=async()=>'<svg class="jd-master-art"></svg>';await brokenPreview.window.jdRefreshQuoteArt();assert.ok(brokenPreview.window.document.querySelector('.jd-master-art'));assert.equal(brokenPreview.window.document.querySelector('.jd-preview-error'),null);brokenPreview.window.close();
- console.log('preview failure removes stale artwork, suppresses malformed HTML fallback and recovers cleanly passed');
+ console.log('preview failure removes stale artwork, keeps the semantic fallback visible and recovers cleanly passed');
 
  const eventRows=fixture();eventRows.find(r=>r.key==='jd_catalog_v6').value[0].sizes.push('Grande · 14 × 18,5 cm');eventRows.find(r=>r.key==='jd_assets').value=[
   {id:'generic',product:product.name,role:'Mockup principal',data:'https://example.test/generic.png',mockCanvas:true},
@@ -301,7 +301,7 @@ async function scenarios(){
  multi.w.document.querySelector('button[data-alternative="1"]').click();assert.equal(multi.w.document.getElementById('qLang').value,'Hebreo + español + fonética');assert.equal(multi.w.document.getElementById('qManualPrice-0').value,'400000');
  multi.fail(true);assert.equal(await save(multi),null);assert.equal(multi.get('jd_saved_quotes_v6')[0].alternatives.length,2);multi.fail(false);
  const groupEdit=await save(multi);assert.equal(groupEdit.id,grouped.id);assert.equal(groupEdit.revisions[0].snapshot.alternatives.length,2);
- multi.w.jdOpenOrder(groupEdit.id);const choose=multi.w.document.getElementById('jdOrderQty');assert.match(choose.options[1].textContent,/Alternativa 2.*Hebreo \+ español \+ fonética/);choose.value='1';choose.dispatchEvent(new multi.w.Event('change'));multi.w.document.getElementById('jdOrderPaid').value='100000';await multi.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(multi.get('jd_orders_v1')[0].quantity.price,380000);assert.equal(multi.get('jd_orders_v1')[0].selectedAlternative.texts,'Hebreo + español + fonética');
+ multi.w.jdOpenOrder(groupEdit.id);const choose=multi.w.document.getElementById('jdOrderQty');assert.match(choose.options[1].textContent,/Alternativa 2.*Hebreo \+ español \+ fonética/);choose.value='1';choose.dispatchEvent(new multi.w.Event('change'));multi.w.document.getElementById('jdPaymentAmount').value='100000';multi.w.document.querySelector('[data-add-payment]').click();await multi.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(multi.get('jd_orders_v1')[0].quantity.price,380000);assert.equal(multi.get('jd_orders_v1')[0].selectedAlternative.texts,'Hebreo + español + fonética');
  multi.w.document.getElementById('jdRemoveAlternative').click();assert.equal(multi.w.jdCollectQuote().alternatives.length,0);const oneOption=await save(multi);assert.equal(oneOption.alternatives.length,0,'Removing an alternative is persisted on same-record edits');multi.w.document.getElementById('jdAddAlternative').click();assert.equal(multi.w.document.querySelectorAll('button[data-alternative]').length,2);
  multi.w.document.getElementById('jdNewQuoteBtn').click();assert.equal(multi.w.document.querySelectorAll('button[data-alternative]').length,1);assert.equal(multi.w.jdCollectQuote().alternatives,undefined);
  multi.close();console.log('multi-product alternatives, independent price/discount, two A4 pages, edit/history, failed save, accepted choice and reset passed');
@@ -415,7 +415,7 @@ async function scenarios(){
  assert.deepEqual(quote.quantities.map(x=>x.qty),[50,75,100,200]);
  assert.deepEqual(quote.quantities.map(x=>x.price),[200000,300000,360000,660000]);
  assert.equal(quote.discount,10000);assert.equal(quote.internal,'Nota interna de prueba');
- assert.equal(app.writes.at(-1).length,2,'client and quote must be committed together');
+ assert.equal(app.writes.at(-1).length,3,'client, quote and work must be committed together');
  assert.deepEqual(quote.quantities.map(x=>x.profit),[90000,140000,170000,320000]);
  assert.equal(quote.quantities[0].shipping,10000);
  assert.equal(quote.quantities[0].marginPct,45);
@@ -428,7 +428,7 @@ async function scenarios(){
  assert.equal(app.w.document.getElementById('qInternal').value,'Nota interna de prueba');
  console.log('multi-quantity, discount, retry, double click, existing client and concurrent remote quote passed');
  // Rich client fields survive retries, other-device additions and a quote save.
- app.w.jdRenderClients();app.w.document.querySelector('[data-open="0"]').click();
+ app.w.jdRenderClients();app.w.document.querySelector('[data-client-open]').click();
  const field=(id,value)=>app.w.document.getElementById(id).value=value;
  field('crmEmail','cliente@example.test');field('crmAddress','Calle de prueba 123, piso 2');field('crmCity','CABA');field('crmPostal','C1000');field('crmCountry','Argentina');field('crmRecipient','Recepción de prueba');field('crmNotes','Datos ficticios');
  app.get('jd_clients').push({id:'remote-new-client',name:'Cliente de otro dispositivo',status:'Consulta recibida'});
@@ -440,11 +440,11 @@ async function scenarios(){
  assert.equal(app.get('jd_clients')[0].email,'cliente@example.test');assert.equal(app.get('jd_clients').length,2);
  await save(app);assert.equal(app.get('jd_clients')[0].address,'Calle de prueba 123, piso 2');
  // A concurrent edit to the same client is rejected instead of overwriting it.
- app.w.jdRenderClients();app.w.document.querySelector('[data-open="0"]').click();field('crmNotes','Cambio local');
+ app.w.jdRenderClients();app.w.document.querySelector('[data-client-open]').click();field('crmNotes','Cambio local');
  app.get('jd_clients')[0].notes='Cambio remoto';
  await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
  assert.equal(app.get('jd_clients')[0].notes,'Cambio remoto');assert.match(app.alerts.at(-1),/otro dispositivo/);
- app.w.document.querySelector('.jd-crm-modal [data-cancel]').click();
+ app.w.document.querySelector('.jd-crm-modal [data-close]').click();
  console.log('client address, email, retry, remote addition and same-client conflict passed');
  // Export the complete semantic sheet to the vector renderer, without a capture clone.
  let rendered=0;app.w.jdVectorQuotePdf=async sheets=>{assert.equal(sheets.length,1);assert.ok(sheets[0].querySelector('.jd-pdf-logo'));assert.ok(!app.w.document.getElementById('jdPdfCapture'));rendered++;return new app.w.Blob(['native-pdf'])};
@@ -454,14 +454,14 @@ app.w.document.querySelectorAll('.jd-pdf-modal').forEach(node=>node.remove());
  app.w.jdNativeQuote.version='obsolete';await app.w.jdPreviewCurrentPDF();assert.equal(rendered,1);assert.match(app.alerts.at(-1),/desactualizada/);app.w.jdNativeQuote.version='20261011-master-v10';
  console.log('complete semantic A4 sheet reaches native renderer without raster capture passed');
  app.w.jdOpenOrder(quote.id);
- field('jdOrderQty','2');field('jdOrderPaid','99999999');
- await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1'),undefined);assert.match(app.alerts.at(-1),/total del pedido/);
- field('jdOrderPaid','100000');field('jdOrderStage','Diseño');
- app.fail(true);await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1'),undefined);assert.ok(app.w.document.getElementById('jdOrderPaid'));
+ field('jdOrderQty','2');field('jdPaymentAmount','99999999');
+ app.w.document.querySelector('[data-add-payment]').click();assert.equal(app.get('jd_orders_v1'),undefined);assert.match(app.alerts.at(-1),/total del pedido/);
+ field('jdPaymentAmount','100000');app.w.document.querySelector('[data-add-payment]').click();field('jdOrderStage','Diseño en curso');field('jdOrderTerms','partial');field('jdOrderBalanceDue','2026-10-30');
+ app.fail(true);await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1'),undefined);assert.ok(app.w.document.getElementById('jdPaymentAmount'));
  app.fail(false);await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();
- const order=app.get('jd_orders_v1')[0];assert.equal(order.quantity.qty,100);assert.equal(order.quantity.price,360000);assert.equal(order.quantity.profit,170000);assert.equal(order.paid,100000);assert.equal(order.balance,260000);assert.equal(order.stage,'Diseño');
+ const order=app.get('jd_orders_v1')[0];assert.equal(order.quantity.qty,100);assert.equal(order.quantity.price,360000);assert.equal(order.quantity.profit,170000);assert.equal(order.paid,100000);assert.equal(order.balance,260000);assert.equal(order.stage,'Diseño en curso');
  assert.equal(order.address,'Recepción de prueba · Calle de prueba 123, piso 2 · CABA · C1000 · Argentina');
- app.w.jdOpenOrder(quote.id);assert.ok(app.w.document.getElementById('jdOrderQty').disabled);field('jdOrderPaid','360000');field('jdOrderStage','Entregado');
+ app.w.jdOpenOrder(quote.id);assert.ok(app.w.document.getElementById('jdOrderQty').disabled);field('jdPaymentAmount','260000');app.w.document.querySelector('[data-add-payment]').click();field('jdOrderStage','Entregado');field('jdOrderQuality','2026-10-15');
  await app.w.document.querySelector('.jd-crm-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1').length,1);assert.equal(app.get('jd_orders_v1')[0].balance,0);assert.equal(app.get('jd_orders_v1')[0].history.length,2);
  console.log('accepted quantity, deposit, balance, delivery, frozen price and order retry passed');
  app.expire(true);await save(app);assert.equal(app.get('jd_saved_quotes_v6').length,3);assert.match(app.alerts.at(-1),/sesión/);app.expire(false);

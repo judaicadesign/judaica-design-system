@@ -4,7 +4,7 @@
  const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es').replace(/\s+/g,' ').trim();
  const nameOf=c=>String(c?.name||[c?.firstName,c?.lastName].filter(Boolean).join(' ')||c?.org||'').trim();
  const stableId=c=>c?.id||'legacy-'+encodeURIComponent([c?.name||[c?.firstName,c?.lastName].filter(Boolean).join(' '),c?.org||'',c?.created||''].join('|'));
- const clients=()=>{try{const a=JSON.parse(localStorage.getItem('jd_clients')||'[]');return Array.isArray(a)?a:[]}catch(_){return []}};
+ const clients=()=>{try{const a=JSON.parse(localStorage.getItem('jd_clients')||'[]');return Array.isArray(a)?a.filter(c=>!c.deletedAt):[]}catch(_){return []}};
  const findById=id=>clients().find(c=>stableId(c)===id);
  const exact=(value)=>clients().find(c=>norm(nameOf(c))===norm(value));
  const digits=s=>String(s||'').replace(/\D/g,'').replace(/^00/,'');
@@ -49,7 +49,7 @@
      }
    };
    function pick(c) {
-     selected=stableId(c);input.dataset.jdClientId=selected;input.value=nameOf(c);
+     selected=stableId(c);input.dataset.jdClientId=selected;input.value=nameOf(c);const last=document.getElementById('qClientLast');if(input.id==='qClient'&&last)last.value='';
      close();renderDetail();
      lock=true;input.dispatchEvent(new Event('input',{bubbles:true}));lock=false;
    }
