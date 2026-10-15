@@ -1,5 +1,6 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import {quotePrintRequest} from "../_shared/b612-general.mjs";
 
 const BASE = "https://www.graficab612.com";
 const ALLOWED_ORIGINS = new Set([
@@ -7,7 +8,7 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:3000",
   "http://127.0.0.1:5500"
 ]);
-const VALID_QTY = new Set([50,75,100,150]);
+const MAX_QTY = 40000;
 
 function cors(origin: string | null) {
   const allow = origin && ALLOWED_ORIGINS.has(origin) ? origin : "https://judaicadesign.github.io";
@@ -67,6 +68,40 @@ function parentMatches(x:any, parentId:number) {
          Number(x?.articuloPadreDobleFaz?.id)===parentId;
 }
 
+// Discover vendor options for a confirmed open request. Missing prices stay missing.
+async function assessRequest(r:any){
+  if(!r||typeof r!=="object"||!Array.isArray(r.quantities)||!r.quantities.length||r.quantities.length>4||r.quantities.some((q:any)=>!Number.isSafeInteger(q)||q<1||q>40000))throw Error("Confirmá las cantidades del pedido.");
+  if(![r.widthMm,r.heightMm].every((v:any)=>Number.isFinite(v)&&v>0&&v<=2000))throw Error("Confirmá las medidas en milímetros.");
+  if(!Array.isArray(r.bindingOptions)||r.bindingOptions.some((x:any)=>typeof x!=="string"||x.length>100))throw Error("Confirmá las alternativas de encuadernación.");
+  const pending:string[]=[],evidence:any[]=[],materials:any[]=[];
+  const bindings=r.bindingOptions.map((x:string)=>x.toLowerCase());
+  const editorial=bindings.some((b:string)=>/binder|cosid|acaball|abroch/.test(b));
+  if(editorial){
+    const book=bindings.some((b:string)=>/binder|cosid/.test(b));
+    const category=book?77:68;
+    const setup=await getJson("/api/cotizador/get?idCategoria="+category);
+    const cot=Array.isArray(setup)?setup[0]:setup?.cotizador;
+    if(!cot?.id||cot.activo===false)throw Error("B612 no devolvió una configuración editorial activa.");
+    evidence.push({name:String(cot.nombre),url:BASE+"/cotizador-"+encodeURIComponent(cot.url)+".htm",contactOnly:cot.soloFormularioDeContactoEnWeb===true});
+    const stages=await getJson("/api/cotizador/"+Number(cot.id)+"/etapas");
+    const ids=[...new Set((Array.isArray(stages)?stages:[]).filter((x:any)=>x.activo!==false&&x.articuloEtapa?.activo!==false).map((x:any)=>Number(x.articuloEtapa?.id)).filter((x:number)=>Number.isSafeInteger(x)))];
+    const arrays=await Promise.all(ids.map(id=>getJson("/api/cotizador/etapa/"+category+"/"+id)));
+    const all=arrays.flat();
+    const papers=all.filter((x:any)=>!x.fijo&&x.articuloEtapa?.id===4&&x.articulo?.nombreLegible).map((x:any)=>({name:x.articulo.nombreLegible,code:x.articulo.codigoInterno}));
+    materials.push(...papers);
+    if(cot.soloFormularioDeContactoEnWeb)pending.push("B612 deriva este servicio a cotización por contacto. Su ficha pública no confirma un precio automático para el pedido completo.");
+    for(const [part,paper,weight] of [["Interior",r.paper,r.weightGsm],["Tapa",r.coverPaper,r.coverWeightGsm]]){
+      if(!paper||!weight)continue;
+      const normalize=(v:any)=>String(v).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+      const type=normalize(paper).includes("obra")?"obra":normalize(paper).includes("ilustracion")?"ilustracion":"";
+      if(!type||!papers.some((p:any)=>normalize(p.name).includes(type)&&new RegExp("\\b"+Number(weight)+"\\b").test(normalize(p.name))))pending.push(String(part)+": "+paper+" "+weight+" g no aparece entre las opciones consultadas. Hay que confirmar disponibilidad con B612; esto no significa que la imprenta no pueda producirlo.");
+    }
+  }else pending.push("Falta vincular este trabajo con un servicio y sus artículos B612. La recepción del pedido no está limitada por formato ni por catálogo.");
+  if(r.bindingOptions.length>1)pending.push("Cotizar por separado cada alternativa: "+r.bindingOptions.join(" / ")+".");
+  pending.push("Falta verificar el costo completo de impresión, papel, refilado, laminados y encuadernación solicitados. No se calculará un total con operaciones faltantes.");
+  return {ok:true,action:"assess-request",status:"requires-supplier",summary:"Pedido recibido sin restricción de producto. La fabricación y el precio completo todavía requieren comprobación.",pending,evidence,availableMaterials:materials,fetchedAt:new Date().toISOString()};
+}
+
 Deno.serve(async (req: Request) => {
   const origin = req.headers.get("origin");
   if (req.method==="OPTIONS") return new Response("ok",{headers:cors(origin)});
@@ -85,6 +120,9 @@ Deno.serve(async (req: Request) => {
     let payload:any={};
     if(req.method==="POST") payload=await req.json().catch(()=>({}));
     else payload=Object.fromEntries(new URL(req.url).searchParams.entries());
+
+    if(payload.action==="quote-request"){const cache=new Map<string,Promise<any>>();const read=(path:string)=>{if(!cache.has(path))cache.set(path,getJson(path));return cache.get(path)!;};return json(await quotePrintRequest(payload.request,read),200,origin);}
+    if(payload.action==="assess-request")return json(await assessRequest(payload.request),200,origin);
 
     const format=String(payload.format ?? "Tríptico");
     const qty=Number(payload.qty);
@@ -108,14 +146,20 @@ Deno.serve(async (req: Request) => {
     const closedWidth=Number(payload.closedWidthMm ?? cfg.defaultClosedWidth);
     const closedHeight=Number(payload.closedHeightMm ?? cfg.defaultClosedHeight);
 
-    if(!VALID_QTY.has(qty)) return json({ok:false,error:"Cantidad no habilitada. Usá 50, 75, 100 o 150."},422,origin);
-    if(!(width>0 && height>0 && closedWidth>0 && closedHeight>0))
+    if(!Number.isSafeInteger(qty) || qty<1 || qty>MAX_QTY) return json({ok:false,error:"La cantidad debe ser un entero de 1 a 40.000."},422,origin);
+    // Reject unsupported explicit facts before contacting the supplier.
+    const expected:any={paper:"Papel ilustración",weightGsm:300,lamination:"Laminado mate",print:"Full color",sides:"Doble faz"};
+    for(const [key,value] of Object.entries(expected)){
+      if(payload[key]!=null && String(payload[key])!==String(value))return json({ok:false,error:"Esta ficha de papel, impresión o laminado aún no está conectada a B612. No se sustituye por otra ficha."},422,origin);
+    }
+    if(![width,height,closedWidth,closedHeight].every(x=>Number.isFinite(x)&&x>0&&x<=2000))
       return json({ok:false,error:"La ficha técnica necesita medidas abiertas y cerradas válidas."},422,origin);
 
     const setup = await getJson("/api/cotizador/get?idCategoria="+cfg.categoryId);
     const cot = Array.isArray(setup) ? setup[0] : (setup?.cotizador ?? setup);
     if(Number(cot?.id)!==cfg.cotId) throw new Error("B612 cambió la configuración del cotizador de "+cfg.label+".");
 
+    if(qty<Number(cot?.cantidadMinima??1)||qty>Number(cot?.cantidadMaxima??MAX_QTY))return json({ok:false,error:"La cantidad está fuera del rango vigente de B612."},422,origin);
     const categoryId=Number(cot?.categoria?.id ?? cfg.categoryId);
     const stages=await getJson("/api/cotizador/"+cfg.cotId+"/etapas");
     const stageIds=(Array.isArray(stages)?stages:[])
