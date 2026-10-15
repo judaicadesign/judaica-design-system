@@ -103,6 +103,7 @@
  function activeJobs(){const cs=read(C);return jobs().filter(j=>!j.archivedAt&&!j.deletedAt&&!j.quoteTrashAt&&stageOf(j.stage)!==stages[18]&&cs.some(c=>identity(c)===j.clientId&&!c.deletedAt&&!c.archivedAt));}
  function renderDashboard(){
   const dash=document.getElementById('dashboard');if(!dash)return;let section=dash.querySelector('#jdWorkPriorities');if(!section){section=[...dash.querySelectorAll('.section')].find(s=>s.querySelector('h2')?.textContent==='Seguimientos prioritarios');if(!section){section=document.createElement('div');section.className='section';dash.append(section);}section.id='jdWorkPriorities';}
+  const grid=dash.querySelector(':scope > .grid.cards');if(grid&&section.nextElementSibling!==grid)grid.before(section);
   const cs=read(C),js=activeJobs(),orders=read(O),tasks=read(T).filter(t=>!t.doneAt),date=today();
   const actions=js.filter(j=>stageOf(j.stage)!==stages[16]&&stageOf(j.stage)!==stages[17]).map(j=>({job:j,title:cs.find(c=>identity(c)===j.clientId)?.name+' · '+j.title,text:j.next||j.stage,due:j.nextDate||j.deadline||'',priority:j.priority||'Normal'}));
   for(const j of js){const o=orders.find(o=>o.id===j.orderId||(j.quoteIds||[]).includes(o.quoteId));if(o&&o.quantity.price-paid(o)>0)actions.push({job:j,title:'Saldo pendiente · '+o.client,text:money(o.quantity.price-paid(o))+(o.paymentTerms==='partial'?' · excepción de pago parcial':' · 100% antes de iniciar'),due:o.balanceDue||j.deadline||'',priority:'Alta',quoteId:o.quoteId});}
