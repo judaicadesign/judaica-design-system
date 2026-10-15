@@ -1,3 +1,4 @@
+import {quoteCards} from "./b612-cards.mjs";
 /* Supplier-backed operation composer. No historical-price extrapolation. */
 const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const money=n=>Math.round((n+Number.EPSILON)*100)/100;
@@ -11,6 +12,7 @@ export async function quotePrintRequest(r,get){
  if(!Array.isArray(r.bindingOptions)||r.bindingOptions.length>4||r.bindingOptions.some(x=>typeof x!=='string'||x.length>100))throw Error('Confirmá hasta cuatro alternativas de encuadernación.');
  for(const k of ['paper','coverPaper','description'])if(r[k]!=null&&(typeof r[k]!=='string'||r[k].length>200))throw Error('Descripción de material inválida.');
  if(r.models!=null&&(!Number.isSafeInteger(r.models)||r.models<1||r.models>20))throw Error('Confirmá entre 1 y 20 diseños distintos.');
+ if(/tarjetas?/.test(norm(r.description)))return quoteCards(r,get);
  const unsupported=norm(r.message).match(/\b(?:troquel(?:ado)?|foil|barniz(?: uv| sectorizado)?|relieve|plastificado|perforado|tapa dura|puntas redondeadas|esquinas redondeadas)\b/);
  if(unsupported)return {ok:true,action:'quote-request',complete:false,fetchedAt:new Date().toISOString(),alternatives:r.quantities.map(qty=>({qty,binding:r.bindingOptions.join(' / '),status:'requires-supplier',pending:['Falta vincular la terminación «'+unsupported[0]+'» con su operación y tarifa B612. No se omite del precio.']}))};
  const alternatives=[],bindings=r.bindingOptions?.length?r.bindingOptions:[r.description];

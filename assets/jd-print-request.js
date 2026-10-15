@@ -9,11 +9,12 @@ function analyze(message){
  const t=normalize(message),lines=t.replace(/\b(tapa|interior|impresion|encuadernacion|cantidad(?: total)? de paginas)\s*:/g,'\n$1:').split(/\n|;/).map(x=>x.trim()).filter(Boolean),cover=lines.find(x=>/^[-\s]*tapa\s*:/.test(x))||'',inside=lines.find(x=>/^[-\s]*interior\s*:/.test(x))||'';
  const common=material(lines.filter(x=>x!==cover&&x!==inside).join('\n')),c=material(cover),i=material(inside);
  const r={version:1,message,description:'',quantities:[],widthMm:null,heightMm:null,sizeScope:'',spineMm:null,totalPages:null,interiorPages:null,coverPages:null,pagesIncludeCover:'',paper:i.paper||common.paper,weightGsm:i.weightGsm||common.weightGsm,print:i.print||common.print,sides:i.sides||common.sides,lamination:i.lamination||'',coverPaper:c.paper,coverWeightGsm:c.weightGsm,coverPrint:c.print||common.print,coverSides:c.sides,coverLamination:c.lamination,coverLaminationSides:/al frente|solo frente|simple faz/.test(cover)?'Solo frente':/doble faz|ambas caras/.test(cover)?'Doble faz':'',bindingOptions:[],models:null,notes:[],hasCover:!!cover};
- r.description=/\blibrit|\blibro/.test(t)?'Libro / librito':/\bmisjag\b/.test(t)?'Misjag':/\btriptico/.test(t)?'Tríptico':/\bcuadriptico/.test(t)?'Cuadríptico':/\bdiptico/.test(t)?'Díptico':/\brevistas?\b/.test(t)?'Revista':/\bimpres|\bcopias?\b/.test(t)?'Impresiones':'Trabajo de imprenta';
+ r.description=/\btarjetas?\b/.test(t)?'Tarjetas personales':/\blibrit|\blibro/.test(t)?'Libro / librito':/\bmisjag\b/.test(t)?'Misjag':/\btriptico/.test(t)?'Tríptico':/\bcuadriptico/.test(t)?'Cuadríptico':/\bdiptico/.test(t)?'Díptico':/\brevistas?\b/.test(t)?'Revista':/\bimpres|\bcopias?\b/.test(t)?'Impresiones':'Trabajo de imprenta';
  const qs=new Set();
  for(const m of t.matchAll(/\b(\d{1,5}(?:\s*(?:y|,|\/)\s*\d{1,5})*)\s*(?:copias?|(?:ejemplar(?:es)?|unidad(?:es)?))\b/g))for(const v of m[1].match(/\d+/g))qs.add(Number(v));
  for(const m of t.matchAll(/\bcantidad(?: de ejemplares)?\s*:\s*(\d{1,5})\b/g))qs.add(Number(m[1]));
- const headingCounts=[...t.matchAll(/\b(\d{1,5})\s*(?:tripticos?|cuadripticos?|dipticos?|libritos?|libros?|revistas?)\b/g)].map(m=>Number(m[1]));
+ for(const m of t.matchAll(/\bx\s*(\d{1,5})\b/g)){const before=t.slice(0,m.index),after=t.slice(m.index+m[0].length);if(!/\d\s*(?:cm|mm)?\s*$/.test(before)&&!/^\s*(?:mm|cm)\b/.test(after))qs.add(Number(m[1]));}
+ const headingCounts=[...t.matchAll(/\b(\d{1,5})\s*(?:tripticos?|cuadripticos?|dipticos?|libritos?|libros?|revistas?|tarjetas?)\b/g)].map(m=>Number(m[1]));
  if(!qs.size)for(const n of headingCounts)qs.add(n);
  else if(headingCounts.some(n=>!qs.has(n)))r.notes.push('Se usan las cantidades expresadas en unidades, ejemplares o copias ('+[...qs].join(', ')+'); el encabezado menciona '+headingCounts.join(', ')+'. Revisá esta diferencia.');
  for(const m of t.matchAll(/\b(?:un|una)\s+(?:ejemplar|unidad|copia)\b/g))qs.add(1);
@@ -29,9 +30,10 @@ function analyze(message){
  if(r.pagesIncludeCover==='Sí'&&!r.hasCover){r.hasCover=true;r.coverPaper=common.paper;r.coverWeightGsm=common.weightGsm;r.coverPrint=common.print;r.coverSides=common.sides;r.coverLamination=common.lamination;}
  if(/(?:todas las hojas|todo laminado|full laminado|tapa e interior)/.test(t))r.lamination=common.lamination||i.lamination||c.lamination;
  if(/cosid[ao](?: a hilo)?/.test(t))r.bindingOptions.push('Cosida a hilo');if(/\bbinder\b|lomo (?:cuadrado|pegado)|encolad/.test(t))r.bindingOptions.push('Binder');if(/acaballad|abrochad/.test(t))r.bindingOptions.push('Acaballada');if(/anillad/.test(t))r.bindingOptions.push('Anillada');if(/hojas sueltas|sin encuadernar/.test(t))r.bindingOptions.push('Hojas sueltas');
- const designs=t.match(/\b(\d+)\s*disenos?\b/);if(designs)r.models=Number(designs[1]);
+ const designs=t.match(/\b(\d+)\s*(?:disenos?|modelos?)\b/);if(designs)r.models=Number(designs[1]);
  if(r.totalPages&&r.pagesIncludeCover==='Sí'&&r.hasCover&&!r.interiorPages){r.coverPages=4;r.interiorPages=r.totalPages-4;r.notes.push('Se proponen 4 páginas de tapa; confirmá la ficha.');}
  if(r.description==='Misjag')r.notes.push('Referencia previa: tríptico 447 × 301 mm, Obra 120 g, blanco y negro doble faz. Confirmar si este pedido conserva esa ficha.');
+ if(r.description==='Tarjetas personales'){r.cardType=/\bcirculares?\b/.test(t)?'Circulares':/\bcon forma\b|troquelad/.test(t)?'Con forma':/\brectas?\b/.test(t)?'Rectas':'';r.sizeScope='hoja';r.sides=material(t.replace(/laminad[^\n;]*/g,'')).sides;r.lamination=common.lamination;r.laminationSides=/lamin[^\n]*(?:ambos lados|ambas caras|doble faz)/.test(t)?'Doble faz':/lamin[^\n]*(?:solo frente|simple faz|un lado)/.test(t)?'Solo frente':'';r.corners=/puntas? redondead|esquinas? redondead/.test(t)?'Redondeadas':/puntas? rectas?|esquinas? rectas?/.test(t)?'Rectas':'';const special=t.match(/\b(opalina|cartulina triplex|triplex|texturado|misionero)\b/);if(special)r.paper=special[1]==='triplex'?'Cartulina Triplex':special[1];}
  return r;
 }
 function canonicalize(input){const r={...input};const map=(key,values)=>{const t=normalize(r[key]).trim();for(const [value,aliases] of values)if(aliases.includes(t)){r[key]=value;break;}};
@@ -42,9 +44,29 @@ function canonicalize(input){const r={...input};const map=(key,values)=>{const t
  for(const k of ['paper','coverPaper'])map(k,[['Papel ilustración',['ilustracion','papel ilustracion']],['Papel obra',['obra','papel obra']]]);
  for(const k of ['lamination','coverLamination'])map(k,[['Laminado mate',['mate','laminado mate']],['Laminado brillante',['brillo','brillante','laminado brillo','laminado brillante']],['Sin laminado',['sin laminado','no','ninguno']]]);
  map('sizeScope',[['cerrado',['cerrado','cerrada']],['abierto',['abierto','abierta']],['hoja',['hoja']]]);return r;}
+function cardQuestions(r){
+ const q=[],add=(key,text,options)=>q.push({key,text,options});
+ if(!r.cardType){add('cardType','¿Qué tipo de tarjetas querés?',['Rectas','Circulares','Con forma']);return q;}
+ const o=r.supplierOptions;if(!o||o.cardType!==r.cardType){add('supplierOptions','Consultando las opciones de tarjetas '+r.cardType.toLowerCase()+' en B612…');return q;}
+ const p=o.papers.find(x=>normalize(x.paper)===normalize(r.paper).replace(/^papel /,'')&&x.weightGsm===r.weightGsm);
+ if(!p)add('paperChoice','¿En qué papel las hacemos?',o.papers.map(x=>({value:String(x.id),label:x.label})));
+ if(!r.widthMm||!r.heightMm){if(r.cardSize==='custom')add('cardDimensions','¿Cuánto deben medir? Indicá ancho y alto en milímetros.');else add('cardSize','¿Qué tamaño querés?',o.sizes.map(x=>({value:String(x.id),label:x.label})).concat(o.customSize?[{value:'custom',label:'Tamaño personalizado'}]:[]));}
+ if(q.length)return q;
+ if(!r.print)add('print','¿Impresión a color?',['Full color']);
+ if(!r.sides)add('sides','¿Las imprimimos de un lado o de ambos?',['Simple faz','Doble faz']);
+ if(q.length)return q;
+ const finishes=o.finishes.filter(x=>!p.incompatibleRubros?.includes(x.rubro));
+ if(!r.lamination)add('lamination','¿Querés laminado?',['Sin laminado',...(finishes.some(x=>/MATE/.test(x.code))?['Laminado mate']:[]),...(finishes.some(x=>/BRILLO/.test(x.code))?['Laminado brillante']:[])]);
+ else if(r.lamination==='Laminado por confirmar')add('lamination','¿El laminado es mate o brillante?',['Laminado mate','Laminado brillante']);
+ else if(r.lamination!=='Sin laminado'&&!r.laminationSides)add('laminationSides','¿Laminado de un lado o de ambos?',['Solo frente','Doble faz']);
+ if(r.cardType==='Rectas'&&!r.corners)add('corners','¿Cómo querés las puntas?',['Rectas',...(finishes.some(x=>x.code==='PUNTASRED')?['Redondeadas']:[])]);
+ if(!Number.isInteger(r.models)||r.models<1||r.models>20)add('models','¿Cuántos diseños distintos son? (Por ejemplo, 1 para todas iguales).');
+ return q;
+}
 function questions(r){
  const q=[],add=(key,text)=>q.push({key,text});
  if(!r.quantities?.length||r.quantities.some(n=>!Number.isSafeInteger(n)||n<=0))add('quantities','¿Cuántos ejemplares o copias necesitás?');
+ if(r.description==='Tarjetas personales'){return q.concat(cardQuestions(r));}
  if(!r.widthMm||!r.heightMm)add('size','¿Qué tamaño tiene? Podés indicar A4, A5 o ancho × alto en cm o mm.');else if(!r.sizeScope)add('sizeScope','La medida '+r.widthMm+' × '+r.heightMm+' mm, ¿es abierta, cerrada o de la hoja?');
  if(!r.paper)add('paper','¿Qué papel lleva el interior o las hojas?');if(!r.weightGsm)add('weightGsm','¿Qué gramaje lleva ese papel?');if(!r.print)add('print','¿La impresión interior es color o blanco y negro?');if(!r.sides)add('sides','¿Se imprime a una cara o doble faz?');
  if(!r.bindingOptions?.length&&!/^(Díptico|Tríptico|Cuadríptico)$/.test(r.description))add('bindingOptions','¿Se entrega en hojas sueltas o con qué encuadernación?');
