@@ -49,7 +49,8 @@ function cardQuestions(r){
  if(!r.cardType){add('cardType','¿Qué tipo de tarjetas querés?',['Rectas','Circulares','Con forma']);return q;}
  const o=r.supplierOptions;if(!o||o.cardType!==r.cardType){add('supplierOptions','Consultando las opciones de tarjetas '+r.cardType.toLowerCase()+' en B612…');return q;}
  const p=o.papers.find(x=>normalize(x.paper)===normalize(r.paper).replace(/^papel /,'')&&x.weightGsm===r.weightGsm);
- if(!p)add('paperChoice','¿En qué papel las hacemos?',o.papers.map(x=>({value:String(x.id),label:x.label})));
+ const lamRubro=/mate/i.test(r.lamination)?153:/brillante/i.test(r.lamination)?154:0;const compatiblePapers=o.papers.filter(x=>!lamRubro||!x.incompatibleRubros?.includes(lamRubro));
+ if(!p||(lamRubro&&p.incompatibleRubros?.includes(lamRubro)))add('paperChoice',p?'Ese papel no admite el laminado pedido. ¿Cuál de estos papeles compatibles elegís?':'¿En qué papel las hacemos?',compatiblePapers.map(x=>({value:String(x.id),label:x.label})));
  if(!r.widthMm||!r.heightMm){if(r.cardSize==='custom')add('cardDimensions','¿Cuánto deben medir? Indicá ancho y alto en milímetros.');else add('cardSize','¿Qué tamaño querés?',o.sizes.map(x=>({value:String(x.id),label:x.label})).concat(o.customSize?[{value:'custom',label:'Tamaño personalizado'}]:[]));}
  if(q.length)return q;
  if(!r.print)add('print','¿Impresión a color?',['Full color']);
@@ -59,6 +60,7 @@ function cardQuestions(r){
  if(!r.lamination)add('lamination','¿Querés laminado?',['Sin laminado',...(finishes.some(x=>/MATE/.test(x.code))?['Laminado mate']:[]),...(finishes.some(x=>/BRILLO/.test(x.code))?['Laminado brillante']:[])]);
  else if(r.lamination==='Laminado por confirmar')add('lamination','¿El laminado es mate o brillante?',['Laminado mate','Laminado brillante']);
  else if(r.lamination!=='Sin laminado'&&!r.laminationSides)add('laminationSides','¿Laminado de un lado o de ambos?',['Solo frente','Doble faz']);
+ if(r.corners==='Redondeadas'&&p.incompatibleRubros?.includes(118))add('corners','Ese papel no admite puntas redondeadas en B612. ¿Las hacemos rectas?',['Rectas']);
  if(r.cardType==='Rectas'&&!r.corners)add('corners','¿Cómo querés las puntas?',['Rectas',...(finishes.some(x=>x.code==='PUNTASRED')?['Redondeadas']:[])]);
  if(!Number.isInteger(r.models)||r.models<1||r.models>20)add('models','¿Cuántos diseños distintos son? (Por ejemplo, 1 para todas iguales).');
  return q;
