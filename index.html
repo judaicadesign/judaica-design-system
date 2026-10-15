@@ -9,13 +9,15 @@
 <link rel="stylesheet" href="assets/jd-base.css?v=20261008-adjustment">
 <link rel="stylesheet" href="assets/jd-ui.css?v=20261010-warning-yellow">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
-<script src="assets/jd-client-directory.js?v=20261012-crm-search" defer></script>
+<script src="assets/jd-client-directory.js?v=20261015-workflow" defer></script>
 <script src="assets/jd-tehilim-export.js?v=20261012-library" defer></script>
 <script src="assets/jd-passage-links.js?v=20261012-library" defer></script>
 <script src="assets/jd-passage-library-ui.js?v=20261012-library" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
 <script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
-<script src="assets/jd-orders.js?v=20261008-alternatives" defer></script>
+<script src="assets/jd-workflow.js?v=20261015-workflow" defer></script>
+<script src="assets/jd-orders.js?v=20261015-workflow" defer></script>
+<link rel="stylesheet" href="assets/jd-workflow.css?v=20261015-workflow">
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-message-request.js?v=20261014-b612" defer></script>
 <script src="assets/jd-print-request.js?v=20261015-contextual" defer></script>
@@ -25,11 +27,11 @@
 <script src="assets/jd-price.js?v=20261008-rush" defer></script>
 <script src="assets/jd-legal.js?v=20261007-luaj" defer></script>
 <link rel="stylesheet" href="https://use.typekit.net/ydp7axr.css?v=20261008-bold">
-<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261011-master-v10">
+<link rel="stylesheet" href="assets/jd-quote-layout.css?v=20261015-workflow">
 <script src="assets/jd-quote-hyphen.js?v=20261008-native" defer></script>
 <script src="assets/jd-quote-vectors.js?v=20261011-master-v10" defer></script>
-<script src="assets/jd-quote-native.js?v=20261011-master-v10" defer></script>
-<script src="assets/jd-quote-fit.js?v=20261011-master-v10" defer></script>
+<script src="assets/jd-quote-native.js?v=20261015-workflow" defer></script>
+<script src="assets/jd-quote-fit.js?v=20261015-workflow" defer></script>
 <script src="assets/jd-master-progress.js?v=20261010-hebrew-phases"></script>
 </head>
 <body>
@@ -151,7 +153,7 @@ function go(id){
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>go(b.dataset.screen));
 function openModal(id){document.getElementById(id)?.classList.add('open')}
 function closeModal(id){document.getElementById(id)?.classList.remove('open')}
-function resetQuote(){const models=document.getElementById('qB612Models');if(models)models.value='1';const eventType=document.getElementById('qEventType');if(eventType)eventType.value='generic';const rush=document.getElementById('qRush');if(rush)rush.checked=false;window.jdResetAlternatives?.();window.jdQuoteParent=null;window.jdQuoteEdit=null;window.jdManualPrices={};window.jdDrawQuoteQuantities?.();window.renderQuote?.();document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
+function resetQuote(){const last=document.getElementById('qClientLast');if(last)last.value='';const job=document.getElementById('qJob');if(job)job.value='';const models=document.getElementById('qB612Models');if(models)models.value='1';const eventType=document.getElementById('qEventType');if(eventType)eventType.value='generic';const rush=document.getElementById('qRush');if(rush)rush.checked=false;window.jdResetAlternatives?.();window.jdQuoteParent=null;window.jdQuoteEdit=null;window.jdManualPrices={};window.jdDrawQuoteQuantities?.();window.renderQuote?.();document.getElementById('jdQuoteVersionNote')?.remove();const button=document.getElementById('sq6');if(button)button.textContent='Guardar presupuesto';go('quotes')}
 </script>
 
 
@@ -223,7 +225,7 @@ async function moveSavedQuoteV6(id,restore,button){
  if(!restore&&!confirm('¿Eliminar el presupuesto de '+(quote.client||'este cliente')+'? Podés restaurarlo desde la papelera. La ficha del cliente y el PDF se conservan.'))return;
  button.disabled=true;button.textContent=restore?'Restaurando…':'Eliminando…';
  try{
-  await window.jdUpdateSharedState(['jd_saved_quotes_v6','jd_deleted_quotes_v6'],state=>{
+  await window.jdUpdateSharedState(['jd_saved_quotes_v6','jd_deleted_quotes_v6','jd_jobs_v1','jd_orders_v1'],state=>{
    const saved=state.jd_saved_quotes_v6;
    const deleted=state.jd_deleted_quotes_v6||[];
    if(!Array.isArray(saved)||!Array.isArray(deleted))throw new Error('No se pudieron verificar los presupuestos.');
@@ -232,10 +234,18 @@ async function moveSavedQuoteV6(id,restore,button){
    if(!target)throw new Error('Este presupuesto ya cambió. Recargá la página.');
    if(restore&&saved.some(q=>String(q.id)===String(id)))throw new Error('Este presupuesto ya existe en la lista.');
    const restored={...target};delete restored.deletedAt;
-   return restore?{
+   const jobs=state.jd_jobs_v1||[],orders=state.jd_orders_v1||[];
+   if(!Array.isArray(jobs)||!Array.isArray(orders))throw Error('No se pudieron verificar los trabajos.');
+   for(const job of jobs.filter(j=>(j.quoteIds||[]).includes(id))){
+     if(restore)delete job.quoteTrashAt;
+     else if(!orders.some(o=>(job.quoteIds||[]).includes(o.quoteId))&&!saved.some(q=>q.id!==id&&(job.quoteIds||[]).includes(q.id)))job.quoteTrashAt=new Date().toISOString();
+   }
+   return restore?{...(jobs.length?{jd_jobs_v1:jobs}:{}),
+
     jd_saved_quotes_v6:[...saved,restored],
     jd_deleted_quotes_v6:deleted.filter(q=>String(q.id)!==String(id))
    }:{
+    ...(jobs.length?{jd_jobs_v1:jobs}:{}),
     jd_saved_quotes_v6:saved.filter(q=>String(q.id)!==String(id)),
     jd_deleted_quotes_v6:[...deleted,{...target,deletedAt:new Date().toISOString()}]
    };
@@ -339,7 +349,9 @@ function loadSavedQuoteV6(id,preservePrices=false){
  set('qBind',q.binding||q.bind,true);
  const ev=document.getElementById('qEvent');if(ev)ev.value=q.event||'';
  const dl=document.getElementById('qDeadline');if(dl)dl.value=q.deadline||'';
+ const surname=document.getElementById('qClientLast');if(surname)surname.value='';
  const cl=document.getElementById('qClient');if(cl){cl.value=q.client||'';window.JDClientDirectory?.restore(cl,q.clientId,q.client||'');}
+ window.JDWorkflow?.bindQuoteJob();const job=document.getElementById('qJob');if(job)job.value=q.jobId||window.JDWorkflow.jobs().find(j=>(j.quoteIds||[]).includes(q.id))?.id||'';
  for(const id of ['qDeluxeSongs','qDeluxeRH','qDeluxeJanuca']){const el=document.getElementById(id);if(el)el.checked=!!q.deluxeOptions?.[id];}
  const rush=document.getElementById('qRush');if(rush)rush.checked=!!q.rushPercent;const showRush=document.getElementById('qRushShow');if(showRush)showRush.checked=!!q.rushShow;const leafletContent=document.getElementById('qLeafletContent');if(leafletContent&&q.product==='Birkón · Folleto')leafletContent.value=(q.content||[]).join('\n');set('qDiscount',q.discount||0,false);set('qDiscountWhy',q.discountWhy||'',false);set('qInternal',q.internal||'',false);
  window.jdManualPrices=preservePrices?Object.fromEntries((q.quantities||[]).filter(x=>Number.isFinite(Number(x.price))&&Number(x.price)>0).map(x=>[x.qty,String(x.basePrice??((x.priceBeforeDiscount??(Number(x.price)+Number(q.discount||0)))/(1+Number(q.rushPercent||0)/100)))])):{};
@@ -397,7 +409,7 @@ function editAsset(i){
          method:'POST',
          headers:{
            apikey:'sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP',
-           
+
            'Content-Type':file.type||'application/octet-stream',
            'x-upsert':'true'
          },
@@ -1002,8 +1014,8 @@ const seedCatalog=[
    {id:'ess-2-hef',model:'Essential',nusajCount:2,texts:'Hebreo + español + fonética',pages:48,content:['Encendido de velas de Shabat + Yom Tov','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón (2 nusajim)','Birkat Me’en Shalosh (2 nusajim)','Kidush del día - Shabat y Yom Tov','Havdalá (2 nusajim)']},
    {id:'cl-1-hef',model:'Classic',nusajCount:1,texts:'Hebreo + español + fonética',pages:48,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Sheva Berajot','Birkat Me’en Shalosh','Kidush del día - Shabat y Yom Tov','Havdalá','Plegaria de agradecimiento']},
    {id:'cl-2-hef',model:'Classic',nusajCount:2,texts:'Hebreo + español + fonética',pages:72,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón (2 nusajim)','Sheva Berajot','Birkat Me’en Shalosh (2 nusajim)','Kidush del día - Shabat y Yom Tov','Havdalá (2 nusajim)','Plegaria de agradecimiento']},
-   {id:'de-1-hef',model:'Deluxe',nusajCount:1,texts:'Hebreo + español + fonética',pages:64,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Sheva Berajot','Birkat Me’en Shalosh','Kidush del día - Shabat y Yom Tov','Havdalá','Hasta 16 páginas para contenido adicional a elección']},
-   {id:'de-2-hef',model:'Deluxe',nusajCount:2,texts:'Hebreo + español + fonética',pages:88,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón (2 nusajim)','Sheva Berajot','Birkat Me’en Shalosh (2 nusajim)','Kidush del día - Shabat y Yom Tov','Havdalá (2 nusajim)','Hasta 16 páginas para contenido adicional a elección']}
+   {id:'de-1-hef',model:'Deluxe',nusajCount:1,texts:'Hebreo + español + fonética',pages:64,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Sheva Berajot','Birkat Me’en Shalosh','Kidush del día - Shabat y Yom Tov','Havdalá','Hasta 16 páginas para contenido adicional a elección: Kidush de Rosh Hashaná + simanim // Encendido de velas de Januká - Canciones/Zemirot']},
+   {id:'de-2-hef',model:'Deluxe',nusajCount:2,texts:'Hebreo + español + fonética',pages:88,content:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón (2 nusajim)','Sheva Berajot','Birkat Me’en Shalosh (2 nusajim)','Kidush del día - Shabat y Yom Tov','Havdalá (2 nusajim)','Hasta 16 páginas para contenido adicional a elección: Kidush de Rosh Hashaná + simanim // Encendido de velas de Januká - Canciones/Zemirot']}
   ]
  },
  {
@@ -1266,7 +1278,7 @@ function jdBaseLibritoContent(model){
  const fallback={
   Essential:['Encendido de velas de Shabat + Yom Tov','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Birkat Me’en Shalosh','Kidush del día - Shabat y Yom Tov','Havdalá'],
   Classic:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Sheva Berajot','Birkat Me’en Shalosh','Kidush del día - Shabat y Yom Tov','Havdalá','Plegaria de agradecimiento'],
-  Deluxe:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Sheva Berajot','Birkat Me’en Shalosh','Kidush del día - Shabat y Yom Tov','Havdalá','Hasta 16 páginas para contenido adicional a elección']
+  Deluxe:['Encendido de velas de Shabat + Yom Tov + Rosh Hashaná + Yom Kipur','Bendición de los hijos','Shalom Alejem','Eshet Jail','Kidush de la noche de Shabat','Kidush de la noche de Yom Tov','Birkat Hamazón','Sheva Berajot','Birkat Me’en Shalosh','Kidush del día - Shabat y Yom Tov','Havdalá','Hasta 16 páginas para contenido adicional a elección: Kidush de Rosh Hashaná + simanim // Encendido de velas de Januká - Canciones/Zemirot']
  };
  return (fallback[model]||[]).slice();
 }
@@ -1295,8 +1307,8 @@ function jdResolvedContentBlocks(p,v){
    return titles.map(title=>({title:jdStripNusajMarker(title),nusaj:null}));
  }
  const model=qModel?.value||v?.model||'';
- const base=jdLibritoModelContent(p,model).map(jdStripNusajMarker).filter(title=>model!=='Deluxe'||!/contenido adicional a elección/i.test(title));
- if(model==='Deluxe')for(const [id,title] of [['qDeluxeSongs','Canciones'],['qDeluxeRH','Rosh Hashaná y simanim'],['qDeluxeJanuca','Janucá']])if(document.getElementById(id)?.checked&&!base.includes(title))base.push(title);
+ const base=jdLibritoModelContent(p,model).map(jdStripNusajMarker);
+ // Deluxe checkboxes record internal choices; catalog content is authoritative.
  const selected=jdSelectedNusajim();
  const out=[];
  for(const title of base){
@@ -1626,7 +1638,7 @@ function buildQuote(){
  if(!qs)return;
  const prevProd=document.getElementById('qProduct')?.value||catalog[0].name;
  qs.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Nuevo presupuesto</h1></div><div><button class="btn gold" id="sq6">Guardar presupuesto</button> <button class="btn" id="previewPdf6">Vista previa PDF</button> <button class="btn primary" id="sendWa6">Enviar por WhatsApp</button></div></div>'+
- '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div id="jdAlternatives"></div><div class="form-grid"><div class="field"><label>Cliente</label><input id="qClient" placeholder="Nombre y apellido" autocomplete="name"></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field jd-hidden" id="qB612ModelsField"><label>Diseños distintos · interno B612</label><input id="qB612Models" type="number" min="1" max="20" step="1" value="1"><small class="muted">1 para un único diseño; 2 si la tirada incluye dos diseños, etc. La cantidad solicitada es el total de unidades.</small></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Tipo de evento · interno</label><select id="qEventType">'+window.jdAssetMatch.events.map(([id,label])=>'<option value="'+id+'">'+E(label)+'</option>').join('')+'</select><small id="jdEventVisualStatus" class="muted"></small></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
+ '<div class="quote-layout"><div class="card"><div id="jdB612LiveBanner" class="jd-note jd-hidden" style="margin-bottom:12px"></div><div id="jdAlternatives"></div><div class="form-grid"><div class="field"><label>Nombre / institución o cliente existente</label><input id="qClient" placeholder="Buscar cliente o ingresar nombre" autocomplete="name"></div><div class="field"><label>Apellido · cliente nuevo (opcional)</label><input id="qClientLast" placeholder="Apellido" autocomplete="family-name"></div><div class="field"><label>Trabajo · interno</label><select id="qJob"><option value="">Nuevo trabajo</option></select></div><div class="field"><label>Producto</label><select id="qProduct">'+catalog.map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div><div class="field" id="qmw6"><label>Modelo / formato</label><select id="qModel"></select></div><div class="field" id="qnw6"><label>Nusaj</label><select id="qNusaj">'+nusajOptions.map(n=>'<option>'+E(n)+'</option>').join('')+'</select></div><div class="field" id="qtw6"><label>Textos</label><select id="qLang"></select></div><div class="field" id="qsw6"><label>Tamaño</label><select id="qSize"></select></div><div class="field" id="qbw6"><label>Encuadernación</label><select id="qBind"></select></div><div class="field" id="qpw6"><label>Cantidad de páginas</label><input id="qPages" readonly></div><div class="field jd-hidden" id="qB612ModelsField"><label>Diseños distintos · interno B612</label><input id="qB612Models" type="number" min="1" max="20" step="1" value="1"><small class="muted">1 para un único diseño; 2 si la tirada incluye dos diseños, etc. La cantidad solicitada es el total de unidades.</small></div><div class="field span2"><label>Cantidades solicitadas</label><div id="qty6"></div><button type="button" class="btn sm" id="aq6" style="margin-top:8px">+ Agregar otra cantidad</button></div><div class="field"><label>Tipo de evento · interno</label><select id="qEventType">'+window.jdAssetMatch.events.map(([id,label])=>'<option value="'+id+'">'+E(label)+'</option>').join('')+'</select><small id="jdEventVisualStatus" class="muted"></small></div><div class="field"><label>Fecha del evento</label><input id="qEvent" type="date"></div><div class="field"><label>Fecha última de entrega</label><input id="qDeadline" type="date"><div class="small muted" style="margin-top:5px">Por defecto: día hábil anterior al evento. Podés modificarlo si el cliente necesita recibir antes.</div></div><div class="field span2"><div id="urgency6" class="jd-urgency jd-hidden"></div></div><div class="field"><label>Ajuste / descuento</label><input id="qDiscount" type="number" value="0"></div><div class="field"><label>Motivo</label><input id="qDiscountWhy"></div><div class="field span2"><label>Nota interna</label><textarea id="qInternal"></textarea></div></div><div id="math6" class="jd-internal-math"></div></div><div class="quote-preview" id="quotePreview"></div></div>';
  qProduct.value=catalog.some(p=>p.name===prevProd)?prevProd:catalog[0].name;
  window.JDClientDirectory?.bindQuote();
  qDiscount.min='0';qDiscount.step='0.01';qDiscount.previousElementSibling.textContent='Descuento ($)';qDiscount.insertAdjacentHTML('afterend','<small class="muted">Se resta una vez al total de cada cantidad cotizada. Para subir un precio, usá el precio manual.</small>');
@@ -1636,9 +1648,9 @@ function buildQuote(){
  ['qProduct','qModel','qNusaj','qLang','qSize','qBind'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{window.jdManualPrices={};drawQty6();render6()}));
  const rushField=document.createElement('div');rushField.className='field span2';rushField.innerHTML='<label style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="qRush" style="width:auto"> Aplicar prioridad de agenda (+30%)</label><small class="muted">Se suma al precio base de cada cantidad, antes del descuento.</small><label style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="qRushShow" style="width:auto"> Mostrar el recargo en el PDF</label>';document.getElementById('urgency6').parentElement.after(rushField);document.getElementById('qRush').addEventListener('change',render6);document.getElementById('qRushShow').addEventListener('change',render6);
  const contentField=document.createElement('div');contentField.className='field span2';contentField.id='qLeafletContentField';contentField.innerHTML='<label>Contenido del folleto · una línea por ítem</label><textarea id="qLeafletContent" placeholder="Cargá los contenidos que llevará este folleto"></textarea><small class="muted">Se incluye en este presupuesto. El contenido general de cada variante se edita en Productos & variantes.</small>';document.getElementById('qInternal').parentElement.before(contentField);document.getElementById('qLeafletContent').addEventListener('input',render6);
- const deluxeField=document.createElement('div');deluxeField.className='field span2';deluxeField.id='qDeluxeContentField';deluxeField.innerHTML='<label>Contenido opcional Deluxe</label><label class="jd-checkline"><input type="checkbox" id="qDeluxeSongs"> Canciones</label><label class="jd-checkline"><input type="checkbox" id="qDeluxeRH"> Rosh Hashaná y simanim</label><label class="jd-checkline"><input type="checkbox" id="qDeluxeJanuca"> Janucá</label><small class="muted">El resto del contenido Deluxe está definido por el producto.</small>';contentField.after(deluxeField);['qDeluxeSongs','qDeluxeRH','qDeluxeJanuca'].forEach(id=>document.getElementById(id).addEventListener('change',render6));
+ const deluxeField=document.createElement('div');deluxeField.className='field span2';deluxeField.id='qDeluxeContentField';deluxeField.innerHTML='<label>Selección del cliente Deluxe · registro interno</label><label class="jd-checkline"><input type="checkbox" id="qDeluxeSongs"> Canciones</label><label class="jd-checkline"><input type="checkbox" id="qDeluxeRH"> Rosh Hashaná y simanim</label><label class="jd-checkline"><input type="checkbox" id="qDeluxeJanuca"> Janucá</label><small class="muted">El presupuesto muestra las opciones del producto. Estas casillas registran la elección interna; contenido adicional hasta la página 86.</small>';contentField.after(deluxeField);['qDeluxeSongs','qDeluxeRH','qDeluxeJanuca'].forEach(id=>document.getElementById(id).addEventListener('change',render6));
  ['qProduct','qModel','qLang','qNusaj'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{const p=activeProduct();document.getElementById('qLeafletContent').value=(selectedVariant(p)?.content||[]).join('\n');render6()}));
- ['qClient','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',render6));
+ ['qClient','qClientLast','qDiscount','qDiscountWhy'].forEach(id=>document.getElementById(id).addEventListener('input',render6));
  document.getElementById('qEventType').addEventListener('change',()=>{const current=activeAlternative;for(let i=0;i<alternatives.length;i++){if(i===current||!alternatives[i].state)continue;activeAlternative=i;const state=alternativeState();applyAlternative(alternatives[i].state);alternatives[i].html=quotePreview.querySelector('.jd-pdf-sheet')?.outerHTML||'';activeAlternative=current;applyAlternative(state);}render6();});
  qEvent.addEventListener('change',()=>{
    const ev=parseLocalDate(qEvent.value);
@@ -1733,7 +1745,7 @@ function render6(){
          ?'<div class="small" style="color:#0f5b5d"><b>● B612 en vivo</b> · costo neto sin IVA $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div><div class="small muted">Total B612 c/IVA $ '+Math.round(r.b612.gross).toLocaleString('es-AR')+' · consultado '+new Date(r.b612.fetchedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · '+r.b612.sheet.postures+' posturas/pliego · '+r.b612.sheet.printedSheets+' pliegos'+(r.b612.productionQty&&Number(r.b612.productionQty)!==Number(q)?' · B612 optimiza '+q+' → '+r.b612.productionQty+' u.':'')+'</div>'
          :'<div class="small muted">'+(r.estimated?'Estimado desde '+r.base.qty+' u.':'Costo exacto')+' · $ '+Math.round(r.cost).toLocaleString('es-AR')+'</div>'+ageInfo(r.base);
        const sale=price.price,profit=sale-r.cost-r.shipping,margin=profit/sale*100;
-       el.innerHTML='<b>Total final: $ '+sale.toLocaleString('es-AR')+'</b><div class="small muted">Cálculo sugerido: $ '+price.calculatedPrice.toLocaleString('es-AR')+(price.manualPrice!==null?' · precio manual':'')+'</div>'+(price.rushAmount?'<div class="small">Prioridad de agenda (+30%): $ '+price.rushAmount.toLocaleString('es-AR')+'</div>':'')+(price.discountAmount?'<div class="small">Antes: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+' · Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</div>':'')+src+'<div class="jd-profit '+(profit<=0?'jd-profit-low':'')+'"><b>Ganancia bruta estimada: $ '+Math.round(profit).toLocaleString('es-AR')+'</b><span>'+margin.toLocaleString('es-AR',{maximumFractionDigits:1})+'% del precio · envío $ '+Math.round(r.shipping).toLocaleString('es-AR')+'</span><small>Antes de impuestos.</small></div>'+(profit<=0?'<div class="jd-age-bad">Este precio no cubre imprenta y envío. Revisá el descuento o el precio manual.</div>':'');
+       el.innerHTML='<b>Total final: $ '+sale.toLocaleString('es-AR')+'</b><div class="small muted">Cálculo sugerido: $ '+price.calculatedPrice.toLocaleString('es-AR')+(price.manualPrice!==null?' · precio manual':'')+'</div>'+(Number(r.rule?.extra)>0?'<div class="small muted">Adicional fijo incluido en el cálculo sugerido: $ '+Number(r.rule.extra).toLocaleString('es-AR')+(price.manualPrice!==null?' · el total manual reemplaza el cálculo, sin sumarlo otra vez.':'')+'</div>':'')+(price.rushAmount?'<div class="small">Prioridad de agenda (+30%): $ '+price.rushAmount.toLocaleString('es-AR')+'</div>':'')+(price.discountAmount?'<div class="small">Antes: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+' · Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</div>':'')+src+'<div class="jd-profit '+(profit<=0?'jd-profit-low':'')+'"><b>Ganancia bruta estimada: $ '+Math.round(profit).toLocaleString('es-AR')+'</b><span>'+margin.toLocaleString('es-AR',{maximumFractionDigits:1})+'% del precio · envío $ '+Math.round(r.shipping).toLocaleString('es-AR')+'</span><small>Antes de impuestos.</small></div>'+(profit<=0?'<div class="jd-age-bad">Este precio no cubre imprenta y envío. Revisá el descuento o el precio manual.</div>':'');
      }else{
        el.innerHTML=r.ok?'<span style="color:#9a4b45">'+E(price.reason)+'</span>':r.loading?'<span style="color:#0f5b5d">↻ '+E(r.reason)+'</span>':'<span style="color:#9a4b45">'+E(r.reason)+'</span>';
      }
@@ -1762,17 +1774,17 @@ function render6(){
  const hero=(background?.data?'<img src="'+E(background.data)+'" class="jd-pdf-background" alt="">':'')+(asset?.data?'<img src="'+E(asset.data)+'" class="jd-pdf-product-img" data-mock-canvas="'+(asset.mockCanvas?'true':'false')+'">':'<div class="jd-mock-placeholder"><span>MOCKUP PRINCIPAL · 343 × 348 px de InDesign</span></div>');
  const et=jdEffectiveTechnical(p,v);
  const technical=p.name==='Birkón · Librito'
-   ?'<div class="jd-tech">'+(et.paper||et.weightGsm?'<span><strong>Tapa:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' grs.':''].filter(Boolean).join(' '))+'</span>':'')+(et.lamination?'<span>'+E(et.lamination)+'</span>':'')+(et.interiorPaper||et.interiorWeightGsm||et.print?'<span><strong>Interior:</strong> '+E([[et.interiorPaper,et.interiorWeightGsm?et.interiorWeightGsm+' grs.':''].filter(Boolean).join(' '),et.print].filter(Boolean).join(' - '))+'</span>':'')+(et.sides?'<span>'+E(et.sides)+'</span>':'')+(et.finish?'<span>'+E(et.finish)+'</span>':'')+'</div>' 
+   ?'<div class="jd-tech">'+(et.paper||et.weightGsm?'<span><strong>Tapa:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' grs.':''].filter(Boolean).join(' '))+'</span>':'')+(et.lamination?'<span>'+E(et.lamination)+'</span>':'')+(et.interiorPaper||et.interiorWeightGsm||et.print?'<span><strong>Interior:</strong> '+E([[et.interiorPaper,et.interiorWeightGsm?et.interiorWeightGsm+' grs.':''].filter(Boolean).join(' '),et.print].filter(Boolean).join(' - ')).replace(/Full color/gi,'<em class="jd-nowrap">Full color</em>')+'</span>':'')+(et.sides?'<span>'+E(et.sides)+'</span>':'')+(et.finish?'<span>'+E(et.finish)+'</span>':'')+'</div>'
    :((et.paper||et.weightGsm||et.lamination||et.print||et.sides||et.finish)?'<div class="jd-tech"><b>DETALLES TÉCNICOS</b>'+(et.paper||et.weightGsm?'<span><strong>Papel:</strong> '+E([et.paper,et.weightGsm?et.weightGsm+' g':''].filter(Boolean).join(' · '))+'</span>':'')+(et.lamination?'<span><strong>Terminación:</strong> '+E(et.lamination)+'</span>':'')+((et.print||et.sides)?'<span><strong>Impresión:</strong> '+E([et.print,et.sides].filter(Boolean).join(' · '))+'</span>':'')+((et.finish && !/^(Tríptico|Cuadríptico|Díptico)$/i.test(String(qModel?.value||'')))?'<span><strong>Acabado:</strong> '+E(et.finish)+'</span>':'')+'</div>':'');
  const legalSet=jdLegalSet(p.legalSetId??((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
  const legal=window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate);
  const legalBlock=legal.length?'<div class="jd-full-legal"><div class="jd-legal-flow"><div class="jd-legal-title">ACLARACIONES</div>'+legal.map(x=>'<p><b>'+E(x[0])+'.</b> '+E(x[1])+'</p>').join('')+'</div></div>':'';
- const prices=window.qs6.map(q=>{const price=price6(calcQty(q),q,disc);return '<div class="jd-client-price"><span>'+q+' unidades</span><div class="jd-pdf-price-breakdown">'+(price.ok?(price.rushAmount&&document.getElementById('qRushShow')?.checked?'<small>Prioridad de agenda (+30%): $ '+price.rushAmount.toLocaleString('es-AR')+'</small>':'')+(price.discountAmount?'<small>Precio antes del descuento: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+'</small><small>Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</small>':'')+'<b>Total: $ '+price.price.toLocaleString('es-AR')+'.-</b>':'<b>A cotizar</b>')+'</div></div>'}).join('');
+ const prices=window.qs6.map(q=>{const price=price6(calcQty(q),q,disc);return '<div class="jd-client-price"><span>'+q+' unidades</span><div class="jd-pdf-price-breakdown">'+(price.ok?(price.rushAmount&&document.getElementById('qRushShow')?.checked?'<small>Prioridad de agenda (+30%): $ '+price.rushAmount.toLocaleString('es-AR')+'</small>':'')+(price.discountAmount?'<small>Precio antes del descuento: $ '+price.priceBeforeDiscount.toLocaleString('es-AR')+'</small><small>Descuento: −$ '+price.discountAmount.toLocaleString('es-AR')+'</small>':'')+'<b>Total: $ '+price.price.toLocaleString('es-AR')+'.-</b><small class="jd-unit-price">Equivale a $ '+(price.price/q).toLocaleString('es-AR',{maximumFractionDigits:2})+' por unidad</small><small class="jd-run-note">Para esta tirada de '+q+' unidades</small>':'<b>A cotizar</b>')+'</div></div>'}).join('');
  const content=jdQuoteContent(p,v);
  const contentBlock=content.length||p.name==='Birkón · Folleto'?'<div class="jd-content-box"><h4>Contenido'+(p.models.length?' '+E(qModel.value):'')+'</h4><ul class="index-list">'+content.map(x=>'<li>'+E(x)+'</li>').join('')+'</ul></div>':'';
  quotePreview.innerHTML=
  '<div class="jd-pdf-sheet jd-master-sheet">'+
- '<div class="jd-pdf-header"><img src="assets/jd-logo-quote.svg" class="jd-pdf-logo" alt="Judaica Design®"><div class="jd-header-copy"><span class="jd-bsd" dir="rtl">בס״ד</span><div class="jd-overline">PRESUPUESTO</div><div class="jd-doc-title">'+E(p.name).replace('·','<span>·</span>')+'</div></div><div class="jd-client-meta"><div><small>CLIENTE</small><b>'+E(qClient.value||'—')+'</b></div><div><small>FECHA</small><b>'+today+'</b></div></div></div>'+
+ '<div class="jd-pdf-header"><img src="assets/jd-logo-quote.svg" class="jd-pdf-logo" alt="Judaica Design®"><div class="jd-header-copy"><span class="jd-bsd" dir="rtl">בס״ד</span><div class="jd-overline">PRESUPUESTO</div><div class="jd-doc-title">'+E(p.name).replace('·','<span>·</span>')+'</div></div><div class="jd-client-meta"><div><small>CLIENTE</small><b>'+E([qClient.value,document.getElementById('qClientLast')?.value].filter(Boolean).join(' ')||'—')+'</b></div><div><small>FECHA</small><b>'+today+'</b></div></div></div>'+
  '<div class="jd-pdf-bodytop"><div class="jd-master-left"><div class="jd-pdf-mock">'+hero+'</div>'+contentBlock+'</div><div class="jd-compact-specs"><h3>Detalles del producto</h3>'+specs.map(s=>'<div class="jd-spec-icon-row"><span class="jd-spec-icon">'+icon(s[0])+'</span><div><small>'+s[1]+'</small><strong>'+s[2]+'</strong></div></div>').join('')+(technical?'<div class="jd-spec-icon-row jd-technical-row"><span class="jd-spec-icon">'+icon('13_engranaje')+'</span><div><small>Detalles técnicos</small>'+technical+'</div></div>':'')+'<div class="jd-client-prices">'+prices+'</div>'+(disc>0&&qDiscountWhy.value.trim()?'<div class="jd-discount-note">Motivo del descuento: '+E(qDiscountWhy.value.trim())+'</div>':'')+'</div></div>'+
  legalBlock+
  '<footer class="jd-quote-footer"><span><b>Bē</b> behance.net/JudaicaDesign</span><span>@JudaicaDesign</span><span>+54 9 11 5822 4686</span><i class="jd-quote-page">» 1 / 1</i></footer></div>';
@@ -1823,7 +1835,7 @@ function presentAlternatives(){
      const holder=document.createElement('div');holder.innerHTML=i===activeAlternative?current:a.html;
      const sheet=holder.querySelector('.jd-pdf-sheet');if(!sheet)return '';
      sheet.dataset.alternative=String(i);const overline=sheet.querySelector('.jd-overline');if(overline)overline.textContent='PRESUPUESTO · ALTERNATIVA '+(i+1)+' DE '+count;const page=sheet.querySelector('.jd-quote-page');if(page)page.textContent='» '+(i+1)+' / '+count;
-     const name=sheet.querySelector('.jd-client-meta b');if(name)name.textContent=qClient.value||'—';
+     const name=sheet.querySelector('.jd-client-meta b');if(name)name.textContent=[qClient.value,document.getElementById('qClientLast')?.value].filter(Boolean).join(' ')||'—';
      const dates=sheet.querySelectorAll('.jd-client-meta b');if(dates[1])dates[1].textContent=window.jdLegalDates.display(window.jdLegalDates.today());
      return sheet.outerHTML;
    }).join('');
@@ -1860,7 +1872,7 @@ function collectSingleQuote6(){
  const p=activeProduct(),v=selectedVariant(p);
  const issuedDate=window.jdLegalDates.today();
  const legalSet=jdLegalSet(p.legalSetId??((p.name==='Birkón · Librito'||p.name==='Birkón · Folleto')?'legal-birkonim':''));
- const quote={id:'q-'+uid(),client:qClient.value.trim(),clientId:window.JDClientDirectory?.selectedId(qClient)||null,productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,b612Models:jdIsB612Live(p)?jdB612Models():undefined,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live,b612:r.b612?{sourceUrl:r.b612.sourceUrl,fetchedAt:r.b612.fetchedAt,models:r.b612.models,folds:r.b612.folds,supplierCategory:r.b612.supplierCategory,net:r.b612.net,vat:r.b612.vat,gross:r.b612.gross,productionQty:r.b612.productionQty,sheet:r.b612.sheet,lines:r.b612.lines}:undefined}:null}}),eventType:document.getElementById('qEventType')?.value||'generic',event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',rushPercent:document.getElementById('qRush')?.checked?30:0,rushShow:!!document.getElementById('qRushShow')?.checked,discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,deluxeOptions:p.name==='Birkón · Librito'&&qModel.value==='Deluxe'?Object.fromEntries(['qDeluxeSongs','qDeluxeRH','qDeluxeJanuca'].map(id=>[id,!!document.getElementById(id)?.checked])):undefined,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
+ const quote={id:'q-'+uid(),client:[qClient.value.trim(),document.getElementById('qClientLast')?.value.trim()].filter(Boolean).join(' '),jobId:document.getElementById('qJob')?.value||null,clientFirstName:qClient.value.trim(),clientLastName:document.getElementById('qClientLast')?.value.trim()||'',clientId:window.JDClientDirectory?.selectedId(qClient)||null,productId:p.id,product:p.name,model:p.models.length?qModel.value:'',nusaj:p.nusaj?qNusaj.value:'',texts:p.texts.length?qLang.value:'',size:(p.name==='Birkón · Librito'?(qSize?.value||jdEffectiveSize(p,v)):jdEffectiveSize(p,v)),binding:p.bindings.length?qBind.value:'',pages:v?.pages||0,b612Models:jdIsB612Live(p)?jdB612Models():undefined,quantities:window.qs6.map(q=>{const r=calcQty(q);return {qty:q,cost:r.ok?Math.round(r.cost):null,costReference:r.ok?{supplier:p.supplier,baseCost:r.base?.cost??r.cost,baseQty:r.base?.qty,date:r.base?.date,adjustment:r.base?.adjustment||null,estimated:r.estimated,live:!!r.live,b612:r.b612?{sourceUrl:r.b612.sourceUrl,fetchedAt:r.b612.fetchedAt,models:r.b612.models,folds:r.b612.folds,supplierCategory:r.b612.supplierCategory,net:r.b612.net,vat:r.b612.vat,gross:r.b612.gross,productionQty:r.b612.productionQty,sheet:r.b612.sheet,lines:r.b612.lines}:undefined}:null}}),eventType:document.getElementById('qEventType')?.value||'generic',event:qEvent.value,deadline:qDeadline.value,created:new Date().toISOString(),issuedDate,legalSetId:legalSet?.id||null,legalClauses:window.jdLegalDates.resolve(legalSet?.clauses||[],issuedDate),validUntil:legalSet?.clauses?.some(c=>String(c[1]).includes('{{vencimiento}}'))?window.jdLegalDates.nextMonth(issuedDate):null,status:'Listo para enviar',rushPercent:document.getElementById('qRush')?.checked?30:0,rushShow:!!document.getElementById('qRushShow')?.checked,discount,discountWhy:qDiscountWhy.value.trim(),internal:qInternal.value,deluxeOptions:p.name==='Birkón · Librito'&&qModel.value==='Deluxe'?Object.fromEntries(['qDeluxeSongs','qDeluxeRH','qDeluxeJanuca'].map(id=>[id,!!document.getElementById(id)?.checked])):undefined,content:jdQuoteContent(p,v),contentBlocks:jdResolvedContentBlocks(p,v)};
  if(!quote.client)throw new Error('Falta el nombre del cliente o institución.');
  if(p.name==='Birkón · Librito' && !quote.pages)throw new Error('Esta variante no tiene cantidad de páginas definida. Primero cargá la variante; el presupuesto no se guardó.');
  const badQty=window.qs6.map(q=>({q,r:calcQty(q)})).find(x=>!x.r.ok);
@@ -1877,7 +1889,7 @@ async function save6(silent=false){
  const editing=window.jdQuoteEdit;
  const btn=document.getElementById('sq6'); if(btn){btn.disabled=true;btn.textContent='Guardando…'}
  try{
-   await window.jdUpdateSharedState(['jd_saved_quotes_v6','jd_clients'],state=>{
+   await window.jdUpdateSharedState(['jd_saved_quotes_v6','jd_clients','jd_jobs_v1'],state=>{
    if(!Array.isArray(state.jd_saved_quotes_v6)||!Array.isArray(state.jd_clients))throw new Error('No se pudieron verificar presupuestos y clientes.');
    const saved=state.jd_saved_quotes_v6,clients=state.jd_clients.map(c=>({...c}));
    if(editing){quote=window.jdQuoteEditTools.replace(saved.find(q=>q.id===editing.id),quote,editing.baseline)}
@@ -1887,13 +1899,12 @@ async function save6(silent=false){
    if(ci<0)ci=clients.findIndex(c=>norm(directory.nameOf(c))===norm(quote.client));
    // El nombre libre puede ser una institución: no inventar apellidos separando palabras.
    const clientObj=ci>=0?{...clients[ci]}:{
-     id:'client-'+crypto.randomUUID(),name:quote.client,firstName:quote.client,lastName:'',
+     id:'client-'+crypto.randomUUID(),name:quote.client,firstName:quote.clientFirstName||quote.client,lastName:quote.clientLastName||'',
      org:'',address:'',phone:'',paid:false,quoteIds:[],created:new Date().toISOString()
    };
+   if(clientObj.deletedAt)throw new Error('Este cliente está en la papelera. Restauralo desde Clientes antes de asociarle un presupuesto.');
    quote.clientId=directory.stableId(clientObj);
    if(Array.isArray(quote.alternatives))quote.alternatives.forEach(a=>{a.clientId=quote.clientId;});
-   clientObj.ask=[quote.product,quote.model,quote.nusaj].filter(Boolean).join(' · ');
-   if(!editing||!/diseño|aprobado|imprenta|entregado|pago realizado/i.test(clientObj.status||'')){clientObj.status='Presupuesto listo';clientObj.next='enviar presupuesto';}
    clientObj.quoteIds=Array.from(new Set([...(clientObj.quoteIds||[]),quote.id]));
    if(ci>=0)clients[ci]=clientObj;else clients.push(clientObj);
    if(editing){
@@ -1903,10 +1914,12 @@ async function save6(silent=false){
          .forEach(c=>{if(Array.isArray(c.quoteIds))c.quoteIds=c.quoteIds.filter(id=>id!==quote.id);});
      }
    }
-   return {jd_saved_quotes_v6:editing?saved:[quote,...saved],jd_clients:clients};
+   const jobs=window.JDWorkflow.recordQuote(state,quote,editing);
+   return {jd_saved_quotes_v6:editing?saved:[quote,...saved],jd_clients:clients,jd_jobs_v1:jobs};
 
    });
    if(editing)window.jdQuoteEdit={id:quote.id,baseline:window.jdQuoteEditTools.fingerprint(quote)};
+   qClient.value=quote.client;const surname=document.getElementById('qClientLast');if(surname)surname.value='';window.JDClientDirectory.restore(qClient,quote.clientId,quote.client);window.JDWorkflow.bindQuoteJob();const job=document.getElementById('qJob');if(job)job.value=quote.jobId||'';
    window.jdRenderSavedQuotes?.();
    if(btn){btn.disabled=false;btn.textContent='Guardado ✓'}
    if(silent!==true)alert(editing?'Cambios guardados en el mismo presupuesto. La versión anterior quedó en el historial.':'Presupuesto guardado y cliente creado/actualizado en seguimiento.');
@@ -1945,23 +1958,14 @@ window.renderQuote=render6;
    if(d.startsWith('54')&&!d.startsWith('549')) return '549'+d.slice(2);
    return d;
  }
- window.jdUpsertClientFromQuote=function(q,sent){
-   let arr=get('jd_clients',[]);
-   let i=arr.findIndex(c=>norm(c.name)===norm(q.client));
-   const next=businessPlus(new Date(),2);
-   const nextDate=next.toISOString().slice(0,10);
-   if(i<0){
-     { const pp=q.client.trim().split(/\s+/), firstName=pp.shift()||q.client, lastName=pp.join(' '); arr.push({name:q.client,firstName,lastName,org:'',phone:'',ask:quoteAsk(q),status:sent?'Presupuesto enviado':'Presupuesto listo',next:sent?'preguntar si pudo verlo':'enviar presupuesto',nextDate:sent?nextDate:'',paid:false,quoteIds:[q.id]}); }
-   }else{
-     arr[i].ask=quoteAsk(q);
-     arr[i].status=sent?'Presupuesto enviado':'Presupuesto listo';
-     arr[i].next=sent?'preguntar si pudo verlo':'enviar presupuesto';
-     arr[i].nextDate=sent?nextDate:(arr[i].nextDate||'');
-     arr[i].quoteIds=Array.from(new Set([...(arr[i].quoteIds||[]),q.id]));
-   }
-   set('jd_clients',arr);
+ window.jdUpsertClientFromQuote=async function(q,sent){
+   await window.jdUpdateSharedState(['jd_clients'],state=>{
+     const arr=state.jd_clients;if(!Array.isArray(arr))throw Error('No se pudieron verificar los clientes.');
+     const c=arr.find(c=>q.clientId?window.JDClientDirectory.stableId(c)===q.clientId:norm(c.name)===norm(q.client));
+     if(c&&q.phone&&!c.phone)c.phone=String(q.phone).trim();
+     return {jd_clients:arr};
+   });
    window.dispatchEvent(new CustomEvent('jd-client-upserted'));
-   return arr.find(c=>norm(c.name)===norm(q.client));
  }
  function currentQuoteFromForm(){
    if(window.jdCollectQuote)return window.jdCollectQuote();
@@ -2008,7 +2012,7 @@ window.renderQuote=render6;
      const raw=prompt('No tenemos el WhatsApp de '+q.client+'. Escribilo para guardarlo y enviar el presupuesto:','');
      const phone=normalizePhone(raw);
      if(!phone)return '';
-     window.jdUpsertClientFromQuote({...q,phone:raw.trim()},false);
+     window.jdUpsertClientFromQuote({...q,phone:raw.trim()},false).catch(e=>alert(e.message));
      return phone;
    }
    let phone=normalizePhone(arr[i]?.phone||'');
@@ -2016,7 +2020,7 @@ window.renderQuote=render6;
      const raw=prompt('No tenemos el WhatsApp de '+q.client+'. Escribilo para guardarlo y enviar el presupuesto:','');
      phone=normalizePhone(raw);
      if(!phone)return '';
-     arr[i].phone=raw.trim();set('jd_clients',arr);
+     window.jdUpsertClientFromQuote({...q,phone:raw.trim()},false).catch(e=>alert(e.message));
    }
    return phone;
  }
@@ -2046,7 +2050,7 @@ window.renderQuote=render6;
      // Save quote if it is not already present with same client/product in the last minute.
      const fingerprint=x=>JSON.stringify([x.product,x.model,x.nusaj,x.texts,x.size,x.binding,x.pages,x.quantities.map(y=>[y.qty,y.price]),x.discount||0,x.alternatives||[]]);
      let committed;
-     await window.jdUpdateSharedState(['jd_saved_quotes_v6'],state=>{
+     await window.jdUpdateSharedState(['jd_saved_quotes_v6','jd_clients','jd_jobs_v1'],state=>{
        if(!Array.isArray(state.jd_saved_quotes_v6))throw new Error('No se pudieron verificar los presupuestos.');
        const arr=state.jd_saved_quotes_v6;
        const found=editing?arr.find(x=>x.id===q.id):arr.find(x=>norm(x.client)===norm(q.client)&&fingerprint(x)===fingerprint(q)&&Date.now()-new Date(x.created).getTime()<60000);
@@ -2055,11 +2059,16 @@ window.renderQuote=render6;
        const frozen={...q,status:'Preparado para compartir',pdfUrl:url,pdfGeneratedAt:new Date().toISOString(),pdfSnapshot:JSON.parse(JSON.stringify(snapshot))};
        if(!found)arr.unshift(frozen);else Object.assign(found,{status:frozen.status,pdfUrl:url,pdfGeneratedAt:frozen.pdfGeneratedAt,pdfSnapshot:frozen.pdfSnapshot});
        committed=found||frozen;
-       return {jd_saved_quotes_v6:arr};
+       const clients=state.jd_clients||[];let client=clients.find(c=>q.clientId?window.JDClientDirectory.stableId(c)===q.clientId:norm(c.name)===norm(q.client));
+       if(client?.deletedAt)throw Error('Este cliente está en la papelera. Restauralo primero.');
+       if(!client){client={id:'client-'+crypto.randomUUID(),name:q.client,firstName:q.clientFirstName||q.client,lastName:q.clientLastName||'',created:new Date().toISOString(),quoteIds:[]};clients.push(client);}
+       committed.clientId=window.JDClientDirectory.stableId(client);q.clientId=committed.clientId;client.quoteIds=[...new Set([...(client.quoteIds||[]),committed.id])];
+       const jobs=window.JDWorkflow.recordQuote(state,committed,!!found);
+       return {jd_saved_quotes_v6:arr,jd_clients:clients,jd_jobs_v1:jobs};
      });
      if(editing)window.jdQuoteEdit={id:q.id,baseline:window.jdQuoteEditTools.fingerprint(committed)};
      // Opening WhatsApp only prepares a draft; it is not evidence of delivery.
-     window.jdUpsertClientFromQuote(q,false);
+     await window.jdUpsertClientFromQuote(q,false);
      window.jdQuoteShare.open(blob,q,{fileName:fileName(q),getPhone:()=>getOrAskPhone(q)});
    }catch(e){
      alert(e.message||e);
@@ -2138,7 +2147,7 @@ window.renderQuote=render6;
         method:'POST',
         headers:{
           apikey:KEY,
-          
+
           'Content-Type':'application/json',
           Prefer:'resolution=merge-duplicates,return=minimal'
         },
@@ -2167,248 +2176,10 @@ window.renderQuote=render6;
 
 
 <script type="text/plain" data-jd-app id="jd-crm-v2-script">
-(function(){
- const SB_URL='https://athiruoimehofqzrplnl.supabase.co';
- const SB_KEY='sb_publishable_zXLBKyfemFZMVE25nzyJ-w_UgeN79PP';
- const CLIENT_KEY='jd_clients';
-  let crmSearchTerm='';
- const statuses=[
-  'Consulta recibida',
-  'Definiendo pedido',
-  'Presupuesto en preparación',
-  'Presupuesto listo para enviar',
-  'Presupuesto enviado',
-  'Esperando respuesta',
-  'Presupuesto aprobado · esperando pago',
-  'Pago realizado · iniciar diseño',
-  'Diseño en curso',
-  'Borrador / Calaméo / mockup enviado',
-  'Correcciones del cliente',
-  'Aprobado por cliente · revisión interna / master',
-  'Listo para imprenta',
-  'En imprenta',
-  'Retirado de imprenta · listo para entregar',
-  'Entregado',
-  'Cerrado · no avanzó'
- ];
- const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
- const get=()=>{try{const x=JSON.parse(localStorage.getItem(CLIENT_KEY)||'[]');return Array.isArray(x)?x:[]}catch(e){return[]}};
- const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
- const nowIso=()=>new Date().toISOString();
- const fmt=d=>{if(!d)return '—';const x=new Date(d);return isNaN(x)?String(d):x.toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'})};
- const phoneDigits=raw=>{
-   let d=String(raw||'').replace(/\D/g,''); if(!d)return '';
-   if(d.startsWith('00'))d=d.slice(2);
-   if(d.length===10&&d.startsWith('11'))return '549'+d;
-   if(d.startsWith('54')&&!d.startsWith('549'))return '549'+d.slice(2);
-   return d;
- };
- function statusOptions(value){
-   const vals=statuses.includes(value)?statuses:[value,...statuses].filter(Boolean);
-   return [...new Set(vals)].map(s=>'<option '+(s===value?'selected':'')+'>'+esc(s)+'</option>').join('');
- }
- function historyOf(c){
-   const h=Array.isArray(c.history)?c.history.slice():[];
-   if(!h.length){
-     const created=c.created||c.date||c.firstContact;
-     if(created)h.push({at:created,type:'Contacto',text:'Primer registro del cliente.'});
-     if(c.status)h.push({at:c.updatedAt||created||nowIso(),type:'Estado',text:'Estado: '+c.status});
-   }
-   return h.sort((a,b)=>new Date(b.at||0)-new Date(a.at||0));
- }
- function addHistory(c,type,text,at){
-   c.history=Array.isArray(c.history)?c.history:[];
-   c.history.push({id:'h-'+Date.now()+Math.random().toString(36).slice(2,6),at:at||nowIso(),type:type||'Nota',text:String(text||'').trim()});
-   c.updatedAt=nowIso();
- }
- function migrate(c){
-   const x={...c};
-   // Deterministic identity for old records, without writing a migration on login.
-   if(!x.id)x.id='legacy-'+encodeURIComponent([x.name||[x.firstName,x.lastName].filter(Boolean).join(' '),x.org||'',x.created||''].join('|'));
-   if(x.status==='Aceptado'||x.status==='Pago pendiente')x.status='Presupuesto aprobado · esperando pago';
-   if(x.status==='Presupuesto listo')x.status='Presupuesto listo para enviar';
-   if(!x.status)x.status='Consulta recibida';
-   if(x.paid===true&&!x.paymentStatus)x.paymentStatus='Pagado';
-   if(!x.paymentStatus)x.paymentStatus=x.paid?'Pagado':'Pendiente';
-   if(!x.name)x.name=[x.firstName,x.lastName].filter(Boolean).join(' ').trim();
-   // No se puede deducir un apellido separando palabras: "Kehilá Or Mizrah"
-   // y "Colegio Maimónides" son nombres institucionales válidos.
-   if(!x.firstName&&!x.lastName&&x.name&&x.org!==x.name)x.firstName=x.name;
-   if(!Array.isArray(x.history))x.history=[];
-   return x;
- }
- async function saveAll(arr,quiet){
-   arr=arr.map(migrate);
-   const before=get().map(migrate);
-   const baseline=new Map(before.map(c=>[c.id,c]));
-   const changes=arr.filter(c=>JSON.stringify(c)!==JSON.stringify(baseline.get(c.id)));
-   try{
-     await window.jdUpdateSharedState([CLIENT_KEY],state=>{
-       if(!Array.isArray(state[CLIENT_KEY]))throw new Error('No se pudieron verificar los clientes.');
-       const latest=state[CLIENT_KEY].map(migrate);
-       for(const changed of changes){
-         const matches=latest.map((c,i)=>c.id===changed.id?i:-1).filter(i=>i>=0);
-         if(matches.length>1)throw new Error('Hay fichas duplicadas. No se modificó ningún cliente.');
-         const i=matches[0],old=baseline.get(changed.id);
-         if(old&&(i===undefined||JSON.stringify(latest[i])!==JSON.stringify(old)))throw new Error('Esta ficha cambió en otro dispositivo. Cerrá y volvé a abrir la ficha antes de guardar.');
-         if(i===undefined)latest.unshift(changed);else latest[i]=changed;
-       }
-       return {[CLIENT_KEY]:latest};
-     });
-   }catch(e){
-     console.error('CRM sync',e);
-     alert(e.message||'No se pudo guardar. Tus cambios siguen en la ficha para reintentar.');
-     return false;
-   }
-   render();
-   if(window.jdRenderDashboardActions)window.jdRenderDashboardActions();
-   return true;
- }
- function paymentBadge(c){
-   const s=c.paymentStatus||(c.paid?'Pagado':'Pendiente');
-   return '<span class="jd-crm-badge '+(s==='Pagado'?'ok':s==='Pendiente'?'danger':'')+'">'+esc(s)+'</span>';
- }
- function lastEvent(c){
-   const h=historyOf(c);return h[0]||null;
- }
- function render(){
-   const sec=document.getElementById('clients');if(!sec)return;
-   const arr=get().map(migrate);
-   sec.innerHTML=
-    '<div class="topbar"><div><div class="eyebrow">CRM</div><h1>Clientes & seguimiento</h1></div><div class="jd-crm-toolbar"><button class="btn primary" id="jdNewClient">+ Nueva consulta</button></div></div>'+
-    '<div class="notice"><b>Seguimiento operativo:</b> cada cambio de estado, contacto, presupuesto, pago, diseño, imprenta o entrega queda registrado en la historia del cliente.</div>'+
-    '<div class="jd-crm-search"><label for="jdCrmSearch">Buscar cliente, institución, WhatsApp o dirección</label><input id="jdCrmSearch" type="search" placeholder="Ej. Erik, Laham, colegio, kehila…" value="'+esc(crmSearchTerm)+'" autocomplete="off"><div id="jdCrmSearchCount" class="jd-crm-search-count"></div></div>'+
-    '<div class="jd-panel"><table class="table jd-crm-table"><thead><tr><th>Cliente</th><th>Pedido / consulta</th><th>Estado</th><th>Último movimiento</th><th>Próxima acción</th><th>Pago</th><th></th></tr></thead><tbody>'+
-    (arr.length?arr.map((c,i)=>{
-      const ev=lastEvent(c),ph=phoneDigits(c.phone);
-      const next=[c.nextDate?new Date(c.nextDate+'T12:00:00').toLocaleDateString('es-AR'):'',c.next||''].filter(Boolean).join(' · ')||'—';
-      return '<tr data-ci="'+i+'">'+
-       '<td><b>'+esc(c.name||'Sin nombre')+'</b>'+(c.org?'<div class="small muted">'+esc(c.org)+'</div>':'')+'</td>'+
-       '<td>'+esc(c.ask||'—')+'</td>'+
-       '<td><select class="jd-crm-status" data-status="'+i+'">'+statusOptions(c.status)+'</select></td>'+
-       '<td>'+(ev?'<b>'+esc(ev.type||'Movimiento')+'</b><div class="small muted">'+fmt(ev.at)+'</div>':'—')+'</td>'+
-       '<td class="jd-crm-next">'+esc(next)+'</td>'+
-       '<td>'+paymentBadge(c)+'</td>'+
-       '<td><div class="jd-crm-actions"><button class="btn sm" data-open="'+i+'">Abrir ficha</button>'+(ph?'<a class="btn sm jd-wa" target="_blank" rel="noopener" href="https://wa.me/'+ph+'">WhatsApp</a>':'')+'</div></td>'+
-      '</tr>';
-    }).join(''):'<tr><td colspan="7" class="muted">Todavía no hay clientes registrados.</td></tr>')+
-    '</tbody></table></div>';
-   const search=sec.querySelector('#jdCrmSearch');
-   const filterClients=()=>{
-     crmSearchTerm=search.value;
-     let shown=0;
-     sec.querySelectorAll('tbody tr[data-ci]').forEach(row=>{
-       const c=arr[Number(row.dataset.ci)],visible=!!c&&window.JDClientDirectory.matches(c,crmSearchTerm);
-       row.style.display=visible?'':'none';
-       if(visible)shown++;
-     });
-     sec.querySelector('#jdCrmSearchCount').textContent=crmSearchTerm.trim()?shown+' de '+arr.length+' clientes':arr.length+' clientes registrados';
-   };
-   search.addEventListener('input',filterClients);
-   filterClients();
-   sec.querySelector('#jdNewClient').onclick=()=>openClient(-1);
-   sec.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openClient(+b.dataset.open));
-   sec.querySelectorAll('[data-status]').forEach(sel=>sel.onchange=async()=>{
-      const a=get().map(migrate),i=+sel.dataset.status,c=a[i];if(!c)return;
-      if(c.status!==sel.value){const prev=c.status;c.status=sel.value;addHistory(c,'Estado',(prev?prev+' → ':'')+sel.value);}
-      await saveAll(a,true);
-   });
- }
- function modalShell(title,body){
-   const w=document.createElement('div');w.className='jd-crm-modal';
-   w.innerHTML='<div class="jd-crm-card"><div class="jd-crm-head"><div><div class="eyebrow">CLIENTE / SEGUIMIENTO</div><h2>'+esc(title)+'</h2></div><button class="btn" data-close>×</button></div>'+body+'</div>';
-   document.body.appendChild(w);w.querySelector('[data-close]').onclick=()=>w.remove();return w;
- }
- function openClient(index){
-   const arr=get().map(migrate);
-   const isNew=index<0;
-   const c=isNew?{id:'client-'+crypto.randomUUID(),name:'',firstName:'',lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()}:arr[index];
-   const events=historyOf(c);
-   const timeline=events.length?events.map(e=>'<div class="jd-crm-event"><span class="jd-crm-event-dot"></span><div><b>'+esc(e.type||'Movimiento')+'</b><small>'+fmt(e.at)+'</small><p>'+esc(e.text||'')+'</p></div></div>').join(''):'<div class="jd-crm-empty">Todavía no hay movimientos registrados.</div>';
-   const body=
-    '<div class="jd-crm-body">'+
-     '<div class="jd-crm-panel"><div class="jd-crm-form">'+
-      '<div class="jd-crm-field"><label>Nombre o institución</label><input id="crmFirst" placeholder="Persona, kehila, templo, colegio…" value="'+esc(c.firstName||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Apellido (opcional)</label><input id="crmLast" value="'+esc(c.lastName||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Institución relacionada (opcional)</label><input id="crmOrg" value="'+esc(c.org||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>WhatsApp</label><input id="crmPhone" value="'+esc(c.phone||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Correo electrónico</label><input id="crmEmail" type="email" autocomplete="email" value="'+esc(c.email||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Destinatario de la entrega</label><input id="crmRecipient" value="'+esc(c.deliveryRecipient||'')+'" placeholder="Persona o institución que recibe"></div>'+
-      '<div class="jd-crm-field jd-crm-span2"><label>Dirección · calle, número y piso</label><input id="crmAddress" autocomplete="street-address" value="'+esc(c.address||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Localidad / provincia</label><input id="crmCity" value="'+esc(c.city||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Código postal</label><input id="crmPostal" autocomplete="postal-code" value="'+esc(c.postalCode||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>País</label><input id="crmCountry" autocomplete="country-name" value="'+esc(c.country||'')+'"></div>'+
-      '<div class="jd-crm-field jd-crm-span2"><label>Notas del cliente</label><textarea id="crmNotes">'+esc(c.notes||'')+'</textarea></div>'+
-      '<div class="jd-crm-field jd-crm-span2"><label>Pedido / consulta</label><input id="crmAsk" value="'+esc(c.ask||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Estado</label><select id="crmStatus">'+statusOptions(c.status)+'</select></div>'+
-      '<div class="jd-crm-field"><label>Pago</label><select id="crmPay"><option '+(c.paymentStatus==='Pendiente'?'selected':'')+'>Pendiente</option><option '+(c.paymentStatus==='Seña'?'selected':'')+'>Seña</option><option '+(c.paymentStatus==='Pagado'?'selected':'')+'>Pagado</option><option '+(c.paymentStatus==='No corresponde'?'selected':'')+'>No corresponde</option></select></div>'+
-      '<div class="jd-crm-field"><label>Próxima acción</label><input id="crmNext" value="'+esc(c.next||'')+'" placeholder="Ej. preguntar si vio el presupuesto"></div>'+
-      '<div class="jd-crm-field"><label>Fecha próxima acción</label><input id="crmNextDate" type="date" value="'+esc(c.nextDate||'')+'"></div>'+
-      '<div class="jd-crm-field"><label>Tipo de movimiento</label><select id="crmHistType"><option>Contacto</option><option>Pedido</option><option>Presupuesto</option><option>Pago</option><option>Diseño</option><option>Corrección</option><option>Master</option><option>Imprenta</option><option>Entrega</option><option>Nota</option></select></div>'+
-      '<div class="jd-crm-field"><label>Fecha / hora</label><input id="crmHistAt" type="datetime-local"></div>'+
-      '<div class="jd-crm-field jd-crm-span2"><label>Agregar movimiento a la historia</label><textarea id="crmHistText" placeholder="Ej. Se contactó por WhatsApp. Pidió cotización por 100 unidades..."></textarea></div>'+
-     '</div></div>'+
-     '<div class="jd-crm-panel"><div class="eyebrow">HISTORIA</div><div class="jd-crm-timeline">'+timeline+'</div></div>'+
-    '</div>'+
-    '<div class="jd-crm-footer"><button class="btn" data-cancel>Cancelar</button><button class="btn primary" data-save>'+ (isNew?'Crear cliente':'Guardar cambios') +'</button></div>';
-   const w=modalShell(isNew?'Nueva consulta':(c.name||'Cliente'),body);
-   w.querySelector('[data-cancel]').onclick=()=>w.remove();
-   w.querySelector('[data-save]').onclick=async()=>{
-     const button=w.querySelector('[data-save]');if(button.disabled)return;
-     const first=w.querySelector('#crmFirst').value.trim(),last=w.querySelector('#crmLast').value.trim();
-     const org=w.querySelector('#crmOrg').value.trim();
-     if(!first&&!last&&!org){alert('Indicá nombre, apellido o institución.');return}
-     const email=w.querySelector('#crmEmail');if(email.value&&!email.checkValidity()){alert('Revisá el correo electrónico.');email.focus();return}
-     button.disabled=true;
-     const oldStatus=c.status,oldPay=c.paymentStatus;
-     c.firstName=first;c.lastName=last;c.name=[first,last].filter(Boolean).join(' ').trim()||org;
-     c.org=org;
-     c.email=email.value.trim();c.address=w.querySelector('#crmAddress').value.trim();
-     c.city=w.querySelector('#crmCity').value.trim();c.postalCode=w.querySelector('#crmPostal').value.trim();
-     c.country=w.querySelector('#crmCountry').value.trim();c.deliveryRecipient=w.querySelector('#crmRecipient').value.trim();c.notes=w.querySelector('#crmNotes').value.trim();
-     c.phone=w.querySelector('#crmPhone').value.trim();
-     c.ask=w.querySelector('#crmAsk').value.trim();
-     c.status=w.querySelector('#crmStatus').value;
-     c.paymentStatus=w.querySelector('#crmPay').value;c.paid=c.paymentStatus==='Pagado';
-     c.next=w.querySelector('#crmNext').value.trim();
-     c.nextDate=w.querySelector('#crmNextDate').value;
-     if(isNew&&!c.history.some(h=>h.text==='Se creó la consulta / ficha del cliente.'))addHistory(c,'Contacto','Se creó la consulta / ficha del cliente.',c.created);
-     if(!isNew&&oldStatus!==c.status)addHistory(c,'Estado',oldStatus+' → '+c.status);
-     if(!isNew&&oldPay!==c.paymentStatus)addHistory(c,'Pago','Estado de pago: '+oldPay+' → '+c.paymentStatus);
-     const ht=w.querySelector('#crmHistText').value.trim();
-     if(ht){
-       const raw=w.querySelector('#crmHistAt').value;
-       addHistory(c,w.querySelector('#crmHistType').value,ht,raw?new Date(raw).toISOString():nowIso());
-     }
-     if(c.paymentStatus==='Pagado'&&c.status==='Presupuesto aprobado · esperando pago'){
-       c.status='Pago realizado · iniciar diseño';
-       addHistory(c,'Estado','Pago confirmado. Inicia etapa de diseño.');
-     }
-     if(isNew){const existing=arr.findIndex(x=>x.id===c.id);if(existing<0)arr.unshift(c);else arr[existing]=c}else arr[index]=c;
-     try{if(await saveAll(arr))w.remove()}finally{button.disabled=false}
-   };
- }
- // Quote-driven client upsert: quote and WhatsApp actions also become timeline events.
- window.jdUpsertClientFromQuote=function(q,sent){
-   const arr=get().map(migrate);
-   let i=arr.findIndex(c=>q.clientId&&window.JDClientDirectory.stableId(c)===q.clientId);
-   if(i<0)i=arr.findIndex(c=>norm(c.name)===norm(q.client));
-   let c=i>=0?arr[i]:{id:'client-'+crypto.randomUUID(),name:q.client,firstName:q.client,lastName:'',org:'',phone:'',ask:'',status:'Consulta recibida',next:'',nextDate:'',paymentStatus:'Pendiente',paid:false,history:[],created:nowIso()};
-   if(q.phone&&!c.phone)c.phone=String(q.phone).trim();
-   c.ask=[q.product,q.model,q.nusaj].filter(Boolean).join(' · ');
-   const target=sent?'Presupuesto enviado':'Presupuesto listo para enviar';
-   if(c.status!==target){const prev=c.status;c.status=target;addHistory(c,'Presupuesto',(sent?'Presupuesto enviado':'Presupuesto guardado y listo para enviar')+(prev?' · estado anterior: '+prev:''));}
-   c.next=sent?'preguntar si pudo verlo':'enviar presupuesto';
-   if(sent){const d=new Date();d.setDate(d.getDate()+2);while(d.getDay()===0||d.getDay()===6)d.setDate(d.getDate()+1);c.nextDate=d.toISOString().slice(0,10)}
-   c.quoteIds=Array.from(new Set([...(c.quoteIds||[]),q.id].filter(Boolean)));
-   if(i>=0)arr[i]=c;else arr.unshift(c);
-   saveAll(arr,true);
-   return c;
- };
- window.jdRenderClients=render;
- document.addEventListener('jd-app-ready',()=>setTimeout(render,350));
- window.addEventListener('jd-shared-ready',()=>setTimeout(render,350));
-})();
+window.jdRenderClients=()=>window.JDWorkflow.renderClients();
+window.jdRenderDashboardActions=()=>window.JDWorkflow.renderDashboard();
+document.addEventListener('jd-app-ready',()=>{window.JDWorkflow.mount();});
+window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
 </script>
 
 <script type="text/plain" data-jd-app id="jd-mobile-modal-numeric-hotfix">
@@ -2458,7 +2229,7 @@ window.renderQuote=render6;
  }
  function quoteFollowClients(){
    const statuses=/presupuesto|esperando respuesta|pago pendiente|esperando pago/i;
-   return get('jd_clients',[]).filter(c=>statuses.test(c.status||'')&&!/rechaz/i.test(c.status||'')&&!c.paid);
+   return get('jd_clients',[]).filter(c=>!c.archivedAt&&!c.deletedAt&&statuses.test(c.status||'')&&!/rechaz/i.test(c.status||'')&&!c.paid);
  }
  function masterReviewCount(){
    const cells=get('jd_master_cells',null);
@@ -2519,58 +2290,7 @@ window.renderQuote=render6;
 
 
 <script type="text/plain" data-jd-app id="jd-crm-alerts-v1-script">
-(function(){
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const getClients=()=>{try{return JSON.parse(localStorage.getItem('jd_clients')||'[]')}catch(e){return[]}};
-  const today0=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
-  function parseNext(c){
-    if(c.nextDate){
-      const d=new Date(c.nextDate+'T00:00:00'); if(!isNaN(d)) return d;
-    }
-    const m=String(c.next||'').match(/\b(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?/);
-    if(!m)return null;
-    let y=m[3]?Number(m[3]):new Date().getFullYear(); if(y<100)y+=2000;
-    const d=new Date(y,Number(m[2])-1,Number(m[1])); d.setHours(0,0,0,0); return d;
-  }
-  function waMessage(c){
-    const n=(c.name||'').trim();
-    const ask=(c.ask||'tu consulta').trim();
-    switch(c.status){
-      case 'Presupuesto enviado': return 'Hola '+n+', ¿cómo estás? Quería saber si pudiste ver el presupuesto que te enviamos por '+ask+'. Si querés, te ayudo con cualquier duda.';
-      case 'Esperando respuesta': return 'Hola '+n+', ¿cómo estás? Te escribo para retomar '+ask+'. ¿Pudiste verlo?';
-      case 'Aceptado':
-      case 'Pago pendiente': return 'Hola '+n+', ¿cómo estás? Te escribo para avanzar con '+ask+'. Quedamos atentos al pago para poder comenzar.';
-      default: return 'Hola '+n+', ¿cómo estás? Te escribo por '+ask+'.';
-    }
-  }
-  function renderDashboardActions(){
-    const dash=document.getElementById('dashboard'); if(!dash)return;
-    const heads=[...dash.querySelectorAll('.section-head h2')];
-    const h=heads.find(x=>x.textContent.trim()==='Seguimientos prioritarios'); if(!h)return;
-    const section=h.closest('.section'); if(!section)return;
-    const clients=getClients().filter(c=>c.status!=='Rechazado' && !c.paid);
-    const t=today0();
-    clients.sort((a,b)=>{
-      const da=parseNext(a),db=parseNext(b);
-      if(da&&db)return da-db;
-      if(da)return -1;if(db)return 1;return 0;
-    });
-    const priority=clients.slice(0,8);
-    section.innerHTML='<div class="section-head"><h2>Seguimientos prioritarios</h2><button class="btn sm" onclick="go(\'clients\')">Ver todos</button></div>'+
-      '<div class="jd-action-list">'+(priority.length?priority.map((c,i)=>{
-        const d=parseNext(c); let cls='',when='Sin fecha';
-        if(d){const diff=Math.round((d-t)/86400000);when=diff<0?'Vencido '+Math.abs(diff)+' día'+(Math.abs(diff)===1?'':'s'):diff===0?'Hoy':diff===1?'Mañana':d.toLocaleDateString('es-AR');cls=diff<0?'overdue':diff===0?'today':''}
-        const phone=String(c.phone||'').replace(/\D/g,'');
-        const wa=phone?'https://wa.me/'+phone+'?text='+encodeURIComponent(waMessage(c)):'';
-        return '<div class="jd-action-item '+cls+'"><div class="jd-action-main"><b><span class="jd-alert-dot"></span>'+esc(c.name)+(c.org?' · '+esc(c.org):'')+'</b><small>'+esc(c.status||'Seguimiento')+'</small></div><div class="jd-action-copy">'+esc(c.ask||'')+'<small>'+esc(c.next||'Próxima acción sin definir')+' · '+when+'</small></div><div class="jd-action-cta">'+(wa?'<a class="btn sm jd-wa" target="_blank" rel="noopener" href="'+wa+'">WhatsApp</a>':'<button class="btn sm" onclick="go(\'clients\')">Agregar WhatsApp</button>')+'<button class="btn sm" onclick="go(\'clients\')">Abrir ficha</button></div></div>';
-      }).join(''):'<div class="card muted">No hay seguimientos pendientes.</div>')+'</div>';
-  }
-  window.jdRenderDashboardActions=renderDashboardActions;
-  document.addEventListener('jd-app-ready',()=>setTimeout(renderDashboardActions,250));
-  window.addEventListener('jd-shared-ready',()=>setTimeout(renderDashboardActions,250));
-  const obs=new MutationObserver(()=>{if(document.getElementById('dashboard')?.classList.contains('active'))renderDashboardActions()});
-  const nav=document.getElementById('nav'); if(nav)obs.observe(nav,{subtree:true,attributes:true,attributeFilter:['class']});
-})();
+// Work-specific follow-ups are rendered by JDWorkflow.
 </script>
 </body>
 </html>
