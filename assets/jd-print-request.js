@@ -110,7 +110,7 @@ function cleanText(r,qty,binding,whatsapp=false){
   lines.push((book?bold('Tamaño:'):'Medidas:')+' '+size);
  }
  const stock=(paper,weight)=>[String(paper||'').replace(/^Papel /i,''),weight?weight+' gramos':''].filter(Boolean).join(' ');
- const sameStock=r.hasCover&&normalize(r.paper)===normalize(r.coverPaper)&&r.weightGsm===r.coverWeightGsm&&r.print===r.coverPrint;
+ const sameStock=r.hasCover&&normalize(r.paper)===normalize(r.coverPaper)&&r.weightGsm===r.coverWeightGsm&&r.print===r.coverPrint&&r.sides===r.coverSides;
  const fullLam=sameStock&&r.lamination&&r.lamination!=='Sin laminado'&&r.lamination===r.coverLamination&&r.coverLaminationSides==='Doble faz'&&(r.laminationSides||r.sides)==='Doble faz';
  if(r.hasCover&&!sameStock){lines.push(bold('Tapa:')+' '+[stock(r.coverPaper,r.coverWeightGsm),r.coverPrint,r.coverSides,r.coverLamination&&r.coverLamination!=='Sin laminado'?r.coverLamination+(r.coverLaminationSides?' · '+r.coverLaminationSides:''):''].filter(Boolean).join(' · '),bold('Interior:')+' '+[stock(r.paper,r.weightGsm),r.print,r.sides].filter(Boolean).join(' · '));}
  else {lines.push('Papel: '+stock(r.paper,r.weightGsm),r.print,r.sides);if(sameStock&&!fullLam&&r.coverLamination&&r.coverLamination!=='Sin laminado')lines.push(bold('Tapa:')+' '+r.coverLamination+(r.coverLaminationSides?' · '+r.coverLaminationSides:''));}
