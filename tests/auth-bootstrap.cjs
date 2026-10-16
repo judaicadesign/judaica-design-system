@@ -24,7 +24,7 @@ async function run(mode){
  assert.equal(w.document.getElementById('jdPassword').type,'password');
  assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('src'),null,'generator is not loaded before opening its section');
  assert.equal(w.document.getElementById('jdLeafletsFrame').getAttribute('src'),null,'calculator is not loaded before opening its section');
- if(mode==='allowed'){w.go('phonetics');assert.match(w.document.getElementById('jdPhoneticsFrame').getAttribute('src'),/^https:\/\/judaicadesign\.github\.io\/fonetica-hebreo\//);assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('sandbox'),'allow-scripts allow-downloads');
+ if(mode==='allowed'){w.go('phonetics');assert.match(w.document.getElementById('jdPhoneticsFrame').getAttribute('src'),/^https:\/\/judaicadesign\.github\.io\/fonetica-hebreo\//);assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('sandbox'),'allow-scripts allow-downloads allow-same-origin');assert.equal(w.document.getElementById('jdPhoneticsFrame').getAttribute('allow'),'clipboard-read; clipboard-write','trusted generator keeps the already-published clipboard permissions');
 const generator=w.document.getElementById('jdPhoneticsFrame');
 const resize=(source,height)=>w.dispatchEvent(new w.MessageEvent('message',{source,data:{type:'jd-tool-height',tool:'phonetics',height}}));
 resize(w,1200);assert.equal(generator.style.height,'','other windows cannot resize generator');

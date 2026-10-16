@@ -12,6 +12,7 @@ export async function quotePrintRequest(r,get){
  if(!Array.isArray(r.bindingOptions)||r.bindingOptions.length>4||r.bindingOptions.some(x=>typeof x!=='string'||x.length>100))throw Error('Confirmá hasta cuatro alternativas de encuadernación.');
  for(const k of ['paper','coverPaper','description'])if(r[k]!=null&&(typeof r[k]!=='string'||r[k].length>200))throw Error('Descripción de material inválida.');
  if(r.models!=null&&(!Number.isSafeInteger(r.models)||r.models<1||r.models>20))throw Error('Confirmá entre 1 y 20 diseños distintos.');
+ if(r.folds!=null&&(!Number.isSafeInteger(r.folds)||r.folds<0||r.folds>6))throw Error('Confirmá entre 0 y 6 dobleces por pieza.');
  if(/tarjetas?/.test(norm(r.description)))return quoteCards(r,get);
  const unsupported=norm(r.message).match(/\b(?:troquel(?:ado)?|foil|barniz(?: uv| sectorizado)?|relieve|plastificado|perforado|tapa dura|puntas redondeadas|esquinas redondeadas)\b/);
  if(unsupported)return {ok:true,action:'quote-request',complete:false,fetchedAt:new Date().toISOString(),alternatives:r.quantities.map(qty=>({qty,binding:r.bindingOptions.join(' / '),status:'requires-supplier',pending:['Falta vincular la terminación «'+unsupported[0]+'» con su operación y tarifa B612. No se omite del precio.']}))};
@@ -25,7 +26,7 @@ async function compose(r,binding,qty,get){
  else if(/binder/.test(b)){family='book';cfg={category:77,id:62};}
  else if(/cosid/.test(b))throw new MissingSupplierCost('B612 no publica una operación de cosido a hilo verificable. Esta alternativa requiere confirmación; binder se calcula por separado.');
  else if(/triptico|misjag/.test(d)){family='fold';cfg={category:23,id:14};}
- else if(/cuadriptico/.test(d)){family='quad';cfg={category:105,id:80};}
+ else if(/cuadriptico|postales?/.test(d)){family='quad';cfg={category:105,id:80};}
  else if(/diptico/.test(d)){family='fold';cfg={category:8,id:4};}
  else if(/hojas sueltas/.test(b)){family='sheets';cfg=r.print==='Blanco y negro'?{category:10,id:5}:{category:null,id:20};}
  else throw new MissingSupplierCost('Falta identificar una operación de fabricación B612 para este trabajo. Confirmá encuadernación o terminaciones.');
@@ -42,7 +43,9 @@ async function compose(r,binding,qty,get){
  const bound=family==='magazine'||family==='book',sheet=family==='sheets';
  if(bound&&r.sizeScope!=='cerrado')throw new MissingSupplierCost('Para encuadernar confirmá el tamaño cerrado.');
  if((family==='fold'||family==='quad')&&/sin (?:doblez|doblar)/.test(norm(r.message)))throw new MissingSupplierCost('El pedido indica entrega sin doblar. Confirmá el proceso de impresión y corte sin doblado.');
- const width=family==='magazine'?r.widthMm*2:family==='fold'||family==='quad'?(r.sizeScope==='abierto'?r.widthMm:r.widthMm*(family==='quad'?4:cfg.id===14?3:2)):r.widthMm;
+ const foldCount=family==='quad'?(r.folds??(/cuadriptico/.test(d)?3:null)):null;
+ if(family==='quad'&&foldCount==null)throw new MissingSupplierCost('Confirmá cuántos dobleces lleva cada postal.');
+ const width=family==='magazine'?r.widthMm*2:family==='fold'||family==='quad'?(r.sizeScope==='abierto'||r.sizeScope==='hoja'?r.widthMm:r.widthMm*(family==='quad'?foldCount+1:cfg.id===14?3:2)):r.widthMm;
  const height=r.heightMm,sheetId=sheet?1:3;
  const grid=async(w,h,id=sheetId)=>{const margins=['Superior','Inferior','Izquierdo','Derecho'].map(k=>'&margen'+k+'='+Number(cot['margen'+k]??5)).join('');const data=await get('/api/grilla/'+h+'/'+w+'?articuloPapel='+id+'&espaciado='+Number(cot.espaciado??3)+margins);if(!Number.isSafeInteger(data.totalElementos)||data.totalElementos<=0)throw new MissingSupplierCost('El tamaño '+w+' × '+h+' mm no entra en el pliego publicado por B612. Requiere otra máquina o producción externa.');return data.totalElementos;};
  const postures=await grid(width,height);
@@ -84,7 +87,7 @@ async function compose(r,binding,qty,get){
  const laminate=(value,faces,q,posts)=>{if(!value||value==='Sin laminado')return;if(!/mate|brillante/i.test(value)||!['Solo frente','Simple faz','Doble faz'].includes(faces))throw new MissingSupplierCost('Confirmá tipo y caras del laminado.');laminations.push({value,faces,q,posts});};
  if(bound){laminate(r.coverLamination,r.coverLaminationSides,coverQty,coverPostures);laminate(r.lamination,r.laminationSides||r.sides,paperQty,postures);}else laminate(r.lamination,r.laminationSides||r.sides,paperQty,postures);
  for(const key of [...new Set(laminations.map(x=>x.value+'|'+x.faces))]){const group=laminations.filter(x=>x.value+'|'+x.faces===key);const g=group[0],df=g.faces==='Doble faz';const code=/brillante/i.test(g.value)?df?'COMBO-LAM3-BRILLO-DF':'COMBO-LAM3-BRILLOSF':df?'COMBO-LAM3-MATEDF':'COMBO-LAM3-MATESF';const term=all.find(x=>!x.fijo&&x.articulo.codigoInterno===code);if(!term)throw new MissingSupplierCost('No se encontró el laminado solicitado en este servicio B612.');add(term.articulo,group.reduce((s,x)=>s+x.q,0),g.value+' · '+g.faces);for(const child of all.filter(x=>!x.fijo&&Number(x.articuloPadre?.id)===Number(term.articulo.id)))add(child.articulo,amountFor(child),'Preparación de laminado');}
- if(family==='quad'){const fold=all.find(x=>!x.fijo&&x.articulo.codigoInterno==='DOBX3'&&!x.articuloPadre);if(!fold)throw new MissingSupplierCost('Falta el doblado x3.');add(fold.articulo,amountFor(fold),'Doblado x3');await children(fold,false);}
+ if(family==='quad'&&foldCount){const code=foldCount===1?'DOB':'DOBX'+foldCount,fold=all.find(x=>!x.fijo&&x.articulo.codigoInterno===code&&!x.articuloPadre);if(!fold)throw new MissingSupplierCost('Falta el doblado x'+foldCount+'.');add(fold.articulo,amountFor(fold),'Doblado x'+foldCount);await children(fold,false);}
  const lines=await Promise.all(pending.map(async x=>{const price=await get('/api/articulo/'+x.article.id+'/precio/'+x.q);const tier=price.articuloCantidad;if(!tier||!Number.isFinite(Number(tier.precio))||Number(tier.precio)<0)throw new MissingSupplierCost('Falta el precio vigente de '+x.article.codigoInterno);return {id:Number(x.article.id),code:x.article.codigoInterno,name:x.article.nombreLegible||x.article.nombre,operation:x.operation,paperFormat:x.article.articuloPapel?.nombre||'',quantity:x.q,unitPrice:Number(tier.precio),total:money(x.q*Number(tier.precio))};}));
  const net=money(lines.reduce((s,l)=>s+l.total,0));return {status:'priced',qty,binding,live:true,supplier:'Gráfica B612',sourceUrl:'https://www.graficab612.com/cotizador-'+cot.url+'.htm',family,postures,productionQty,printedSheets,lines,net,vat:money(net*.21),gross:money(net*1.21),validation:'Pendiente de corroboración con B612'};
 }
