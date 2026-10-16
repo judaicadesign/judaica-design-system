@@ -5,6 +5,7 @@
  // InDesign pixels are 1 pt: 343 × 348 = 121.00 × 122.77 mm on A4.
  const mockFrame={x:31.0195,y:106.5,width:343,height:348,gap:12,legalGap:18};
  const colors={paper:'#f4f2ec',ink:'#111111',teal:'#18666b',gold:'#8f7859',rule:'#ab9373',card:'#fbfaf5',legal:'#e6e7e8',circle:'#dcd6c2',footer:'#125b64'};
+ const contactLinks=[{x:37,width:164,url:'https://www.behance.net/JudaicaDesign'},{x:219,width:108,url:'https://www.instagram.com/JudaicaDesign/'},{x:347,width:161,url:'https://wa.me/5491158224686'}];
  const fonts={text:'JDText',italic:'JDItalic',medium:'JDMedium',bold:'JDBold',wide:'JDWide',label:'JDLabel',metaBold:'JDMetaBold',cond:'JDCond',condMedium:'JDCondMedium',title:'JDTitle'};
  let fontPromise;
  async function request(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('No se pudo cargar '+url);const consume=method=>async()=>{try{return await r[method]()}finally{clearTimeout(timer)}};return {text:consume('text'),arrayBuffer:consume('arrayBuffer')}}catch(error){clearTimeout(timer);throw error}}
@@ -110,6 +111,7 @@
   pdf.setFillColor(colors.footer);pdf.rect(0,805.813,W,H-805.813,'F');
   contactIcon(pdf,'behance',39.5,819.75,10.6875,6.6875);text(pdf,'behance.net/JudaicaDesign',53.281,826.782,8.838383838,'wide','#ffffff',26);
   text(pdf,'|',208,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'instagram',223.9375,820.1875,10,10);text(pdf,'@JudaicaDesign',237.031,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'|',333,826.782,8.838383838,'wide','#ffffff');contactIcon(pdf,'whatsapp',351.8125,819.4375,9.9375,10.0625);text(pdf,'+54 9 11 5822 4686',364.852,826.782,8.838383838,'wide','#ffffff',26);text(pdf,'» '+page+' / '+total,520.482,827.189,10.3154,'wide','#b8a781',26);
+  for(const link of contactLinks)pdf.link(link.x,812,link.width,24,{url:link.url});
  }
  function contentLayout(pdf,m){if(!m.content.length&&!m.contentTitle)return null;const lines=m.content.map(t=>wrap(pdf,t,169.1,8));let best=1,score=Infinity;for(let i=1;i<lines.length;i++){const a=lines.slice(0,i).reduce((n,v)=>n+v.length,0),b=lines.slice(i).reduce((n,v)=>n+v.length,0),s=Math.abs(a-b);if(s<score){best=i;score=s}}
   const cols=[lines.slice(0,best),lines.slice(best)],rowCount=Math.max(0,...cols.map(col=>col.reduce((n,v)=>n+v.length,0))),frame={...mockFrame},top=frame.y+frame.height+frame.gap,legalTop=603.779-(m._lift||0),available=legalTop-frame.legalGap-top;
@@ -177,6 +179,7 @@
   path(ops){this.currentPath=ops.map(s=>(s.op==='h'?'Z':s.op.toUpperCase())+s.c.join(' ')).join(' ')}
   fill(){this.nodes.push(`<path d="${this.currentPath}" fill="${this.fillColor}"/>`)}
   getImageProperties(data){return this.metric.getImageProperties(data)}
+  link(x,y,width,height,{url}){this.nodes.push(`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer"><rect x="${x}" y="${y}" width="${width}" height="${height}" fill="transparent" style="cursor:pointer"/></a>`)}
   addImage(data,type,x,y,w,h){const href=typeof data==='string'?data:'data:image/'+type.toLowerCase()+';base64,'+base64(data);this.nodes.push(`<image href="${esc(href)}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`)}
   output(){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Presupuesto Judaica Design" class="jd-master-art">${this.nodes.join('')}</svg>`}
  }
