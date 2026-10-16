@@ -90,3 +90,12 @@
 .jd-master-sheet .jd-pdf-product-img{position:relative!important;z-index:1}
 
 .jd-unit-price,.jd-run-note{display:block;color:#8f7859!important;font-size:.72em!important;font-weight:400!important}.jd-nowrap{white-space:nowrap!important;display:inline!important;font-style:normal!important}
+/* Only the point-based SVG is a preview. Keep the semantic export source hidden,
+   including while loading/rebuilding; a mismatched HTML grid must never spill out. */
+#quotePreview .jd-master-sheet{display:block!important;aspect-ratio:595.275590551 / 841.88976378!important;height:auto!important;min-height:0!important;padding:0!important;overflow:hidden!important;isolation:isolate}
+#quotePreview .jd-master-sheet>:not(.jd-master-art):not(.jd-preview-loading):not(.jd-preview-error){visibility:hidden!important;position:absolute!important;pointer-events:none!important}
+#quotePreview .jd-master-sheet>.jd-master-art{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;max-width:100%!important;overflow:hidden!important}
+#quotePreview .jd-preview-loading{position:absolute;inset:0;display:grid;place-items:center;font:14px/1.5 Arial,sans-serif;color:#806b50;background:#f4f2ec}
+#quotePreview .jd-preview-error{position:absolute!important;inset:0!important;padding:24px!important;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;overflow:auto}
+.jd-unit-price{font-style:italic!important;white-space:nowrap!important}
+.jd-catalog-thumb{width:100%;height:100%;max-height:180px;object-fit:contain;padding:10px;box-sizing:border-box}
