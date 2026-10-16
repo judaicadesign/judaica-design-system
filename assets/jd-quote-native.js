@@ -5,7 +5,7 @@
  // InDesign pixels are 1 pt: 343 × 348 = 121.00 × 122.77 mm on A4.
  const mockFrame={x:31.0195,y:106.5,width:343,height:348,gap:12,legalGap:18};
  const colors={paper:'#f4f2ec',ink:'#111111',teal:'#18666b',gold:'#8f7859',rule:'#ab9373',card:'#fbfaf5',legal:'#e6e7e8',circle:'#dcd6c2',footer:'#125b64'};
- const fonts={text:'JDText',medium:'JDMedium',bold:'JDBold',wide:'JDWide',label:'JDLabel',metaBold:'JDMetaBold',cond:'JDCond',condMedium:'JDCondMedium',title:'JDTitle'};
+ const fonts={text:'JDText',italic:'JDItalic',medium:'JDMedium',bold:'JDBold',wide:'JDWide',label:'JDLabel',metaBold:'JDMetaBold',cond:'JDCond',condMedium:'JDCondMedium',title:'JDTitle'};
  let fontPromise;
  async function request(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('No se pudo cargar '+url);const consume=method=>async()=>{try{return await r[method]()}finally{clearTimeout(timer)}};return {text:consume('text'),arrayBuffer:consume('arrayBuffer')}}catch(error){clearTimeout(timer);throw error}}
  function base64(bytes){let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(s)}
@@ -13,9 +13,9 @@
   if(fontPromise)return fontPromise;
   fontPromise=(async()=>{
    const css=await (await request('https://use.typekit.net/ydp7axr.css?v=20261008-bold')).text(),faces=[...css.matchAll(/@font-face\s*\{([^}]+)\}/g)].map(m=>m[1]);
-   const requests=[['text','aktiv-grotesk-hebrew',400],['medium','aktiv-grotesk-hebrew',500],['bold','aktiv-grotesk-hebrew',700],['wide','aktiv-grotesk-ex-hebrew',500],['label','aktiv-grotesk-ex-hebrew',800],['metaBold','aktiv-grotesk-ex-hebrew',700],['cond','aktiv-grotesk-cd-hebrew',300],['condMedium','aktiv-grotesk-cd-hebrew',500]];
-   const result=await Promise.all(requests.map(async([key,family,weight])=>{
-    const face=faces.find(s=>s.includes('font-family:"'+family+'"')&&s.includes('font-weight:'+weight)&&s.includes('font-style:normal'));
+   const requests=[['text','aktiv-grotesk-hebrew',400],['italic','aktiv-grotesk-hebrew',400,'italic'],['medium','aktiv-grotesk-hebrew',500],['bold','aktiv-grotesk-hebrew',700],['wide','aktiv-grotesk-ex-hebrew',500],['label','aktiv-grotesk-ex-hebrew',800],['metaBold','aktiv-grotesk-ex-hebrew',700],['cond','aktiv-grotesk-cd-hebrew',300],['condMedium','aktiv-grotesk-cd-hebrew',500]];
+   const result=await Promise.all(requests.map(async([key,family,weight,style='normal'])=>{
+    const face=faces.find(s=>s.includes('font-family:"'+family+'"')&&s.includes('font-weight:'+weight)&&s.includes('font-style:'+style));
     if(!face&&key==='metaBold')return null;
     const url=face?.match(/url\("([^"]+)"\)\s*format\("opentype"\)/)?.[1];if(!url)throw Error('Falta '+family+' '+weight+' en el kit de Adobe.');
     return [key,new Uint8Array(await (await request(url)).arrayBuffer())];
@@ -24,7 +24,7 @@
    result.push(['title',new Uint8Array(await (await request(url)).arrayBuffer())]);return Object.fromEntries(result.filter(Boolean));
   })().catch(e=>{fontPromise=null;throw e});return fontPromise;
  }
- function install(pdf,files){family.JDMetaBold[1]=files.metaBold?700:800;files={...files,metaBold:files.metaBold||files.label};for(const [key,data] of Object.entries(files)){if(data[0]!==0||data[1]!==1||data[2]!==0||data[3]!==0)throw Error('La fuente '+key+' no llegó como TrueType válida. Volvé a intentar.');const file=fonts[key]+'.ttf';pdf.addFileToVFS(file,base64(data));pdf.addFont(file,fonts[key],'normal');pdf.setFont(fonts[key],'normal');if(typeof pdf.getFont().metadata.characterToGlyph!=='function')throw Error('No se pudo incorporar la fuente '+key+' al PDF.')}}
+ function install(pdf,files){family.JDMetaBold[1]=files.metaBold?700:800;files={...files,italic:files.italic||files.text,metaBold:files.metaBold||files.label};for(const [key,data] of Object.entries(files)){if(data[0]!==0||data[1]!==1||data[2]!==0||data[3]!==0)throw Error('La fuente '+key+' no llegó como TrueType válida. Volvé a intentar.');const file=fonts[key]+'.ttf';pdf.addFileToVFS(file,base64(data));pdf.addFont(file,fonts[key],'normal');pdf.setFont(fonts[key],'normal');if(typeof pdf.getFont().metadata.characterToGlyph!=='function')throw Error('No se pudo incorporar la fuente '+key+' al PDF.')}}
  function text(pdf,value,x,y,size,font='text',color=colors.ink,tracking=0){pdf.setFont(fonts[font],'normal');pdf.setFontSize(size);pdf.setTextColor(color);pdf.setCharSpace(size*tracking/1000);pdf.text(String(value),x,y);pdf.setCharSpace(0)}
  function width(pdf,value,size,font='text'){pdf.setFont(fonts[font],'normal');pdf.setFontSize(size);return pdf.getTextWidth(value)}
  function wrap(pdf,value,max,size,font='text'){
@@ -50,11 +50,11 @@
   for(let lift=0;lift<=110;lift++){
    const top=603.779-lift;let col=0,baseline=top+11.0024331;const result=[];
    for(const line of lines){if(line.gap){baseline+=line.gap;continue}if(baseline>bottom){col++;baseline=top+11.0024331}result.push({...line,col,x:x+col*(columnWidth+gutter),y:baseline,width:columnWidth});baseline+=8}
-   if(col<=2){result.top=top;result.lift=lift;return result}
+   if(col<=2){result.top=top;result.lift=lift;result.columnWidth=columnWidth;result.gutter=gutter;result.separators=[x+columnWidth+gutter/2,x+2*columnWidth+1.5*gutter];return result}
   }
   throw Error('Los legales superan el espacio de tres columnas a 6 pt. Dividí el documento o abreviá las cláusulas; no se recorta ni reduce la letra.');
  }
- function drawLegal(pdf,clauses){if(!clauses.length)return;const lines=legalLayout(pdf,clauses);pdf.setFillColor(colors.legal);pdf.rect(24.252,lines.top,546.772,790.866-lines.top,'F');rule(pdf,208.028,616.167-lines.lift,208.028,780.264,.25);rule(pdf,387.248,616.167-lines.lift,387.248,780.264,.25);
+ function drawLegal(pdf,clauses){if(!clauses.length)return;const lines=legalLayout(pdf,clauses);pdf.setFillColor(colors.legal);pdf.rect(24.252,lines.top,546.772,790.866-lines.top,'F');for(const x of lines.separators)rule(pdf,x,616.167-lines.lift,x,780.264,.25);
   for(const line of lines){const natural=line.runs.reduce((n,r)=>n+width(pdf,r.word,6,r.font),0),spaces=line.runs.length-1,space=spaces?(line.last?width(pdf,' ',6,'cond'):(line.width-natural)/spaces):0;let x=line.x;for(const r of line.runs){text(pdf,r.word,x,line.y,6,r.font);x+=width(pdf,r.word,6,r.font)+space}}
  }
  function readSheet(sheet){return{
@@ -127,11 +127,13 @@
  function technicalLines(pdf,items){
   const result=[];
   for(const item of items)for(const paragraph of String(item).split('\n')){
-   if(/Full color/i.test(paragraph)&&width(pdf,paragraph,5.6,'text')<=117.8){result.push([{text:paragraph,font:'text',size:5.6}]);continue;}
    const words=paragraph.trim().match(/- Full color|Full color|\S+/gi)||[];let runs=[],used=0;
-   for(let i=0;i<words.length;i++){const font=i===0&&/^(Tapa|Interior|Papel|Terminación|Impresión|Acabado):$/i.test(words[i])?'bold':'text';let value=(runs.length?' ':'')+words[i],size=width(pdf,value,6,font);
-    if(runs.length&&used+size>117.8){result.push(runs);runs=[];used=0;value=words[i];size=width(pdf,value,6,font)}
-    runs.push({text:value,font});used+=size;
+   const label=/^(Tapa|Interior|Papel|Terminación|Impresión|Acabado):$/i.test(words[0]||'');
+   const lineWidth=point=>words.reduce((sum,word,i)=>sum+width(pdf,(i?' ':'')+word,point,i===0&&label?'bold':'text'),0);
+   const point=/Full color/i.test(paragraph)&&lineWidth(6)>117.8&&lineWidth(5.6)<=117.8?5.6:6;
+   for(let i=0;i<words.length;i++){const font=i===0&&label?'bold':'text';let value=(runs.length?' ':'')+words[i],size=width(pdf,value,point,font);
+    if(runs.length&&used+size>117.8){result.push(runs);runs=[];used=0;value=words[i];size=width(pdf,value,point,font)}
+    runs.push({text:value,font,size:point});used+=size;
    }if(runs.length)result.push(runs);
   }return result;
  }
@@ -146,10 +148,20 @@
  function drawCard(pdf,m){const l=cardLayout(pdf,m);pdf.setFillColor(colors.card);pdf.setDrawColor(colors.gold);pdf.setLineWidth(.25);pdf.roundedRect(387.874,l.top,173.386,l.height,11,11,'FD');text(pdf,'DETALLES DEL PRODUCTO',398.815,l.top+20,7.5,'wide',colors.gold,100);let y=l.top+l.header;
   for(const s of l.specs){drawSpecIcon(pdf,s.icon,415.85,y+11.95);text(pdf,s.title.toUpperCase(),436.134,y+7.836,6,'medium',colors.gold,80);s.lines.forEach((line,i)=>text(pdf,line,436.134,y+20.836+i*13,8.75,'medium'));y+=s.height;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
   if(l.tech.length){drawSpecIcon(pdf,'assets/quote-icons/13_engranaje.svg',415.85,y+11.95);text(pdf,'DETALLES TÉCNICOS',436.134,y+7.836,6,'medium',colors.gold,80);l.tech.forEach((runs,i)=>{let x=436.134;for(const run of runs){text(pdf,run.text,x,y+18.671+i*8,run.size||6,run.font);x+=width(pdf,run.text,run.size||6,run.font)}});y+=l.techHeight;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
-  let previousPriceBottom=null;for(let index=0;index<l.prices.length;index++){const p=l.prices[index];if(index){const nextTextTop=y+(p.notes.length?p.noteStart-6:p.totalOffset-11),separator=(previousPriceBottom+nextTextTop)/2;rule(pdf,396.85,separator,552.755,separator,.25);}text(pdf,p.qty,399.543,y+p.totalOffset,7.5,'text',colors.gold);p.notes.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,6),y+p.noteStart+i*p.noteLeading,6,'text',colors.gold));p.lines.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,11,'bold'),y+p.totalOffset+i*14,11,'bold',colors.teal));const unitY=y+p.totalOffset+(p.lines.length-1)*14+10;if(p.unit){text(pdf,p.unit,552.755-width(pdf,p.unit,5.5),unitY,5.5,'text',colors.gold);if(p.run)text(pdf,p.run,552.755-width(pdf,p.run,5),unitY+6,5,'text',colors.gold);}previousPriceBottom=y+p.totalOffset+(p.lines.length-1)*14+(p.unit?18:3);y+=p.height}
+  let previousPriceBottom=null;
+  for(let index=0;index<l.prices.length;index++){
+   const p=l.prices[index];
+   if(index){const nextTextTop=y+(p.notes.length?p.noteStart-6:p.totalOffset-11),separator=(previousPriceBottom+nextTextTop)/2;rule(pdf,396.85,separator,552.755,separator,.25);}
+   text(pdf,p.qty,399.543,y+p.totalOffset,7.5,'text',colors.gold);
+   p.notes.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,6),y+p.noteStart+i*p.noteLeading,6,'text',colors.gold));
+   p.lines.forEach((line,i)=>text(pdf,line,552.755-width(pdf,line,11,'bold'),y+p.totalOffset+i*14,11,'bold',colors.teal));
+   const unitY=y+p.totalOffset+(p.lines.length-1)*14+10;
+   if(p.unit)text(pdf,p.unit,552.755-width(pdf,p.unit,6,'italic'),unitY,6,'italic',colors.gold);
+   previousPriceBottom=y+p.totalOffset+(p.lines.length-1)*14+(p.unit?12:3);y+=p.height;
+  }
   const noteTop=l.top+l.height-16-(l.note.length-1)*7;l.note.forEach((line,i)=>text(pdf,line,399.543,noteTop+i*7,5.5,'text',colors.gold));
  }
- const family={JDText:['aktiv-grotesk-hebrew',400],JDMedium:['aktiv-grotesk-hebrew',500],JDBold:['aktiv-grotesk-hebrew',700],JDWide:['aktiv-grotesk-ex-hebrew',500],JDLabel:['aktiv-grotesk-ex-hebrew',800],JDMetaBold:['aktiv-grotesk-ex-hebrew',800],JDCond:['aktiv-grotesk-cd-hebrew',300],JDCondMedium:['aktiv-grotesk-cd-hebrew',500],JDTitle:['Libre Caslon Condensed',500]};
+ const family={JDText:['aktiv-grotesk-hebrew',400],JDItalic:['aktiv-grotesk-hebrew',400,'italic'],JDMedium:['aktiv-grotesk-hebrew',500],JDBold:['aktiv-grotesk-hebrew',700],JDWide:['aktiv-grotesk-ex-hebrew',500],JDLabel:['aktiv-grotesk-ex-hebrew',800],JDMetaBold:['aktiv-grotesk-ex-hebrew',800],JDCond:['aktiv-grotesk-cd-hebrew',300],JDCondMedium:['aktiv-grotesk-cd-hebrew',500],JDTitle:['Libre Caslon Condensed',500]};
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
  class SVGDoc{
   constructor(metric){this.metric=metric;this.nodes=[];this.lineWidth=.25;this.fillColor='#111';this.strokeColor='#111';this.textColor='#111';this.charSpace=0;this.font='JDText';this.fontSize=8.5}
@@ -157,7 +169,7 @@
   setFontSize(n){this.fontSize=n;this.metric.setFontSize(n)}
   getTextWidth(s){return this.metric.getTextWidth(s)}
   setTextColor(c){this.textColor=c}setFillColor(c){this.fillColor=c}setDrawColor(c){this.strokeColor=c}setLineWidth(n){this.lineWidth=n}setCharSpace(n){this.charSpace=n}
-  text(s,x,y){const [font,weight]=family[this.font];this.nodes.push(`<text x="${x}" y="${y}" fill="${this.textColor}" font-family="${font}" font-weight="${weight}" font-size="${this.fontSize}" letter-spacing="${this.charSpace}" xml:space="preserve" style="white-space:pre;font-kerning:none;font-variant-ligatures:none">${esc(s)}</text>`)}
+  text(s,x,y){const [font,weight,style='normal']=family[this.font];this.nodes.push(`<text x="${x}" y="${y}" fill="${this.textColor}" font-family="${font}" font-weight="${weight}" font-style="${style}" font-size="${this.fontSize}" letter-spacing="${this.charSpace}" xml:space="preserve" style="white-space:pre;font-kerning:none;font-variant-ligatures:none">${esc(s)}</text>`)}
   line(x1,y1,x2,y2){this.nodes.push(`<path d="M${x1} ${y1} L${x2} ${y2}" fill="none" stroke="${this.strokeColor}" stroke-width="${this.lineWidth}"/>`)}
   rect(x,y,w,h,type){this.roundedRect(x,y,w,h,0,0,type)}
   roundedRect(x,y,w,h,rx,ry,type){this.nodes.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" ry="${ry}" fill="${type?.includes('F')?this.fillColor:'none'}" stroke="${type?.includes('D')?this.strokeColor:'none'}" stroke-width="${this.lineWidth}"/>`)}
@@ -176,6 +188,6 @@
  root.jdQuotePreviewSVG=svgPreview;
 
  async function generate(sheets,options={}){const PDF=options.PDF||root.jspdf?.jsPDF;if(!PDF)throw Error('No se pudo cargar el generador PDF.');const files=options.fonts||await loadFonts();const pdf=new PDF({orientation:'portrait',unit:'pt',format:'a4',compress:true,putOnlyUsedFonts:true});install(pdf,files);pdf.setProperties({creator:'Judaica Design® · Vector 20261008-v9'});for(let i=0;i<sheets.length;i++){if(i)pdf.addPage('a4','portrait');await drawSheet(pdf,sheets[i].querySelector?readSheet(sheets[i]):sheets[i],i+1,sheets.length)}return options.document?pdf:pdf.output('blob')}
- root.jdNativeQuote={version:'20261011-master-v10',generate,readSheet,legalLayout,legalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,iconDimensions,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
+ root.jdNativeQuote={version:'20261011-master-v10',generate,readSheet,legalLayout,legalLines,technicalLines,cardLayout,contentLayout,mockPlacement,mockFrame,iconSizes,iconDimensions,fonts,W,H};root.jdVectorQuotePdf=sheets=>generate(sheets);
  if(typeof module!=='undefined')module.exports=root.jdNativeQuote;
 })(typeof window!=='undefined'?window:globalThis);

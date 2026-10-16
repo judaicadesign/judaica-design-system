@@ -40,7 +40,7 @@ async function boot(rows=fixture(),fetchResult){
  w.eval(fs.readFileSync(root+'/supabase/functions/_shared/jd-whatsapp-pricing.js','utf8'));
  w.jdNativeQuote={version:'20261011-master-v10'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
- for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-inflation.js','jd-workflow.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-inflation.js','jd-workflow.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-catalog-pricing.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  for(let attempt=0;attempt<40&&!w.document.getElementById('jdCrmSearch');attempt++)await sleep(50);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
@@ -118,8 +118,9 @@ async function scenarios(){
 
  const repairRows=fixture();repairRows[0].value[0].models=['Deluxe'];repairRows[0].value[0].variants[0].model='Deluxe';repairRows[0].value[0].variants[0].content=['Birkat Hamazón','Hasta 16 páginas para contenido adicional a elección'];
  repairRows.find(r=>r.key==='jd_pricing_rules_v4').value[0].variant='Deluxe';repairRows.find(r=>r.key==='jd_cost_quotes_v2').value.forEach(r=>r.variant='Deluxe');
- const repair=await boot(repairRows);repair.w.go('products');repair.w.document.querySelector('[data-pedit="0"]').click();repair.w.document.getElementById('pdeluxeExtra6').value='80000';repair.w.document.getElementById('plegal6').value='';
+ const repair=await boot(repairRows);repair.w.go('products');repair.w.document.querySelector('[data-pedit="0"]').click();assert.equal(repair.w.document.getElementById('pdeluxeExtra6'),null);repair.w.document.getElementById('plegal6').value='';
  await repair.w.document.querySelector('.modal .s6').onclick(new repair.w.Event('click'));await sleep(350);
+ repair.w.document.querySelector('[data-pvars="0"]').click();repair.w.document.querySelector('[data-ve="0"]').click();repair.w.document.getElementById('vextra6').value='80000';await repair.w.document.querySelector('.modal .s6').onclick(new repair.w.Event('click'));await sleep(350);
  assert.equal(repair.get('jd_pricing_rules_v4').find(r=>r.variant==='Deluxe').extra,80000);assert.equal(repair.get('jd_catalog_v6')[0].legalSetId,'');
  repair.w.document.getElementById('qClient').value='Prueba Deluxe';repair.w.qs6=[100];repair.w.document.getElementById('qDeluxeSongs').checked=true;repair.w.document.getElementById('qDeluxeRH').checked=true;repair.w.renderQuote();
  const repairedQuote=repair.w.jdCollectQuote();assert.ok(!repairedQuote.legalClauses.length,'explicit no-legals must not restore fallback');assert.ok(repairedQuote.content.some(s=>/a elección/.test(s)));assert.equal(repairedQuote.deluxeOptions.qDeluxeSongs,true);assert.equal(repairedQuote.deluxeOptions.qDeluxeRH,true);assert.equal(repairedQuote.quantities[0].price,450000);
@@ -127,7 +128,7 @@ async function scenarios(){
  await sleep(80);repair.close();console.log('Deluxe editable surcharge, full catalog content and internal choices, saved reload and explicit no-legals passed');
  const brokenPreview=new JSDOM('<div id="quotePreview"><div class="jd-master-sheet jd-has-art"><div class="jd-full-legal">Texto auxiliar</div><svg class="jd-master-art"></svg></div></div>',{runScripts:'outside-only'});
  brokenPreview.window.jdNativeQuote={readSheet:()=>({})};brokenPreview.window.jdQuotePreviewSVG=async()=>{throw Error('Fallo de render de prueba')};brokenPreview.window.eval(fs.readFileSync(root+'/assets/jd-quote-fit.js','utf8'));
- await sleep(30);await brokenPreview.window.jdRefreshQuoteArt();assert.equal(brokenPreview.window.document.querySelector('.jd-master-art'),null);assert.equal(brokenPreview.window.document.querySelector('.jd-preview-error').textContent,'Fallo de render de prueba');
+ await sleep(30);await brokenPreview.window.jdRefreshQuoteArt();assert.equal(brokenPreview.window.document.querySelector('.jd-master-art'),null);assert.match(brokenPreview.window.document.querySelector('.jd-preview-error').textContent,/Fallo de render de prueba/);
  assert.ok(fs.readFileSync(root+'/assets/jd-quote-layout.css','utf8').includes('.jd-master-sheet.jd-has-art>*:not(.jd-master-art):not(.jd-preview-error){visibility:hidden!important}'));
  brokenPreview.window.jdQuotePreviewSVG=async()=>'<svg class="jd-master-art"></svg>';await brokenPreview.window.jdRefreshQuoteArt();assert.ok(brokenPreview.window.document.querySelector('.jd-master-art'));assert.equal(brokenPreview.window.document.querySelector('.jd-preview-error'),null);brokenPreview.window.close();
  console.log('preview failure removes stale artwork, keeps the semantic fallback visible and recovers cleanly passed');
@@ -228,8 +229,8 @@ async function scenarios(){
  const configRows=fixture();configRows.find(r=>r.key==='jd_pricing_rules_v4').value.unshift({id:'general-first',product:product.name,variant:'*',marginPct:36});
  const config=await boot(configRows);config.w.document.getElementById('qClient').value='Cliente de prueba';config.w.qs6=[50];config.w.renderQuote();
  assert.equal(config.w.jdCollectQuote().quantities[0].price,210000,'specific format rule wins over general rule');
- config.w.jdRefreshRules();assert.match(config.w.document.getElementById('rules').textContent,/10\.000/);
- config.w.document.querySelector('[data-rule-supplier="Zloto"]').click();
+ config.w.jdRefreshRules();assert.match(config.w.document.getElementById('rules').textContent,/Resumen de precios/);assert.equal(config.w.document.getElementById('nr4'),null);
+ config.w.document.querySelector('[data-supplier-edit="Zloto"]').click();
  config.w.document.getElementById('supplierShipping').value=-1;await config.w.document.querySelector('.modal.open .ss').onclick();assert.match(config.w.document.getElementById('supplierMessage').textContent,/válido/);
  config.w.document.getElementById('supplierShipping').value=25000;config.fail(true);await config.w.document.querySelector('.modal.open .ss').onclick();assert.equal(config.get('jd_supplier_settings_v1').Zloto.shipping,10000);
  config.fail(false);await config.w.document.querySelector('.modal.open .ss').onclick();assert.equal(config.get('jd_supplier_settings_v1').Zloto.shipping,25000);assert.equal(config.get('jd_supplier_settings_v1').Zloto.production,'2 semanas');assert.equal(config.w.jdCollectQuote().quantities[0].shipping,25000);
@@ -239,7 +240,7 @@ async function scenarios(){
  assert.equal(config.get('jd_catalog_v6').length,2);assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.product==='Producto nuevo QA').marginPct,42);
  config.w.document.querySelector('[data-pedit="0"]').click();config.w.document.getElementById('pn6').value='Birkón renombrado QA';config.w.document.getElementById('pmargin6').value=40;
  await config.w.document.querySelector('.modal.open .s6').onclick(new config.w.Event('click'));await sleep(300);
- assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.id==='qa-rule').product,'Birkón renombrado QA');assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.id==='qa-rule').divisor,.5);
+ assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.id==='qa-rule').product,'Birkón renombrado QA');assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.id==='qa-rule').marginPct,50);
  assert.equal(config.get('jd_pricing_rules_v4').find(r=>r.id==='general-first').marginPct,40);assert.ok(!config.get('jd_pricing_rules_v4').find(r=>r.id==='general-first').divisor);
  config.close();console.log('supplier shipping source, validation/retry, atomic product and margin creation, rename and variant priority passed');
  const legalRows=fixture();
