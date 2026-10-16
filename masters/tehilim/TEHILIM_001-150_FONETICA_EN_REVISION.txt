@@ -632,7 +632,7 @@ TEHILIM 37 · לז
 37:26  Kol hayom jonén umalvé vezar'ó livrajá.
 37:27  Sur merá' va'asé tov ushjón le'olam.
 37:28  Ki Ad-nai ohev mishpat veló ya'azov et jasidav le'olam nishmaru vezera' resha'im nijrat.
-37:29  Tsadikim yirshú arets veyishkenu la'ad 'alehá.
+37:29  Tsadikim yirshú arets veyishkenu la'ad 'aleha.
 37:30  Pi tsadik yehgué jojmá ulshonó tedaber mishpat.
 37:31  Torat elohav belibó lo tim'ad ashurav.
 37:32  Tsofé rashá' latsadik umevakesh lahamitó.
@@ -787,7 +787,7 @@ TEHILIM 45 · מה
 45:12  Veyitav haMélej yofyej ki Hu adonayij vehishtajaví lo.
 45:13  Uvat tsor beminjá panayij yejalú 'ashiré 'am.
 45:14  Kol kevudá vat Mélej penimá mimishbetsot zahav levushah.
-45:15  Lirkamot tuval lamélej betulot ajarehá re'otehá muvaot laj.
+45:15  Lirkamot tuval lamélej betulot ajareha re'oteha muvaot laj.
 45:16  Tuvalná bismajot vaguil tevoená behejal Mélej.
 45:17  Tájat avoteja yihyú vaneja teshitemó lesarim bejol haarets.
 45:18  Azkirá Shimjá bejol dor vador 'al ken 'amim yehoduja le'olam va'ed.
@@ -822,7 +822,7 @@ TEHILIM 48 · מח
 48:1  Shir mizmor livné Kóraj.
 48:2  Gadol Ad-nai umehulal meod be'ir Elohenu har kodshó.
 48:3  Yefé nof mesós kol haarets har Tsiyón yarketé tsafón kiryat Mélej rav.
-48:4  Elohim bearmenotehá nodá' lemisgav.
+48:4  Elohim bearmenoteha nodá' lemisgav.
 48:5  Ki hiné hamelajim no'adú 'avrú yajdav.
 48:6  Hema raú ken tamahu nivhalu nejpazu.
 48:7  Re'adá ajazatam sham jil kayoledá.
@@ -831,8 +831,8 @@ TEHILIM 48 · מח
 48:10  Diminu Elohim jasdeja bekérev hejaleja.
 48:11  Keshimjá Elohim ken tehilateja 'al katsvé erets tsédek malá yemineja.
 48:12  Yismaj har Tsiyón taguelná benot yehudá lema'an mishpateja.
-48:13  Sobú Tsiyón vehakifuhá sifrú migdalehá.
-48:14  Shitú libjem lejelá pasegú armenotehá lema'an tesaperú ledor ajarón.
+48:13  Sobú Tsiyón vehakifuhá sifrú migdaleha.
+48:14  Shitú libjem lejelá pasegú armenoteha lema'an tesaperú ledor ajarón.
 48:15  Ki ze Elohim Elohenu 'olam va'ed Hu yenahaguenu 'al mut.
 
 TEHILIM 49 · מט
@@ -950,7 +950,7 @@ TEHILIM 55 · נה
 55:8  Hiné arjik nedod alín bamidbar sela.
 55:9  Ajisha miflat li merúaj so'á misa'ar.
 55:10  Balá' Ad-nai palag leshonam ki raíti jamás veriv ba'ir.
-55:11  Yomam valayla yesovevuhá 'al jomotehá veaven ve'amal bekirbah.
+55:11  Yomam valayla yesovevuhá 'al jomoteha veaven ve'amal bekirbah.
 55:12  Havot bekirbah veló yamish merjovah toj umirmá.
 55:13  Ki lo oyev yejarfeni veesá lo mesaní 'alái higdil veesater mimenu.
 55:14  Veatá enosh ke'erkí alufí umeyuda'í.
@@ -1033,7 +1033,7 @@ TEHILIM 60 · ס
 60:1  Lamenatséaj 'al shushán 'edut mijtam leDavid lelamed.
 60:2  Behatsotó et aram naharáyim veet aram tsová vayashov yoav vayaj et Edom begué mélaj sheném 'asar álef.
 60:3  Elohim zenajtanu feratstanu anafta teshovev lanu.
-60:4  Hir'ashta erets petsámtah refá shevarehá ji matá.
+60:4  Hir'ashta erets petsámtah refá shevareha ji matá.
 60:5  Hirita 'amjá kashá hishkitanu yayín tar'elá.
 60:6  Natata lireeja nes lehitnosés mipné kóshet sela.
 60:7  Lema'an yejaltsún yedideja hoshi'a yemineja v'nnv va'aneni.
@@ -1109,7 +1109,7 @@ TEHILIM 65 · סה
 65:8  Mashbíaj sheón yamim sheón galehem vahamón leumim.
 65:9  Vayiru yoshvé ketsaot meototeja motsaé vóker va'érev tarnín.
 65:10  Pakadta haarets vateshokkehá rabat ta'sherena péleg Elohim malé máyim tajín deganam ki jen tejinehá.
-65:11  Telamehá ravé najet guedudehá birvivim temogguena tsimjah tevarej.
+65:11  Telameha ravé najet guedudehá birvivim temogguena tsimjah tevarej.
 65:12  'Itarta shenat tovateja uma'galeja yir'afún dashen.
 65:13  Yir'afú neot midbar veguil gueva'ot tajgorná.
 65:14  Lavshú jarim hatsón va'amakim ya'atfú var yitro'a'ú af yashiru.
@@ -1160,7 +1160,7 @@ TEHILIM 68 · סח
 68:11  Jayateja yashvu vah tajín betovateja le'ani Elohim.
 68:12  Ad-nai yitén ómer hamvaserot tsavá rav.
 68:13  Maljé tsevaot yidodún yidodún unvat bayit tejalek shalal.
-68:14  Im tishkevún ben shefatáyim kanfé Yoná nejpá vakésef veevrotehá birakrak jarúts.
+68:14  Im tishkevún ben shefatáyim kanfé Yoná nejpá vakésef veevroteha birakrak jarúts.
 68:15  Befarés shadái melajim bah tashleg betsalmón.
 68:16  Har Elohim har bashán har gavnunim har bashán.
 68:17  Lama teratsedún harim gavnunim hahar jamad Elohim leshivtó af Ad-nai yishkón lanétsaj.
@@ -1315,7 +1315,7 @@ TEHILIM 74 · עד
 74:3  Harimá fe'ameja lemashuot nétsaj kol herá' oyev bakódesh.
 74:4  Shaagú tsorreja bekérev mo'adeja samu ototam otot.
 74:5  Yivadá' kemeví lema'lá bisvoj 'ets kardumot.
-74:6  V't ve'atá pitujehá yájad bejashil vejelapot yahalomún.
+74:6  V't ve'atá pitujeha yájad bejashil vejelapot yahalomún.
 74:7  Shiljú vaesh Mikdasheja laarets jillú mishkán shemeja.
 74:8  Amrú velibam ninam yájad sarfú jol mo'adé El baarets.
 74:9  Ototenu lo raínu en 'od naví veló itanu yodea' 'ad ma.
@@ -1338,12 +1338,12 @@ TEHILIM 75 · עה
 75:1  Lamenatséaj al tashjet mizmor leasaf shir.
 75:2  Hodinu lejá Elohim hodinu vekarov shemeja siprú nifleoteja.
 75:3  Ki ékaj mo'ed aní mesharim eshpot.
-75:4  Nemoguim erets vejol yoshvehá anojí tikanti 'amudehá sela.
+75:4  Nemoguim erets vejol yoshveha anojí tikanti 'amudeha sela.
 75:5  Amarti laholelim al taholu velarsha'im al tarimu karen.
 75:6  Al tarimu lamarom karnejem tedaberú vetsavar 'atak.
 75:7  Ki lo mimotsá umima'arav veló mimidbar harim.
 75:8  Ki Elohim shofet ze yashpil vezé yarim.
-75:9  Ki jos beyad Ad-nai veyayín jamar malé mésej vayaguer mizé aj shemarehá yimtsú yishtú kol rish'é arets.
+75:9  Ki jos beyad Ad-nai veyayín jamar malé mésej vayaguer mizé aj shemareha yimtsú yishtú kol rish'é arets.
 75:10  Vaaní aguid le'olam azamerá leLohé Ya'akov.
 75:11  Vejol karné resha'im agadea' teromamná karnot tsadik.
 
@@ -1484,10 +1484,10 @@ TEHILIM 80 · פ
 80:7  Tesimenu madón lishjenenu veoyvenu yil'agú lamo.
 80:8  Elohim tsevaot hashivenu vehaer paneja venivashe'á.
 80:9  Guefen mimitsráyim tasía' tegaresh goyim vatita'ehá.
-80:10  Pinita lefanehá vatashresh shorashehá vatemalé arets.
-80:11  Kosú harim tsilah va'anafehá arzé El.
-80:12  Teshalaj ketsirehá 'ad yam veel nahar yonkotehá.
-80:13  Lama paratsta guederehá vearuhá kol 'ovré dárej.
+80:10  Pinita lefaneha vatashresh shorasheha vatemalé arets.
+80:11  Kosú harim tsilah va'anafeha arzé El.
+80:12  Teshalaj ketsirehá 'ad yam veel nahar yonkoteha.
+80:13  Lama paratsta guedereha vearuhá kol 'ovré dárej.
 80:14  Yejarsemena jazir miya'ar veziz sadái yir'ena.
 80:15  Elohim tsevaot shuv na habet mishamáyim uré ufkod guefen zot.
 80:16  Vejaná asher nat'a yemineja ve'al ben imatsta laj.
@@ -1864,7 +1864,7 @@ TEHILIM 102 · קב
 102:12  Yamái ketsel natuy vaaní ka'ésev ivash.
 102:13  Veatá Ad-nai le'olam teshev vezijrejá ledor vador.
 102:14  Atá takum terajem Tsiyón ki 'et lejennah ki va mo'ed.
-102:15  Ki ratsú 'avadeja et avanehá veet 'afarah yejonenu.
+102:15  Ki ratsú 'avadeja et avaneha veet 'afarah yejonenu.
 102:16  Veyirú goyim et Shem Ad-nai vejol maljé haarets et kevodeja.
 102:17  Ki vaná Ad-nai Tsiyón nirá bijvodó.
 102:18  Paná el tefilat ha'ar'ar veló vazá et tefilatam.
@@ -1909,7 +1909,7 @@ TEHILIM 104 · קד
 104:2  'Ote or kasalmá noté shamáyim kayri'á.
 104:3  Hamkare vamáyim 'aliyotav Hashem 'avim rejuvó hamhalej 'al kanfé rúaj.
 104:4  'Osé malajav rujot meshartav esh lohet.
-104:5  Yasad erets 'al mejonehá bal timot 'olam va'ed.
+104:5  Yasad erets 'al mejoneha bal timot 'olam va'ed.
 104:6  Tehom kalevush kisitó 'al harim ya'amdú máyim.
 104:7  Min ga'arateja yenusún min kol ra'amjá yejafezún.
 104:8  Ya'alú harim yerdú veka'ot el mekom ze yasadta lahem.
@@ -2556,8 +2556,8 @@ TEHILIM 132 · קלב
 132:12  Im yishmerú vaneja beriti ve'edoti zo alamedem gam benehem 'adé 'ad yeshvú lejisé laj.
 132:13  Ki vajar Ad-nai betsiyón ivah lemoshav lo.
 132:14  Zot menujatí 'adé 'ad po eshev ki ivitihá.
-132:15  Tsedah barej avarej evyonehá asbía' lájem.
-132:16  Vejohanehá albish yesha' vajasidehá ranén yeranenu.
+132:15  Tsedah barej avarej evyoneha asbía' lájem.
+132:16  Vejohaneha albish yesha' vajasideha ranén yeranenu.
 132:17  Sham atsmíaj keren leDavid 'arajti ner limshijí.
 132:18  Oyvav albish bóshet ve'alav yatsíts nizró.
 
