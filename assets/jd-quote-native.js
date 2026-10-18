@@ -143,9 +143,21 @@
  const iconSizes={'11_libro_abierto':28,'02_siddur':33,'03_traduccion':32,'04_tamano':30,'05_abrochado':34.75,'06_binder_lomo_cuadrado':34.75,'07_anillado':34.75,'12_documento_numeral':30,'13_engranaje':32,'09_triptico':30,'10_cuadriptico':28,'08_bifold':32};
  function drawSpecIcon(pdf,path,cx,cy){const key=path.split('/').at(-1).replace('.svg',''),[w,h]=iconDimensions[key]||[16,16];pdf.setFillColor(colors.circle);pdf.circle(cx,cy,12.756,'F');vector(pdf,path,cx-w/2,cy-h/2,w,h);}
  function cardLayout(pdf,m){const inner=155.905,valueWidth=121.65,tech=technicalLines(pdf,m.technical),note=m.discount?wrap(pdf,m.discount,inner,5.5):[];
-  const build=compact=>{const specs=m.specs.map(s=>({...s,lines:wrap(pdf,s.value,valueWidth,8.75,'medium'),height:(compact?33:39.004)+13*(wrap(pdf,s.value,valueWidth,8.75,'medium').length-1)}));const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('Prioridad de agenda','Prioridad').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold'),noteStart=compact?5:8,noteLeading=compact?7:8,totalOffset=notes.length?noteStart+notes.length*noteLeading+(compact?8:10):14;return {...p,lines,notes,multiple,noteStart,noteLeading,totalOffset,height:totalOffset+14*lines.length+(p.unit?14:0)+(compact?8:12)}});
-   const header=compact?32:38,techHeight=tech.length?Math.max(39,24.5+tech.length*8):0,height=header+specs.reduce((n,s)=>n+s.height,0)+techHeight+prices.reduce((n,p)=>n+p.height,0)+(note.length?note.length*7+14:0)+16,top=mockFrame.y;return {specs,tech,techHeight,prices,note,top,height,header};};
-  const maxBottom=603.779-(m._lift||0)-12;let layout=build(false);if(layout.top+layout.height>maxBottom)layout=build(true);if(layout.top+layout.height>maxBottom)throw Error('Este presupuesto supera el espacio de una A4. Separá algunas cantidades en otra alternativa.');return layout;
+  // Detail geometry is invariant: quantity count must never tighten icon rows.
+  // Keep the same last-text-baseline-to-rule distance in technical details.
+  const detailRuleGap=39.004-7.62-20.836;
+  const specs=m.specs.map(s=>{const lines=wrap(pdf,s.value,valueWidth,8.75,'medium');return {...s,lines,height:39.004+13*(lines.length-1)};});
+  const prices=m.prices.map(p=>{const multiple=m.prices.length>1,adjustments=p.adjustments.map(s=>s.replace('Precio antes del descuento:','Antes:').replace('Prioridad de agenda','Prioridad').replace('−','-')),notes=multiple?wrap(pdf,adjustments.join(' · '),inner,6).filter(Boolean):adjustments.flatMap(s=>wrap(pdf,s,100,6));const lines=wrap(pdf,p.total.replace(/^Total:\s*/,''),inner,11,'bold'),noteStart=8,noteLeading=8,totalOffset=notes.length?noteStart+notes.length*noteLeading+10:14;
+   const contentBottom=totalOffset+(lines.length-1)*14+(p.unit?12:3);
+   return {...p,lines,notes,multiple,noteStart,noteLeading,totalOffset,minHeight:contentBottom+8,height:totalOffset+14*lines.length+(p.unit?14:0)+12};
+  });
+  const header=38,techHeight=tech.length?Math.max(39.004,18.671+(tech.length-1)*8+detailRuleGap+7.62):0,top=mockFrame.y;
+  const fixedHeight=header+specs.reduce((n,s)=>n+s.height,0)+techHeight+(note.length?note.length*7+14:0)+16;
+  const maxBottom=603.779-(m._lift||0)-12,priceRoom=maxBottom-top-fixedHeight;
+  const priceHeight=prices.reduce((n,p)=>n+p.height,0),reducible=prices.reduce((n,p)=>n+p.height-p.minHeight,0),excess=Math.max(0,priceHeight-priceRoom);
+  if(excess>reducible+1e-7)throw Error('Este presupuesto supera el espacio de una A4 sin alterar los detalles. Separá algunas cantidades en otra alternativa.');
+  if(excess>0&&reducible>0)for(const p of prices)p.height-=excess*(p.height-p.minHeight)/reducible;
+  const height=fixedHeight+prices.reduce((n,p)=>n+p.height,0);return {specs,tech,techHeight,prices,note,top,height,header,detailRuleGap};
  }
  function drawCard(pdf,m){const l=cardLayout(pdf,m);pdf.setFillColor(colors.card);pdf.setDrawColor(colors.gold);pdf.setLineWidth(.25);pdf.roundedRect(387.874,l.top,173.386,l.height,11,11,'FD');text(pdf,'DETALLES DEL PRODUCTO',398.815,l.top+20,7.5,'wide',colors.gold,100);let y=l.top+l.header;
   for(const s of l.specs){drawSpecIcon(pdf,s.icon,415.85,y+11.95);text(pdf,s.title.toUpperCase(),436.134,y+7.836,6,'medium',colors.gold,80);s.lines.forEach((line,i)=>text(pdf,line,436.134,y+20.836+i*13,8.75,'medium'));y+=s.height;rule(pdf,396.85,y-7.62,552.755,y-7.62)}
