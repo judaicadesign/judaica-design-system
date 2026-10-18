@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:wght@400;500&family=Roboto+Condensed:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <link rel="stylesheet" href="assets/jd-base.css?v=20261017-client-cards">
-<link rel="stylesheet" href="assets/jd-ui.css?v=20261010-warning-yellow">
+<link rel="stylesheet" href="assets/jd-ui.css?v=20261018-cost-finder">
 <script src="assets/jd-ui.js?v=20261007" defer></script>
 <script src="assets/jd-client-directory.js?v=20261015-workflow" defer></script>
 <script src="assets/jd-tehilim-export.js?v=20261012-library" defer></script>
@@ -859,51 +859,51 @@ const costsSec=document.getElementById('costs');
 function costSpec(c){
  const bits=[c.variant,c.size,c.binding,c.pages?c.pages+' págs':'',c.qty+' u.'].filter(Boolean);return bits.join(' · ');
 }
+const costView={query:'',size:'',binding:'',pages:''};
 function drawCostsV4(){
  if(!costsSec)return;
- const supplierCfg=GET('jd_supplier_settings_v1',{
-   'Zloto':{shipping:20000,production:'2 semanas'},
-   'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}
- });
+ const supplierCfg=GET('jd_supplier_settings_v1',{'Zloto':{shipping:20000,production:'2 semanas'},'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}});
  const groups=new Map();
  costs.forEach((x,i)=>{
-   const key=[x.supplier,x.product,x.size,x.binding,Number(x.pages||0)].join('||');
-   if(!groups.has(key))groups.set(key,{supplier:x.supplier,product:x.product,size:x.size,binding:x.binding,pages:Number(x.pages||0),items:[]});
-   groups.get(key).items.push({...x,_i:i});
+  const key=[x.supplier,x.product,x.size,x.binding,Number(x.pages||0)].join('||');
+  if(!groups.has(key))groups.set(key,{supplier:x.supplier,product:x.product,size:x.size,binding:x.binding,pages:Number(x.pages||0),items:[]});
+  groups.get(key).items.push({...x,_i:i});
  });
- const grouped=[...groups.values()].sort((a,b)=>
-   String(a.supplier).localeCompare(String(b.supplier),'es')||
-   String(a.product).localeCompare(String(b.product),'es')||
-   String(a.size).localeCompare(String(b.size),'es')||
-   String(a.binding).localeCompare(String(b.binding),'es')||
-   a.pages-b.pages
- );
- const ageDays=g=>{
-   const ds=g.items.map(x=>x.date).filter(Boolean).map(x=>new Date(x+'T00:00:00')).filter(x=>!isNaN(x));
-   if(!ds.length)return null;
-   const latest=new Date(Math.max(...ds.map(x=>x.getTime())));
-   return Math.floor((new Date()-latest)/86400000);
- };
- const latestDate=g=>{
-   const ds=g.items.map(x=>x.date).filter(Boolean).sort();return ds.length?ds[ds.length-1]:'';
- };
- const stale=g=>ageDays(g)!=null&&ageDays(g)>30;
- const staleCount=grouped.filter(stale).length;
- const qtyCell=g=>g.items.sort((a,b)=>Number(a.qty)-Number(b.qty)).map(x=>
-   '<button class="jd-cost-qty" data-ce="'+x._i+'" title="Editar esta tirada"><b>'+E(x.qty)+' u.</b><span>'+M(window.jdAdjustedCost?window.jdAdjustedCost(x):x.cost)+'</span><small>'+E(x.adjustment?'Estimación · '+x.date:x.date||'')+'</small></button>'
- ).join('');
- const spec=g=>[g.size,g.binding,g.pages?g.pages+' págs':''].filter(Boolean).join(' · ');
+ const grouped=[...groups.values()].sort((a,b)=>String(a.supplier).localeCompare(String(b.supplier),'es')||String(a.product).localeCompare(String(b.product),'es')||String(a.size).localeCompare(String(b.size),'es')||String(a.binding).localeCompare(String(b.binding),'es')||a.pages-b.pages);
+ const ageDays=g=>{const ds=g.items.map(x=>x.date).filter(Boolean).map(x=>new Date(x+'T00:00:00')).filter(x=>!isNaN(x));return ds.length?Math.floor((new Date()-new Date(Math.max(...ds.map(x=>x.getTime()))))/86400000):null;};
+ const latestDate=g=>g.items.map(x=>x.date).filter(Boolean).sort().at(-1)||'';
+ const stale=g=>ageDays(g)!=null&&ageDays(g)>30,staleCount=grouped.filter(stale).length;
+ const dateLabel=value=>{if(!value)return 'Sin fecha';const d=new Date(value+'T12:00:00');return isNaN(d)?value:d.toLocaleDateString('es-AR');};
+ const qtyCell=g=>g.items.sort((a,b)=>Number(a.qty)-Number(b.qty)).map(x=>'<button type="button" class="jd-cost-qty" data-ce="'+x._i+'" title="Editar precio y ver historial"><b>'+E(x.qty)+' unidades</b><span>'+M(window.jdAdjustedCost?window.jdAdjustedCost(x):x.cost)+'</span><small>'+E((x.adjustment?'Estimación · ':'Precio · ')+dateLabel(x.date))+'</small></button>').join('');
+ const spec=g=>'<dl class="jd-cost-spec">'+[['Tamaño',g.size],['Encuadernación',g.binding],['Páginas',g.pages||'']].filter(([,v])=>v!==''&&v!=null).map(([k,v])=>'<div><dt>'+E(k)+'</dt><dd>'+E(v)+'</dd></div>').join('')+'</dl>';
+ const filters=[['size','Tamaño'],['binding','Encuadernación'],['pages','Páginas']];
+ const filterMarkup=filters.map(([key,label])=>'<label>'+label+'<select id="jdCostFilter-'+key+'"><option value="">Todos</option>'+[...new Set(grouped.map(g=>String(g[key]||'')).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true})).map(v=>'<option value="'+E(v)+'">'+E(v)+'</option>').join('')+'</select></label>').join('');
  costsSec.innerHTML='<div class="topbar"><div><div class="eyebrow">Costos</div><h1>Proveedores & cotizaciones</h1></div><button class="btn primary" id="ac4">+ Cargar cotización</button></div>'+
- '<div class="section"><div class="section-head"><h2>Configuración general de proveedores</h2></div><div class="grid cards">'+
- Object.entries(supplierCfg).map(([name,s])=>'<div class="card"><b>'+E(name)+'</b><p class="small muted">Producción: '+E(s.production||'—')+'</p>'+(String(name).toLowerCase().includes('b612')?'<p class="small"><b>Base de costo:</b> sin IVA</p>':'')+'<p style="margin:10px 0 12px"><span class="small muted">Envío general</span><br><strong style="font-size:22px;color:#0f5b5d">'+M(s.shipping||0)+'</strong></p><button class="btn sm" data-supplier-edit="'+E(name)+'">Editar proveedor</button></div>').join('')+
- '</div></div>'+
- '<div class="section"><div class="section-head"><h2>Cotizaciones de imprenta</h2><span class="small muted">'+staleCount+' especificación'+(staleCount===1?'':'es')+' con precio de más de 30 días</span></div><div class="jd-table-scroll"><table class="table jd-cost-table"><thead><tr><th>Proveedor</th><th>Producto</th><th>Especificación</th><th>Cantidades / costos</th><th>Vigencia</th></tr></thead><tbody>'+
- grouped.map(g=>'<tr '+(stale(g)?'class="jd-cost-stale" data-cost-stale="1"':'')+'><td><b>'+E(g.supplier)+'</b></td><td>'+E(g.product)+'</td><td>'+E(spec(g))+'</td><td><div class="jd-cost-qtys">'+qtyCell(g)+'</div></td><td>'+(ageDays(g)==null?'<span class="tag">Sin fecha</span>':stale(g)?'<span class="tag danger">Actualizar · '+ageDays(g)+' días</span><div class="small muted">'+E(latestDate(g))+'</div>':'<span class="tag ok">'+ageDays(g)+' días</span><div class="small muted">'+E(latestDate(g))+'</div>')+'</td></tr>').join('')+
- '</tbody></table></div></div>';
+ '<details class="jd-supplier-settings"><summary>Configuración de proveedores · envíos y plazos</summary><div class="grid cards">'+Object.entries(supplierCfg).map(([name,s])=>'<div class="card"><b>'+E(name)+'</b><p class="small muted">Producción: '+E(s.production||'—')+'</p>'+(String(name).toLowerCase().includes('b612')?'<p class="small"><b>Base de costo:</b> sin IVA</p>':'')+'<p><span class="small muted">Envío general</span><br><strong>'+M(s.shipping||0)+'</strong></p><button class="btn sm" data-supplier-edit="'+E(name)+'">Editar proveedor</button></div>').join('')+'</div></details>'+
+ '<div class="section jd-cost-list"><div class="section-head"><h2>Buscar precio de imprenta</h2><span class="small muted">'+staleCount+' ficha'+(staleCount===1?'':'s')+' con precio de más de 30 días</span></div><div class="jd-cost-filters"><label class="jd-cost-search">Buscar por producto, modelo, características o cantidad<input type="search" id="jdCostSearch" placeholder="Ej.: librito grande abrochado 72" autocomplete="off"></label>'+filterMarkup+'</div><div class="jd-cost-filter-status"><span id="jdCostResults" role="status" aria-live="polite"></span><button class="btn sm" type="button" id="jdCostClear">Limpiar filtros</button></div><div class="jd-cost-results">'+
+ [...new Set(grouped.map(g=>JSON.stringify([g.supplier,g.product])))].map(family=>{
+ const [supplier,product]=JSON.parse(family);
+ return '<section class="jd-cost-family" data-cost-family><h3>'+E(supplier)+' <span>· '+E(product)+'</span></h3><table class="table jd-cost-table"><thead><tr><th>Ficha técnica</th><th>Cantidades / costos</th><th>Vigencia</th></tr></thead><tbody>'+grouped.map((g,n)=>g.supplier!==supplier||g.product!==product?'':'<tr data-cost-group="'+n+'" '+(stale(g)?'class="jd-cost-stale" data-cost-stale="1"':'')+'><td class="jd-cost-spec-cell">'+spec(g)+'</td><td class="jd-cost-prices"><div class="jd-cost-qtys">'+qtyCell(g)+'</div></td><td class="jd-cost-validity">'+(ageDays(g)==null?'<span class="tag">Sin fecha</span>':stale(g)?'<span class="tag danger">Actualizar · '+ageDays(g)+' días</span><div class="small muted">'+E(dateLabel(latestDate(g)))+'</div>':'<span class="tag ok">'+ageDays(g)+' días</span><div class="small muted">'+E(dateLabel(latestDate(g)))+'</div>')+'</td></tr>').join('')+'</tbody></table></section>';
+ }).join('')+
+ '</div><p id="jdCostEmpty" class="jd-note" hidden>No hay cotizaciones con esos filtros. Probá otra característica o limpiá los filtros.</p><p class="small muted">Tocá una cantidad para editar el precio y consultar su historial.</p></div>';
  document.getElementById('ac4').onclick=()=>editCostV4(-1);
  costsSec.querySelectorAll('[data-ce]').forEach(btn=>btn.onclick=()=>editCostV4(+btn.dataset.ce));
  costsSec.querySelectorAll('[data-supplier-edit]').forEach(btn=>btn.onclick=()=>editSupplier(btn.dataset.supplierEdit));
  costsSec.querySelectorAll('[data-ce]').forEach(btn=>{const c=costs[Number(btn.dataset.ce)],wrap=document.createElement('div');wrap.className='jd-cost-option';btn.replaceWith(wrap);wrap.append(btn);const adjust=document.createElement('button');adjust.className='btn sm jd-estimate-btn';adjust.textContent='Estimar ajuste';adjust.setAttribute('aria-label','Estimar ajuste · '+c.qty+' unidades');adjust.type='button';adjust.onclick=()=>window.jdOpenInflation(c);wrap.append(adjust);});
+ const search=document.getElementById('jdCostSearch');search.value=costView.query;
+ const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const controls=filters.map(([key])=>{const el=document.getElementById('jdCostFilter-'+key);el.value=costView[key];if(el.value!==costView[key])costView[key]='';return [key,el];});
+ function applyFilters(){
+  costView.query=search.value;controls.forEach(([key,el])=>costView[key]=el.value);
+  const tokens=norm(costView.query).trim().split(/\s+/).filter(Boolean);let count=0,quantities=0;
+  costsSec.querySelectorAll('[data-cost-group]').forEach(row=>{const g=grouped[Number(row.dataset.costGroup)],text=norm([g.supplier,g.product,g.size,g.binding,g.pages,...g.items.flatMap(x=>[x.variant,x.qty])].join(' '));const match=tokens.every(t=>text.includes(t))&&controls.every(([key])=>!costView[key]||String(g[key])===costView[key]);row.hidden=!match;if(match){count++;quantities+=g.items.length;}});
+  costsSec.querySelectorAll('[data-cost-family]').forEach(section=>section.hidden=![...section.querySelectorAll('[data-cost-group]')].some(row=>!row.hidden));
+  document.getElementById('jdCostResults').textContent=count+' ficha'+(count===1?'':'s')+' · '+quantities+' tirada'+(quantities===1?'':'s');
+  document.getElementById('jdCostEmpty').hidden=!!count;
+  document.getElementById('jdCostClear').hidden=!costView.query&&!controls.some(([key])=>costView[key]);
+ }
+ search.addEventListener('input',applyFilters);controls.forEach(([,el])=>el.addEventListener('change',applyFilters));
+ document.getElementById('jdCostClear').onclick=()=>{search.value='';controls.forEach(([,el])=>el.value='');applyFilters();search.focus();};applyFilters();
 }
 function editCostV4(i){
  const c=i>=0?structuredClone(costs[i]):{supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:50,cost:'',date:new Date().toISOString().slice(0,10)};
