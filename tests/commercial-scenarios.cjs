@@ -40,7 +40,7 @@ async function boot(rows=fixture(),fetchResult){
  w.eval(fs.readFileSync(root+'/supabase/functions/_shared/jd-whatsapp-pricing.js','utf8'));
  w.jdNativeQuote={version:'20261011-master-v10'};
  w.jdVectorQuotePdf=async sheets=>new w.Blob(['fixture-native-pdf-'+sheets.length]);
- for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-inflation.js','jd-workflow.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-catalog-pricing.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
+ for(const file of ['jd-ui.js','jd-client-directory.js','jd-asset-match.js','jd-cost-history.js','jd-inflation.js','jd-workflow.js','jd-orders.js','jd-quote-edit.js','jd-price.js','jd-catalog-pricing.js','jd-quote-share.js','jd-legal.js','jd-auth.js'])w.eval(fs.readFileSync(root+'/assets/'+file,'utf8'));
  for(let attempt=0;attempt<40&&!w.document.getElementById('jdCrmSearch');attempt++)await sleep(50);
  assert.equal(writes.length,0,'bootstrap must not write');
  assert.ok(w.document.body.classList.contains('jd-authenticated'));
@@ -51,6 +51,14 @@ async function boot(rows=fixture(),fetchResult){
 async function save(app){return app.w.document.getElementById('sq6').onclick()}
 async function invalid(label,mutate,expected){const app=await boot();app.w.document.getElementById('qClient').value='Cliente de prueba';mutate(app);await save(app);await app.w.jdSendCurrentQuoteWhatsApp();await app.w.jdPreviewCurrentPDF();assert.equal(app.get('jd_saved_quotes_v6').length,0,label);assert.match(app.alerts.at(-1),expected,label);app.close();console.log(label,'passed')}
 async function scenarios(){
+ {
+ const h=require('../assets/jd-cost-history.js');const initial={supplier:'Zloto',product:'Libro',variant:'Classic',size:'A5',binding:'Abrochado',pages:72,qty:100,cost:100000,date:'2026-07-01',adjustment:{estimatedCost:130000}};
+ const newer=h.update(initial,{...initial,cost:120000,date:'2026-08-01'});assert.equal(newer.cost,120000);assert.equal(newer.adjustment,undefined);assert.equal(newer.history[0].cost,100000);assert.equal(newer.history[0].adjustment.estimatedCost,130000);assert.equal(newer.history[0].date,'2026-07-01');assert.equal(newer.history[0].history,undefined);assert.equal(initial.history,undefined);assert.equal(h.update(newer,newer).history.length,1);assert.ok(Math.abs(h.entries(newer).at(-1).changePct-20)<0.0001);
+ const changedQty=h.update(newer,{...newer,qty:200,cost:200000,date:'2026-09-01'});assert.equal(h.entries(changedQty).at(-1).changePct,null);assert.equal(changedQty.history.length,2);assert.doesNotMatch(h.render(changedQty),/Variación acumulada/);
+ const costApp=await boot(),w=costApp.w;w.go('costs');w.document.querySelector('[data-ce="0"]').click();assert.ok(w.document.querySelector('.jd-cost-history'));w.document.getElementById('cc').value='120000';w.document.getElementById('cd').value='2026-08-01';costApp.fail(true);await w.document.querySelector('.modal .ss').onclick();assert.equal(costApp.get('jd_cost_quotes_v2')[0].cost,100000);assert.ok(w.document.getElementById('cc'));assert.equal(w.document.getElementById('cc').value,'120000');costApp.fail(false);await w.document.querySelector('.modal .ss').onclick();let current=costApp.get('jd_cost_quotes_v2')[0];assert.equal(current.cost,120000);assert.equal(current.history[0].cost,100000);assert.equal(current.history[0].date,'2026-07-01');assert.equal(costApp.get('jd_cost_quotes_v2').length,3);assert.equal(w.document.getElementById('cc'),null);
+ w.document.querySelector('[data-ce="0"]').click();assert.match(w.document.querySelector('.jd-cost-history').textContent,/20%/);await w.document.querySelector('.modal .ss').onclick();assert.equal(costApp.get('jd_cost_quotes_v2')[0].history.length,1);
+ w.document.querySelector('[data-ce="0"]').click();w.document.getElementById('cc').value='140000';costApp.get('jd_cost_quotes_v2')[0].cost=130000;await w.document.querySelector('.modal .ss').onclick();assert.equal(costApp.get('jd_cost_quotes_v2')[0].cost,130000);assert.match(costApp.alerts.at(-1),/otro dispositivo/);assert.ok(w.document.getElementById('cc'));costApp.close();console.log('confirmed supplier price history, comparable variations, no estimate compounding, retry and concurrent update protection passed');
+ }
  
  const wa=await boot();
  const beforePricing=JSON.stringify(wa.remote);
