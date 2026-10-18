@@ -19,3 +19,16 @@ the customer PDF capture (before-discount price, discount, final total), profit
 and unchanged supplier costs. Editing retains the previously quoted base price;
 resetting or creating a new version restores automatic calculation. Invalid prices
 and discounts cannot bypass missing supplier costs or authenticated atomic saves.
+
+## Client directory (PR #17 follow-up)
+
+`tests/client-table.cjs` covers action-cell structure and interactions, homonymous
+clients, quote filtering by client ID (including renamed contacts), legacy quotes
+without an ID, archived/trash views, restoration and changing quote counters.
+
+For **visual** validation, open the current app (not the older static CRM snapshot
+in `ui-preview.html`) at 390, 768 and 1280 CSS pixels. Check clients with and
+without quotes, long names/addresses, three action buttons, archived/trash
+views, search-hidden rows, focus outlines and full row/card borders.
+At widths up to 1150 px, the client list deliberately uses stacked cards;
+at wider widths it remains a horizontally scrollable table.
