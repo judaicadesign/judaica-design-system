@@ -20,7 +20,7 @@ const orderPublic=o=>pick(o,['id','items','total','currency','status','due_date'
 const filePublic=f=>pick(f,['id','order_id','name','content_type','size_bytes','purpose','status','created_at']);
 const genericPending='Requiere confirmación de Judaica Design. No hay un importe automático confirmado.';
 export async function portalTokenHash(value){const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value));return Array.from(new Uint8Array(bytes),n=>n.toString(16).padStart(2,'0')).join('');}
-function passwordValue(value){const p=text(value,200);if(p.length<12||!/[a-z]/.test(p)||!/[A-Z]/.test(p)||!/[0-9]/.test(p))fail('Usá al menos 12 caracteres, con mayúsculas, minúsculas y números.');return p;}
+function passwordValue(value){if(typeof value!=='string'||value.length>200)fail('Revisá la contraseña ingresada.');const p=value;if(p.length<12||!/[a-z]/.test(p)||!/[A-Z]/.test(p)||!/[0-9]/.test(p))fail('Usá al menos 12 caracteres, con mayúsculas, minúsculas y números.');return p;}
 const requestPublic=r=>pick(r,['id','name','email','phone','status','created_at','updated_at','expires_at']);
 export function createPublicPortalApp(deps){
  return async function(body,rateKey){
