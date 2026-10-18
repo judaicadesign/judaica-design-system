@@ -5,7 +5,7 @@ import {getCardOptions} from './b612-cards.mjs';
 
 const intake=globalThis.jdPrintRequest,pricing=globalThis.jdWhatsAppPrice;
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const T={customers:'jd_portal_customers',quotes:'jd_portal_quotes',costs:'jd_portal_quote_costs',orders:'jd_portal_orders',files:'jd_portal_files'};
+const T={customers:'jd_portal_customers',quotes:'jd_portal_quotes',costs:'jd_portal_quote_costs',orders:'jd_portal_orders',files:'jd_portal_files',requests:'jd_portal_account_requests'};
 const answerKeys=new Set('description quantities widthMm heightMm sizeScope spineMm totalPages interiorPages coverPages pagesIncludeCover paper weightGsm print sides lamination laminationSides coverPaper coverWeightGsm coverPrint coverSides coverLamination coverLaminationSides bindingOptions hasCover models folds cardType paperChoice cardSize corners pageMeaning blankPage'.split(' '));
 const statuses=['Solicitado','En revisión','Requiere corrección','Esperando pago','Confirmado','En producción','Listo para entregar','Entregado','Cancelado'];
 const purposes=['Archivo para imprimir','Referencia','Comprobante de pago'];
@@ -19,6 +19,31 @@ const quotePublic=q=>pick(q,['id','request','customer_result','created_at','expi
 const orderPublic=o=>pick(o,['id','items','total','currency','status','due_date','notes','customer_message','history','created_at','updated_at']);
 const filePublic=f=>pick(f,['id','order_id','name','content_type','size_bytes','purpose','status','created_at']);
 const genericPending='Requiere confirmación de Judaica Design. No hay un importe automático confirmado.';
+export async function portalTokenHash(value){const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value));return Array.from(new Uint8Array(bytes),n=>n.toString(16).padStart(2,'0')).join('');}
+function passwordValue(value){const p=text(value,200);if(p.length<12||!/[a-z]/.test(p)||!/[A-Z]/.test(p)||!/[0-9]/.test(p))fail('Usá al menos 12 caracteres, con mayúsculas, minúsculas y números.');return p;}
+const requestPublic=r=>pick(r,['id','name','email','phone','status','created_at','updated_at','expires_at']);
+export function createPublicPortalApp(deps){
+ return async function(body,rateKey){
+  if(body.action==='request-account'){
+   if(body.website)return {accepted:true};
+   const name=text(body.name,160),email=text(body.email,254).toLowerCase(),phone=text(body.phone||'',80);
+   if(!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||body.consent!==true)fail('Completá tu nombre, un correo válido y la confirmación de solicitud.');
+   await deps.db.requestAccount(name,email,phone,rateKey);return {accepted:true};
+  }
+  if(body.action==='activate-account'){
+   if(typeof body.token!=='string'||!/^[a-f0-9]{64}$/.test(body.token))fail('El enlace de activación no es válido o venció. Solicitá uno nuevo.');
+   const password=passwordValue(body.password),attempt=crypto.randomUUID(),hash=await portalTokenHash(body.token);
+   const request=await deps.db.claimActivation(hash,attempt);
+   try{
+    if(await deps.db.isTeam(request.email))fail('Usá el acceso del equipo.',403);
+    const user=await deps.auth.enroll(request.email,password);
+    await deps.db.finishActivation(request.id,attempt,user.id);
+    return {activated:true,email:request.email};
+   }catch(e){await deps.db.releaseActivation(request.id,attempt);throw e;}
+  }
+  fail('Acción no disponible.',404);
+ };
+}
 export function customerResult(raw,r,rule,incomplete=false){
  const alternatives=(raw?.alternatives||[]).map((a,index)=>{
   const valid=a.status==='priced'&&Number.isFinite(a.net)&&a.net>0&&Array.isArray(a.lines)&&a.lines.length&&a.lines.every(l=>Number.isFinite(l.total)&&l.total>=0)&&Math.abs(a.lines.reduce((s,l)=>s+l.total,0)-a.net)<=.011;
@@ -48,25 +73,32 @@ export function createPortalApp(deps){
   if(action==='profile')return {role:admin?'admin':'customer',customer:customer?customerPublic(customer):null};
   if(!admin&&customer.must_change_password&&action!=='change-password')fail('Primero cambiá la contraseña provisoria.',403);
   if(action==='change-password'){
-   const password=text(body.password,200);if(password.length<12||!/[a-z]/.test(password)||!/[A-Z]/.test(password)||!/[0-9]/.test(password))fail('Usá al menos 12 caracteres, con mayúsculas, minúsculas y números.');
+   const password=passwordValue(body.password);
    await auth.changePassword(token,password);if(customer)await db.patch(T.customers,customer.id,{must_change_password:false,auth_user_id:user.id,updated_at:now().toISOString()});return {changed:true};
   }
   if(action.startsWith('admin-')){
    if(!admin)fail('Acceso no autorizado.',403);
-   if(action==='admin-list')return {customers:await db.list(T.customers,{},'*',200),orders:(await db.list(T.orders,{},'*',200)).map(o=>({...orderPublic(o),customer_id:o.customer_id})),defaultRule:await db.sharedPricing()};
+   if(action==='admin-list')return {requests:(await db.list(T.requests,{},'*',200)).map(requestPublic),customers:await db.list(T.customers,{},'*',200),orders:(await db.list(T.orders,{},'*',200)).map(o=>({...orderPublic(o),customer_id:o.customer_id})),defaultRule:await db.sharedPricing()};
+   if(action==='admin-request'){
+    const r=await db.one(T.requests,{id:id(body.requestId)});if(!r||r.status==='activated')fail('Solicitud no disponible.',404);
+    if(await db.isTeam(r.email))fail('Ese correo corresponde al equipo.');
+    if(!body.updated_at)fail('Actualizá la solicitud antes de continuar.',409);
+    const token=body.approve===true?uuid().replaceAll('-','')+uuid().replaceAll('-',''):null;
+    const at=now(),expires=token?new Date(at.getTime()+7*86400000).toISOString():null;
+    const changed=await db.patch(T.requests,r.id,{status:token?'approved':'rejected',token_hash:token?await portalTokenHash(token):null,expires_at:expires,attempt_id:null,updated_at:at.toISOString()},body.updated_at);
+    return {request:requestPublic(changed),activationUrl:token?'https://judaicadesign.github.io/judaica-design-system/portal/solicitar.html#activar='+token:null};
+   }
    if(action==='admin-customer'){
     const name=text(body.name,160),email=body.email?text(body.email,254).toLowerCase():null;if(!name)fail('Indicá el nombre.');if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))fail('Revisá el correo.');
     if(email&&await db.isTeam(email))fail('El correo del equipo no se habilita como cliente.');
-    if(body.id&&!body.updated_at)fail('Actualizá la cuenta antes de guardar.',409);const existing=body.id?await db.one(T.customers,{id:id(body.id)}):null;if(body.id&&!existing)fail('Cliente no disponible.',404);
-    const pricing_mode=body.pricing_mode==='custom'?'custom':'abi',price_rule=pricing_mode==='custom'?pricing.rule(body.price_rule):null;
-    const value={name,email,active:!!email&&body.active===true,pricing_mode,price_rule,updated_at:now().toISOString()};
-    const c=existing?await db.patch(T.customers,existing.id,value,body.updated_at):await db.insert(T.customers,{id:uuid(),...value});return {customer:c};
+    if(!body.id||!body.updated_at)fail('Elegí una cuenta existente y actualizá la pantalla.',409);const existing=await db.one(T.customers,{id:id(body.id)});if(!existing)fail('Cliente no disponible.',404);
+    if(email!==existing.email)fail('El correo de una cuenta activada no se cambia desde este formulario.');
+    if(body.pricing_mode==='custom'||body.price_rule!=null)fail('Por ahora todos los clientes usan la única regla compartida.');
+    const value={name,active:!!email&&body.active===true,pricing_mode:'abi',price_rule:null,updated_at:now().toISOString()};
+    return {customer:await db.patch(T.customers,existing.id,value,body.updated_at)};
    }
    if(action==='admin-access'){
-    const c=await db.one(T.customers,{id:id(body.customerId)});if(!c?.email||!c.active)fail('Primero cargá el correo y habilitá al cliente.');if(await db.isTeam(c.email))fail('No corresponde crear acceso de cliente para el equipo.');
-    const password='JD-'+uuid().replaceAll('-','')+'a7';const result=await auth.createAccess(c.email,password);
-    if(!result.created)return {created:false,message:'Ese correo ya tiene una cuenta. Puede entrar con su contraseña habitual; no se modificó su acceso.'};
-    await db.patch(T.customers,c.id,{must_change_password:true,auth_user_id:result.userId,updated_at:now().toISOString()});return {created:true,email:c.email,password,message:'Acceso creado. Compartí estos datos por tu canal habitual. Al ingresar deberá cambiar la contraseña.'};
+    fail('Ahora cada cliente solicita su cuenta y elige su contraseña mediante su enlace de activación.');
    }
    if(action==='admin-order'){
     if(!body.updated_at)fail('Actualizá el pedido antes de guardar.',409);const o=await owner(T.orders,body.orderId,null,true);if(!statuses.includes(body.status))fail('Estado inválido.');const message=text(body.message||'',5000);
@@ -80,7 +112,7 @@ export function createPortalApp(deps){
    if(await db.recentQuotes(customer.id,now())>=20)fail('Llegaste al límite de consultas de este período. Reintentá en unos minutos.',429);
    const parsed=await parse(body),r=parsed.request,manual=body.review===true;
    if(parsed.questions.length&&!manual)return {questions:parsed.questions,request:r,needsAnswers:true};
-   const rule=customer.pricing_mode==='custom'?pricing.rule(customer.price_rule):pricing.rule(await db.sharedPricing());
+   const rule=pricing.rule(await db.sharedPricing());
    let raw;
    try{if(manual)throw Error('manual-review');raw=await quotePrintRequest(r,supplier);}catch{raw={alternatives:(r.quantities?.length?r.quantities:[null]).map(qty=>({qty,binding:r.bindingOptions?.[0]||r.description,status:'requires-supplier'}))};}
    const result=customerResult(raw,r,rule,!!parsed.questions.length);if(!result.alternatives.length)fail(genericPending);
