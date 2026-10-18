@@ -1,5 +1,7 @@
 -- Transactional integration test: no fixtures survive, no Auth accounts or files created.
 begin;
+-- Reference one existing identity only for FK validation; no Auth account/session is created or modified.
+select set_config('jd.qa_auth_user',(select id::text from auth.users where id not in(select auth_user_id from public.jd_portal_customers where auth_user_id is not null) limit 1),true);
 set local role service_role;
 do $$
 declare a uuid=gen_random_uuid(); b uuid=gen_random_uuid(); q uuid=gen_random_uuid(); q2 uuid=gen_random_uuid(); expired uuid=gen_random_uuid(); k uuid=gen_random_uuid(); o public.jd_portal_orders; retry public.jd_portal_orders;
@@ -25,32 +27,22 @@ begin
  if not exists(select 1 from public.jd_portal_quote_costs where quote_id=q) then raise exception 'QA: Evidence missing'; end if;
 end $$;
 do $$
-declare rid uuid; attempt uuid=gen_random_uuid(); hash text=md5(gen_random_uuid()::text)||md5(gen_random_uuid()::text); request_email text=gen_random_uuid()||'@example.test'; rate text=gen_random_uuid()::text; r public.jd_portal_account_requests;
+declare rate text=gen_random_uuid()::text; request_email text=gen_random_uuid()||'@example.test'; uid uuid=current_setting('jd.qa_auth_user')::uuid; i integer;
 begin
- perform public.jd_portal_request_account('QA Request',request_email,'',rate);
- perform public.jd_portal_request_account('Duplicate',request_email,'',rate);
- if(select count(*) from public.jd_portal_account_requests where rate_key=rate)<>1 then raise exception 'QA: request deduplication failed'; end if;
- if exists(select 1 from public.jd_portal_customers c where c.email=request_email) then raise exception 'QA: request created a customer'; end if;
- select id into rid from public.jd_portal_account_requests where rate_key=rate;
- update public.jd_portal_account_requests set token_hash=hash,status='approved',expires_at=now()+interval '7 days' where id=rid;
- r=public.jd_portal_claim_activation(hash,attempt);
- if r.status<>'processing' or r.attempt_id<>attempt then raise exception 'QA: activation lease failed'; end if;
- begin
-  perform public.jd_portal_claim_activation(hash,gen_random_uuid());
-  raise exception 'QA: simultaneous activation allowed';
- exception when raise_exception then if sqlerrm like 'QA:%' then raise; end if; end;
- perform public.jd_portal_release_activation(rid,attempt);
- r=public.jd_portal_claim_activation(hash,attempt);
- perform public.jd_portal_release_activation(rid,attempt);
- update public.jd_portal_account_requests set expires_at=now()-interval '1 second' where id=rid;
- begin
-  perform public.jd_portal_claim_activation(hash,gen_random_uuid());raise exception 'QA: expired activation allowed';
- exception when raise_exception then if sqlerrm like 'QA:%' then raise; end if; end;
+ for i in 1..10 loop perform public.jd_portal_signup_rate(rate); end loop;
+ begin perform public.jd_portal_signup_rate(rate);raise exception 'QA: signup rate bypass';exception when raise_exception then if sqlerrm like 'QA:%' then raise;end if;end;
+ perform public.jd_portal_register_customer('Direct signup QA',request_email,'1158224686',uid,'{"first_name":"QA","last_name":"Test","locality":"Buenos Aires"}');
+ if not exists(select 1 from public.jd_portal_customers where email=request_email and auth_user_id=uid and active and pricing_mode='abi' and price_rule is null) then raise exception 'QA: direct customer registration failed'; end if;
+ perform public.jd_portal_register_customer('Retry',request_email,'1158224686',uid,'{"first_name":"QA","last_name":"Test","locality":"Buenos Aires"}');
+ update public.jd_portal_customers set active=false where email=request_email;
+ begin perform public.jd_portal_register_customer('No reenable',request_email,'1158224686',uid,'{"first_name":"QA","last_name":"Test","locality":"Buenos Aires"}');raise exception 'QA: disabled account reenabled';exception when raise_exception then if sqlerrm like 'QA:%' then raise;end if;end;
+ begin perform public.jd_portal_claim_activation(repeat('a',64),gen_random_uuid());raise exception 'QA: legacy activation executable';exception when insufficient_privilege then null;end;
 end $$;
 set local role authenticated;
 do $$ begin
  begin perform 1 from public.jd_portal_customers; raise exception 'QA: direct client table access'; exception when insufficient_privilege then null; end;
  begin perform 1 from public.jd_portal_quote_costs; raise exception 'QA: direct cost access'; exception when insufficient_privilege then null; end;
+ begin perform 1 from public.jd_portal_signup_limits; raise exception 'QA: direct signup rate access'; exception when insufficient_privilege then null; end;
  begin perform 1 from public.jd_portal_account_requests; raise exception 'QA: direct request access'; exception when insufficient_privilege then null; end;
  begin perform public.jd_portal_submit_order(gen_random_uuid(),'[]','',null,gen_random_uuid()); raise exception 'QA: direct client RPC'; exception when insufficient_privilege then null; end;
 end $$;
