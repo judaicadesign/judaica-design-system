@@ -6,10 +6,8 @@ const url=Deno.env.get('SUPABASE_URL')!,serviceKey=Deno.env.get('SUPABASE_SERVIC
 const service=createClient(url,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
 const check=(r:any)=>{if(r.error){if(r.error.code==='P0001')throw new PortalError(r.error.message);throw Error('Backend operation failed');}return r.data;};
 const db={
- async requestAccount(name:string,email:string,phone:string,rate:string){check(await service.rpc('jd_portal_request_account',{p_name:name,p_email:email,p_phone:phone,p_rate:rate}));},
- async claimActivation(hash:string,attempt:string){return check(await service.rpc('jd_portal_claim_activation',{p_hash:hash,p_attempt:attempt}));},
- async finishActivation(request:string,attempt:string,user:string){check(await service.rpc('jd_portal_finish_activation',{p_request:request,p_attempt:attempt,p_user:user}));},
- async releaseActivation(request:string,attempt:string){check(await service.rpc('jd_portal_release_activation',{p_request:request,p_attempt:attempt}));},
+ async signupRate(rate:string){check(await service.rpc('jd_portal_signup_rate',{p_rate:rate}));},
+ async registerCustomer(name:string,email:string,phone:string,user:string,profile:any){check(await service.rpc('jd_portal_register_customer',{p_name:name,p_email:email,p_phone:phone,p_user:user,p_profile:profile}));},
  async saveQuote(quote:any,evidence:any,rule:any){return check(await service.rpc('jd_portal_save_quote',{p_quote:quote,p_evidence:evidence,p_rule:rule}));},
  async one(table:string,filters:Record<string,unknown>){let q=service.from(table).select('*');for(const [k,v] of Object.entries(filters))q=q.eq(k,v);return check(await q.maybeSingle());},
  async list(table:string,filters:Record<string,unknown>,columns='*',limit=100){let q=service.from(table).select(columns);for(const [k,v] of Object.entries(filters))q=q.eq(k,v);return check(await q.order('created_at',{ascending:false}).limit(limit));},
@@ -56,7 +54,7 @@ Deno.serve(async(req:Request)=>{
  try{
   if(Number(req.headers.get('content-length')||0)>65536)throw new PortalError('El pedido es demasiado extenso.',413);const raw=await req.text();if(raw.length>65536)throw new PortalError('El pedido es demasiado extenso.',413);
   let body;try{body=JSON.parse(raw);}catch{throw new PortalError('Pedido inválido.');}
-  const publicAction=['request-account','activate-account'].includes(body?.action);
+  const publicAction=['register-account','request-account','activate-account'].includes(body?.action);
   if(!token&&!publicAction)return response({ok:false,error:'Iniciá sesión.'},401);
   if(!body||typeof body.action!=='string'||body.action.length>40)throw new PortalError('Acción inválida.');
   if(publicAction){const ip=req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()||'unknown';const rate=await portalTokenHash(serviceKey+'|portal-rate|'+ip);return response({ok:true,...await dispatchPublic(body,rate)});}
