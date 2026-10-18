@@ -13,6 +13,7 @@
 <script src="assets/jd-tehilim-export.js?v=20261012-library" defer></script>
 <script src="assets/jd-passage-links.js?v=20261012-library" defer></script>
 <script src="assets/jd-passage-library-ui.js?v=20261012-library" defer></script>
+<script src="assets/jd-cost-history.js?v=20261018-history" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
 <script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
 <script src="assets/jd-workflow.js?v=20261018-review-link" defer></script>
@@ -905,7 +906,7 @@ function drawCostsV4(){
  costsSec.querySelectorAll('[data-ce]').forEach(btn=>{const c=costs[Number(btn.dataset.ce)],wrap=document.createElement('div');wrap.className='jd-cost-option';btn.replaceWith(wrap);wrap.append(btn);const adjust=document.createElement('button');adjust.className='btn sm jd-estimate-btn';adjust.textContent='Estimar ajuste';adjust.setAttribute('aria-label','Estimar ajuste · '+c.qty+' unidades');adjust.type='button';adjust.onclick=()=>window.jdOpenInflation(c);wrap.append(adjust);});
 }
 function editCostV4(i){
- const c=i>=0?costs[i]:{supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:50,cost:'',date:new Date().toISOString().slice(0,10)};
+ const c=i>=0?structuredClone(costs[i]):{supplier:'Zloto',product:'Birkón · Librito',variant:'Classic',size:'Normal · 11,6 × 15,5 cm',binding:'Abrochado',pages:72,qty:50,cost:'',date:new Date().toISOString().slice(0,10)};
  const w=popup(i>=0?'Editar / actualizar cotización':'Cargar cotización','<div class="jd-formgrid">'+
  '<div><label>Proveedor</label><select id="cs"><option>Zloto</option><option>Gráfica B612</option></select></div>'+
  '<div><label>Producto</label><select id="cp">'+products.filter(p=>p.supplier).map(p=>'<option>'+E(p.name)+'</option>').join('')+'</select></div>'+
@@ -915,10 +916,19 @@ function editCostV4(i){
  '<div id="cpg"><label>Páginas</label><input id="cg" type="number" value="'+(c.pages||0)+'"></div>'+
  '<div><label>Cantidad</label><input id="cq" type="number" value="'+c.qty+'"></div>'+
  '<div><label>Costo imprenta</label><input id="cc" type="number" value="'+c.cost+'"></div>'+
- '<div><label>Fecha</label><input id="cd" type="date" value="'+E(c.date||'')+'"></div></div>',x=>{
+ '<div><label>Fecha</label><input id="cd" type="date" value="'+E(c.date||'')+'"></div></div><p class="small muted">El nuevo precio queda vigente. El anterior se conserva como antecedente; una estimación por inflación no se toma como precio confirmado.</p>'+(i>=0?window.JDCostHistory.render(c):''),async x=>{
    const p=products.find(z=>z.name===x.querySelector('#cp').value);
    const obj={supplier:x.querySelector('#cs').value,product:p.name,variant:p.models.length?x.querySelector('#cv').value:'',size:p.size.length?x.querySelector('#cz').value:'',binding:p.binding.length?x.querySelector('#cb').value:'',pages:p.pages?Number(x.querySelector('#cg').value):0,qty:Number(x.querySelector('#cq').value),cost:Number(x.querySelector('#cc').value),date:x.querySelector('#cd').value};
-   if(!Number.isSafeInteger(obj.qty)||obj.qty<=0||!Number.isFinite(obj.cost)||obj.cost<=0)return alert('Ingresá una cantidad entera positiva y un costo mayor a cero.');if(!obj.date||obj.date>new Date().toISOString().slice(0,10))return alert('Ingresá una fecha válida, hasta hoy.');if(i>=0)costs[i]=obj;else costs.push(obj);SET('jd_cost_quotes_v2',costs);x.remove();drawCostsV4();try{window.renderQuote?.()}catch(e){};
+   if(!Number.isSafeInteger(obj.qty)||obj.qty<=0||!Number.isFinite(obj.cost)||obj.cost<=0)return alert('Ingresá una cantidad entera positiva y un costo mayor a cero.');if(!obj.date||obj.date>new Date().toISOString().slice(0,10))return alert('Ingresá una fecha válida, hasta hoy.');const save=x.querySelector('.ss');if(save.disabled)return;save.disabled=true;
+   try{
+    await window.jdUpdateSharedState(['jd_cost_quotes_v2'],state=>{
+     const list=Array.isArray(state.jd_cost_quotes_v2)?structuredClone(state.jd_cost_quotes_v2):[];
+     if(i>=0){const at=list.findIndex(row=>JSON.stringify(row)===JSON.stringify(c));if(at<0)throw Error('La cotización cambió en otro dispositivo. Cerrá y volvé a abrirla antes de actualizar.');list[at]=window.JDCostHistory.update(list[at],obj);}
+     else list.push(window.JDCostHistory.update(null,obj));
+     return {jd_cost_quotes_v2:list};
+    });
+    costs=GET('jd_cost_quotes_v2',[]);x.remove();drawCostsV4();try{window.renderQuote?.()}catch(e){};
+   }catch(e){alert('No se cambió el precio. '+(e.message||'No se pudo guardar.'));}finally{save.disabled=false;}
  });
  const cp=w.querySelector('#cp');
  function syncCostFields(){
