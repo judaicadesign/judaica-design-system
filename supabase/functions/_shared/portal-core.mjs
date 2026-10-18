@@ -24,7 +24,8 @@ export function customerResult(raw,r,rule,incomplete=false){
   const valid=a.status==='priced'&&Number.isFinite(a.net)&&a.net>0&&Array.isArray(a.lines)&&a.lines.length&&a.lines.every(l=>Number.isFinite(l.total)&&l.total>=0)&&Math.abs(a.lines.reduce((s,l)=>s+l.total,0)-a.net)<=.011;
   return {id:String(index),qty:a.qty??null,binding:String(a.binding||r.description),status:valid?'priced':'requires-review',price:valid?pricing.calculate(a.net,rule).price:null,currency:'ARS'};
  });
- return {description:r.description,specification:incomplete?r.message:intake.cleanText(r,null,r.bindingOptions?.[0]||r.description,false),alternatives,requiresReview:alternatives.some(a=>a.status!=='priced'),notice:'Importes en pesos argentinos. Envío a confirmar por separado. El pedido queda sujeto a revisión de archivos, disponibilidad y condiciones de pago.'};
+ const requiresReview=alternatives.some(a=>a.status!=='priced'),clean=intake.cleanText(r,null,r.bindingOptions?.[0]||r.description,false);
+ return {description:r.description,specification:incomplete||requiresReview?r.message+(Object.keys(r.confirmedAnswers||{}).length?'\n\nDatos confirmados:\n'+clean:''):clean,alternatives,requiresReview,notice:'Importes en pesos argentinos. Envío a confirmar por separado. El pedido queda sujeto a revisión de archivos, disponibilidad y condiciones de pago.'};
 }
 function safeAnswers(value){
  if(!value||typeof value!=='object'||Array.isArray(value))return {};
