@@ -36,8 +36,9 @@ const result=customerResult({alternatives:[{status:'priced',qty:1,net:100,lines:
 // Authenticated wrapper behavior, including malformed JSON and denied origins.
 const {stripTypeScriptTypes}=await import('node:module'),vm=await import('node:vm');let handler;
 const wrapper=stripTypeScriptTypes(fs.readFileSync('supabase/functions/client-portal/index.ts','utf8').replace(/^import .*;$/gm,''));
-vm.runInNewContext(wrapper,{Deno:{env:{get:()=>''},serve:f=>handler=f},createClient:()=>({storage:{from:()=>({})}}),createPortalApp:()=>async()=>({role:'customer'}),PortalError:(await import('../supabase/functions/_shared/portal-core.mjs')).PortalError,Response,Request,fetch,AbortSignal});
+vm.runInNewContext(wrapper,{Deno:{env:{get:()=>''},serve:f=>handler=f},createClient:()=>({storage:{from:()=>({})}}),createPortalApp:()=>async()=>({role:'customer'}),createPublicPortalApp:()=>async()=>({accepted:true}),portalTokenHash:async()=> 'rate',PortalError:(await import('../supabase/functions/_shared/portal-core.mjs')).PortalError,Response,Request,fetch,AbortSignal});
 assert.equal((await handler(new Request('https://edge.test',{method:'POST',body:'{}'}))).status,401);
+assert.equal((await handler(new Request('https://edge.test',{method:'POST',body:'{"action":"request-account"}'}))).status,200);
 assert.equal((await handler(new Request('https://edge.test',{method:'POST',headers:{Authorization:'Bearer test'},body:'broken'}))).status,400);
 assert.equal((await handler(new Request('https://edge.test',{method:'POST',headers:{Origin:'https://evil.test',Authorization:'Bearer test'},body:'{}'}))).status,403);
 console.log('PASS portal: server sale prices, supplier capture → $104600, multi quantities, contextual cards, customer isolation, disabled/unverified accounts, password gate, private file scope, no cost leakage, malformed/CORS/auth guards.');

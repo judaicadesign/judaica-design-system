@@ -24,10 +24,34 @@ begin
  if retry.total<>124600 then raise exception 'QA: Order total changed with quote'; end if;
  if not exists(select 1 from public.jd_portal_quote_costs where quote_id=q) then raise exception 'QA: Evidence missing'; end if;
 end $$;
+do $$
+declare rid uuid; attempt uuid=gen_random_uuid(); hash text=md5(gen_random_uuid()::text)||md5(gen_random_uuid()::text); request_email text=gen_random_uuid()||'@example.test'; rate text=gen_random_uuid()::text; r public.jd_portal_account_requests;
+begin
+ perform public.jd_portal_request_account('QA Request',request_email,'',rate);
+ perform public.jd_portal_request_account('Duplicate',request_email,'',rate);
+ if(select count(*) from public.jd_portal_account_requests where rate_key=rate)<>1 then raise exception 'QA: request deduplication failed'; end if;
+ if exists(select 1 from public.jd_portal_customers c where c.email=request_email) then raise exception 'QA: request created a customer'; end if;
+ select id into rid from public.jd_portal_account_requests where rate_key=rate;
+ update public.jd_portal_account_requests set token_hash=hash,status='approved',expires_at=now()+interval '7 days' where id=rid;
+ r=public.jd_portal_claim_activation(hash,attempt);
+ if r.status<>'processing' or r.attempt_id<>attempt then raise exception 'QA: activation lease failed'; end if;
+ begin
+  perform public.jd_portal_claim_activation(hash,gen_random_uuid());
+  raise exception 'QA: simultaneous activation allowed';
+ exception when raise_exception then if sqlerrm like 'QA:%' then raise; end if; end;
+ perform public.jd_portal_release_activation(rid,attempt);
+ r=public.jd_portal_claim_activation(hash,attempt);
+ perform public.jd_portal_release_activation(rid,attempt);
+ update public.jd_portal_account_requests set expires_at=now()-interval '1 second' where id=rid;
+ begin
+  perform public.jd_portal_claim_activation(hash,gen_random_uuid());raise exception 'QA: expired activation allowed';
+ exception when raise_exception then if sqlerrm like 'QA:%' then raise; end if; end;
+end $$;
 set local role authenticated;
 do $$ begin
  begin perform 1 from public.jd_portal_customers; raise exception 'QA: direct client table access'; exception when insufficient_privilege then null; end;
  begin perform 1 from public.jd_portal_quote_costs; raise exception 'QA: direct cost access'; exception when insufficient_privilege then null; end;
+ begin perform 1 from public.jd_portal_account_requests; raise exception 'QA: direct request access'; exception when insufficient_privilege then null; end;
  begin perform public.jd_portal_submit_order(gen_random_uuid(),'[]','',null,gen_random_uuid()); raise exception 'QA: direct client RPC'; exception when insufficient_privilege then null; end;
 end $$;
 reset role;

@@ -4,17 +4,18 @@ Customer entry: `portal/index.html`. Team entry: `portal/equipo.html`, linked fr
 
 ## Activate an account
 
-1. Open the team page with an authorized `jd_team_access` account.
-2. Select Abi (initially inactive with no email), enter her verified contact email, enable the account, choose shared Abi pricing or a private override, and save.
-3. Create access. Copy the temporary password and send it through your usual channel. The system sends no email. Existing Auth accounts keep their current password.
-4. Customer signs in and must change the temporary password before quoting or accessing orders.
+1. Share `portal/solicitar.html` with any interested client. They submit their own name, email, optional WhatsApp and explicit request consent. No Auth account is created at this stage.
+2. Review requests on the team page with an authorized `jd_team_access` account. Approving generates a personal, one-use activation link valid for seven days. Only its SHA-256 hash is stored. Renewal invalidates the old link.
+3. Share that personal link ONLY with its intended recipient through a confirmed contact channel. Possession of this operator-delivered link establishes the recipient's identity; this release does not automatically email an email-verification link. The public application link can be sent to many people; the personal activation link must not be.
+4. The recipient opens the private link and chooses their password. Only then is an Auth account created and portal access enabled. Existing Auth accounts must prove their existing password and are never reset by this flow. The operator does not know the chosen password.
 
-Shared pricing is the existing `jd_whatsapp_pricing_v1` rule, editable in the internal B612 quote tool. Private overrides belong to the portal account. Prices are calculated in the Edge Function, never in the customer browser. A quote expires after seven days. A submitted order freezes the selected server-side prices; submission awaits file/payment review rather than automatically starting production.
+The single shared pricing rule is `jd_whatsapp_pricing_v1`, editable in the internal B612 quote tool. Per-account overrides are disabled both in the API and by a database constraint. Prices are calculated in the Edge Function, never in the customer browser. A quote expires after seven days. A submitted order freezes the selected server-side prices; submission awaits file/payment review rather than automatically starting production.
 
 ## Security boundaries
 
-- The five `jd_portal_*` tables have RLS enabled, with no grants to anon/authenticated. The Edge Function verifies each JWT through Auth and resolves fresh team/customer permissions for every request. User metadata grants no role.
-- The function uses a service-role client only on the server. Its own verified authentication is why gateway `verify_jwt` is false. Never deploy a variant without that identity check.
+- All six `jd_portal_*` tables have RLS enabled, with no grants to anon/authenticated. The Edge Function verifies each private action's JWT through Auth and resolves fresh team/customer permissions for every request. User metadata grants no role.
+- Only `request-account` and `activate-account` are public. Requests are consent-validated, deduplicated without revealing account existence, and rate limited in a serialized database transaction using a server-salted hash of the forwarded IP. Activation requires the exact approved secret, a nonexpired lease, and an owner-chosen password. There is no public access to request lists, rules, costs, quotes, or orders.
+- The function uses a service-role client only on the server. Its own private-action authentication and activation-secret verification are why gateway `verify_jwt` is false. Never deploy a variant without those checks. Activation leases prevent simultaneous consumption, release on failure, and recover after five minutes if a worker stops; a changed/rejected request cannot be finalized by an older worker.
 - Supplier operations, costs and rule snapshots live in `jd_portal_quote_costs`. Customer responses use explicit allowlists; no raw supplier objects are spread into public DTOs. Quote and evidence saves are one transaction.
 - Multi-product submission uses a service-only, SECURITY INVOKER RPC. It locks the customer's quotes, checks ownership and expiry, accepts only saved quantity alternatives, and computes totals from saved records. Idempotency keys protect retries.
 - `jd-portal-files` is private. Upload paths are generated on the server and scoped to customer/order; uploads cannot overwrite. The backend checks size and PDF/JPEG/PNG signatures before exposing files. Downloads require ownership (or a team account) and receive 60-second links. Screenshots/copies by authorized recipients cannot be prevented.
