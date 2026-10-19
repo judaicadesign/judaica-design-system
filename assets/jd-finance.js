@@ -14,6 +14,7 @@ const validAmount=x=>{const n=Number(String(x||"").trim().replace(",","."));retu
 const slug=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const CATS=["Imprenta","Uber / mensajería","Reimpresión / reparación","Materiales / terminación","Empaque","Software y suscripciones","Publicidad y marketing","Comisiones e impuestos","Servicio de diseño","Otros"];
 const ROUTES=["Sin recorrido","Imprenta → JD","JD → cliente","Cliente → JD","JD → imprenta","Imprenta → cliente","Ida y vuelta","Otro"];
+const INCIDENTS=["Sin incidente","Error JD","Error imprenta","Error cliente","Daño de transporte","Incidente sin responsable determinado"];
 let state={year:"2026",currency:"ARS",query:"",tab:"historico",job:"",selected:""};
 const jobs=()=>window.JDWorkflow?.jobs?.().filter(j=>!j.deletedAt)||[];
 function classification(a){
@@ -29,7 +30,7 @@ const total=(rows,k)=>rows.reduce((n,a)=>n+Number(a[k]||0),0);
 
 const pct=(num,den)=>den>0?new Intl.NumberFormat("es-AR",{maximumFractionDigits:1,minimumFractionDigits:1}).format(100*num/den)+" %":"—";
 const ratio=(num,den)=>den>0?100*num/den:null;
-const isError=a=>a.reason==="Error JD"||a.reason==="Error proveedor"||a.reason==="Error cliente"||a.category==="Reimpresión / reparación";
+const isError=a=>["Error JD","Error imprenta","Error cliente","Daño de transporte","Incidente sin responsable determinado"].includes(a.reason);
 const months=["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 const todayLocal=()=>date();
 const sameCurrency=(a,c)=>a.currency===c;
@@ -153,12 +154,14 @@ function renderHistorical(all){
   ["Menor mes completo",period.low?period.low.name+" · "+fmt(period.low.revenue,state.currency):"—","Incluye meses sin ventas"]
  ].map(a=>'<div class="jd-fin-kpi"><span>'+esc(a[0])+'</span><strong>'+esc(a[1])+'</strong><small>'+esc(a[2])+'</small></div>').join("")+'</div></section>';
  const breakdownTable='<section class="jd-fin-panel"><h2>Destino de los gastos · resumen por rubro</h2><p class="small muted">El porcentaje se calcula sobre costos históricos anotados + egresos nuevos comprobados NO duplicados. Los costos históricos sin desglosar se mantienen separados: no se atribuyen artificialmente a imprenta ni Uber.</p>'+
- '<div class="jd-fin-scroll"><table class="table"><thead><tr><th>Rubro</th><th>Importe identificado</th><th>% de costos registrados</th></tr></thead><tbody>'+
- known.rows.map(a=>'<tr><td>'+esc(a.category)+'</td><td>'+fmt(a.total,state.currency)+'</td><td>'+pct(a.total,known.total)+'</td></tr>').join("")+'</tbody></table></div>'+
- '<p class="small muted">Incidencias/reimpresiones identificadas: <b>'+fmt(known.errorTotal,state.currency)+'</b> ('+pct(known.errorTotal,known.total)+'). No equivale a todos los errores posibles; incluye lo etiquetado y los costes de reparación verificados. Costos sin desglosar: '+fmt(known.unknown,state.currency)+'.</p></section>';
+ '<div class="jd-fin-scroll"><table class="table"><thead><tr><th>Rubro</th><th>Importe identificado</th><th>% de costos</th><th>% sobre ingresos históricos</th></tr></thead><tbody>'+
+ known.rows.map(a=>'<tr><td>'+esc(a.category)+'</td><td>'+fmt(a.total,state.currency)+'</td><td>'+pct(a.total,known.total)+'</td><td>'+pct(a.total,total(all.filter(x=>x.classification!=="Software y suscripciones"),"revenue"))+'</td></tr>').join("")+'</tbody></table></div>'+
+ '<p class="small muted">Costos identificados como incidentes: <b>'+fmt(known.errorTotal,state.currency)+'</b> ('+pct(known.errorTotal,known.total)+'). No equivale a todos los errores posibles; incluye lo etiquetado y los costes de reparación verificados. Costos sin desglosar: '+fmt(known.unknown,state.currency)+'.</p></section>';
  $("jdFinBody").innerHTML=monthlyCards+breakdownTable+'<section class="jd-fin-panel"><h2>Evolución mensual (importes nominales)</h2><p class="small muted">Evolución de registros, no flujo de caja ni comparación ajustada por inflación. Las barras de ingresos y costos están en la misma escala.</p><div class="jd-fin-legend"><span>■ Ingresos</span><span>■ Costos</span></div><div class="jd-fin-chart">'+monthly.map(a=>'<div class="jd-fin-chart-col" title="'+months[a.month]+' · Ingresos '+fmt(a.rev,state.currency)+' · Costos '+fmt(a.cost,state.currency)+'"><div class="jd-fin-bars"><i class="rev" style="height:'+Math.max(0,a.rev/max*100)+'%"></i><i class="cost" style="height:'+Math.max(0,a.cost/max*100)+'%"></i></div><small>'+months[a.month]+'</small></div>').join("")+'</div></section>'+
  '<section class="jd-fin-panel"><h2>¿En qué se concentra el negocio?</h2><div class="jd-fin-scroll"><table class="table"><thead><tr><th>Rubro</th><th>Registros</th><th>Ingresos</th><th>Costos anotados</th><th>Diferencia parcial</th></tr></thead><tbody>'+[...groups.values()].sort((a,b)=>b.rev-a.rev).map(a=>'<tr><td>'+esc(a.name)+'</td><td>'+a.count+'</td><td>'+fmt(a.rev,state.currency)+'</td><td>'+fmt(a.cost,state.currency)+'</td><td>'+fmt(a.rev-a.cost,state.currency)+'</td></tr>').join("")+'</tbody></table></div></section>'+
  expensesTable+
+ '<section class="jd-fin-panel"><h2>Detalle de los 12 meses</h2><p class="small muted">Ingresos y costos agrupados de la planilla, sin desglose de caja. El mes en curso es PARCIAL; el margen es registrado, no utilidad neta.</p><div class="jd-fin-scroll"><table class="table"><thead><tr><th>Mes</th><th>Ingresos</th><th>Costos</th><th>Diferencia provisional</th><th>Margen %</th></tr></thead><tbody>'+
+ monthly.map(m=>'<tr><td>'+m.name+(Number(state.year)===Number(todayLocal().slice(0,4))&&m.month===Number(todayLocal().slice(5,7))-1?' · Parcial':'')+'</td><td>'+fmt(m.rev,state.currency)+'</td><td>'+fmt(m.cost,state.currency)+'</td><td>'+fmt(m.rev-m.cost,state.currency)+'</td><td>'+pct(m.rev-m.cost,m.rev)+'</td></tr>').join('')+'</tbody></table></div></section>'+
  '<section class="jd-fin-panel"><div class="jd-fin-bar"><h2>Historial de JD · sin desglose</h2><input id="jdFinSearch" type="search" placeholder="Buscar cliente o producto" value="'+esc(state.query)+'"/></div><div class="jd-fin-scroll"><table class="table"><thead><tr><th>Fecha</th><th>Trabajo / concepto</th><th>Ingreso</th><th>Costo conjunto</th><th>Origen</th><th>Desglose</th></tr></thead><tbody>'+rows.map(a=>'<tr><td>'+esc(a.date||"Sin fecha")+'</td><td>'+esc(a.label)+'</td><td>'+fmt(a.revenue,state.currency)+'</td><td>'+fmt(a.cost,state.currency)+'</td><td><small>'+esc(a.source?.sheet||"Histórico")+' / '+esc(a.source?.row||"")+'</small></td><td>'+(a.cost>0?'<button class="btn sm" data-breakdown="'+esc(a.id)+'">Desglosar</button>':'—')+'</td></tr>').join("")+'</tbody></table></div><small>Mostrando como máximo 160 registros del período. Ningún gasto de Uber ha sido separado artificialmente del costo conjunto.</small></section>';
  $("jdFinSearch").oninput=e=>{state.query=e.target.value;const pos=e.target.selectionStart;render();$("jdFinSearch")?.focus();try{$("jdFinSearch").setSelectionRange(pos,pos)}catch{}};
  $("jdFinBody").querySelectorAll("[data-breakdown]").forEach(b=>b.onclick=()=>openLegacyDetail(b.dataset.breakdown));
@@ -190,6 +193,7 @@ function openLegacyDetail(id){
  '<div class="jd-fin-form"><label>Concepto<select id="jdBreakCategory">'+selectOptions(CATS,"Imprenta")+'</select></label>'+
  '<label>Importe acreditado<input id="jdBreakAmount" type="number" step="0.01" min="0.01" max="'+remainder+'"></label>'+
  '<label>Fecha real del gasto (si se conoce)<input id="jdBreakDate" type="date"></label>'+ 
+ '<label>Motivo / responsabilidad<select id="jdBreakReason">'+selectOptions(INCIDENTS,"Sin incidente")+'</select></label>'+ 
  '<label>Proveedor<input id="jdBreakProvider" placeholder="Zloto, Uber…"></label>'+
  '<label>Recorrido<select id="jdBreakRoute">'+selectOptions(ROUTES,"Sin recorrido")+'</select></label>'+
  '<label>Estado del dato<select id="jdBreakVerification"><option>Pendiente de confirmar</option><option>Comprobante verificado</option><option>Recordado / reconstruido</option></select></label>'+ 
@@ -200,7 +204,7 @@ function openLegacyDetail(id){
  overlay.querySelector("[data-add]").onclick=async()=>{
   const get=name=>overlay.querySelector("#"+name),amount=validAmount(get("jdBreakAmount").value),error=get("jdBreakError");
   if(!amount||amount>remainder+.001){error.textContent="El importe debe ser positivo y no superar el costo que falta desglosar.";return}
-  const part={id:"part-"+crypto.randomUUID(),amount,category:get("jdBreakCategory").value,date:get("jdBreakDate").value||null,verification:get("jdBreakVerification").value,provider:get("jdBreakProvider").value.trim(),route:get("jdBreakRoute").value,note:get("jdBreakNote").value.trim(),createdAt:new Date().toISOString()};
+  const part={id:"part-"+crypto.randomUUID(),amount,category:get("jdBreakCategory").value,date:get("jdBreakDate").value||null,verification:get("jdBreakVerification").value,reason:get("jdBreakReason").value,provider:get("jdBreakProvider").value.trim(),route:get("jdBreakRoute").value,note:get("jdBreakNote").value.trim(),createdAt:new Date().toISOString()};
   const button=overlay.querySelector("[data-add]");button.disabled=true;error.textContent="";
   try{
    await window.jdUpdateSharedState([ALLOC],current=>{
@@ -289,6 +293,7 @@ function openEditor(id,jobId,legacyId){
  '<label>Estado<select id="finStatus">'+selectOptions(["Realizado","Pendiente"],x.status||"Realizado")+'</select></label>'+
  '<label>Trabajo<select id="finJob"><option value="">Sin asociar (gasto general)</option>'+opts+'</select></label>'+
  '<label>Caso histórico<select id="finLegacyCase"><option value="">Sin vincular</option>'+legacy.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).map(a=>'<option value="'+esc(a.id)+'"'+(a.id===(legacyId||x.legacyId)?' selected':'')+'>'+esc(a.label+(a.date?" · "+a.date:""))+'</option>').join("")+'</select></label>'+ 
+ '<label>Motivo / responsabilidad<select id="finReason">'+selectOptions(INCIDENTS,x.reason||"Sin incidente")+'</select></label>'+ 
  '<label>Proveedor / transportista<input id="finSupplier" value="'+esc(x.provider||"")+'" placeholder="Zloto, Uber, otra imprenta…"></label>'+
  '<label>Recorrido (si corresponde)<select id="finRoute">'+selectOptions(ROUTES,x.route||"Sin recorrido")+'</select></label>'+
  '<label class="span2">Descripción / motivo<textarea id="finDetail" rows="2" placeholder="Ej.: Uber desde Zloto hasta casa; reimpresión de tapa">'+esc(x.detail||"")+'</textarea></label>'+
@@ -303,7 +308,7 @@ function openEditor(id,jobId,legacyId){
   if(!amount||!d){f("finError").textContent="Indicá fecha e importe positivo.";return}
   const jb=arr.find(z=>z.id===f("finJob").value),historical=legacy.find(z=>z.id===f("finLegacyCase").value);
   if(jb&&historical){f("finError").textContent="Vinculá el movimiento a un trabajo actual O a uno histórico, no a ambos.";return}
-  const item={...x,id:x.id||"fin-"+crypto.randomUUID(),date:d,kind:f("finKind").value,currency:f("finCurrency").value,amount,category:f("finCategory").value,status:f("finStatus").value,jobId:jb?.id||null,legacyId:historical?.id||null,jobTitle:jb?.title||historical?.label||"",provider:f("finSupplier").value.trim(),route:f("finRoute").value,detail:f("finDetail").value.trim(),evidence:f("finEvidence").value.trim(),legacyOverlap:f("finLegacy").checked,updatedAt:new Date().toISOString(),history:[...(x.history||[])]};
+  const item={...x,id:x.id||"fin-"+crypto.randomUUID(),date:d,kind:f("finKind").value,currency:f("finCurrency").value,amount,category:f("finCategory").value,reason:f("finReason").value,status:f("finStatus").value,jobId:jb?.id||null,legacyId:historical?.id||null,jobTitle:jb?.title||historical?.label||"",provider:f("finSupplier").value.trim(),route:f("finRoute").value,detail:f("finDetail").value.trim(),evidence:f("finEvidence").value.trim(),legacyOverlap:f("finLegacy").checked,updatedAt:new Date().toISOString(),history:[...(x.history||[])]};
   if(existing)item.history.push({at:item.updatedAt,type:"Edición",before:{amount:x.amount,date:x.date,category:x.category,jobId:x.jobId,status:x.status}});
   else item.createdAt=item.updatedAt;
   btn.disabled=true;f("finError").textContent="";
@@ -318,7 +323,7 @@ function openEditor(id,jobId,legacyId){
  };
 }
 function init(){if(!$("finance"))return;render()}
-window.JDFinance={render,openEditor,jobReport,summaryHtml,openForJob:id=>{state.tab="trabajos";state.job=id;window.go?.("finance");render();}};
+window.JDFinance={render,openEditor,jobReport,summaryHtml,periodStats,breakdownStats,openForJob:id=>{state.tab="trabajos";state.job=id;window.go?.("finance");render();}};
 document.addEventListener("jd-app-ready",init);
 window.addEventListener("jd-shared-ready",()=>render());
 if(document.readyState!=="loading")setTimeout(init,0);else document.addEventListener("DOMContentLoaded",init);
