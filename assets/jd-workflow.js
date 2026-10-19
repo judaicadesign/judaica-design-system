@@ -120,8 +120,9 @@
    value.opsChecks=Object.fromEntries(PREPRINT_CHECKS.map(([key])=>{const old=j.opsChecks?.[key]||{};const ok=f('jdOp-'+key).checked,evidence=f('jdOpEvidence-'+key).value.trim();return [key,{ok,evidence,checkedAt:ok?(old.ok&&old.evidence===evidence?old.checkedAt||now():now()):null}];}));
    const enteringProduction=stages.indexOf(value.stage)>=11&&stages.indexOf(stageOf(j.stage))<11;
    const remaining=missingPreprint(value);
-   if(enteringProduction&&remaining.length)throw Error('Antes de liberar a imprenta faltan controles del Manual JD: '+remaining.map(x=>x[1]).join(' · '));
    if(!value.title)throw Error('Indicá el trabajo.');if(order&&stages.indexOf(value.stage)>=6&&stages.indexOf(value.stage)<=16&&paid(order)<order.quantity.price&&order.paymentTerms!=='partial')throw Error('Falta cobrar el 100%. Si acordaste un pago parcial, registrá la excepción y su vencimiento desde Cobros.');if([stages[15],stages[16]].includes(value.stage)&&!value.qualityApprovedAt)throw Error('Falta aprobar el control de calidad de lo recibido de imprenta.');
+   if(enteringProduction&&remaining.length)throw Error('Antes de liberar a imprenta faltan controles del Manual JD: '+remaining.map(x=>x[1]).join(' · '));
+
    value.history=[...(j.history||[])];if(stageOf(j.stage)!==value.stage)value.history.push({at:now(),type:'Etapa',text:stageOf(j.stage)+' → '+value.stage,stage:value.stage});
    if((j.reviewUrl||'')!==value.reviewUrl)value.history.push({at:now(),type:'Muestra / revisión',text:value.reviewUrl?'Link de revisión '+(j.reviewUrl?'actualizado':'registrado')+': '+value.reviewUrl+(j.reviewUrl?' · Anterior: '+j.reviewUrl:''):'Link de revisión quitado. Anterior: '+j.reviewUrl});
    if(JSON.stringify(j.opsChecks||{})!==JSON.stringify(value.opsChecks))value.history.push({at:now(),type:'Control operativo',text:'Checklist preimpresión actualizado; verificaciones completas: '+(PREPRINT_CHECKS.length-remaining.length)+' de '+PREPRINT_CHECKS.length+'. No equivale a aprobación automática del PDF.'});
