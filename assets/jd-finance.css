@@ -43,3 +43,16 @@
 .jd-fin-dialog .btn{cursor:pointer}
 @media(max-width:680px){.jd-fin-dialog .jd-fin-form{grid-template-columns:1fr}.jd-fin-dialog .jd-fin-form .span2{grid-column:auto}.jd-fin-dialog{padding:14px}#finance .jd-fin-chart{gap:2px}#finance .jd-fin-chart-col small{font-size:9px}#finance .jd-fin-panel{padding:12px}#finance .jd-fin-kpis{grid-template-columns:1fr 1fr}}
 @media(max-width:420px){#finance .jd-fin-kpis{grid-template-columns:1fr}#finance .jd-fin-legend{flex-wrap:wrap}}
+
+/* Resultado económico dentro de la ficha del trabajo (pestaña Cobros) */
+.jd-fin-project-summary{border:1px solid #d7ddd8;border-radius:12px;padding:14px;background:#f7faf8;margin:14px 0 20px}
+.jd-fin-project-summary h2{font-size:17px;margin:0 0 10px;color:#275c60}
+.jd-fin-project-summary .jd-fin-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.jd-fin-project-summary .jd-fin-kpi{border:1px solid #e2e6e2;padding:11px;border-radius:9px;background:#fff;display:flex;flex-direction:column;gap:5px}
+.jd-fin-project-summary .jd-fin-kpi span{color:#5a7069;font-weight:600;font-size:12px}
+.jd-fin-project-summary .jd-fin-kpi strong{font-size:clamp(16px,2.5vw,21px);overflow-wrap:anywhere}
+.jd-fin-project-summary .jd-fin-kpi small{font-size:11px;color:#66756e;line-height:1.4}
+.jd-work-old-quotes{margin:10px 0;border:1px solid #ddd4c8;border-radius:8px;padding:9px 12px;background:#faf9f7}
+.jd-work-old-quotes summary{cursor:pointer;font-weight:600}
+.jd-work-quote-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.jd-fin-project-summary>p{margin:12px 0 0;line-height:1.5}
