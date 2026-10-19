@@ -214,6 +214,39 @@ function openLegacyDetail(id){
   }catch(e){error.textContent=e.message||"No se pudo guardar";button.disabled=false}
  };
 }
+
+function jobReport(job,legacy,currency){
+ const historic=legacy||null;
+ const order=job?linkedOrder(job):null;
+ const baseline=historic?Number(historic.revenue||0):currency==="ARS"?Number(order?.quantity?.price||0):0;
+ const originalCost=historic?Number(historic.cost||0):0;
+ const moves=read(MOVES).filter(x=>!x.voidAt&&x.status==="Realizado"&&x.currency===currency&&
+  (historic?x.legacyId===historic.id:job?x.jobId===job.id:false));
+ const extras=moves.filter(x=>!x.legacyOverlap);
+ const moreCosts=total(extras.filter(x=>x.kind==="Egreso"),"amount");
+ const receipts=total(moves.filter(x=>x.kind==="Ingreso"),"amount");
+ const actualCost=originalCost+moreCosts;
+ const costKnown=originalCost>0||moreCosts>0;
+ const result=baseline>0&&costKnown?baseline-actualCost:null;
+ const est=order?.quantity?.cost??null;
+ return {currency,baseRevenue:baseline,originalCost,moreCosts,actualCost,receipts,costKnown,
+  result,margin:result!==null?ratio(result,baseline):null,
+  estimatedCost:est,hasAcceptedOrder:!!order,haveRevenue:baseline>0,
+  scope:historic?"histórico":job?"actual":"ninguno"};
+}
+function summaryHtml(j,old,currency){
+ const r=jobReport(j,old,currency);
+ const line=(label,value,comment)=>'<div class="jd-fin-kpi"><span>'+esc(label)+'</span><strong>'+esc(value)+'</strong>'+(comment?'<small>'+esc(comment)+'</small>':'')+'</div>';
+ return '<section class="jd-fin-panel jd-fin-project-summary"><h2>Resultado económico del trabajo</h2>'+
+ '<div class="jd-fin-kpis">'+
+ line("Ingreso del pedido / histórico",r.haveRevenue?fmt(r.baseRevenue,currency):"Pendiente",r.scope==="actual"?"Precio del pedido aceptado; NO cobros":"Según registro histórico; NO cobros")+
+ line("Costo real registrado",fmt(r.actualCost,currency),r.scope==="actual"?"No incluye costo cotizado de imprenta mientras no sea registrado":"Incluye costo original y gastos posteriores no duplicados")+
+ line("Resultado provisional",r.result===null?"Sin calcular":fmt(r.result,currency),r.result===null?"Falta precio aceptado o costo real":"Ingreso menos costos reales registrados, sin impuestos ni horas")+
+ line("Margen sobre ingreso",r.margin===null?"—":pct(r.result,r.baseRevenue),"No equivale al porcentaje «a dar» de Excel")+
+ '</div><p class="small muted">'+(r.estimatedCost!==null&&r.scope==="actual"?"Costo presupuestado de imprenta: "+fmt(r.estimatedCost,"ARS")+". Es una referencia, NO un egreso realizado. ":"")+
+ 'Resultado siempre provisional hasta completar costos (imprenta, mensajería, reparaciones, materiales), tributos y trabajo interno. Los cobros se controlan separadamente.</p></section>';
+}
+
 function renderJobs(){
  const live=jobs(),history=read(LEGACY).filter(a=>a.classification!=="Software y suscripciones"),moves=read(MOVES).filter(a=>!a.voidAt);
  const historicalId=state.job.startsWith("legacy:")?state.job.slice(7):null;
@@ -226,6 +259,7 @@ function renderJobs(){
  const related=moves.filter(x=>j?x.jobId===j.id:old?x.legacyId===old.id:false).filter(x=>x.currency===state.currency);
  const newEntries=related.filter(x=>x.status==="Realizado"&&!x.legacyOverlap);
  const newIn=total(newEntries.filter(x=>x.kind==="Ingreso"),"amount"),newOut=total(newEntries.filter(x=>x.kind==="Egreso"),"amount");
+ const summary= (j||old)?summaryHtml(j,old,state.currency):'';
  const boxes=old?'<div class="jd-fin-kpis">'+[
   ["Ingreso histórico registrado",oldRevenue,"No equivale a dinero cobrado"],
   ["Costo histórico agrupado",oldCost,"Incluye partidas todavía sin identificar"],
@@ -236,7 +270,7 @@ function renderJobs(){
  const historicRows=old?parts.map(p=>'<tr><td>'+esc(old.date||"—")+'</td><td>'+esc(p.category)+' · '+esc(p.note||"")+'</td><td>'+esc(p.provider||"")+'</td><td>'+fmt(p.amount,old.currency)+'</td><td>Dentro del costo histórico</td></tr>').join(""):'';
  const movementRows=related.map(x=>'<tr><td>'+esc(x.date)+'</td><td>'+esc(x.category)+' · '+esc(x.detail||"")+'</td><td>'+esc(x.provider||"")+'</td><td>'+fmt(x.amount,x.currency)+'</td><td>'+esc(x.status)+(x.legacyOverlap?' · Ya incluido':'')+'</td></tr>').join("");
  $("jdFinBody").innerHTML='<section class="jd-fin-panel"><h2>Costos reales por proyecto · histórico y actual</h2><p class="small muted">También podés abrir trabajos cerrados como Ian Bruck o Max Alperovich sin recrearlos en el CRM. Costo histórico, componentes identificados y gastos nuevos se muestran separados para evitar duplicaciones.</p><label>Seleccionar trabajo <select id="jdFinJobChoice"><option value="">Elegí un trabajo…</option><optgroup label="Trabajos actuales">'+liveOptions+'</optgroup><optgroup label="Trabajos históricos">'+historicalOptions+'</optgroup></select></label>'+
- boxes+extra+
+ summary+boxes+extra+
  (j||old?'<div class="jd-fin-bar"><button class="btn primary" id="jdFinJobAdd">+ Costo o cobro</button>'+(old?'<button class="btn" id="jdFinBreak">Desglosar costo histórico</button>':'')+'</div><div class="jd-fin-scroll"><table class="table"><thead><tr><th>Fecha</th><th>Concepto</th><th>Proveedor</th><th>Importe</th><th>Clase</th></tr></thead><tbody>'+historicRows+movementRows+'</tbody></table></div>':'<p class="muted">Elegí un proyecto activo o un trabajo de tu historial importado.</p>')+'</section>';
  $("jdFinJobChoice").onchange=e=>{state.job=e.target.value;const prev=history.find(x=>x.id===state.job.replace(/^legacy:/,""));if(prev){state.currency=prev.currency;state.year=(prev.date||"").slice(0,4)||state.year}render()};
  if(j||old)$("jdFinJobAdd").onclick=()=>openEditor(null,j?.id||null,old?.id||null);
@@ -284,7 +318,7 @@ function openEditor(id,jobId,legacyId){
  };
 }
 function init(){if(!$("finance"))return;render()}
-window.JDFinance={render,openEditor,openForJob:id=>{state.tab="trabajos";state.job=id;window.go?.("finance");render();}};
+window.JDFinance={render,openEditor,jobReport,summaryHtml,openForJob:id=>{state.tab="trabajos";state.job=id;window.go?.("finance");render();}};
 document.addEventListener("jd-app-ready",init);
 window.addEventListener("jd-shared-ready",()=>render());
 if(document.readyState!=="loading")setTimeout(init,0);else document.addEventListener("DOMContentLoaded",init);
