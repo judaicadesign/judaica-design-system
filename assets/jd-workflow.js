@@ -180,13 +180,13 @@
    if(enteringProduction&&remaining.length)throw Error('Antes de liberar a imprenta faltan controles del Manual JD: '+remaining.map(x=>x[1]).join(' · '));
 
    value.history=[...(j.history||[])];
-   for(const [key,label] of [['firstContact','Primer contacto'],['approvedAt','Aprobación del presupuesto'],['deliveredAt','Entrega efectiva'],['event','Fecha del evento']]){
-    if((j[key]||'')!==value[key])value.history.push({at:now(),type:'Hito de fecha',text:label+': '+(value[key]||'Sin fecha registrada')+' (anterior: '+(j[key]||'sin fecha')+')'});
-   }
    if(stageOf(j.stage)!==value.stage)value.history.push({at:now(),type:'Etapa',text:stageOf(j.stage)+' → '+value.stage,stage:value.stage});
    if((j.reviewUrl||'')!==value.reviewUrl)value.history.push({at:now(),type:'Muestra / revisión',text:value.reviewUrl?'Link de revisión '+(j.reviewUrl?'actualizado':'registrado')+': '+value.reviewUrl+(j.reviewUrl?' · Anterior: '+j.reviewUrl:''):'Link de revisión quitado. Anterior: '+j.reviewUrl});
    if(PREPRINT_CHECKS.some(([key])=>Boolean(j.opsChecks?.[key]?.ok)!==Boolean(value.opsChecks?.[key]?.ok)||String(j.opsChecks?.[key]?.evidence||'')!==String(value.opsChecks?.[key]?.evidence||'')))value.history.push({at:now(),type:'Control operativo',text:'Checklist preimpresión actualizado; verificaciones completas: '+(PREPRINT_CHECKS.length-remaining.length)+' de '+PREPRINT_CHECKS.length+'. No equivale a aprobación automática del PDF.'});
    const text=f('jobHistText').value.trim(),date=f('jobHistAt').value;if(text)value.history.push({at:date?new Date(date).toISOString():now(),type:f('jobHistType').value,text});
+   for(const [key,label] of [['firstContact','Primer contacto'],['approvedAt','Aprobación del presupuesto'],['deliveredAt','Entrega efectiva'],['event','Fecha del evento']]){
+    if((j[key]||'')!==value[key])value.history.push({at:now(),type:'Hito de fecha',text:label+': '+(value[key]||'Sin fecha registrada')+' (anterior: '+(j[key]||'sin fecha')+')'});
+   }
    if(!base&&!value.history.length)value.history.push({at:now(),type:'Trabajo',text:'Trabajo registrado; las fechas anteriores no registradas se conservan como desconocidas.'});
    await update(J,j.id,base,value);p.remove();
   });
