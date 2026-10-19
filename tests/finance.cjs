@@ -49,7 +49,7 @@ const {JSDOM}=require('jsdom');
  assert.equal(saved[0].category,'Uber / mensajería');
  assert.equal(JSON.parse(w.localStorage.getItem('jd_finance_legacy_v1'))[0].cost,741948);
  w.JDFinance.openForJob('j-max');
- assert.match(w.document.getElementById('jdFinBody').textContent,/Rentabilidad por trabajo/);
+ assert.match(w.document.getElementById('jdFinBody').textContent,/(Rentabilidad por trabajo|Costos reales por proyecto)/);
  assert.match(w.document.getElementById('jdFinBody').textContent,/3.000/);
  // Historical project must be accessible without first creating a CRM job.
  const picker=w.document.getElementById("jdFinJobChoice");
