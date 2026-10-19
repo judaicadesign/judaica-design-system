@@ -73,5 +73,29 @@ const {JSDOM}=require('jsdom');
  assert.equal(saved.at(-1).amount,7000);
  assert.match(w.document.getElementById("jdFinBody").textContent,/Gastos adicionales registrados/);
  assert.equal(JSON.parse(w.localStorage.getItem("jd_finance_legacy_v1"))[1].cost,1053233,"Ningún gasto nuevo reescribe histórico");
+
+ // Por trabajo: diferencia real registrada, margen sobre INGRESO y no el % «a dar» del Excel.
+ const old=JSON.parse(w.localStorage.getItem("jd_finance_legacy_v1"));
+ const max=w.JDFinance.jobReport(null,old.find(x=>x.id==="legacy-max"),"ARS");
+ assert.equal(max.result,521052);
+ assert.ok(Math.abs(max.margin-41.255)<0.02);
+ const ian=w.JDFinance.jobReport(null,old.find(x=>x.id==="legacy-ian"),"ARS");
+ assert.equal(ian.result,1058400-1053233-7000);
+ assert.ok(ian.margin<0,"reimpresión no duplicada puede transformar resultado positivo en pérdida");
+ // Meses completos: no dividir por los meses con ventas solamente.
+ const monthly=w.JDFinance.periodStats([{date:"2025-01-17",revenue:120,cost:45},{date:"2025-03-10",revenue:240,cost:120}],"2025");
+ assert.equal(monthly.fullCount,12);
+ assert.equal(monthly.avgRevenue,30);
+ assert.equal(monthly.peak.name,"Mar");
+ // Categorías conocidas + residual desconocido, nunca adivinar costo de Uber.
+ const breakdown=w.JDFinance.breakdownStats(old.filter(x=>x.currency==="ARS"),saved,alloc,"ARS");
+ assert.ok(breakdown.unknown>0);
+ assert.ok(breakdown.rows.some(r=>r.category==="Costos históricos sin desglosar"));
+ // Sin costos reales: NO ofrecer ganancia ficticia igual al precio.
+ w.localStorage.setItem("jd_orders_v1",JSON.stringify([{id:"or1",jobId:"j-max",quoteId:"q1",quantity:{price:228000,cost:116135}}]));
+ const report=w.JDFinance.jobReport({id:"j-max",quoteIds:["q1"]},null,"ARS");
+ assert.equal(report.baseRevenue,228000);
+ assert.equal(report.estimatedCost,116135);
+ assert.equal(report.result,225000,"si hay un costo real de 3.000, el costo estimado no debe duplicarse");
  console.log('PASS: caja, resumen separado, desglose histórico no duplicado y costo por proyecto');
 })().catch(e=>{console.error(e);process.exit(1)});
