@@ -8,6 +8,7 @@ const check=(r:any)=>{if(r.error){if(r.error.code==='P0001')throw new PortalErro
 const db={
  async signupRate(rate:string){check(await service.rpc('jd_portal_signup_rate',{p_rate:rate}));},
  async registerCustomer(name:string,email:string,phone:string,user:string,profile:any){check(await service.rpc('jd_portal_register_customer',{p_name:name,p_email:email,p_phone:phone,p_user:user,p_profile:profile}));},
+ async publishQuote(id:string,expected:any,result:any,evidence:any,rule:any,expires:string){return check(await service.rpc('jd_portal_publish_quote',{p_quote:id,p_expected:expected,p_result:result,p_evidence:evidence,p_rule:rule,p_expires:expires}));},
  async saveQuote(quote:any,evidence:any,rule:any){return check(await service.rpc('jd_portal_save_quote',{p_quote:quote,p_evidence:evidence,p_rule:rule}));},
  async one(table:string,filters:Record<string,unknown>){let q=service.from(table).select('*');for(const [k,v] of Object.entries(filters))q=q.eq(k,v);return check(await q.maybeSingle());},
  async list(table:string,filters:Record<string,unknown>,columns='*',limit=100){let q=service.from(table).select(columns);for(const [k,v] of Object.entries(filters))q=q.eq(k,v);return check(await q.order('created_at',{ascending:false}).limit(limit));},

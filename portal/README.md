@@ -33,3 +33,10 @@ Public Auth settings were checked: Google is disabled. Enabling it requires an o
 npm test includes the portal's authorization, sale-price isolation, direct registration, exact passwords, profile fields, automatic login and UI tests, plus existing regressions. tests/client-portal-db.sql tests real database transactions for registration/profile persistence, retries, disabled-account protection, signup rate limiting, legacy-flow retirement, price freezing, ownership and denied direct access. Its fixtures roll back; the test references an existing Auth UUID solely to validate a foreign key and creates/modifies no Auth account or session. Supplier fixtures establish arithmetic rather than current availability. No real recipient was impersonated or registered during implementation.
 
 Deploy supabase/functions/client-portal/index.ts with its relative shared modules and assets/jd-print-request.js. Supabase supplies private runtime keys. Catalogue-driven Birkon/Luaj forms, protected proof viewers, proof approvals, PDF imposition, online payments and automatic printer submission remain deferred. The new recovery UI is implemented; email delivery requires the configuration and verification described above.
+
+
+### Consultas por cotizar y respuesta manual
+
+Cuando la cotización automática no produce un precio, o el cliente solicita cotización personalizada, la consulta queda en la bandeja de Administrar portal. No es un pedido confirmado y no envía correos automáticamente. El equipo completa proveedor privado, costo neto por alternativa y ficha pública; la regla compartida calcula el precio final. Publicar actualiza la cotización del cliente con siete días de vigencia. El cliente elige una cantidad, solicita el pedido y carga archivos mediante el circuito existente.
+
+La publicación se guarda mediante jd_portal_publish_quote: bloqueo de fila, control de versión y conservación del antecedente en jd_portal_quote_costs. Los clientes no reciben proveedor, costo, evidencia ni regla comercial. Las consultas sin precio no pueden enviarse como pedidos.

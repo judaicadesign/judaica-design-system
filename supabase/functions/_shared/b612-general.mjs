@@ -46,9 +46,23 @@ async function compose(r,binding,qty,get){
  const foldCount=family==='quad'?(r.folds??(/cuadriptico/.test(d)?3:null)):null;
  if(family==='quad'&&foldCount==null)throw new MissingSupplierCost('Confirmá cuántos dobleces lleva cada postal.');
  const width=family==='magazine'?r.widthMm*2:family==='fold'||family==='quad'?(r.sizeScope==='abierto'||r.sizeScope==='hoja'?r.widthMm:r.widthMm*(family==='quad'?foldCount+1:cfg.id===14?3:2)):r.widthMm;
- const height=r.heightMm,sheetId=sheet?1:3;
+ const height=r.heightMm;let sheetId=sheet?1:3,sheetPostures=null,sheetFormat=null,sheetNeedsTrim=![210,297].every((n,i)=>Math.abs(n-[width,height].sort((a,b)=>a-b)[i])<.01);
+ if(sheet&&cfg.id===20){
+  const sizes=await get('/api/cotizador/'+cfg.id+'/tamanios'),wanted=[width,height].sort((a,b)=>a-b),stock=inventory.filter(x=>!x.fijo&&x.articuloEtapa?.id===4&&norm(x.articulo.nombreLegible).includes(norm(r.paper).replace(/^papel /,''))&&new RegExp('\\b'+r.weightGsm+'\\s*g').test(norm(x.articulo.nombreLegible)));
+  const allowed=new Set(stock.map(x=>Number(x.articulo.articuloPapel?.id)).filter(Boolean));
+  const fits=(w,h)=>{const bounds=[Number(w),Number(h)].sort((a,b)=>a-b);return wanted.every((n,i)=>n<=bounds[i]);};
+  const available=sizes.filter(x=>x.activo!==false&&allowed.has(Number(x.articuloPapel?.id))&&(fits(x.ancho,x.alto)||[x.articuloPapel.ancho,x.articuloPapel.alto].sort((a,b)=>a-b).every((n,i)=>Math.abs(n-wanted[i])<.01))).sort((a,b)=>a.articuloPapel.ancho*a.articuloPapel.alto-b.articuloPapel.ancho*b.articuloPapel.alto);
+  sheetNeedsTrim=!sizes.some(x=>[x.articuloPapel?.ancho,x.articuloPapel?.alto].sort((a,b)=>a-b).every((n,i)=>Math.abs(n-wanted[i])<.01));
+  const selected=available[0];if(!selected)throw new MissingSupplierCost('No hay un pliego publicado compatible con el papel y tamaño solicitados.');
+  sheetId=Number(selected.articuloPapel.id);sheetFormat=selected.nombre;
+  // Whole sheet printing uses the published stock, not an A4 imposition grid.
+  const physical=[selected.articuloPapel.ancho,selected.articuloPapel.alto].sort((a,b)=>a-b),printable=[Number(selected.ancho),Number(selected.alto)].sort((a,b)=>a-b);
+  if(printable.every((n,i)=>Math.abs(n-wanted[i])<.01))sheetNeedsTrim=false;
+  if(physical.every((n,i)=>Math.abs(n-wanted[i])<.01)||printable.every((n,i)=>Math.abs(n-wanted[i])<.01)||[297,420].every((n,i)=>Math.abs(n-wanted[i])<.01))sheetPostures=1;
+ }
+
  const grid=async(w,h,id=sheetId)=>{const margins=['Superior','Inferior','Izquierdo','Derecho'].map(k=>'&margen'+k+'='+Number(cot['margen'+k]??5)).join('');const data=await get('/api/grilla/'+h+'/'+w+'?articuloPapel='+id+'&espaciado='+Number(cot.espaciado??3)+margins);if(!Number.isSafeInteger(data.totalElementos)||data.totalElementos<=0)throw new MissingSupplierCost('El tamaño '+w+' × '+h+' mm no entra en el pliego publicado por B612. Requiere otra máquina o producción externa.');return data.totalElementos;};
- const postures=await grid(width,height);
+ const postures=sheetPostures??await grid(width,height);
  const sides=r.sides==='Doble faz'?2:r.sides==='Simple faz'?1:0;if(!sides)throw new MissingSupplierCost('Confirmá las caras de impresión del interior.');
  let interiorPages=r.interiorPages;
  if(bound){if(!r.hasCover)throw new MissingSupplierCost('Confirmá la tapa y sus materiales.');if(r.pagesIncludeCover==='Sí')interiorPages??=Number(r.totalPages)-Number(r.coverPages||4);else if(r.pagesIncludeCover==='No')interiorPages??=r.totalPages;else throw new MissingSupplierCost('Confirmá si las páginas incluyen la tapa.');if(!Number.isSafeInteger(interiorPages)||interiorPages<=0)throw new MissingSupplierCost('Confirmá las páginas interiores.');if(family==='magazine'&&(interiorPages%4!==0||sides!==2))throw new MissingSupplierCost('El interior acaballado debe tener páginas múltiplo de 4, impresas doble faz.');}
@@ -81,7 +95,7 @@ async function compose(r,binding,qty,get){
   let article=cp.article;if(family==='magazine'&&coverConfig?.[coverSF?'simpleFaz':'dobleFaz'])article=(await get('/api/articulo/'+Number(coverConfig[coverSF?'simpleFaz':'dobleFaz']))).articulo;
   coverQty=Math.ceil(qty/coverPostures);printedSheets+=coverQty;add(article,coverQty,'Tapa / impresión y papel');await children(cp.config,coverSF);
  }
- if(sheet){for(const code of ['C1','CR']){const cut=all.find(x=>x.articulo.codigoInterno===code);if(!cut)throw new MissingSupplierCost('Falta la tarifa de corte '+code+' para entregar las hojas al tamaño pedido.');add(cut.articulo,amountFor(cut),'Corte de hojas al tamaño final');}}
+ if(sheet&&(sheetNeedsTrim||/\b(?:cortad|refilad|corte al)/.test(norm(r.message)))){for(const code of ['C1','CR']){const cut=all.find(x=>x.articulo.codigoInterno===code);if(!cut)throw new MissingSupplierCost('Falta la tarifa de corte '+code+' para entregar las hojas al tamaño pedido.');add(cut.articulo,amountFor(cut),'Corte de hojas al tamaño final');}}
  for(const fixed of all.filter(x=>x.fijo===true))add(fixed.articulo,amountFor(fixed),'Operación incluida por B612');
  const laminations=[];
  const laminate=(value,faces,q,posts)=>{if(!value||value==='Sin laminado')return;if(!/mate|brillante/i.test(value)||!['Solo frente','Simple faz','Doble faz'].includes(faces))throw new MissingSupplierCost('Confirmá tipo y caras del laminado.');laminations.push({value,faces,q,posts});};
@@ -89,5 +103,5 @@ async function compose(r,binding,qty,get){
  for(const key of [...new Set(laminations.map(x=>x.value+'|'+x.faces))]){const group=laminations.filter(x=>x.value+'|'+x.faces===key);const g=group[0],df=g.faces==='Doble faz';const code=/brillante/i.test(g.value)?df?'COMBO-LAM3-BRILLO-DF':'COMBO-LAM3-BRILLOSF':df?'COMBO-LAM3-MATEDF':'COMBO-LAM3-MATESF';const term=all.find(x=>!x.fijo&&x.articulo.codigoInterno===code);if(!term)throw new MissingSupplierCost('No se encontró el laminado solicitado en este servicio B612.');add(term.articulo,group.reduce((s,x)=>s+x.q,0),g.value+' · '+g.faces);for(const child of all.filter(x=>!x.fijo&&Number(x.articuloPadre?.id)===Number(term.articulo.id)))add(child.articulo,amountFor(child),'Preparación de laminado');}
  if(family==='quad'&&foldCount){const code=foldCount===1?'DOB':'DOBX'+foldCount,fold=all.find(x=>!x.fijo&&x.articulo.codigoInterno===code&&!x.articuloPadre);if(!fold)throw new MissingSupplierCost('Falta el doblado x'+foldCount+'.');add(fold.articulo,amountFor(fold),'Doblado x'+foldCount);await children(fold,false);}
  const lines=await Promise.all(pending.map(async x=>{const price=await get('/api/articulo/'+x.article.id+'/precio/'+x.q);const tier=price.articuloCantidad;if(!tier||!Number.isFinite(Number(tier.precio))||Number(tier.precio)<0)throw new MissingSupplierCost('Falta el precio vigente de '+x.article.codigoInterno);return {id:Number(x.article.id),code:x.article.codigoInterno,name:x.article.nombreLegible||x.article.nombre,operation:x.operation,paperFormat:x.article.articuloPapel?.nombre||'',quantity:x.q,unitPrice:Number(tier.precio),total:money(x.q*Number(tier.precio))};}));
- const net=money(lines.reduce((s,l)=>s+l.total,0));return {status:'priced',qty,binding,live:true,supplier:'Gráfica B612',sourceUrl:'https://www.graficab612.com/cotizador-'+cot.url+'.htm',family,postures,productionQty,printedSheets,lines,net,vat:money(net*.21),gross:money(net*1.21),validation:'Pendiente de corroboración con B612'};
+ const net=money(lines.reduce((s,l)=>s+l.total,0));return {status:'priced',qty,binding,live:true,supplier:'Gráfica B612',sourceUrl:'https://www.graficab612.com/cotizador-'+cot.url+'.htm',family,sheetFormat,postures,productionQty,printedSheets,lines,net,vat:money(net*.21),gross:money(net*1.21),validation:'Pendiente de corroboración con B612'};
 }

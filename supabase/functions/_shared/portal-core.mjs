@@ -79,7 +79,20 @@ export function createPortalApp(deps){
   }
   if(action.startsWith('admin-')){
    if(!admin)fail('Acceso no autorizado.',403);
-   if(action==='admin-list')return {customers:await db.list(T.customers,{},'*',200),orders:(await db.list(T.orders,{},'*',200)).map(o=>({...orderPublic(o),customer_id:o.customer_id})),defaultRule:await db.sharedPricing()};
+   if(action==='admin-list')return {inquiries:(await db.list(T.quotes,{},'*',200)).filter(q=>q.customer_result?.requiresReview&&!q.requested_order_id).map(q=>({...quotePublic(q),customer_id:q.customer_id})),customers:await db.list(T.customers,{},'*',200),orders:(await db.list(T.orders,{},'*',200)).map(o=>({...orderPublic(o),customer_id:o.customer_id})),defaultRule:await db.sharedPricing()};
+   if(action==='admin-publish-quote'){
+    const q=await owner(T.quotes,body.quoteId,null,true);
+    if(q.requested_order_id||!q.customer_result.requiresReview)fail('Esta consulta ya fue respondida o tiene un pedido. Actualizá la bandeja.',409);
+    const c=await db.one(T.customers,{id:q.customer_id,active:true});if(!c)fail('La cuenta del cliente no está habilitada.');
+    const old=q.customer_result.alternatives,rows=body.alternatives;
+    if(!Array.isArray(rows)||rows.length!==old.length||!rows.length||rows.length>32)fail('Completá el costo de cada alternativa.');
+    const rule=pricing.rule(await db.sharedPricing()),supplierName=text(body.supplier||'',160),specification=text(body.specification||'',20000);
+    if(!supplierName||!specification)fail('Completá el proveedor interno y la ficha que verá el cliente.');
+    const costs=rows.map((a,i)=>{if(!Number.isSafeInteger(a.qty)||a.qty<1||a.qty>40000||typeof a.net!=='number'||!Number.isFinite(a.net)||a.net<=0||a.net>1e10||Math.abs(a.net*100-Math.round(a.net*100))>0.0001)fail('Indicá cantidades enteras y costos válidos con hasta dos decimales.');if(old[i].qty!=null&&a.qty!==old[i].qty)fail('La cantidad debe coincidir con la consulta del cliente.');return {qty:a.qty,net:a.net};});
+    const result={description:q.customer_result.description,specification,alternatives:costs.map((a,i)=>({id:String(i),qty:a.qty,binding:old[i].binding,status:'priced',price:pricing.calculate(a.net,rule).price,currency:'ARS'})),requiresReview:false,notice:'Cotización disponible. Importes en pesos argentinos, sin envío. Elegí una cantidad para solicitar el pedido; la producción queda sujeta a revisión de archivos y pago.'};
+    const at=now();const updated=await db.publishQuote(q.id,body.expectedResult,result,{supplier:supplierName,alternatives:costs,at:at.toISOString()},rule,new Date(at.getTime()+7*86400000).toISOString());
+    return {quote:quotePublic(updated)};
+   }
    if(action==='admin-source-jobs'){const state=await db.one('app_state',{key:'jd_jobs_v1'});return {jobs:(Array.isArray(state?.value)?state.value:[]).filter(j=>!j.deletedAt).map(j=>pick(j,['id','title','stage','event','deadline']))};}
    if(action==='admin-project'){
     const project=projectValue(body.project),at=now().toISOString();
@@ -126,6 +139,7 @@ export function createPortalApp(deps){
   if(action==='list')return {quotes:(await db.list(T.quotes,{customer_id:customer.id},'id,request,customer_result,created_at,expires_at,requested_order_id',100)).map(quotePublic),orders:(await db.list(T.orders,{customer_id:customer.id},'*',100)).map(orderPublic)};
   if(action==='request-order'){
    if(!Array.isArray(body.items)||!body.items.length||body.items.length>20)fail('Elegí entre 1 y 20 productos.');for(const item of body.items){id(item.quoteId);if(!Number.isSafeInteger(item.index)||item.index<0||item.index>31)fail('Elegí una cantidad válida.');}
+   for(const item of body.items){const q=await owner(T.quotes,item.quoteId,customer,false),a=q.customer_result.alternatives[item.index];if(!a||a.status!=='priced'||!Number.isFinite(a.price)||a.price<=0)fail('Esta consulta todavía está por cotizar. Esperá el precio antes de solicitar el pedido.');}
    const due=body.dueDate||null;if(due&&(!/^\d{4}-\d{2}-\d{2}$/.test(due)||isNaN(Date.parse(due))))fail('Revisá la fecha solicitada.');
    const o=await db.submit(customer.id,body.items,text(body.notes||'',5000),due,id(body.key));return {order:orderPublic(o)};
   }

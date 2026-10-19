@@ -54,9 +54,13 @@ function analyze(message){
  if(r.description==='Misjag')r.notes.push('Referencia previa: tríptico 447 × 301 mm, Obra 120 g, blanco y negro doble faz. Confirmar si este pedido conserva esa ficha.');
  if(r.description==='Tarjetas personales'){r.cardType=/\bcirculares?\b/.test(t)?'Circulares':/\bcon forma\b|troquelad/.test(t)?'Con forma':/\brectas?\b/.test(t)?'Rectas':'';r.sizeScope='hoja';r.sides=material(t.replace(/laminad[^\n;]*/g,'')).sides;r.lamination=common.lamination;r.laminationSides=/lamin[^\n]*(?:ambos lados|ambas caras|doble faz)/.test(t)?'Doble faz':/lamin[^\n]*(?:solo frente|simple faz|un lado)/.test(t)?'Solo frente':'';r.corners=/puntas? redondead|esquinas? redondead/.test(t)?'Redondeadas':/puntas? rectas?|esquinas? rectas?/.test(t)?'Rectas':'';const special=t.match(/\b(opalina|cartulina triplex|triplex|texturado|misionero)\b/);if(special)r.paper=special[1]==='triplex'?'Cartulina Triplex':special[1];}
  if(!r.laminationSides)r.laminationSides=/lamin[^\n]*(?:ambos lados|ambas caras|doble faz|\bdf\b)/.test(t)?'Doble faz':/lamin[^\n]*(?:solo frente|simple faz|un lado|\bsf\b)/.test(t)?'Solo frente':'';
- return r;
+ return canonicalize(r);
 }
-function canonicalize(input){const r={...input};const map=(key,values)=>{const t=normalize(r[key]).trim();for(const [value,aliases] of values)if(aliases.includes(t)){r[key]=value;break;}};
+function canonicalize(input){const r={...input};
+ if(Array.isArray(r.bindingOptions))r.bindingOptions=r.bindingOptions.map(b=>({ 'hojas sueltas':'Hojas sueltas','sin encuadernar':'Hojas sueltas','acaballada':'Acaballada','acaballado':'Acaballada','abrochado':'Acaballada','binder':'Binder','cosida a hilo':'Cosida a hilo','anillada':'Anillada' }[normalize(b).trim()]||b));
+ // A plain print request is one loose sheet per copy, unless it explicitly describes a multipage document.
+ if(r.description==='Impresiones'&&!r.hasCover&&!r.totalPages&&(!r.bindingOptions?.length||r.bindingOptions.every(b=>b==='Hojas sueltas'))&&!/\b(?:pdf|documento|paginas?|carillas?|archivo)\b/.test(normalize(r.message))){r.bindingOptions=['Hojas sueltas'];r.totalPages=1;}
+const map=(key,values)=>{const t=normalize(r[key]).trim();for(const [value,aliases] of values)if(aliases.includes(t)){r[key]=value;break;}};
  for(const k of ['pagesIncludeCover','blankPage'])map(k,[['Sí',['si']],['No',['no']]]);
  for(const k of ['sides','coverSides'])map(k,[['Doble faz',['doble faz','df','dos caras']],['Simple faz',['simple faz','sf','una cara']]]);
  for(const k of ['laminationSides','coverLaminationSides'])map(k,[['Doble faz',['doble faz','df','ambas caras']],['Solo frente',['solo frente','frente','sf','simple faz']]]);
@@ -85,7 +89,8 @@ function cardQuestions(r){
  if(!Number.isInteger(r.models)||r.models<1||r.models>20)add('models','¿Cuántos diseños distintos son? (Por ejemplo, 1 para todas iguales).');
  return q;
 }
-function questions(r){
+function questions(input){
+ const r=canonicalize(input);
  const q=[],add=(key,text)=>q.push({key,text});
  if(!r.quantities?.length||r.quantities.some(n=>!Number.isSafeInteger(n)||n<=0))add('quantities','¿Cuántos ejemplares o copias necesitás?');
  if(r.description==='Tarjetas personales'){return q.concat(cardQuestions(r));}
@@ -96,6 +101,7 @@ function questions(r){
  if(!r.bindingOptions?.length&&!flat)add('bindingOptions','¿Se entrega en hojas sueltas o con qué encuadernación?');
  if(r.hasCover){if(!r.coverPaper)add('coverPaper','¿Qué tipo de papel lleva la tapa?');if(!r.coverWeightGsm)add('coverWeightGsm','¿Qué gramaje lleva la tapa?');if(!r.coverPrint)add('coverPrint','¿La tapa se imprime color o blanco y negro?');if(!r.coverSides)add('coverSides','¿La tapa se imprime de un lado o de ambos?');if(r.totalPages&&!r.pagesIncludeCover)add('pagesIncludeCover','¿Las páginas indicadas incluyen las 4 páginas de tapa?');if(r.coverLamination==='Laminado por confirmar')add('coverLamination','¿El laminado de la tapa es mate o brillante?');if(r.coverLamination&&!r.coverLaminationSides)add('coverLaminationSides','¿La tapa se lamina solo al frente o en ambas caras?');}
  if(!flat&&r.bindingOptions?.some(b=>b!=='Hojas sueltas')&&r.totalPages&&r.totalPages<=8&&r.pageMeaning!=='Caras impresas')add('pageMeaning','¿Las páginas indicadas son caras impresas o cantidad de hojas?');
+ if(!flat&&r.bindingOptions?.includes('Hojas sueltas')&&!r.totalPages)add('totalPages','¿Cuántas páginas tiene el documento que querés copiar?');
  if(!flat&&r.bindingOptions?.some(b=>b!=='Hojas sueltas')&&!r.totalPages)add('totalPages','¿Cuántas páginas tiene cada ejemplar, incluyendo o separando la tapa?');
  if(r.bindingOptions?.includes('Acaballada')&&r.totalPages&&r.pagesIncludeCover==='Sí'&&r.totalPages%4)add('pagination','Para acaballado, el total debe ser múltiplo de 4. ¿Se agregan páginas en blanco?');
  if(r.totalPages%2===1&&r.sides==='Doble faz'&&r.blankPage!=='Sí')add('blankPage','El documento tiene páginas impares. ¿Se agrega una última cara en blanco?');
@@ -130,7 +136,7 @@ function cleanText(r,qty,binding,whatsapp=false){
  const fullLam=sameStock&&r.lamination&&r.lamination!=='Sin laminado'&&r.lamination===r.coverLamination&&r.coverLaminationSides==='Doble faz'&&(r.laminationSides||r.sides)==='Doble faz';
  if(r.hasCover&&!sameStock){lines.push(bold('Tapa:')+' '+[stock(r.coverPaper,r.coverWeightGsm),r.coverPrint,r.coverSides,r.coverLamination&&r.coverLamination!=='Sin laminado'?r.coverLamination+(r.coverLaminationSides?' · '+r.coverLaminationSides:''):''].filter(Boolean).join(' · '),bold('Interior:')+' '+[stock(r.paper,r.weightGsm),r.print,r.sides].filter(Boolean).join(' · '));}
  else {lines.push('Papel: '+stock(r.paper,r.weightGsm),r.print,r.sides);if(sameStock&&!fullLam&&r.coverLamination&&r.coverLamination!=='Sin laminado')lines.push(bold('Tapa:')+' '+r.coverLamination+(r.coverLaminationSides?' · '+r.coverLaminationSides:''));}
- if(r.totalPages){let pages='Total '+r.totalPages+' páginas'+(r.pagesIncludeCover==='Sí'?' (contando tapa)':'');if(/acaball|abroch/i.test(binding||'')&&r.totalPages%4===0&&r.pagesIncludeCover==='Sí')pages+=' - '+r.totalPages/4+' pliegos';lines.push(pages);}
+ if(r.totalPages&&!(r.description==='Impresiones'&&r.totalPages===1)){let pages='Total '+r.totalPages+(r.totalPages===1?' página':' páginas')+(r.pagesIncludeCover==='Sí'?' (contando tapa)':'');if(/acaball|abroch/i.test(binding||'')&&r.totalPages%4===0&&r.pagesIncludeCover==='Sí')pages+=' - '+r.totalPages/4+' pliegos';lines.push(pages);}
  if(r.folds)lines.push('Doblado x '+r.folds);else if(r.bindingOptions?.includes(binding))lines.push(binding==='Hojas sueltas'?binding:bold('Encuadernación:')+' '+binding.toLowerCase());
  if(fullLam)lines.push('Full '+r.lamination.toLowerCase()+' todas las hojas');
  else if(r.lamination&&r.lamination!=='Sin laminado')lines.push(r.lamination+(r.laminationSides?' · '+r.laminationSides:''));
