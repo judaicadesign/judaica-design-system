@@ -148,9 +148,9 @@ function renderJobs(){
  if(j||old)$("jdFinJobAdd").onclick=()=>openEditor(null,j?.id||null,old?.id||null);
  if(old)$("jdFinBreak").onclick=()=>openLegacyDetail(old.id);
 }
-function openEditor(id,jobId){
+function openEditor(id,jobId,legacyId){
  const existing=read(MOVES).find(a=>a.id===id)||null,x=existing||{};
- const arr=jobs(),opts=arr.map(j=>'<option value="'+esc(j.id)+'"'+(j.id===(jobId||x.jobId)?' selected':'')+'>'+esc((read("jd_clients").find(c=>c.id===j.clientId)?.name||"")+' · '+j.title)+'</option>').join("");
+ const arr=jobs(),legacy=read(LEGACY).filter(a=>a.classification!=="Software y suscripciones"),opts=arr.map(j=>'<option value="'+esc(j.id)+'"'+(j.id===(jobId||x.jobId)?' selected':'')+'>'+esc((read("jd_clients").find(c=>c.id===j.clientId)?.name||"")+' · '+j.title)+'</option>').join("");
  const form=document.createElement("div");form.className="jd-fin-modal";form.setAttribute("role","dialog");form.setAttribute("aria-modal","true");
  form.innerHTML='<div class="jd-fin-dialog"><div class="jd-fin-bar"><h2>'+(existing?"Editar":"Registrar")+' movimiento</h2><button class="btn" data-close>Cerrar</button></div><div class="jd-fin-form">'+
  '<label>Fecha<input id="finDate" type="date" value="'+esc(x.date||date())+'"></label>'+
@@ -160,6 +160,7 @@ function openEditor(id,jobId){
  '<label>Rubro<select id="finCategory">'+selectOptions(CATS,x.category||"Imprenta")+'</select></label>'+
  '<label>Estado<select id="finStatus">'+selectOptions(["Realizado","Pendiente"],x.status||"Realizado")+'</select></label>'+
  '<label>Trabajo<select id="finJob"><option value="">Sin asociar (gasto general)</option>'+opts+'</select></label>'+
+ '<label>Caso histórico<select id="finLegacyCase"><option value="">Sin vincular</option>'+legacy.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).map(a=>'<option value="'+esc(a.id)+'"'+(a.id===(legacyId||x.legacyId)?' selected':'')+'>'+esc(a.label+(a.date?" · "+a.date:""))+'</option>').join("")+'</select></label>'+ 
  '<label>Proveedor / transportista<input id="finSupplier" value="'+esc(x.provider||"")+'" placeholder="Zloto, Uber, otra imprenta…"></label>'+
  '<label>Recorrido (si corresponde)<select id="finRoute">'+selectOptions(ROUTES,x.route||"Sin recorrido")+'</select></label>'+
  '<label class="span2">Descripción / motivo<textarea id="finDetail" rows="2" placeholder="Ej.: Uber desde Zloto hasta casa; reimpresión de tapa">'+esc(x.detail||"")+'</textarea></label>'+
@@ -172,8 +173,9 @@ function openEditor(id,jobId){
  form.querySelector("[data-save]").onclick=async()=>{
   const btn=form.querySelector("[data-save]"),amount=validAmount(f("finAmount").value),d=f("finDate").value;
   if(!amount||!d){f("finError").textContent="Indicá fecha e importe positivo.";return}
-  const jb=arr.find(z=>z.id===f("finJob").value);
-  const item={...x,id:x.id||"fin-"+crypto.randomUUID(),date:d,kind:f("finKind").value,currency:f("finCurrency").value,amount,category:f("finCategory").value,status:f("finStatus").value,jobId:jb?.id||null,jobTitle:jb?.title||"",provider:f("finSupplier").value.trim(),route:f("finRoute").value,detail:f("finDetail").value.trim(),evidence:f("finEvidence").value.trim(),legacyOverlap:f("finLegacy").checked,updatedAt:new Date().toISOString(),history:[...(x.history||[])]};
+  const jb=arr.find(z=>z.id===f("finJob").value),historical=legacy.find(z=>z.id===f("finLegacyCase").value);
+  if(jb&&historical){f("finError").textContent="Vinculá el movimiento a un trabajo actual O a uno histórico, no a ambos.";return}
+  const item={...x,id:x.id||"fin-"+crypto.randomUUID(),date:d,kind:f("finKind").value,currency:f("finCurrency").value,amount,category:f("finCategory").value,status:f("finStatus").value,jobId:jb?.id||null,legacyId:historical?.id||null,jobTitle:jb?.title||historical?.label||"",provider:f("finSupplier").value.trim(),route:f("finRoute").value,detail:f("finDetail").value.trim(),evidence:f("finEvidence").value.trim(),legacyOverlap:f("finLegacy").checked,updatedAt:new Date().toISOString(),history:[...(x.history||[])]};
   if(existing)item.history.push({at:item.updatedAt,type:"Edición",before:{amount:x.amount,date:x.date,category:x.category,jobId:x.jobId,status:x.status}});
   else item.createdAt=item.updatedAt;
   btn.disabled=true;f("finError").textContent="";
