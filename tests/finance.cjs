@@ -49,7 +49,7 @@ const {JSDOM}=require('jsdom');
  assert.equal(saved[0].category,'Uber / mensajería');
  assert.equal(JSON.parse(w.localStorage.getItem('jd_finance_legacy_v1'))[0].cost,741948);
  w.JDFinance.openForJob('j-max');
- assert.match(w.document.getElementById('jdFinBody').textContent,/Costos reales por proyecto/);
+ assert.match(w.document.getElementById('jdFinBody').textContent,/Rentabilidad por trabajo/);
  assert.match(w.document.getElementById('jdFinBody').textContent,/3.000/);
  console.log('PASS: caja, resumen separado, desglose histórico no duplicado y costo por proyecto');
 })().catch(e=>{console.error(e);process.exit(1)});
