@@ -7,7 +7,7 @@ const LEGACY="jd_finance_legacy_v1",MOVES="jd_finance_moves_v1",ALLOC="jd_financ
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
 const read=k=>{try{const v=JSON.parse(localStorage.getItem(k)||"[]");return Array.isArray(v)?v:[]}catch(e){return []}};
-const fmt=(v,c)=>new Intl.NumberFormat("es-AR",{style:"currency",currency:c==="USD"?"USD":"ARS",maximumFractionDigits:0}).format(Number(v)||0)+(c==="USDT"?" USDT":"");
+const fmt=(v,c)=>c==="USDT"?new Intl.NumberFormat("es-AR",{maximumFractionDigits:2}).format(Number(v)||0)+" USDT":new Intl.NumberFormat("es-AR",{style:"currency",currency:c==="USD"?"USD":"ARS",maximumFractionDigits:2}).format(Number(v)||0);
 const date=()=>{const x=new Date();return [x.getFullYear(),String(x.getMonth()+1).padStart(2,"0"),String(x.getDate()).padStart(2,"0")].join("-")};
 const years=()=>Array.from({length:8},(_,i)=>String(2027-i));
 const validAmount=x=>{const n=Number(String(x||"").trim().replace(",","."));return Number.isFinite(n)&&n>0?n:null};
@@ -121,15 +121,32 @@ function openLegacyDetail(id){
  };
 }
 function renderJobs(){
- const jj=jobs(),l=read(LEGACY),mv=read(MOVES).filter(a=>!a.voidAt);
- const options=jj.map(j=>'<option value="'+esc(j.id)+'"'+(j.id===state.job?' selected':'')+'>'+esc((read("jd_clients").find(c=>c.id===j.clientId)?.name||"")+' · '+j.title)+'</option>').join("");
- const selected=jj.find(j=>j.id===state.job),detail=selected?mv.filter(m=>m.jobId===selected.id):[],valid=detail.filter(m=>m.status==="Realizado");
- const current=valid.filter(m=>m.currency===state.currency);const rev=total(current.filter(m=>m.kind==="Ingreso"),"amount"),cost=total(current.filter(m=>m.kind==="Egreso"),"amount");
- $("jdFinBody").innerHTML='<section class="jd-fin-panel"><h2>Costos reales por proyecto</h2><p class="small muted">Seleccioná un pedido. No asignamos automáticamente la fila histórica por parecido de nombre: primero hay que conciliarla, porque puede incluir adelantos y gastos que no son del proyecto actual.</p><label>Trabajo registrado <select id="jdFinJobChoice"><option value="">Elegí un proyecto…</option>'+options+'</select></label>'+
- (selected?'<div class="jd-fin-kpis"><div class="jd-fin-kpi"><span>Cobros detallados</span><strong>'+fmt(rev,state.currency)+'</strong></div><div class="jd-fin-kpi"><span>Egresos detallados</span><strong>'+fmt(cost,state.currency)+'</strong></div><div class="jd-fin-kpi"><span>Diferencia detallada</span><strong>'+fmt(rev-cost,state.currency)+'</strong><small>Solo importes nuevos realizados de la moneda elegida; NO es margen total del pedido.</small></div></div><button id="jdFinJobAdd" class="btn primary">+ Costo o cobro de este trabajo</button><div class="jd-fin-scroll"><table class="table"><thead><tr><th>Fecha</th><th>Concepto</th><th>Importe</th><th>Estado</th></tr></thead><tbody>'+
- detail.filter(x=>x.currency===state.currency).map(x=>'<tr><td>'+esc(x.date)+'</td><td>'+esc(x.category)+' · '+esc(x.detail)+'</td><td>'+fmt(x.amount,x.currency)+'</td><td>'+esc(x.status)+'</td></tr>').join("")+'</tbody></table></div>':'<p class="muted">Seleccioná un trabajo para registrar costos separados de imprenta, Uber, correcciones, software asignable y otros.</p>')+'</section>';
- $("jdFinJobChoice").onchange=e=>{state.job=e.target.value;render()};
- if(selected)$("jdFinJobAdd").onclick=()=>openEditor(null,selected.id);
+ const live=jobs(),history=read(LEGACY).filter(a=>a.classification!=="Software y suscripciones"),moves=read(MOVES).filter(a=>!a.voidAt);
+ const historicalId=state.job.startsWith("legacy:")?state.job.slice(7):null;
+ const old=history.find(x=>x.id===historicalId),j=live.find(x=>x.id===state.job);
+ const clientBy=id=>read("jd_clients").find(c=>c.id===id)?.name||"";
+ const liveOptions=live.map(x=>'<option value="'+esc(x.id)+'"'+(x.id===state.job?' selected':'')+'>'+esc(clientBy(x.clientId)+" · "+x.title)+'</option>').join("");
+ const historicalOptions=history.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).map(x=>'<option value="legacy:'+esc(x.id)+'"'+(x.id===historicalId?' selected':'')+'>'+esc(x.label+(x.date?" · "+x.date:" · sin fecha"))+'</option>').join("");
+ const parts=old?read(ALLOC).find(x=>x.legacyId===old.id)?.items?.filter(x=>!x.voidAt)||[]:[];
+ const expenseIncluded=total(parts,"amount"),oldCost=Number(old?.cost||0),oldRevenue=Number(old?.revenue||0);
+ const related=moves.filter(x=>j?x.jobId===j.id:old?x.legacyId===old.id:false).filter(x=>x.currency===state.currency);
+ const newEntries=related.filter(x=>x.status==="Realizado"&&!x.legacyOverlap);
+ const newIn=total(newEntries.filter(x=>x.kind==="Ingreso"),"amount"),newOut=total(newEntries.filter(x=>x.kind==="Egreso"),"amount");
+ const boxes=old?'<div class="jd-fin-kpis">'+[
+  ["Ingreso histórico registrado",oldRevenue,"No equivale a dinero cobrado"],
+  ["Costo histórico agrupado",oldCost,"Incluye partidas todavía sin identificar"],
+  ["Diferencia histórica parcial",oldRevenue-oldCost,"No es utilidad neta"],
+  ["Costo pendiente de identificar",Math.max(0,oldCost-expenseIncluded),"Desglosar no suma nuevos costos"]
+ ].map(a=>'<div class="jd-fin-kpi"><span>'+esc(a[0])+'</span><strong>'+fmt(a[1],state.currency)+'</strong><small>'+esc(a[2])+'</small></div>').join("")+'</div>':'';
+ const extra=(j||old)?'<div class="jd-fin-kpis"><div class="jd-fin-kpi"><span>Cobros adicionales registrados</span><strong>'+fmt(newIn,state.currency)+'</strong></div><div class="jd-fin-kpi"><span>Gastos adicionales registrados</span><strong>'+fmt(newOut,state.currency)+'</strong><small>No se confunden con el costo histórico</small></div></div>':'';
+ const historicRows=old?parts.map(p=>'<tr><td>'+esc(old.date||"—")+'</td><td>'+esc(p.category)+' · '+esc(p.note||"")+'</td><td>'+esc(p.provider||"")+'</td><td>'+fmt(p.amount,old.currency)+'</td><td>Dentro del costo histórico</td></tr>').join(""):'';
+ const movementRows=related.map(x=>'<tr><td>'+esc(x.date)+'</td><td>'+esc(x.category)+' · '+esc(x.detail||"")+'</td><td>'+esc(x.provider||"")+'</td><td>'+fmt(x.amount,x.currency)+'</td><td>'+esc(x.status)+(x.legacyOverlap?' · Ya incluido':'')+'</td></tr>').join("");
+ $("jdFinBody").innerHTML='<section class="jd-fin-panel"><h2>Rentabilidad por trabajo · histórico y actual</h2><p class="small muted">También podés abrir trabajos cerrados como Ian Bruck o Max Alperovich sin recrearlos en el CRM. Costo histórico, componentes identificados y gastos nuevos se muestran separados para evitar duplicaciones.</p><label>Seleccionar trabajo <select id="jdFinJobChoice"><option value="">Elegí un trabajo…</option><optgroup label="Trabajos actuales">'+liveOptions+'</optgroup><optgroup label="Trabajos históricos">'+historicalOptions+'</optgroup></select></label>'+
+ boxes+extra+
+ (j||old?'<div class="jd-fin-bar"><button class="btn primary" id="jdFinJobAdd">+ Costo o cobro</button>'+(old?'<button class="btn" id="jdFinBreak">Desglosar costo histórico</button>':'')+'</div><div class="jd-fin-scroll"><table class="table"><thead><tr><th>Fecha</th><th>Concepto</th><th>Proveedor</th><th>Importe</th><th>Clase</th></tr></thead><tbody>'+historicRows+movementRows+'</tbody></table></div>':'<p class="muted">Elegí un proyecto activo o un trabajo de tu historial importado.</p>')+'</section>';
+ $("jdFinJobChoice").onchange=e=>{state.job=e.target.value;const prev=history.find(x=>x.id===state.job.replace(/^legacy:/,""));if(prev){state.currency=prev.currency;state.year=(prev.date||"").slice(0,4)||state.year}render()};
+ if(j||old)$("jdFinJobAdd").onclick=()=>openEditor(null,j?.id||null,old?.id||null);
+ if(old)$("jdFinBreak").onclick=()=>openLegacyDetail(old.id);
 }
 function openEditor(id,jobId){
  const existing=read(MOVES).find(a=>a.id===id)||null,x=existing||{};
