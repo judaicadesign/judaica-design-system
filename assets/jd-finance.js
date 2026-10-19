@@ -9,7 +9,7 @@ const esc=v=>String(v??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&
 const read=k=>{try{const v=JSON.parse(localStorage.getItem(k)||"[]");return Array.isArray(v)?v:[]}catch(e){return []}};
 const fmt=(v,c)=>c==="USDT"?new Intl.NumberFormat("es-AR",{maximumFractionDigits:2}).format(Number(v)||0)+" USDT":new Intl.NumberFormat("es-AR",{style:"currency",currency:c==="USD"?"USD":"ARS",maximumFractionDigits:2}).format(Number(v)||0);
 const date=()=>{const x=new Date();return [x.getFullYear(),String(x.getMonth()+1).padStart(2,"0"),String(x.getDate()).padStart(2,"0")].join("-")};
-const years=()=>Array.from({length:8},(_,i)=>String(2027-i));
+const years=()=>[...Array.from({length:8},(_,i)=>String(2027-i)),"Sin fecha"];
 const validAmount=x=>{const n=Number(String(x||"").trim().replace(",","."));return Number.isFinite(n)&&n>0?n:null};
 const slug=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const CATS=["Imprenta","Uber / mensajería","Reimpresión / reparación","Materiales / terminación","Empaque","Software y suscripciones","Publicidad y marketing","Comisiones e impuestos","Servicio de diseño","Otros"];
@@ -26,7 +26,7 @@ function classification(a){
  return"Otros JD";
 }
 const total=(rows,k)=>rows.reduce((n,a)=>n+Number(a[k]||0),0);
-function selectedLegacy(){return read(LEGACY).filter(a=>a.currency===state.currency&&String(a.date||"").slice(0,4)===state.year);}
+function selectedLegacy(){return read(LEGACY).filter(a=>a.currency===state.currency&&(state.year==="Sin fecha"?!a.date:(String(a.date||"").slice(0,4)===state.year&&!(a.flags||[]).some(flag=>flag.includes("fecha futura")))));}
 function selectedMoves(){return read(MOVES).filter(a=>!a.voidAt&&a.currency===state.currency&&String(a.date||"").slice(0,4)===state.year);}
 function selectOptions(items,current){return items.map(x=>'<option value="'+esc(x)+'"'+(x===current?' selected':'')+'>'+esc(x)+'</option>').join("");}
 function status(){const all=read(LEGACY);const moves=read(MOVES);return {historical:all.length,manual:moves.length,unDated:all.filter(x=>!x.date).length};}
