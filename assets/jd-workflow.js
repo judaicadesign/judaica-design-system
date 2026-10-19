@@ -76,7 +76,7 @@
   const agg=aggregateLeadTimes(rows,orders);
   const metrics=[['contactToEvent','Primer contacto antes del evento'],['approvalToEvent','Aprobación antes del evento'],['contactToApproval','Tiempo para confirmar'],['deliveryToEvent','Entrega antes del evento']];
   const subset=key=>rows.filter(j=>j.eventType===key);
-  const groups=[['wedding','Casamientos'],['bar-mitzvah','Bar/Bat Mitzvá'],['generic','Otros eventos']];
+  const groups=[['wedding','Casamientos'],['bar_mitzvah','Bar Mitzvá'],['bat_mitzvah','Bat Mitzvá'],['generic','Otros eventos']];
   return '<div class="section jd-lead-analytics"><div class="section-head"><h2>Anticipación y tiempos de compra</h2><small>'+rows.length+' trabajos considerados</small></div><p class="small muted">Solo fechas efectivamente registradas; no se infieren a partir de presupuestos antiguos ni de eventos anteriores. Promedio y mediana se calculan sobre los casos con ambos hitos completos.</p><div class="jd-lead-stat-grid">'+metrics.map(([key,title])=>'<div class="jd-lead-stat"><small>'+title+'</small><strong>'+(!agg[key].count?'Sin datos':Math.round(agg[key].average)+' días')+'</strong><small>Mediana: '+(agg[key].count?agg[key].median+' días':'—')+' · '+agg[key].count+' casos</small></div>').join('')+'</div><div class="jd-lead-segments"><b>Por tipo de evento</b><div class="jd-lead-segment-list">'+groups.filter(([key])=>subset(key).length).map(([key,name])=>{const a=aggregateLeadTimes(subset(key),orders).contactToEvent;return '<span>'+name+': '+(a.count?Math.round(a.average)+' días antes':'faltan fechas')+' · '+a.count+' casos medibles</span>'}).join('')+'</div></div></div>';
  }
 
