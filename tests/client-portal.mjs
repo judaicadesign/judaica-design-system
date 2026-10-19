@@ -33,6 +33,16 @@ const c=tables.jd_portal_customers[0];c.must_change_password=true;await assert.r
 tables.jd_portal_orders[0].customer_id=customerId;tables.jd_portal_orders[0].status='En producción';await assert.rejects(()=>app('abi',{action:'file-init',orderId,name:'x.pdf',contentType:'application/pdf',size:9,purpose:'Archivo para imprimir'}));tables.jd_portal_orders[0].status='Solicitado';
 await assert.rejects(()=>app('abi',{action:'file-init',orderId,name:'x.html',contentType:'text/html',size:9,purpose:'Archivo para imprimir'}));
 const upload=await app('abi',{action:'file-init',orderId,name:'test.pdf',contentType:'application/pdf',size:9,purpose:'Archivo para imprimir'});assert.ok(issued.at(-1).startsWith(customerId+'/'+orderId+'/'));await app('abi',{action:'file-complete',fileId:upload.file.id});await app('abi',{action:'file-download',fileId:upload.file.id});
+tables.app_state=[{key:'jd_jobs_v1',value:[{id:'internal-one',title:'Luaj comunidad',stage:'Diseño en curso',event:'2026-12-01',notes:'PRIVATE INTERNAL NOTE',cost:12345}]}];
+await assert.rejects(()=>app('abi',{action:'admin-source-jobs'}),e=>e.status===403);
+const sources=await app('team',{action:'admin-source-jobs'});assert.equal(sources.jobs[0].title,'Luaj comunidad');assert.ok(!JSON.stringify(sources).includes('PRIVATE INTERNAL NOTE'));
+const project=await app('team',{action:'admin-project',customerId,sourceJobId:'internal-one',project:{title:'Luaj comunidad',scope:'Diseño y entrega de PDF',participants:'Novios',drive_url:'https://drive.google.com/drive/folders/example',internal_note:'DO NOT SHARE'},total:1});
+assert.equal(project.order.project.internal_note,undefined);assert.equal(project.order.total,null);assert.equal((await app('abi',{action:'list'})).orders.some(o=>o.id===project.order.id),true);assert.equal((await app('other',{action:'list'})).orders.some(o=>o.id===project.order.id),false);
+await assert.rejects(()=>app('other',{action:'project-message',orderId:project.order.id,updated_at:project.order.updated_at,message:'Intrusion'}),e=>e.status===404);
+const message=await app('abi',{action:'project-message',orderId:project.order.id,updated_at:project.order.updated_at,message:'Fecha y nombres confirmados'});assert.equal(message.order.history.at(-1).type,'Cliente');assert.equal(message.order.history.at(-1).text,'Fecha y nombres confirmados');
+await assert.rejects(()=>app('abi',{action:'file-init',orderId:project.order.id,name:'mockup.png',size:9,contentType:'image/png',purpose:'Mockup'}),e=>e.status===403);
+await assert.rejects(()=>app('team',{action:'admin-project',customerId,project:{title:'Unsafe',review_url:'javascript:alert(1)'}}));
+await assert.rejects(()=>app('team',{action:'admin-project',customerId,sourceJobId:'internal-one',project:{title:'Duplicate'}}));
 const result=customerResult({alternatives:[{status:'priced',qty:1,net:100,lines:[{total:99}]}]},{description:'Prueba',message:'Prueba',bindingOptions:[]},{markupPct:26,netRoundStep:500,finalRoundStep:100},true);assert.equal(result.alternatives[0].price,null);
 // Authenticated wrapper behavior, including malformed JSON and denied origins.
 const {stripTypeScriptTypes}=await import('node:module'),vm=await import('node:vm');let handler;

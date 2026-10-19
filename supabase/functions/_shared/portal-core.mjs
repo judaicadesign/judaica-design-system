@@ -8,7 +8,7 @@ const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]
 const T={customers:'jd_portal_customers',quotes:'jd_portal_quotes',costs:'jd_portal_quote_costs',orders:'jd_portal_orders',files:'jd_portal_files',requests:'jd_portal_account_requests'};
 const answerKeys=new Set('description quantities widthMm heightMm sizeScope spineMm totalPages interiorPages coverPages pagesIncludeCover paper weightGsm print sides lamination laminationSides coverPaper coverWeightGsm coverPrint coverSides coverLamination coverLaminationSides bindingOptions hasCover models folds cardType paperChoice cardSize corners pageMeaning blankPage'.split(' '));
 const statuses=['Solicitado','En revisión','Requiere corrección','Esperando pago','Confirmado','En producción','Listo para entregar','Entregado','Cancelado'];
-const purposes=['Archivo para imprimir','Referencia','Comprobante de pago'];
+const purposes=['Archivo para imprimir','Referencia','Comprobante de pago','Material del cliente','Mockup','Entrega digital'];
 export class PortalError extends Error{constructor(message,status=400){super(message);this.status=status;}}
 const fail=(s,n=400)=>{throw new PortalError(s,n);};
 const id=v=>{if(typeof v!=='string'||!UUID.test(v))fail('Identificador inválido.');return v;};
@@ -16,18 +16,20 @@ const text=(v,max=5000)=>{if(typeof v!=='string'||v.length>max)fail('Revisá el 
 const pick=(o,keys)=>Object.fromEntries(keys.map(k=>[k,o[k]]));
 const customerPublic=c=>pick(c,['id','name','first_name','last_name','business_name','phone','instagram','locality','must_change_password','updated_at']);
 const quotePublic=q=>pick(q,['id','request','customer_result','created_at','expires_at','requested_order_id']);
-const orderPublic=o=>pick(o,['id','items','total','currency','status','due_date','notes','customer_message','history','created_at','updated_at']);
+const orderPublic=o=>pick(o,['id','items','total','currency','status','due_date','notes','customer_message','project','history','created_at','updated_at']);
 const filePublic=f=>pick(f,['id','order_id','name','content_type','size_bytes','purpose','status','created_at']);
 const genericPending='Requiere confirmación de Judaica Design. No hay un importe automático confirmado.';
 export async function portalTokenHash(value){const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value));return Array.from(new Uint8Array(bytes),n=>n.toString(16).padStart(2,'0')).join('');}
 function passwordValue(value){if(typeof value!=='string'||value.length>200)fail('Revisá la contraseña ingresada.');const p=value;if(p.length<12||!/[a-z]/.test(p)||!/[A-Z]/.test(p)||!/[0-9]/.test(p))fail('Usá al menos 12 caracteres, con mayúsculas, minúsculas y números.');return p;}
-function profileValue(body){const profile={first_name:text(body.first_name||'',70),last_name:text(body.last_name||'',80),business_name:text(body.business_name||'',160),phone:text(body.phone||'',80),instagram:text(body.instagram||'',160),locality:text(body.locality||'',160)};if(!profile.first_name||!profile.last_name||!profile.locality||profile.phone.replace(/\D/g,'').length<7)fail('Completá nombre, apellido, WhatsApp y localidad.');return profile;}
+function profileValue(body){const profile={first_name:text(body.first_name||'',70),last_name:text(body.last_name||'',80),business_name:text(body.business_name||'',160),phone:text(body.phone||'',80),instagram:text(body.instagram||'',160),locality:text(body.locality||'',160)};if(!profile.first_name||!profile.last_name||!profile.locality)fail('Completá nombre, apellido y localidad.');if(!/^\+[1-9]\d{7,14}$/.test(profile.phone)||profile.phone.startsWith('+54')&&!/^\+549\d{10}$/.test(profile.phone))fail('Revisá WhatsApp: incluí país, código de área y número completo.');return profile;}
+const projectFields={title:160,kind:40,scope:5000,participants:500,institution:300,event_date:10,contact:300,style:1500,drive_url:2000,review_url:2000,materials:5000};
+function projectValue(body){const p={};for(const [k,max] of Object.entries(projectFields))p[k]=text(body?.[k]||'',max);if(!p.title)fail('Indicá el nombre del trabajo.');if(p.event_date&&!/^\d{4}-\d{2}-\d{2}$/.test(p.event_date))fail('Revisá la fecha de evento.');for(const k of ['drive_url','review_url'])if(p[k]){let u;try{u=new URL(p[k]);}catch{fail('Revisá los enlaces del trabajo.');}if(u.protocol!=='https:'||u.username||u.password)fail('Los enlaces deben comenzar con https://.');}return p;}
 export function createPublicPortalApp(deps){
  return async function(body,rateKey){
   if(body.action!=='register-account')fail('El registro se simplificó. Abrí el portal y elegí Crear cuenta.',410);
   if(body.website)fail('No se pudo completar el registro.');
   const profile=profileValue(body),name=profile.first_name+' '+profile.last_name,email=text(body.email,254).toLowerCase(),password=passwordValue(body.password);
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||body.consent!==true)fail('Completá un correo válido y la confirmación de registro.');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))fail('Completá un correo válido.');
   await deps.db.signupRate(rateKey);
   if(await deps.db.isTeam(email))fail('Este correo pertenece al equipo. Ingresá con tu cuenta habitual.',403);
   const existing=await deps.db.one(T.customers,{email});
@@ -78,6 +80,14 @@ export function createPortalApp(deps){
   if(action.startsWith('admin-')){
    if(!admin)fail('Acceso no autorizado.',403);
    if(action==='admin-list')return {customers:await db.list(T.customers,{},'*',200),orders:(await db.list(T.orders,{},'*',200)).map(o=>({...orderPublic(o),customer_id:o.customer_id})),defaultRule:await db.sharedPricing()};
+   if(action==='admin-source-jobs'){const state=await db.one('app_state',{key:'jd_jobs_v1'});return {jobs:(Array.isArray(state?.value)?state.value:[]).filter(j=>!j.deletedAt).map(j=>pick(j,['id','title','stage','event','deadline']))};}
+   if(action==='admin-project'){
+    const project=projectValue(body.project),at=now().toISOString();
+    if(body.orderId){if(!body.updated_at)fail('Actualizá el trabajo antes de guardar.',409);const o=await owner(T.orders,body.orderId,null,true);if(o.project?.source_job_id)project.source_job_id=o.project.source_job_id;return {order:orderPublic(await db.patch(T.orders,o.id,{project,history:[...(o.history||[]),{at,type:'Detalles',text:'Judaica Design actualizó los detalles y el material solicitado.'}],updated_at:at},body.updated_at))};}
+    const c=await db.one(T.customers,{id:id(body.customerId),active:true});if(!c?.auth_user_id)fail('Elegí una cuenta registrada y habilitada.');
+    if(body.sourceJobId){const source=await db.one('app_state',{key:'jd_jobs_v1'}),j=source?.value?.find(j=>j.id===body.sourceJobId&&!j.deletedAt);if(!j)fail('Trabajo interno no disponible.');project.source_job_id=text(j.id,160);const exists=(await db.list(T.orders,{},'*',1000)).find(o=>o.project?.source_job_id===j.id);if(exists)fail('Ese trabajo ya está compartido. Abrí su ficha para editarlo.');}
+    return {order:orderPublic(await db.insert(T.orders,{id:uuid(),customer_id:c.id,idempotency_key:uuid(),items:[],total:null,currency:'ARS',status:'Solicitado',project,notes:'',history:[{at,type:'Trabajo',text:'Trabajo compartido por Judaica Design.'}],created_at:at,updated_at:at}))};
+   }
    if(action==='admin-request'){
     fail('Cada cliente crea su cuenta directamente desde el portal.');
    }
@@ -120,9 +130,14 @@ export function createPortalApp(deps){
    const o=await db.submit(customer.id,body.items,text(body.notes||'',5000),due,id(body.key));return {order:orderPublic(o)};
   }
   if(action==='order-detail'){const o=await owner(T.orders,body.orderId,customer,admin);return {order:orderPublic(o),files:(await db.list(T.files,{order_id:o.id},'*',200)).map(filePublic)};}
+  if(action==='project-message'){
+   if(admin)fail('Usá la ficha de administración.');if(!body.updated_at)fail('Actualizá la ficha antes de guardar.',409);const o=await owner(T.orders,body.orderId,customer,false),message=text(body.message||'',5000);if(!message)fail('Escribí la información que querés enviar.');if(['Entregado','Cancelado'].includes(o.status))fail('Este trabajo ya está cerrado.');const at=now().toISOString();return {order:orderPublic(await db.patch(T.orders,o.id,{history:[...(o.history||[]),{at,type:'Cliente',text:message}],updated_at:at},body.updated_at))};
+  }
   if(action==='file-init'){
    const o=await owner(T.orders,body.orderId,customer,admin);if(['En producción','Listo para entregar','Entregado','Cancelado'].includes(o.status))fail('Los archivos de este pedido están cerrados. Consultá con Judaica Design.');
    const name=text(body.name,200),mime=body.contentType,size=body.size,purpose=body.purpose;if(!purposes.includes(purpose)||!Number.isSafeInteger(size)||size<1||size>26214400)fail('Usá PDF, JPG o PNG de hasta 25 MB.');
+   if(!admin&&['Mockup','Entrega digital'].includes(purpose))fail('Este tipo de archivo lo comparte Judaica Design.',403);
+   if(purpose==='Mockup'&&!['image/png','image/jpeg'].includes(mime))fail('Para mockups usá JPG o PNG. Las muestras de PDF se comparten mediante su enlace de revisión.');
    const ext={'application/pdf':'pdf','image/png':'png','image/jpeg':'jpg'}[mime];if(!ext||!name)fail('Usá PDF, JPG o PNG.');
    const fid=uuid(),path=o.customer_id+'/'+o.id+'/'+fid+'.'+ext;const file=await db.insert(T.files,{id:fid,customer_id:o.customer_id,order_id:o.id,path,name,content_type:mime,size_bytes:size,purpose,status:'pending'});
    return {file:filePublic(file),upload:await storage.uploadUrl(path)};
