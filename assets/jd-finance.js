@@ -192,6 +192,6 @@ function openEditor(id,jobId,legacyId){
 function init(){if(!$("finance"))return;render()}
 window.JDFinance={render,openEditor,openForJob:id=>{state.tab="trabajos";state.job=id;window.go?.("finance");render();}};
 document.addEventListener("jd-app-ready",init);
-window.addEventListener("jd-shared-ready",()=>{if($("finance")?.classList.contains("active"))render()});
+window.addEventListener("jd-shared-ready",()=>render());
 if(document.readyState!=="loading")setTimeout(init,0);else document.addEventListener("DOMContentLoaded",init);
 })();
