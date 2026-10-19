@@ -1,0 +1,45 @@
+/* JD® · Caja y Finanzas · interfaz del sistema interno */
+#finance .jd-fin-actions{display:flex;flex-wrap:wrap;gap:8px}
+#finance .jd-fin-filters{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:18px 0}
+#finance .jd-fin-filters label{font-size:13px;display:flex;flex-direction:column;gap:5px}
+#finance select,#finance input{padding:8px 11px;min-height:38px;border:1px solid #b5c4bf;border-radius:7px;background:var(--paper,#fffefa);color:inherit;font:inherit}
+#finance .jd-fin-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px;margin:15px 0 23px}
+#finance .jd-fin-kpi{background:var(--card,#fffefa);border:1px solid #dce0dc;border-radius:12px;padding:17px;min-width:0;display:flex;flex-direction:column;gap:10px}
+#finance .jd-fin-kpi span{font-size:12px;font-weight:600;color:#586d69}
+#finance .jd-fin-kpi strong{font-size:clamp(18px,2vw,27px);font-weight:650;letter-spacing:-.02em;overflow-wrap:anywhere}
+#finance .jd-fin-kpi small{font-size:12px;color:#667773}
+#finance .jd-fin-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 17px}
+#finance .jd-fin-tabs button{border:1px solid #d2dad5;border-radius:8px;background:transparent;padding:10px 12px;cursor:pointer;color:inherit;font:inherit}
+#finance .jd-fin-tabs button[aria-pressed=true]{background:#245e62;color:white;border-color:#245e62}
+#finance .jd-fin-panel{background:var(--card,#fffefa);border:1px solid #dce0dc;border-radius:12px;padding:18px;margin:13px 0}
+#finance .jd-fin-panel h2{font-size:18px;margin:0 0 12px}
+#finance .jd-fin-panel p{line-height:1.5}
+#finance .jd-fin-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+#finance .jd-fin-bar h2{margin:0}
+#finance .jd-fin-scroll{overflow:auto;max-width:100%}
+#finance .jd-fin-scroll .table{width:100%;min-width:690px}
+#finance .jd-fin-scroll td small{display:block;color:#64756f;font-size:11px;margin-top:4px}
+#finance .jd-fin-chart{height:170px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;margin:25px 0 3px}
+#finance .jd-fin-chart-col{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:end;gap:6px}
+#finance .jd-fin-chart-col small{font-size:11px}
+#finance .jd-fin-bars{height:143px;display:flex;align-items:flex-end;justify-content:center;gap:2px;width:100%;border-bottom:1px solid #c7d6ce}
+#finance .jd-fin-bars i{width:35%;max-width:28px;min-height:0;display:block;border-radius:3px 3px 0 0}
+#finance .jd-fin-bars .rev{background:#366878}
+#finance .jd-fin-bars .cost{background:#b69d78}
+#finance .jd-fin-legend{display:flex;gap:18px;font-size:12px}
+#finance .jd-fin-legend span:first-child{color:#366878}
+#finance .jd-fin-legend span:last-child{color:#b69d78}
+.jd-fin-modal{position:fixed;inset:0;background:rgba(20,33,32,.60);display:flex;align-items:center;justify-content:center;z-index:5000;padding:12px}
+.jd-fin-dialog{max-height:94dvh;overflow:auto;background:#fffefa;color:#1a2825;width:min(780px,100%);padding:22px;border-radius:16px;box-shadow:0 10px 34px rgba(0,0,0,.23)}
+.jd-fin-dialog h2{font-size:22px;margin:0}
+.jd-fin-dialog .jd-fin-form{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:14px 0}
+.jd-fin-dialog .jd-fin-form label{font-size:13px;display:flex;flex-direction:column;gap:5px}
+.jd-fin-dialog .jd-fin-form input,.jd-fin-dialog .jd-fin-form select,.jd-fin-dialog .jd-fin-form textarea{font:inherit;color:inherit;background:white;width:100%;min-height:38px;border:1px solid #bac6c1;border-radius:7px;padding:8px;box-sizing:border-box}
+.jd-fin-dialog .jd-fin-form .span2{grid-column:1/-1}
+.jd-fin-dialog .jd-fin-form .jd-fin-check{flex-direction:row;align-items:center;gap:9px}
+.jd-fin-dialog .jd-fin-form .jd-fin-check input{width:18px;min-height:18px;flex-shrink:0}
+.jd-fin-dialog .jd-fin-error{color:#a33b26;font-weight:600;font-size:13px}
+.jd-fin-dialog .jd-fin-bar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.jd-fin-dialog .btn{cursor:pointer}
+@media(max-width:680px){.jd-fin-dialog .jd-fin-form{grid-template-columns:1fr}.jd-fin-dialog .jd-fin-form .span2{grid-column:auto}.jd-fin-dialog{padding:14px}#finance .jd-fin-chart{gap:2px}#finance .jd-fin-chart-col small{font-size:9px}#finance .jd-fin-panel{padding:12px}#finance .jd-fin-kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){#finance .jd-fin-kpis{grid-template-columns:1fr}#finance .jd-fin-legend{flex-wrap:wrap}}
