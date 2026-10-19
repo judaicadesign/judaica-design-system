@@ -34,6 +34,30 @@ const wait=()=>new Promise(r=>setTimeout(r,60));
  w.jdOpenOrder(quote.id);await w.document.querySelector('.jd-work-modal [data-save]').onclick();assert.equal(w.document.querySelector('.jd-work-modal'),null);assert.equal(JSON.stringify(app.get('jd_orders_v1')[0].quoteSnapshot),canonicalSnapshot);w.Storage.prototype.getItem=getItem;
  // Recording a payment must retain operational event and delivery dates edited on the job.
  const datedJob=app.get('jd_jobs_v1').find(j=>j.clientId===c.id);W.openJob(datedJob.id);f('jobEvent').value='2027-07-07';f('jobDeadline').value='2027-07-01';await w.document.querySelector('.jd-work-modal [data-save]').onclick();w.jdOpenOrder(quote.id);assert.equal(f('jdOrderDeadline').value,'2027-07-01');await w.document.querySelector('.jd-work-modal [data-save]').onclick();assert.equal(app.get('jd_orders_v1')[0].event,'2027-07-07');assert.equal(app.get('jd_jobs_v1').find(j=>j.id===datedJob.id).deadline,'2027-07-01');assert.equal(f('jdWorkPriorities').nextElementSibling.className,'grid cards');
+ // Commercial lead times: explicit dates, separate approval/payment, preservation across orders.
+ W.openJob(datedJob.id);
+ f('jobContact').value='2026-10-01';f('jobApproved').value='2026-10-20';f('jobDelivered').value='2027-06-25';
+ await w.document.querySelector('.jd-work-modal [data-save]').onclick();
+ const savedDates=app.get('jd_jobs_v1').find(x=>x.id===datedJob.id);
+ assert.equal(savedDates.firstContact,'2026-10-01');
+ assert.equal(savedDates.approvedAt,'2026-10-20');
+ assert.equal(savedDates.deliveredAt,'2027-06-25');
+ const lead=W.timings(savedDates);
+ assert.equal(lead.contactToApproval,19);
+ assert.equal(lead.deliveryToEvent,12);
+ assert.equal(lead.approvalToEvent,260);
+ assert.ok(W.firstPaymentDate(savedDates),"El primer pago debe provenir del ledger real sin inferirlo desde la etapa");
+ assert.ok(W.aggregateLeadTimes([savedDates]).contactToEvent.count===1);
+ assert.equal(W.aggregateLeadTimes([{event:'2027-03-01'}]).contactToEvent.count,0,"No inventar consultas históricas");
+ assert.match(f('jdLeadTimeAnalytics').textContent,/Anticipación y tiempos de compra/);
+ assert.match(f('jdSeasonalPlanner').textContent,/Lúaj institucional/);
+ assert.match(f('jdSeasonalPlanner').textContent,/Pésaj/);
+ // Marketing ideas create tasks only after confirmed date; never auto-post or fabricate a holiday date.
+ f('jdSeasonalPlanner').querySelector('[data-season-task="pesaj"]').click();
+ f('seasonTaskDue').value='2027-01-10';
+ await w.document.querySelector('.jd-work-modal [data-save]').onclick();
+ assert.ok(app.get('jd_tasks_v1').some(t=>t.season==='pesaj'&&t.due==='2027-01-10'));
+
  // Archived jobs remain accessible but leave the active dashboard.
  const job=app.get('jd_jobs_v1').find(j=>j.clientId===c.id);W.openJob(job.id);await w.document.querySelector('.jd-work-modal [data-archive-job]').onclick();assert.equal(W.activeJobs().some(j=>j.id===job.id),false);assert.ok(app.get('jd_jobs_v1').find(j=>j.id===job.id).history.length);assert.match(f('jdWorkPriorities').textContent,/Saldo pendiente · Sol Prueba/,'Archiving a job must not hide outstanding money');
  // Internal tasks support work beyond quotes, including master work.
