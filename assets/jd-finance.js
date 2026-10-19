@@ -113,12 +113,14 @@ function openLegacyDetail(id){
  overlay.innerHTML='<div class="jd-fin-dialog"><div class="jd-fin-bar"><h2>'+esc(source.label)+'</h2><button class="btn" data-close>Cerrar</button></div>'+
  '<p class="small muted">Registro histórico '+esc(source.date)+' · '+esc(source.source?.sheet)+' fila '+esc(source.source?.row)+'. Identificar componentes <strong>no incrementa</strong> el costo histórico.</p>'+
  '<div class="jd-fin-kpis">'+[['Costo histórico total',source.cost],['Componentes identificados',used],['Pendiente de desglose',remainder]].map(a=>'<div class="jd-fin-kpi"><span>'+esc(a[0])+'</span><strong>'+fmt(a[1],source.currency)+'</strong></div>').join("")+'</div>'+
- '<div class="jd-fin-scroll"><table class="table"><thead><tr><th>Concepto</th><th>Proveedor / recorrido</th><th>Importe</th></tr></thead><tbody>'+
- saved.items.filter(x=>!x.voidAt).map(x=>'<tr><td>'+esc(x.category)+' · '+esc(x.note)+'</td><td>'+esc(x.provider)+' · '+esc(x.route)+'</td><td>'+fmt(x.amount,source.currency)+'</td></tr>').join("")+'</tbody></table></div>'+
+ '<div class="jd-fin-scroll"><table class="table"><thead><tr><th>Fecha del gasto</th><th>Concepto</th><th>Proveedor / recorrido</th><th>Importe</th><th>Verificación</th></tr></thead><tbody>'+
+ saved.items.filter(x=>!x.voidAt).map(x=>'<tr><td>'+esc(x.date||'Sin fecha')+'</td><td>'+esc(x.category)+' · '+esc(x.note)+'</td><td>'+esc(x.provider)+' · '+esc(x.route)+'</td><td>'+fmt(x.amount,source.currency)+'</td><td>'+esc(x.verification||'Pendiente de confirmar')+'</td></tr>').join("")+'</tbody></table></div>'+
  '<div class="jd-fin-form"><label>Concepto<select id="jdBreakCategory">'+selectOptions(CATS,"Imprenta")+'</select></label>'+
  '<label>Importe acreditado<input id="jdBreakAmount" type="number" step="0.01" min="0.01" max="'+remainder+'"></label>'+
+ '<label>Fecha real del gasto (si se conoce)<input id="jdBreakDate" type="date"></label>'+ 
  '<label>Proveedor<input id="jdBreakProvider" placeholder="Zloto, Uber…"></label>'+
  '<label>Recorrido<select id="jdBreakRoute">'+selectOptions(ROUTES,"Sin recorrido")+'</select></label>'+
+ '<label>Estado del dato<select id="jdBreakVerification"><option>Pendiente de confirmar</option><option>Comprobante verificado</option><option>Recordado / reconstruido</option></select></label>'+ 
  '<label class="span2">Evidencia / descripción<input id="jdBreakNote" placeholder="Factura, trayecto, mensaje o remito"></label></div>'+
  '<div class="jd-fin-bar"><span id="jdBreakError" class="jd-fin-error"></span><button class="btn primary" data-add>Agregar componente</button></div></div>';
  document.body.append(overlay);
@@ -126,7 +128,7 @@ function openLegacyDetail(id){
  overlay.querySelector("[data-add]").onclick=async()=>{
   const get=name=>overlay.querySelector("#"+name),amount=validAmount(get("jdBreakAmount").value),error=get("jdBreakError");
   if(!amount||amount>remainder+.001){error.textContent="El importe debe ser positivo y no superar el costo que falta desglosar.";return}
-  const part={id:"part-"+crypto.randomUUID(),amount,category:get("jdBreakCategory").value,provider:get("jdBreakProvider").value.trim(),route:get("jdBreakRoute").value,note:get("jdBreakNote").value.trim(),createdAt:new Date().toISOString()};
+  const part={id:"part-"+crypto.randomUUID(),amount,category:get("jdBreakCategory").value,date:get("jdBreakDate").value||null,verification:get("jdBreakVerification").value,provider:get("jdBreakProvider").value.trim(),route:get("jdBreakRoute").value,note:get("jdBreakNote").value.trim(),createdAt:new Date().toISOString()};
   const button=overlay.querySelector("[data-add]");button.disabled=true;error.textContent="";
   try{
    await window.jdUpdateSharedState([ALLOC],current=>{
