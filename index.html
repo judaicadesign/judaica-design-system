@@ -16,7 +16,7 @@
 <script src="assets/jd-cost-history.js?v=20261018-history" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
 <script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
-<script src="assets/jd-workflow.js?v=20261020-supplier-account" defer></script>
+<script src="assets/jd-workflow.js?v=20261020-internal-priorities" defer></script>
 <script src="assets/jd-finance.js?v=20261020-supplier-account" defer></script>
 <link rel="stylesheet" href="assets/jd-finance.css?v=20261019-kpis-v1">
 <script src="assets/jd-orders.js?v=20261019-approval-date" defer></script>
@@ -41,6 +41,7 @@
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
 <script src="supabase/functions/_shared/jd-whatsapp-pricing.js?v=20261014"></script>
+<script defer src="assets/jd-portal-inbox.js?v=20261020-inbox"></script>
 <script src="assets/jd-auth.js?v=20261007-pricing-config" defer></script>
 <section class="jd-login" id="jdLogin">
 <img src="assets/jd-logo-black.svg" alt="Judaica Design®" style="width:180px">
@@ -61,7 +62,7 @@
     <button data-screen="clients">Clientes & seguimiento</button>
     <button data-screen="finance">Caja y Finanzas</button>
     <a href="portal/proveedores.html" style="display:block;padding:10px 14px;color:inherit;text-decoration:none">Cuenta de Zloto ↗</a>
-    <a href="portal/equipo.html" style="display:block;padding:10px 14px;color:inherit;text-decoration:none">Administrar portal clientes ↗</a>
+    <button data-screen="portalInbox">Solicitudes de clientes <span id="jdPortalBadge" class="tag" hidden></span></button>
     </div>
     <div class="jd-nav-group"><div class="sep">Catálogo</div>
     <button data-screen="products">Productos & variantes</button>
@@ -108,6 +109,7 @@
   </div>
 </section>
 
+<section class="screen" id="portalInbox"><div class="topbar"><div><div class="eyebrow">CLIENTES</div><h1>Solicitudes y pedidos</h1></div></div><iframe id="jdPortalAdmin" title="Administración de solicitudes y pedidos de clientes" style="width:100%;min-height:85vh;border:0;border-radius:14px" hidden></iframe></section>
 <section class="screen" id="quotes"><div class="jd-screen-loading small muted">Cargando…</div></section>
 <section class="screen" id="b612Assistant"><div class="topbar"><div><div class="eyebrow">Imprenta · etapa de validación</div><h1>Cotizador B612</h1></div></div><div id="jdMessageQuoteTool"></div></section>
 
