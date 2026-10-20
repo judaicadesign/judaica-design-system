@@ -245,7 +245,7 @@ function summaryHtml(j,old,currency){
  return '<section class="jd-fin-panel jd-fin-project-summary"><h2>Resultado económico del trabajo</h2>'+
  '<div class="jd-fin-kpis">'+
  line("Ingreso del pedido / histórico",r.haveRevenue?fmt(r.baseRevenue,currency):"Pendiente",r.scope==="actual"?"Precio del pedido aceptado; NO cobros":"Según registro histórico; NO cobros")+
- line("Costo real registrado",fmt(r.actualCost,currency),r.scope==="actual"?"No incluye costo cotizado de imprenta mientras no sea registrado":"Incluye costo original y gastos posteriores no duplicados")+
+ line("Costo real registrado",fmt(r.actualCost,currency),r.scope==="actual"?"Incluye costos reales de Imprenta y gastos adicionales registrados":"Incluye costo original y gastos posteriores no duplicados")+
  line("Resultado provisional",r.result===null?"Sin calcular":fmt(r.result,currency),r.result===null?"Falta precio aceptado o costo real":"Ingreso menos costos reales registrados, sin impuestos ni horas")+
  line("Margen sobre ingreso",r.margin===null?"—":pct(r.result,r.baseRevenue),"Diferencia dividida por el ingreso del trabajo")+
  '</div><p class="small muted">'+(r.estimatedCost!==null&&r.scope==="actual"?"Costo presupuestado de imprenta: "+fmt(r.estimatedCost,"ARS")+". Es una referencia, NO un egreso realizado. ":"")+
@@ -283,6 +283,7 @@ function renderJobs(){
 }
 function openEditor(id,jobId,legacyId){
  const existing=read(MOVES).find(a=>a.id===id)||null,x=existing||{};
+ if(existing?.supplierOrderId&&existing.id.startsWith('job-print-cost:')){window.JDWorkflow?.openJob(existing.jobId);return;}
  const arr=jobs(),legacy=read(LEGACY).filter(a=>a.classification!=="Software y suscripciones"),opts=arr.map(j=>'<option value="'+esc(j.id)+'"'+(j.id===(jobId||x.jobId)?' selected':'')+'>'+esc((read("jd_clients").find(c=>c.id===j.clientId)?.name||"")+' · '+j.title)+'</option>').join("");
  const form=document.createElement("div");form.className="jd-fin-modal";form.setAttribute("role","dialog");form.setAttribute("aria-modal","true");
  form.innerHTML='<div class="jd-fin-dialog"><div class="jd-fin-bar"><h2>'+(existing?"Editar":"Registrar")+' movimiento</h2><button class="btn" data-close>Cerrar</button></div><div class="jd-fin-form">'+
