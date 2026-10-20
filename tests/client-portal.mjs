@@ -13,6 +13,7 @@ const storage={uploadUrl:async p=>(issued.push(p),{path:p,token:'scoped'}),downl
 const app=createPortalApp({db,storage,auth,supplier:async p=>{supplierCalls++;assert.ok(p in fixture||p in cards,p);return structuredClone(fixture[p]||cards[p]);},now:()=>new Date('2026-10-18T21:00:00Z'),uuid:randomUUID});
 for(const t of ['bad','anonymous','unverified'])await assert.rejects(()=>app(t,{action:'profile'}),e=>e.status===401);
 await assert.rejects(()=>app('abi',{action:'admin-list'}),e=>e.status===403);
+for(const action of ['admin-supplier-list','admin-supplier-chat','admin-sheet-connect'])await assert.rejects(()=>app('abi',{action}),e=>e.status===403);
 await assert.rejects(()=>app('abi',{action:'order-detail',orderId}),e=>e.status===404);
 await assert.rejects(()=>app('abi',{action:'file-download',fileId}),e=>e.status===404);
 await assert.rejects(()=>app('abi',{action:'file-init',orderId,name:'x.pdf',contentType:'application/pdf',size:9,purpose:'Archivo para imprimir'}),e=>e.status===404);assert.equal(issued.length,0);
@@ -48,7 +49,7 @@ const result=customerResult({alternatives:[{status:'priced',qty:1,net:100,lines:
 // Authenticated wrapper behavior, including malformed JSON and denied origins.
 const {stripTypeScriptTypes}=await import('node:module'),vm=await import('node:vm');let handler;
 const wrapper=stripTypeScriptTypes(fs.readFileSync('supabase/functions/client-portal/index.ts','utf8').replace(/^import .*;$/gm,''));
-vm.runInNewContext(wrapper,{Deno:{env:{get:()=>''},serve:f=>handler=f},createClient:()=>({storage:{from:()=>({})}}),createPortalApp:()=>async()=>({role:'customer'}),createPublicPortalApp:()=>async()=>({accepted:true}),portalTokenHash:async()=> 'rate',PortalError:(await import('../supabase/functions/_shared/portal-core.mjs')).PortalError,Response,Request,fetch,AbortSignal});
+vm.runInNewContext(wrapper,{Deno:{env:{get:()=>''},serve:f=>handler=f},createClient:()=>({storage:{from:()=>({})}}),createPortalApp:()=>async()=>({role:'customer'}),createPublicPortalApp:()=>async()=>({accepted:true}),createSheetBridgeApp:()=>async()=>({entries:[]}),portalTokenHash:async()=> 'rate',PortalError:(await import('../supabase/functions/_shared/portal-core.mjs')).PortalError,Response,Request,fetch,AbortSignal});
 assert.equal((await handler(new Request('https://edge.test',{method:'POST',body:'{}'}))).status,401);
 assert.equal((await handler(new Request('https://edge.test',{method:'POST',body:'{"action":"register-account"}'}))).status,200);
 assert.equal((await handler(new Request('https://edge.test',{method:'POST',headers:{Authorization:'Bearer test'},body:'broken'}))).status,400);

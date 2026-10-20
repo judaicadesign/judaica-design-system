@@ -97,5 +97,6 @@ const {JSDOM}=require('jsdom');
  assert.equal(report.baseRevenue,228000);
  assert.equal(report.estimatedCost,116135);
  assert.equal(report.result,225000,"si hay un costo real de 3.000, el costo estimado no debe duplicarse");
+ const extraMoves=JSON.parse(w.localStorage.getItem('jd_finance_moves_v1'));extraMoves.push({id:'charge',jobId:'j-max',kind:'Egreso',status:'Realizado',amount:1000,currency:'ARS',notCash:true},{id:'payment',jobId:'j-max',kind:'Egreso',status:'Realizado',amount:1000,currency:'ARS',settlement:true});w.localStorage.setItem('jd_finance_moves_v1',JSON.stringify(extraMoves));assert.equal(w.JDFinance.jobReport({id:'j-max',quoteIds:['q1']},null,'ARS').actualCost,4000,'supplier payment never duplicates its charge');assert.ok(!w.JDFinance.summaryHtml({id:'j-max',quoteIds:['q1']},null,'ARS').includes('Maaser'),'maaser stays only in Sheets');
  console.log('PASS: caja, resumen separado, desglose histórico no duplicado y costo por proyecto');
 })().catch(e=>{console.error(e);process.exit(1)});

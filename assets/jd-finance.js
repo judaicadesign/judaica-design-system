@@ -67,7 +67,7 @@ function breakdownStats(historic,moves,allocations,currency){
  for(const a of historic.filter(x=>x.classification==="Software y suscripciones"))add("Software y suscripciones",Number(a.cost)||0,false);
  let extra=0;
  for(const x of moves){
-  if(x.voidAt||x.kind!=="Egreso"||x.status!=="Realizado"||x.legacyOverlap||!sameCurrency(x,currency))continue;
+  if(x.voidAt||x.kind!=="Egreso"||x.status!=="Realizado"||x.legacyOverlap||x.settlement||!sameCurrency(x,currency))continue;
   const amt=Number(x.amount)||0;extra+=amt;add(x.category,amt,isError(x));
  }
  const unknown=Math.max(0,historicalCost-splitTotal-fixedTotal);
@@ -93,7 +93,7 @@ function render(){
  const all=selectedLegacy(),moves=selectedMoves(),registered=all.filter(x=>x.classification!=="Software y suscripciones");
  const billed=total(registered,"revenue"),cost=total(registered,"cost"),fixed=total(all.filter(x=>x.classification==="Software y suscripciones"),"cost");
  const income=total(moves.filter(x=>x.kind==="Ingreso"&&x.status==="Realizado"),"amount");
- const expense=total(moves.filter(x=>x.kind==="Egreso"&&x.status==="Realizado"),"amount");
+ const expense=total(moves.filter(x=>x.kind==="Egreso"&&x.status==="Realizado"&&!x.notCash),"amount");
  const st=status(),period=periodStats(all,state.year);
  const historicalMargin=billed-cost-fixed;
  const historicalPct=pct(historicalMargin,billed);
@@ -227,8 +227,9 @@ function jobReport(job,legacy,currency){
  const moves=read(MOVES).filter(x=>!x.voidAt&&x.status==="Realizado"&&x.currency===currency&&
   (historic?x.legacyId===historic.id:job?x.jobId===job.id:false));
  const extras=moves.filter(x=>!x.legacyOverlap);
- const moreCosts=total(extras.filter(x=>x.kind==="Egreso"),"amount");
- const receipts=total(moves.filter(x=>x.kind==="Ingreso"),"amount");
+ const moreCosts=total(extras.filter(x=>x.kind==="Egreso"&&!x.settlement),"amount");
+ const paymentReceipts=currency==="ARS"?(order?.payments||[]).filter(p=>!p.voidedAt&&!p.legacy).reduce((n,p)=>n+Number(p.ars||0),0):0;
+ const receipts=order?paymentReceipts:total(moves.filter(x=>x.kind==="Ingreso"),"amount");
  const actualCost=originalCost+moreCosts;
  const costKnown=originalCost>0||moreCosts>0;
  const result=baseline>0&&costKnown?baseline-actualCost:null;
@@ -246,7 +247,7 @@ function summaryHtml(j,old,currency){
  line("Ingreso del pedido / histórico",r.haveRevenue?fmt(r.baseRevenue,currency):"Pendiente",r.scope==="actual"?"Precio del pedido aceptado; NO cobros":"Según registro histórico; NO cobros")+
  line("Costo real registrado",fmt(r.actualCost,currency),r.scope==="actual"?"No incluye costo cotizado de imprenta mientras no sea registrado":"Incluye costo original y gastos posteriores no duplicados")+
  line("Resultado provisional",r.result===null?"Sin calcular":fmt(r.result,currency),r.result===null?"Falta precio aceptado o costo real":"Ingreso menos costos reales registrados, sin impuestos ni horas")+
- line("Margen sobre ingreso",r.margin===null?"—":pct(r.result,r.baseRevenue),"No equivale al porcentaje «a dar» de Excel")+
+ line("Margen sobre ingreso",r.margin===null?"—":pct(r.result,r.baseRevenue),"Diferencia dividida por el ingreso del trabajo")+
  '</div><p class="small muted">'+(r.estimatedCost!==null&&r.scope==="actual"?"Costo presupuestado de imprenta: "+fmt(r.estimatedCost,"ARS")+". Es una referencia, NO un egreso realizado. ":"")+
  'Resultado siempre provisional hasta completar costos (imprenta, mensajería, reparaciones, materiales), tributos y trabajo interno. Los cobros se controlan separadamente.</p></section>';
 }
@@ -262,7 +263,7 @@ function renderJobs(){
  const expenseIncluded=total(parts,"amount"),oldCost=Number(old?.cost||0),oldRevenue=Number(old?.revenue||0);
  const related=moves.filter(x=>j?x.jobId===j.id:old?x.legacyId===old.id:false).filter(x=>x.currency===state.currency);
  const newEntries=related.filter(x=>x.status==="Realizado"&&!x.legacyOverlap);
- const newIn=total(newEntries.filter(x=>x.kind==="Ingreso"),"amount"),newOut=total(newEntries.filter(x=>x.kind==="Egreso"),"amount");
+ const newIn=total(newEntries.filter(x=>x.kind==="Ingreso"),"amount"),newOut=total(newEntries.filter(x=>x.kind==="Egreso"&&!x.settlement),"amount");
  const summary= (j||old)?summaryHtml(j,old,state.currency):'';
  const boxes=old?'<div class="jd-fin-kpis">'+[
   ["Ingreso histórico registrado",oldRevenue,"No equivale a dinero cobrado"],
@@ -272,7 +273,7 @@ function renderJobs(){
  ].map(a=>'<div class="jd-fin-kpi"><span>'+esc(a[0])+'</span><strong>'+fmt(a[1],state.currency)+'</strong><small>'+esc(a[2])+'</small></div>').join("")+'</div>':'';
  const extra=(j||old)?'<div class="jd-fin-kpis"><div class="jd-fin-kpi"><span>Cobros adicionales registrados</span><strong>'+fmt(newIn,state.currency)+'</strong></div><div class="jd-fin-kpi"><span>Gastos adicionales registrados</span><strong>'+fmt(newOut,state.currency)+'</strong><small>No se confunden con el costo histórico</small></div></div>':'';
  const historicRows=old?parts.map(p=>'<tr><td>'+esc(old.date||"—")+'</td><td>'+esc(p.category)+' · '+esc(p.note||"")+'</td><td>'+esc(p.provider||"")+'</td><td>'+fmt(p.amount,old.currency)+'</td><td>Dentro del costo histórico</td></tr>').join(""):'';
- const movementRows=related.map(x=>'<tr><td>'+esc(x.date)+'</td><td>'+esc(x.category)+' · '+esc(x.detail||"")+'</td><td>'+esc(x.provider||"")+'</td><td>'+fmt(x.amount,x.currency)+'</td><td>'+esc(x.status)+(x.legacyOverlap?' · Ya incluido':'')+'</td></tr>').join("");
+ const movementRows=related.map(x=>'<tr><td>'+esc(x.date)+'</td><td>'+esc(x.category)+' · '+esc(x.detail||"")+'</td><td>'+esc(x.provider||"")+'</td><td>'+fmt(x.amount,x.currency)+'</td><td>'+esc(x.status)+(x.legacyOverlap?' · Ya incluido':'')+(x.notCash?' · Costo registrado, sin salida de caja':'')+(x.settlement?' · Pago de cuenta, sin duplicar costo':'')+'</td></tr>').join("");
  $("jdFinBody").innerHTML='<section class="jd-fin-panel"><h2>Costos reales por proyecto · histórico y actual</h2><p class="small muted">También podés abrir trabajos cerrados como Ian Bruck o Max Alperovich sin recrearlos en el CRM. Costo histórico, componentes identificados y gastos nuevos se muestran separados para evitar duplicaciones.</p><label>Seleccionar trabajo <select id="jdFinJobChoice"><option value="">Elegí un trabajo…</option><optgroup label="Trabajos actuales">'+liveOptions+'</optgroup><optgroup label="Trabajos históricos">'+historicalOptions+'</optgroup></select></label>'+
  summary+boxes+extra+
  (j||old?'<div class="jd-fin-bar"><button class="btn primary" id="jdFinJobAdd">+ Costo o cobro</button>'+(old?'<button class="btn" id="jdFinBreak">Desglosar costo histórico</button>':'')+'</div><div class="jd-fin-scroll"><table class="table"><thead><tr><th>Fecha</th><th>Concepto</th><th>Proveedor</th><th>Importe</th><th>Clase</th></tr></thead><tbody>'+historicRows+movementRows+'</tbody></table></div>':'<p class="muted">Elegí un proyecto activo o un trabajo de tu historial importado.</p>')+'</section>';

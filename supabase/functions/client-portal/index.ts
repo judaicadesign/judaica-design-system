@@ -1,11 +1,13 @@
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
-import {createPortalApp,createPublicPortalApp,portalTokenHash,PortalError} from '../_shared/portal-core.mjs';
+import {createPortalApp,createPublicPortalApp,portalTokenHash,PortalError,createSheetBridgeApp} from '../_shared/portal-core.mjs';
 
 const url=Deno.env.get('SUPABASE_URL')!,serviceKey=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,anonKey=Deno.env.get('SUPABASE_ANON_KEY')!;
 const service=createClient(url,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
 const check=(r:any)=>{if(r.error){if(r.error.code==='P0001')throw new PortalError(r.error.message);throw Error('Backend operation failed');}return r.data;};
 const db={
+ async upsert(table:string,value:any,onConflict:string){return check(await service.from(table).upsert(value,{onConflict}).select().single());},
+ async operation(name:string,args:any){return check(await service.rpc(name,args));},
  async workCodes(keys:string[]){const out:any[]=[];for(let i=0;i<keys.length;i+=100)out.push(...check(await service.from("jd_work_codes").select("source_key,code").in("source_key",keys.slice(i,i+100))));return out;},
  async signupRate(rate:string){check(await service.rpc('jd_portal_signup_rate',{p_rate:rate}));},
  async registerCustomer(name:string,email:string,phone:string,user:string,profile:any){check(await service.rpc('jd_portal_register_customer',{p_name:name,p_email:email,p_phone:phone,p_user:user,p_profile:profile}));},
@@ -22,6 +24,12 @@ const db={
 };
 const bucket=service.storage.from('jd-portal-files');
 const storage={
+ async archiveUrl(path:string){return check(await service.storage.from('jd-supplier-archive').createSignedUrl(path,300)).signedUrl;},
+ async copyArchiveReceipt(from:string,to:string,mime:string){const blob=check(await service.storage.from('jd-supplier-archive').download(from));check(await service.storage.from('jd-supplier-receipts').upload(to,blob,{contentType:mime,upsert:false}));},
+ async previewUrl(path:string){return check(await bucket.createSignedUrl(path,300)).signedUrl;},
+ async receiptUploadUrl(path:string){const d=check(await service.storage.from("jd-supplier-receipts").createSignedUploadUrl(path,{upsert:false}));return {path:d.path,token:d.token};},
+ async receiptDownload(path:string){return check(await service.storage.from("jd-supplier-receipts").download(path));},
+ async receiptUrl(path:string){return check(await service.storage.from("jd-supplier-receipts").createSignedUrl(path,300)).signedUrl;},
  async uploadUrl(path:string){const data=check(await bucket.createSignedUploadUrl(path,{upsert:false}));return {path:data.path,token:data.token};},
  async download(path:string){return check(await bucket.download(path));},
  async downloadUrl(path:string,name:string){return check(await bucket.createSignedUrl(path,60,{download:name})).signedUrl;}
@@ -45,6 +53,7 @@ async function supplier(path:string){
 }
 const dispatch=createPortalApp({db,storage,auth,supplier});
 const dispatchPublic=createPublicPortalApp({db,auth});
+const dispatchSheets=createSheetBridgeApp({db,storage});
 Deno.serve(async(req:Request)=>{
  const origin=req.headers.get('origin');const allowed=!origin||origin==='https://judaicadesign.github.io';
  const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Access-Control-Allow-Origin':'https://judaicadesign.github.io','Access-Control-Allow-Headers':'authorization, apikey, content-type, x-client-info','Access-Control-Allow-Methods':'POST, OPTIONS','Vary':'Origin'};
@@ -57,6 +66,7 @@ Deno.serve(async(req:Request)=>{
   if(Number(req.headers.get('content-length')||0)>65536)throw new PortalError('El pedido es demasiado extenso.',413);const raw=await req.text();if(raw.length>65536)throw new PortalError('El pedido es demasiado extenso.',413);
   let body;try{body=JSON.parse(raw);}catch{throw new PortalError('Pedido inválido.');}
   const publicAction=['register-account','request-account','activate-account'].includes(body?.action);
+  if(['sheet-pull','sheet-ack','sheet-receipt'].includes(body?.action))return response({ok:true,...await dispatchSheets(body,null)});
   if(!token&&!publicAction)return response({ok:false,error:'Iniciá sesión.'},401);
   if(!body||typeof body.action!=='string'||body.action.length>40)throw new PortalError('Acción inválida.');
   if(publicAction){const ip=req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()||'unknown';const rate=await portalTokenHash(serviceKey+'|portal-rate|'+ip);return response({ok:true,...await dispatchPublic(body,rate)});}

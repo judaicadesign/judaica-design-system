@@ -1,3 +1,6 @@
+import {createSheetBridge} from './sheet-bridge.mjs';
+import {createProofing} from './proofing.mjs';
+import {createSupplierAccount} from './supplier-account.mjs';
 import '../../../assets/jd-print-request.js';
 import './jd-whatsapp-pricing.js';
 import {quotePrintRequest} from './b612-general.mjs';
@@ -62,6 +65,7 @@ export function createPortalApp(deps){
   return {request:r,answers,questions:intake.questions(r).map(q=>({...q,text:q.text.replaceAll('B612','Judaica Design')}))};
  }
  async function owner(table,key,customer,admin){const row=await db.one(table,{id:id(key)});if(!row||!admin&&row.customer_id!==customer?.id)fail('No disponible.',404);return row;}
+ const proofs=createProofing({db,storage,owner,id,text,fail,now,uuid});const supplierAccount=createSupplierAccount({db,storage,text,id,fail,uuid,now});const sheets=createSheetBridge({db,storage,hash:portalTokenHash,fail,text,id});
  return async function dispatch(token,body){
   const user=await auth.user(token);if(!user?.id||!user.email_confirmed_at||user.is_anonymous)fail('Iniciá sesión con una cuenta habilitada.',401);
   const email=String(user.email||'').toLowerCase(),admin=await db.isTeam(email);const action=body.action;
@@ -77,6 +81,10 @@ export function createPortalApp(deps){
    const p=profileValue(body),updated_at=now().toISOString();
    return {customer:customerPublic(await db.patch(T.customers,customer.id,{...p,name:p.first_name+' '+p.last_name,updated_at},body.updated_at))};
   }
+  if(typeof action!=='string')fail('Acción inválida.');
+  if(action.startsWith('review-'))return proofs(body,{admin,customer,user});
+  if(action.startsWith('admin-sheet-')){if(!admin)fail('Acceso no autorizado.',403);return sheets(body,user);}
+  if(action.startsWith('admin-supplier-')){if(!admin)fail('Acceso no autorizado.',403);return supplierAccount(body,user);}
   if(action.startsWith('admin-')){
    if(!admin)fail('Acceso no autorizado.',403);
    if(action==='admin-list')return {inquiries:(await db.list(T.quotes,{},'*',200)).filter(q=>q.customer_result?.requiresReview&&!q.requested_order_id).map(q=>({...quotePublic(q),customer_id:q.customer_id})),customers:await db.list(T.customers,{},'*',200),orders:(await db.list(T.orders,{},'*',200)).map(o=>({...orderPublic(o),customer_id:o.customer_id})),defaultRule:await db.sharedPricing()};
@@ -169,3 +177,5 @@ export function createPortalApp(deps){
   fail('Acción no disponible.',404);
  };
 }
+
+export function createSheetBridgeApp(deps){const fail=(message,status=400)=>{throw new PortalError(message,status);};return createSheetBridge({...deps,hash:portalTokenHash,fail,text,id});}

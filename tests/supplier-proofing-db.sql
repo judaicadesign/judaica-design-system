@@ -1,0 +1,41 @@
+-- Run as database administrator; every synthetic row is rolled back.
+begin;
+do $$
+declare actor uuid; customer uuid;ord uuid;v public.jd_review_versions;v2 public.jd_review_versions;c public.jd_review_comments;a public.jd_review_approvals;e public.jd_supplier_entries;job text;old_count int; new_count int;begin
+ select id into actor from auth.users where email='judaica.dzn@gmail.com';
+ insert into public.jd_portal_customers(name,email,active,auth_user_id) values('QA temporal','proof-qa@example.invalid',true,actor) returning id into customer;
+ insert into public.jd_portal_orders(customer_id,idempotency_key,items) values(customer,gen_random_uuid(),'[]') returning id into ord;
+ v:=public.jd_review_create(ord,actor,jsonb_build_object('title','Prueba','page_count',1,'rtl',true,'approvable',true,'source_name','original.pdf','source_sha256',repeat('a',64)));
+ begin perform public.jd_review_publish(v.id);raise exception 'TEST incomplete publication allowed';exception when raise_exception then if SQLERRM='TEST incomplete publication allowed' then raise;end if;end;
+ insert into public.jd_review_pages(version_id,page,path,mime,size_bytes,width,height,state,sha256) values(v.id,1,'qa/'||v.id,'image/jpeg',20,1200,1800,'uploaded',repeat('b',64));
+ perform public.jd_review_publish(v.id);
+ c:=public.jd_review_comment(v.id,actor,'customer',1,.25,.75,'Cambiar título',null);
+ begin perform public.jd_review_approve(v.id,actor,customer);raise exception 'TEST unresolved approval allowed';exception when raise_exception then if SQLERRM='TEST unresolved approval allowed' then raise;end if;end;
+ perform public.jd_review_resolve(c.id,actor,'customer',true);
+ a:=public.jd_review_approve(v.id,actor,customer);
+ assert jsonb_array_length(a.manifest)=1,'Exact page manifest';
+ perform public.jd_review_approve(v.id,actor,customer);
+ assert (select count(*) from public.jd_review_approvals where version_id=v.id)=1,'Idempotent approval';
+ begin perform public.jd_review_comment(v.id,actor,'customer',1,.25,.75,'After approval',null);raise exception 'TEST approved edit allowed';exception when raise_exception then if SQLERRM='TEST approved edit allowed' then raise;end if;end;
+ v2:=public.jd_review_create(ord,actor,jsonb_build_object('title','Versión 2','page_count',1,'rtl',true,'approvable',true,'source_name','new.pdf','source_sha256',repeat('c',64)));
+ insert into public.jd_review_pages(version_id,page,path,mime,size_bytes,width,height,state,sha256) values(v2.id,1,'qa/'||v2.id,'image/jpeg',20,1200,1800,'uploaded',repeat('d',64));
+ perform public.jd_review_publish(v2.id);
+ assert (select current_review_id=v2.id and status='Solicitado' from public.jd_portal_orders where id=ord),'No production side effect';
+ begin perform public.jd_review_approve(v.id,actor,customer);raise exception 'TEST old approval allowed';exception when raise_exception then if SQLERRM='TEST old approval allowed' then raise;end if;end;
+ update public.jd_portal_orders set status='En producción' where id=ord;
+ begin perform public.jd_review_comment(v2.id,actor,'customer',1,.25,.75,'Closed',null);raise exception 'TEST closed comment allowed';exception when raise_exception then if SQLERRM='TEST closed comment allowed' then raise;end if;end;
+ select jsonb_array_length(value) into old_count from public.app_state where key='jd_finance_moves_v1';
+ insert into public.jd_supplier_entries(kind,supplier,amount,currency,rate,state,source,date) values('Cargo','Zloto',1000,'ARS',1,'draft','{}',current_date) returning * into e;
+ e:=public.jd_supplier_post(e.id,actor);perform public.jd_supplier_post(e.id,actor);
+ select jsonb_array_length(value) into new_count from public.app_state where key='jd_finance_moves_v1';
+ assert coalesce(new_count,0)=coalesce(old_count,0)+1,'No double cost';
+ assert (select (m->>'notCash')::boolean and not (m->>'settlement')::boolean from public.app_state s cross join lateral jsonb_array_elements(s.value) m where s.key='jd_finance_moves_v1' and m->>'id'='supplier-'||e.id),'Cost is not cash payment';
+ e:=public.jd_supplier_update(e.id,actor,e.updated_at,null,'{}','Anulación QA');
+ assert e.state='void','Void audited';
+ assert (select m ? 'voidAt' from public.app_state s cross join lateral jsonb_array_elements(s.value) m where s.key='jd_finance_moves_v1' and m->>'id'='supplier-'||e.id),'Void reverses accounting';
+ assert not has_table_privilege('authenticated','public.jd_supplier_entries','select'),'No client supplier access';
+ assert not has_table_privilege('authenticated','public.jd_review_pages','select'),'No direct original/review table access';
+ assert not has_function_privilege('authenticated','public.jd_review_approve(uuid,uuid,uuid)','execute'),'No direct review approval RPC';
+end $$;
+rollback;
+select 'PASS: exact version approval, comments, freeze, unresolved guard, old/closed version guard, supplier cost idempotency, cash/cost split, void audit, backend-only permissions' as result;
