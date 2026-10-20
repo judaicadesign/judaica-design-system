@@ -66,7 +66,7 @@
     document.querySelectorAll('#savedQuotes [data-open-qid]').forEach(open=>{
       const quote=read('jd_saved_quotes_v6').find(q=>q.id===open.dataset.openQid);
       const toolbar=open.parentElement;
-      if(!quote||quote.status!=='Preparado para compartir'||toolbar.querySelector('[data-confirm-sent]'))return;
+      if(!quote||window.JDWorkflow.quoteLifecycle(quote).lane!=='pending'||quote.status!=='Preparado para compartir'||toolbar.querySelector('[data-confirm-sent]'))return;
       const button=document.createElement('button');button.className='btn sm';button.dataset.confirmSent=quote.id;button.textContent='Confirmar enviado';
       button.onclick=async()=>{
         if(!confirm('¿Confirmás que efectivamente enviaste este presupuesto al cliente? Abrir WhatsApp no lo envía automáticamente.'))return;

@@ -16,11 +16,11 @@
 <script src="assets/jd-cost-history.js?v=20261018-history" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
 <script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
-<script src="assets/jd-workflow.js?v=20261020-timeline-costs" defer></script>
+<script src="assets/jd-workflow.js?v=20261020-visual-flow" defer></script>
 <script src="assets/jd-finance.js?v=20261020-timeline-costs" defer></script>
 <link rel="stylesheet" href="assets/jd-finance.css?v=20261019-kpis-v1">
-<script src="assets/jd-orders.js?v=20261019-approval-date" defer></script>
-<link rel="stylesheet" href="assets/jd-workflow.css?v=20261020-timeline-costs">
+<script src="assets/jd-orders.js?v=20261020-quote-flow" defer></script>
+<link rel="stylesheet" href="assets/jd-workflow.css?v=20261020-visual-flow">
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-message-request.js?v=20261014-b612" defer></script>
 <script src="assets/jd-print-request.js?v=20261020-plastificados" defer></script>
@@ -276,6 +276,7 @@ function quoteQtyText(q){
 }
 function drawSavedQuotesV6(clientFilter){
  const all=getSavedQuotesV6();
+ const lifecycle=q=>window.JDWorkflow?.quoteLifecycle(q)||{lane:'pending',label:q.status||'Guardado'};
  const selection=clientFilter||window.jdSavedQuotesClientFilter||'';
  const filterName=typeof selection==='object'?String(selection.name||''):String(selection||'');
  const filterId=typeof selection==='object'?String(selection.id||''):'';
@@ -285,20 +286,23 @@ function drawSavedQuotesV6(clientFilter){
    :filterName?all.filter(q=>normQuoteClient(q.client)===normQuoteClient(filterName)):all;
  const filterNote=filtered?'<div class="jd-note" style="margin-bottom:14px">Mostrando presupuestos de <b>'+esc3(filterName||'cliente seleccionado')+'</b>. <button class="btn sm" id="jdClearQuoteFilter">Ver todos</button></div>':'';
  sq.innerHTML='<div class="topbar"><div><div class="eyebrow">Comercial</div><h1>Presupuestos</h1></div><div class="jd-toolbar"><button class="btn" id="jdQuoteTrash">Papelera ('+getDeletedQuotesV6().length+')</button><button class="btn primary" id="jdNewQuoteBtn">+ Nuevo presupuesto</button></div></div>'+
- '<div class="jd-note" style="margin-bottom:14px">Cada cotización conserva su versión. Los presupuestos eliminados se pueden recuperar desde la papelera.</div>'+filterNote+
+ '<div class="jd-note" style="margin-bottom:14px">Al aceptar una cantidad, el presupuesto sale de Pendientes y el trabajo continúa en En curso. Al entregar o cerrar sin avanzar, pasa a Cerrados. El historial se conserva.</div>'+filterNote+'<div class="jd-quote-lanes" role="group" aria-label="Seguimiento de presupuestos">'+[['pending','Pendientes'],['ongoing','En curso'],['closed','Cerrados'],['all','Todos']].map(([key,label])=>'<button class="btn" type="button" data-quote-lane="'+key+'" aria-pressed="false">'+label+' <span>'+rows.filter(q=>key==='all'||lifecycle(q).lane===key).length+'</span></button>').join('')+'</div>'+
  (rows.length?'<div class="jd-table-scroll jd-savedquotes-scroll"><table class="table jd-savedquotes-table"><thead><tr><th>Cliente</th><th>Producto</th><th>Configuración</th><th>Cantidades / precio</th><th>Estado</th><th>Fecha</th><th>Evento / entrega</th><th></th></tr></thead><tbody>'+
- rows.map((q,i)=>'<tr><td><b>'+esc3(q.client||'—')+'</b></td><td>'+esc3(q.product||'—')+'</td><td>'+esc3([q.model,q.nusaj,q.texts||q.lang,q.size,q.binding||q.bind].filter(Boolean).join(' · '))+'</td><td>'+quoteQtyText(q)+'</td><td><span class="tag '+(/enviado/i.test(q.status||'')?'ok':'')+'">'+esc3(q.status||'Guardado')+'</span></td><td>'+esc3(fmtDate(q))+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><div class="jd-toolbar"><button class="btn sm" data-open-qid="'+esc3(q.id||'')+'">Abrir</button>'+(q.pdfUrl?'<a class="btn sm" target="_blank" rel="noopener" href="'+esc3(q.pdfUrl)+'">PDF</a>':'')+'<button class="btn sm" data-delete-qid="'+esc3(q.id||'')+'">Eliminar</button></div></td></tr>').join('')+
+ rows.map((q,i)=>'<tr><td><b>'+esc3(q.client||'—')+'</b></td><td>'+esc3(q.product||'—')+'</td><td>'+esc3([q.model,q.nusaj,q.texts||q.lang,q.size,q.binding||q.bind].filter(Boolean).join(' · '))+'</td><td>'+quoteQtyText(q)+'</td><td><span class="tag '+(/enviado/i.test(q.status||'')?'ok':'')+'">'+esc3(lifecycle(q).label)+'</span></td><td>'+esc3(fmtDate(q))+'</td><td>'+esc3(q.deadline||q.event||'—')+'</td><td><div class="jd-toolbar"><button class="btn sm" data-open-qid="'+esc3(q.id||'')+'">Abrir</button>'+(q.pdfUrl?'<a class="btn sm" target="_blank" rel="noopener" href="'+esc3(q.pdfUrl)+'">PDF</a>':'')+'<button class="btn sm" data-delete-qid="'+esc3(q.id||'')+'">Eliminar</button></div></td></tr>').join('')+
  '</tbody></table></div>':'<div class="card"><p class="muted">'+(filtered?'No hay presupuestos guardados para este cliente.':'Todavía no hay presupuestos guardados.')+'</p></div>');
  document.getElementById('jdNewQuoteBtn').onclick=resetQuote;
  document.getElementById('jdQuoteTrash').onclick=drawDeletedQuotesV6;
  if(rows.length){
    const tools=document.createElement('div');tools.className='jd-toolbar';tools.style.marginBottom='16px';
-   tools.innerHTML='<input id="jdQuoteSearch" aria-label="Buscar presupuestos" placeholder="Buscar cliente, producto o configuración…"><select id="jdQuoteStatus" aria-label="Filtrar estado"><option value="">Todos los estados</option>'+[...new Set(rows.map(q=>q.status||'Guardado'))].map(s=>'<option>'+esc3(s)+'</option>').join('')+'</select><span id="jdQuoteSearchCount" class="small muted"></span>';
+   tools.innerHTML='<input id="jdQuoteSearch" aria-label="Buscar presupuestos" placeholder="Buscar cliente, producto o configuración…"><select id="jdQuoteStatus" aria-label="Filtrar estado"><option value="">Todos los estados</option>'+[...new Set(rows.map(q=>lifecycle(q).label))].map(s=>'<option>'+esc3(s)+'</option>').join('')+'</select><span id="jdQuoteSearchCount" class="small muted"></span>';
    sq.querySelector('.jd-savedquotes-scroll').before(tools);
+   let lane=window.jdQuoteLane|| (filtered?'all':'pending');
    const apply=()=>{let n=0;const search=normQuoteClient(document.getElementById('jdQuoteSearch').value),status=document.getElementById('jdQuoteStatus').value;
-     sq.querySelectorAll('.jd-savedquotes-table tbody tr').forEach((tr,i)=>{tr.hidden=!!(search&&!normQuoteClient(tr.textContent).includes(search)||status&&(rows[i].status||'Guardado')!==status);if(!tr.hidden)n++});
+     sq.querySelectorAll('.jd-savedquotes-table tbody tr').forEach((tr,i)=>{tr.hidden=!!(lane!=='all'&&lifecycle(rows[i]).lane!==lane||search&&!normQuoteClient(tr.textContent).includes(search)||status&&lifecycle(rows[i]).label!==status);if(!tr.hidden)n++});
      document.getElementById('jdQuoteSearchCount').textContent=n+' de '+rows.length+' presupuestos';
    };
+   const paintLanes=()=>sq.querySelectorAll('[data-quote-lane]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.quoteLane===lane)));
+   sq.querySelectorAll('[data-quote-lane]').forEach(b=>b.onclick=()=>{lane=b.dataset.quoteLane;window.jdQuoteLane=lane;document.getElementById('jdQuoteStatus').value='';paintLanes();apply();});paintLanes();
    document.getElementById('jdQuoteSearch').oninput=apply;document.getElementById('jdQuoteStatus').onchange=apply;apply();
  }
  sq.querySelectorAll('[data-delete-qid]').forEach(b=>b.onclick=()=>moveSavedQuoteV6(b.dataset.deleteQid,false,b));
@@ -375,7 +379,7 @@ function loadSavedQuoteV6(id,preservePrices=false){
  if(window.renderQuote)window.renderQuote();
 }
 window.jdRenderSavedQuotes=drawSavedQuotesV6;
-window.jdOpenSavedQuotesForClient=name=>{window.jdSavedQuotesClientFilter=name||'';drawSavedQuotesV6(name);go('savedQuotes')};
+window.jdOpenSavedQuotesForClient=name=>{window.jdQuoteLane='all';window.jdSavedQuotesClientFilter=name||'';drawSavedQuotesV6(name);go('savedQuotes')};
 drawSavedQuotesV6();
 document.querySelectorAll('#nav button[data-screen]').forEach(b=>b.onclick=()=>{if(b.dataset.screen==='savedQuotes')drawSavedQuotesV6();go(b.dataset.screen)});
 
@@ -779,6 +783,7 @@ drawLegal();
 const rulesSec=document.getElementById('rules');
 const supplierDefaults={'Zloto':{shipping:20000,production:'2 semanas'},'Gráfica B612':{shipping:10000,production:'48 h.',costBasis:'net_without_vat',vatRate:21}};
 const ruleProducts=()=>GET('jd_catalog_v6',products);
+window.jdSupplierSettings=name=>{const all=GET('jd_supplier_settings_v1',supplierDefaults),key=Object.hasOwn(all,name)?name:/zloto/i.test(name)?'Zloto':/b612/i.test(name)?'Gráfica B612':name;return {...supplierDefaults[key],...all[key]};};
 window.jdSupplierShipping=p=>{
  const all=GET('jd_supplier_settings_v1',supplierDefaults),name=String(p?.supplier||'').trim();
  const key=Object.hasOwn(all,name)?name:/zloto/i.test(name)?'Zloto':/b612/i.test(name)?'Gráfica B612':name;
@@ -2154,7 +2159,7 @@ window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
    });
  }
  function quoteFollowClients(){
-   if(window.JDWorkflow){const ids=new Set(window.JDWorkflow.activeJobs().filter(j=>window.JDWorkflow.stages.indexOf(window.JDWorkflow.stageOf(j.stage))<=5).map(j=>j.clientId));return get('jd_clients',[]).filter(c=>ids.has(window.JDClientDirectory.stableId(c)));}
+   if(window.JDWorkflow){const ids=new Set(window.JDWorkflow.activeJobs().filter(j=>window.JDWorkflow.stages.indexOf(window.JDWorkflow.stageOf(j.stage))<5).map(j=>j.clientId));return get('jd_clients',[]).filter(c=>ids.has(window.JDClientDirectory.stableId(c)));}
    const statuses=/presupuesto|esperando respuesta|pago pendiente|esperando pago/i;
    return get('jd_clients',[]).filter(c=>!c.archivedAt&&!c.deletedAt&&statuses.test(c.status||'')&&!/rechaz/i.test(c.status||'')&&!c.paid);
  }
@@ -2168,6 +2173,7 @@ window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
    const dash=document.getElementById('dashboard');if(!dash)return;
    const grid=dash.querySelector('.notice + .grid.cards')||dash.querySelector('.grid.cards');if(!grid)return;
    const quotes=get('jd_saved_quotes_v6',[]);
+   const pendingQuotes=quotes.filter(q=>(window.JDWorkflow?.quoteLifecycle(q).lane||'pending')==='pending');
    const follows=quoteFollowClients();
    const stale=costGroups().filter(g=>g.age!=null&&g.age>30);
    const catalog=get('jd_catalog_v6',[]);
@@ -2175,11 +2181,11 @@ window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
    const unused=catalog.filter(p=>!used.has(p.name));
    const masters=masterReviewCount();
    grid.innerHTML=
-    '<div class="card jd-dashboard-card" data-jd-dash="quotes"><div class="muted small">Presupuestos guardados</div><div class="metric">'+quotes.length+'</div><span class="tag warn">'+follows.length+' cliente'+(follows.length===1?'':'s')+' con seguimiento de presupuesto</span></div>'+
+    '<div class="card jd-dashboard-card" data-jd-dash="quotes"><div class="muted small">Presupuestos pendientes</div><div class="metric">'+pendingQuotes.length+'</div><span class="tag warn">'+follows.length+' cliente'+(follows.length===1?'':'s')+' con seguimiento de presupuesto</span></div>'+
     '<div class="card jd-dashboard-card" data-jd-dash="costs"><div class="muted small">Precios de imprenta</div><div class="metric">'+stale.length+'</div><span class="tag '+(stale.length?'danger':'ok')+'">'+(stale.length?'requieren actualización (>30 días)':'al día')+'</span></div>'+
     '<div class="card jd-dashboard-card" data-jd-dash="products"><div class="muted small">Productos sin presupuestos</div><div class="metric">'+unused.length+'</div><span class="tag">sin explotación registrada</span></div>'+
     '<div class="card jd-dashboard-card" data-jd-dash="masters"><div class="muted small">Masters en revisión</div><div class="metric">'+masters+'</div><span class="tag warn">revisión fina</span></div>';
-   grid.querySelector('[data-jd-dash="quotes"]').onclick=()=>{window.jdSavedQuotesClientFilter='';window.jdRenderSavedQuotes?.();go('savedQuotes')};
+   grid.querySelector('[data-jd-dash="quotes"]').onclick=()=>{window.jdSavedQuotesClientFilter='';window.jdQuoteLane='pending';window.jdRenderSavedQuotes?.();go('savedQuotes')};
    grid.querySelector('[data-jd-dash="costs"]').onclick=()=>window.jdShowStaleCosts();
    grid.querySelector('[data-jd-dash="products"]').onclick=()=>go('products');
    grid.querySelector('[data-jd-dash="masters"]').onclick=()=>go('masters');
