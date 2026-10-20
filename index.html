@@ -19,6 +19,7 @@
 <script src="assets/jd-workflow.js?v=20261020-current-actions" defer></script>
 <script src="assets/jd-finance.js?v=20261020-timeline-costs" defer></script>
 <link rel="stylesheet" href="assets/jd-finance.css?v=20261019-kpis-v1">
+<link rel="stylesheet" href="assets/jd-library.css?v=20261020-private-reader">
 <script src="assets/jd-orders.js?v=20261020-current-actions" defer></script>
 <link rel="stylesheet" href="assets/jd-workflow.css?v=20261020-visual-flow">
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
@@ -43,6 +44,7 @@
 <script src="supabase/functions/_shared/jd-whatsapp-pricing.js?v=20261020-minimum"></script>
 <script defer src="assets/jd-portal-inbox.js?v=20261020-panel-owner"></script>
 <script src="assets/jd-auth.js?v=20261007-pricing-config" defer></script>
+<script src="assets/jd-library.js?v=20261020-private-reader" defer></script>
 <section class="jd-login" id="jdLogin">
 <img src="assets/jd-logo-black.svg" alt="Judaica Design®" style="width:180px">
 <div class="eyebrow">Sistema interno</div><h1>Bienvenido.</h1><p>Ingresá para continuar con tu trabajo.</p>
@@ -56,6 +58,8 @@
   <div class="brand jd-brand"><img src="assets/jd-logo-white.svg?v=6" alt="Judaica Design®"><small>SISTEMA INTERNO</small></div>
   <nav class="nav" id="nav">
     <button class="active" data-screen="dashboard">Inicio</button>
+    <div class="jd-nav-group"><div class="sep">Memoria institucional</div>
+    <button data-screen="library">Biblioteca JD</button></div>
     <div class="jd-nav-group"><div class="sep">Comercial</div>
     <button data-screen="quotes">Nuevo presupuesto</button>
     <button data-screen="b612Assistant">Cotizador B612</button>
@@ -114,6 +118,29 @@
 <section class="screen" id="assets"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
 <section class="screen" id="masters"><div class="jd-screen-loading small muted">Cargando…</div></section>
+
+<section class="screen" id="library">
+  <div class="topbar"><div><div class="eyebrow">Memoria institucional · Acceso privado</div><h1>Biblioteca JD</h1>
+  <p class="muted small">Índice Maestro, manuales, normas editoriales, decisiones y documentación. Copia privada de lectura: la fuente vigente está en Drive; la sincronización puede tener demora.</p></div></div>
+  <div id="jdLibraryListView">
+    <label for="jdLibrarySearch" class="small muted">Buscá por documento, capítulo o contenido</label>
+    <input id="jdLibrarySearch" class="jd-library-search" type="search" autocomplete="off" placeholder="SWOT, ArtScroll, manual, preimprenta…">
+    <p id="jdLibraryStatus" class="jd-library-status" role="status" aria-live="polite">Abrí esta sección para consultar los documentos.</p>
+    <div id="jdLibraryCards" class="jd-library-grid"></div>
+  </div>
+  <div id="jdLibraryReader" class="jd-library-reader" hidden>
+    <div class="jd-library-reader-head">
+      <button id="jdLibraryBack" class="btn" type="button">← Volver a Biblioteca</button>
+      <a id="jdLibrarySource" href="#" target="_blank" rel="noopener noreferrer" hidden>Abrir documento original en Drive ↗</a>
+    </div>
+    <h2 id="jdLibraryDocumentTitle">Documento</h2>
+    <p id="jdLibraryDocumentMeta" class="small muted"></p>
+    <div class="jd-library-columns">
+      <nav id="jdLibraryToc" class="jd-library-toc" aria-label="Índice de capítulos"></nav>
+      <div id="jdLibraryBody"></div>
+    </div>
+  </div>
+</section>
 
 <section class="screen" id="legal"><div class="jd-screen-loading small muted">Cargando…</div></section>
 
