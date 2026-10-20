@@ -1,0 +1,23 @@
+/* JD® Biblioteca Institucional — rama feature/jd-biblioteca */
+#library .jd-library-search{width:100%;min-height:48px;border-radius:12px;padding:12px 16px;border:1px solid #cbc7c0;background:#fffdf8;color:#262421}
+#library .jd-library-search:focus-visible,#library button:focus-visible{outline:3px solid #245c5d;outline-offset:2px}
+#library .jd-library-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px;margin-top:20px}
+#library .jd-library-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:19px;text-align:left;background:#fffdf8;border:1px solid #ded9ce;border-radius:14px;cursor:pointer;min-height:132px;font:inherit;color:#262421}
+#library .jd-library-card:hover{border-color:#245c5d;box-shadow:0 4px 18px rgba(30,60,50,.08)}
+#library .jd-library-card strong{font-size:17px;font-weight:650}
+#library .jd-library-overline{color:#245c5d;font-size:12px;font-weight:650}
+#library .jd-library-meta{font-size:12px;color:#716b62;margin-top:auto}
+#library .jd-library-empty{grid-column:1/-1;padding:26px;color:#716b62;border:1px dashed #cbc7c0;border-radius:12px}
+#library .jd-library-reader{background:#fffdf8;border:1px solid #ded9ce;border-radius:14px;margin-top:14px;padding:24px}
+#library .jd-library-reader-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+#library .jd-library-reader-head a{color:#245c5d;font-weight:650}
+#library .jd-library-columns{display:grid;grid-template-columns:minmax(180px,240px) minmax(0,1fr);gap:24px;margin-top:22px}
+#library .jd-library-toc{display:flex;flex-direction:column;gap:4px;align-items:stretch;position:sticky;top:20px;max-height:70vh;overflow-y:auto;align-self:start}
+#library .jd-library-toc-item{border:0;border-radius:8px;background:transparent;text-align:left;padding:9px 11px;font:inherit;color:#245c5d;cursor:pointer;font-size:13px}
+#library .jd-library-toc-item:hover{background:#f5f2eb}
+#library .jd-library-chapter{margin-bottom:24px;scroll-margin-top:24px}
+#library .jd-library-chapter h3{font-size:19px;margin:0 0 11px;color:#245c5d}
+#library .jd-library-prose{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;font-size:15px;color:#262421}
+#library .jd-library-status{min-height:20px;margin:12px 0;color:#716b62;font-size:13px}
+#library [hidden]{display:none!important}
+@media(max-width:780px){#library .jd-library-columns{grid-template-columns:1fr}#library .jd-library-toc{position:static;max-height:210px;border-bottom:1px solid #ded9ce;padding-bottom:12px}#library .jd-library-reader{padding:14px}#library .jd-library-grid{grid-template-columns:1fr}}
