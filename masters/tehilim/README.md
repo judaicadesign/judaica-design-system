@@ -38,3 +38,12 @@ Hebreo y fonética cotejados con captura ArtScroll `IMG_1458.png` y confirmados 
 ## Salmos 11, 14, 16, 63, 76, 83, 84 y 130 · FINAL · 2026-10-14
 
 Hebreo reconstruido desde capturas de ArtScroll (nikud, dagesh, rafé sobre shevá na, meteg, paseq, puntuación; `יהוה` → `יְיָ`) y fonética generada por reglas con `fonetica-hebreo` 063b125. Detalle en `CONTINUAR_EN_CHAT.md` y en los `ARTSCROLL_NNN_REVISION.json`.
+
+## Reproceso con el motor actual · 2026-10-20
+
+La fonética EN_REVISION venía del generador `02fbc2c` con parches puntuales; no se había regenerado. Se rehízo con `fonetica-hebreo` `5269bd9`, **primero el hebreo y después la fonética**:
+
+- Hebreo de los salmos en revisión: meteg en la sílaba tónica según los teamim del Códice de Leningrado (solo si el modelo del motor coincide cuando cambia la lectura), meteg y rafé del motor que no alteran la lectura, y 7 meteg cotejados por el usuario en ArtScroll (37:29, 45:15, 48:13, 65:11, 75:9, 80:12, 132:16).
+- Fonética generada desde ese hebreo marcado. El ketiv sin nikud se conserva en el hebreo y se omite en la fonética.
+- Sin cambios: los 17 salmos FINAL (salvo 2:1, *ulumim*, autorizado por el usuario) y los versículos con meteg de ArtScroll de salmos no FINAL. Sus diferencias con el motor quedan como alertas.
+- Las marcas agregadas son **propuestas** (teamim/motor), no marcas impresas de ArtScroll. Procedencia por palabra, conflictos y alertas: `REPROCESO_MOTOR_20261020.json`.
