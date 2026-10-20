@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import intake from '../assets/jd-print-request.js';
+import {quotePrintRequest} from '../supabase/functions/_shared/b612-general.mjs';
+const fixture=JSON.parse(fs.readFileSync('tests/fixtures/b612-plastificados-20261020.json'));
+const get=async p=>{assert.ok(Object.hasOwn(fixture,p),'Missing captured supplier request '+p);return structuredClone(fixture[p]);};
+const text='16 plastificados\n14x20cm\nobra 80 gramos\ndoble faz';
+const partial=intake.analyze(text);
+assert.deepEqual(partial.quantities,[16]);assert.equal(partial.description,'Plastificados');assert.equal(partial.widthMm,140);assert.equal(partial.heightMm,200);assert.equal(partial.sizeScope,'hoja');assert.deepEqual(partial.bindingOptions,['Hojas sueltas']);assert.deepEqual(intake.questions(partial).map(q=>q.key),['print']);assert.ok(!intake.questions(partial)[0].text.includes('interior'));
+const request=intake.analyze(text+'\nfull color');assert.deepEqual(intake.questions(request),[]);assert.ok(!intake.cleanText(request,16,'Hojas sueltas').includes('Total 2 páginas'));
+const result=await quotePrintRequest(request,get),a=result.alternatives[0];assert.equal(result.complete,true);assert.equal(a.qty,16);assert.equal(a.family,'plastic');assert.equal(a.net,28588.48);assert.equal(a.gross,34592.06);assert.deepEqual(a.lines.map(x=>[x.code,x.quantity]),[['00-FC80-A3DF',4],['PLAST-225X175',16]]);
+const reference=intake.analyze('16 plastificados\n19x13cm\nilustracion 115 gramos\nfull color\ndoble faz');reference.plasticSize='225x303';const old=await quotePrintRequest(reference,get);assert.equal(old.alternatives[0].net,33601.28);assert.equal(old.alternatives[0].lines[1].code,'PLAST-225X303');
+const tooSmall=await quotePrintRequest({...request,plasticSize:'90x130'},get);assert.equal(tooSmall.complete,false);assert.equal(tooSmall.alternatives[0].status,'requires-supplier');
+const extra=await quotePrintRequest({...request,message:text+'\nfull color\nperforado'},get);assert.equal(extra.complete,false,'Never omit an unpriced finish');
+assert.notEqual(intake.analyze('16 libros plastificados\n14x20cm').description,'Plastificados');
+const previous=intake.analyze('16 libros\n14x20cm');const merged=intake.mergeAnswers(request,previous,{bindingOptions:['Binder'],hasCover:true,totalPages:32,coverWeightGsm:300});assert.deepEqual(intake.questions(merged),[]);assert.deepEqual(merged.bindingOptions,['Hojas sueltas']);assert.equal(merged.hasCover,false);assert.equal(merged.confirmedAnswers.totalPages,undefined);
+console.log('PASS plastificados: 16 pieces, sheet dimensions, only missing color, no binding/page questions, live-captured print + rigid pouch costs, explicit pouch override, incompatible size and extra-finish guards.');

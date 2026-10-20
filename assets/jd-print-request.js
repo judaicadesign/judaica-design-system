@@ -19,13 +19,13 @@ function analyze(message){
  const t=normalize(message),lines=t.replace(/\b(tapa|interior|impresion|encuadernacion|cantidad(?: total)? de paginas)\s*:/g,'\n$1:').split(/\n|;/).map(x=>x.trim()).filter(Boolean),cover=lines.find(x=>/^[-\s]*tapa\s*:/.test(x))||'',inside=lines.find(x=>/^[-\s]*interior\s*:/.test(x))||'';
  const common=material(lines.filter(x=>x!==cover&&x!==inside).join('\n')),c=material(cover),i=material(inside);
  const r={version:1,message,description:'',quantities:[],widthMm:null,heightMm:null,sizeScope:'',spineMm:null,totalPages:null,interiorPages:null,coverPages:null,pagesIncludeCover:'',paper:i.paper||common.paper,weightGsm:i.weightGsm||common.weightGsm,print:i.print||common.print,sides:i.sides||common.sides,lamination:i.lamination||'',coverPaper:c.paper,coverWeightGsm:c.weightGsm,coverPrint:c.print||common.print,coverSides:c.sides,coverLamination:c.lamination,coverLaminationSides:/al frente|solo frente|simple faz/.test(cover)?'Solo frente':/doble faz|ambas caras/.test(cover)?'Doble faz':'',bindingOptions:[],models:null,notes:[],hasCover:!!cover};
- r.description=/\btarjetas?\b/.test(t)?'Tarjetas personales':/\blibrit|\blibro/.test(t)?'Libro / librito':/\bmisjag\b/.test(t)?'Misjag':/\btriptico/.test(t)?'Tríptico':/\bcuadriptico/.test(t)?'Cuadríptico':/\bdiptico/.test(t)?'Díptico':/\brevistas?\b/.test(t)?'Revista':/\bimpres|\bcopias?\b/.test(t)?'Impresiones':'Trabajo de imprenta';
+ r.description=/\btarjetas?\b/.test(t)?'Tarjetas personales':/\blibrit|\blibro/.test(t)?'Libro / librito':/\bmisjag\b/.test(t)?'Misjag':/\btriptico/.test(t)?'Tríptico':/\bcuadriptico/.test(t)?'Cuadríptico':/\bdiptico/.test(t)?'Díptico':/\brevistas?\b/.test(t)?'Revista':/\bplastificados?\b/.test(t)?'Plastificados':/\bimpres|\bcopias?\b/.test(t)?'Impresiones':'Trabajo de imprenta';
  const dims=dimensions(t),quantityText=dims.reduceRight((text,d)=>text.slice(0,d.index)+" ".repeat(d.length)+text.slice(d.index+d.length),t);
  const qs=new Set();
  for(const m of quantityText.matchAll(/\b(\d{1,5}(?:\s*(?:y|,|\/)\s*\d{1,5})*)\s*(?:copias?|(?:ejemplar(?:es)?|unidad(?:es)?))\b/g))for(const v of m[1].match(/\d+/g))qs.add(Number(v));
  for(const m of quantityText.matchAll(/\bcantidad(?: de ejemplares)?\s*:\s*(\d{1,5})\b/g))qs.add(Number(m[1]));
  for(const m of quantityText.matchAll(/\bx\s*(\d{1,5})\b/g)){const before=t.slice(0,m.index).split(/[\n;]/).at(-1),after=t.slice(m.index+m[0].length).split(/[\n;]/)[0];if(!/\d\s*(?:cm|mm)?\s*$/.test(before)&&!/^\s*(?:mm|cm)\b/.test(after)&&!/(?:doblad[oa]s?|doblez|dobleces|pliegues?)\s*$/.test(before))qs.add(Number(m[1]));}
- const headingCounts=[...quantityText.matchAll(/\b(\d{1,5}(?:\s*(?:y|,|\/)\s*\d{1,5})*)\s*(?:tripticos?|cuadripticos?|dipticos?|libritos?|libros?|revistas?|tarjetas?|postales?|folletos?)\b/g)].flatMap(m=>m[1].match(/\d+/g).map(Number));
+ const headingCounts=[...quantityText.matchAll(/\b(\d{1,5}(?:\s*(?:y|,|\/)\s*\d{1,5})*)\s*(?:tripticos?|cuadripticos?|dipticos?|libritos?|libros?|revistas?|tarjetas?|postales?|folletos?|plastificados?)\b/g)].flatMap(m=>m[1].match(/\d+/g).map(Number));
  if(!qs.size)for(const n of headingCounts)qs.add(n);
  else if(headingCounts.some(n=>!qs.has(n)))r.notes.push('Se usan las cantidades expresadas en unidades, ejemplares o copias ('+[...qs].join(', ')+'); el encabezado menciona '+headingCounts.join(', ')+'. Revisá esta diferencia.');
  for(const m of quantityText.matchAll(/\b(?:un|una)\s+(?:ejemplar|unidad|copia)\b/g))qs.add(1);
@@ -67,6 +67,7 @@ const map=(key,values)=>{const t=normalize(r[key]).trim();for(const [value,alias
  for(const k of ['print','coverPrint'])map(k,[['Blanco y negro',['blanco y negro','b/n','b&n','bn']],['Full color',['color','a color','full color']]]);
  for(const k of ['paper','coverPaper'])map(k,[['Papel ilustración',['ilustracion','papel ilustracion']],['Papel obra',['obra','papel obra']]]);
  for(const k of ['lamination','coverLamination'])map(k,[['Laminado mate',['mate','laminado mate']],['Laminado brillante',['brillo','brillante','laminado brillo','laminado brillante']],['Sin laminado',['sin laminado','no','ninguno']]]);
+ if(r.description==='Plastificados'){r.sizeScope='hoja';r.bindingOptions=['Hojas sueltas'];r.totalPages=r.sides==='Doble faz'?2:r.sides==='Simple faz'?1:null;r.hasCover=false;}
  map('sizeScope',[['cerrado',['cerrado','cerrada']],['abierto',['abierto','abierta']],['hoja',['hoja']]]);return r;}
 function cardQuestions(r){
  const q=[],add=(key,text,options)=>q.push({key,text,options});
@@ -95,7 +96,7 @@ function questions(input){
  if(!r.quantities?.length||r.quantities.some(n=>!Number.isSafeInteger(n)||n<=0))add('quantities','¿Cuántos ejemplares o copias necesitás?');
  if(r.description==='Tarjetas personales'){return q.concat(cardQuestions(r));}
  if(!r.widthMm||!r.heightMm)add('size','¿Qué tamaño tiene? Podés indicar A4, A5 o ancho × alto en cm o mm.');else if(!r.sizeScope)add('sizeScope','La medida '+r.widthMm+' × '+r.heightMm+' mm, ¿es abierta, cerrada o de la hoja?');
- const flat=/^(Díptico|Tríptico|Cuadríptico|Postales(?: con doblez)?)$/.test(r.description);
+ const flat=/^(Díptico|Tríptico|Cuadríptico|Postales(?: con doblez)?|Plastificados)$/.test(r.description);
  if(!r.paper)add('paper',flat?'¿En qué papel las imprimimos?':'¿Qué papel lleva el interior o las hojas?');if(!r.weightGsm)add('weightGsm','¿Qué gramaje lleva ese papel?');if(!r.print)add('print',flat?'¿Se imprime a color o blanco y negro?':'¿La impresión interior es color o blanco y negro?');if(!r.sides)add('sides','¿Se imprime a una cara o doble faz?');
  if(/^Postales/.test(r.description)&&r.folds==null)add('folds','¿Cuántos dobleces lleva cada postal? (0 si se entrega plana).');
  if(!r.bindingOptions?.length&&!flat)add('bindingOptions','¿Se entrega en hojas sueltas o con qué encuadernación?');
@@ -108,10 +109,11 @@ function questions(input){
  return q;
 }
 function plan(r){return {questions:questions(r),alternatives:(r.bindingOptions?.length?r.bindingOptions:['A confirmar']).flatMap(binding=>(r.quantities||[]).map(qty=>({binding,qty}))),operations:[{kind:'interior',paper:r.paper,weightGsm:r.weightGsm,print:r.print,sides:r.sides,pages:r.interiorPages||(!r.hasCover?r.totalPages:null)},...(r.hasCover?[{kind:'tapa',paper:r.coverPaper,weightGsm:r.coverWeightGsm,print:r.coverPrint,sides:r.coverSides,pages:r.coverPages,lamination:r.coverLamination,laminationSides:r.coverLaminationSides}]:[]),{kind:'refilado'},{kind:'encuadernacion',alternatives:r.bindingOptions}],complete:false};}
-const family=r=>/Díptico|Tríptico|Cuadríptico|Postales/.test(r.description)?'flat':r.description==='Tarjetas personales'?'cards':r.hasCover||/Libro|Revista/.test(r.description)?'book':'other';
+const family=r=>r.description==='Plastificados'?'plastic':/Díptico|Tríptico|Cuadríptico|Postales/.test(r.description)?'flat':r.description==='Tarjetas personales'?'cards':r.hasCover||/Libro|Revista/.test(r.description)?'book':'other';
 function mergeAnswers(parsed,previous,answers={}){
  const kept={...answers},changed=previous&&family(parsed)!==family(previous);
- if(changed)for(const key of ['bindingOptions','totalPages','interiorPages','coverPages','pagesIncludeCover','hasCover','pageMeaning','blankPage','folds','cardType','paperChoice','cardSize','corners','laminationSides','coverPaper','coverWeightGsm','coverPrint','coverSides','coverLamination','coverLaminationSides'])delete kept[key];
+ if(changed)for(const key of ['plasticSize','bindingOptions','totalPages','interiorPages','coverPages','pagesIncludeCover','hasCover','pageMeaning','blankPage','folds','cardType','paperChoice','cardSize','corners','laminationSides','coverPaper','coverWeightGsm','coverPrint','coverSides','coverLamination','coverLaminationSides'])delete kept[key];
+ if(previous&&(parsed.widthMm!==previous.widthMm||parsed.heightMm!==previous.heightMm))delete kept.plasticSize;
  if(previous&&parsed.paper&&previous.paper&&parsed.paper!==previous.paper){delete kept.weightGsm;delete kept.paperChoice;}
  if(previous&&parsed.cardType&&previous.cardType!==parsed.cardType)for(const k of ['paperChoice','cardSize','widthMm','heightMm','corners'])delete kept[k];
  const r={...parsed};for(const [key,value] of Object.entries(kept)){const empty=r[key]==null||r[key]===''||Array.isArray(r[key])&&!r[key].length,unchanged=previous?.parsedFacts&&JSON.stringify(parsed[key])===JSON.stringify(previous.parsedFacts[key]);if(empty||unchanged||key==='hasCover'&&!parsed.hasCover){r[key]=value;}else if(JSON.stringify(r[key])!==JSON.stringify(value))delete kept[key];}
@@ -136,7 +138,7 @@ function cleanText(r,qty,binding,whatsapp=false){
  const fullLam=sameStock&&r.lamination&&r.lamination!=='Sin laminado'&&r.lamination===r.coverLamination&&r.coverLaminationSides==='Doble faz'&&(r.laminationSides||r.sides)==='Doble faz';
  if(r.hasCover&&!sameStock){lines.push(bold('Tapa:')+' '+[stock(r.coverPaper,r.coverWeightGsm),r.coverPrint,r.coverSides,r.coverLamination&&r.coverLamination!=='Sin laminado'?r.coverLamination+(r.coverLaminationSides?' · '+r.coverLaminationSides:''):''].filter(Boolean).join(' · '),bold('Interior:')+' '+[stock(r.paper,r.weightGsm),r.print,r.sides].filter(Boolean).join(' · '));}
  else {lines.push('Papel: '+stock(r.paper,r.weightGsm),r.print,r.sides);if(sameStock&&!fullLam&&r.coverLamination&&r.coverLamination!=='Sin laminado')lines.push(bold('Tapa:')+' '+r.coverLamination+(r.coverLaminationSides?' · '+r.coverLaminationSides:''));}
- if(r.totalPages&&!(r.description==='Impresiones'&&r.totalPages===1)){let pages='Total '+r.totalPages+(r.totalPages===1?' página':' páginas')+(r.pagesIncludeCover==='Sí'?' (contando tapa)':'');if(/acaball|abroch/i.test(binding||'')&&r.totalPages%4===0&&r.pagesIncludeCover==='Sí')pages+=' - '+r.totalPages/4+' pliegos';lines.push(pages);}
+ if(r.totalPages&&r.description!=='Plastificados'&&!(r.description==='Impresiones'&&r.totalPages===1)){let pages='Total '+r.totalPages+(r.totalPages===1?' página':' páginas')+(r.pagesIncludeCover==='Sí'?' (contando tapa)':'');if(/acaball|abroch/i.test(binding||'')&&r.totalPages%4===0&&r.pagesIncludeCover==='Sí')pages+=' - '+r.totalPages/4+' pliegos';lines.push(pages);}
  if(r.folds)lines.push('Doblado x '+r.folds);else if(r.bindingOptions?.includes(binding))lines.push(binding==='Hojas sueltas'?binding:bold('Encuadernación:')+' '+binding.toLowerCase());
  if(fullLam)lines.push('Full '+r.lamination.toLowerCase()+' todas las hojas');
  else if(r.lamination&&r.lamination!=='Sin laminado')lines.push(r.lamination+(r.laminationSides?' · '+r.laminationSides:''));

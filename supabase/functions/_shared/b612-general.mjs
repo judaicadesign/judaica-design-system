@@ -14,7 +14,8 @@ export async function quotePrintRequest(r,get){
  if(r.models!=null&&(!Number.isSafeInteger(r.models)||r.models<1||r.models>20))throw Error('Confirmá entre 1 y 20 diseños distintos.');
  if(r.folds!=null&&(!Number.isSafeInteger(r.folds)||r.folds<0||r.folds>6))throw Error('Confirmá entre 0 y 6 dobleces por pieza.');
  if(/tarjetas?/.test(norm(r.description)))return quoteCards(r,get);
- const unsupported=norm(r.message).match(/\b(?:troquel(?:ado)?|foil|barniz(?: uv| sectorizado)?|relieve|plastificado|perforado|tapa dura|puntas redondeadas|esquinas redondeadas)\b/);
+ const plastic=norm(r.description)==='plastificados';
+ const unsupported=[...norm(r.message).matchAll(/\b(?:troquel(?:ado)?|foil|barniz(?: uv| sectorizado)?|relieve|plastificados?|perforados?|tapa dura|puntas redondeadas|esquinas redondeadas)\b/g)].find(m=>!(plastic&&/^plastificados?$/.test(m[0])));
  if(unsupported)return {ok:true,action:'quote-request',complete:false,fetchedAt:new Date().toISOString(),alternatives:r.quantities.map(qty=>({qty,binding:r.bindingOptions.join(' / '),status:'requires-supplier',pending:['Falta vincular la terminación «'+unsupported[0]+'» con su operación y tarifa B612. No se omite del precio.']}))};
  const alternatives=[],bindings=r.bindingOptions?.length?r.bindingOptions:[r.description];
  for(const binding of bindings)for(const qty of r.quantities){try{alternatives.push(await compose(r,binding,qty,get));}catch(e){if(!(e instanceof MissingSupplierCost))throw e;alternatives.push({qty,binding,status:'requires-supplier',pending:[e.message]});}}
@@ -22,7 +23,8 @@ export async function quotePrintRequest(r,get){
 }
 async function compose(r,binding,qty,get){
  const b=norm(binding),d=norm(r.description);let family,cfg;
- if(/acaball|abroch/.test(b)){family='magazine';cfg={category:68,id:50};}
+ if(d==='plastificados'){family='plastic';cfg={category:54,id:38};}
+ else if(/acaball|abroch/.test(b)){family='magazine';cfg={category:68,id:50};}
  else if(/binder/.test(b)){family='book';cfg={category:77,id:62};}
  else if(/cosid/.test(b))throw new MissingSupplierCost('B612 no publica una operación de cosido a hilo verificable. Esta alternativa requiere confirmación; binder se calcula por separado.');
  else if(/triptico|misjag/.test(d)){family='fold';cfg={category:23,id:14};}
@@ -46,7 +48,7 @@ async function compose(r,binding,qty,get){
  const foldCount=family==='quad'?(r.folds??(/cuadriptico/.test(d)?3:null)):null;
  if(family==='quad'&&foldCount==null)throw new MissingSupplierCost('Confirmá cuántos dobleces lleva cada postal.');
  const width=family==='magazine'?r.widthMm*2:family==='fold'||family==='quad'?(r.sizeScope==='abierto'||r.sizeScope==='hoja'?r.widthMm:r.widthMm*(family==='quad'?foldCount+1:cfg.id===14?3:2)):r.widthMm;
- const height=r.heightMm;let sheetId=sheet?1:3,sheetPostures=null,sheetFormat=null,sheetNeedsTrim=![210,297].every((n,i)=>Math.abs(n-[width,height].sort((a,b)=>a-b)[i])<.01);
+ const height=r.heightMm;let sheetId=family==='plastic'&&r.paper==='Papel obra'&&r.weightGsm===80?2:sheet?1:3,sheetPostures=null,sheetFormat=null,sheetNeedsTrim=![210,297].every((n,i)=>Math.abs(n-[width,height].sort((a,b)=>a-b)[i])<.01);
  if(sheet&&cfg.id===20){
   const sizes=await get('/api/cotizador/'+cfg.id+'/tamanios'),wanted=[width,height].sort((a,b)=>a-b),stock=inventory.filter(x=>!x.fijo&&x.articuloEtapa?.id===4&&norm(x.articulo.nombreLegible).includes(norm(r.paper).replace(/^papel /,''))&&new RegExp('\\b'+r.weightGsm+'\\s*g').test(norm(x.articulo.nombreLegible)));
   const allowed=new Set(stock.map(x=>Number(x.articulo.articuloPapel?.id)).filter(Boolean));
@@ -63,6 +65,16 @@ async function compose(r,binding,qty,get){
 
  const grid=async(w,h,id=sheetId)=>{const margins=['Superior','Inferior','Izquierdo','Derecho'].map(k=>'&margen'+k+'='+Number(cot['margen'+k]??5)).join('');const data=await get('/api/grilla/'+h+'/'+w+'?articuloPapel='+id+'&espaciado='+Number(cot.espaciado??3)+margins);if(!Number.isSafeInteger(data.totalElementos)||data.totalElementos<=0)throw new MissingSupplierCost('El tamaño '+w+' × '+h+' mm no entra en el pliego publicado por B612. Requiere otra máquina o producción externa.');return data.totalElementos;};
  const postures=sheetPostures??await grid(width,height);
+ let plasticTerm=null;
+ if(family==='plastic'){
+  if(r.hasCover||r.bindingOptions.some(x=>x!=='Hojas sueltas')||r.folds||r.lamination&&r.lamination!=='Sin laminado')throw new MissingSupplierCost('Confirmá hojas sueltas con plastificado rígido, sin encuadernación, doblado ni laminado adicional.');
+  const special=norm(r.message).match(/\b(?:perforad[oa]s?|troquelad[oa]s?|foil|barniz|relieve)\b/);if(special)throw new MissingSupplierCost('La terminación '+special[0]+' requiere confirmar su operación B612.');
+  const wanted=[width+6,height+6].sort((a,b)=>a-b);
+  const terms=all.filter(x=>!x.fijo&&Number(x.articulo.rubro?.id)===114&&x.articulo.articuloPapel).filter(x=>[x.articulo.articuloPapel.ancho,x.articulo.articuloPapel.alto].sort((a,b)=>a-b).every((n,i)=>Number(n)>=wanted[i])).sort((a,b)=>a.articulo.articuloPapel.ancho*a.articulo.articuloPapel.alto-b.articulo.articuloPapel.ancho*b.articulo.articuloPapel.alto);
+  const selected=String(r.plasticSize||'').replace(/\s/g,'').replace('×','x').toLowerCase();
+  plasticTerm=selected?terms.find(x=>{const p=x.articulo.articuloPapel;return [p.ancho+'x'+p.alto,p.alto+'x'+p.ancho].includes(selected);}):terms[0];
+  if(!plasticTerm)throw new MissingSupplierCost('No hay un sobre de plastificado compatible con el tamaño pedido y 3 mm de sellado por lado. Confirmá el formato con B612.');
+ }
  const sides=r.sides==='Doble faz'?2:r.sides==='Simple faz'?1:0;if(!sides)throw new MissingSupplierCost('Confirmá las caras de impresión del interior.');
  let interiorPages=r.interiorPages;
  if(bound){if(!r.hasCover)throw new MissingSupplierCost('Confirmá la tapa y sus materiales.');if(r.pagesIncludeCover==='Sí')interiorPages??=Number(r.totalPages)-Number(r.coverPages||4);else if(r.pagesIncludeCover==='No')interiorPages??=r.totalPages;else throw new MissingSupplierCost('Confirmá si las páginas incluyen la tapa.');if(!Number.isSafeInteger(interiorPages)||interiorPages<=0)throw new MissingSupplierCost('Confirmá las páginas interiores.');if(family==='magazine'&&(interiorPages%4!==0||sides!==2))throw new MissingSupplierCost('El interior acaballado debe tener páginas múltiplo de 4, impresas doble faz.');}
@@ -86,6 +98,7 @@ async function compose(r,binding,qty,get){
  const paperQty=family==='magazine'?Math.ceil(amount/(postures*4)):Math.ceil(amount/postures);printedSheets+=paperQty;add(p.article,paperQty,'Interior / impresión y papel');
  const children=async(config,sf)=>{if(!config)return;const parent=Number(config[sf?'simpleFaz':'dobleFaz']||config.articulo.id);for(const x of all.filter(x=>!x.fijo&&[x.articuloPadre?.id,x.articuloPadreSimpleFaz?.id,x.articuloPadreDobleFaz?.id].some(id=>Number(id)===parent))){const id=Number(x[sf?'simpleFaz':'dobleFaz']||x.articulo.id);if(usedChildren.has(id))continue;usedChildren.add(id);const a=id===Number(x.articulo.id)?x.articulo:(await get('/api/articulo/'+id)).articulo;add(a,amountFor(x),'Preparación de papel');}};
  await children(p.config,sides===1);
+ if(plasticTerm)add(plasticTerm.articulo,qty,'Plastificado rígido · sobre '+plasticTerm.articulo.articuloPapel.ancho+' × '+plasticTerm.articulo.articuloPapel.alto+' mm');
  let coverQty=0,coverPostures=postures;
  if(bound){if(!['Simple faz','Doble faz'].includes(r.coverSides))throw new MissingSupplierCost('Confirmá las caras de impresión de la tapa.');const coverSF=r.coverSides==='Simple faz';
   if(family==='book'){if(!Number.isFinite(r.spineMm)||r.spineMm<0)throw new MissingSupplierCost('Confirmá el lomo impreso.');coverPostures=await grid(r.widthMm*2+r.spineMm,r.heightMm,3);}
