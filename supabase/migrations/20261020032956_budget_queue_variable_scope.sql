@@ -1,0 +1,22 @@
+create or replace function jd_private.queue_budget_jobs() returns trigger language plpgsql security invoker set search_path='' as $$
+declare jobs jsonb;orders jsonb;moves jsonb;clients jsonb;legacy jsonb;j jsonb;o jsonb;client_name text;income numeric;cost numeric;d text;legacy_row integer;code text;move_entry jsonb;eligible boolean;begin
+ select value into jobs from public.app_state where key='jd_jobs_v1';select value into orders from public.app_state where key='jd_orders_v1';select value into moves from public.app_state where key='jd_finance_moves_v1';select value into clients from public.app_state where key='jd_clients';select value into legacy from public.app_state where key='jd_finance_legacy_v1';
+ for j in select value from jsonb_array_elements(coalesce(jobs,'[]')) where not value ? 'deletedAt' or value->>'deletedAt' is null loop
+  select value into o from jsonb_array_elements(coalesce(orders,'[]')) where value->>'id'=j->>'orderId';
+  if o is not null then select coalesce(sum((p->>'ars')::numeric),0),min(left(p->>'date',10)) into income,d from jsonb_array_elements(coalesce(o->'payments','[]')) p where p->>'voidedAt' is null and coalesce((p->>'legacy')::boolean,false)=false;
+  else select coalesce(sum((m->>'amount')::numeric),0),min(m->>'date') into income,d from jsonb_array_elements(coalesce(moves,'[]')) m where m->>'jobId'=j->>'id' and m->>'kind'='Ingreso' and m->>'status'='Realizado' and m->>'currency'='ARS' and m->>'voidAt' is null;end if;
+  select coalesce(sum((m->>'amount')::numeric),0) into cost from jsonb_array_elements(coalesce(moves,'[]')) m where m->>'jobId'=j->>'id' and m->>'kind'='Egreso' and m->>'status'='Realizado' and m->>'currency'='ARS' and m->>'voidAt' is null and coalesce((m->>'settlement')::boolean,false)=false and coalesce((m->>'legacyOverlap')::boolean,false)=false;
+  if income=0 and cost=0 and not exists(select 1 from public.jd_sheet_outbox where destination='budget' and entity_id=j->>'id') then continue;end if;
+  select value->>'name' into client_name from jsonb_array_elements(coalesce(clients,'[]')) where value->>'id'=j->>'clientId';
+  select c.code into code from public.jd_work_codes c where source_key='job:'||(j->>'id');if code is null then continue;end if;
+  select min((l->'source'->>'row')::int) into legacy_row from jsonb_array_elements(coalesce(legacy,'[]')) l where l->>'currency'='ARS' and length(coalesce(client_name,''))>4 and position(lower(client_name) in lower(l->>'label'))>0;
+  insert into public.jd_sheet_outbox(destination,entity_id,payload,status,error)
+   values('budget',j->>'id',jsonb_build_object('jobId',j->>'id','code',code,'label',coalesce(client_name,'')||' · '||(j->>'title'),'date',coalesce(d,left(j->>'created',10),current_date::text),'income',income,'cost',cost,'legacyRow',legacy_row),case when legacy_row is null then 'pending' else 'conflict' end,case when legacy_row is not null then 'Existe un antecedente en la fila '||legacy_row||'. Se conserva sin sobrescribir; conciliar primero.' end)
+   on conflict(destination,entity_id) do update set payload=excluded.payload,status=excluded.status,error=excluded.error,updated_at=clock_timestamp() where public.jd_sheet_outbox.payload is distinct from excluded.payload;
+ end loop;
+ for move_entry in select value from jsonb_array_elements(coalesce(moves,'[]')) loop
+  eligible:=coalesce(move_entry->>'jobId','')='' and move_entry->>'status'='Realizado' and move_entry->>'currency'='ARS' and move_entry->>'voidAt' is null and coalesce((move_entry->>'legacyOverlap')::boolean,false)=false and coalesce((move_entry->>'settlement')::boolean,false)=false;
+  if not eligible and not exists(select 1 from public.jd_sheet_outbox where destination='budget' and entity_id='move:'||(move_entry->>'id')) then continue;end if;
+  insert into public.jd_sheet_outbox(destination,entity_id,payload,status) values('budget','move:'||(move_entry->>'id'),jsonb_build_object('code','MOV-'||left(move_entry->>'id',8),'label',coalesce(move_entry->>'category','Movimiento JD')||' · '||coalesce(move_entry->>'detail',''),'date',move_entry->>'date','income',case when eligible and move_entry->>'kind'='Ingreso' then (move_entry->>'amount')::numeric else 0 end,'cost',case when eligible and move_entry->>'kind'='Egreso' then (move_entry->>'amount')::numeric else 0 end),'pending') on conflict(destination,entity_id) do update set payload=excluded.payload,status='pending',error=null,updated_at=clock_timestamp() where public.jd_sheet_outbox.payload is distinct from excluded.payload;
+ end loop;return new;
+end $$;

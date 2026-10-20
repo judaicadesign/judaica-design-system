@@ -29,9 +29,11 @@ declare actor uuid; customer uuid;ord uuid;v public.jd_review_versions;v2 public
  e:=public.jd_supplier_post(e.id,actor);perform public.jd_supplier_post(e.id,actor);
  select jsonb_array_length(value) into new_count from public.app_state where key='jd_finance_moves_v1';
  assert coalesce(new_count,0)=coalesce(old_count,0)+1,'No double cost';
+ assert (select (payload->>'cost')::numeric=1000 from public.jd_sheet_outbox where destination='budget' and entity_id='move:supplier-'||e.id),'Unassigned JD costs queued without touching personal rows';
  assert (select (m->>'notCash')::boolean and not (m->>'settlement')::boolean from public.app_state s cross join lateral jsonb_array_elements(s.value) m where s.key='jd_finance_moves_v1' and m->>'id'='supplier-'||e.id),'Cost is not cash payment';
  e:=public.jd_supplier_update(e.id,actor,e.updated_at,null,'{}','Anulación QA');
  assert e.state='void','Void audited';
+ assert (select (payload->>'cost')::numeric=0 from public.jd_sheet_outbox where destination='budget' and entity_id='move:supplier-'||e.id),'Void zeroes owned export without deleting history';
  assert (select m ? 'voidAt' from public.app_state s cross join lateral jsonb_array_elements(s.value) m where s.key='jd_finance_moves_v1' and m->>'id'='supplier-'||e.id),'Void reverses accounting';
  assert not has_table_privilege('authenticated','public.jd_supplier_entries','select'),'No client supplier access';
  assert not has_table_privilege('authenticated','public.jd_review_pages','select'),'No direct original/review table access';

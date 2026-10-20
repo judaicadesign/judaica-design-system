@@ -23,7 +23,7 @@ matches stop for reconciliation rather than duplicating/overwriting them. The
 current budget summary is bounded at row 503: exports beyond it require the owner
 to extend the summary formulas first. The percentage and `a dar` formula live only
 in Sheets; existing row percentages are retained, with 10% the default for new rows.
-JD does not calculate or track maaser.
+Unassigned JD income/expense movements are exported separately; moving a cost into a job zeroes its previous standalone export to avoid duplication. JD does not calculate or track maaser.
 
 Zloto exports preserve the two independent tables. For imported payments only the
 receipt link is written in column M after verifying the source row. Receipts are
