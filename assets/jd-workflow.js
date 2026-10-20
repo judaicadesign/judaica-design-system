@@ -166,7 +166,7 @@
    document.querySelectorAll('[data-work-code]').forEach(n=>n.textContent=workCode(n.dataset.workCode)||'Se asigna al guardar');
    document.querySelectorAll('[data-copy-work-code]').forEach(b=>b.disabled=!workCode(b.dataset.copyWorkCode));
    bindQuoteJob();
-  }catch{document.querySelectorAll('[data-work-code]').forEach(n=>{if(!workCode(n.dataset.workCode))n.textContent='Código no disponible · recargá';});}finally{codeLoad=null;if(codeReload){codeReload=false;setTimeout(loadWorkCodes,0);}}})();return codeLoad;
+  }catch{document.querySelectorAll('[data-work-code]').forEach(n=>{if(!workCode(n.dataset.workCode))n.textContent='Código no disponible · recargá';});}})().finally(()=>{codeLoad=null;if(codeReload){codeReload=false;setTimeout(loadWorkCodes,0);}});return codeLoad;
  }
  window.addEventListener('jd-shared-ready',loadWorkCodes);
  const PRINT_MILESTONES=[['fileSentAt','Archivo enviado'],['proofApprovedAt','Muestra de imprenta firmada por JD'],['productionAt','Entró en producción'],['finishedAt','Finalizado · impresión y control de la imprenta'],['pickedUpAt','Retirado · recibido por JD']];
