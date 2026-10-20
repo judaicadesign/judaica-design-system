@@ -44,4 +44,4 @@ La publicación se guarda mediante jd_portal_publish_quote: bloqueo de fila, con
 
 ## Free PDF tools
 
-The public `herramientas.html` entry opens `../tools/pdf/` without an account. The unified window reviews PDF page boxes and offers crop marks, manual white/uniform-color bleed completion, numbering and Hebrew/Western saddle-stitch imposition. See `tools/pdf/README.md` for supported cases and verification limits. Generative AI bleed remains unavailable.
+The public `herramientas.html` entry opens `../tools/pdf/` without an account. The unified window reviews PDF page boxes and offers crop marks, manual white/uniform-color bleed completion, numbering and Hebrew/Western saddle-stitch imposition. See `tools/pdf/README.md` for supported cases and verification limits. The tool now allows 200 MiB, identifies standard vector crop marks, preserves existing marks, hides booklet imposition for one-page PDFs and calculates fold guides. Generative AI bleed remains unavailable pending Firefly Services credentials and live integration verification.

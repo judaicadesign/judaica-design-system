@@ -4,11 +4,11 @@ const wait=async fn=>{for(let i=0;i<100;i++){if(fn())return;await new Promise(r=
 (async()=>{
  const html=fs.readFileSync(path.join(__dirname,'../tools/pdf/index.html'),'utf8');
  const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://example.test/tools/pdf/'}),w=dom.window,$=id=>w.document.getElementById(id);
- w.Uint8Array=Uint8Array;w.TextDecoder=TextDecoder;w.JDPrintPDF=core;
+ w.Uint8Array=Uint8Array;w.TextDecoder=TextDecoder;w.JDPrintPDF=core;w.JDPDFMarks=require('../tools/pdf/pdf-marks.js');
  const revoked=[];w.URL.createObjectURL=()=> 'blob:test-'+Math.random();w.URL.revokeObjectURL=url=>revoked.push(url);
  w.HTMLCanvasElement.prototype.getContext=()=>({});
  // Stub only the external rendering dependency; use the real preparation engine.
- w.testImport=async()=>({GlobalWorkerOptions:{},getDocument:({data})=>({promise:core.load(data).then(d=>({numPages:d.getPageCount(),destroy:async()=>{},getPage:async()=>({getViewport:({scale})=>({width:300*scale,height:400*scale}),render:()=>({promise:Promise.resolve(),cancel(){}})})}))})});
+ w.testImport=async()=>({GlobalWorkerOptions:{},OPS:{constructPath:91,stroke:20,transform:12,save:10,restore:11,paintFormXObjectBegin:74,paintFormXObjectEnd:75},getDocument:({data})=>({promise:core.load(data).then(d=>({numPages:d.getPageCount(),destroy:async()=>{},getPage:async()=>({getOperatorList:async()=>({fnArray:[],argsArray:[]}),getViewport:({scale})=>({width:300*scale,height:400*scale}),render:()=>({promise:Promise.resolve(),cancel(){}})})}))})});
  w.eval(fs.readFileSync(path.join(__dirname,'../tools/pdf/pdf-ui.js'),'utf8').replace('import(','window.testImport('));
  const source=await P.PDFDocument.create();for(let i=1;i<=6;i++){const p=source.addPage([300,400]);p.drawText('Page '+i,{x:30,y:200});}const bytes=await source.save();
  const file=new w.File([bytes],'test.pdf',{type:'application/pdf'});file.arrayBuffer=async()=>bytes.buffer;
@@ -21,5 +21,7 @@ const wait=async fn=>{for(let i=0;i<100;i++){if(fn())return;await new Promise(r=
  $('bleed').value='4';input('bleed');assert.equal($('result-summary').hidden,true);assert.equal($('download').hasAttribute('href'),false);assert.equal($('view-result').disabled,true);assert.equal(revoked.length,1);
  $('fill').value='none';input('fill');$('prepare-form').dispatchEvent(new w.Event('submit',{cancelable:true}));await wait(()=>$('status').classList.contains('error')&&!$('options').disabled);assert.match($('status').textContent,/Falta contenido/);assert.equal($('result-summary').hidden,true);
  assert.match(fs.readFileSync(path.join(__dirname,'../portal/index.html'),'utf8'),/href="herramientas.html"/);assert.match(fs.readFileSync(path.join(__dirname,'../portal/herramientas.html'),'utf8'),/href="..\/tools\/pdf\/"/);
+ const single=await P.PDFDocument.create();single.addPage([200,300]).drawText('ONE',{x:30,y:100});const oneBytes=await single.save();const bigFile=new w.File([oneBytes],'large-illustrator.pdf',{type:'application/pdf'});Object.defineProperty(bigFile,'size',{value:125*1024*1024});bigFile.arrayBuffer=async()=>oneBytes.buffer;Object.defineProperty($('pdf-file'),'files',{value:[bigFile],configurable:true});$('pdf-file').dispatchEvent(new w.Event('change'));await wait(()=>!$('options').disabled&&!$('editor').hidden);assert.equal($('booklet-control').hidden,true);assert.equal($('booklet').disabled,true);assert.equal($('single-page-note').hidden,false);assert.match($('findings').textContent,/1 página/);assert.doesNotMatch($('findings').textContent,/1 páginas/);assert.doesNotMatch($('status').textContent,/supera/);
+ $('fold-type').value='3';input('fold-type');$('fold-style').value='roll';input('fold-style');assert.equal($('fold-options').hidden,false);assert.match($('fold-plan').textContent,/Frente:/);assert.equal($('marks').checked,true);$('prepare-form').dispatchEvent(new w.Event('submit',{cancelable:true}));await wait(()=>!$('options').disabled&&!$('result-summary').hidden);assert.match($('download').download,/-preparado.pdf$/);
  dom.window.close();console.log('PASS unified PDF window: load, review, corrections, real RTL generation, preview gate, stale-download invalidation and safe error recovery; public entry without login.');
 })().catch(e=>{console.error(e);process.exit(1);});

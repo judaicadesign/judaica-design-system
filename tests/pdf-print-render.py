@@ -29,3 +29,13 @@ blank = fitz.open(folder / 'blank-booklet.pdf')
 assert 'SOURCE 1' in blank[0].get_text() and 'SOURCE 6' not in blank[0].get_text()
 assert 'SOURCE 2' in blank[1].get_text()
 print('PASS rendered PDF: RTL placement, page numbers, blank padding and cut/bleed geometry; text remains extractable.')
+
+preserved = fitz.open(folder / 'preserved.pdf')
+assert prepared[0].get_pixmap().samples == preserved[0].get_pixmap().samples
+folded = fitz.open(folder / 'folded.pdf')
+for i, page in enumerate(folded):
+    guides = [d for d in page.get_drawings() if d['type'] == 's' and d['dashes'] != '[] 0']
+    xs = sorted(set(round(d['rect'].x0 / mm - 7, 2) for d in guides))
+    assert xs == ([99, 200] if i == 0 else [101, 202]), xs
+    page.get_pixmap().save(folder / f'folded-{i + 1}.png')
+print('PASS preserved marks and reflected three-panel fold guides.')
