@@ -237,7 +237,8 @@
       "previousMasterHebrew": "לָֽמָּה רָגְשׁוּ גוֹיִם וּלְאֻמִּים יֶהְגּוּ רִיק.",
       "hebrew": "לָֽמָּה רָגְשׁוּ גוֹיִם, וּלְאֻמִּים יֶהְגּוּ רִיק.",
       "previousPhonetic": "Lama ragueshú goyim uleumim yehgú rik.",
-      "phonetic": "Lama ragueshú goyim, uleumim yehgú rik."
+      "phonetic": "Lama ragueshú goyim, ulumim yehgú rik.",
+      "previousPhonetic20261020": "Lama ragueshú goyim, uleumim yehgú rik."
     },
     {
       "verse": 2,
@@ -333,5 +334,12 @@
     "engineCommit": "f8915d0fc181a4df517c2a2cf925bfebb0590b3d",
     "exactVerseMatches": 12,
     "psalm1RegressionMatches": 6
+  },
+  "correction20261020": {
+    "verse": 1,
+    "word": "וּלְאֻמִּים",
+    "from": "uleumim",
+    "to": "ulumim",
+    "reason": "Shevá tras vav-shuruk conjuntiva = muda (regla general del generador; decisión expresa del usuario 20/10/2026). Hebreo sin cambios."
   }
 }
