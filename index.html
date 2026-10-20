@@ -16,10 +16,10 @@
 <script src="assets/jd-cost-history.js?v=20261018-history" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
 <script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
-<script src="assets/jd-workflow.js?v=20261020-visual-flow" defer></script>
+<script src="assets/jd-workflow.js?v=20261020-current-actions" defer></script>
 <script src="assets/jd-finance.js?v=20261020-timeline-costs" defer></script>
 <link rel="stylesheet" href="assets/jd-finance.css?v=20261019-kpis-v1">
-<script src="assets/jd-orders.js?v=20261020-quote-flow" defer></script>
+<script src="assets/jd-orders.js?v=20261020-current-actions" defer></script>
 <link rel="stylesheet" href="assets/jd-workflow.css?v=20261020-visual-flow">
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-message-request.js?v=20261014-b612" defer></script>
@@ -41,7 +41,7 @@
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
 <script src="supabase/functions/_shared/jd-whatsapp-pricing.js?v=20261020-minimum"></script>
-<script defer src="assets/jd-portal-inbox.js?v=20261020-inbox"></script>
+<script defer src="assets/jd-portal-inbox.js?v=20261020-panel-owner"></script>
 <script src="assets/jd-auth.js?v=20261007-pricing-config" defer></script>
 <section class="jd-login" id="jdLogin">
 <img src="assets/jd-logo-black.svg" alt="Judaica Design®" style="width:180px">
@@ -86,19 +86,8 @@
 <section class="screen active" id="dashboard">
   <div class="topbar"><div><div class="eyebrow">Panel general</div><h1>Tu trabajo, en orden.</h1></div><button class="btn primary" onclick="go('quotes')">+ Nuevo presupuesto</button></div>
   <div class="notice jd-dashboard-intro">Presupuestos, clientes y próximos pasos en un solo lugar.</div>
-  <div class="grid cards">
-    <div class="card"><div class="muted small">Presupuestos a seguir</div><div class="metric">5</div><span class="tag warn">2 vencen hoy</span></div>
-    <div class="card"><div class="muted small">Precios de imprenta</div><div class="metric">3</div><span class="tag danger">requieren actualización</span></div>
-    <div class="card"><div class="muted small">Productos no explotados</div><div class="metric">7</div><span class="tag">oportunidad comercial</span></div>
-    <div class="card"><div class="muted small">Masters en revisión</div><div class="metric">4</div><span class="tag warn">revisión fina</span></div>
-  </div>
-  <div class="section">
-    <div class="section-head"><h2>Seguimientos prioritarios</h2><button class="btn sm" onclick="go('clients')">Ver todos</button></div>
-    <table class="table"><thead><tr><th>Cliente</th><th>Pedido</th><th>Estado</th><th>Próxima acción</th></tr></thead><tbody>
-      <tr><td><b>Lorena · Har Moria</b></td><td>Imanes · encendido de velas</td><td><span class="tag warn">Presupuesto enviado</span></td><td>Consultar respuesta · 08/10</td></tr>
-      <tr><td><b>Cliente demo</b></td><td>Birkón Classic · 2 nusajim</td><td><span class="tag ok">Aceptado</span></td><td>Pago pendiente</td></tr>
-    </tbody></table>
-  </div>
+  <div class="grid cards" id="jdDashboardKpis" aria-label="Resumen del sistema"></div>
+  <div class="section" id="jdWorkPriorities"></div>
   <div class="section"><div class="section-head"><h2>Desarrollo del catálogo</h2></div>
     <div class="grid cards">
       <div class="card"><b>Birkot Hashajar</b><p class="small muted">Sefaradí · hebreo y versión Heb+Esp+Fon ya existentes.</p><span class="tag warn">Nunca publicado</span></div>
@@ -2171,7 +2160,7 @@ window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
  }
  function renderDashboardKpis(){
    const dash=document.getElementById('dashboard');if(!dash)return;
-   const grid=dash.querySelector('.notice + .grid.cards')||dash.querySelector('.grid.cards');if(!grid)return;
+   const grid=dash.querySelector(':scope > #jdDashboardKpis');if(!grid)return;
    const quotes=get('jd_saved_quotes_v6',[]);
    const pendingQuotes=quotes.filter(q=>(window.JDWorkflow?.quoteLifecycle(q).lane||'pending')==='pending');
    const follows=quoteFollowClients();
@@ -2219,7 +2208,7 @@ window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
  const rerender=()=>{renderDashboardKpis();setTimeout(decorateClientQuoteLinks,100)};
  document.addEventListener('jd-app-ready',()=>setTimeout(rerender,300));
  window.addEventListener('jd-shared-ready',()=>setTimeout(rerender,300));
- const mo=new MutationObserver(records=>{if(records.every(r=>r.target.nodeType===1 && r.target.closest('#dashboard .grid.cards')))return;if(document.getElementById('dashboard')?.classList.contains('active'))renderDashboardKpis();decorateClientQuoteLinks()});
+ const mo=new MutationObserver(records=>{if(records.every(r=>r.target.nodeType===1 && r.target.closest('#jdDashboardKpis')))return;if(document.getElementById('dashboard')?.classList.contains('active'))renderDashboardKpis();decorateClientQuoteLinks()});
  const root=document.querySelector('main.main');if(root)mo.observe(root,{subtree:true,childList:true});
 })();
 </script>

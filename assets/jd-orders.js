@@ -57,7 +57,7 @@
         const jobs=state.jd_jobs_v1||[];if(!Array.isArray(jobs))throw Error('No se pudieron verificar los trabajos.');
         let job=jobs.find(j=>(j.quoteIds||[]).includes(quoteId));if(JSON.stringify(job||null)!==JSON.stringify(workBaseline))throw Error('El trabajo cambió en otro dispositivo. Volvé a abrir el pedido.');
         if(!job){const legacy=W.jobs().find(j=>(j.quoteIds||[]).includes(quoteId));job=legacy?structuredClone(legacy):{id:'work-'+crypto.randomUUID(),clientId:order.clientId,title:source.product,created:at,quoteIds:[quoteId],history:[]};jobs.push(job);}
-        job.orderId=order.id;job.stage=stage;job.approvedAt=order.approvedAt||job.approvedAt||'';job.deadline=deadline;job.event=order.event;job.eventType=order.eventType;job.qualityApprovedAt=order.qualityApprovedAt;job.updatedAt=at;
+        const previousJob=structuredClone(job);job.orderId=order.id;job.stage=stage;job.approvedAt=order.approvedAt||job.approvedAt||'';job.deadline=deadline;job.event=order.event;job.eventType=order.eventType;job.qualityApprovedAt=order.qualityApprovedAt;job.updatedAt=at;W.syncNextAction(previousJob,job,at);
         return {[KEY]:orders,jd_jobs_v1:jobs};
       });panel.remove();decorate();W.refresh();}catch(error){alert(error.message||'No se pudo guardar el pedido.')}finally{button.disabled=false}
     };
