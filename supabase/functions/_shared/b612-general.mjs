@@ -69,11 +69,12 @@ async function compose(r,binding,qty,get){
  if(family==='plastic'){
   if(r.hasCover||r.bindingOptions.some(x=>x!=='Hojas sueltas')||r.folds||r.lamination&&r.lamination!=='Sin laminado')throw new MissingSupplierCost('Confirmá hojas sueltas con plastificado rígido, sin encuadernación, doblado ni laminado adicional.');
   const special=norm(r.message).match(/\b(?:perforad[oa]s?|troquelad[oa]s?|foil|barniz|relieve)\b/);if(special)throw new MissingSupplierCost('La terminación '+special[0]+' requiere confirmar su operación B612.');
-  const wanted=[width+6,height+6].sort((a,b)=>a-b);
-  const terms=all.filter(x=>!x.fijo&&Number(x.articulo.rubro?.id)===114&&x.articulo.articuloPapel).filter(x=>[x.articulo.articuloPapel.ancho,x.articulo.articuloPapel.alto].sort((a,b)=>a-b).every((n,i)=>Number(n)>=wanted[i])).sort((a,b)=>a.articulo.articuloPapel.ancho*a.articulo.articuloPapel.alto-b.articulo.articuloPapel.ancho*b.articulo.articuloPapel.alto);
+  // Match B612's seleccionarTerminacion: usable article alto/ancho, in supplier order.
+  // These bounds already include the pouch allowance. The supplier does not rotate them.
+  const terms=all.filter(x=>!x.fijo&&Number(x.articulo.rubro?.id)===114&&x.articulo.articuloPapel&&Number(x.articulo.ancho)>=width&&Number(x.articulo.alto)>=height).sort((a,b)=>Number(a.orden)-Number(b.orden));
   const selected=String(r.plasticSize||'').replace(/\s/g,'').replace('×','x').toLowerCase();
   plasticTerm=selected?terms.find(x=>{const p=x.articulo.articuloPapel;return [p.ancho+'x'+p.alto,p.alto+'x'+p.ancho].includes(selected);}):terms[0];
-  if(!plasticTerm)throw new MissingSupplierCost('No hay un sobre de plastificado compatible con el tamaño pedido y 3 mm de sellado por lado. Confirmá el formato con B612.');
+  if(!plasticTerm)throw new MissingSupplierCost('No hay un sobre de plastificado compatible con el alto y ancho útiles publicados por B612. Confirmá la medida y su orientación.');
  }
  const sides=r.sides==='Doble faz'?2:r.sides==='Simple faz'?1:0;if(!sides)throw new MissingSupplierCost('Confirmá las caras de impresión del interior.');
  let interiorPages=r.interiorPages;

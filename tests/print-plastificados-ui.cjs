@@ -1,0 +1,20 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');
+const {boot,fixture}=require('./commercial-scenarios.cjs');
+(async()=>{
+ const {quotePrintRequest}=await import('../supabase/functions/_shared/b612-general.mjs');
+ const supplier=JSON.parse(fs.readFileSync('tests/fixtures/b612-plastificados-20261020.json'));
+ const rows=fixture();rows.push({key:'jd_whatsapp_pricing_v1',value:{markupPct:26,netRoundStep:500,finalRoundStep:100,minimumProfit:12000}});
+ let copied='',calls=[];
+ const app=await boot(rows,async(url,init)=>{const body=JSON.parse(init.body);calls.push(body);return Response.json(await quotePrintRequest(body.request,async path=>{assert.ok(Object.hasOwn(supplier,path),'Uncaptured supplier path '+path);return structuredClone(supplier[path]);}));});
+ const w=app.w;w.AbortSignal=AbortSignal;Object.defineProperty(w.navigator,'clipboard',{value:{writeText:async s=>{copied=s;}}});
+ for(const name of ['jd-print-request.js','jd-print-request-ui.js'])w.eval(fs.readFileSync('assets/'+name,'utf8'));
+ const f=id=>w.document.getElementById(id);
+ f('jdPrintText').value='hola buenas tardes, necesito cotizar\nPlastificados\nMedidas: 140 × 200 mm hoja\nPapel: ilustración 115 gramos\nFull color\nDoble faz\nCantidad: 16 unidades\nmuchas gracias!';
+ await f('jdPrintAnalyze').onclick();assert.equal(calls.length,1);assert.deepEqual(calls[0].request.quantities,[16]);assert.equal(calls[0].request.weightGsm,115);assert.equal(f('jdPrintQuestions').querySelectorAll('[data-answer]').length,0);
+ assert.match(f('jdPrintResult').textContent,/Plastificado 225x303/);assert.match(f('jdPrintResult').textContent,/33.601,28/);assert.match(f('jdPrintResult').textContent,/40.657,55/);
+ const output=f('jdPrintOutputText').value;assert.match(output,/Papel: ilustración 115 gramos/);assert.match(output,/x16 = \$45\.700\.-/);assert.doesNotMatch(output,/IVA|Neto B612/);
+ await f('jdPrintCopyOutput').onclick();assert.equal(copied,output);
+ const reference=f('jdPrintResult').querySelector('[data-print-reference]');reference.value='33601.28';f('jdPrintResult').querySelector('[data-print-compare]').click();assert.match(f('jdPrintResult').querySelector('[data-print-difference]').textContent,/El neto coincide/);assert.equal(f('jdPrintOutputText').value,output);
+ await f('jdPrintSave').onclick();assert.equal(app.get('jd_print_requests_v1')[0].assessment.alternatives[0].net,33601.28);assert.equal(app.get('jd_print_requests_v1')[0].assessment.abiRule.minimumProfit,12000);
+ app.close();console.log('PASS B612 quote 1329671: exact message → supplier operations → $33601.28 net/$40657.55 gross → Abi $45700 → clipboard, matching reference and private save.');
+})().catch(e=>{console.error(e);process.exit(1);});

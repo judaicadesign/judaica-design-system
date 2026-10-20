@@ -1459,7 +1459,7 @@
         "pathImagen": "1713885705019.png"
       },
       "cantidad": 1,
-      "precio": 2110,
+      "precio": 2110.0,
       "fechaCreacion": 1663522037098,
       "fechaModificacion": 1791861847068,
       "estadoProducto": {
@@ -1650,7 +1650,7 @@
         "pathImagen": "1721054357427.png"
       },
       "cantidad": 1,
-      "precio": 2210,
+      "precio": 2210.0,
       "fechaCreacion": 1720985921310,
       "fechaModificacion": 1791861881601,
       "estadoProducto": {
@@ -1723,5 +1723,19 @@
         "nombre": "Activo"
       }
     }
+  },
+  "/api/grilla/200/140?articuloPapel=3&espaciado=3&margenSuperior=5&margenInferior=5&margenIzquierdo=5&margenDerecho=5": {
+    "elementosPorAncho": 2,
+    "elementosPorAlto": 2,
+    "totalElementos": 4,
+    "esHorizontal": false,
+    "porcentajeCobertura": 83.24228708183757
+  },
+  "/api/grilla/140/200?articuloPapel=2&espaciado=3&margenSuperior=5&margenInferior=5&margenIzquierdo=5&margenDerecho=5": {
+    "elementosPorAncho": 2,
+    "elementosPorAlto": 2,
+    "totalElementos": 4,
+    "esHorizontal": true,
+    "porcentajeCobertura": 95.18143961927424
   }
 }
