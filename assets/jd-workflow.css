@@ -37,5 +37,3 @@
 .jd-print-order input[type=datetime-local]{min-width:0;max-width:100%}
 .jd-print-order small{line-height:1.5}
 .jd-print-order [data-print-timings]{margin-top:12px}
-
-.jd-print-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}

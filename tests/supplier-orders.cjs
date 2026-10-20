@@ -13,7 +13,7 @@ const {boot,fixture}=require('./commercial-scenarios.cjs');
  await save();let job=app.get('jd_jobs_v1')[0],order=job.supplierOrders[0];const id=job.id;
  assert.equal(order.net,100000.25);assert.equal(order.taxIncluded,false);assert.ok(order.checkedAt);
  assert.equal(order.proofApprovedAt,'');assert.equal(order.fileSentAt,'');
- assert.equal(order.productionAt,'2026-10-03T15:00:00.000Z');assert.equal(job.stage,'Primer contacto');assert.equal(job.qualityApprovedAt,'');
+ assert.match(job.history.at(-1).text,/Entró en producción:.*anterior: sin fecha/);assert.equal(order.productionAt,'2026-10-03T15:00:00.000Z');assert.equal(job.stage,'Primer contacto');assert.equal(job.qualityApprovedAt,'');
  assert.equal(W.printDurations(order)[2].hours,26);assert.equal(W.printDurations(order)[3].hours,48);
  assert.equal(app.get('jd_finance_moves_v1'),undefined,'Vincular un costo no crea un gasto duplicado');
  W.openJob(id);const history=app.get('jd_jobs_v1')[0].history.length;await save();assert.equal(app.get('jd_jobs_v1')[0].history.length,history,'Sin cambios no agrega hitos');

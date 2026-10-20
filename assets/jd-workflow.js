@@ -171,7 +171,7 @@
  }
  function printDurations(order){
   const pairs=[['fileSentAt','proofApprovedAt','Archivo → firma de muestra'],['proofApprovedAt','productionAt','Firma → producción'],['productionAt','finishedAt','Tiempo de impresión'],['finishedAt','pickedUpAt','Demora hasta retirar']];
-  return pairs.map(([from,to,label])=>({label,hours:order[from]&&order[to]?Math.max(0,(Date.parse(order[to])-Date.parse(order[from]))/3600000):null}));
+  return pairs.map(([from,to,label])=>{const hours=order[from]&&order[to]?(Date.parse(order[to])-Date.parse(order[from]))/3600000:null;return {label,hours:Number.isFinite(hours)&&hours>=0?hours:null};});
  }
  function printTimingMarkup(order){return '<div class="jd-timing-small-grid">'+printDurations(order).map(m=>'<div><small>'+esc(m.label)+'</small><strong>'+esc(m.hours===null?'Faltan fechas':m.hours<48?m.hours.toLocaleString('es-AR',{maximumFractionDigits:1})+' h':(m.hours/24).toLocaleString('es-AR',{maximumFractionDigits:1})+' días')+'</strong></div>').join('')+'</div>';}
  function printLink(order){return order.supplier==='B612'&&/^\d+$/.test(order.code||'')?'https://www.graficab612.com/pedido.htm?pedido='+order.code:'';}
@@ -217,7 +217,7 @@
   };
  }
  function printHistory(before,after){
-  return (after||[]).flatMap(item=>{const old=(before||[]).find(r=>r.id===item.id);return JSON.stringify(old)===JSON.stringify(item)?[]:[{at:now(),type:'Imprenta',text:(item.voidedAt?'Vínculo quitado: ':old?'Orden actualizada: ':'Orden vinculada: ')+item.supplier+' #'+item.code+' · '+item.status+' · neto sin IVA '+(item.net===null?'desconocido':money(item.net)),supplierOrderId:item.id,before:old||null,after:structuredClone(item)}];});
+  return (after||[]).flatMap(item=>{const old=(before||[]).find(r=>r.id===item.id);const changes=PRINT_MILESTONES.filter(([key])=>(old?.[key]||'')!==(item[key]||'')).map(([key,label])=>label+': '+(item[key]?new Date(item[key]).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires'}):'sin fecha')+' (anterior: '+(old?.[key]?new Date(old[key]).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires'}):'sin fecha')+')');return JSON.stringify(old)===JSON.stringify(item)?[]:[{at:now(),type:'Imprenta',text:(item.voidedAt?'Vínculo quitado: ':old?'Orden actualizada: ':'Orden vinculada: ')+item.supplier+' #'+item.code+' · '+item.status+' · neto sin IVA '+(item.net===null?'desconocido':money(item.net))+(changes.length?' · '+changes.join(' · '):''),supplierOrderId:item.id,before:old||null,after:structuredClone(item)}];});
  }
  function openJob(id,client){
   const base=read(J).find(j=>j.id===id)||null,derived=jobs().find(j=>j.id===id),c=client||read(C).find(c=>identity(c)===(base||derived)?.clientId);if(!c)return;
