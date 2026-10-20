@@ -5,7 +5,7 @@ const {boot,fixture}=require('./commercial-scenarios.cjs');
  const query=s=>d.querySelector(s),f=id=>d.getElementById(id),save=()=>query('.jd-work-modal [data-save]').onclick();
  W.openJob(null,W.read('jd_clients')[0]);
  query('[data-tab="3"]').click();assert.equal(query('[data-pane="3"]').hidden,false);
- assert.match(query('[data-pane="3"]').textContent,/No hay conexión automática/);
+ assert.match(query('[data-pane="3"]').textContent,/B612 se registra manualmente/);
  query('[data-print-add]').click();f('print-0-code').value='1234567';f('print-0-net').value='100000.25';f('print-0-status').value='P. Aceptado';f('print-0-checked').checked=true;
  f('print-0-code').dispatchEvent(new w.Event('input'));
  assert.equal(query('[data-print-link]').href,'https://www.graficab612.com/pedido.htm?pedido=1234567');
