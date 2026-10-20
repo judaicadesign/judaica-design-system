@@ -6,6 +6,7 @@ const url=Deno.env.get('SUPABASE_URL')!,serviceKey=Deno.env.get('SUPABASE_SERVIC
 const service=createClient(url,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
 const check=(r:any)=>{if(r.error){if(r.error.code==='P0001')throw new PortalError(r.error.message);throw Error('Backend operation failed');}return r.data;};
 const db={
+ async workCodes(keys:string[]){const out:any[]=[];for(let i=0;i<keys.length;i+=100)out.push(...check(await service.from("jd_work_codes").select("source_key,code").in("source_key",keys.slice(i,i+100))));return out;},
  async signupRate(rate:string){check(await service.rpc('jd_portal_signup_rate',{p_rate:rate}));},
  async registerCustomer(name:string,email:string,phone:string,user:string,profile:any){check(await service.rpc('jd_portal_register_customer',{p_name:name,p_email:email,p_phone:phone,p_user:user,p_profile:profile}));},
  async publishQuote(id:string,expected:any,result:any,evidence:any,rule:any,expires:string){return check(await service.rpc('jd_portal_publish_quote',{p_quote:id,p_expected:expected,p_result:result,p_evidence:evidence,p_rule:rule,p_expires:expires}));},
