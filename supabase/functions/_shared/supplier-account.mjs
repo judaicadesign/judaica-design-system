@@ -19,7 +19,7 @@ export function createSupplierAccount({db,storage,text,id,fail,uuid,now}){
   if(action==='admin-supplier-list'){
    const entries=await db.list(table,{},'*',1000),exports=await db.list('jd_sheet_outbox',{},'*',1000),connection=await db.one('jd_sheet_connection',{id:true});
    const state=await db.one('app_state',{key:'jd_jobs_v1'}),codes=await db.workCodes((state?.value||[]).map(j=>'job:'+j.id)),clients=await db.one('app_state',{key:'jd_clients'});
-   return {entries:entries.map(publicEntry),exports,connectionReady:!!connection?.token_hash,jobs:(state?.value||[]).filter(j=>!j.deletedAt).map(j=>({id:j.id,title:j.title,code:codes.find(c=>c.source_key==='job:'+j.id)?.code,client:(clients?.value||[]).find(c=>c.id===j.clientId)?.name||''}))};
+   return {entries:entries.map(publicEntry),exports,connectionReady:!!connection?.token_hash,connectionHealth:{lastAuthorizedAt:connection?.last_authorized_at||null,connectorVersion:connection?.connector_version||null,lastSeenAt:connection?.last_seen_at||null},jobs:(state?.value||[]).filter(j=>!j.deletedAt).map(j=>({id:j.id,title:j.title,code:codes.find(c=>c.source_key==='job:'+j.id)?.code,client:(clients?.value||[]).find(c=>c.id===j.clientId)?.name||''}))};
   }
   if(action==='admin-supplier-create'){
    const amount=Number(body.amount),rate=body.currency==='ARS'?1:Number(body.rate),kind=body.kind;

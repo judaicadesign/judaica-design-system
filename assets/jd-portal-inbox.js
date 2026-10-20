@@ -14,7 +14,7 @@
   function panels(){
     const dash=document.getElementById('dashboard');if(!dash)return null;
     let box=document.getElementById('jdPortalInbox');
-    if(!box){box=document.createElement('section');box.id='jdPortalInbox';box.className='section';(dash.querySelector('#jdDashboardKpis')||dash.querySelector('.jd-dashboard-intro'))?.after(box);}
+    if(!box){box=document.createElement('section');box.id='jdPortalInbox';box.className='section';(dash.querySelector('#jdConnections')||dash.querySelector('#jdWorkPriorities')||dash.querySelector('.jd-dashboard-intro'))?.after(box);}
     return box;
   }
   async function refresh(){

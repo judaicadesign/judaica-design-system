@@ -3,16 +3,19 @@
  * No compartas este script: contiene una clave limitada de conexión.
  */
 const JD_TOKEN = '__JD_TOKEN__';
+const JD_CONNECTOR_VERSION='20261020.3';
 const JD_ENDPOINT = 'https://athiruoimehofqzrplnl.supabase.co/functions/v1/client-portal';
 function jdApi_(action, data) {
  const response=UrlFetchApp.fetch(JD_ENDPOINT,{method:'post',contentType:'application/json',payload:JSON.stringify(Object.assign({action:action,token:JD_TOKEN},data||{})),muteHttpExceptions:true});
  const out=JSON.parse(response.getContentText());if(response.getResponseCode()>=400||out.ok===false)throw Error(out.error||'No se pudo conectar con JD');return out;
 }
 function conectarJD() {
- const data=jdApi_('sheet-pull');const zloto=SpreadsheetApp.openById(data.config.zloto).getSheetByName(data.config.zlotoTab);SpreadsheetApp.openById(data.config.budget);
+ const data=jdApi_('sheet-pull');
+ DriveApp.getFileById(data.config.zloto).getName();
+ const zloto=SpreadsheetApp.openById(data.config.zloto).getSheetByName(data.config.zlotoTab);SpreadsheetApp.openById(data.config.budget);
  if(String(zloto.getRange('L12').getValue())!=='Comprobante'){if(String(zloto.getRange('L12').getValue())!=='Cliente')throw Error('Revisá las columnas de pagos antes de actualizar.');zloto.insertColumnAfter(11);zloto.getRange(12,14,zloto.getMaxRows()-11,1).copyTo(zloto.getRange(12,12,zloto.getMaxRows()-11,1));zloto.deleteColumn(14);zloto.getRange('L12').setValue('Comprobante');zloto.getRange('M12').setValue('Cliente');}
  // Force the Google authorization prompt before installing the timed trigger.
- DriveApp.getFileById(data.config.zloto).getName();
+ jdApi_('sheet-ready',{version:JD_CONNECTOR_VERSION});
  ScriptApp.getProjectTriggers().filter(t=>t.getHandlerFunction()==='sincronizarJD').forEach(t=>ScriptApp.deleteTrigger(t));
  ScriptApp.newTrigger('sincronizarJD').timeBased().everyMinutes(1).create();sincronizarJD();
  console.log('Conexión JD instalada. Las filas personales de presupuesto no se modifican.');
@@ -52,7 +55,7 @@ function jdWrite_(item,config){
  let row;const imported=p.source&&p.source.imported;
  if(imported){
   row=p.source.row;const current=sheet.getRange(row,2,1,6).getValues()[0],original=p.source.original;
-  if(p.kind==='Pago'){const currentPayment=sheet.getRange(row,9,1,5).getValues()[0],clientColumn=String(sheet.getRange('L12').getValue())==='Comprobante'?4:3;if(currentPayment[0]!==original[0]||Number(currentPayment[2])!==Number(original[2])||String(currentPayment[clientColumn]||'')!==String(original[3]||''))throw Error('El pago de origen cambió: revisar antes de vincular');const receipt=jdReceipt_(item,config);if(!receipt)throw Error('No hay comprobante para vincular');const receiptColumn=String(sheet.getRange('L12').getValue())==='Comprobante'?12:13;sheet.getRange(12,receiptColumn).setValue('Comprobante');sheet.getRange(row,receiptColumn).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('Ver comprobante').setLinkUrl(receipt.getUrl()).build());return {range:config.zlotoTab+'!M'+row,receiptUrl:receipt.getUrl()};}
+  if(p.kind==='Pago'){const currentPayment=sheet.getRange(row,9,1,5).getValues()[0],clientColumn=String(sheet.getRange('L12').getValue())==='Comprobante'?4:3;if(currentPayment[0]!==original[0]||Number(currentPayment[2])!==Number(original[2])||String(currentPayment[clientColumn]||'')!==String(original[3]||''))throw Error('El pago de origen cambió: revisar antes de vincular');const receipt=jdReceipt_(item,config);if(!receipt)throw Error('No hay comprobante para vincular');const receiptColumn=String(sheet.getRange('L12').getValue())==='Comprobante'?12:13;sheet.getRange(12,receiptColumn).setValue('Comprobante');sheet.getRange(row,receiptColumn).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('Ver comprobante').setLinkUrl(receipt.getUrl()).build());return {range:config.zlotoTab+'!'+(receiptColumn===12?'L':'M')+row,receiptUrl:receipt.getUrl()};}
   if(p.kind!=='Cargo'||current[0]!==original[0]||current[1]!==original[1]||Number(current[3])!==Number(original[3]))throw Error('La fila de origen cambió: revisar antes de actualizar');
   sheet.getRange(row,6,1,2).setValues([[p.source.fileSent?'SI':'NO',p.source.delivered?'SI':'NO']]);
   return {range:config.zlotoTab+'!F'+row+':G'+row};

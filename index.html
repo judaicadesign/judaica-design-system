@@ -16,13 +16,14 @@
 <script src="assets/jd-cost-history.js?v=20261018-history" defer></script>
 <script src="assets/jd-inflation.js?v=20261008-ipc-daily-v3" defer></script>
 <script src="assets/jd-asset-match.js?v=20261009-text-assets-v1" defer></script>
-<script src="assets/jd-workflow.js?v=20261020-work-costs" defer></script>
-<script src="assets/jd-job-costs.js?v=20261020-work-costs" defer></script>
-<script src="assets/jd-finance.js?v=20261020-work-costs" defer></script>
+<script src="assets/jd-workflow.js?v=20261020-daily-ops" defer></script>
+<script src="assets/jd-operations.js?v=20261020-daily-ops" defer></script>
+<script src="assets/jd-job-costs.js?v=20261020-daily-ops" defer></script>
+<script src="assets/jd-finance.js?v=20261020-daily-ops" defer></script>
 <link rel="stylesheet" href="assets/jd-finance.css?v=20261019-kpis-v1">
 <link rel="stylesheet" href="assets/jd-library.css?v=20261020-private-reader">
 <script src="assets/jd-orders.js?v=job-cash-20261020-20261020-current-actions" defer></script>
-<link rel="stylesheet" href="assets/jd-workflow.css?v=20261020-work-costs">
+<link rel="stylesheet" href="assets/jd-workflow.css?v=20261020-daily-ops">
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-message-request.js?v=20261014-b612" defer></script>
 <script src="assets/jd-print-request.js?v=20261020-plastificados" defer></script>
@@ -43,8 +44,8 @@
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
 <script src="supabase/functions/_shared/jd-whatsapp-pricing.js?v=20261020-minimum"></script>
-<script defer src="assets/jd-portal-inbox.js?v=20261020-panel-owner"></script>
-<script src="assets/jd-auth.js?v=20261020-work-costs" defer></script>
+<script defer src="assets/jd-portal-inbox.js?v=20261020-daily-ops"></script>
+<script src="assets/jd-auth.js?v=20261020-daily-ops" defer></script>
 <script src="assets/jd-library.js?v=20261020-private-reader" defer></script>
 <section class="jd-login" id="jdLogin">
 <img src="assets/jd-logo-black.svg" alt="Judaica Design®" style="width:180px">
@@ -90,9 +91,11 @@
 <main class="main" id="jdMain">
 <section class="screen active" id="dashboard">
   <div class="topbar"><div><div class="eyebrow">Panel general</div><h1>Tu trabajo, en orden.</h1></div><button class="btn primary" onclick="go('quotes')">+ Nuevo presupuesto</button></div>
-  <div class="notice jd-dashboard-intro">Presupuestos, clientes y próximos pasos en un solo lugar.</div>
-  <div class="grid cards" id="jdDashboardKpis" aria-label="Resumen del sistema"></div>
+  <div class="notice jd-dashboard-intro">Entregas, próximos pasos y saldos que necesitan tu atención.</div>
   <div class="section" id="jdWorkPriorities"></div>
+  <div class="section" id="jdConnections" aria-live="polite"></div>
+  <details id="jdBusinessOverview"><summary>Catálogo y análisis del negocio</summary>
+  <div class="grid cards" id="jdDashboardKpis" aria-label="Resumen del sistema"></div>
   <div class="section"><div class="section-head"><h2>Desarrollo del catálogo</h2></div>
     <div class="grid cards">
       <div class="card"><b>Birkot Hashajar</b><p class="small muted">Sefaradí · hebreo y versión Heb+Esp+Fon ya existentes.</p><span class="tag warn">Nunca publicado</span></div>
@@ -101,6 +104,7 @@
       <div class="card"><b>Ashkenazí + Jabad</b><p class="small muted">Existe en folleto y librito reducido.</p><span class="tag danger">Revisión fina requerida</span></div>
     </div>
   </div>
+  </details>
 </section>
 
 <section class="screen" id="portalInbox"><div class="topbar"><div><div class="eyebrow">CLIENTES</div><h1>Solicitudes y pedidos</h1></div></div><iframe id="jdPortalAdmin" title="Administración de solicitudes y pedidos de clientes" style="width:100%;min-height:85vh;border:0;border-radius:14px" hidden></iframe></section>
@@ -2188,7 +2192,7 @@ window.addEventListener('jd-shared-ready',()=>{window.JDWorkflow.refresh();});
  }
  function renderDashboardKpis(){
    const dash=document.getElementById('dashboard');if(!dash)return;
-   const grid=dash.querySelector(':scope > #jdDashboardKpis');if(!grid)return;
+   const grid=dash.querySelector('#jdDashboardKpis');if(!grid)return;
    const quotes=get('jd_saved_quotes_v6',[]);
    const pendingQuotes=quotes.filter(q=>(window.JDWorkflow?.quoteLifecycle(q).lane||'pending')==='pending');
    const follows=quoteFollowClients();

@@ -66,7 +66,7 @@ Deno.serve(async(req:Request)=>{
   if(Number(req.headers.get('content-length')||0)>65536)throw new PortalError('El pedido es demasiado extenso.',413);const raw=await req.text();if(raw.length>65536)throw new PortalError('El pedido es demasiado extenso.',413);
   let body;try{body=JSON.parse(raw);}catch{throw new PortalError('Pedido inválido.');}
   const publicAction=['register-account','request-account','activate-account'].includes(body?.action);
-  if(['sheet-pull','sheet-ack','sheet-receipt'].includes(body?.action))return response({ok:true,...await dispatchSheets(body,null)});
+  if(['sheet-pull','sheet-ack','sheet-receipt','sheet-ready'].includes(body?.action))return response({ok:true,...await dispatchSheets(body,null)});
   if(!token&&!publicAction)return response({ok:false,error:'Iniciá sesión.'},401);
   if(!body||typeof body.action!=='string'||body.action.length>40)throw new PortalError('Acción inválida.');
   if(publicAction){const ip=req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()||'unknown';const rate=await portalTokenHash(serviceKey+'|portal-rate|'+ip);return response({ok:true,...await dispatchPublic(body,rate)});}

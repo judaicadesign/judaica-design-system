@@ -13,7 +13,7 @@ const storage={uploadUrl:async p=>(issued.push(p),{path:p,token:'scoped'}),downl
 const app=createPortalApp({db,storage,auth,supplier:async p=>{supplierCalls++;assert.ok(p in fixture||p in cards,p);return structuredClone(fixture[p]||cards[p]);},now:()=>new Date('2026-10-18T21:00:00Z'),uuid:randomUUID});
 for(const t of ['bad','anonymous','unverified'])await assert.rejects(()=>app(t,{action:'profile'}),e=>e.status===401);
 await assert.rejects(()=>app('abi',{action:'admin-list'}),e=>e.status===403);
-for(const action of ['admin-supplier-list','admin-supplier-chat','admin-sheet-connect'])await assert.rejects(()=>app('abi',{action}),e=>e.status===403);
+for(const action of ['admin-supplier-list','admin-supplier-chat','admin-sheet-connect','admin-sheet-health'])await assert.rejects(()=>app('abi',{action}),e=>e.status===403);
 await assert.rejects(()=>app('abi',{action:'order-detail',orderId}),e=>e.status===404);
 await assert.rejects(()=>app('abi',{action:'file-download',fileId}),e=>e.status===404);
 await assert.rejects(()=>app('abi',{action:'file-init',orderId,name:'x.pdf',contentType:'application/pdf',size:9,purpose:'Archivo para imprimir'}),e=>e.status===404);assert.equal(issued.length,0);

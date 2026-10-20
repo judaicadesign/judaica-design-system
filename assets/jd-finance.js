@@ -234,7 +234,8 @@ function jobReport(job,legacy,currency){
  const costKnown=originalCost>0||moreCosts>0;
  const result=baseline>0&&costKnown?baseline-actualCost:null;
  const est=order?.quantity?.cost??null;
- return {currency,baseRevenue:baseline,originalCost,moreCosts,actualCost,receipts,costKnown,
+ const costComplete=!!historic||!!job?.costsReviewedAt&&(job.supplierOrders||[]).filter(r=>!r.voidedAt).length>0&&(job.supplierOrders||[]).filter(r=>!r.voidedAt).every(r=>r.net!=null||r.actualCost!=null);
+ return {costComplete,currency,baseRevenue:baseline,originalCost,moreCosts,actualCost,receipts,costKnown,
   result,margin:result!==null?ratio(result,baseline):null,
   estimatedCost:est,hasAcceptedOrder:!!order,haveRevenue:baseline>0,
   scope:historic?"histórico":job?"actual":"ninguno"};
@@ -245,8 +246,8 @@ function summaryHtml(j,old,currency){
  return '<section class="jd-fin-panel jd-fin-project-summary"><h2>Resultado económico del trabajo</h2>'+
  '<div class="jd-fin-kpis">'+
  line("Ingreso del pedido / histórico",r.haveRevenue?fmt(r.baseRevenue,currency):"Pendiente",r.scope==="actual"?"Precio del pedido aceptado; NO cobros":"Según registro histórico; NO cobros")+
- line("Costo real registrado",fmt(r.actualCost,currency),r.scope==="actual"?"Incluye costos reales de Imprenta y gastos adicionales registrados":"Incluye costo original y gastos posteriores no duplicados")+
- line("Resultado provisional",r.result===null?"Sin calcular":fmt(r.result,currency),r.result===null?"Falta precio aceptado o costo real":"Ingreso menos costos reales registrados, sin impuestos ni horas")+
+ line("Costo real registrado",r.costKnown?fmt(r.actualCost,currency):"Pendiente",r.scope==="actual"?"Incluye costos reales de Imprenta y gastos adicionales registrados":"Incluye costo original y gastos posteriores no duplicados")+
+ line(r.costComplete?"Resultado con costos completos":"Resultado provisional",r.result===null?"Sin calcular":fmt(r.result,currency),r.result===null?"Falta precio aceptado o costo real":"Ingreso menos costos reales registrados, sin impuestos ni horas")+
  line("Margen sobre ingreso",r.margin===null?"—":pct(r.result,r.baseRevenue),"Diferencia dividida por el ingreso del trabajo")+
  '</div><p class="small muted">'+(r.estimatedCost!==null&&r.scope==="actual"?"Costo presupuestado de imprenta: "+fmt(r.estimatedCost,"ARS")+". Es una referencia, NO un egreso realizado. ":"")+
  'Resultado siempre provisional hasta completar costos (imprenta, mensajería, reparaciones, materiales), tributos y trabajo interno. Los cobros se controlan separadamente.</p></section>';
