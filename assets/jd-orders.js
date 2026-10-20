@@ -50,7 +50,7 @@
       if([W.stages[15],W.stages[16]].includes(stage)&&!f('jdOrderQuality').value){alert('Falta aprobar el control de calidad antes de coordinar o marcar la entrega.');return}
       const at=W.now(),order={...existing,id:existing?.id||'order-'+crypto.randomUUID(),quoteId,client:source.client,clientId:client?window.JDClientDirectory.stableId(client):source.clientId||null,product:existing?.product||alternatives[q.alternativeIndex||0].product,selectedAlternative:existing?.selectedAlternative||structuredClone(alternatives[q.alternativeIndex||0]),quantity:structuredClone(q),payments:ledger,paid,balance:Math.round((q.price-paid)*100)/100,paymentTerms:terms,balanceDue,stage,approvedAt:f('jdOrderApprovedAt').value||existing?.approvedAt||'',deadline,event:currentWork?.event??existing?.event??source.event??'',eventType:currentWork?.eventType??existing?.eventType??source.eventType??'generic',qualityApprovedAt:f('jdOrderQuality').value,address:f('jdOrderAddress').value.trim(),notes:f('jdOrderNotes').value.trim(),created:existing?.created||at,updatedAt:at,quoteSnapshot:existing?.quoteSnapshot||structuredClone(source),history:[...(existing?.history||[]),{at,stage,paid,type:'Pedido',text:stage+' · cobrado '+money(paid)+' · saldo '+money(q.price-paid)}]};
       button.disabled=true;
-      try{await window.jdUpdateSharedState([KEY,'jd_jobs_v1'],state=>{
+      try{await window.jdUpdateSharedState([KEY,'jd_jobs_v1','jd_finance_moves_v1'],state=>{
         const orders=state[KEY]||[];if(!Array.isArray(orders))throw Error('No se pudieron verificar los pedidos.');
         const i=orders.findIndex(o=>o.quoteId===quoteId);if((i>=0?JSON.stringify(orders[i]):null)!==original)throw Error('Este pedido cambió en otro dispositivo. Volvé a abrirlo.');
         if(i<0)orders.unshift(order);else orders[i]=order;
@@ -58,7 +58,14 @@
         let job=jobs.find(j=>(j.quoteIds||[]).includes(quoteId));if(JSON.stringify(job||null)!==JSON.stringify(workBaseline))throw Error('El trabajo cambió en otro dispositivo. Volvé a abrir el pedido.');
         if(!job){const legacy=W.jobs().find(j=>(j.quoteIds||[]).includes(quoteId));job=legacy?structuredClone(legacy):{id:'work-'+crypto.randomUUID(),clientId:order.clientId,title:source.product,created:at,quoteIds:[quoteId],history:[]};jobs.push(job);}
         const previousJob=structuredClone(job);job.orderId=order.id;job.stage=stage;job.approvedAt=order.approvedAt||job.approvedAt||'';job.deadline=deadline;job.event=order.event;job.eventType=order.eventType;job.qualityApprovedAt=order.qualityApprovedAt;job.updatedAt=at;W.syncNextAction(previousJob,job,at);
-        return {[KEY]:orders,jd_jobs_v1:jobs};
+        const moves=state.jd_finance_moves_v1||[];if(!Array.isArray(moves))throw Error('No se pudo verificar Caja.');
+        for(const payment of ledger){
+          if(payment.legacy||!payment.id)continue;
+          const id='customer-payment:'+order.id+':'+payment.id,index=moves.findIndex(x=>x.id===id),prior=index>=0?moves[index]:{};
+          const movement={...prior,id,jobId:job.id,orderId:order.id,customerPaymentId:payment.id,kind:'Ingreso',category:'Cobro de cliente',status:'Realizado',currency:'ARS',amount:payment.ars,date:payment.date,method:payment.method,detail:source.client+' · '+(order.product||job.title||''),originalCurrency:payment.currency,originalAmount:payment.amount,rate:payment.rate,reference:payment.reference,voidAt:payment.voidedAt||null,voidReason:payment.voidReason||'',createdAt:prior.createdAt||payment.recordedAt||at,updatedAt:at};
+          if(index<0)moves.push(movement);else moves[index]=movement;
+        }
+        return {[KEY]:orders,jd_jobs_v1:jobs,jd_finance_moves_v1:moves};
       });panel.remove();decorate();W.refresh();}catch(error){alert(error.message||'No se pudo guardar el pedido.')}finally{button.disabled=false}
     };
   };

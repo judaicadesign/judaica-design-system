@@ -76,6 +76,13 @@
   }
   let sharedMutation = false;
   window.jdConfirmedState = key => clone(confirmed.get(key)??null);
+  window.jdReloadSharedKeys=async keys=>{
+    if(!active||sharedMutation)throw Error('Esperá a que termine el cambio anterior.');
+    if(!Array.isArray(keys)||keys.some(k=>!syncKey(k)))throw Error('Clave no disponible.');
+    await session();const {data,error}=await client.from('app_state').select('key,value').in('key',keys);if(error)throw error;
+    for(const row of data){confirmed.set(row.key,clone(row.value));rawSet.call(localStorage,row.key,JSON.stringify(row.value));}
+    window.dispatchEvent(new CustomEvent('jd-shared-ready'));return data;
+  };
   window.jdUpdateSharedState = async function(keys, transform) {
     if (!active || sharedMutation) throw new Error('Esperá a que termine el cambio anterior.');
     sharedMutation = true;

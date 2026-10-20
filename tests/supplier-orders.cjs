@@ -15,7 +15,7 @@ const {boot,fixture}=require('./commercial-scenarios.cjs');
  assert.equal(order.proofApprovedAt,'');assert.equal(order.fileSentAt,'');
  assert.match(job.history.at(-1).text,/Entró en producción:.*anterior: sin fecha/);assert.equal(order.productionAt,'2026-10-03T15:00:00.000Z');assert.equal(job.stage,'Primer contacto');assert.equal(job.qualityApprovedAt,'');
  assert.equal(W.printDurations(order)[2].hours,26);assert.equal(W.printDurations(order)[3].hours,48);
- assert.equal(app.get('jd_finance_moves_v1'),undefined,'Vincular un costo no crea un gasto duplicado');
+ assert.equal(app.get('jd_finance_moves_v1').length,1,'Una orden con neto confirmado genera un único costo');assert.equal(app.get('jd_finance_moves_v1')[0].amount,100000.25);
  W.openJob(id);const history=app.get('jd_jobs_v1')[0].history.length;await save();assert.equal(app.get('jd_jobs_v1')[0].history.length,history,'Sin cambios no agrega hitos');
  W.openJob(id);f('print-0-pickedUpAt').value='2026-10-02T10:00';await save();assert.match(app.alerts.at(-1),/fuera de orden/);assert.ok(query('.jd-work-modal'));
  f('print-0-pickedUpAt').value='2026-10-06T14:00';f('print-0-proofApprovedAt').value='2026-10-02T10:00';await save();assert.match(app.alerts.at(-1),/referencia.*firmada/);

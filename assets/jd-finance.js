@@ -12,7 +12,7 @@ const date=()=>{const x=new Date();return [x.getFullYear(),String(x.getMonth()+1
 const years=()=>[...Array.from({length:8},(_,i)=>String(2027-i)),"Sin fecha"];
 const validAmount=x=>{const n=Number(String(x||"").trim().replace(",","."));return Number.isFinite(n)&&n>0?n:null};
 const slug=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-const CATS=["Imprenta","Uber / mensajería","Reimpresión / reparación","Materiales / terminación","Empaque","Software y suscripciones","Publicidad y marketing","Comisiones e impuestos","Servicio de diseño","Otros"];
+const CATS=["Imprenta","Uber / mensajería","Reimpresión / reparación","Envío de muestra física a cliente","Materiales / terminación","Empaque","Software y suscripciones","Publicidad y marketing","Comisiones e impuestos","Servicio de diseño","Otros"];
 const ROUTES=["Sin recorrido","Imprenta → JD","JD → cliente","Cliente → JD","JD → imprenta","Imprenta → cliente","Ida y vuelta","Otro"];
 const INCIDENTS=["Sin incidente","Error JD","Error imprenta","Error cliente","Daño de transporte","Incidente sin responsable determinado"];
 let state={year:"2026",currency:"ARS",query:"",tab:"historico",job:"",selected:""};
@@ -135,7 +135,7 @@ function renderHistorical(all){
    group.historical+=Number(item.amount)||0;group.count++;expenseGroups.set(key,group);
   }
  }
- for(const m of selectedMoves().filter(x=>x.kind==="Egreso"&&x.status==="Realizado"&&!x.legacyOverlap)){
+ for(const m of selectedMoves().filter(x=>x.kind==="Egreso"&&x.status==="Realizado"&&!x.legacyOverlap&&!x.settlement)){
   const key=m.category+"|"+(m.provider||"Sin proveedor");
   const group=expenseGroups.get(key)||{category:m.category,provider:m.provider||"Sin proveedor",historical:0,additional:0,count:0};
   group.additional+=Number(m.amount)||0;group.count++;expenseGroups.set(key,group);
