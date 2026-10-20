@@ -3,7 +3,7 @@
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=s=>new Date(s).toLocaleString('es-AR');
  const sha=async buffer=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',buffer)),b=>b.toString(16).padStart(2,'0')).join('');
  let pdfEngine;
- async function pdfjs(){if(!pdfEngine){pdfEngine=await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs');pdfEngine.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.worker.min.mjs';}return pdfEngine;}
+ async function pdfjs(){if(!pdfEngine){pdfEngine=await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.min.mjs');pdfEngine.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/legacy/build/pdf.worker.min.mjs';}return pdfEngine;}
  const asBlob=canvas=>new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('No se pudo preparar la imagen.')),'image/jpeg',.94));
  async function source(files){
   if(!files.length||files.some(f=>!['application/pdf','image/jpeg','image/png'].includes(f.type))||files.reduce((s,f)=>s+f.size,0)>52428800)throw Error('Elegí un PDF o imágenes JPG/PNG, hasta 50 MB en total.');
