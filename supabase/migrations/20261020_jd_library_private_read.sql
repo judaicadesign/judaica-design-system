@@ -76,8 +76,8 @@ using (
     where p.email = lower((select auth.jwt())->>'email')
       and (
         p.access_level = 'titular'
-        or (p.access_level = 'direccion' and access_level in ('equipo','direccion'))
-        or (p.access_level = 'equipo' and access_level = 'equipo')
+        or (p.access_level = 'direccion' and jd_library_documents.access_level in ('equipo','direccion'))
+        or (p.access_level = 'equipo' and jd_library_documents.access_level = 'equipo')
       )
   )
 );
