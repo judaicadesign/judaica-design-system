@@ -14,7 +14,7 @@ assert.match(sql, /jd_library_documents\.access_level = 'equipo'/);
 assert.match(sql, /security invoker/);
 assert.doesNotMatch(sql, /grant (?:insert|update|delete) on public\.jd_library_documents to authenticated/i);
 assert.doesNotMatch(js, /innerHTML\s*=/i);
-const dom=new JSDOM('<button data-screen="library">Biblioteca</button><section id="library"><div id="jdLibraryListView"><input id="jdLibrarySearch"><p id="jdLibraryStatus"></p><div id="jdLibraryCards"></div></div><div id="jdLibraryReader" hidden><button id="jdLibraryBack"></button><a id="jdLibrarySource"></a><h2 id="jdLibraryDocumentTitle"></h2><p id="jdLibraryDocumentMeta"></p><nav id="jdLibraryToc"></nav><div id="jdLibraryBody"></div></div></section>',{url:'https://judaicadesign.github.io',runScripts:'outside-only'});
+const dom=new JSDOM('<nav id="nav"><button data-screen="library">Biblioteca</button></nav><section id="library"><div id="jdLibraryListView"><input id="jdLibrarySearch"><p id="jdLibraryStatus"></p><div id="jdLibraryCards"></div></div><div id="jdLibraryReader" hidden><button id="jdLibraryBack"></button><a id="jdLibrarySource"></a><h2 id="jdLibraryDocumentTitle"></h2><p id="jdLibraryDocumentMeta"></p><nav id="jdLibraryToc"></nav><div id="jdLibraryBody"></div></div></section>',{url:'https://judaicadesign.github.io',runScripts:'outside-only'});
 const {window}=dom;
 const documents=[{
  drive_file_id:'123456789012345',title:'00 Índice Maestro',module_code:'00',
