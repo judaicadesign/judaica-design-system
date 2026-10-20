@@ -7,7 +7,7 @@ assert.equal(b612Base(98325).shipping,0);
 assert.equal(b612Base(116135.42).price,146800);
 assert.equal(b612Base(100000).price,126000);
 assert.equal(b612Base(100000.01).price,126700);
-assert.equal(b612Base(500).price,700);
+assert.equal(b612Base(500).price,12500);
 assert.equal(b612Base(98325,{markupPct:30,netRoundStep:1000,finalRoundStep:500}).price,129000);
 for(const amount of [0,-1,NaN,Infinity])assert.throws(()=>b612Base(amount));
 for(const settings of [{markupPct:-1,netRoundStep:500,finalRoundStep:100},{markupPct:26,netRoundStep:0,finalRoundStep:100},{markupPct:26,netRoundStep:500,finalRoundStep:1.5}])assert.throws(()=>b612Base(98325,settings));

@@ -24,7 +24,7 @@
 <script src="assets/jd-quote-edit.js?v=20261007" defer></script>
 <script src="assets/jd-message-request.js?v=20261014-b612" defer></script>
 <script src="assets/jd-print-request.js?v=20261020-plastificados" defer></script>
-<script src="assets/jd-print-request-ui.js?v=20261020-plastificados" defer></script>
+<script src="assets/jd-print-request-ui.js?v=20261020-minimum" defer></script>
 <script src="assets/jd-message-quote.js?v=20261015-general" defer></script>
 <script src="assets/jd-quote-share.js?v=20261008-file-share" defer></script>
 <script src="assets/jd-price.js?v=20261008-rush" defer></script>
@@ -40,7 +40,7 @@
 </head>
 <body>
 <script src="assets/supabase-2.117.2.js"></script>
-<script src="supabase/functions/_shared/jd-whatsapp-pricing.js?v=20261014"></script>
+<script src="supabase/functions/_shared/jd-whatsapp-pricing.js?v=20261020-minimum"></script>
 <script defer src="assets/jd-portal-inbox.js?v=20261020-inbox"></script>
 <script src="assets/jd-auth.js?v=20261007-pricing-config" defer></script>
 <section class="jd-login" id="jdLogin">
@@ -810,14 +810,14 @@ function drawRulesV4(){
  rulesSec.querySelectorAll('[data-price-product]').forEach(b=>b.onclick=()=>{go('products');window.jdOpenProductPricing?.(b.dataset.priceProduct,b.dataset.priceScope);});
  if(window.jdWhatsAppPrice){
   const cfg=window.jdWhatsAppPrice.rule(GET(window.jdWhatsAppPrice.KEY,window.jdWhatsAppPrice.defaults)),card=document.createElement('div');card.className='card';card.style.marginTop='16px';
-  card.innerHTML='<h2>Regla de precios de Abi</h2><p>Precio sin IVA → redondear arriba a $ '+cfg.netRoundStep.toLocaleString('es-AR')+' → sumar '+cfg.markupPct.toLocaleString('es-AR')+'% → redondear arriba a $ '+cfg.finalRoundStep.toLocaleString('es-AR')+'. Sin envío.</p><button class="btn" id="jdEditWhatsAppPricing">Editar regla de Abi</button>';rulesSec.append(card);card.querySelector('button').onclick=editWhatsAppPricing;
+  card.innerHTML='<h2>Regla de precios de Abi</h2><p>Precio sin IVA → redondear arriba a $ '+cfg.netRoundStep.toLocaleString('es-AR')+' → sumar '+cfg.markupPct.toLocaleString('es-AR')+'% → redondear arriba a $ '+cfg.finalRoundStep.toLocaleString('es-AR')+'. Ganancia mínima por trabajo: $ '+Number(cfg.minimumProfit||0).toLocaleString('es-AR')+'. Sin envío.</p><button class="btn" id="jdEditWhatsAppPricing">Editar regla de Abi</button>';rulesSec.append(card);card.querySelector('button').onclick=editWhatsAppPricing;
  }
 }
 function editWhatsAppPricing(){
  const api=window.jdWhatsAppPrice,key=api.KEY;
  const cfg=api.rule(GET(key,api.defaults));
  const baseline=JSON.stringify(window.jdConfirmedState(key));
- const w=popup('Regla de precios de Abi · B612','<div class="jd-formgrid"><div><label>Porcentaje sobre el precio sin IVA redondeado (%)</label><input id="jdWaMarkupPct" type="number" min="0" max="1000" step="0.01" value="'+cfg.markupPct+'"></div><div><label>Primer redondeo hacia arriba ($)</label><input id="jdWaNetStep" type="number" min="1" max="1000000" step="1" value="'+cfg.netRoundStep+'"></div><div><label>Redondeo final hacia arriba ($)</label><input id="jdWaFinalStep" type="number" min="1" max="1000000" step="1" value="'+cfg.finalRoundStep+'"></div><p class="span2">Sin envío. Los cambios se aplican a las próximas cotizaciones; los presupuestos anteriores conservan su precio.</p><p class="span2" id="jdWaRuleExample" role="status"></p></div>',async x=>{
+ const w=popup('Regla de precios de Abi · B612','<div class="jd-formgrid"><div><label>Porcentaje sobre el precio sin IVA redondeado (%)</label><input id="jdWaMarkupPct" type="number" min="0" max="1000" step="0.01" value="'+cfg.markupPct+'"></div><div><label>Primer redondeo hacia arriba ($)</label><input id="jdWaNetStep" type="number" min="1" max="1000000" step="1" value="'+cfg.netRoundStep+'"></div><div><label>Redondeo final hacia arriba ($)</label><input id="jdWaFinalStep" type="number" min="1" max="1000000" step="1" value="'+cfg.finalRoundStep+'"></div><div><label>Ganancia mínima por trabajo ($)</label><input id="jdWaMinProfit" type="number" min="0" max="100000000" step="1" value="'+(cfg.minimumProfit||0)+'"></div><p class="span2">Si el precio habitual deja menos ganancia, se cobra el neto B612 más este mínimo y se redondea hacia arriba. Se aplica una vez por trabajo, sin envío. Los cambios se aplican a las próximas cotizaciones; los presupuestos anteriores conservan su precio.</p><p class="span2" id="jdWaRuleExample" role="status"></p></div>',async x=>{
   const btn=x.querySelector('.ss');
   try{
    const settings=read();btn.disabled=true;
@@ -828,8 +828,8 @@ function editWhatsAppPricing(){
    x.remove();drawRulesV4();
   }catch(error){alert(error.message||'No se pudo guardar la regla.');btn.disabled=false;}
  });
- function read(){return api.rule({markupPct:w.querySelector('#jdWaMarkupPct').value,netRoundStep:w.querySelector('#jdWaNetStep').value,finalRoundStep:w.querySelector('#jdWaFinalStep').value});}
- const preview=()=>{try{const result=api.calculate(98325,read());w.querySelector('#jdWaRuleExample').textContent='Ejemplo con B612 $98.325 sin IVA: '+M(result.roundedNet)+' → '+M(result.multiplied)+' → precio final '+M(result.price);}catch(error){w.querySelector('#jdWaRuleExample').textContent=error.message;}};
+ function read(){return api.rule({markupPct:w.querySelector('#jdWaMarkupPct').value,netRoundStep:w.querySelector('#jdWaNetStep').value,finalRoundStep:w.querySelector('#jdWaFinalStep').value,minimumProfit:w.querySelector('#jdWaMinProfit').value});}
+ const preview=()=>{try{const large=api.calculate(98325,read()),result=api.calculate(28588.48,read());w.querySelector('#jdWaRuleExample').textContent='Ejemplo con B612 $98.325 sin IVA: '+M(large.roundedNet)+' → '+M(large.multiplied)+' → precio final '+M(large.price)+'. Ejemplo con B612 $28.588,48 sin IVA: precio habitual '+M(result.regularPrice)+' → precio final '+M(result.price)+' · ganancia '+M(result.profit)+(result.minimumApplied?' (se aplica el mínimo).':'.');}catch(error){w.querySelector('#jdWaRuleExample').textContent=error.message;}};
  w.querySelectorAll('input').forEach(input=>input.oninput=preview);preview();
 }
 window.jdRefreshRules=drawRulesV4;
