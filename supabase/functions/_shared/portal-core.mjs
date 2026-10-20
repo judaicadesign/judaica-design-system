@@ -16,7 +16,7 @@ const text=(v,max=5000)=>{if(typeof v!=='string'||v.length>max)fail('Revisá el 
 const pick=(o,keys)=>Object.fromEntries(keys.map(k=>[k,o[k]]));
 const customerPublic=c=>pick(c,['id','name','first_name','last_name','business_name','phone','instagram','locality','must_change_password','updated_at']);
 const quotePublic=q=>pick(q,['id','request','customer_result','created_at','expires_at','requested_order_id']);
-const orderPublic=o=>pick(o,['id','items','total','currency','status','due_date','notes','customer_message','project','history','created_at','updated_at']);
+const orderPublic=o=>pick(o,['id','work_code','items','total','currency','status','due_date','notes','customer_message','project','history','created_at','updated_at']);
 const filePublic=f=>pick(f,['id','order_id','name','content_type','size_bytes','purpose','status','created_at']);
 const genericPending='Requiere confirmación de Judaica Design. No hay un importe automático confirmado.';
 export async function portalTokenHash(value){const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value));return Array.from(new Uint8Array(bytes),n=>n.toString(16).padStart(2,'0')).join('');}
@@ -93,7 +93,7 @@ export function createPortalApp(deps){
     const at=now();const updated=await db.publishQuote(q.id,body.expectedResult,result,{supplier:supplierName,alternatives:costs,at:at.toISOString()},rule,new Date(at.getTime()+7*86400000).toISOString());
     return {quote:quotePublic(updated)};
    }
-   if(action==='admin-source-jobs'){const state=await db.one('app_state',{key:'jd_jobs_v1'});return {jobs:(Array.isArray(state?.value)?state.value:[]).filter(j=>!j.deletedAt).map(j=>pick(j,['id','title','stage','event','deadline']))};}
+   if(action==='admin-source-jobs'){const state=await db.one('app_state',{key:'jd_jobs_v1'}),jobs=(Array.isArray(state?.value)?state.value:[]).filter(j=>!j.deletedAt),codes=new Map((await db.workCodes(jobs.map(j=>'job:'+j.id))).map(r=>[r.source_key,r.code]));return {jobs:jobs.map(j=>({...pick(j,['id','title','stage','event','deadline']),work_code:codes.get('job:'+j.id)||null}))};}
    if(action==='admin-project'){
     const project=projectValue(body.project),at=now().toISOString();
     if(body.orderId){if(!body.updated_at)fail('Actualizá el trabajo antes de guardar.',409);const o=await owner(T.orders,body.orderId,null,true);if(o.project?.source_job_id)project.source_job_id=o.project.source_job_id;return {order:orderPublic(await db.patch(T.orders,o.id,{project,history:[...(o.history||[]),{at,type:'Detalles',text:'Judaica Design actualizó los detalles y el material solicitado.'}],updated_at:at},body.updated_at))};}

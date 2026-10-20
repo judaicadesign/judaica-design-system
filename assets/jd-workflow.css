@@ -37,3 +37,5 @@
 .jd-print-order input[type=datetime-local]{min-width:0;max-width:100%}
 .jd-print-order small{line-height:1.5}
 .jd-print-order [data-print-timings]{margin-top:12px}
+
+.jd-work-reference{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:0 20px 12px}.jd-work-reference small{display:block;color:#6a706c;margin-bottom:4px}.jd-work-code{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;color:#275e61;background:#edf3f1;border:1px solid #d7e1dd;border-radius:6px;padding:4px 8px;margin:0 8px 5px 0;overflow-wrap:anywhere}.jd-work-reference .jd-work-code{font-size:16px;margin:0}.jd-action-main .jd-work-code{display:table}.jd-work-row .jd-work-code{display:table}
