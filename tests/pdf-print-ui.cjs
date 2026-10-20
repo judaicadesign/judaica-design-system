@@ -1,0 +1,25 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {JSDOM}=require('jsdom'),P=require('pdf-lib'),core=require('../tools/pdf/print-pdf.js');
+const wait=async fn=>{for(let i=0;i<100;i++){if(fn())return;await new Promise(r=>setTimeout(r,10));}throw Error('Timed out');};
+(async()=>{
+ const html=fs.readFileSync(path.join(__dirname,'../tools/pdf/index.html'),'utf8');
+ const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://example.test/tools/pdf/'}),w=dom.window,$=id=>w.document.getElementById(id);
+ w.Uint8Array=Uint8Array;w.TextDecoder=TextDecoder;w.JDPrintPDF=core;
+ const revoked=[];w.URL.createObjectURL=()=> 'blob:test-'+Math.random();w.URL.revokeObjectURL=url=>revoked.push(url);
+ w.HTMLCanvasElement.prototype.getContext=()=>({});
+ // Stub only the external rendering dependency; use the real preparation engine.
+ w.testImport=async()=>({GlobalWorkerOptions:{},getDocument:({data})=>({promise:core.load(data).then(d=>({numPages:d.getPageCount(),destroy:async()=>{},getPage:async()=>({getViewport:({scale})=>({width:300*scale,height:400*scale}),render:()=>({promise:Promise.resolve(),cancel(){}})})}))})});
+ w.eval(fs.readFileSync(path.join(__dirname,'../tools/pdf/pdf-ui.js'),'utf8').replace('import(','window.testImport('));
+ const source=await P.PDFDocument.create();for(let i=1;i<=6;i++){const p=source.addPage([300,400]);p.drawText('Page '+i,{x:30,y:200});}const bytes=await source.save();
+ const file=new w.File([bytes],'test.pdf',{type:'application/pdf'});file.arrayBuffer=async()=>bytes.buffer;
+ Object.defineProperty($('pdf-file'),'files',{value:[file],configurable:true});$('pdf-file').dispatchEvent(new w.Event('change'));
+ await wait(()=>!$('editor').hidden&&!$('options').disabled);assert.match($('findings').textContent,/6 páginas/);assert.equal($('bleed').value,'0');assert.equal($('number-to').value,'6');
+ const input=id=>$(id).dispatchEvent(new w.Event('input',{bubbles:true}));
+ $('marks').checked=true;input('marks');$('bleed').value='3';$('fill').value='white';input('fill');$('numbering').checked=true;input('numbering');assert.equal($('number-options').hidden,false);$('booklet').checked=true;input('booklet');assert.equal($('duplex-note').hidden,false);
+ $('prepare-form').dispatchEvent(new w.Event('submit',{cancelable:true}));await wait(()=>!$('result-summary').hidden&&!$('options').disabled);assert.match($('result-info').textContent,/4 caras de impresión/);assert.match($('plan').textContent,/Izquierda: 1 \/ Derecha: blanca/);assert.equal($('download').getAttribute('aria-disabled'),'true');
+ $('checked-preview').checked=true;$('checked-preview').dispatchEvent(new w.Event('change'));assert.equal($('download').getAttribute('aria-disabled'),'false');assert.match($('download').download,/-folleto.pdf$/);
+ $('bleed').value='4';input('bleed');assert.equal($('result-summary').hidden,true);assert.equal($('download').hasAttribute('href'),false);assert.equal($('view-result').disabled,true);assert.equal(revoked.length,1);
+ $('fill').value='none';input('fill');$('prepare-form').dispatchEvent(new w.Event('submit',{cancelable:true}));await wait(()=>$('status').classList.contains('error')&&!$('options').disabled);assert.match($('status').textContent,/Falta contenido/);assert.equal($('result-summary').hidden,true);
+ assert.match(fs.readFileSync(path.join(__dirname,'../portal/index.html'),'utf8'),/href="herramientas.html"/);assert.match(fs.readFileSync(path.join(__dirname,'../portal/herramientas.html'),'utf8'),/href="..\/tools\/pdf\/"/);
+ dom.window.close();console.log('PASS unified PDF window: load, review, corrections, real RTL generation, preview gate, stale-download invalidation and safe error recovery; public entry without login.');
+})().catch(e=>{console.error(e);process.exit(1);});
