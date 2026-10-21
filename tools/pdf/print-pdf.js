@@ -74,6 +74,8 @@
   const output=await P.PDFDocument.create(),font=numbering?await output.embedFont(P.StandardFonts.Helvetica):null;
   const prepared=[];
   for(const [i,source] of doc.getPages().entries()){
+   const pageHex=options.pageColors?.[i+1];
+   let pageColor=color;if(pageHex!==undefined){if(!/^#[0-9a-f]{6}$/i.test(pageHex))throw Error('Revisá el color de la página '+(i+1)+'.');pageColor=P.rgb(parseInt(pageHex.slice(1,3),16)/255,parseInt(pageHex.slice(3,5),16)/255,parseInt(pageHex.slice(5,7),16)/255);}
    const g=info.pages[i],t=g.trim,folds=options.folds?foldPositions(t.width/MM,options.folds).map(v=>v*MM):[],pad=b+(marks||folds.length?7*MM:0);
    const preserve=options.preserveMarks!==false&&!marks&&!options.booklet&&!options.folds&&!options.finalSize&&!options.aiBleed;
    const px=preserve?Math.max(b,t.x-g.media.x):pad,py=preserve?Math.max(b,t.y-g.media.y):pad,rightPad=preserve?Math.max(b,g.media.x+g.media.width-t.x-t.width):pad,topPad=preserve?Math.max(b,g.media.y+g.media.height-t.y-t.height):pad;
@@ -81,7 +83,7 @@
    page.setTrimBox(px,py,t.width,t.height);page.setBleedBox(px-b,py-b,t.width+2*b,t.height+2*b);
    if(fill!=='none'&&b>0){
     // Only paint outside the cut: original transparent areas stay untouched.
-    for(const rect of [{x:px-b,y:py-b,width:t.width+2*b,height:b},{x:px-b,y:py+t.height,width:t.width+2*b,height:b},{x:px-b,y:py,width:b,height:t.height},{x:px+t.width,y:py,width:b,height:t.height}])page.drawRectangle({...rect,color});
+    for(const rect of [{x:px-b,y:py-b,width:t.width+2*b,height:b},{x:px-b,y:py+t.height,width:t.width+2*b,height:b},{x:px-b,y:py,width:b,height:t.height},{x:px+t.width,y:py,width:b,height:t.height}])page.drawRectangle({...rect,color:pageColor});
    }
    if(options.aiBleed?.[i+1]){
     if(!b)throw Error('Indicá la demasía para aplicar la extensión de Adobe.');

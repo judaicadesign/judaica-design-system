@@ -12,3 +12,5 @@ Validation: `node tests/pdf-print.cjs` writes temporary numbered/color fixtures 
 
 
 Fold guides: choose two, three or four panels on the open artwork. Equal-panel accordion folds are calculated from the final open width. Three-panel roll fold supports a narrower left/right entry panel; other folds can supply explicit positions. Marks appear outside top/bottom and are dashed to distinguish them from cut marks. Reverse-side positions are reflected by default and can be disabled. Single-page PDFs hide/disable booklet imposition; the core also rejects it.
+
+Public tools now use compact icon modules, including a standalone folded-leaflet calculator at `tools/folletos/` and a direct booklet entry. The PDF screen has step navigation and scrolls/focuses the result or validation error. Bleed options explain the no-fill behavior and allow a different manually selected uniform color for each page (`pageColors`). This does not infer colors or extend photos with AI. Calculator drafts pass through sessionStorage to the authenticated portal without automatic submission.
