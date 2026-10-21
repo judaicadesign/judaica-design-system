@@ -3,6 +3,7 @@ const url='https://judaicadesign.github.io/calculadora-cuadriptico/';
 const home=new JSDOM(fs.readFileSync('portal/herramientas.html','utf8'));
 assert.equal(home.window.document.querySelectorAll('.tool-grid a').length,3);
 assert.equal(home.window.document.querySelectorAll('.tool-grid svg').length,3);
+const links=[...home.window.document.querySelectorAll('.tool-grid a')];assert.equal(links.find(a=>a.textContent.includes('Revisar mi PDF')).getAttribute('href'),'../tools/pdf/');assert.equal(links.find(a=>a.textContent.includes('Ordenar páginas')).getAttribute('href'),'../tools/cuadernillo/');
 assert.equal([...home.window.document.querySelectorAll('.tool-grid a')].find(a=>a.textContent.includes('Calculadora')).getAttribute('href'),url);
 const redirect=new JSDOM(fs.readFileSync('tools/folletos/index.html','utf8'));
 assert.equal(redirect.window.document.querySelector('meta[http-equiv="refresh"]').content,'0;url='+url);
