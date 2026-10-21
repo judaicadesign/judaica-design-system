@@ -1,2 +1,16 @@
-const assert=require('node:assert/strict'),fs=require('node:fs'),{JSDOM}=require('jsdom'),core=require('../tools/pdf/print-pdf.js');
-const html=fs.readFileSync('tools/folletos/index.html','utf8'),dom=new JSDOM(html,{runScripts:'outside-only',url:'https://test.local/tools/folletos/'}),w=dom.window,$=id=>w.document.getElementById(id),f=$('calculator').elements;w.JDPrintPDF=core;w.HTMLElement.prototype.scrollIntoView=()=>{};w.eval(fs.readFileSync('tools/folletos/calculator.js','utf8'));f.quantities.value='100 / 200';f.fold.value='roll';$('calculator').dispatchEvent(new w.Event('submit',{cancelable:true}));assert.equal($('calc-result').hidden,false);assert.equal($('panel-preview').children.length,3);assert.match($('panel-note').textContent,/128,67/);assert.match($('specification').value,/x100\/x200/);$('quote').dispatchEvent(new w.Event('click',{cancelable:true}));assert.equal(w.sessionStorage.getItem('jd-folleto-request'),$('specification').value);f.format.value='Díptico';$('calculator').dispatchEvent(new w.Event('submit',{cancelable:true}));assert.equal($('calc-result').hidden,true);assert.match($('calc-status').textContent,/para trípticos/);f.fold.value='equal';$('calculator').dispatchEvent(new w.Event('submit',{cancelable:true}));assert.equal($('panel-preview').children.length,2);f.quantities.value='100/200/300/400/500';$('calculator').dispatchEvent(new w.Event('submit',{cancelable:true}));assert.equal($('calc-result').hidden,true);dom.window.close();const home=new JSDOM(fs.readFileSync('portal/herramientas.html','utf8'));assert.equal(home.window.document.querySelectorAll('.tool-grid a').length,3);assert.equal(home.window.document.querySelectorAll('.tool-grid svg').length,3);console.log('PASS public calculator: fold measurements, invalid combinations, quantities and quote handoff; three icon modules.');
+const assert=require('node:assert/strict'),fs=require('node:fs'),{JSDOM}=require('jsdom');
+const url='https://judaicadesign.github.io/calculadora-cuadriptico/';
+const home=new JSDOM(fs.readFileSync('portal/herramientas.html','utf8'));
+assert.equal(home.window.document.querySelectorAll('.tool-grid a').length,3);
+assert.equal(home.window.document.querySelectorAll('.tool-grid svg').length,3);
+assert.equal([...home.window.document.querySelectorAll('.tool-grid a')].find(a=>a.textContent.includes('Calculadora')).getAttribute('href'),url);
+const redirect=new JSDOM(fs.readFileSync('tools/folletos/index.html','utf8'));
+assert.equal(redirect.window.document.querySelector('meta[http-equiv="refresh"]').content,'0;url='+url);
+assert.equal(redirect.window.document.querySelector('link[rel="canonical"]').href,url);
+assert.equal(redirect.window.document.querySelectorAll('form').length,0);
+const portal=new JSDOM(fs.readFileSync('portal/index.html','utf8'));
+const resource=[...portal.window.document.querySelectorAll('.resource-card')].find(a=>a.textContent.includes('Calculadora de folletos'));
+assert.equal(resource.getAttribute('href'),url);
+assert.ok(!resource.textContent.includes('cotizar'));
+assert.ok(!fs.readFileSync('portal/portal.js','utf8').includes('jd-folleto-request'));
+console.log('PASS correct calculator repository linked from public tools and portal; old URL redirects; no quotation-draft handoff.');
