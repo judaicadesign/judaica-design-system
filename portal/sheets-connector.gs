@@ -49,6 +49,7 @@ function jdWrite_(item,config){
   const names=sheet.getRange(2,2,sheet.getMaxRows()-1,1).getValues();let start=2;names.forEach((r,i)=>{if(r[0]!==''&&r[0]!==null)start=i+3;});const row=jdRow_(sheet,'budget:'+item.entity_id,start,1,7);if(row>503)throw Error('El resumen actual suma hasta fila 503. Ampliá sus fórmulas antes de agregar más filas JD.');const range=sheet.getRange(row,1,1,8),old=range.getValues()[0],pct=old[5]===''?0.1:old[5];
   if(typeof pct!=='number'||pct<0||pct>1)throw Error('Revisá el porcentaje «a dar» de esta fila');
   range.setValues([[jdDate_(p.date),jdText_(p.displayLabel||'JD - '+p.code+' · '+p.label),p.income,p.cost,'=C'+row+'-D'+row,pct,'=E'+row+'*F'+row,(range.getFormulas?.()[0]?.[7]||old[7])||'=IFERROR(E'+row+'/C'+row+',0)']]);
+  sheet.getRange(row,4).setNote('Vinculado al trabajo '+p.code+'. Costo actualizado desde la ficha: '+p.cost+'. Incluye imprenta y gastos reales registrados; los pagos se controlan por separado.');
   return {range:config.budgetTab+'!A'+row+':G'+row};
  }
  const sheet=SpreadsheetApp.openById(config.zloto).getSheetByName(config.zlotoTab);if(!sheet||String(sheet.getRange('B12').getValue()).toLowerCase()!=='cliente')throw Error('Cambió la estructura de la cuenta Zloto');
