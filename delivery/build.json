@@ -1,9 +1,10 @@
 {
   "version": 1,
   "digests": {
-    "internal": "39d04f75bf6dac5029a9098bc5fedd40863d6dfc93062c2eda8d3c2a38b228da",
+    "internal": "78c1731676e13dfe0dbc59ea7b22480c73c5ea2e5e194a647e82e09581418751",
     "team": "993a25c3e7ef9cc8f9d5d11be2ae6b843b677d29019fc3012cd1343e3c333e3d",
-    "supplier": "2c3200149915f9b30f003570c6343dcefad89eefbde769cdd887f27d7d4ad9ef",
+    "supplier": "d9818c8630c3407e4f3d76d89d400cdb024fd411f7a80dc9feb3d1c088d8ff80",
     "operations": "252144f9c6cee6d8fbdca6748d364d2ab9c6dbc125874fc1ada36646ac8db685"
-  }
+  },
+  "commit": "366fb83f8c6dd4a0a8f58b93ef50dab38260db9f"
 }
