@@ -10,6 +10,7 @@ function jdApi_(action, data) {
  const out=JSON.parse(response.getContentText());if(response.getResponseCode()>=400||out.ok===false)throw Error(out.error||'No se pudo conectar con JD');return out;
 }
 function conectarJD() {
+ ScriptApp.requireAllScopes(ScriptApp.AuthMode.FULL);
  const data=jdApi_('sheet-pull');
  DriveApp.getFileById(data.config.zloto).getName();
  const zloto=SpreadsheetApp.openById(data.config.zloto).getSheetByName(data.config.zlotoTab);SpreadsheetApp.openById(data.config.budget);
@@ -28,7 +29,7 @@ function jdRow_(sheet,key,start,first,last) {
  const count=sheet.getMaxRows()-start+1;if(count<1)throw Error('Agregá filas al final de la planilla antes de sincronizar.');const values=sheet.getRange(start,first,count,last-first+1).getValues();
  let row=-1;for(let i=0;i<values.length;i++)if(values[i].every(v=>v===''||v===null)){row=start+i;break;}
  if(row<0)throw Error('No hay una fila vacía disponible. Agregá filas al final y reintentá.');
- sheet.getRange(row,1,1,sheet.getMaxColumns()).addDeveloperMetadata('JD_EXPORT_ID',key);return row;
+ sheet.getRange(row+':'+row).addDeveloperMetadata('JD_EXPORT_ID',key);return row;
 }
 function jdReceipt_(item,config){
  if(!item.payload.hasReceipt)return null;
