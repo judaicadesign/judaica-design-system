@@ -9,9 +9,9 @@ function deadline(promise){let timer;return Promise.race([promise,new Promise((_
 async function open(){
  if(busy)return;busy=true;$('submit').disabled=true;
  try{
-  $('retry').hidden=true;$('notice').classList.remove('error');
+  $('retry').hidden=true;$('login').hidden=true;$('notice').classList.remove('error');
   const {data,error}=await deadline(client.auth.getUser());
-  if(error||!data.user){$('notice').textContent='Ingresá para continuar.';return;}
+  if(error||!data.user){$('notice').textContent='Ingresá para continuar.';$('login').hidden=false;return;}
   $('signout').hidden=false;$('login').hidden=true;
   const keyResult=await deadline(client.from('jd_internal_delivery_keys').select('private_key').eq('id','v1').maybeSingle());
   if(keyResult.error||!keyResult.data?.private_key)throw Error('Tu cuenta no tiene acceso al sistema interno.');
