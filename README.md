@@ -1,9 +1,5 @@
-# Publicación de Judaica Design®
-
-Dashboard interno protegido: https://judaicadesign.github.io/judaica-design-system/
-
-Portal de clientes (reservado para uso futuro): https://judaicadesign.github.io/portal/
+# Publicación de Judaica Design
 
 Herramientas gratuitas: https://judaicadesign.github.io/portal/herramientas/
 
-La interfaz del portal y las herramientas se mantienen en judaicadesign/portal. Este repositorio publica el Dashboard cifrado. Las reglas comerciales y los permisos se mantienen en el sistema privado.
+Este repositorio contiene únicamente la publicación pública. El código interno está cifrado y su apertura requiere una cuenta del equipo autorizada por el servidor. No editar el contenido cifrado manualmente. Los másters vigentes y sus revisiones se guardan en Supabase; masters/ contiene exportaciones históricas y no se importa durante el despliegue.
