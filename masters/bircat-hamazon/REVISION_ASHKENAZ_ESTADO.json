@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "documentId": "birkat_hamazon_ashkenazi",
-  "updated": "2026-10-25",
+  "updated": "2026-10-26",
   "productionPriority": "critical: vendido semanalmente; Tehilim 1–150 es un proyecto independiente",
   "source": {
     "title": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
@@ -50,7 +50,7 @@
     "currentPhoneticDraft": "masters/bircat-hamazon/ASHKENAZ_FONETICA_EN_REVISION.txt"
   },
   "hebrew": {
-    "status": "HEBREO_APROBADO_PENDIENTE_FONETICA",
+    "status": "FINAL",
     "approved": true,
     "reviewCopyGenerated": true,
     "highConfidenceCorrections": [
@@ -113,14 +113,16 @@
       }
     ],
     "approvedDate": "2026-10-25",
-    "approvalNote": "Aprobado por el titular el 25/10/2026 tras cotejo palabra por palabra con el PDF ArtScroll y fotos de la edición española (págs. 196–206, 216). 52 rafé, 257 meteg, sin maqaf ni paseq. Pasa a FINAL junto con la fonética si el generador la produce bien. Detalle: nota del Proyecto claude/editorial/2026-10-25-preguntas-cierre-bh-ashkenazi.md."
+    "approvalNote": "Aprobado por el titular el 25/10/2026 tras cotejo palabra por palabra con el PDF ArtScroll y fotos de la edición española (págs. 196–206, 216). 52 rafé, 257 meteg, sin maqaf ni paseq. Pasa a FINAL junto con la fonética si el generador la produce bien. Detalle: nota del Proyecto claude/editorial/2026-10-25-preguntas-cierre-bh-ashkenazi.md. FINAL el 26/10/2026 junto con la fonética."
   },
   "phonetic": {
-    "status": "EN_REVISION",
-    "approved": false,
+    "status": "FINAL",
+    "approved": true,
     "next": "Cerrar únicamente después del hebreo FINAL.",
     "notRewrittenThisTurn": false,
-    "note": "Los salmos 126/137 del TXT provisional se proyectaron desde fonética FINAL de Tehilim, incluyendo Bavél y puntuación ArtScroll. El resto de Birkat permanece en revisión; esto NO constituye aprobación de fonética."
+    "note": "Los salmos 126/137 del TXT provisional se proyectaron desde fonética FINAL de Tehilim, incluyendo Bavél y puntuación ArtScroll. El resto de Birkat permanece en revisión; esto NO constituye aprobación de fonética.",
+    "approvedDate": "2026-10-26",
+    "approvalNote": "Generada desde el hebreo FINAL con el generador fonetica-hebreo c11c76e (correcciones del 26/10) y aprobada por el titular el 26/10/2026. Rúbricas en español por tabla fija; línea en ídish con fonética manual. Archivo: ASHKENAZ_FONETICA_EN_REVISION.txt."
   },
   "generator": {
     "status": "PENDIENTE",
