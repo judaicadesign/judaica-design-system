@@ -44,17 +44,17 @@
   "verses": [
     {
       "verse": 1,
-      "hebrew": "שִׁגָּיוֹן לְדָוִד; אֲשֶׁר שָׁר לַיְיָ, עַל דִּבְרֵי כוּשׁ בֶּן יְמִינִי.",
+      "hebrew": "שִׁגָּיוֹן לְדָוִד; אֲשֶׁר שָׁר לַיְיָ, עַל דִּבְֿרֵי כוּשׁ בֶּן יְמִינִי.",
       "phonetic": "Shigayón leDavid; asher shar laAd-nai, 'al diveré jush ben yeminí."
     },
     {
       "verse": 2,
       "hebrew": "יְיָ אֱלֹהַי בְּךָ חָסִֽיתִי, הוֹשִׁיעֵֽנִי מִכׇּל רֹדְפַי וְהַצִּילֵֽנִי.",
-      "phonetic": "Ad-nai Elohái beja jasiti, hoshi'eni mikol rodefái vehatsileni."
+      "phonetic": "Ad-nai Elohái bejá jasiti, hoshi'eni mikol rodefái vehatsileni."
     },
     {
       "verse": 3,
-      "hebrew": "פֶּן יִטְרֹף כְּאַרְיֵֽה נַפְשִׁי, פֹּרֵק וְאֵין מַצִּיל.",
+      "hebrew": "פֶּן יִטְֿרֹף כְּאַרְיֵֽה נַפְשִׁי, פֹּרֵק וְאֵין מַצִּיל.",
       "phonetic": "Pen yiterof kearyé nafshí, porek veén matsil."
     },
     {
@@ -70,7 +70,7 @@
     {
       "verse": 6,
       "hebrew": "יִרַדֹּף אוֹיֵב נַפְשִׁי וְיַשֵּׂג, וְיִרְמֹס לָאָֽרֶץ חַיָּי, וּכְבוֹדִי לֶעָפָר יַשְׁכֵּן סֶֽלָה.",
-      "phonetic": "Yiradof oyev nafshí veyaseg, veyirmós laarets jayái, ujvodí le'afar yashkén sela."
+      "phonetic": "Yiradof oyev nafshí veyaseg, veyirmós laárets jayái, ujvodí le'afar yashkén sela."
     },
     {
       "verse": 7,
@@ -79,7 +79,7 @@
     },
     {
       "verse": 8,
-      "hebrew": "וַעֲדַת לְאֻמִּים תְּסוֹבְבֶֽךָּ, וְעָלֶֽיהָ לַמָּרוֹם שׁוּבָה.",
+      "hebrew": "וַעֲדַת לְאֻמִּים תְּסוֹבְֿבֶֽךָּ, וְעָלֶֽיהָ לַמָּרוֹם שׁוּבָה.",
       "phonetic": "Va'adat leumim tesoveveka, ve'aleha lamarom shuvá."
     },
     {
@@ -89,7 +89,7 @@
     },
     {
       "verse": 10,
-      "hebrew": "יִגְמׇר נָא רַע רְשָׁעִים, וּתְכוֹנֵן צַדִּיק, וּבֹחֵן לִבּוֹת וּכְלָיוֹת אֱלֹהִים צַדִּיק.",
+      "hebrew": "יִגְמׇר נָא רַע רְשָׁעִים, וּתְכוֹנֵן צַדִּיק, וּבֹחֵן לִבּוֹת וּכְֿלָיוֹת אֱלֹהִים צַדִּיק.",
       "phonetic": "Yigmor na ra' resha'im, utjonén tsadik, uvojén libot ujelayot Elohim tsadik."
     },
     {
@@ -115,7 +115,7 @@
     {
       "verse": 15,
       "hebrew": "הִנֵּה יְחַבֶּל אָוֶן, וְהָרָה עָמָל וְיָלַד שָֽׁקֶר.",
-      "phonetic": "Hiné yejábel aven, vehará 'amal veyalad sháker."
+      "phonetic": "Hiné yejabel aven, vehará 'amal veyalad sháker."
     },
     {
       "verse": 16,
@@ -132,5 +132,10 @@
       "hebrew": "אוֹדֶה יְיָ כְּצִדְקוֹ, וַאֲזַמְּרָה שֵׁם יְיָ עֶלְיוֹן.",
       "phonetic": "Odé Ad-nai ketsidkó, vaazamerá Shem Ad-nai 'elyón."
     }
-  ]
+  ],
+  "rafeMaterialization": {
+    "date": "2026-10-26",
+    "source": "Previously approved explicitSheva/vocalSheva metadata",
+    "scope": "Only physical U+05BF marks; existing canonical phonetic snapshot retained"
+  }
 }

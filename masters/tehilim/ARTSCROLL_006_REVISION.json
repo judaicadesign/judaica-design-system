@@ -38,13 +38,13 @@
   "verses": [
     {
       "verse": 1,
-      "hebrew": "לַמְנַצֵּֽחַ בִּנְגִינוֹת עַל הַשְּׁמִינִית, מִזְמוֹר לְדָוִד.",
+      "hebrew": "לַמְנַצֵּֽחַ בִּנְגִינוֹת עַל הַשְּֿׁמִינִית, מִזְמוֹר לְדָוִד.",
       "phonetic": "Lamenatséaj binguinot 'al hasheminit, mizmor leDavid."
     },
     {
       "verse": 2,
-      "hebrew": "יְיָ אַל בְּאַפְּךָ תוֹכִיחֵֽנִי, וְאַל בַּחֲמָתְךָ תְיַסְּרֵֽנִי.",
-      "phonetic": "Ad-nai al Beapejá tojijeni, veal Bajamateja teyasereni."
+      "hebrew": "יְיָ אַל בְּאַפְּֿךָ תוֹכִיחֵֽנִי, וְאַל בַּחֲמָתְךָ תְיַסְּֿרֵֽנִי.",
+      "phonetic": "Ad-nai al Beapejá tojijeni, veal Bajamatejá teyasereni."
     },
     {
       "verse": 3,
@@ -73,7 +73,7 @@
     },
     {
       "verse": 8,
-      "hebrew": "עָשְׁשָׁה מִכַּֽעַס עֵינִי, עָתְקָה בְּכׇל צוֹרְרָי.",
+      "hebrew": "עָשְׁשָׁה מִכַּֽעַס עֵינִי, עָתְקָה בְּכׇל צוֹרְֿרָי.",
       "phonetic": "'Asheshá mika'as 'ení, 'ateká bejol tsorerái."
     },
     {
@@ -88,8 +88,13 @@
     },
     {
       "verse": 11,
-      "hebrew": "יֵבֹֽשׁוּ וְיִבָּהֲלוּ מְאֹד כׇּל אֹיְבָי, יָשֻֽׁבוּ יֵבֹֽשׁוּ רָֽגַע.",
+      "hebrew": "יֵבֹֽשׁוּ וְיִבָּהֲלוּ מְאֹד כׇּל אֹיְֿבָי, יָשֻֽׁבוּ יֵבֹֽשׁוּ רָֽגַע.",
       "phonetic": "Yevoshu veyibahalú meod kol oyevái, yashuvu yevoshu raga'."
     }
-  ]
+  ],
+  "rafeMaterialization": {
+    "date": "2026-10-26",
+    "source": "Previously approved explicitSheva/vocalSheva metadata",
+    "scope": "Only physical U+05BF marks; existing canonical phonetic snapshot retained"
+  }
 }

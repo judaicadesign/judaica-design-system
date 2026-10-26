@@ -62,31 +62,31 @@
     {
       "verse": 4,
       "hebrew": "יְיָ, בֹּֽקֶר תִּשְׁמַע קוֹלִי, בֹּֽקֶר אֶעֱרׇךְ לְךָ, וַאֲצַפֶּה.",
-      "phonetic": "Ad-nai, bóker tishmá' kolí, bóker e'eroj Lejá, vaatsape."
+      "phonetic": "Ad-nai, bóker tishmá' kolí, bóker e'eroj Lejá, vaatsapé."
     },
     {
       "verse": 5,
       "hebrew": "כִּי לֹא אֵל חָפֵץ רֶשַׁע אָֽתָּה, לֹא יְגֻרְךָ רָע.",
-      "phonetic": "Ki lo El jaféts resha' Ata, lo yegureja ra'."
+      "phonetic": "Ki lo El jafets resha' Ata, lo yegureja ra'."
     },
     {
       "verse": 6,
-      "hebrew": "לֹא יִתְיַצְּבוּ הוֹלְלִים לְנֶֽגֶד עֵינֶֽיךָ, שָׂנֵֽאתָ כׇּל פֹּעֲלֵי אָֽוֶן.",
+      "hebrew": "לֹא יִתְיַצְּֿבוּ הוֹלְלִים לְנֶֽגֶד עֵינֶֽיךָ, שָׂנֵֽאתָ כׇּל פֹּעֲלֵי אָֽוֶן.",
       "phonetic": "Lo yityatsevú holelim lenégued 'Eneja, saneta kol po'alé aven."
     },
     {
       "verse": 7,
-      "hebrew": "תְּאַבֵּד דֹּבְרֵי כָזָב, אִישׁ דָּמִים וּמִרְמָה יְתָעֵב יְיָ.",
+      "hebrew": "תְּאַבֵּד דֹּבְֿרֵי כָזָב, אִישׁ דָּמִים וּמִרְמָה יְתָעֵב יְיָ.",
       "phonetic": "Teabed doveré jazav, ish damim umirmá yeta'ev Ad-nai."
     },
     {
       "verse": 8,
       "hebrew": "וַאֲנִי בְּרֹב חַסְדְּךָ אָבוֹא בֵיתֶֽךָ, אֶשְׁתַּחֲוֶה אֶל הֵיכַל קׇדְשְׁךָ בְּיִרְאָתֶךָ.",
-      "phonetic": "Vaaní berov Jasdejá avó Veteja, eshtajave el hejal Kodshejá Beyirateja."
+      "phonetic": "Vaaní berov Jasdejá avó Veteja, eshtajavé el hejal Kodshejá Beyirateja."
     },
     {
       "verse": 9,
-      "hebrew": "יְיָ נְחֵֽנִי בְצִדְקָתֶךָ לְמַֽעַן שׁוֹרְרָי, הַיְשַׁר לְפָנַי דַּרְכֶּךָ.",
+      "hebrew": "יְיָ נְחֵֽנִי בְצִדְקָתֶךָ לְמַֽעַן שׁוֹרְֿרָי, הַיְשַׁר לְפָנַי דַּרְכֶּךָ.",
       "phonetic": "Ad-nai nejeni Vetsidkateja lema'an shorerái, hayshar lefanái Darkeja."
     },
     {
@@ -96,18 +96,23 @@
     },
     {
       "verse": 11,
-      "hebrew": "הַאֲשִׁימֵם אֱלֹהִים, יִפְּלוּ מִמֹּעֲצוֹתֵֽיהֶם, בְּרֹב פִּשְׁעֵיהֶם הַדִּיחֵֽמוֹ, כִּי מָרוּ בָךְ.",
+      "hebrew": "הַאֲשִׁימֵם אֱלֹהִים, יִפְּֿלוּ מִמֹּעֲצוֹתֵֽיהֶם, בְּרֹב פִּשְׁעֵיהֶם הַדִּיחֵֽמוֹ, כִּי מָרוּ בָךְ.",
       "phonetic": "Haashimem Elohim, yipelú mimo'atsotéhem, berov pish'ehem hadijemo, ki marú vaj."
     },
     {
       "verse": 12,
-      "hebrew": "וְיִשְׂמְחוּ כׇל חוֹסֵי בָךְ, לְעוֹלָם יְרַנֵּנוּ, וְתָסֵךְ עָלֵֽימוֹ, וְיַעְלְצוּ בְךָ אֹהֲבֵי שְׁמֶךָ.",
-      "phonetic": "Veyismejú jol josé Vaj, le'olam yeranenú, vetasej 'alemo, veya'letsú Veja ohavé Shemeja."
+      "hebrew": "וְיִשְׂמְֿחוּ כׇל חוֹסֵי בָךְ, לְעוֹלָם יְרַנֵּנוּ, וְתָסֵךְ עָלֵֽימוֹ, וְיַעְלְצוּ בְךָ אֹהֲבֵי שְׁמֶךָ.",
+      "phonetic": "Veyismejú jol josé Vaj, le'olam yeranenú, vetasej 'alemo, veya'letsú Vejá ohavé Shemeja."
     },
     {
       "verse": 13,
-      "hebrew": "כִּי אַתָּה תְּבָרֵךְ צַדִּיק יְיָ, כַּצִּֽנָּה רָצוֹן תַּעְטְרֶֽנּוּ.",
+      "hebrew": "כִּי אַתָּה תְּבָרֵךְ צַדִּיק יְיָ, כַּצִּֽנָּה רָצוֹן תַּעְטְֿרֶֽנּוּ.",
       "phonetic": "Ki Atá tevarej tsadik Ad-nai, katsina ratsón ta'terenu."
     }
-  ]
+  ],
+  "rafeMaterialization": {
+    "date": "2026-10-26",
+    "source": "Previously approved explicitSheva/vocalSheva metadata",
+    "scope": "Only physical U+05BF marks; existing canonical phonetic snapshot retained"
+  }
 }

@@ -59,7 +59,7 @@
     },
     {
       "verse": 5,
-      "hebrew": "רִגְזוּ וְאַל תֶּחֱטָאוּ, אִמְרוּ בִלְבַבְכֶם עַל מִשְׁכַּבְכֶם, וְדֹֽמּוּ סֶֽלָה.",
+      "hebrew": "רִגְזוּ וְאַל תֶּחֱטָאוּ, אִמְֿרוּ בִלְבַבְכֶם עַל מִשְׁכַּבְכֶם, וְדֹֽמּוּ סֶֽלָה.",
       "phonetic": "Rigzú veal tejetaú, imerú vilvavjem 'al mishkavjem, vedomu sela."
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "verse": 7,
-      "hebrew": "רַבִּים אֹמְרִים: מִי יַרְאֵֽנוּ טוֹב, נְסָה עָלֵֽינוּ אוֹר פָּנֶיךָ, יְיָ.",
+      "hebrew": "רַבִּים אֹמְֿרִים: מִי יַרְאֵֽנוּ טוֹב, נְסָה עָלֵֽינוּ אוֹר פָּנֶיךָ, יְיָ.",
       "phonetic": "Rabim omerim: mi yarenu tov, nesá 'alenu or Paneja, Ad-nai."
     },
     {
@@ -79,8 +79,13 @@
     },
     {
       "verse": 9,
-      "hebrew": "בְּשָׁלוֹם יַחְדָּו אֶשְׁכְּבָה וְאִישָׁן, כִּי אַתָּה יְיָ לְבָדָד לָבֶֽטַח תּוֹשִׁיבֵֽנִי.",
+      "hebrew": "בְּשָׁלוֹם יַחְדָּו אֶשְׁכְּֿבָה וְאִישָׁן, כִּי אַתָּה יְיָ לְבָדָד לָבֶֽטַח תּוֹשִׁיבֵֽנִי.",
       "phonetic": "Beshalom yajdav eshkevá veishán, ki Atá Ad-nai levadad lavétaj toshiveni."
     }
-  ]
+  ],
+  "rafeMaterialization": {
+    "date": "2026-10-26",
+    "source": "Previously approved explicitSheva/vocalSheva metadata",
+    "scope": "Only physical U+05BF marks; existing canonical phonetic snapshot retained"
+  }
 }
