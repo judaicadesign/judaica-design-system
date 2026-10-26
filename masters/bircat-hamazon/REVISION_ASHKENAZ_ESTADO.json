@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "documentId": "birkat_hamazon_ashkenazi",
-  "updated": "2026-10-11",
+  "updated": "2026-10-25",
   "productionPriority": "critical: vendido semanalmente; Tehilim 1–150 es un proyecto independiente",
   "source": {
     "title": "ArtScroll - ashkenaz bircat hamazon Interlinear Benching.pdf",
@@ -9,7 +9,7 @@
     "pageCoverage": "Se visualizaron las 19 páginas del PDF en este chat, sin cotejo aún letra por letra de todas las secciones.",
     "previouslyRecordedSha256": "f50d33123d082f5ee86161b579c38ef2818b3a49719b07a9218902ce48a6eec7",
     "shaQualification": "Hash citado en CONTINUAR_EN_CHAT.md del original cotejado previamente; la copia de Biblioteca no pudo materializarse para recalcular su hash en esta sesión.",
-    "referencePriority": "ArtScroll edición española usada para el birkón vendido = GOLDEN principal; PDF ArtScroll Interlinear Benching (inglés, 19 págs.) = cotejo secundario; producción JD escribe el Nombre יְיָ. Una variante en inglés no se corrige automáticamente."
+    "referencePriority": "Decisión del titular 25/10/2026: el PDF ArtScroll Interlinear Benching manda sobre la edición española impresa; lo que el PDF agrega respecto de la española va entre paréntesis. Salmos 126/137 según el libro de Tehilim de ArtScroll (Yerushaláyim con yod). Producción JD escribe el Nombre יְיָ."
   },
   "flow": [
     "Vinculación canónica por pasuk desde Tehilim",
@@ -50,8 +50,8 @@
     "currentPhoneticDraft": "masters/bircat-hamazon/ASHKENAZ_FONETICA_EN_REVISION.txt"
   },
   "hebrew": {
-    "status": "EN_REVISION",
-    "approved": false,
+    "status": "HEBREO_APROBADO_PENDIENTE_FONETICA",
+    "approved": true,
     "reviewCopyGenerated": true,
     "highConfidenceCorrections": [
       {
@@ -111,7 +111,9 @@
         "priority": "alta",
         "detail": "Aprobar de forma independiente el hebreo completo ANTES de cerrar fonética o comparar el generador."
       }
-    ]
+    ],
+    "approvedDate": "2026-10-25",
+    "approvalNote": "Aprobado por el titular el 25/10/2026 tras cotejo palabra por palabra con el PDF ArtScroll y fotos de la edición española (págs. 196–206, 216). 52 rafé, 257 meteg, sin maqaf ni paseq. Pasa a FINAL junto con la fonética si el generador la produce bien. Detalle: nota del Proyecto claude/editorial/2026-10-25-preguntas-cierre-bh-ashkenazi.md."
   },
   "phonetic": {
     "status": "EN_REVISION",
