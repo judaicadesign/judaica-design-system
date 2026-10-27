@@ -1,12 +1,12 @@
 {
   "version": 1,
   "digests": {
-    "internal": "dc9a0de029300fd644ba5fbc219ebab37c320eb1f7537a153f8dfd29000702f0",
+    "internal": "446c3905428365fe24f73952f9624dffb117b8f87b969de24f947dc6e3dcbd87",
     "team": "b37f2cc14fcc186271f913cb8e8426a7e429f804b8aa30e67a8bf9813f2d5b2b",
     "supplier": "e9cf405eca14c894b4bd5b47616469f073509b009a18c4b7ec7518666da52f64",
     "operations": "00b5e095093bdfc1d14d511e71a94e1b675a2e24188f1b9016bf4ec8c5807f31"
   },
-  "commit": "2ce723b6d44d71c90629017cd7ca05a1e101575e",
+  "commit": "adcac3012c96361b51ba83ba41aec9bcfc929c79",
   "editorialSource": "supabase",
   "editorialSchema": 2
 }
