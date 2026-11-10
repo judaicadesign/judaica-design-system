@@ -68,16 +68,19 @@ function jdWrite_(item,config){
   return {range:config.zlotoTab+'!B'+row+':G'+row};
  }
  if(String(sheet.getRange('L12').getValue())!=='Comprobante')throw Error('Actualizá el conector y ejecutá conectarJD para ubicar el comprobante junto al monto.');
- const receipt=jdReceipt_(item,config);row=jdRow_(sheet,'zloto:'+item.entity_id,13,9,13);
+ row=jdRow_(sheet,'zloto:'+item.entity_id,13,9,13);
  sheet.getRange('L12').setValue('Comprobante');sheet.getRange('M12').setValue('Cliente');
  sheet.getRange(row,9,1,3).setValues([[jdText_(p.method),jdDate_(p.date),p.amount]]);sheet.getRange(row,13).setValue(jdText_([p.code,p.client,p.detail].filter(Boolean).join(' · ')));
+ const receipt=jdReceipt_(item,config);
  if(receipt)sheet.getRange(row,12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('Ver comprobante').setLinkUrl(receipt.getUrl()).build());
  return {range:config.zlotoTab+'!I'+row+':M'+row,receiptUrl:receipt?receipt.getUrl():null};
 }
 function sincronizarJD(){
  const lock=LockService.getScriptLock();if(!lock.tryLock(1000))return;
- try{const data=jdApi_('sheet-pull');for(const item of data.entries){
+ try{const data=jdApi_('sheet-pull');let failed=0;for(const item of data.entries){
   let result;try{result=Object.assign({status:'synced'},jdWrite_(item,data.config));}catch(e){result={status:'conflict',error:String(e.message||e)};}
-  jdApi_('sheet-ack',Object.assign({id:item.id,updatedAt:item.updated_at},result));
- }}finally{lock.releaseLock();}
+  try{jdApi_('sheet-ack',Object.assign({id:item.id,updatedAt:item.updated_at},result));}catch(e){failed++;}
+ }
+ if(failed)throw Error('No se pudieron confirmar '+failed+' movimientos. Se reintentarán sin duplicar filas.');
+ }finally{lock.releaseLock();}
 }
