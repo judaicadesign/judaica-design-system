@@ -2189,46 +2189,55 @@
         {
           "verse": 1,
           "label": "א",
-          "hebrew": "מִזְמוֹר לְדָוִד יְהֹוָה רֹעִי לֹא אֶחְסָר.",
-          "phonetic": "Mizmor leDavid Ad-nai ro'í lo ejsar."
+          "hebrew": "מִזְמוֹר לְדָוִד; יְיָ רֹעִי, לֹא אֶחְסָר.",
+          "phonetic": "Mizmor leDavid; Ad-nai ro'í, lo ejsar."
         },
         {
           "verse": 2,
           "label": "ב",
-          "hebrew": "בִּנְאוֹת דֶּֽשֶׁא יַרְבִּיצֵֽנִי עַל מֵי מְנֻחוֹת יְנַהֲלֵֽנִי.",
-          "phonetic": "Binot deshe yarbitseni 'al me menujot yenahaleni."
+          "hebrew": "בִּנְאוֹת דֶּֽשֶׁא יַרְבִּיצֵֽנִי, עַל מֵי מְנֻחוֹת יְנַהֲלֵֽנִי.",
+          "phonetic": "Binot deshe yarbitseni, 'al me menujot yenahaleni."
         },
         {
           "verse": 3,
           "label": "ג",
-          "hebrew": "נַפְשִׁי יְשׁוֹבֵב יַנְחֵֽנִי בְמַעְגְּלֵי צֶֽדֶק לְמַֽעַן שְׁמוֹ.",
-          "phonetic": "Nafshí yeshovev yanjeni vema'guelé tsédek lema'an Shemó."
+          "hebrew": "נַפְשִׁי יְשׁוֹבֵב, יַנְחֵֽנִי בְמַעְגְּֿלֵי צֶֽדֶק לְמַֽעַן שְׁמוֹ.",
+          "phonetic": "Nafshí yeshovev, yanjeni vema'guelé tsédek lema'an Shemó."
         },
         {
           "verse": 4,
           "label": "ד",
-          "hebrew": "גַּם כִּי אֵלֵךְ בְּגֵיא צַלְמָֽוֶת לֹא אִירָא רָע כִּי אַתָּה עִמָּדִי שִׁבְטְךָ וּמִשְׁעַנְתֶּֽךָ הֵֽמָּה יְנַחֲמֻֽנִי.",
-          "phonetic": "Gam ki elej begué tsalmávet lo irá ra' ki Atá 'imadí shivtejá umish'anteja hema yenajamuni."
+          "hebrew": "גַּם כִּי אֵלֵךְ בְּגֵיא צַלְמָֽוֶת, לֹא אִירָא רָע כִּי אַתָּה עִמָּדִי; שִׁבְטְֿךָ וּמִשְׁעַנְתֶּֽךָ הֵֽמָּה יְנַחֲמֻֽנִי.",
+          "phonetic": "Gam ki elej begué tsalmávet, lo irá ra' ki Atá 'imadí; shivtejá umish'anteja hema yenajamuni."
         },
         {
           "verse": 5,
           "label": "ה",
-          "hebrew": "תַּעֲרֹךְ לְפָנַי שֻׁלְחָן נֶֽגֶד צֹרְרָי דִּשַּֽׁנְתָּ בַשֶּֽׁמֶן רֹאשִׁי כּוֹסִי רְוָיָה.",
-          "phonetic": "Ta'aroj lefanái shulján négued tsorerái dishanta vashemen roshí kosí revayá."
+          "hebrew": "תַּעֲרֹךְ לְפָנַי שֻׁלְחָן נֶֽגֶד צֹרְֿרָי; דִּשַּֽׁנְתָּ בַשֶּֽׁמֶן רֹאשִׁי, כּוֹסִי רְוָיָה.",
+          "phonetic": "Ta'aroj lefanái shulján négued tsorerái; dishanta vashemen roshí, kosí revayá."
         },
         {
           "verse": 6,
           "label": "ו",
-          "hebrew": "אַךְ טוֹב וָחֶֽסֶד יִרְדְּפוּֽנִי כָּל יְמֵי חַיָּי וְשַׁבְתִּי בְּבֵית יְהֹוָה לְאֹֽרֶךְ יָמִים.",
-          "phonetic": "Aj tov vajésed yirdefuni kol yemé jayái veshavtí bevet Ad-nai leórej yamim."
+          "hebrew": "אַךְ טוֹב וָחֶֽסֶד יִרְדְּֿפֽוּנִי כָּל יְמֵי חַיָּי, וְשַׁבְתִּי בְּבֵית יְיָ לְאֹֽרֶךְ יָמִים.",
+          "phonetic": "Aj tov vajésed yirdefuni kol yemé jayái, veshavtí bevet Ad-nai leórej yamim."
         }
       ],
       "artscrollReview": {
         "date": "2026-10-08",
         "source": "IMG_1333(1).png · ArtScroll app · Tehilim 23",
         "metegAdded": 16,
-        "scope": "Visible nikud and meteg checked. Asterisks not treated as meteg. Divine-name vocalization retained from digital Wikisource base; app prints the name without vowel points. Phonetic stress and reverential capitalization reviewed for this chapter."
-      }
+        "scope": "Visible nikud and meteg checked. Asterisks not treated as meteg. Divine-name vocalization retained from digital Wikisource base; app prints the name without vowel points. Phonetic stress and reverential capitalization reviewed for this chapter.",
+        "finalDate": "2026-11-11",
+        "finalProof": "ArtScroll app: captura aportada por la titular; revisión visual de nikud, dagesh, rafe, meteg y puntuación. Confirmado por la titular que יִרְדְּֿפֽוּנִי lleva el meteg sobre פ; fonética contrastada contra el generador JD.",
+        "metegCount": 16,
+        "rafeCount": 4
+      },
+      "status": "FINAL",
+      "approved": true,
+      "hebrewApproved": true,
+      "phoneticApproved": true,
+      "approvedDate": "2026-11-11"
     },
     {
       "chapter": 24,
@@ -16666,6 +16675,7 @@
     11,
     14,
     16,
+    23,
     63,
     76,
     83,
