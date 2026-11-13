@@ -23,7 +23,7 @@ async function open(){
   if(!response.ok)throw Error('No se pudo cargar el sistema. Actualizá la página.');
   const envelope=await response.json();
   const aes=await crypto.subtle.unwrapKey('raw',bytes(envelope.wrappedKey),privateKey,{name:'RSA-OAEP'},{name:'AES-GCM',length:256},false,['decrypt']);
-  const cipherParts=await Promise.all(envelope.parts.map(async p=>{if(!/^[a-z0-9.-]+$/.test(p))throw Error('Archivo de publicación inválido.');const r=await fetch(root+'delivery/'+p,{cache:'no-store',signal:AbortSignal.timeout(30000)});if(!r.ok)throw Error('No se pudo cargar el sistema.');return bytes(await r.text());}));
+  const cipherParts=await Promise.all(envelope.parts.map(async p=>{if(!/^[a-z0-9.-]+$/.test(p))throw Error('Archivo de publicación inválido.');const versioned=/^(internal|team|supplier|operations)\.jd-[0-9a-f]{12}\.\d+\.txt$/.test(p);const r=await fetch(root+'delivery/'+p+(versioned?'?v='+encodeURIComponent(envelope.iv):''),{cache:versioned?'force-cache':'no-store',signal:AbortSignal.timeout(30000)});if(!r.ok)throw Error('No se pudo cargar el sistema.');return bytes(await r.text());}));
   const cipher=new Uint8Array(cipherParts.reduce((n,p)=>n+p.length,0));let offset=0;for(const part of cipherParts){cipher.set(part,offset);offset+=part.length;}
   const plaintext=await crypto.subtle.decrypt({name:'AES-GCM',iv:bytes(envelope.iv)},aes,cipher);
   const html=new TextDecoder().decode(plaintext);
