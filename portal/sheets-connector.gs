@@ -23,13 +23,27 @@ function conectarJD() {
 }
 function jdText_(v){const s=String(v==null?'':v);return /^[\s]*[=+\-@]/.test(s)?"'"+s:s;}
 function jdDate_(v){return v?new Date(v+'T12:00:00Z'):'';}
-function jdRow_(sheet,key,start,first,last) {
- const found=sheet.createDeveloperMetadataFinder().withKey('JD_EXPORT_ID').withValue(key).find();
+function jdRow_(sheet,key,start,first,last,prepareCargo=false) {
+ const exportKey=prepareCargo?key.replace(/^zloto:/,'zloto:cargo:'):key;
+ const find=value=>sheet.createDeveloperMetadataFinder().withKey('JD_EXPORT_ID').withValue(value).find();
+ const found=prepareCargo?find(exportKey).concat(find(key)):find(key);
  if(found.length){if(found.length!==1)throw Error('Referencia duplicada: revisar la planilla');return found[0].getLocation().getRow().getRow();}
- const count=sheet.getMaxRows()-start+1;if(count<1)throw Error('Agregá filas al final de la planilla antes de sincronizar.');const values=sheet.getRange(start,first,count,last-first+1).getValues();
- let row=-1;for(let i=0;i<values.length;i++)if(values[i].every(v=>v===''||v===null)){row=start+i;break;}
+ const count=sheet.getMaxRows()-start+1;if(count<1)throw Error('Agregá filas al final de la planilla antes de sincronizar.');const candidates=sheet.getRange(start,first,count,last-first+1);
+ const values=candidates.getValues(),formulas=prepareCargo?candidates.getFormulas():null;
+ const blank=v=>v===''||v===null;
+ let row=-1;
+ for(let i=0;i<values.length;i++){
+  if(!values[i].every((value,column)=>blank(value)||(prepareCargo&&column>=4&&value==='NO')))continue;
+  if(prepareCargo&&(formulas[i].some(Boolean)||sheet.getRange((start+i)+':'+(start+i)).getDeveloperMetadata().some(m=>m.getKey()==='JD_EXPORT_ID'&&m.getValue().startsWith('zloto:cargo:'))))continue;
+  row=start+i;break;
+ }
  if(row<0)throw Error('No hay una fila vacía disponible. Agregá filas al final y reintentá.');
- sheet.getRange(row+':'+row).addDeveloperMetadata('JD_EXPORT_ID',key);return row;
+ if(prepareCargo&&row!==start){
+  const template=sheet.getRange(start,first,1,last-first+1),target=sheet.getRange(row,first,1,last-first+1);
+  template.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_FORMAT,false);
+  template.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION,false);
+ }
+ sheet.getRange(row+':'+row).addDeveloperMetadata('JD_EXPORT_ID',exportKey);return row;
 }
 function jdReceipt_(item,config){
  if(!item.payload.hasReceipt)return null;
@@ -63,7 +77,7 @@ function jdWrite_(item,config){
   return {range:config.zlotoTab+'!F'+row+':G'+row};
  }
  if(p.kind==='Cargo'){
-  row=jdRow_(sheet,'zloto:'+item.entity_id,13,2,7);
+  row=jdRow_(sheet,'zloto:'+item.entity_id,13,2,7,true);
   sheet.getRange(row,2,1,6).setValues([[jdText_(p.client),jdText_((p.code?p.code+' · ':'')+p.detail),jdDate_(p.date),p.amount,p.source&&p.source.fileSent?'SI':'NO',p.source&&p.source.delivered?'SI':'NO']]);
   return {range:config.zlotoTab+'!B'+row+':G'+row};
  }
