@@ -28,20 +28,35 @@ function jdRow_(sheet,key,start,first,last,prepareCargo=false) {
  const find=value=>sheet.createDeveloperMetadataFinder().withKey('JD_EXPORT_ID').withValue(value).find();
  const found=prepareCargo?find(exportKey).concat(find(key)):find(key);
  if(found.length){if(found.length!==1)throw Error('Referencia duplicada: revisar la planilla');return found[0].getLocation().getRow().getRow();}
- const count=sheet.getMaxRows()-start+1;if(count<1)throw Error('Agregá filas al final de la planilla antes de sincronizar.');const candidates=sheet.getRange(start,first,count,last-first+1);
+ const count=sheet.getMaxRows()-start+1;
+ if(count<1)throw Error('Agregá filas al final de la planilla antes de sincronizar.');
+ const candidates=sheet.getRange(start,first,count,last-first+1);
  const values=candidates.getValues(),formulas=prepareCargo?candidates.getFormulas():null;
- const blank=v=>v===''||v===null;
+ const blank=value=>value===''||value==null;
+ let firstAvailable=0;
+ if(prepareCargo){
+  for(let index=values.length-1;index>=0;index--){
+   const row=values[index];
+   if(!blank(row[1])||!blank(row[3])){firstAvailable=index+1;break;}
+  }
+ }
  let row=-1;
- for(let i=0;i<values.length;i++){
+ for(let i=firstAvailable;i<values.length;i++){
   if(!values[i].every((value,column)=>blank(value)||(prepareCargo&&column>=4&&value==='NO')))continue;
-  if(prepareCargo&&(formulas[i].some(Boolean)||sheet.getRange((start+i)+':'+(start+i)).getDeveloperMetadata().some(m=>(m.getKey()==='JD_EXPORT_ID'&&m.getValue().startsWith('zloto:cargo:'))||m.getKey()===JD_ZLOTO_ROW_KEY)))continue;
+  if(prepareCargo&&(formulas[i].some(Boolean)||sheet.getRange((start+i)+':'+(start+i)).getDeveloperMetadata().some(m=>
+   m.getKey()==='JD_ZLOTO_ROW_ID'||(m.getKey()==='JD_EXPORT_ID'&&m.getValue().startsWith('zloto:cargo:')))))continue;
   row=start+i;break;
  }
  if(row<0)throw Error('No hay una fila vacía disponible. Agregá filas al final y reintentá.');
- if(prepareCargo&&row!==start){
-  const template=sheet.getRange(start,first,1,last-first+1),target=sheet.getRange(row,first,1,last-first+1);
-  template.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_FORMAT,false);
-  template.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION,false);
+ if(prepareCargo){
+  const target=sheet.getRange(row,first,1,last-first+1);
+  const validated=sheet.getRange(row,last-1,1,2).getDataValidations()[0].every(Boolean);
+  if(row!==start&&!validated){
+   const template=sheet.getRange(start,first,1,last-first+1);
+   template.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_FORMAT,false);
+   template.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION,false);
+  }
+  sheet.getRange(row,first+2).setNumberFormat('d/M/yyyy');
  }
  sheet.getRange(row+':'+row).addDeveloperMetadata('JD_EXPORT_ID',exportKey);return row;
 }
