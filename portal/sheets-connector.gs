@@ -3,7 +3,7 @@
  * No compartas este script: contiene una clave limitada de conexión.
  */
 const JD_TOKEN = '__JD_TOKEN__';
-const JD_CONNECTOR_VERSION='20261020.3';
+const JD_CONNECTOR_VERSION='20261123.1';
 const JD_ENDPOINT = 'https://athiruoimehofqzrplnl.supabase.co/functions/v1/client-portal';
 function jdApi_(action, data) {
  const response=UrlFetchApp.fetch(JD_ENDPOINT,{method:'post',contentType:'application/json',payload:JSON.stringify(Object.assign({action:action,token:JD_TOKEN},data||{})),muteHttpExceptions:true});
@@ -34,7 +34,7 @@ function jdRow_(sheet,key,start,first,last,prepareCargo=false) {
  let row=-1;
  for(let i=0;i<values.length;i++){
   if(!values[i].every((value,column)=>blank(value)||(prepareCargo&&column>=4&&value==='NO')))continue;
-  if(prepareCargo&&(formulas[i].some(Boolean)||sheet.getRange((start+i)+':'+(start+i)).getDeveloperMetadata().some(m=>m.getKey()==='JD_EXPORT_ID'&&m.getValue().startsWith('zloto:cargo:'))))continue;
+  if(prepareCargo&&(formulas[i].some(Boolean)||sheet.getRange((start+i)+':'+(start+i)).getDeveloperMetadata().some(m=>(m.getKey()==='JD_EXPORT_ID'&&m.getValue().startsWith('zloto:cargo:'))||m.getKey()===JD_ZLOTO_ROW_KEY)))continue;
   row=start+i;break;
  }
  if(row<0)throw Error('No hay una fila vacía disponible. Agregá filas al final y reintentá.');
@@ -70,16 +70,15 @@ function jdWrite_(item,config){
  const sheet=SpreadsheetApp.openById(config.zloto).getSheetByName(config.zlotoTab);if(!sheet||String(sheet.getRange('B12').getValue()).toLowerCase()!=='cliente')throw Error('Cambió la estructura de la cuenta Zloto');
  let row;const imported=p.source&&p.source.imported;
  if(imported){
-  row=p.source.row;const current=sheet.getRange(row,2,1,6).getValues()[0],original=p.source.original;
-  if(p.kind==='Pago'){const currentPayment=sheet.getRange(row,9,1,5).getValues()[0],clientColumn=String(sheet.getRange('L12').getValue())==='Comprobante'?4:3;if(currentPayment[0]!==original[0]||Number(currentPayment[2])!==Number(original[2])||String(currentPayment[clientColumn]||'')!==String(original[3]||''))throw Error('El pago de origen cambió: revisar antes de vincular');const receipt=jdReceipt_(item,config);if(!receipt)throw Error('No hay comprobante para vincular');const receiptColumn=String(sheet.getRange('L12').getValue())==='Comprobante'?12:13;sheet.getRange(12,receiptColumn).setValue('Comprobante');sheet.getRange(row,receiptColumn).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('Ver comprobante').setLinkUrl(receipt.getUrl()).build());return {range:config.zlotoTab+'!'+(receiptColumn===12?'L':'M')+row,receiptUrl:receipt.getUrl()};}
-  if(p.kind!=='Cargo'||current[0]!==original[0]||current[1]!==original[1]||Number(current[3])!==Number(original[3]))throw Error('La fila de origen cambió: revisar antes de actualizar');
-  sheet.getRange(row,6,1,2).setValues([[p.source.fileSent?'SI':'NO',p.source.delivered?'SI':'NO']]);
-  return {range:config.zlotoTab+'!F'+row+':G'+row};
- }
- if(p.kind==='Cargo'){
-  row=jdRow_(sheet,'zloto:'+item.entity_id,13,2,7,true);
-  sheet.getRange(row,2,1,6).setValues([[jdText_(p.client),jdText_((p.code?p.code+' · ':'')+p.detail),jdDate_(p.date),p.amount,p.source&&p.source.fileSent?'SI':'NO',p.source&&p.source.delivered?'SI':'NO']]);
-  return {range:config.zlotoTab+'!B'+row+':G'+row};
+  if(p.kind!=='Pago')throw Error('Usá la conciliación de trabajos para actualizar el cargo.');
+  row=p.source.row;
+  const original=p.source.original,current=sheet.getRange(row,9,1,5).getValues()[0],clientColumn=String(sheet.getRange('L12').getValue())==='Comprobante'?4:3;
+  if(current[0]!==original[0]||Number(current[2])!==Number(original[2])||String(current[clientColumn]||'')!==String(original[3]||''))throw Error('El pago de origen cambió: revisar antes de vincular');
+  const receipt=jdReceipt_(item,config);if(!receipt)throw Error('No hay comprobante para vincular');
+  const receiptColumn=String(sheet.getRange('L12').getValue())==='Comprobante'?12:13;
+  sheet.getRange(12,receiptColumn).setValue('Comprobante');
+  sheet.getRange(row,receiptColumn).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('Ver comprobante').setLinkUrl(receipt.getUrl()).build());
+  return {range:config.zlotoTab+'!'+(receiptColumn===12?'L':'M')+row,receiptUrl:receipt.getUrl()};
  }
  if(String(sheet.getRange('L12').getValue())!=='Comprobante')throw Error('Actualizá el conector y ejecutá conectarJD para ubicar el comprobante junto al monto.');
  row=jdRow_(sheet,'zloto:'+item.entity_id,13,9,13);
@@ -89,12 +88,110 @@ function jdWrite_(item,config){
  if(receipt)sheet.getRange(row,12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('Ver comprobante').setLinkUrl(receipt.getUrl()).build());
  return {range:config.zlotoTab+'!I'+row+':M'+row,receiptUrl:receipt?receipt.getUrl():null};
 }
+const JD_ZLOTO_ROW_KEY='JD_ZLOTO_ROW_ID';
+const JD_UUID_PATTERN=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function jdZlotoSheet_(config){
+ const doc=SpreadsheetApp.openById(config.zloto),sheet=doc.getSheetByName(config.zlotoTab);
+ if(!sheet||String(sheet.getRange('B12').getValue()).toLowerCase()!=='cliente')throw Error('Cambió la estructura de la cuenta Zloto');
+ return {sheet,zone:doc.getSpreadsheetTimeZone()};
+}
+function jdCargoValue_(cells,zone){
+ const [client,detail,rawDate,amount,fileSent,delivered]=cells;
+ const date=rawDate instanceof Date?Utilities.formatDate(rawDate,zone,'yyyy-MM-dd'):null;
+ const yes=v=>v===true||/^s[ií]$/i.test(String(v).trim());
+ return {client:String(client??''),detail:String(detail??''),date,dateNote:date?null:String(rawDate||'')||null,
+  amount:typeof amount==='number'?amount:null,fileSent:yes(fileSent),delivered:yes(delivered)};
+}
+function jdIndexMetadata_(sheet,key){
+ const map=new Map();
+ for(const item of sheet.createDeveloperMetadataFinder().withKey(key).find()){
+  const range=item.getLocation().getRow();
+  if(!range)continue;
+  const row=range.getRow(),values=map.get(row)||[];
+  values.push(item.getValue());
+  map.set(row,values);
+ }
+ return map;
+}
+function jdReadCargos_(sheet,zone){
+ const length=sheet.getLastRow()-12;
+ if(length<1)return [];
+ if(length>2000)throw Error('La cuenta supera 2.000 filas; revisá el rango activo de trabajos.');
+ const values=sheet.getRange(13,2,length,6).getValues(),ids=jdIndexMetadata_(sheet,JD_ZLOTO_ROW_KEY);
+ const exported=jdIndexMetadata_(sheet,'JD_EXPORT_ID');
+ return values.flatMap((cells,index)=>{
+  if(!cells.slice(0,4).some(v=>v!==''&&v!=null))return [];
+  const row=index+13,storedIds=ids.get(row)||[];
+  const raw=storedIds[0],id=JD_UUID_PATTERN.test(raw||'')?raw:Utilities.getUuid();
+  if(!raw)sheet.getRange(row+':'+row).addDeveloperMetadata(JD_ZLOTO_ROW_KEY,id);
+  // Payments share each physical row but only cargo exports are unambiguous here.
+  const cargoId=(exported.get(row)||[]).find(v=>v.startsWith('zloto:cargo:'))?.slice('zloto:cargo:'.length);
+  const flags=cells.slice(4).every(v=>v===''||v===null||typeof v==='boolean'||/^(s[ií]|no)$/i.test(String(v).trim()));
+  const problem=storedIds.length>1||raw&&!JD_UUID_PATTERN.test(raw)?'La fila tiene referencias de conciliación inválidas.':!flags?'Usá SÍ o NO para indicar el estado del trabajo.':null;
+  return [{id,row,entryId:JD_UUID_PATTERN.test(cargoId||'')?cargoId:null,value:jdCargoValue_(cells,zone),...(problem?{problem}:{})}];
+ });
+}
+function jdSameCargo_(a,b){
+ return !!a&&!!b&&['client','detail','date','dateNote','amount','fileSent','delivered'].every(k=>(a[k]??null)===(b[k]??null));
+}
+function jdWriteCargo_(item,config){
+ const {sheet,zone}=jdZlotoSheet_(config),p=item.payload,binding=item.sheetBinding||{};
+ let row,id=binding.id;
+ if(id){
+  const matches=sheet.createDeveloperMetadataFinder().withKey(JD_ZLOTO_ROW_KEY).withValue(id).find();
+  if(matches.length!==1)throw Error('No se encontró una fila única para el cargo. Revisá Conciliación.');
+  row=matches[0].getLocation().getRow().getRow();
+ }else{
+  row=jdRow_(sheet,'zloto:'+item.entity_id,13,2,7,true);
+  const existing=sheet.getRange(row+':'+row).getDeveloperMetadata().filter(x=>x.getKey()===JD_ZLOTO_ROW_KEY);
+  if(existing.length>1)throw Error('La fila tiene más de una referencia de conciliación.');
+  id=existing[0]?.getValue()||Utilities.getUuid();
+  if(!existing.length)sheet.getRange(row+':'+row).addDeveloperMetadata(JD_ZLOTO_ROW_KEY,id);
+ }
+ const target=sheet.getRange(row,2,1,6),cells=target.getValues()[0],current=jdCargoValue_(cells,zone);
+ const delivered=p.source?.delivered===true,fileSent=p.source?.fileSent===true;
+ const imported=!!p.source?.imported;
+ const desired=imported?{...binding.snapshot,fileSent,delivered}:{client:String(p.client||''),detail:(p.code?p.code+' · ':'')+p.detail,date:p.date||null,dateNote:null,amount:p.amount,fileSent,delivered};
+ if(!jdSameCargo_(current,desired)){
+  if(binding.snapshot?!jdSameCargo_(current,binding.snapshot):cells.slice(0,4).some(v=>v!==''&&v!=null)){
+   throw Error('La fila cambió desde la última lectura. Revisá la planilla antes de exportar.');
+  }
+  if(imported){
+   if(!binding.snapshot)throw Error('Primero vinculá el cargo a su fila de Sheets.');
+   sheet.getRange(row,6,1,2).setValues([[fileSent?'SI':'NO',delivered?'SI':'NO']]);
+  }else{
+   target.setValues([[jdText_(desired.client),jdText_(desired.detail),jdDate_(desired.date),desired.amount,fileSent?'SI':'NO',delivered?'SI':'NO']]);
+  }
+ }
+ return {range:config.zlotoTab+'!B'+row+':G'+row,sheetId:id,snapshot:jdCargoValue_(target.getValues()[0],zone)};
+}
+function jdPaymentTotal_(sheet){
+ if(String(sheet.getRange('K12').getValue()).trim().toLowerCase()!=='pagos')throw Error('Cambió la columna de pagos de Zloto.');
+ const length=sheet.getLastRow()-12;
+ if(length<1)return 0;
+ return sheet.getRange(13,9,length,3).getValues().reduce((cents,[method,date,amount])=>{
+  if(!method||amount===''||amount===null)return cents;
+  if(typeof amount!=='number')throw Error('Revisá los importes de pagos de Zloto.');
+  return cents+Math.round(amount*100);
+ },0)/100;
+}
 function sincronizarJD(){
  const lock=LockService.getScriptLock();if(!lock.tryLock(1000))return;
- try{const data=jdApi_('sheet-pull');let failed=0;for(const item of data.entries){
-  let result;try{result=Object.assign({status:'synced'},jdWrite_(item,data.config));}catch(e){result={status:'conflict',error:String(e.message||e)};}
-  try{jdApi_('sheet-ack',Object.assign({id:item.id,updatedAt:item.updated_at},result));}catch(e){failed++;}
- }
- if(failed)throw Error('No se pudieron confirmar '+failed+' movimientos. Se reintentarán sin duplicar filas.');
+ const version=JD_CONNECTOR_VERSION;
+ try{
+  const first=jdApi_('sheet-pull',{version}),{sheet,zone}=jdZlotoSheet_(first.config);
+  jdApi_('sheet-observe',{version,rows:jdReadCargos_(sheet,zone)});
+  const data=jdApi_('sheet-pull',{version});
+  let failed=0;
+  for(const item of data.entries){
+   let result;
+   try{
+    const cargo=item.destination==='zloto'&&item.payload.kind==='Cargo';
+    result=Object.assign({status:'synced'},cargo?jdWriteCargo_(item,data.config):jdWrite_(item,data.config));
+   }catch(e){result={status:'conflict',error:String(e.message||e)};}
+   try{jdApi_('sheet-ack',Object.assign({id:item.id,updatedAt:item.updated_at},result));}catch(e){failed++;}
+  }
+  if(failed)throw Error('No se pudieron confirmar '+failed+' movimientos. Se reintentarán sin duplicar filas.');
+  jdApi_('sheet-complete',{version,paymentTotal:jdPaymentTotal_(sheet)});
  }finally{lock.releaseLock();}
 }
