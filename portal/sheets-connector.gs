@@ -3,7 +3,7 @@
  * No compartas este script: contiene una clave limitada de conexión.
  */
 const JD_TOKEN = '__JD_TOKEN__';
-const JD_CONNECTOR_VERSION='20261123.1';
+const JD_CONNECTOR_VERSION='20261125.1';
 const JD_ENDPOINT = 'https://athiruoimehofqzrplnl.supabase.co/functions/v1/client-portal';
 function jdApi_(action, data) {
  const response=UrlFetchApp.fetch(JD_ENDPOINT,{method:'post',contentType:'application/json',payload:JSON.stringify(Object.assign({action:action,token:JD_TOKEN},data||{})),muteHttpExceptions:true});
@@ -198,12 +198,17 @@ function jdWriteCargo_(item,config){
  const target=sheet.getRange(row,2,1,6),cells=target.getValues()[0],current=jdCargoValue_(cells,zone);
  const delivered=p.source?.delivered===true,fileSent=p.source?.fileSent===true;
  const imported=!!p.source?.imported;
- const desired=imported?{...binding.snapshot,fileSent,delivered}:{client:String(p.client||''),detail:(p.code?p.code+' · ':'')+p.detail,date:p.date||null,dateNote:null,amount:p.amount,fileSent,delivered};
+ if(p.correction&&(!binding.id||!binding.snapshot||!jdSameCargo_(binding.snapshot,p.previousSnapshot))){
+  throw Error('La referencia del cargo cambió. Revisá Conciliación.');
+ }
+ const desired=p.correction||(imported?{...binding.snapshot,fileSent,delivered}:{client:String(p.client||''),detail:(p.code?p.code+' · ':'')+p.detail,date:p.date||null,dateNote:null,amount:p.amount,fileSent,delivered});
  if(!jdSameCargo_(current,desired)){
   if(binding.snapshot?!jdSameCargo_(current,binding.snapshot):cells.slice(0,4).some(v=>v!==''&&v!=null)){
    throw Error('La fila cambió desde la última lectura. Revisá la planilla antes de exportar.');
   }
-  if(imported){
+  if(p.correction){
+   sheet.getRange(row,2,1,4).setValues([[jdText_(desired.client),jdText_(desired.detail),desired.date?jdDate_(desired.date):jdText_(desired.dateNote||''),desired.amount]]);
+  }else if(imported){
    if(!binding.snapshot)throw Error('Primero vinculá el cargo a su fila de Sheets.');
    sheet.getRange(row,6,1,2).setValues([[fileSent?'SI':'NO',delivered?'SI':'NO']]);
   }else{
