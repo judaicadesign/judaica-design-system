@@ -45,6 +45,38 @@ function jdRow_(sheet,key,start,first,last,prepareCargo=false) {
  }
  sheet.getRange(row+':'+row).addDeveloperMetadata('JD_EXPORT_ID',exportKey);return row;
 }
+function jdPaymentRow_(sheet,key) {
+ const existing=sheet.createDeveloperMetadataFinder().withKey('JD_EXPORT_ID').withValue(key).find();
+ if(existing.length>1)throw Error('Referencia duplicada: revisar la planilla');
+ if(existing.length)return existing[0].getLocation().getRow().getRow();
+ const first=13, maxRows=sheet.getMaxRows();
+ const payments=sheet.getRange(first,11,maxRows-first+1,1).getValues();
+ let previous=first-1;
+ for(let i=payments.length-1;i>=0;i--){
+  const amount=payments[i][0];
+  if(typeof amount==='number'&&amount!==0){previous=first+i;break;}
+ }
+ const row=previous+1;
+ let templateRow=previous>=first?previous:first;
+ if(row>maxRows){
+  sheet.insertRowsAfter(maxRows,1);
+  sheet.setRowHeight(row,sheet.getRowHeight(templateRow));
+ }else{
+  const candidate=sheet.getRange(row,9,1,5);
+  if(!candidate.isBlank()||sheet.getRange(row+':'+row).getDeveloperMetadata().some(entry=>entry.getKey()==='JD_EXPORT_ID')){
+   sheet.insertRowsBefore(row,1);
+   if(templateRow===row)templateRow++;
+   sheet.setRowHeight(row,sheet.getRowHeight(templateRow));
+  }
+ }
+ if(templateRow!==row){
+  const template=sheet.getRange(templateRow,9,1,5), target=sheet.getRange(row,9,1,5);
+  template.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_FORMAT,false);
+  template.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION,false);
+ }
+ sheet.getRange(row+':'+row).addDeveloperMetadata('JD_EXPORT_ID',key);
+ return row;
+}
 function jdReceipt_(item,config){
  if(!item.payload.hasReceipt)return null;
  const original=DriveApp.getFileById(config.zloto),people=original.getEditors().concat(original.getViewers(),original.getOwner()?[original.getOwner()]:[]).map(u=>u.getEmail()).filter(Boolean),mine=Session.getEffectiveUser().getEmail();
@@ -81,7 +113,7 @@ function jdWrite_(item,config){
   return {range:config.zlotoTab+'!'+(receiptColumn===12?'L':'M')+row,receiptUrl:receipt.getUrl()};
  }
  if(String(sheet.getRange('L12').getValue())!=='Comprobante')throw Error('Actualizá el conector y ejecutá conectarJD para ubicar el comprobante junto al monto.');
- row=jdRow_(sheet,'zloto:'+item.entity_id,13,9,13);
+ row=jdPaymentRow_(sheet,'zloto:'+item.entity_id);
  sheet.getRange('L12').setValue('Comprobante');sheet.getRange('M12').setValue('Cliente');
  sheet.getRange(row,9,1,3).setValues([[jdText_(p.method),jdDate_(p.date),p.amount]]);sheet.getRange(row,13).setValue(jdText_([p.code,p.client,p.detail].filter(Boolean).join(' · ')));
  const receipt=jdReceipt_(item,config);
