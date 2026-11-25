@@ -140,7 +140,8 @@ const JD_UUID_PATTERN=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]
 function jdZlotoSheet_(config){
  const doc=SpreadsheetApp.openById(config.zloto),sheet=doc.getSheetByName(config.zlotoTab);
  if(!sheet||String(sheet.getRange('B12').getValue()).toLowerCase()!=='cliente')throw Error('Cambió la estructura de la cuenta Zloto');
- return {sheet,zone:doc.getSpreadsheetTimeZone()};
+ const zone=doc.getSpreadsheetTimeZone();
+ return {sheet,zone:typeof zone==='string'&&zone.trim()?zone:'America/Argentina/Buenos_Aires'};
 }
 function jdCargoValue_(cells,zone){
  const [client,detail,rawDate,amount,fileSent,delivered]=cells;
